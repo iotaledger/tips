@@ -17,7 +17,7 @@ biggest questions are taken care of.
 You need to follow this process if you want to propose changes that affect the IOTA protocol. These are changes that would affect any underlying node software.
 
 + Anything that constitutes a breaking change to the protocol that would have to be adopted by each node software operating on the network in order to keep participating in the network.
-+ Any proposed additional change to the protocol that could be adopted any node software.
++ Any proposed additional change to the protocol that could be adopted by any node software.
 
 Some changes do not require an RFC:
 
