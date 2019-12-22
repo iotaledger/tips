@@ -131,7 +131,7 @@ Request a transaction by its 81 trytes hash encoded in bytes.
 
 # Unresolved questions
 
-- Versioning, how should we version STING changes. Should we have a version number for each new message type? This will allow future node implementations to only support STING partly. For example, I am not sure that every node implementation wants to implement heartbeat.
+- Versioning, how should we version STING changes? Should we have a version number for each new message type? This will allow future node implementations to only support STING partly. For example, I am not sure that every node implementation wants to implement heartbeat.
 - Heartbeats messages - I assume it was designed as described in https://docs.google.com/document/d/1aTHukFFEFTDAwjOX25Zt0tA2EmgdnKQtJ8Nx1fWMnO4/edit#heading=h.44l5znw27eob. But frankly, I don't really know (apologies for not digging in the code). I am also not sure that they are neccessary, even though I acknowledge they can be useful. Still I want some feedback from the Hornet team to how they are structured and how often they are sent.
 
 - For milestone request I am assuming that Hornet sends all the transactions of the milestone bundle? However, it is also possible to send the tail.. So what is the current behavior? I think the correct behavior would be to send the entire bundle.
