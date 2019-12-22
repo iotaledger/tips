@@ -66,15 +66,16 @@ Each message in the protocol is denoted by a 3 byte header:
 |   2   |Length|   2           | Length of message (65 KB max)|
 
 #### Handshake
-The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped.
+The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for protocol version as a bitmap. Each index of the bitmap corresponds to a protocol version. If the bit on that index is turned on, then the corresponding protocol version is supported by the node. For example, `[01101110, 01010001]` denotes that this node supports protocol versions 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the bitmap depends on the highest protocol version.
 
 
 | Order | Description            | Length (bytes) |
 | ----- | -----------            | -------------- |
 |  1   | Neighbor's server socket port number, range 1024-65535| 2 |
 | 2     | Timestamp in milliseconds - when the handshake packet was constructed, in order to display the latency to/from the neighbor | 8|
-| 3     | Neighbor's used coordinator address  | 49
-| 4     | Own used minimum weight magnitude    | 1
+| 3     | Neighbor's used coordinator address  | 49 |
+| 4     | Own used minimum weight magnitude    | 1  |
+| 5     | Supported protocol versions          | variable  |
 
 
 #### Transaction Gossip
