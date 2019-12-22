@@ -10,6 +10,17 @@ Defines the changes that were introduced during the network rewrite. [iotaledger
 
 Will also define the STING protocol introduced by the Hornet team. It seperates between transaction requests and broadcasts, allows to request milestones by index, and introduced the concept of heartbeats.
 
+Here is a table summarizing all the new message types:
+
+| Type # | Message Type |
+| ------ | ------------ |
+|  1     | Handshake    |
+|  2     | Legacy Tx Gossip |
+|  3     | Milestone Request|
+|  4     | Transaction Broadcast |
+|  5     | Transaction Request   |
+|  6     | Heartbeats            |
+
 # Motivation
 
 ***The network rewrite change***
