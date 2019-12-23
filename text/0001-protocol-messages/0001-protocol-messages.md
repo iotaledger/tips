@@ -8,9 +8,9 @@
 # Summary
 Defines the changes that were introduced during the network rewrite. [iotaledger/iri#1072](https://github.com/iotaledger/iri/issues/1072). This is mainly the introduction of new TLV (type-length-value) messages. A header was added to each message, allowing us to create different message types and support different versiond of the protocol. A handshake message was also inroduced to help establish manageable connections with neighbors.
 
-Will also define the STING protocol introduced by the Hornet team. It seperates between transaction requests and broadcasts, allows to request milestones by index, and introduced the concept of heartbeats.
+Will also define the STING protocol introduced by the Hornet team. It seperates between transaction requests and broadcasts, allows to request milestones by index, and introduces the concept of heartbeats.
 
-Here is a table summarizing all the new message types:
+Here is a table summarizing all the new message types. The 3-6 types are part of STING:
 
 | Type # | Message Type |
 | ------ | ------------ |
@@ -40,10 +40,10 @@ Here is a table summarizing all the new message types:
 1. Allow for faster syncing by
     a. Seperating between requests and broadcasts of transactions.
     b. Allowing to request specific milestones by index.
+    c. Sharing between nodes information on the milestones in their databases via Heartbeats
     
 2. Eliminates fragmentation of request messages.
 
-3. Allows for heartbeats [?]
 
 
 
@@ -54,8 +54,8 @@ The network rewrite introduces a new breaking protocol between nodes which works
 
 | Order | Name   | Length (byte) | Desc             |
 | ----- | ----   | ------------- | ----                         |
-|   1   | Header |   3           | Type of message              |
-|   2   |Message |   2           | Length of message (65 KB max)|
+|   1   | Header |   3           | Metadata of message          |
+|   2   |Message |   Var         | Message itself               |
 
 #### Header
 Each message in the protocol is denoted by a 3 byte header:
@@ -66,7 +66,7 @@ Each message in the protocol is denoted by a 3 byte header:
 |   2   |Length|   2           | Length of message (65 KB max)|
 
 #### Handshake
-The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for protocol version as a bitmap. Each index of the bitmap corresponds to a protocol version. If the bit on that index is turned on, then the corresponding protocol version is supported by the node. For example, `[01101110, 01010001]` denotes that this node supports protocol versions 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the bitmap depends on the highest protocol version.
+The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for protocol version as a bitmap. Each index of the bitmap corresponds to a protocol version. If the bit on that index is turned on, then the corresponding protocol version is supported by the node. For example, `[01101110, 01010001]` denotes that this node supports protocol versions 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the bitmap depends on the highest protocol version. The nodes can use that information to align on the highest protocol version they support.
 
 
 | Order | Description            | Length (bytes) |
@@ -99,11 +99,11 @@ STING is an extension to the IOTA protocol. It breaks the transaction gossip int
 
 #### Milestone Request
 
-Requests a milestone by index. Expects to receive in response the milestone bundle for the specified index. [Or maybe it is just the tail tx?]
+Requests a range of milestones by index. Expects to receive in response the milestone bundle for the specified index.
 
-| Order | Description      | Length (bytes)   |
-| ----- | -----------      | ---------------- |
-|  1    | Milestone Index  | 4                |
+| Order | Description                            | Length (bytes)   |
+| ----- | -----------                            | ---------------- |
+|  1    | Milestone Index encoded in Big Endian  | 4                |
 
 #### Transaction Broadcast
 
@@ -120,18 +120,19 @@ Request a transaction by its 81 trytes hash encoded in bytes.
 
 | Order | Description      | Length (bytes)   |
 | ----- | -----------      | ---------------- |
-|  2    | Transaction Data | 292 - 1604       |
+|  1    | Transaction Hash | 49               |
 
 
 #### Heartbeat
 
-[Used for DNS Resolution and measuring the neighbor's latency?]
+Relays the neighbor last and first solid milestone indexes. The first one depends on what the pruning. This is used to help a syncing node know what data their neighbor has.
 
+|Order | Description                       | Length (bytes) |
+| ---- | -------------                     | -------------  | 
+|  1   | First solid milestone index       | 4  (Big Endian)|
+|  2   | Last solid milestone index        | 4 (Big Endian) |
 
 
 # Unresolved questions
 
-- Versioning, how should we version STING changes? Should we have a version number for each new message type? This will allow future node implementations to only support STING partly. For example, I am not sure that every node implementation wants to implement heartbeat.
-- Heartbeats messages - I assume it was designed as described in https://docs.google.com/document/d/1aTHukFFEFTDAwjOX25Zt0tA2EmgdnKQtJ8Nx1fWMnO4/edit#heading=h.44l5znw27eob. But frankly, I don't really know (apologies for not digging in the code). I am also not sure that they are neccessary, even though I acknowledge they can be useful. Still I want some feedback from the Hornet team to how they are structured and how often they are sent.
-
-- For milestone request I am assuming that Hornet sends all the transactions of the milestone bundle? However, it is also possible to send the tail.. So what is the current behavior? I think the correct behavior would be to send the entire bundle.
+- Versioning... Currently every time we add a set of messages to the protocol we assign a version to them. For example all of STING can be protocol version 2. Another option is a change in the versioning bitmap we pass in the Handshake. Instead of version numbers we can pass the message types we support. This will allow us to have a more fine grained support. We are not sure at this point what the future will hold. Perhaps, in the future we will have "light nodes" that only pass milestones? They may use a different messages mixed with the current ones? Maybe it is smart to allow maximum flexibility?
