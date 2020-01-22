@@ -56,7 +56,7 @@ to be some frontend logic to handle specific node implementation needs.
 # Rationale and alternatives
 
 Rationale:
-* Having the specification files agreed up on, guarantees that different node implementations are comptible with the
+* Having the specification files agreed up on, guarantees that different node implementations are compatible with the
 from the frontend UX team produced SPA. 
 * OAS and AsyncAPI are common specification files from which directly code can be generated (not for all languages).
 * The request/response payloads are specified and therefore ensure a smoother implementation for the frontend UX team.
