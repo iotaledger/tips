@@ -1,0 +1,460 @@
+asyncapi: 2.0.0
+info:
+  title: IOTA Node WebSocket API
+  version: '0.1.0'
+  description: |
+    Describes a set of socket.io topics/rooms which need to be implemented by an IOTA node software, which wants to be compatible with the IFs frontend SPA.
+  contact:
+    email: luca.moser@iota.org
+  license:
+    name: MIT
+    url: https://mit-license.org/
+servers:
+  backend:
+    url: /ws
+    protocol: ws
+    description: Backend WebSocket API Route
+    security:
+      - bearerAuth: []
+
+defaultContentType: application/json
+
+channels:
+  transactions:
+    subscribe:
+      summary: A live feed of incoming transactions. Does not contain duplicates.
+      operationId: transactions
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/Transaction'
+  milestones:
+    subscribe:
+      summary: A live feed of newly seen milestones. Does not contain duplicates.
+      operationId: milestones
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/Milestone'
+  caches:
+    subscribe:
+      summary: Reports statistics about cache sizes every second.
+      operationId: caches
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/Caches'
+  autopeering:
+    subscribe:
+      summary: Reports data about autopeering every second.
+      operationId: autopeering
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/AutopeeringStats'
+  consensus/fpc-conflict:
+    subscribe:
+      summary: Reports consensus conflicts occuring within the node.
+      operationId: consensusFPCConflicts
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/FPC-Conflict'
+  consensus/fpc-vote:
+    subscribe:
+      summary: Reports finalized FPC votes on transactions.
+      operationId: consensusFPCVote
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/FPC-Vote'
+  consensus/white-flag:
+    subscribe:
+      summary: Reports statistics about white-flag confirmations.
+      operationId: confirmations
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/WhiteFlagConfirmation'
+  spammer:
+    subscribe:
+      summary: Reports statistics about the node integrated spammer (if enabled).
+      operationId: spammerStats
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/SpammerStats'
+  global_server_metrics:
+    subscribe:
+      summary: Reports global server metrics every second.
+      operationId: globalMetrics
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/Metrics'
+  neighbor/{neighbor_id}:
+    parameters:
+      neighbor_id:
+        description: The identifier of the neighbor (IP + its neighboring socket port).
+        schema:
+          type: string
+          example: "142.245.342.34:15600"
+    subscribe:
+      summary: Reports statistics about the given neighbor every second.
+      operationId: neighborStats
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/NeighborStats'
+  tipsel:
+    subscribe:
+      summary: Reports runtime information about every executed tip-selection on the node.
+      operationId: tipsel
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/TipSelStats'
+  memory:
+    subscribe:
+      summary: Reports every second the current memory statistics of the node.
+      operationId: memory
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/MemoryStats'
+  tps:
+    subscribe:
+      summary: Reports every second the current TPS the node is handling.
+      operationId: tps
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/TPS'
+  milestone:
+    subscribe:
+      summary: Reports continously the latest solid and known milestone index.
+      operationId: milestoneData
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/MilestoneInfo'
+  request_queue:
+    subscribe:
+      summary: Reports continously about properties of the request queue every second.
+      operationId: requeustQueue
+      message:
+        payload:
+          type: object
+          $ref: '#/components/schemas/RequestQueue'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: The JWT for authorizing against the backend. Needs to be obtained through the authentication route.
+  schemas:
+    AutopeeringStats:
+      type: object
+      description: Describes statistics about the autopeering.
+      required:
+        - "known_peers"
+        - "accepted"
+        - "chosen"
+      properties:
+        known_peers:
+          type: integer
+          minimum: 0
+          description: The number of known peers.
+          example: 342
+        accepted:
+          type: integer
+          minimum: 0
+          description: The number of inbound/accepted peers.
+          example: 4
+        chosen:
+          type: integer
+          minimum: 0
+          description: The number of outbound/chosen peers.
+          example: 4
+    SpammerStats:
+      type: object
+      description: Describes properties of the node integrated spammer.
+      properties:
+        tps:
+          type: number
+          description: The current TPS the spammer is generating.
+          example: 4.65
+        transactions_spammed:
+          type: integer
+          minimum: 0
+          description: The number of transactions the spammer has spammed.
+          example: 6666
+    FPC-Conflict:
+      type: object
+      description:  Describes a seen conflict.
+      properties:
+        transaction_hash:
+          type: string
+          description: The hash of the transaction which is seen as conflicting
+          example: IDQOWSNFDYHOWVLDMBP9JTZJJTDWRXSGGIEUSNNTDZLPXC9MR9AHNYOU9LXSMIVYWDBRONOWJCADA9999
+    FPC-Vote:
+      type: object
+      description: Describes the state of an FPC vote on a transaction.
+      properties:
+        transaction_hash:
+          type: string
+          description: The hash of the transaction on which was voted on.
+          example: IDQOWSNFDYHOWVLDMBP9JTZJJTDWRXSGGIEUSNNTDZLPXC9MR9AHNYOU9LXSMIVYWDBRONOWJCADA9999
+        state:
+          type: boolean
+          description: The final state of the transaction.
+        finalization_time:
+          type: integer
+          minimum: 0
+          description: The time it took for FPC to finalize the state of the transaction.
+          example: 2303
+        number_of_rounds:
+          type: integer
+          minimum: 0
+          description: The number of rounds it took to finalize the state.
+          example: 6
+        percentage_queries_answered:
+          type: number
+          minimum: 0
+          description: The percentage of queries which were answered when voting on the given transaction.
+          example: 0.86
+    WhiteFlagConfirmation:
+      type: object
+      description: Contains statistics about a white-flag confirmation event happening within the node.
+      required:
+        - "transactions_confirmed"
+        - "ignored_bundles"
+      properties:
+        transactions_confirmed:
+          type: integer
+          minimum: 0
+          description: The amount of transactions which were confirmed.
+        ignored_bundles:
+          type: integer
+          minimum: 0
+          description: The amount of bundles ignored while confirming a cone of transactions through through the "white-flag" confirmation method.
+          example: 15
+    Caches:
+      type: object
+      description: Contains information about different cache sizes.
+      properties:
+        transactions:
+          type: integer
+          minimum: 0
+          description: The amount of cached transactions.
+          example: 1337
+        bundles:
+          type: integer
+          minimum: 0
+          description: The amount of cached bundles.
+          example: 7331
+    Transaction:
+      type: object
+      description: A pointer to a transaction.
+      required:
+        - "hash"
+        - "value"
+      properties:
+        hash:
+          type: string
+          example: SLYJSZJ99UYPGFVODDRKWNFTDK9DOJU9VGYGPQNZMJBEOPPRJTQ9PNLDJKYPTLKBEGOJLHXICMYM99999
+          minLength: 81
+          maxLength: 81
+          description: The hash of the transaction.
+        value:
+          type: "integer"
+          example: 23423
+          description: The value of the transaction, might be negative.
+    Milestone:
+      type: object
+      description: A pointer to a milestone.
+      required:
+        - "hash"
+        - "index"
+      properties:
+        hash:
+          type: string
+          example: SLYJSZJ99UYPGFVODDRKWNFTDK9DOJU9VGYGPQNZMJBEOPPRJTQ9PNLDJKYPTLKBEGOJLHXICMYM99999
+          minLength: 81
+          maxLength: 81
+          description: The hash of the tail transaction of the milestone bundle.
+        index:
+          type: "integer"
+          example: 23423
+          description: The index of the milestone.
+    NeighborStats:
+      description: Contains metrics about a single neighbor.
+      allOf:
+        - $ref: '#/components/schemas/Metrics'
+        - type: object
+          properties:
+            solid_milestone_index:
+              type: integer
+              minimum: 0
+              description: The solid milestone index of the neighbor.
+              example: 1650394
+            pruned_milestone_index:
+              type: integer
+              minimum: 0
+              description: The milestone index at which the last pruning was done.
+              example: 1645602
+    Metrics:
+      description: Describes a set of metrics in relation to network events.
+      type: object
+      required:
+        - "network_bytes_transmitted"
+        - "network_bytes_received"
+        - "transactions_received"
+        - "transactions_sent"
+        - "invalid_transactions"
+        - "send_packets_dropped"
+      properties:
+        network_bytes_transmitted:
+          type: integer
+          minimum: 0
+          description: The amount of bytes transmitted.
+          example: 175456145
+        network_bytes_received:
+          type: integer
+          minimum: 0
+          description: The amount of bytes received.
+          example: 3451459384
+        transactions_received:
+          type: integer
+          minimum: 0
+          description: The amount of transactions received.
+          example: 3948
+        transactions_sent:
+          type: integer
+          minimum: 0
+          description: The amount of transactions sent.
+          example: 156403
+        invalid_transactions:
+          type: integer
+          minimum: 0
+          description: The amount of invalid transactions received.
+          example: 3034
+        new_transactions:
+          type: integer
+          minimum: 0
+          description: The amount of new transactions received.
+          example: 3624
+        send_packets_dropped:
+          type: integer
+          minimum: 0
+          description: The amount of packets which were dropped before sending.
+          example: 10
+    TipSelStats:
+      type: object
+      description: Describes statistics about an executed tip-selection.
+      required:
+        - "duration"
+        - "steps"
+        - "evaluated"
+      properties:
+        duration:
+          type: integer
+          minimum: 0
+          description: The amount of time the tip-selection took in miliseconds.
+          example: 5
+        steps:
+          type: integer
+          minimum: 0
+          description: The amount of steps forward in the graph the walker had to perform during tip-selection.
+          example: 1465
+        evaluated:
+          type: integer
+          minimum: 0
+          description: The amount of transactions the tip-selection had to evaluate during both walks.
+          example: 2430
+        below_max_depth_cache_hit_ratio:
+          type: integer
+          minimum: 0
+          description: The cache hit ratio for below max depth checks during tip-selection.
+          example: 0.97
+    MemoryStats:
+      type: object
+      description: Describes statistics about memory consumption within the node.
+      required:
+        - "used"
+        - "os_reclaimable"
+      properties:
+        used:
+          type: integer
+          minimum: 0
+          description: The total amount of memory the node is currently consuming in bytes.
+          example: 175500000
+        os_reclaimable:
+          type: integer
+          minimum: 0
+          description: Total amount of memory in bytes which is idle and can be reclaimed by the operating system.
+          example: 14000000
+    TPS:
+      type: object
+      description: Describes current inflow/outlow of transactions.
+      required:
+        - "in"
+        - "out"
+        - "new"
+      properties:
+        in:
+          type: integer
+          minimum: 0
+          description: The current inflow of transactions per second.
+          example: 15
+        out:
+          type: integer
+          minimum: 0
+          description: The current outflow of transactions per second.
+          example: 4
+        new:
+          type: integer
+          minimum: 0
+          description: The current inflow of new transactions per second.
+    RequestQueue:
+      type: object
+      description: Describes different properties of the request queue.
+      required:
+        - "size"
+      properties:
+        size:
+          type: integer
+          minimum: 0
+          description: The current size of the request queue.
+          example: 1337
+    MilestoneInfo:
+      type: object
+      description: Describes the current known milestone information.
+      required:
+        - "lsmi"
+        - "lmi"
+      properties:
+        solid_milestone_index:
+          type: integer
+          minimum: 0
+          description: The index of the current solid milestone.
+          example: 15452049
+        solid_milestone_hash:
+          type: string
+          minLength: 81
+          maxLength: 81
+          description: The hash of the current solid milestone.
+          example: JSMAFDEGSD9FQPOHBLAQQGSCWXPNPJWUJCUWNHCSXXNNXKWAEKTRNVIHRSTXKSZGQVWIJVSFMGZQZ9999
+        latest_milestone_index:
+          type: integer
+          minimum: 0
+          description: The index of the latest known milestone.
+          example: 15452154
+        latest_milestone_hash:
+          type: string
+          minLength: 81
+          maxLength: 81
+          description: The hash of the latest known milestone.
+          example: IDQOWSNFDYHOWVLDMBP9JTZJJTDWRXSGGIEUSNNTDZLPXC9MR9AHNYOU9LXSMIVYWDBRONOWJCADA9999

@@ -1,0 +1,589 @@
+openapi: 3.0.1
+info:
+  title: IOTA Node Frontend API
+  description: 'Describes a set of common API endpoints which need to be implemented by an IOTA node software, which
+  wants to be compatible with the IFs frontend SPA.'
+  contact:
+    email: luca.moser@iota.org
+  license:
+    name: MIT
+    url: https://mit-license.org/
+  version: 0.1.0
+tags:
+  - name: auth
+    description: Routes to authenticate or destroy the session.
+  - name: status
+    description: Routes used to get the status of the node.
+  - name: neighbors
+    description: Routes for CRUD operations regarding neighbors/peers.
+  - name: explorer
+    description: Routes to query data about the Tangle, in order to for example implement an explorer.
+paths:
+  /auth:
+    post:
+      tags:
+        - auth
+      summary: Authenticates the caller by providing a JWT for valid login credentials.
+      operationId: auth
+      requestBody:
+        description: The username and password to authenticate against the API.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "admin"
+                password:
+                  type: string
+                  example: "admin123"
+      responses:
+        200:
+          description: Returns the JWT which can be used to authenticate against the API.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWT'
+        400:
+          description: Returned on invalid login credentials.
+  /info:
+    get:
+      tags:
+        - status
+      summary: Gets data about common node information.
+      operationId: getStatus
+      responses:
+        200:
+          description: Returns the status object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  app_name:
+                    type: string
+                  app_version:
+                    description: The node's semver version.
+                    type: string
+                  startup_ts:
+                    description: The unix timestamp .
+                    type: integer
+                    format: int64
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - bearerAuth: []
+  /neighbors:
+    get:
+      tags:
+        - neighbors
+      summary: Get all neighbors currently known to the node (connected and disconnected).
+      operationId: getNeighbors
+      responses:
+        200:
+          description: The neighbors list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Neighbor'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - neighbors
+      summary: Adds a new neighbor to the node. Note that this route only adds the neighbor but does not block until the neighbor is actually connected.
+      operationId: createNeighbor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewNeighbor'
+      responses:
+        200:
+          description: Returns the newly created neighbor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Neighbor'
+        400:
+          description: Returned if for example the hostname couldn't be resolved to any IP address or any other validation error occurred while trying to add the neighbor.  Also returned if the neighbor is already known to the node by any of its IP+port combinations.
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - bearerAuth: []
+  /neighbors/{neighbor_id}:
+    put:
+      tags:
+        - neighbors
+      summary: Updates the alias of the given neighbor.
+      operationId: updateNeighbor
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          schema:
+            type: string
+          description: The identifier of the neighbor (IP + its neighboring socket port)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNeighbor'
+      responses:
+        200:
+          description: Returns the updated neighbor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Neighbor'
+        400:
+          description: Returned if the alias is invalid.
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: Returned if the neighbor is not known.
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - neighbors
+      summary: Disconnects (if connected) and removes the neighbor.
+      operationId: removeNeighbor
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          schema:
+            type: string
+          description: The identifier of the neighbor (IP + its neighboring socket port)
+      responses:
+        200:
+          description: Returns if the neighbor was successfully removed.
+        400:
+          description: Returned if for example the hostname couldn't be resolved to any IP address or any other validation error occurred while trying to add the neighbor.  Also returned if the neighbor is already known to the node by any of its IP+port combinations.
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: Returned if the neighbor is not known.
+      security:
+        - bearerAuth: []
+  /explorer/tx/{hash}:
+    get:
+      tags:
+        - explorer
+      summary: Gets the transaction with the given hash.
+      operationId: explorerGetTransaction
+      parameters:
+        - in: path
+          name: hash
+          required: true
+          schema:
+            type: string
+            minLength: 81
+            maxLength: 81
+          description: The hash of the transaction to query.
+      responses:
+        200:
+          description: Returns the transaction with the given hash.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExplorerTransaction'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: Returned if no transaction was found.
+        400:
+          description: Returned if the hash is invalid.
+      security:
+        - bearerAuth: []
+  /explorer/bundle/{hash}:
+    get:
+      tags:
+        - explorer
+      summary: Gets all bundle instances under the given bundle hash.
+      operationId: explorerGetBundle
+      parameters:
+        - in: path
+          name: hash
+          required: true
+          schema:
+            type: string
+            minLength: 81
+            maxLength: 81
+          description: The hash of the bundle.
+      responses:
+        200:
+          description: An array of bundle instances under the given bundle hash.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfExplorerBundles'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: Returned if not a single bundle instance is found under the given hash.
+        400:
+          description: Returned if the hash is invalid.
+      security:
+        - bearerAuth: []
+  /explorer/address/{hash}:
+    get:
+      tags:
+        - explorer
+      summary: Gets an object describing the address and all the transaction associated with it.
+      operationId: explorerGetAddress
+      parameters:
+        - in: path
+          name: hash
+          required: true
+          description: The address can either include or exclude its CurlP81 checksum.
+          schema:
+            type: string
+            minLength: 81
+            maxLength: 90
+      responses:
+        200:
+          description: An object describing the address which contains an array of all associated transactions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExplorerAddress'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: Returned if the address is not known to the node. If the addres is spent, then a 200 with it should be returned.
+        400:
+          description: Returned if the hash is invalid.
+      security:
+        - bearerAuth: []
+  /explorer/milestone/{index}:
+    get:
+      tags:
+        - explorer
+      summary: Gets the tail transaction of the milestone bundle corresponding to the given index.
+      operationId: explorerGetMilestone
+      parameters:
+        - in: path
+          name: index
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        200:
+          description: The tail transaction corresponding to the given index.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExplorerTransaction'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: Returned if no milestone under the given index is known.
+        400:
+          description: Returned if the index is negative or couldn't be parsed to a number.
+      security:
+        - bearerAuth: []
+  /explorer/search/{keyword}:
+    get:
+      tags:
+        - explorer
+      summary: Searches the database for an address, a milestone, a transactions or bundles.
+      operationId: explorerSearch
+      parameters:
+        - in: path
+          name: keyword
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returns a result object which potentially contains multiple found objects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExplorerSearchResult'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: Returned if not a single address, milestone, bundle or transaction could be found for the given keyword.
+        400:
+          description: Returned if the keyword isn't a number but instead a string and is not 81/90 in length or invalid.
+      security:
+        - bearerAuth: []
+components:
+  responses:
+    UnauthorizedError:
+      description: Access token missing or invalid.
+  schemas:
+    NewNeighbor:
+      required:
+        - "id"
+      type: object
+      properties:
+        id:
+          description: The hostname (or IP) + the neighbor's neighboring socket port.
+          type: string
+          example: "main.manapotion.io:15600"
+        alias:
+          description: An alias for the node for simpler recognition by the node operator.
+          type: string
+          example: "My sister's node"
+        preferIPv6:
+          description: Whether the node should connect to the neighbor preferably through IPv6.
+          type: boolean
+    UpdateNeighbor:
+      required:
+        - "alias"
+      type: object
+      properties:
+        alias:
+          description: The new alias for the neighbor.
+          type: string
+          example: "My aunt's node"
+    Neighbor:
+      required:
+        - "id"
+        - "address"
+        - "domain"
+        - "alias"
+        - "connected"
+        - "connection_origin"
+        - "protocol_version"
+      type: object
+      properties:
+        id:
+          description: The identifier of the neighbor (IP + its neighboring socket port).
+          type: string
+          example: "88.145.43.12:15600"
+        address:
+          description: The raw IP address of the neighbor.
+          type: string
+          example: "88.145.43.12"
+        domain:
+          description: The domain/hostname under which the neighbor was added.
+          type: string
+          example: "manapotion.io"
+        alias:
+          description: The alias for the node.
+          type: string
+          example: "My brother's node"
+        connected:
+          description: Whether the neighbor is currently connected.
+          type: boolean
+        connection_origin:
+          description: Whether the origin connection was established in- or outbound.
+          type: string
+          enum: ["inbound", "outbound"]
+        protocol_version:
+          description: The handshaked protocol version under which the connection to the neighbor operates.
+          type: integer
+          format: byte
+          example: 2
+    ExplorerSearchResult:
+      required:
+        - "tx"
+        - "address"
+        - "bundles"
+        - "milestone"
+      type: object
+      properties:
+        transaction:
+          description: A transaction found for the given keyword.
+          allOf:
+            - $ref: '#/components/schemas/ExplorerTransaction'
+        address:
+          description: An address found for the given keyword.
+          allOf:
+            - $ref: '#/components/schemas/ExplorerAddress'
+        bundles:
+          description: Bundles found for the given keyword.
+          allOf:
+            - $ref: '#/components/schemas/ArrayOfExplorerBundles'
+        milestone:
+          description: A milestone which is associated to the keyword.
+          allOf:
+            - $ref: '#/components/schemas/ExplorerTransaction'
+    ExplorerAddress:
+      required:
+        - "value"
+        - "spent"
+        - "transactions"
+      type: object
+      properties:
+        value:
+          type: integer
+          example: 1337
+          description: The current balance of the address.
+        spent:
+          type: boolean
+          description: Whether this address was spent from.
+        transactions:
+          type: array
+          description: An array containing transactions which are associated to this address.
+          maxLength: 100
+          items:
+            $ref: '#/components/schemas/ExplorerTransaction'
+    ArrayOfExplorerBundles:
+      type: array
+      items:
+        $ref: '#/components/schemas/ExplorerBundle'
+    ExplorerBundle:
+      type: array
+      items:
+        $ref: '#/components/schemas/ExplorerTransaction'
+    ExplorerTransaction:
+      required:
+        - "hash"
+        - "signature_message_fragment"
+        - "address"
+        - "value"
+        - "obsolete_tag"
+        - "timestamp"
+        - "current_index"
+        - "last_index"
+        - "bundle"
+        - "trunk"
+        - "branch"
+        - "tag"
+        - "nonce"
+        - "attachment_timestamp"
+        - "attachment_timestamp_lower_bound"
+        - "attachment_timestamp_upper_bound"
+        - "confirmed"
+        - "solid"
+        - "mwm"
+        - "previous_bundle_tx"
+        - "next_bundle_tx"
+        - "bundle_complete"
+        - "is_milestone"
+        - "milestone_index"
+      properties:
+        hash:
+          type: string
+          example: SLYJSZJ99UYPGFVODDRKWNFTDK9DOJU9VGYGPQNZMJBEOPPRJTQ9PNLDJKYPTLKBEGOJLHXICMYM99999
+          minLength: 81
+          maxLength: 81
+          description: The hash of the transaction.
+        signature_message_fragment:
+          type: "string"
+          minLength: 2187
+          maxLength: 2187
+          description: The trytes encoded signature message fragment of the transaction.
+        address:
+          type: "string"
+          example: EQSAUZXULTTYZCLNJNTXQTQHOMOFZERHTCGTXOLTVAHKSA9OGAZDEKECURBRIXIJWNPFCQIOVFVVXJVD9
+          description: The address source or target address of this transaction.
+          minLength: 81
+          maxLength: 81
+        value:
+          type: "integer"
+          example: 23423
+          description: The value of the transaction, might be negative.
+        obsolete_tag:
+          type: "string"
+          minLength: 27
+          maxLength: 27
+          description: The obosolete tag.
+        timestamp:
+          type: "integer"
+          description: the Unix timestamp in seconds.
+        current_index:
+          type: "number"
+          description: The index of this transaction within the same bundle. Never negative.
+          example: 0
+        last_index:
+          type: "number"
+          description: The index of the last transaction within the same bundle. Never negative.
+          example: 3
+        bundle:
+          type: "string"
+          example: V9UVPNZWGVRBWNYQRXLAKAABWJIUOZGIOYKETLJMUEPVUGMZVIUFLYSZITHFCNAOWUQTLVLDWIHXVMFSW
+          description: Hash of the essence data.
+          minLength: 81
+          maxLength: 81
+        trunk:
+          type: "string"
+          example: WFVSCKDHBGE9CYSZYIHPYNVUKRZW9A9YSZTEQDCWFHTDKOYPYGQLWIQLTOOLRSFKHVOZPWRSVVF999999
+          minLength: 81
+          maxLength: 81
+          description: The approved trunk transaction.
+        branch:
+          type: "string"
+          example: GHOXACPBQCQQBHPYLLYWEMJFGZHZUNKRYYMJ9IKKIDZJECUJAZWSEADFKSMGUTPB9NBXZIIOLA9T99999
+          minLength: 81
+          maxLength: 81
+          description: The approved branch transaction.
+        tag:
+          type: "string"
+          minLength: 27
+          maxLength: 27
+          example: LLYMB9999999999999999999999
+          description: The tag of the transaction.
+        nonce:
+          type: "string"
+          minLength: 27
+          maxLength: 27
+          example: UOB9999999XDOB9999999999999
+          description: The nonce which lets this transaction fulfill the MWM.
+        attachment_timestamp:
+          type: "integer"
+          description: The Unix timestamp in millisecond of when PoW was performed on this transaction.
+        attachment_timestamp_lower_bound:
+          type: "integer"
+          description: The upper bound value for the attachment timestamp.
+        attachment_timestamp_upper_bound:
+          type: "integer"
+          description: The lower bound value for the attachment.
+        confirmed:
+          type: "object"
+          required:
+            - "state"
+            - "milestone_index"
+          properties:
+            state:
+              type: "boolean"
+              description: Whether the transaction was confirmed or not.
+            milestone_index:
+              type: "number"
+              description: The index of the milestone which confirmed this transaction.
+        solid:
+          type: "boolean"
+          description: Whether this transaction is solid, i.e. all its past history is known.
+        mwm:
+          type: "integer"
+          description: The MWM of the transaction.
+        previous_bundle_tx:
+          type: "string"
+          description: The hash of the previous transaction within the same bundle. Empty if tail transaction or previous not known.
+        next_bundle_tx:
+          type: "string"
+          description: The hash of the next transaction within the same bundle. Empty if head transaction or next not known.
+        bundle_complete:
+          type: "boolean"
+          description: Whether the bundle to which this transaction belogs to is complete within the node.
+        is_milestone:
+          type: "boolean"
+          description: Whether this transaction is a milestone (part of the milestone bundle).
+        milestone_index:
+          type: "number"
+          description: The milestone index of this transaction, if this transaction is a milestone.
+    JWT:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
