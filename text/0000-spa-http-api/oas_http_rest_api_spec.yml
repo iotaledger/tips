@@ -12,8 +12,8 @@ info:
 tags:
   - name: auth
     description: Routes to authenticate or destroy the session.
-  - name: status
-    description: Routes used to get the status of the node.
+  - name: info
+    description: Routes for CRUD operations regarding node infos.
   - name: neighbors
     description: Routes for CRUD operations regarding neighbors/peers.
   - name: explorer
@@ -50,9 +50,36 @@ paths:
   /info:
     get:
       tags:
-        - status
-      summary: Gets data about common node information.
-      operationId: getStatus
+        - info
+      summary: Gets data about common node infos.
+      operationId: getNodeInfo
+      responses:
+        200:
+          description: Returns the status object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeInfo'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - info
+      summary: Updates the node's info properties.
+      operationId: updateNodeName
+      requestBody:
+        description: The new properties
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The name of the node.
+                  type: string
+                  example: "My new node name"
       responses:
         200:
           description: Returns the status object.
@@ -164,7 +191,7 @@ paths:
           description: Returned if the neighbor is not known.
       security:
         - bearerAuth: []
-  /explorer/tx/{hash}:
+  /explorer/transaction/{hash}:
     get:
       tags:
         - explorer
