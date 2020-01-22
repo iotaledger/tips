@@ -1,6 +1,6 @@
 + Feature name: `spa_http_api`
 + Start date: 22.01.2020
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0002](https://github.com/iotaledger/protocol-rfcs/pull/0002)
 
 # Summary
 
