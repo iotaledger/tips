@@ -45,7 +45,7 @@ operator's local machine.
 
 ##### Misc
 If the frontend SPA needs to apply slightly different rendering logic dependent on the node software, it can examine
-the `/info` route's `appName` within the response JSON object. For example, in GoShimmer it wouldn't make sense to allow
+the `/info` route's `app_name` within the response JSON object. For example, in GoShimmer it wouldn't make sense to allow
 the user to manually add neighbors, even though there are routes explicitly for that functionality.
 
 # Drawbacks
