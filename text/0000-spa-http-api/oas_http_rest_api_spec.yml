@@ -59,17 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  app_name:
-                    type: string
-                  app_version:
-                    description: The node's semver version.
-                    type: string
-                  startup_ts:
-                    description: The unix timestamp .
-                    type: integer
-                    format: int64
+                $ref: '#/components/schemas/NodeInfo'
         401:
           $ref: '#/components/responses/UnauthorizedError'
       security:
@@ -324,6 +314,26 @@ components:
     UnauthorizedError:
       description: Access token missing or invalid.
   schemas:
+    NodeInfo:
+      type: object
+      properties:
+        app_name:
+          type: string
+          example: "HORNET"
+        app_version:
+          description: The node's semver version.
+          type: string
+          example: "0.3.0"
+        startup_ts:
+          description: The unix timestamp in seconds of when the node booted.
+          type: integer
+          format: int64
+          example: 1564593994
+        name:
+          description: The name which the node operator set for this node.
+          type: string
+          maxLength: 100
+          example: "Hive Node 004"
     NewNeighbor:
       required:
         - "id"
