@@ -53,7 +53,7 @@ m / purpose' / coin_type' / account' / change / address_index
 ```
 This specification follows BIP-0032 to build the initial path. The coin_type is 4218' as defined by Satoshi Labs in [SLIP-0044](https://github.com/satoshilabs/slips/blob/master/slip-0044.md):
 ```
-m / 44' / 148' / account' / change' / address_index'
+m / 44' / 4218' / account' / change' / address_index'
 ```
 Each level needs to be hardned, since only hardned derivation is supported when using SLIP-0010 with Ed25519. The meaning of each level remains exactly as described in [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki).
 
