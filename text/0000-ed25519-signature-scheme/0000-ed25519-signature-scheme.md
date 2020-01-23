@@ -46,6 +46,16 @@ As a developer of IOTA applications, I want to make the, so that I can make the 
 
 For Ed25519 every 256-bit number (even 0) is a valid private key and as such, any random number can be used to derive a valid key pair. However, as this would require frequent backups of all the private keys and pose a serious risk of loosing any one of them, it is desirable to derive key pairs deterministically from one master seed.
 [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) defines the de facto standard for [secp256k1](http://www.secg.org/sec2-v2.pdf) curves and it is implemented and used in all relevant hardware and software wallets. [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md) extends this and describes how to derive a master private/public key for Ed25519 and how a BIP-0032 like derivation is used.
+In combination with this, [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) defines
+a BIP-0032 path for multiple coin types:
+```
+m / purpose' / coin_type' / account' / change / address_index
+```
+This specification follows BIP-0032 to build the initial path. The coin_type is 4218' as defined by Satoshi Labs in [SLIP-0044](https://github.com/satoshilabs/slips/blob/master/slip-0044.md):
+```
+m / 44' / 148' / account' / change' / address_index'
+```
+Each level needs to be hardned, since only hardned derivation is supported when using SLIP-0010 with Ed25519. The meaning of each level remains exactly as described in [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki).
 
 # Drawbacks
 
