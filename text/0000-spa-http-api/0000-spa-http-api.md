@@ -43,13 +43,16 @@ The JWT must be carried in the bearer format: `Authorization: bearer <JWT>`.
 Since such SPA will only be used by the node operator, the session can simply be invalidated by deleting the JWT on the node
 operator's local machine.
 
+##### Neighbors
+Using the corresponding fields from `/info`, the application can choose to render certain neighbor specific frontend components or not.
+It is important to note that a node software implementation might support autopeering and static neighbors simultaneously.
+The API specifies two objects to describe autopeered and static neighbors: `AutopeeredNeighbor` and `StaticNeighbor`.
+
 ##### Misc
 If the frontend SPA needs to apply slightly different rendering logic dependent on the node software, it can examine
-the `/info` route's `app_name` within the response JSON object. For example, in GoShimmer it wouldn't make sense to allow
-the user to manually add neighbors, even though there are routes explicitly for that functionality.
+the `/info` route's `app_name` within the response JSON object.
 
 # Drawbacks
-
 * Some data might be important for a node software while not for the other, this means that inherently, there still needs
 to be some frontend logic to handle specific node implementation needs.
 

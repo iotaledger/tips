@@ -95,10 +95,10 @@ channels:
   neighbor/{neighbor_id}:
     parameters:
       neighbor_id:
-        description: The identifier of the neighbor (IP + its neighboring socket port).
+        description: The identifier of the neighbor (IP + its neighboring socket port) or public id.
         schema:
           type: string
-          example: "142.245.342.34:15600"
+          example: "142.245.342.34:15600 or 49b08defa65e644cbf8a2dd9270bdededabc741997d1dadd42026d7b"
     subscribe:
       summary: Reports statistics about the given neighbor every second.
       operationId: neighborStats
@@ -433,8 +433,10 @@ components:
       type: object
       description: Describes the current known milestone information.
       required:
-        - "lsmi"
-        - "lmi"
+        - "solid_milestone_index"
+        - "solid_milestone_hash"
+        - "latest_milestone_index"
+        - "latest_milestone_hash"
       properties:
         solid_milestone_index:
           type: integer

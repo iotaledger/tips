@@ -13,9 +13,9 @@ tags:
   - name: auth
     description: Routes to authenticate or destroy the session.
   - name: info
-    description: Routes for CRUD operations regarding node infos.
+    description: Routes for CRUD operations regarding node information.
   - name: neighbors
-    description: Routes for CRUD operations regarding neighbors/peers.
+    description: Routes for CRUD operations regarding neighbors.
   - name: explorer
     description: Routes to query data about the Tangle, in order to for example implement an explorer.
 paths:
@@ -46,7 +46,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JWT'
         400:
-          description: Returned on invalid login credentials.
+          description: Returned on invalid login credentials or if already authenticated.
   /info:
     get:
       tags:
@@ -95,7 +95,7 @@ paths:
     get:
       tags:
         - neighbors
-      summary: Get all neighbors currently known to the node (connected and disconnected).
+      summary: Get all static and/or autopeered neighbors.
       operationId: getNeighbors
       responses:
         200:
@@ -105,7 +105,9 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Neighbor'
+                  anyOf:
+                    - $ref: '#/components/schemas/StaticNeighbor'
+                    - $ref: '#/components/schemas/AutopeeredNeighbor'
         401:
           $ref: '#/components/responses/UnauthorizedError'
       security:
@@ -113,73 +115,77 @@ paths:
     post:
       tags:
         - neighbors
-      summary: Adds a new neighbor to the node. Note that this route only adds the neighbor but does not block until the neighbor is actually connected.
-      operationId: createNeighbor
+      summary: Adds a new static neighbor to the node. Note that this route only adds the neighbor but does not block until the neighbor is actually connected.
+      operationId: addStaticNeighbor
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewNeighbor'
+              $ref: '#/components/schemas/NewStaticNeighbor'
       responses:
         200:
-          description: Returns the newly created neighbor.
+          description: Returns the newly added neighbor.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Neighbor'
+                $ref: '#/components/schemas/StaticNeighbor'
         400:
           description: Returned if for example the hostname couldn't be resolved to any IP address or any other validation error occurred while trying to add the neighbor.  Also returned if the neighbor is already known to the node by any of its IP+port combinations.
         401:
           $ref: '#/components/responses/UnauthorizedError'
+        501:
+          $ref: '#/components/responses/NotImplementedDisabledStaticNeighbors'
       security:
         - bearerAuth: []
   /neighbors/{neighbor_id}:
     put:
       tags:
         - neighbors
-      summary: Updates the alias of the given neighbor.
-      operationId: updateNeighbor
+      summary: Updates the alias of the given static neighbor.
+      operationId: updateStaticNeighbor
       parameters:
         - in: path
           name: neighbor_id
           required: true
           schema:
             type: string
-          description: The identifier of the neighbor (IP + its neighboring socket port)
+          description: The identifier of the static neighbor (IP + its neighboring socket port)
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateNeighbor'
+              $ref: '#/components/schemas/UpdateStaticNeighbor'
       responses:
         200:
-          description: Returns the updated neighbor.
+          description: Returns the updated static neighbor.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Neighbor'
+                $ref: '#/components/schemas/StaticNeighbor'
         400:
           description: Returned if the alias is invalid.
         401:
           $ref: '#/components/responses/UnauthorizedError'
         404:
           description: Returned if the neighbor is not known.
+        501:
+          $ref: '#/components/responses/NotImplementedDisabledStaticNeighbors'
       security:
         - bearerAuth: []
     delete:
       tags:
         - neighbors
-      summary: Disconnects (if connected) and removes the neighbor.
-      operationId: removeNeighbor
+      summary: Disconnects (if connected) and removes the static neighbor.
+      operationId: removeStaticNeighbors
       parameters:
         - in: path
           name: neighbor_id
           required: true
           schema:
             type: string
-          description: The identifier of the neighbor (IP + its neighboring socket port)
+          description: The identifier of the neighbor (IP + its neighboring socket port).
       responses:
         200:
           description: Returns if the neighbor was successfully removed.
@@ -189,6 +195,8 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         404:
           description: Returned if the neighbor is not known.
+        501:
+          $ref: '#/components/responses/NotImplementedDisabledStaticNeighbors'
       security:
         - bearerAuth: []
   /explorer/transaction/{hash}:
@@ -249,6 +257,8 @@ paths:
           description: Returned if not a single bundle instance is found under the given hash.
         400:
           description: Returned if the hash is invalid.
+        501:
+          $ref: '#/components/responses/NotImplementedError'
       security:
         - bearerAuth: []
   /explorer/address/{hash}:
@@ -307,6 +317,8 @@ paths:
           description: Returned if no milestone under the given index is known.
         400:
           description: Returned if the index is negative or couldn't be parsed to a number.
+        501:
+          $ref: '#/components/responses/NotImplementedError'
       security:
         - bearerAuth: []
   /explorer/search/{keyword}:
@@ -340,19 +352,24 @@ components:
   responses:
     UnauthorizedError:
       description: Access token missing or invalid.
+    NotImplementedError:
+      description: Returned if called on a node software implementation, which dokes not support the given operation.
+    NotImplementedDisabledStaticNeighbors:
+      description: Returned if called on a node software implementation which does not support static neighbors.
   schemas:
     NodeInfo:
       type: object
+      description: Describes enabled features, version and the name of the node software.
       properties:
         app_name:
           type: string
           example: "HORNET"
         app_version:
-          description: The node's semver version.
+          description: The node's semver version (https://semver.org/).
           type: string
           example: "0.3.0"
-        startup_ts:
-          description: The unix timestamp in seconds of when the node booted.
+        started_at:
+          description: The unix timestamp in seconds of when the node booted up.
           type: integer
           format: int64
           example: 1564593994
@@ -361,38 +378,56 @@ components:
           type: string
           maxLength: 100
           example: "Hive Node 004"
-    NewNeighbor:
+        features:
+          type: object
+          description: Describes a set of features the node supports.
+          properties:
+            autopeering:
+              description: Whether the node has autopeering enabled.
+              type: boolean
+              example: true
+            static_neighbors:
+              description: Whether the node supports managing static neighbors.
+              type: boolean
+              example: true
+    AutopeeredNeighbor:
       required:
         - "id"
-      type: object
+        - "address"
+        - "port"
+        - "neighbor_since"
+        - "connected"
+        - "connected_at"
       properties:
         id:
-          description: The hostname (or IP) + the neighbor's neighboring socket port.
+          description: The identifier of the neighbor.
           type: string
-          example: "main.manapotion.io:15600"
-        alias:
-          description: An alias for the node for simpler recognition by the node operator.
+          example: "49b08defa65e644cbf8a2dd9270bdededabc741997d1dadd42026d7b"
+        address:
+          description: The IP address of the neighbor.
           type: string
-          example: "My sister's node"
-        preferIPv6:
-          description: Whether the node should connect to the neighbor preferably through IPv6.
+          example: "67.187.96.34"
+        port:
+          description: The peering port of the neighbor.
+        connected:
+          description: Whether the neighbor is currently connected.
           type: boolean
-    UpdateNeighbor:
-      required:
-        - "alias"
-      type: object
-      properties:
-        alias:
-          description: The new alias for the neighbor.
-          type: string
-          example: "My aunt's node"
-    Neighbor:
+        connected_at:
+          description: The unix timestamp in seconds of when this neighbor got connected.
+          type: integer
+        protocol_version:
+          description: The handshaked protocol version under which the connection to the neighbor operates.
+          type: integer
+          format: byte
+          example: 2
+    StaticNeighbor:
       required:
         - "id"
         - "address"
         - "domain"
         - "alias"
         - "connected"
+        - "connected_at"
         - "connection_origin"
         - "protocol_version"
       type: object
@@ -416,6 +451,9 @@ components:
         connected:
           description: Whether the neighbor is currently connected.
           type: boolean
+        connected_at:
+          description: The unix timestamp in seconds of when this neighbor got connected.
+          type: integer
         connection_origin:
           description: Whether the origin connection was established in- or outbound.
           type: string
@@ -425,6 +463,31 @@ components:
           type: integer
           format: byte
           example: 2
+    NewStaticNeighbor:
+      required:
+        - "id"
+      type: object
+      properties:
+        id:
+          description: The hostname (or IP) + the neighbor's neighboring socket port.
+          type: string
+          example: "main.manapotion.io:15600"
+        alias:
+          description: An alias for the node for simpler recognition by the node operator.
+          type: string
+          example: "My sister's node"
+        preferIPv6:
+          description: Whether the node should connect to the neighbor preferably through IPv6.
+          type: boolean
+    UpdateStaticNeighbor:
+      required:
+        - "alias"
+      type: object
+      properties:
+        alias:
+          description: The new alias for the neighbor.
+          type: string
+          example: "My aunt's node"
     ExplorerSearchResult:
       required:
         - "tx"
