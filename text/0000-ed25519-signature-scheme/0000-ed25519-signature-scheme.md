@@ -30,7 +30,7 @@ As a developer of IOTA applications, I want to make the, so that I can make the 
 
 - Each input transaction in the bundle needs to be signed with the key pair corresponding to that address. The signature is stored in the `signatureMessageFragment` transaction field.
 - Compute the bundle hash M by hashing the regular [bundle essence](https://docs.iota.org/docs/getting-started/0.1/transactions/bundles#bundle-essence) using [Kerl](https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md). However, instead of producing a 81-tryte output, the final [bytes-trits conversion](https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md#conversion-bytes-tofrom-biginteger) is skipped in order to get a 48-byte hash. Note that there is no need to normalize M.
-- Compute the 64-byte signature S of the hash M as described for ED25519.
+- Compute the 64-byte signature S of the hash M as described for Ed25519.
 - Encode the public key K into ternary by converting one byte value v into two trytes: (v mod 27) || (v div 27), where div denotes the integer division in which the fractional part is discarded. This leads to K<sub>tri</sub> with size of 64 trytes
 - Apply the same encoding to S to get S<sub>tri</sub> of 128 trytes.
 - `signatureMessageFragment` = K<sub>tri</sub> || S<sub>tri</sub> || `9`<sup>1995</sup>. This makes it exactly 2187 trytes long, as expected.
@@ -44,8 +44,8 @@ As a developer of IOTA applications, I want to make the, so that I can make the 
 
 ### Key derivation
 
-TODO
-
+For Ed25519 every 256-bit number (even 0) is a valid private key and as such, any random number can be used to derive a valid key pair. However, as this would require frequent backups of all the private keys and pose a serious risk of loosing any one of them, it is desirable to derive key pairs deterministically from one master seed.
+[BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) defines the de facto standard for [secp256k1](http://www.secg.org/sec2-v2.pdf) curves and it is implemented and used in all relevant hardware and software wallets. [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md) extends this and describes how to derive a master private/public key for Ed25519 and how a BIP-0032 like derivation is used.
 
 # Drawbacks
 
