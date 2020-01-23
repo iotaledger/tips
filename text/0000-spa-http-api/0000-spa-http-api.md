@@ -38,7 +38,7 @@ via authentication through a [JWT](https://jwt.io/) (see the corresponding authe
 the specification files). Please note that the WebSocket route is also authenticated through the JWT but due to a rendering error
 on the AsyncAPI-editor's site, the header is not rendered correctly.
 
-The JWT must be carried in the bearer format: `Authorization: bearer <JWT>`.
+The JWT must be carried in the bearer format: `Authorization: Bearer <JWT>`.
 
 Since such SPA will only be used by the node operator, the session can simply be invalidated by deleting the JWT on the node
 operator's local machine.
