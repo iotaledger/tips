@@ -1,4 +1,4 @@
-+ RFC Author: @Wollac
++ RFC Author: [Wollac](https://github.com/Wollac)
 + Feature name: `ed25519-signature-scheme`
 + Start date: 2020-01-16
 + RFC PR: [iotaledger/protocol-rfcs#0003](https://github.com/iotaledger/protocol-rfcs/pull/0003)
