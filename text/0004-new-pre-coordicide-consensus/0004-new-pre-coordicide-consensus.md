@@ -43,7 +43,7 @@ Once a bundle is marked as ignored/seen/approved this will be final and it can't
 
 ## Node Tip Selection
 
-Due to white-flag, no part of the tangle can be censored, thus the tangle can't be split by a double-spend. So as long as each new tip (bundle) a user creates approves two other random tips, the tangle shouldn't get divided into several subtangles. Thus we can get have a very fast tip selection by just selecting random tips.
+Due to white-flag, no part of the tangle can be censored, thus the tangle can't be split by a double-spend. So as long as each new tip (bundle) a user creates approves two other random tips, the tangle shouldn't get divided into several subtangles. Thus we can have a very fast tip selection by just selecting random tips.
 
 The problem is that lazy users may approve bundles or transactions that are not tips. This is a problem because lazy behavior can decrease confirmation rates: a lazy tip approves most likely a cone made up of bundles which are already confirmed and/or contains a low amount of non-yet confirmed, respectively recently broadcasted bundles. So we should have defenses in place to make sure that such lazy transactions will be left behind by honest tip-selection.
 
