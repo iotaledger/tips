@@ -63,7 +63,7 @@ But first some definitions:
 A solid bundle tail of a bundle that has no approvers.
 
 `Approved transaction Roots`:
-All `seened` (by milestone) transaction that can be reached by walking from a given transaction down to its parents. The walk must terminate once we reached a `seened` transaction.
+All `seen` (by milestone) transactions that can be reached by traversing the past cone of a given transaction. We walk down via trunk and branch to all possible paths. The walk must terminate once we reached a `seen` transaction.
 
 `Transaction Snapshot Index`:
 The index of the milestone that marked the transaction as `seen`
