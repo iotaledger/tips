@@ -5,11 +5,11 @@
 
 # Summary
 
-A change to the coordinator based protocol that should enable higher througput of TPS and CTPS. It is achieved by doing the following changes:
+A change to the coordinator based protocol that should enable higher throughput of TPS and CTPS. It is achieved by doing the following changes:
 
 1. **White Flag** - Allow milestones to confirm conflicting bundles. Mutate the ledger state by deterministically ordering the bundles and ignoring conflicts.
 2. **New Node Tip Selection** - Nodes doing an almost random tip-selection will guarantee high throughputs and that honest txs will not likely be left behind. By adhering to certain constraints we will ensure that new transactions will add to the cumulative weight of existing transactions. A user will use `getTransactionsToApprove` API call with no parameters to invoke this tip selection.
-3. **New Compass Tip Selection** - Compass will use a heuristic to confirm a suntangle that has passed a certain threshold of cumulative weight (WIP).
+3. **New Compass Tip Selection** - Compass will use a heuristic to confirm a subtangle that has passed a certain threshold of cumulative weight (WIP).
 
 # Motivation
 
@@ -45,7 +45,7 @@ Once a bundle is marked as ignored/seen/approved this will be final and it can't
 
 Due to white-flag, no part of the tangle can be censored, thus the tangle can't be split by a double-spend. So as long as each new tip (bundle) a user creates approves two other random tips, the tangle shouldn't get divided into several subtangles. Thus we can get have a very fast tip selection by just selecting random tips.
 
-The problem is that lazy users may approve bundles or transactions that are not tips... This is a problem becuase lazy behavior can hinder confirmation rates. A lazy tip approves less bundles in the tangles. So we should have defenses in place to make sure that such lazy transactions will be left behind by honest tip-selection.
+The problem is that lazy users may approve bundles or transactions that are not tips. This is a problem because lazy behavior can decrease confirmation rates: a lazy tip approves most likely a cone made up of bundles which are already confirmed and/or contains a low amount of non-yet confirmed, respectively recently broadcasted bundles. So we should have defenses in place to make sure that such lazy transactions will be left behind by honest tip-selection.
 
 So instead of total random tip selection we will do a weighted random tip selection. We will give each tip a score:
 
@@ -81,7 +81,7 @@ The milestone bundle with the highest index that marked any of the Approved Tran
 #### Configurable Values
 <img src="/text/0004-new-pre-coordicide-consensus/tex/d81a84099e7856ffa4484e1572ceadff.svg?invert_in_darkmode&sanitize=true" align=middle width=18.30139574999999pt height=22.465723500000017pt/> - Time in ms that a tip's timestamp can be *below* its solidification time.
 
-<img src="/text/0004-new-pre-coordicide-consensus/tex/cb36b0b33747e686aaa07eae059aceae.svg?invert_in_darkmode&sanitize=true" align=middle width=18.30139574999999pt height=24.7161288pt/> - Time in ms that a tip's timestamp can be *above* its soldification time.
+<img src="/text/0004-new-pre-coordicide-consensus/tex/cb36b0b33747e686aaa07eae059aceae.svg?invert_in_darkmode&sanitize=true" align=middle width=18.30139574999999pt height=24.7161288pt/> - Time in ms that a tip's timestamp can be *above* its solidification time.
 
 <img src="/text/0004-new-pre-coordicide-consensus/tex/85f3e1190907b9a8e94ce25bec4ec435.svg?invert_in_darkmode&sanitize=true" align=middle width=18.30139574999999pt height=22.465723500000017pt/> - Max difference between tip solidification time and parent bundle solidification timestamp.
 
@@ -156,25 +156,25 @@ TBD
 # Drawbacks
 
 ## White Flag
-1. If we ever want to supply a proof that a `value transfer` is valid and approved we can't do so by merely supplying the path from the bundle to the approving milestone as before. A proof will require to have all the transactions that are in the past cone of the approving milestone to the genesis. However, up until now we never required to give such proofs. If we want to do easy proofs we can create merkle trees from apporved bundle hashes and add them to milestones.
+1. If we ever want to supply a proof that a `value transfer` is valid and approved, we can't do so by merely supplying the path from the bundle to the approving milestone as before. A proof will require to have all the transactions that are in the past cone of the approving milestone to the genesis. However, up until now we never required to give such proofs. If we want to do easy proofs we can create merkle trees from approved bundle hashes and add them to milestones.
 2. Everything that is `seen` is part of the tangle, including double-spend attempts. Meaning we define that possibly malicious data will be saved as part of the consensus set of the tangle.
 
 ## Node Tip Selection
-1. Timestamp proposal relies on local values that differ from node to node. This can theoretically cause some tips to appear lazy to certain nodes in the network, but not lazy to others. This may lead to create competing subtangles, thus the the milestone proposal is superior. However node implementation that would like to later switch to coordicide may still consider implementing it.
+1. Timestamp proposal relies on local values that differ from node to node. This can theoretically cause some tips to appear lazy to certain nodes in the network, but not lazy to others. This may lead to competing subtangles, thus the the milestone proposal is superior. However node implementations that would like to later switch to Coordicide may still consider implementing it.
 
-2. With both proposals users may have to reattach if they create lazy tips. This is not so bad, becuase honest users should never create lazy tips unless they encounter access barriers to the network, i.e. bad connection or congested network.
+2. With both proposals users may have to reattach if they create lazy tips. This is not so bad, because honest users should never create lazy tips unless they encounter access barriers to the network, i.e. bad connection or a congested network.
 
 ## Compass Tip Selection
 TBD
 
 # Rationale and alternatives
 
-- The previous design tried to stay as close as it can to the design outlayed by the [original iota whitepaper](https://assets.ctfassets.net/r1dr6vzfxhev/2t4uxvsIqk0EUau6g2sw0g/45eae33637ca92f85dd9f4a3a218e1ec/iota1_4_3.pdf). Due to the pivot to [coordicide](https://files.iota.org/papers/Coordicide_WP.pdf) it was decided to find a design that can maximize the benefits of the current coordinator based mainnet in the meanwhile. The design proposed here embraces the power of the coordinator rather than utilize it as an auxilary tool intended to be removed. This will give us all the beneifits described in [motivation](#motivation).
+- The previous design tried to stay as close as it can to the design outlined by the [original iota whitepaper](https://assets.ctfassets.net/r1dr6vzfxhev/2t4uxvsIqk0EUau6g2sw0g/45eae33637ca92f85dd9f4a3a218e1ec/iota1_4_3.pdf). Due to the pivot to [Coordicide](https://files.iota.org/papers/Coordicide_WP.pdf) it was decided to find a design that can maximize the benefits of the current coordinator based mainnet in the meanwhile. The design proposed here embraces the power of the coordinator rather than utilizing it as an auxiliary tool intended to be removed. This will give us all the benefits described in [motivation](#motivation).
 
 # Unresolved questions
 
 ## Whiteflag
-Since nodes will try to sort out conflcits themselves perhaps it will be wise to add more prtoection against forks. In a seperate RFC we can maybe define additional data that can be added to milestones to prevent that.
+Since nodes will try to sort out conflicts themselves perhaps it will be wise to add more protection against forks. In a separate RFC we can maybe define additional data that can be added to milestones to prevent that.
 
 ## Node Tip Selection
 There can be an alternative definition to a `tip` elligible for selection: 
