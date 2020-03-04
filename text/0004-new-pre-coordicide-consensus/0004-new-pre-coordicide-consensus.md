@@ -94,16 +94,16 @@ Let <img src="/text/0004-new-pre-coordicide-consensus/tex/7592e8ca3cc64009a29ef0
 
 #### Algorithm
 
-Score 0 will be given if one of the following is true:
+Score 0 (lazy) will be given if one of the following is true:
     
 1. <img src="/text/0004-new-pre-coordicide-consensus/tex/387958f29c632656a8495107e16cf219.svg?invert_in_darkmode&sanitize=true" align=middle width=116.80582154999998pt height=24.65753399999998pt/> or <img src="/text/0004-new-pre-coordicide-consensus/tex/1b3ad4bd8eb7c4c75a64fe6e3af68ba3.svg?invert_in_darkmode&sanitize=true" align=middle width=116.80582154999998pt height=24.7161288pt/>
 2. <img src="/text/0004-new-pre-coordicide-consensus/tex/f2059b96298c6ad5fe2faee5854c4f82.svg?invert_in_darkmode&sanitize=true" align=middle width=158.51217854999996pt height=24.65753399999998pt/>
 3. All <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfy <img src="/text/0004-new-pre-coordicide-consensus/tex/a9915144fa53f2c0ab4fa14d0b57ed67.svg?invert_in_darkmode&sanitize=true" align=middle width=123.62570054999999pt height=24.65753399999998pt/>
 4. if at least one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> has a score of 0 (to enforce monotonicity)
 
-Else Score 1 will be given if exactly one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfies <img src="/text/0004-new-pre-coordicide-consensus/tex/e0104a950fdef28a213187b01144c494.svg?invert_in_darkmode&sanitize=true" align=middle width=123.62570054999999pt height=24.65753399999998pt/>
+Else Score 1 (somewhat lazy) will be given if exactly one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfies <img src="/text/0004-new-pre-coordicide-consensus/tex/e0104a950fdef28a213187b01144c494.svg?invert_in_darkmode&sanitize=true" align=middle width=123.62570054999999pt height=24.65753399999998pt/>
 
-Else Score 2 will be given.
+Else Score 2 (not lazy) will be given.
 
 #### Recommended defaults
 
@@ -133,16 +133,16 @@ Let <img src="/text/0004-new-pre-coordicide-consensus/tex/52ccf34a5ca5c00eb83a41
 
 #### Algorithm
 
-Score 0  will be given if one of the following is true:
+Score 0 (lazy) will be given if one of the following is true:
  
 1. <img src="/text/0004-new-pre-coordicide-consensus/tex/23e239ce29acec2ac8af89ee3bd1fe56.svg?invert_in_darkmode&sanitize=true" align=middle width=150.51060914999996pt height=24.65753399999998pt/>    
 2. <img src="/text/0004-new-pre-coordicide-consensus/tex/6f13425189b1db19f58e22a67704c30a.svg?invert_in_darkmode&sanitize=true" align=middle width=149.26779449999998pt height=24.65753399999998pt/>    
 3. both <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfy <img src="/text/0004-new-pre-coordicide-consensus/tex/aa72b54f7bb589cb6abf0f79acdba77c.svg?invert_in_darkmode&sanitize=true" align=middle width=154.7124744pt height=24.65753399999998pt/>
 4. at least one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> has a score of 0 (to enforce monotonicity)
 
-Else Score 1 will be given if exactly one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfies <img src="/text/0004-new-pre-coordicide-consensus/tex/deca66392771e2f673e5d6ec62c126af.svg?invert_in_darkmode&sanitize=true" align=middle width=154.7124744pt height=24.65753399999998pt/>
+Else Score 1 (somewhat lazy) will be given if exactly one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfies <img src="/text/0004-new-pre-coordicide-consensus/tex/deca66392771e2f673e5d6ec62c126af.svg?invert_in_darkmode&sanitize=true" align=middle width=154.7124744pt height=24.65753399999998pt/>
 
-Else Score 2 will given.
+Else Score 2 (not lazy) will given.
 
 #### Performing the weighted random selection
 A node should have in memory the entire set of `tips` and their scores:
