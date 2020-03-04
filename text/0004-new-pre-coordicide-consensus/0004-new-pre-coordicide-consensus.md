@@ -78,6 +78,8 @@ The milestone bundle with the highest index that marked any of the Approved Tran
 
 ### Timestamp based scoring 
 
+The idea of this proposal is to use the signed timestamp of a tip in conjunction with the solidification time of the tip in order to calculate its laziness score.
+
 #### Configurable Values
 <img src="/text/0004-new-pre-coordicide-consensus/tex/d81a84099e7856ffa4484e1572ceadff.svg?invert_in_darkmode&sanitize=true" align=middle width=18.30139574999999pt height=22.465723500000017pt/> - Time in ms that a tip's timestamp can be *below* its solidification time.
 
