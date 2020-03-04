@@ -1,6 +1,6 @@
 + Feature name: New Pre-Coordicide Consensus
 + Start date: 2020-02-10
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0004](https://github.com/iotaledger/protocol-rfcs/pull/4)
 
 
 # Summary
@@ -43,7 +43,7 @@ Once a bundle is marked as ignored/seen/approved this will be final and it can't
 
 ## Node Tip Selection
 
-Due to white-flag, no part of the tangle can be censored, thus the tangle can't be split by a double-spend. So as long as each new tip (bundle) a user creates approves two other random tips, the tangle shouldn't get divided into several subtangles. Thus we can have a very fast tip selection by just selecting random tips.
+Due to white-flag, no part of the tangle can be censored, thus the tangle can't be split by a double-spend. So as long as each new tip (bundle) a user creates approves two other random tips, the tangle shouldn't get divided into several subtangles. Thus we can get have a very fast tip selection by just selecting random tips.
 
 The problem is that lazy users may approve bundles or transactions that are not tips. This is a problem because lazy behavior can decrease confirmation rates: a lazy tip approves most likely a cone made up of bundles which are already confirmed and/or contains a low amount of non-yet confirmed, respectively recently broadcasted bundles. So we should have defenses in place to make sure that such lazy transactions will be left behind by honest tip-selection.
 
@@ -63,7 +63,7 @@ But first some definitions:
 A solid bundle tail of a bundle that has no approvers.
 
 `Approved transaction Roots`:
-All `seen` (by milestone) transactions that can be reached by traversing the past cone of a given transaction. We walk down via trunk and branch to all possible paths. The walk must terminate once we reached a `seen` transaction.
+All `seened` (by milestone) transaction that can be reached by walking from a given transaction down to its parents. The walk must terminate once we reached a `seened` transaction.
 
 `Transaction Snapshot Index`:
 The index of the milestone that marked the transaction as `seen`
@@ -78,32 +78,30 @@ The milestone bundle with the highest index that marked any of the Approved Tran
 
 ### Timestamp based scoring 
 
-The idea of this proposal is to use the signed timestamp of a tip in conjunction with the solidification time of the tip in order to calculate its laziness score.
-
 #### Configurable Values
 <img src="/text/0004-new-pre-coordicide-consensus/tex/d81a84099e7856ffa4484e1572ceadff.svg?invert_in_darkmode&sanitize=true" align=middle width=18.30139574999999pt height=22.465723500000017pt/> - Time in ms that a tip's timestamp can be *below* its solidification time.
 
 <img src="/text/0004-new-pre-coordicide-consensus/tex/cb36b0b33747e686aaa07eae059aceae.svg?invert_in_darkmode&sanitize=true" align=middle width=18.30139574999999pt height=24.7161288pt/> - Time in ms that a tip's timestamp can be *above* its solidification time.
 
-<img src="/text/0004-new-pre-coordicide-consensus/tex/85f3e1190907b9a8e94ce25bec4ec435.svg?invert_in_darkmode&sanitize=true" align=middle width=18.30139574999999pt height=22.465723500000017pt/> - Max difference between tip solidification time and approvee bundle solidification timestamp.
+<img src="/text/0004-new-pre-coordicide-consensus/tex/85f3e1190907b9a8e94ce25bec4ec435.svg?invert_in_darkmode&sanitize=true" align=middle width=18.30139574999999pt height=22.465723500000017pt/> - Max difference between tip solidification time and parent bundle solidification timestamp.
 
-<img src="/text/0004-new-pre-coordicide-consensus/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&sanitize=true" align=middle width=17.73973739999999pt height=22.465723500000017pt/> - Max difference between tip solidification time and approvee bundle signed timestamp.
+<img src="/text/0004-new-pre-coordicide-consensus/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&sanitize=true" align=middle width=17.73973739999999pt height=22.465723500000017pt/> - Max difference between tip solidification time and parent bundle signed timestamp.
 
 #### Definitions
 Let <img src="/text/0004-new-pre-coordicide-consensus/tex/7592e8ca3cc64009a29ef0fb58f65c76.svg?invert_in_darkmode&sanitize=true" align=middle width=28.11651809999999pt height=24.65753399999998pt/> be the signed timestamp and <img src="/text/0004-new-pre-coordicide-consensus/tex/c73b6615f0c7bd519371e439b4efff6d.svg?invert_in_darkmode&sanitize=true" align=middle width=30.05337719999999pt height=24.65753399999998pt/> the solidification time of transaction <img src="/text/0004-new-pre-coordicide-consensus/tex/332cc365a4987aacce0ead01b8bdcc0b.svg?invert_in_darkmode&sanitize=true" align=middle width=9.39498779999999pt height=14.15524440000002pt/>. A tip will be marked as <img src="/text/0004-new-pre-coordicide-consensus/tex/6c4adbc36120d62b98deef2a20d5d303.svg?invert_in_darkmode&sanitize=true" align=middle width=8.55786029999999pt height=14.15524440000002pt/> and its direct approved bundle tails are marked as <img src="/text/0004-new-pre-coordicide-consensus/tex/41922e474070adc90e7c1379c28d22fe.svg?invert_in_darkmode&sanitize=true" align=middle width=14.520613799999989pt height=14.15524440000002pt/> and <img src="/text/0004-new-pre-coordicide-consensus/tex/53292819177dbb29ba6d92fe3aa2880c.svg?invert_in_darkmode&sanitize=true" align=middle width=14.520613799999989pt height=14.15524440000002pt/>. Let <img src="/text/0004-new-pre-coordicide-consensus/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&sanitize=true" align=middle width=17.73973739999999pt height=22.465723500000017pt/> be some large constant. <img src="/text/0004-new-pre-coordicide-consensus/tex/ca2b74b07b8264fbf88ce0db38c5b23b.svg?invert_in_darkmode&sanitize=true" align=middle width=29.482582799999992pt height=20.221802699999984pt/> is `Oldest Transaction Root Snapshot`:
 
 #### Algorithm
 
-Score 0 (lazy) will be given if one of the following is true:
+Score 0 will be given if one of the following is true:
     
 1. <img src="/text/0004-new-pre-coordicide-consensus/tex/387958f29c632656a8495107e16cf219.svg?invert_in_darkmode&sanitize=true" align=middle width=116.80582154999998pt height=24.65753399999998pt/> or <img src="/text/0004-new-pre-coordicide-consensus/tex/1b3ad4bd8eb7c4c75a64fe6e3af68ba3.svg?invert_in_darkmode&sanitize=true" align=middle width=116.80582154999998pt height=24.7161288pt/>
 2. <img src="/text/0004-new-pre-coordicide-consensus/tex/f2059b96298c6ad5fe2faee5854c4f82.svg?invert_in_darkmode&sanitize=true" align=middle width=158.51217854999996pt height=24.65753399999998pt/>
 3. All <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfy <img src="/text/0004-new-pre-coordicide-consensus/tex/a9915144fa53f2c0ab4fa14d0b57ed67.svg?invert_in_darkmode&sanitize=true" align=middle width=123.62570054999999pt height=24.65753399999998pt/>
 4. if at least one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> has a score of 0 (to enforce monotonicity)
 
-Else Score 1 (somewhat lazy) will be given if exactly one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfies <img src="/text/0004-new-pre-coordicide-consensus/tex/e0104a950fdef28a213187b01144c494.svg?invert_in_darkmode&sanitize=true" align=middle width=123.62570054999999pt height=24.65753399999998pt/>
+Else Score 1 will be given if exactly one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfies <img src="/text/0004-new-pre-coordicide-consensus/tex/e0104a950fdef28a213187b01144c494.svg?invert_in_darkmode&sanitize=true" align=middle width=123.62570054999999pt height=24.65753399999998pt/>
 
-Else Score 2 (not lazy) will be given.
+Else Score 2 will be given.
 
 #### Recommended defaults
 
@@ -133,16 +131,16 @@ Let <img src="/text/0004-new-pre-coordicide-consensus/tex/52ccf34a5ca5c00eb83a41
 
 #### Algorithm
 
-Score 0 (lazy) will be given if one of the following is true:
+Score 0  will be given if one of the following is true:
  
 1. <img src="/text/0004-new-pre-coordicide-consensus/tex/23e239ce29acec2ac8af89ee3bd1fe56.svg?invert_in_darkmode&sanitize=true" align=middle width=150.51060914999996pt height=24.65753399999998pt/>    
 2. <img src="/text/0004-new-pre-coordicide-consensus/tex/6f13425189b1db19f58e22a67704c30a.svg?invert_in_darkmode&sanitize=true" align=middle width=149.26779449999998pt height=24.65753399999998pt/>    
 3. both <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfy <img src="/text/0004-new-pre-coordicide-consensus/tex/aa72b54f7bb589cb6abf0f79acdba77c.svg?invert_in_darkmode&sanitize=true" align=middle width=154.7124744pt height=24.65753399999998pt/>
 4. at least one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> has a score of 0 (to enforce monotonicity)
 
-Else Score 1 (somewhat lazy) will be given if exactly one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfies <img src="/text/0004-new-pre-coordicide-consensus/tex/deca66392771e2f673e5d6ec62c126af.svg?invert_in_darkmode&sanitize=true" align=middle width=154.7124744pt height=24.65753399999998pt/>
+Else Score 1 will be given if exactly one <img src="/text/0004-new-pre-coordicide-consensus/tex/9f7365802167fff585175c1750674d42.svg?invert_in_darkmode&sanitize=true" align=middle width=12.61896569999999pt height=14.15524440000002pt/> satisfies <img src="/text/0004-new-pre-coordicide-consensus/tex/deca66392771e2f673e5d6ec62c126af.svg?invert_in_darkmode&sanitize=true" align=middle width=154.7124744pt height=24.65753399999998pt/>
 
-Else Score 2 (not lazy) will given.
+Else Score 2 will given.
 
 #### Performing the weighted random selection
 A node should have in memory the entire set of `tips` and their scores:
