@@ -1,6 +1,6 @@
 + Feature name: New Pre-Coordicide Consensus
 + Start date: 2020-02-10
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0004](https://github.com/iotaledger/protocol-rfcs/pull/4)
 
 
 # Summary
