@@ -143,6 +143,14 @@ Else Score 1 (somewhat lazy) will be given if exactly one $v_i$ satisfies $lsmi 
 
 Else Score 2 (not lazy) will given.
 
+##### Recommended defaults
+
+$C_1$ - 2
+
+$C_2$ -  7
+
+$M$ - 15 minutes
+
 #### Performing the weighted random selection
 A node should have in memory the entire set of `tips` and their scores:
 
