@@ -43,7 +43,7 @@ Once a bundle is marked as ignored/seen/approved this will be final and it can't
 
 ## Node Tip Selection
 
-Due to white-flag, no part of the tangle can be censored, thus the tangle can't be split by a double-spend. So as long as each new tip (bundle) a user creates approves two other random tips, the tangle shouldn't get divided into several subtangles. Thus we can get have a very fast tip selection by just selecting random tips.
+Due to white-flag, no part of the tangle can be censored, thus the tangle can't be split by a double-spend. So as long as each new tip (bundle) a user creates approves two other random tips, the tangle shouldn't get divided into several subtangles. Thus we can have a very fast tip selection by just selecting random tips.
 
 The problem is that lazy users may approve bundles or transactions that are not tips. This is a problem because lazy behavior can decrease confirmation rates: a lazy tip approves most likely a cone made up of bundles which are already confirmed and/or contains a low amount of non-yet confirmed, respectively recently broadcasted bundles. So we should have defenses in place to make sure that such lazy transactions will be left behind by honest tip-selection.
 
@@ -63,7 +63,7 @@ But first some definitions:
 A solid bundle tail of a bundle that has no approvers.
 
 `Approved transaction Roots`:
-All `seened` (by milestone) transaction that can be reached by walking from a given transaction down to its parents. The walk must terminate once we reached a `seened` transaction.
+All `seen` (by milestone) transactions that can be reached by traversing the past cone of a given transaction. We walk down via trunk and branch to all possible paths. The walk must terminate once we reached a `seen` transaction.
 
 `Transaction Snapshot Index`:
 The index of the milestone that marked the transaction as `seen`
@@ -77,31 +77,32 @@ The milestone bundle with the highest index that marked any of the Approved Tran
 
 
 ### Timestamp based scoring 
+The idea of this proposal is to use the signed timestamp of a tip in conjunction with the solidification time of the tip in order to calculate its laziness score.
 
 #### Configurable Values
 $C_1$ - Time in ms that a tip's timestamp can be *below* its solidification time.
 
 $C'_1$ - Time in ms that a tip's timestamp can be *above* its solidification time.
 
-$C_2$ - Max difference between tip solidification time and parent bundle solidification timestamp.
+$C_2$ - Max difference between tip solidification time and approvee bundle solidification timestamp.
 
-$M$ - Max difference between tip solidification time and parent bundle signed timestamp.
+$M$ - Max difference between tip solidification time and approvee bundle signed timestamp.
 
 #### Definitions
 Let $t(x)$ be the signed timestamp and $r(x)$ the solidification time of transaction $x$. A tip will be marked as $v$ and its direct approved bundle tails are marked as $v_1$ and $v_2$. Let $M$ be some large constant. $otrs$ is `Oldest Transaction Root Snapshot`:
 
 #### Algorithm
 
-Score 0 will be given if one of the following is true:
+Score 0 (lazy) will be given if one of the following is true:
     
 1. $t(v)<r(v)-C_1$ or $t(v)>r(v)+C'_1$
 2. $r(v) - t(otrs(v))>M$
 3. All $v_i$ satisfy $r(v)-r(v_i) > C_2$
 4. if at least one $v_i$ has a score of 0 (to enforce monotonicity)
 
-Else Score 1 will be given if exactly one $v_i$ satisfies $r(v)-r(v_i) \leq C_2$
+Else Score 1 (somewhat lazy) will be given if exactly one $v_i$ satisfies $r(v)-r(v_i) \leq C_2$
 
-Else Score 2 will be given.
+Else Score 2 (not lazy) will be given.
 
 #### Recommended defaults
 
@@ -131,16 +132,16 @@ Let $lsmi$ be `Last solid milestone index`
 
 #### Algorithm
 
-Score 0  will be given if one of the following is true:
+Score 0 (lazy) will be given if one of the following is true:
  
 1. $lsmi-ytrsi(v)>C_1$    
 2. $lsmi-otrsi(v)>M$    
 3. both $v_i$ satisfy $lsmi-otrsi(v_i)>C_2$
 4. at least one $v_i$ has a score of 0 (to enforce monotonicity)
 
-Else Score 1 will be given if exactly one $v_i$ satisfies $lsmi -otrsi(v_i) \leq C_2$
+Else Score 1 (somewhat lazy) will be given if exactly one $v_i$ satisfies $lsmi -otrsi(v_i) \leq C_2$
 
-Else Score 2 will given.
+Else Score 2 (not lazy) will given.
 
 #### Performing the weighted random selection
 A node should have in memory the entire set of `tips` and their scores:
