@@ -1,6 +1,6 @@
 + Feature name: `white-flag`
 + Start date: 2020-03-06
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0005](https://github.com/iotaledger/protocol-rfcs/pull/5)
 
 # Summary
 
