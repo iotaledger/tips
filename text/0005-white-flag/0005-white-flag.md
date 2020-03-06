@@ -12,9 +12,9 @@ ignoring conflicts.
 The main motivations:
 
 - Defend against censorship attacks - Conflicts will no longer block bundles from being approved.
-- Make reattachments unneccessary - As long as the network is not saturated, theoretically all bundles should be
+- Make reattachments unnecessary - As long as the network is not saturated, theoretically all bundles should be
 approved. And no bundle will be left behind.
-- Increase TPS - Due to easy node tipselection the network throughput should increase.
+- Increase TPS - Due to easy node tip selection the network throughput should increase.
 - Increase CTPS - Due to the above, increase in TPS and no left-behinds, we expect CTPS to increase as well.
 
 # Detailed design
@@ -29,14 +29,10 @@ When a milestone is accepted by a node then the following algorithm to mutate th
 Stop at the transactions that has only approved parents.
 - Start applying bundles to the diffmap only as you go up the recursion stack (when you climb up back from the leafs).
 - Every time you attempt to apply a bundle to the diffmap:
-If it is invalid mark it as seen and ignored by the milestone.
+If it is invalid, mark it as seen and ignored by the milestone.
 If it is valid and not conflicting with the current state then apply it to the ledger state. Mark it as seen and
 approved.
-If it is valid but conflicting with the current state then place it in an ordered Conflict Set.
-- Local overdraft handling: After you are done traversing the subtangle attempt to apply again the conflicting bundles.
-Iterate the Conflict Set in order and attempt to apply the bundles to the ledger state. Mark the applied bundles as seen
-and approved. Remove applied bundles from the set. Repeat this step until the Conflict Set size doesn't change and mark
-the remaining bundles of the set as seen and ignored.
+If it is valid but conflicting with the current state, mark it as seen and ignored by the milestone.
 
 Note Once a bundle is marked as ignored/seen/approved this will be final and it can't be changed by a later milestone
 that comes in.
