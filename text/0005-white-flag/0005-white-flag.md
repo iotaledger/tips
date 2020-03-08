@@ -4,15 +4,13 @@
 
 # Summary
 
-<!-- TODO -->
+This RFC is part of a set of protocol changes, [Chrysalis](https://roadmap.iota.org/chrysalis), aiming at improving
+the network before [Coordicide](https://coordicide.iota.org/) is complete.
 
-This RFC is part of a set of protocol improvements that are possible in a pre-coordicide context.
+The feature presented in this RFC, White Flag, allows milestones to confirm conflicting bundles by enforcing
+deterministic ordering of the tangle and applying only the first bundle(s) that does not violate the ledger state.
 
-The feature presented in this RFC, called White Flag, is a modification of the requirements on milestone issuing rules
-that allows them to confirm conflicting bundles and allows nodes to compute the ledger state by deterministically
-ordering the bundles and ignoring conflicts.
-
-The RFC is based on [Conflict white flag: Mitigate conflict spamming by ignoring conflicts](https://iota.cafe/t/conflict-white-flag-mitigate-conflict-spamming-by-ignoring-conflicts/233).
+The content of this RFC is based on [Conflict white flag: Mitigate conflict spamming by ignoring conflicts](https://iota.cafe/t/conflict-white-flag-mitigate-conflict-spamming-by-ignoring-conflicts/233).
 
 # Motivation
 
