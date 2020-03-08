@@ -30,6 +30,8 @@ approved. And no bundle will be left behind.
 
 ![][tangle]
 
+![][tangle-conflict]
+
 Let's define a conflicting bundle as a bundle that leads to a negative balance on an address if applied to the current
 ledger state.
 
@@ -49,6 +51,7 @@ Note Once a bundle is marked as ignored/seen/approved this will be final and it 
 that comes in.
 
 [tangle]: img/tangle.svg
+[tangle-conflict]: img/tangle-conflict.svg
 
 # Drawbacks
 
