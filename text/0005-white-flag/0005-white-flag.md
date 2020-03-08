@@ -4,10 +4,19 @@
 
 # Summary
 
-Allow milestones to confirm conflicting bundles. Mutate the ledger state by deterministically ordering the bundles and
-ignoring conflicts.
+<!-- TODO -->
+
+This RFC is part of a set of protocol improvements that are possible in a pre-coordicide context.
+
+The feature presented in this RFC, called White Flag, is a modification of the requirements on milestone issuing rules
+that allows them to confirm conflicting bundles and allows nodes to compute the ledger state by deterministically
+ordering the bundles and ignoring conflicts.
+
+The RFC is based on [Conflict white flag: Mitigate conflict spamming by ignoring conflicts](https://iota.cafe/t/conflict-white-flag-mitigate-conflict-spamming-by-ignoring-conflicts/233).
 
 # Motivation
+
+<!-- TODO -->
 
 The main motivations:
 
@@ -18,6 +27,10 @@ approved. And no bundle will be left behind.
 - Increase CTPS - Due to the above, increase in TPS and no left-behinds, we expect CTPS to increase as well.
 
 # Detailed design
+
+<!-- TODO -->
+
+![][tangle]
 
 Let's define a conflicting bundle as a bundle that leads to a negative balance on an address if applied to the current
 ledger state.
@@ -37,7 +50,11 @@ If it is valid but conflicting with the current state, mark it as seen and ignor
 Note Once a bundle is marked as ignored/seen/approved this will be final and it can't be changed by a later milestone
 that comes in.
 
+[tangle]: img/tangle.svg
+
 # Drawbacks
+
+<!-- TODO -->
 
 - If we ever want to supply a proof that a value transfer is valid and approved, we can't do so by merely supplying the
 path from the bundle to the approving milestone as before. A proof will require to have all the transactions that are in
@@ -48,7 +65,11 @@ malicious data will be saved as part of the consensus set of the tangle.
 
 # Rationale and alternatives
 
+<!-- TODO -->
+
 # Unresolved questions
+
+<!-- TODO -->
 
 Since nodes will try to sort out conflicts themselves perhaps it will be wise to add more protection against forks.
 In a separate RFC we can maybe define additional data that can be added to milestones to prevent that.
