@@ -45,7 +45,7 @@ deterministic ordering of the Tangle.
 First, this RFC propose a deterministic ordering of the Tangle, then it explain which bundle is selected in case of
 conflict.
 
-## Deterministic ordering of the Tangle
+## Deterministically ordering the Tangle
 
 When a new milestone is broadcasted to the network, nodes will need to order the set of bundles it confirms that are
 not already confirmed by any other milestone.
@@ -61,26 +61,24 @@ is considered, the stopping condition of the DFS is reaching bundles that are al
 
 ![][Tangle]
 
-For example: the topological ordering of the set of bundles confirmed by milestone `V` (purple set) is then
+In this example, the topological ordering of the set of bundles confirmed by milestone `V` (purple set) is then
 `{D, G, J, L, M, R, I, K, N, O, S, V}`.
 
 ## Applying first bundle(s) that does not violate the ledger state
 
-<!-- TODO -->
+If a conflict is occurring in the set of bundles confirmed by a milestone, nodes have to apply the first (with regards
+to the order previously proposed) of the conflicting bundles to the ledger and ignore all the others.
 
-If a conflict was occurring in this set, nodes would confirm the first of the conflicting bundles and ignore the others.
+Once a bundle is marked as ignored, this is final and can't be changed by a later milestone.
 
-- Start applying bundles to the diffmap only as you go up the recursion stack (when you climb up back from the leafs).
-- Every time you attempt to apply a bundle to the diffmap:
-If it is invalid, mark it as seen and ignored by the milestone.
-If it is valid and not conflicting with the current state then apply it to the ledger state. Mark it as seen and
-approved.
-If it is valid but conflicting with the current state, mark it as seen and ignored by the milestone.
-
-Note Once a bundle is marked as ignored/seen/approved this will be final and it can't be changed by a later milestone
-that comes in.
+Since the ledger state is maintained from one milestone to another, a bundle conflicting with another bundle already
+confirmed by a previous milestone would also obviously be ignored.
 
 ![][Tangle-conflict]
+
+In this example, bundles `G` and `O` both confirmed by milestone `V` are conflicting. Since in the topologically ordered
+set `{D, G, J, L, M, R, I, K, N, O, S, V}`, `G` appears before `O`, `G` is applied to the ledger state and `O` is
+ignored.
 
 ## Pseudo-code
 
