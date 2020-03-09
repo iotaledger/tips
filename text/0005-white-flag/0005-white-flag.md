@@ -140,7 +140,12 @@ malicious data will be saved as part of the consensus set of the Tangle.
 
 # Rationale and alternatives
 
-<!-- TODO -->
+A transaction that chooses tips to approve, first performs tip selection to get these tips,
+then in order for that transaction to be valid it must not approve two different tips which 
+conflicts each other, asserting that two tips are not conflicting requires validating the ledger state
+upon applying each of the transactions in the cone spanned by the selected tips, which is expensive
+since tip selection is done also by the coordinator it affects the CTPS, discarding this check
+by allowing conflicting bundles to coexist should result in CTPS increase
 
 # Unresolved questions
 
