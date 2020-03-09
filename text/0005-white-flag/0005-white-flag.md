@@ -84,7 +84,42 @@ that comes in.
 
 ## Pseudo-code
 
-<!-- TODO -->
+The below algorithm describes the process of updating the ledger state, updating the ledger state can be done whenever 
+there are new known confirmed transactions, an arrival of a new milestone should trigger the update of the ledger state 
+since the new milestone confirms many new transactions
+
+Though the tangle is a graph made of transactions, we would like for the sake of this algorithm to consider it as a graph
+of bundles where bundle is merely a collection of transactions sharing the same `bundle_hash` field and
+pointing to each other via `trunk`  
+
+
+UpdateLedgerState(newMilestone){
+
+
+      let ledger be our global ledger state object
+      let curr_bundle be the first bundle pointed by newMilestone's trunk
+      let seen_bundles be stack
+      seen_bundles.push( curr_bundle ) 
+      mark curr_bundle as visited.
+      while ( seen_bundles is not empty):
+         curr_bundle  =  seen_bundles.top( )
+         seen_bundles.pop( )
+         
+         if (!ledger.conflicts(curr_bundle)){
+             ledger.apply(curr_bundle)
+         }
+         
+        let bundle_trunk be the next bundle pointed by the trunk of the last transaction in curr_bundle
+            if bundle_trunk is not visited :
+                     seen_bundles.push( bundle_trunk )         
+                    mark bundle_trunk as visited
+                    
+        let bundle_branch be the next bundle pointed by the branch of any transaction in curr_bundle
+            if bundle_branch is not visited :
+                     seen_bundles.push( bundle_branch )         
+                    mark bundle_branch as visited
+                    
+}
 
 [Tangle]: img/tangle.svg
 [Tangle-conflict]: img/tangle-conflict.svg
