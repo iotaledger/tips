@@ -94,12 +94,17 @@ to each other via `trunk`.
 
 ```
 UpdateLedgerState(newMilestone) {
+ 
+    //newMilestone is a bundle containing the milestone transactions
     let ledger be our global ledger state object
-    let curr_bundle be the first bundle pointed by newMilestone's trunk
+    let bundle_trunk be the first bundle pointed by the trunk of the last transaction in newMilestone
+    let bundle_branch be the first bundle pointed by the branch of any transaction in newMilestone
     let seen_bundles be stack
 
-    seen_bundles.push(curr_bundle)
-    mark curr_bundle as visited
+    seen_bundles.push(bundle_trunk)
+    mark bundle_trunk as visited
+    seen_bundles.push(bundle_branch)
+    mark bundle_branch as visited
 
     while (seen_bundles is not empty) {
         curr_bundle = seen_bundles.top()
@@ -110,13 +115,13 @@ UpdateLedgerState(newMilestone) {
         }
 
         let bundle_trunk be the next bundle pointed by the trunk of the last transaction in curr_bundle
-        if (bundle_trunk is not visited) {
+        if (bundle_trunk is not visited and not confirmed by any milestone previous to newMilestone) {
             seen_bundles.push(bundle_trunk)
             mark bundle_trunk as visited
         }
 
         let bundle_branch be the next bundle pointed by the branch of any transaction in curr_bundle
-        if (bundle_branch is not visited) {
+        if (bundle_branch is not visited and not confirmed by any milestone previous to newMilestone) {
             seen_bundles.push(bundle_branch)
             mark bundle_branch as visited
         }
