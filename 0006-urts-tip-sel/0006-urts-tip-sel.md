@@ -4,7 +4,7 @@
 
 # Summary
 
-(almost) Uniform Random Tip Selection on a subset tip-selection enables a node to perform fast tip-selection to increase transaction throughput.
+(almost) Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase transaction throughput.
 The algorithm selects tips which are non-lazy in order to maximize confirmation rate.
 
 # Motivation
