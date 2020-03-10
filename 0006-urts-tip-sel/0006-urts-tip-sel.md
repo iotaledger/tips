@@ -47,6 +47,9 @@ and purple transactions are the `Confirmed Root Transactions`.
 
 ### Milestone based tip scoring
 
+The milestone based scoring defines a tip's score by investigating the tip's relation to
+the cone it approves and previous issued  milestones.
+
 A tip can have one of 3 score states:
 * `0`: The tip is lazy and should not be selected.
 * `1`: The tip is somewhat lazy.
@@ -96,7 +99,7 @@ func score(tip Tip) Score {
     for (i := 0; i < 2; i++) {
         approvee := approvees[i]
     
-        // a direct approvee is already lazy, therefore so is this tip
+        // direct approvee is already lazy, therefore so is this tip
         if (approvee.Score == 0) {
             return Score.LAZY
         }
@@ -121,9 +124,40 @@ func score(tip Tip) Score {
 }
 ```
 
+### Weighted Random Tip-Selection
+
+Given the scoring, a node should keep a set of tips with their associated score.
+
+Tip-Selection (pseudo code):
+```
+
+var tips = Set(tips_and_score)
+
+func select() Tip {
+    // compute the sum of the score of all tips
+    scoreSum := tips.ScoreSum()
+    
+    // get a random number between 1 and the score sum
+    r := rand.Int(1, scoreSum)
+    
+    // iterate over the tips set and subtract each tip's score from r
+    for (i := 0; i < tips.length; i++){
+        // subtract the tip's score from r
+        r -= tips[i].Score
+        // if r reaches zero or below, we return the given tip
+        if (r <= 0) {
+            return tips[i] 
+        }
+    }
+    
+    // no tips
+    return null
+}
+```
+
 # Drawbacks
 
-Why should we *not* do this?
+
 
 # Rationale and alternatives
 
