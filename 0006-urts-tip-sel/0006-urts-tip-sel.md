@@ -21,6 +21,9 @@ rate of newly confirmed transactions when a milestone is issued.
 # Detailed design
 
 Definitions:
+* `Direct Approvers` are the set of transactions which directly approve a given transaction.
+* `Approvee` is the directly approved transaction of a given transaction.
+Example: the trunk/branch transactions are the approvees of a given transaction.
 * A `tip` is a tail transaction of a bundle without any approvers.
 * A `score` is a scoring  determining the likeliness to select a given `tip`.
 * `Confirmed Root Transactions` defines the set of first seen transactions which are confirmed by a previous milestone 
@@ -28,14 +31,95 @@ when we walk the past cone of a given transaction. The walk stops on confirmed t
 Yellow = `Confirmed Root Transactions` for PoV transaction, Red = Milestone, Blue = PoV transaction.
 ![sdf](./images/cnf_tx_roots.PNG)
 * `Transaction Snapshot Index (TSI)` defines the index of the milestone which confirmed a given transaction.
-* `Oldest Transaction Root Snapshot Index (OTRSI)` defines the lowest milestone index of a given set of
+* `Oldest Transaction Root Snapshot Index (OTRSI)` defines the lowest milestone index of a set of
 `Confirmed Root Transactions` of a given transaction.
-* `Youngest Transaction Root Snapshot Index (YTRSI)` defines the highest milestone index of a given set of
+* `Youngest Transaction Root Snapshot Index (YTRSI)` defines the highest milestone index of a set of
 `Confirmed Root Transactions` of a given transaction.
+* `Latest Solid Milestone Index (LSMI)` the index of the latest solid milestone.
+* `Below Max Depth (BDM)` defines a threshold value up on which it is decided on whether a transaction is not
+relevant in relation to the recent parts of the Tangle. The current `BDM` for mainnet nodes is 15 milestones, 
+which means that transactions of which their `OTRSI` is more than 15, are "below max depth".
 
-OTRSI / YTRSI example:
-Given the blue point of view transaction, the `OTRSI` of it is milestone 1 and `YTRSI` milestone 2.
+### OTRSI / YTRSI example:
+Given the blue PoV transaction, the `OTRSI` of it is milestone 1 and `YTRSI` milestone 2. The orange
+and purple transactions are the `Confirmed Root Transactions`.
 ![sdf](./images/otrsi_ytrsi.PNG)
+
+### Milestone based tip scoring
+
+A tip can have one of 3 score states:
+* `0`: The tip is lazy and should not be selected.
+* `1`: The tip is somewhat lazy.
+* `2`: The tip is a non-lazy tip.
+
+Definitions:
+* `C1`: Max allowed delta value for the `YTRSI` of a given transaction in relation to the current `LSMI`.
+* `C2`: Max allowed delta value between `OTRSI` of the approvees of a given transaction in relation to the current `LSMI`. 
+* `M`: Max allowed delta value between `OTRSI` of the given transaction in relation to the current `LSMI`.
+`M` is the `below max depth (BMD)` parameter.
+
+Recommended defaults:
+* `C1` = 2 milestones
+* `C2` = 7 milestones
+* `M` = 15 milestones
+
+Scoring Algorithm (pseudo code):
+```
+
+enum Score (
+    LAZY = 0
+    SEMI_LAZY = 1
+    NON_LAZY = 2
+)
+
+const (
+    C1 = 2
+    C2 = 7
+    M = 15
+)
+
+func score(tip Tip) Score {
+    
+    // if the LSMI to YTRSI delta is over C1, then the tip is lazy
+    if (LSMI - YTRSI(tip) > C1) {
+        return Score.LAZY
+    }
+    
+    // if the OTRSI to LSMI delta is over M/below-max-depth, then the tip is lazy
+    if (LSMI - OTRSI(tip) > M) {
+        return Score.LAZY
+    }
+    
+    // the approvees (trunk and branch) are the tail transactions this tip approves
+    approvees := tip.Approvees()
+    approveesOTRSICheck := 2
+    for (i := 0; i < 2; i++) {
+        approvee := approvees[i]
+    
+        // a direct approvee is already lazy, therefore so is this tip
+        if (approvee.Score == 0) {
+            return Score.LAZY
+        }
+        
+        // if the OTRSI to LSMI delta of the approvee is C2, we mark it as such
+        if (LSMI - OTRSI(approvee) > C2) {
+            approveesOTRSICheck--
+        }
+    }
+
+    // if both approvees' OTRSI violates the LSMI delta in relation to C2 the tip is lazy too
+    if (approveesOTRSICheck == 0) {
+        return Score.LAZY
+    }
+    
+    // if only one of the approvees violated the OTRSI to LMSI delta, the tip is considered semi-lazy
+    if (approveesOTRSICheck == 1) {
+        return Score.SEMI_LAZY
+    }
+
+    return Score.NON_LAZY
+}
+```
 
 # Drawbacks
 
