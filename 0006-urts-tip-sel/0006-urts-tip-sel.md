@@ -4,7 +4,7 @@
 
 # Summary
 
-URTS tip-selection enables a node to perform fast tip-selection to increase transaction throughput.
+(almost) Uniform Random Tip Selection on a subset tip-selection enables a node to perform fast tip-selection to increase transaction throughput.
 The algorithm selects tips which are non-lazy in order to maximize confirmation rate.
 
 # Motivation
@@ -40,7 +40,7 @@ Yellow = `Confirmed Root Transactions` for PoV transaction, Red = Milestone, Blu
 relevant in relation to the recent parts of the Tangle. The current `BDM` for mainnet nodes is 15 milestones, 
 which means that transactions of which their `OTRSI` is more than 15, are "below max depth".
 
-### OTRSI / YTRSI example:
+### OTRSI / YTRSI example
 Given the blue PoV transaction, the `OTRSI` of it is milestone 1 and `YTRSI` milestone 2. The orange
 and purple transactions are the `Confirmed Root Transactions`.
 ![sdf](./images/otrsi_ytrsi.PNG)
@@ -157,21 +157,32 @@ func select() Tip {
 
 # Drawbacks
 
-
+Depending on when and how often `YTRSI`/`OTRSI` values are computed, this tip-selection could still
+have a slow runtime, as one would need to constantly walk down the Tangle in order to compute those
+values. However, smart caching might resolve this issue. 
 
 # Rationale and alternatives
 
-- Why is this design the best in the space of possible designs?
-- What other designs have been considered and what is the rationale for not
-  choosing them?
-- What is the impact of not doing this?
+The previous tip-selection was written in accordance to the original IOTA whitepaper, as it also
+functioned as the consensus mechanism to determine a transaction's confirmation rate.
+However, relatively soon it became apparent that the cumulative weight computation was too heavy
+for an actual high throughput scenario and as such, the CW calculation is currently not used within
+node implementations at all.
+
+Because confirmations with the `white-flag` approach no longer only approve cones with state mutations
+which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide 
+a fast way to get tips to approve with one's own transaction.
+The only important thing is to disincentive lazy behaviour in order to be able to maximize confirmation rate.
 
 # Unresolved questions
 
-- What parts of the design do you expect to resolve through the RFC process
-  before this gets merged?
-- What parts of the design do you expect to resolve through the implementation
-  of this feature before stabilization?
-- What related issues do you consider out of scope for this RFC that could be
-  addressed in the future independently of the solution that comes out of this
-  RFC?
+#### When to compute the `YTRSI`/`OTRSI` of a transaction?
+It is not yet clear when or how often the `YTRSI`/`OTRSI` values of a transaction should be updated.
+If the values are only computed once after a transaction became solid, the `YTRSI`/`OTRSI` might not
+resemble the true values, as subsequent milestones might confirm transactions within the same cone the
+given transaction approved.
+
+However, one can argue that the `YTRSI`/`OTRSI` don't shift by that much in
+such case, so that it is fine to compute them only up on solidification of a given transaction.
+This assumption builds up on the fact, that the Coordinator wouldn't confirm transactions
+in such depth that it would cause the origin values to differ by much from the newly computed values.
