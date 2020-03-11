@@ -1,6 +1,6 @@
-+ Feature name: `urts-tip-sel`
++ Feature name: `urts-subset-tip-sel`
 + Start date: 2020-03-09
-+ RFC PR: [iotaledger/protocol-rfcs#0006](https://github.com/iotaledger/protocol-rfcs/pull/0006)
++ RFC PR: [iotaledger/protocol-rfcs#0008](https://github.com/iotaledger/protocol-rfcs/pull/0008)
 
 # Summary
 
