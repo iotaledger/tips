@@ -1,10 +1,10 @@
-+ Feature name: `urts-subset-tip-sel`
++ Feature name: `weighted-uniform-tip-selection`
 + Start date: 2020-03-09
 + RFC PR: [iotaledger/protocol-rfcs#0008](https://github.com/iotaledger/protocol-rfcs/pull/0008)
 
 # Summary
 
-(almost) Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase transaction throughput.
+Weighted Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase transaction throughput.
 The algorithm selects tips which are non-lazy in order to maximize confirmation rate.
 
 # Motivation
