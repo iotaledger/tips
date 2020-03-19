@@ -19,17 +19,18 @@ The 243-trit (81-tryte) seed is used as input for the [Kerl](https://github.com/
 
 ### Generating the mnemonic from seed
 
-- Interpret the seed as a little-endian 243-trit string in balanced ternary and encode its first 242 trits as a 384-bit signed integer in big-endian two's complement representation (the most significant trit is ignored). [This exact conversion](https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md#trits---bytes-encoding) is also used as part of the current Kerl hash function.
-- Compute the SHA256 of the resulting bit string and use its first 384/32=12 bits as the checksum.
-- This checksum is appended to the end of the initial result, making it a 396-bit string.
+- Interpret the IOTA seed as a little-endian 243-trit balanced ternary integer, assure that its most significant trit is 0 and encode the number as a 384-bit signed integer in big-endian two's complement representation. [This exact conversion](https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md#trits---bytes-encoding) is also used as part of the current Kerl hash function.
+- Compute the [SHA-256](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf) hash of the resulting bit string and use its first 384/32=12 bits as the checksum.
+- The 12-bit checksum is appended to the end of the initial result, making it a 396-bit string.
 - These concatenated bits are split into 36 groups of 11 bits, each encoding a number from 0-2047, corresponding to an index into the wordlist.
 - Finally, convert these numbers into words of any one of the [BIP-0039 wordlists](https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md) and use the joined words as a mnemonic sentence.
 
 ### Generating the seed from mnemonic
 
-- First, convert the mnemonic sentence into its corresponding 396-bit string.
-- Check the 12-bit checksum of the first 384-bits.
-- Finally, convert the 384-bit string back to a little-endian 243-trit string in balanced ternary representation where the last trit is set to 0.
+- Convert the 36-word mnemonic sentence into its corresponding 396-bit string, by taking the 11-bit wordlist index for each word and concatenating all the bits.
+- Split the resulting bit string into 384-bit entropy and 12-bit checksum.
+- Verify that the checksum corresponds to the first bits of the SHA-256 hash of the entropy.
+- Convert the 384-bit entropy, interpreted as a signed integer in big-endian two's complement representation, back to a little-endian 243-trit balanced ternary integer. (The most significant trit will always be zero.) This corresponds to the usual 243-trit or 81-tryte IOTA seed.
 
 ## Examples
 
