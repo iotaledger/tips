@@ -4,7 +4,7 @@
 
 # Summary
 
-The IOTA protocol uses a 81-tryte seed to derive all the private keys for one account. This RFC describes a method to represent that seed as a mnemonic sentence -- a group of easily comprehensible words. 
+The IOTA protocol uses a 81-tryte seed to derive all the private keys for one account. This RFC describes a method to represent that seed as a mnemonic sentence - a group of easily comprehensible words. 
 
 # Motivation
 
@@ -43,7 +43,7 @@ The 243-trit (81-tryte) seed is used as input for the [Kerl](https://github.com/
 # Drawbacks
 
 - This RFC describes a way to represent computer-generated randomness in a human-readable transcription. It is in no way meant to process user created sentences into a binary key. This technique is also sometimes called a "brain wallet" and must not be confused with these mnemonics. 
-- The mnemonics only encode 384 bits of entropy which only covers 242 trits. The 243rd trit will *not* be encoded and always padded with 0. This is perfectly fine, when Kerl is used to derive the private keys, since the Kerl hash function only works on the first 242 trits itself. However, other -- currently not used -- key derivation functions relaying on the full 243-trit entropy are *not* compatible with this RFC.
+- The mnemonics only encode 384 bits of entropy which only covers 242 trits. The 243rd trit will *not* be encoded and always padded with 0. This is perfectly fine, when Kerl is used to derive the private keys, since the Kerl hash function only works on the first 242 trits itself. However, other - currently not used - key derivation functions relaying on the full 243-trit entropy are *not* compatible with this RFC.
 
 # Rationale and alternatives
 
