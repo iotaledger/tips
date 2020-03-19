@@ -1,6 +1,6 @@
 + Feature name: `mnemonic-seed`
 + Start date: 2020-03-11
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0010](https://github.com/iotaledger/protocol-rfcs/pull/10)
 
 # Summary
 
