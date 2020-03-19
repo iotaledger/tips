@@ -1,56 +1,58 @@
-+ Feature name: (fill me in with a unique ident, `my_awesome_feature`)
-+ Start date: (fill me in with today's date, YYYY-MM-DD)
++ Feature name: `mnemonic-seed`
++ Start date: 2020-03-11
 + RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
-+ (Optional) Node software implementation issues: 
-+  - [iotaledger/iri#0000](https://github.com/iotaledger/iri/issues/0000)
-+  - [iotaledger/bee#0000](https://github.com/iotaledger/bee/issues/0000)
 
 # Summary
 
-One paragraph explanation of the feature.
+The IOTA protocol uses a 81-tryte seed to derive all the private keys for one account. This RFC describes a method to represent that seed as a mnemonic sentence -- a group of easily comprehensible words. 
 
 # Motivation
 
-Why are we doing this? What use cases does it support? What is the expected
-outcome?
-
-1. Write a summary of the motivation.
-2. List all the specific use cases that your proposal is trying to address. 
-3. Where applicable, write from the perspective of the person who will be using
-   the software, for example using the "Job story" format:
-
-When ＿＿＿ , I want to ＿＿＿, so I can ＿＿＿.
-
-+ **Example 1:** When I query a node for a list of transactions, I want to be
-  able to sort them by date, so I can work with the most relevant ones.
-+ **Example 2:** When I configure a node, I want to be able to control how much
-  transaction history the node stores, so I can make sure I only store the data
-  I need without incurring additional operational costs.
+The used seed is a 384-bit or 243-trit random string. There are several ways to represent this in a human-readable form, but a mnemonic sentence is far superior to raw binary or ternary strings. These sentences can be written down on paper much more naturally or even be spoken over a phone.
+Furthermore, having raw strings tempts the user to copy and paste the seed. This practice opens new attack vectors such as theft or manipulation of the string in the clipboard.
 
 # Detailed design
 
-This is the bulk of the RFC. Explain the design in enough detail for somebody
-familiar with the IOTA and to understand, and for somebody familiar with Rust
-to implement. This should get into specifics and corner-cases, and include
-examples of how the feature is used.
+The [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) specification exactly describes an implementation for that use case and how to uniquely represent binary entropy using mnemonic words. However, it is only defined for binary input of 128 - 256 bits. In the following we will describe the canonical extension of BIP-0039 for longer inputs of 81 trytes or 384 bits.
+
+The 243-trit (81-tryte) seed is used as input for the [Kerl](https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md) hash function to derive the private keys. Therefore, it is first converted to a 384-bit string to be absorbed by [Keccak-384](https://keccak.team/keccak.html). As the set of all possible 243-trit strings is larger than the set of 384-bit strings, the most significant trit is fixed to zero before converting. This means that the 243rd of the seed is ignored and does not have any impact on the following key derivation and does not need to be considered for the encoding.
+
+### Generating the mnemonic from seed
+
+- Interpret the seed as a little-endian 243-trit string in balanced ternary and encode its first 242 trits as a 384-bit signed integer in big-endian two's complement representation (the most significant trit is ignored). [This exact conversion](https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md#trits---bytes-encoding) is also used as part of the current Kerl hash function.
+- Compute the SHA256 of the resulting bit string and use its first 384/32=12 bits as the checksum.
+- This checksum is appended to the end of the initial result, making it a 396-bit string.
+- These concatenated bits are split into 36 groups of 11 bits, each encoding a number from 0-2047, corresponding to an index into the wordlist.
+- Finally, convert these numbers into words of any one of the [BIP-0039 wordlists](https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md) and use the joined words as a mnemonic sentence.
+
+### Generating the seed from mnemonic
+
+- First, convert the mnemonic sentence into its corresponding 396-bit string.
+- Check the 12-bit checksum of the first 384-bits.
+- Finally, convert the 384-bit string back to a little-endian 243-trit string in balanced ternary representation where the last trit is set to 0.
+
+## Examples
+
+- Using the [English word list](https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt):
+  - IOTA seed (81-tryte): `TLEV9HDTGZOXIIGA9DZG9VAKAIUZKNIMAFUGGARTWPOGDLLVUFZZVAABXRMFPWJAYWBBHOERV9EZBAOJD`
+  - mnemonic (36-word): `forget small borrow baby wing law monkey fiber jealous canyon melt all order lift now fish mind index neither discover divert fit curtain raw wealth arrow frozen plug catalog public winner emerge pulse mixture cry arch`
+- Using the [Japanese word list](https://github.com/bitcoin/bips/blob/master/bip-0039/japanese.txt):
+  - IOTA seed (81-tryte): `KMQDKKLGGTPUBRJXYWLMQOIA9WIEWUAAJPASYPVAWOTYYH9JESDKPLVZIWITHDIUMLFEWQUQ9LHAV9GHC`
+  - mnemonic (36-word): `げどく　まもる　してい　ていへん　つめたい　ちつじょ　だいたい　てうち　まいにち　さゆう　よそく　がはく　ねらう　いちおう　くみあわせ　ふいうち　せつでん　きせい　すべて　きひん　しかい　さぎょう　うけたまわる　つとめる　おんしゃ　きかい　なやむ　たいせつ　うんこう　むすめ　いってい　ふめつ　そとづら　つくね　おいこす　ききて`
 
 # Drawbacks
 
-Why should we *not* do this?
+- This RFC describes a way to represent computer-generated randomness in a human-readable transcription. It is in no way meant to process user created sentences into a binary key. This technique is also sometimes called a "brain wallet" and must not be confused with these mnemonics. 
+- The mnemonics only encode 384 bits of entropy which only covers 242 trits. The 243rd trit will *not* be encoded and always padded with 0. This is perfectly fine, when Kerl is used to derive the private keys, since the Kerl hash function only works on the first 242 trits itself. However, other -- currently not used -- key derivation functions relaying on the full 243-trit entropy are *not* compatible with this RFC.
 
 # Rationale and alternatives
 
-- Why is this design the best in the space of possible designs?
-- What other designs have been considered and what is the rationale for not
-  choosing them?
-- What is the impact of not doing this?
+- BIP-0039 provides an industry standard to present computer generate, secure entropy in a way that can be "processed" by humans in a much less error-prune way. The word lists are chosen in a way to reduce ambiguity, as such, typos can either be autocorrected or corrected with the help of a dictionary. This is in contrast to a raw ternary (or binary) representation, where typos automatically lead to a completely new seed, changing and breaking all successive private keys.
+- Thanks to the integrated 12-bit checksum, it is even possible to detect whether one or more words have been exchanged completely.
+- Presenting the user with a tryte or hex string, will lead to situations in which the seed is copied into a text file, while human-readable words encourage the user to copy them on a piece of paper.
 
 # Unresolved questions
 
-- What parts of the design do you expect to resolve through the RFC process
-  before this gets merged?
-- What parts of the design do you expect to resolve through the implementation
-  of this feature before stabilization?
-- What related issues do you consider out of scope for this RFC that could be
-  addressed in the future independently of the solution that comes out of this
-  RFC?
+- This RFC does not cover usability aspects of entering mnemonics. Forcing the user to enter a mnemonic sentence and then discarding the input, due to one easily correctable typo in one word, would almost be as frustrating as typing a tryte string. Therefore, this must be combined with different usability improvements, e.g. only allow entering characters that lead to valid words or fix the word as soon as it can be unambiguously identified.
+- The BIP-0039 specification includes several word lists for different languages. Should these word lists be allowed or is it sufficient to only use the English list? 
+- The BIP-0039 specification only considers entropy between 128 and 256 bits, while this RFC extends it in an analogue way for 384 bits. Is it also relevant for certain use cases to extend this for 512 bits (or even longer)?
