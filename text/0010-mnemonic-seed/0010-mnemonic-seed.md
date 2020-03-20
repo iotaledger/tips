@@ -48,7 +48,7 @@ The 243-trit (81-tryte) seed is used as input for the [Kerl](https://github.com/
 
 # Rationale and alternatives
 
-- BIP-0039 provides an industry standard to present computer generate, secure entropy in a way that can be "processed" by humans in a much less error-prune way. The word lists are chosen in a way to reduce ambiguity, as such, typos can either be autocorrected or corrected with the help of a dictionary. This is in contrast to a raw ternary (or binary) representation, where typos automatically lead to a completely new seed, changing and breaking all successive private keys.
+- BIP-0039 provides an industry standard to present computer generated, secure entropy in a way that can be "processed" by humans in a much less error-prune way. The word lists are chosen in a way to reduce ambiguity, as such, typos can either be autocorrected or corrected with the help of a dictionary. This is in contrast to a raw ternary (or binary) representation, where typos automatically lead to a completely new seed, changing and breaking all successive private keys.
 - Thanks to the integrated 12-bit checksum, it is even possible to detect whether one or more words have been exchanged completely.
 - Presenting the user with a tryte or hex string, will lead to situations in which the seed is copied into a text file, while human-readable words encourage the user to copy them on a piece of paper.
 
