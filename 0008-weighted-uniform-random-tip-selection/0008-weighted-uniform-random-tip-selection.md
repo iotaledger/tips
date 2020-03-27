@@ -24,7 +24,9 @@ Definitions:
 * `Direct Approvers` are the set of transactions which directly approve a given transaction.
 * `Approvee` is the directly approved transaction of a given transaction.
 Example: the trunk/branch transactions are the approvees of a given transaction.
-* A `tip` is a tail transaction of a bundle without any approvers.
+* `Solid` means that the past cone of a given transaction exists in the database.
+* A `tail transaction` is the transaction at index zero of a bundle. Only a tail transaction can be a `tip`.
+* A `tip` is a solid tail transaction of a bundle without any approvers. Its past cone contains only structural valid bundles.
 * A `score` is a scoring  determining the likeliness to select a given `tip`.
 * `Confirmed Root Transactions` defines the set of first seen transactions which are confirmed by a previous milestone 
 when we walk the past cone of a given transaction. The walk stops on confirmed transactions.  
