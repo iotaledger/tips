@@ -72,14 +72,11 @@ by a previous milestone would also obviously be ignored.
 The following algorithm describes the process of updating the ledger state which is usually triggered by the arrival of
 a new milestone confirming many new bundles.
 
-Even though the tangle is a graph made of transactions, for the sake of this pseudo-code it is considered as a graph of
-bundles. For this reason, when the `trunk` and/or the `branch` of a bundle are mentioned, they are actually referring to
-the `trunk` and/or `branch` of the last transaction of the bundle.
-
-This algorithm is to be followed with care when implementing a node to avoid differences in the ledger state.
+Pseudo-code means that implementation details such as types, parameters, ..., are not important but that the logic has
+to be followed with care when implementing a node to avoid differences in the ledger state.
 
 ```
-update_ledger_state(ledger, milestone) {
+update_ledger_state(ledger, milestone, solid_entry_points) {
     s = new Stack()
     visited = new Set()
 
@@ -89,21 +86,33 @@ update_ledger_state(ledger, milestone) {
         curr = s.peek()
 
         // only apply if you reached a leaf or both approvees have been visited or confirmed by another milestone
-        if ((curr.trunk == null || visited.contains(curr.trunk) || curr.trunk.snapshot_index != milestone.index)
-          && ((curr.branch == null) || visited.contains(curr.branch) || curr.branch.snapshot_index != milestone.index)) {
+        if ((solid_entry_points.contains(curr.trunk) || visited.contains(curr.trunk) || curr.trunk.snapshot_index != milestone.index)
+          && (solid_entry_points.contains(curr.branch) || visited.contains(curr.branch) || curr.branch.snapshot_index != milestone.index)) {
             ledger.apply(curr)
             visited.add(curr)
             s.pop()
         }
-        else if (curr.trunk != null && !visited.contains(curr.trunk) && curr.trunk.snapshot_index == milestone.index) {
+        else if (!solid_entry_points.contains(curr.trunk)
+          && !visited.contains(curr.trunk)
+          && curr.trunk.snapshot_index == milestone.index) {
             s.push(curr.trunk)
         }
-        else if (curr.branch != null && !visited.contains(curr.branch) curr.branch.snapshot_index == milestone.index) {
+        else if (!solid_entry_points.contains(curr.branch)
+          && !visited.contains(curr.branch)
+          && curr.branch.snapshot_index == milestone.index) {
             s.push(curr.branch)
         }
     }
 }
 ```
+
+**Notes**:
+- Even though the tangle is a graph made of transactions, for the sake of this pseudo-code it is considered as a graph
+of bundles. For this reason, when the `trunk` and/or the `branch` of a bundle are mentioned, they are actually referring
+to the `trunk` and/or `branch` of the last transaction of the bundle.
+- `solid_entry_points` is a set of hashes that are considered solid even though we don't have them or their past in
+database. They often come from a snapshot file and allow a node to solidify without needing the full tangle history.
+The hash of the genesis transaction is also a solid entry point.
 
 ### Example
 
