@@ -38,6 +38,11 @@ deterministic ordering of the Tangle.
 First, this RFC propose a deterministic ordering of the Tangle, then it explain which bundle is selected in case of
 conflict.
 
+**Note: this RFC is about ledger computation only. For this reason, it assumes that the past cone of a milestone has
+already been confirmed and all the referenced bundles have been validated. However, in the event that an invalid bundle
+was encountered in the confirmation traversal, a node's expected behaviour would be to completely stop operations - and
+log the error - as it would mean the coordinator confirmed something it shouldn't have.**
+
 ## Deterministically ordering the Tangle
 
 When a new milestone is broadcasted to the network, nodes will need to order the set of bundles it confirms.
