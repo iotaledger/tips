@@ -90,21 +90,21 @@ update_ledger_state(ledger, milestone, solid_entry_points) {
     while (!s.empty()) {
         curr = s.peek()
 
-        // only apply if you reached a leaf or both approvees have been visited or confirmed by another milestone
-        if ((solid_entry_points.contains(curr.trunk) || visited.contains(curr.trunk) || curr.trunk.snapshot_index != milestone.index)
-          && (solid_entry_points.contains(curr.branch) || visited.contains(curr.branch) || curr.branch.snapshot_index != milestone.index)) {
+        // Only apply if a leaf has been reached or both approvees have been visited or confirmed by another milestone
+        if ((solid_entry_points.contains(curr.trunk) || visited.contains(curr.trunk) || curr.trunk.confirmation_index != milestone.index)
+          && (solid_entry_points.contains(curr.branch) || visited.contains(curr.branch) || curr.branch.confirmation_index != milestone.index)) {
             ledger.apply(curr)
             visited.add(curr)
             s.pop()
         }
         else if (!solid_entry_points.contains(curr.trunk)
           && !visited.contains(curr.trunk)
-          && curr.trunk.snapshot_index == milestone.index) {
+          && curr.trunk.confirmation_index == milestone.index) {
             s.push(curr.trunk)
         }
         else if (!solid_entry_points.contains(curr.branch)
           && !visited.contains(curr.branch)
-          && curr.branch.snapshot_index == milestone.index) {
+          && curr.branch.confirmation_index == milestone.index) {
             s.push(curr.branch)
         }
     }
@@ -118,6 +118,7 @@ to the `trunk` and/or `branch` of the last transaction of the bundle.
 - `solid_entry_points` is a set of hashes that are considered solid even though we don't have them or their past in
 database. They often come from a snapshot file and allow a node to solidify without needing the full tangle history.
 The hash of the genesis transaction is also a solid entry point.
+- `confirmation_index` is the index of the milestone that confirmed the bundle.
 
 ### Example
 
