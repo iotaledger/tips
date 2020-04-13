@@ -31,12 +31,12 @@ First, let's define what it means for a bundle to be:
 - ignored: it is confirmed but not applied;
 - conflicting: it would lead to an invalid ledger state if applied;
 
-In case of conflicting bundles with White Flag, a node applies only one bundle to the ledger state and ignore all the
+In case of conflicting bundles with White Flag, a node applies only one bundle to the ledger state and ignores all the
 others. For this to work, all the nodes need to be sure they are all applying the same bundle; hence, the need for a
 deterministic ordering of the Tangle.
 
-First, this RFC propose a deterministic ordering of the Tangle, then it explain which bundle is selected in case of
-conflict.
+First, this RFC proposes a deterministic ordering of the Tangle, then it explains which bundle is selected in case of
+conflicts.
 
 **Note: this RFC is about ledger computation only. For this reason, it assumes that the past cone of a milestone has
 already been confirmed and all the referenced bundles have been validated. However, in the event that an invalid bundle
