@@ -15,21 +15,21 @@ The content of this RFC is based on [Conflict white flag: Mitigate conflict spam
 # Motivation
 
 - Eliminates the [Conflict spamming attack](https://iota.cafe/t/conflict-spamming-attack/232);
-- As conflicts are ignored in the balance computation, they don’t need to be considered during tip selection of the
+- As conflicts are ignored in the balance computation, they do not need to be considered during tip selection of the
 nodes allowing much easier tip selection algorithms leading to increased TPS;
 - By using this approach in combination with an appropriate TSA, during regular use, no honest transaction will ever
 require re-attaching leading to increased CTPS;
-- Doesn't come with added computation complexity by integrating nicely into already existing algorithms;
+- Does not come with added computation complexity by integrating nicely into already existing algorithms;
 
 # Detailed design
 
-First, let's define what it means for a bundle to be:
+First, let's define what it means for a bundle A to be:
 
-- referenced (indirectly or not) by another bundle: it is in the past cone of this bundle;
-- confirmed: it is referenced by a milestone;
-- applied: it is confirmed and applied to the ledger state;
-- ignored: it is confirmed but not applied;
-- conflicting: it would lead to an invalid ledger state if applied;
+- referenced (indirectly or directly) by bundle B: A is contained in the past cone of B;
+- confirmed: A is referenced by a milestone;
+- applied: A is confirmed and applied to the ledger state;
+- ignored: A is confirmed but not applied;
+- conflicting: A would lead to an invalid ledger state if applied;
 
 In case of conflicting bundles with White Flag, a node applies only one bundle to the ledger state and ignores all the
 others. For this to work, all the nodes need to be sure they are all applying the same bundle; hence, the need for a
@@ -41,7 +41,7 @@ conflicts.
 **Note: this RFC is about ledger computation only. For this reason, it assumes that the past cone of a milestone has
 already been confirmed and all the referenced bundles have been validated. However, in the event that an invalid bundle
 was encountered in the confirmation traversal, a node's expected behaviour would be to completely stop operations - and
-log the error - as it would mean the coordinator confirmed something it shouldn't have.**
+log the error - as it would mean the coordinator confirmed something it should not have.**
 
 ## Deterministically ordering the Tangle
 
@@ -67,7 +67,7 @@ confirmed by another milestone.
 If a conflict is occurring in the set of bundles confirmed by a milestone, nodes have to apply the first - with regards
 to the order previously proposed - of the conflicting bundles to the ledger and ignore all the others.
 
-Once a bundle is marked as ignored, this is final and can't be changed by a later milestone.
+Once a bundle is marked as ignored, this is final and cannot be changed by a later milestone.
 
 Since the ledger state is maintained from one milestone to another, a bundle conflicting with a bundle already confirmed
 by a previous milestone would also obviously be ignored.
@@ -115,7 +115,7 @@ update_ledger_state(ledger, milestone, solid_entry_points) {
 - Even though the tangle is a graph made of transactions, for the sake of this pseudo-code it is considered as a graph
 of bundles. For this reason, when the `trunk` and/or the `branch` of a bundle are mentioned, they are actually referring
 to the `trunk` and/or `branch` of the last transaction of the bundle.
-- `solid_entry_points` is a set of hashes that are considered solid even though we don't have them or their past in
+- `solid_entry_points` is a set of hashes that are considered solid even though we do not have them or their past in
 database. They often come from a snapshot file and allow a node to solidify without needing the full tangle history.
 The hash of the genesis transaction is also a solid entry point.
 - `confirmation_index` is the index of the milestone that confirmed the bundle.
