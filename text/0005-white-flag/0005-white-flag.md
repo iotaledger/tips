@@ -23,7 +23,7 @@ require re-attaching leading to increased CTPS;
 
 # Detailed design
 
-First, let's define what it means for a bundle A to be:
+First, let us define what it means for a bundle A to be:
 
 - referenced (indirectly or directly) by bundle B: A is contained in the past cone of B;
 - confirmed: A is referenced by a milestone;
