@@ -15,7 +15,7 @@ performing algorithm can be used to select tips, which in turn increases overall
 
 In order to maximize confirmation rate however, the algorithm needs to return tips which are `non-lazy`.
 Non-lazy in this context means, that a tip does not attach to a cone of transactions which is too far
-in the past, as such cone is likely to be already confirmed and therefore doesn't contribute to the
+in the past, as such cone is likely to be already confirmed and therefore does not contribute to the
 rate of newly confirmed transactions when a milestone is issued.
 
 # Detailed design
@@ -31,6 +31,7 @@ Example: the trunk/branch transactions are the approvees of a given transaction.
 * `Confirmed Root Transactions` defines the set of first seen transactions which are confirmed by a previous milestone 
 when we walk the past cone of a given transaction. The walk stops on confirmed transactions.  
 Yellow = `Confirmed Root Transactions` for PoV transaction, Red = Milestone, Blue = PoV transaction.
+Note that the red marked milestone is also a `confirmed root transaction`.
 ![sdf](images/cnf_tx_roots.PNG)
 * `Transaction Snapshot Index (TSI)` defines the index of the milestone which confirmed a given transaction.
 * `Oldest Transaction Root Snapshot Index (OTRSI)` defines the lowest milestone index of a set of
@@ -43,8 +44,8 @@ relevant in relation to the recent parts of the Tangle. The current `BMD` for ma
 which means that transactions of which their `OTRSI` is more than 15, are "below max depth".
 
 ### OTRSI / YTRSI example
-Given the blue PoV transaction, the `OTRSI` of it is milestone 1 and `YTRSI` milestone 2. The orange
-and purple transactions are the `Confirmed Root Transactions`.
+Given the blue PoV transaction, the `OTRSI` of it is milestone 1 and `YTRSI` milestone 2.
+The orange/purple transactions and the red milestones are the `Confirmed Root Transactions`.
 ![sdf](images/otrsi_ytrsi.PNG)
 
 ### Milestone based tip scoring
@@ -128,14 +129,21 @@ func score(tip Tip) Score {
 
 ### Weighted Random Tip-Selection
 
-Given the scoring, a node should keep a set of tips with their associated score.
+Given the scoring, a node should keep a set of semi-/non-lazy tips with their associated score.
+A node must not execute tip-selection if it is not synchronized.
 
 Tip-Selection (pseudo code):
 ```
 
+// a set which contains only semi- and non-lazy tips
 var tips = Set(tips_and_score)
 
 func select() Tip {
+    // if we have no semi-/non-lazy tips, we return null
+    if (tips.length == 0) {
+        return null
+    }
+
     // compute the sum of the score of all tips
     scoreSum := tips.ScoreSum()
     
@@ -184,7 +192,7 @@ If the values are only computed once after a transaction became solid, the `YTRS
 resemble the true values, as subsequent milestones might confirm transactions within the same cone the
 given transaction approved.
 
-However, one can argue that the `YTRSI`/`OTRSI` don't shift by that much in
+However, one can argue that the `YTRSI`/`OTRSI` do not shift by that much in
 such case, so that it is fine to compute them only up on solidification of a given transaction.
-This assumption builds up on the fact, that the Coordinator wouldn't confirm transactions
+This assumption builds up on the fact, that the Coordinator would not confirm transactions
 in such depth that it would cause the origin values to differ by much from the newly computed values.
