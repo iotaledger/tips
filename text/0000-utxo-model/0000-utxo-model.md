@@ -8,13 +8,11 @@ The IOTA protocol uses an account model to keep track of the balances in the led
 
 # Motivation
 
-Switching to a voting-based consensus requires a fast and easy way to determine a nodes initial opinion for every received transaction. We need to be able to detect double spends and transactions that try to spend non-existing funds.
+Switching to a voting-based consensus requires a fast and easy way to determine a nodes initial opinion for every received transaction. This includes the ability to detect double spends and transactions that try to spend non-existing funds.
 
-The current way of calculating the ledger state - by summing up all the balance changes in a transactions past cone - does not scale very well and does not allow us to detect double spends efficiently: We would have to constantly perform tip selections and "hope" that we happen to combine two "eventually" conflicting subtangles. 
+The current way of calculating the ledger state - by summing up all the balance changes in a transactions past cone - does not scale very well because it requires loading and analyzing a large amount of transactions. Furthermore, it lacks a reliable way of detecting double spends: We would have to constantly perform tip selections and "hope" that we happen to combine two "eventually" conflicting subtangles. 
 
-The UTXO model uses a different form of record keeping which enables the validation of transactions in constant time `O(1)`. 
-
-In addition, the proposed model vastly improves the "expressiveness" of the ledger state and enables things like:
+The UTXO model uses a different form of record keeping which enables the validation of transactions in constant time `O(1)` and vastly improves the "expressiveness" of the ledger state by enabling things like:
 
 + **Colored Coins:** IOTA tokens can be marked with a certain "color". This color is retained throughout transfers and gives the tokens a certain "meaning" (i.e. tokenized assets, ressource- and access-tokens ...).
   
@@ -28,10 +26,11 @@ In addition, the proposed model vastly improves the "expressiveness" of the ledg
     + regulatory compliant tokenized assets
     
     + and much more ...
-    
-+ **Algorithmic optimizations:** The UTXO model creates a DAG that represents the flow of funds. Having access to such a precise representation of the movements of funds enables several algorithmic optimization when managing the ledger state (see [branch based ledger state](http://eierkopf.de)). 
 
 # Detailed design
+
+Instead of simply keeping track of the balances on an address, the UTXO model stores every single balance that was created.
+
 
 This is the bulk of the RFC. Explain the design in enough detail for somebody
 familiar with the IOTA and to understand, and for somebody familiar with Rust
