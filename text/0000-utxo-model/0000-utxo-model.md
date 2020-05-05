@@ -43,14 +43,14 @@ by a small committee of validators but by everybody. This will enable things lik
 
 Instead of keeping track of aggregated balances per address, the **Unspent Transaction (TX) Output** model stores
 balances associated to **outputs** that are the result of individual transactions moving funds and that can be addressed
-and spent individually. This allows us to exactly specify which funds are getting moved even if multiple parties are
+and spent individually. This allows to exactly specify which funds are getting moved even if multiple parties are
 funding an address in parallel.
 
 A transaction moving funds consists out of three building blocks:
 
 - the ``Inputs`` which defines a list of ``OutputIDs`` that reference the *consumed* ``Outputs`` from previous transactions
 or the genesis.
-- the ``Outputs`` which defines where the consumed tokens are moved.
+- the ``Outputs`` which defines where and how many of the consumed tokens are moved.
 - the ``Unlock Section`` that contains data used to *unlock* the consumed inputs and *authorize* spends (usually just
 the address signatures - more on that later).
 
@@ -60,58 +60,57 @@ The following diagram shows how transactions consume outputs as inputs to create
 
 ### Output IDs
 
-The transaction ID that created the output together with some _additional identifier_ that distinguishes
-different outputs from the same transaction uniquely identifies every output.
+The transaction ID that creates the output together with some _additional identifier_ that distinguishes different
+outputs from the same transaction uniquely identifies every output.
 
-Bitcoin (who introduced the UTXO model) uses the
-numerical index of the output inside a transaction as this *additional identifier*. It does not actually have a concept
-of balances belonging to addresses, and providing a signature for a certain address is simply a special type of
-*unlocking condition* for this particular output. This is a very generic way of keeping track of balances that is to a
-certain degree even agnostic to the use of addresses as the main way of interacting with such a system.
+Bitcoin (who introduced the UTXO model) uses the numerical index of the output inside a transaction as this
+*additional identifier*. It does not actually have a concept of balances belonging to addresses, and providing a
+signature for a certain address is simply a special type of *unlocking condition* for this particular output. This is a
+very generic way of keeping track of balances that is to a certain degree even agnostic to the use of addresses as the
+main way of interacting with such a system.
 
 Even though Bitcoin has this kind of inherent agnosticism towards using addresses, it has proven to be extremely
 beneficial to at least have some form of *logical identifier* that groups related outputs together and that can also be
 used to *authorize* payments in the form of address signatures. It is for that very reason that the predominant part of
 transaction executed on today's DLTs make use of addresses.
 
-To build a bridge between the two worlds of *UTXO-* and *account-based* ledgers, we define our UTXO variant to use
-addresses as this additional identifier:
+To build a bridge between the worlds of *UTXO-* and *account-based* ledgers, we define our UTXO variant to use
+addresses instead of output indexes as this additional identifier:
 
-``OutputID = Pair<Address, TransactionID>`
+``OutputID = Pair<Address, TransactionID>``
 
-### Transactions and Outputs
-
-A tra
-
-Transactions in a UTXO based ledger have the following 
+All **colored balances** sent to the same address (by the same transaction) become part of the same output.
 
 ### Colored Balances
 
-To be able to support tokenized assets on layer1 without the need for touring-complete smart contracts, we allow
-balances to have a *color* which can be used to give coins an *additional meaning*. A **color** is simply a random
-sequence of bytes that can be set by the user and which is retained when being transferred:
+To be able to support tokenized assets on layer1 without the need for touring-complete smart contracts, we do not just
+use a numeric value to represent a balance, but instead allow balances to have an additional **color** which can be
+used to give coins a *meaning*.
+
+A **color** is simply a random sequence of bytes that can be set by the user and which is retained when being
+transferred:
 
 ``Color = Array<byte>``
 
 Next to *user defined* colors, there are two *builtin color* values that carry a special meaning:
 
-- ``COLOR_IOTA = Array<byte>(0, 0, 0, ..., 0)`` represents the *base color* of uncolored coins. It can be used to address 
+- ``COLOR_IOTA = Array<byte>(0, 0, 0, ..., 0)`` represents the *base color* of uncolored coins.
 
 - ``COLOR_MINT = Array<byte>(255, 255, 255, ..., 255)``
 
-  represents a color which is being replaced by the ``Transaction ID`` before booking an output in the ledger state.
+  represents a color which is being replaced by the ``Transaction ID`` before booking as an output in the ledger state.
   It is consequently used to "mint" new colored coins.
 
-A **colored balance** is now simply the tuple of a balance and its corresponding color:
+A **colored balance** is a combination of a numeric balance with its corresponding color:
 
-``ColoredBalance = struct{Balance: uint64, Color: []byte}``
+``ColoredBalance = {Balance: uint64, Color: Color}``
 
 ### Outputs
 
-An Output is a list of colored balances that where created by a particular transaction on a certain
-address. In addition to the list of balances we store an *opcode* 
+An Output is consequently a list of colored balances that were spent by a particular transaction to a certain address. In addition
+to the list of colored balances and its ID, we store an *opcode* that defines how this output can be unlocked. 
 
-``Output = []ColoredBalance``
+``Output = {ID: OutputID, Balances: Array<ColoredBalance>, OpCode: byte}``
 
 
 
