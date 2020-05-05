@@ -165,6 +165,17 @@ func select() Tip {
 }
 ```
 
+A tip must not be removed from the tips set after it was selected in `select()`, 
+in order to make it possible for it to be re-selected, which in turn makes the Tangle wider
+and improves synchronization speed.
+
+A tip will be removed  from the tips set after it either: 
+* gained a direct approver and time `X` passed.
+* a threshold of direct approvers `Y` is reached.
+
+This RFC proposes to use 5 seconds for `X` and 2 for `Y`. 
+
+
 # Drawbacks
 
 Depending on when and how often `YTRSI`/`OTRSI` values are computed, this tip-selection could still
