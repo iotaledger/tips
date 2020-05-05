@@ -48,8 +48,8 @@ funding an address in parallel.
 
 A transaction moving funds consists out of three building blocks:
 
-- the ``Inputs`` which defines a list of ``OutputIDs`` that reference the *consumed* ``Outputs`` from previous transactions
-or the genesis.
+- the ``Inputs`` which defines a list of ``OutputIDs`` that reference the *consumed* ``Outputs`` from previous
+  transactions (or the genesis).
 - the ``Outputs`` which defines where and how many of the consumed tokens are moved.
 - the ``Unlock Section`` that contains data used to *unlock* the consumed inputs and *authorize* spends (usually just
 the address signatures - more on that later).
@@ -96,27 +96,36 @@ Next to *user defined* colors, there are two *builtin color* values that carry a
 
 - ``COLOR_IOTA = Array<byte>(0, 0, 0, ..., 0)`` represents the *base color* of uncolored coins.
 
-- ``COLOR_MINT = Array<byte>(255, 255, 255, ..., 255)``
+- ``COLOR_MINT = Array<byte>(255, 255, 255, ..., 255)`` represents a color which is being replaced by the
+  ``Transaction ID`` before being booked as an output. It is consequently used to "mint" new colored coins.
 
-  represents a color which is being replaced by the ``Transaction ID`` before booking as an output in the ledger state.
-  It is consequently used to "mint" new colored coins.
-
-A **colored balance** is a combination of a numeric balance with its corresponding color:
+A **colored balance** is accordingly a combination of a numeric balance with its corresponding color:
 
 ``ColoredBalance = {Balance: uint64, Color: Color}``
 
 ### Outputs
 
-An Output is consequently a list of colored balances that were spent by a particular transaction to a certain address. In addition
-to the list of colored balances and its ID, we store an *opcode* that defines how this output can be unlocked. 
+An Output is a container for the colored balances that were spent by a particular transaction to a certain address. In
+addition to the list of colored balances and its ID, we store an ``OPCode`` and a corresponding ``OPCodeMetadata``.
 
-``Output = {ID: OutputID, Balances: Array<ColoredBalance>, OpCode: byte}``
+``Output = {ID: OutputID, Balances: Array<ColoredBalance>, OpCode: OPCode, OPCodeMetadata: Array<byte>}``
 
+### OPCodes
 
+Currently, an output is *unlocked* if there is a valid signature for the address that holds the output and it is not possible to define alternative conditions.
+
+There are however use cases where being able to define additional conditions might be useful. A famous example are hashlocks and timelocks, that are used to create [Hashed Timelock Contracts](https://en.bitcoinwiki.org/wiki/Hashed_Timelock_Contracts) enabling things like atomic swaps and 2nd layer scaling solutions like the Lightning Network.
+
+The opcode will allow us to build dynamic unlock methods that are checking additional conditions next to the 
 
 # Drawbacks
 
-Bigger ledger state
+The biggest drawback of this approach is the additional disk space it consumes to store the additional information. If
+sweeping becomes a central part of the protocol with all wallets supporting it, then this solution will however most probably not perform much worse than an account-based ledger.
+
+Considering how the ledger state is managed today, with several *checkpoints* where we *cache the ledger state* to reduce possible tangle walking time, it is however even possible that the resource consumption drops because we are no longer able
+
+It does not introduce a new attack vector because it is already today possible to spread out small balances on 
 
 # Rationale and alternatives
 
