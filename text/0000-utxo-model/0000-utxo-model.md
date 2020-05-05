@@ -46,20 +46,22 @@ balances associated to **outputs** that are the result of individual transaction
 and spent individually. This allows us to exactly specify which funds are getting moved even if multiple parties are
 funding an address in parallel.
 
-A transaction moving funds accordingly consists out of three building blocks:
+A transaction moving funds consists out of three building blocks:
 
-- the ``Inputs`` which is a list of *consumed* ``Outputs`` from previous transactions (or the genesis).
-- the ``Outputs`` which defines the destination for moved funds.
-- the ``Unlock Section`` that contains data used to *unlock* the consumed inputs and *authorize* spends (usually just the address signatures).
+- the ``Inputs`` which defines a list of ``OutputIDs`` that reference the *consumed* ``Outputs`` from previous transactions
+or the genesis.
+- the ``Outputs`` which defines where the consumed tokens are moved.
+- the ``Unlock Section`` that contains data used to *unlock* the consumed inputs and *authorize* spends (usually just
+the address signatures - more on that later).
 
-The following diagram shows how outputs get consumed as inputs by future transactions, at the same time creating new outputs:
+The following diagram shows how transactions consume outputs as inputs to create new outputs for future transactions:
 
-![sdf](images/utxo_flow.png)
+![sdf](images/utxo_flow_of_funds.png)
 
-
+### Output IDs
 
 The transaction ID that created the output together with some _additional identifier_ that distinguishes
-different outputs from the same transaction, uniquely identifies every output.
+different outputs from the same transaction uniquely identifies every output.
 
 Bitcoin (who introduced the UTXO model) uses the
 numerical index of the output inside a transaction as this *additional identifier*. It does not actually have a concept
@@ -72,9 +74,10 @@ beneficial to at least have some form of *logical identifier* that groups relate
 used to *authorize* payments in the form of address signatures. It is for that very reason that the predominant part of
 transaction executed on today's DLTs make use of addresses.
 
-To build a bridge between the two worlds of *UTXO-* and *account-based* ledgers, we define our own UTXO variant, that
-still makes addresses a central building block (like in an account model) but without sacrificing the *expressiveness*
-of a UTXO-based ledger. At the same time, we add some additional features.
+To build a bridge between the two worlds of *UTXO-* and *account-based* ledgers, we define our UTXO variant to use
+addresses as this additional identifier:
+
+``OutputID = Pair<Address, TransactionID>`
 
 ### Transactions and Outputs
 
