@@ -20,8 +20,8 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 ## Creating a Milestone
 
 - Perform tip selection to choose a branch and a trunk for the new milestone.
-- Determine the topological order of the referenced bundles according to [RFC-0005](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md).
-- Construct the list B<sup>tri</sup> consisting of the tail transaction hashes of all the bundles in that particular order.
+- Determine the topological order according to [RFC-0005](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) of the referenced bundles that are not yet confirmed by a previous milestone.
+- Construct the list B<sup>tri</sup> consisting of the tail transaction hashes of all the non-violating bundles in that particular order.
 - Convert each element of B<sup>tri</sup> to binary by splitting it into groups of 5 trits and interpreting the value of each group as a signed (two's complement) 8-bit integer value. (This exactly matches the conversion used for binary I/O of ternary data in the current protocol.)
 - Compute the 64-byte Merkle tree hash H = MTH(B).
 - Encode the hash H into ternary by interpreting each octet of the string H as a signed 8-bit integer value v and then by encoding v as a little-endian 6-trit string in balanced ternary representation. This leads to H<sup>tri</sup> with a length of 384 trits.
