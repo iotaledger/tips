@@ -137,7 +137,7 @@ not accidentally introduce potential bottlenecks.
 In contrast to bitcoin, we do not add a fully scriptable outputs (because that could result in long execution times),
 but we offer predefined methods for different use cases.
 
-For now, we simply reserve the additional fields in the Output but hard code the OPCode to be ``SIG_CHECK = OPCode(0)``.
+For now, we simply reserve the additional fields in the output but hard code the OPCode to be ``SIG_CHECK = OPCode(0)``.
 
 ### Conflict Detection
 
