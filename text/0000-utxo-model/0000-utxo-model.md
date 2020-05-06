@@ -133,39 +133,46 @@ For now, we simply reserve the additional fields in the Output but hard code the
 
 ### Conflict Detection
 
-The biggest benefits of this ledger state is the fast and easy detection of double spends and invalid transaction.
+The biggest benefits of this ledger state is the fast and easy detection of double spends and invalid transaction:
 
-A transaction is valid, if the sum of the moved funds is ``0`` and it only spends colors that were available in the used
-inputs. It is however possible, to override the color of the consumed tokens using either the IOTA_MINT color to create a new colored token or by using the ``IOTA_COLOR`` to remove the color).
+- A transaction is valid, if the sum of the moved funds is ``0`` and it only spends colors in the amounts that were
+available in the used inputs. It is however possible to override the color of the consumed tokens using either the ``MINT_COLOR`` color to create a new colored token or by using the ``IOTA_COLOR`` to remove the color.
 
-Instead of having to walk through multiple transaction to eventually find the spent balance in the tangle, we can now
+  Instead of having to walk through multiple transaction to eventually find the spent balance in the tangle, we can now
 instantly load the corresponding funds by accessing the consumed outputs. A transaction that tries to spend non-existing
 funds would never become solid.
 
-Accordingly, a transaction is performing a double spend when there is already another transaction consuming the same output.
+- Accordingly, a transaction is performing a double spend when there is already another transaction consuming the same
+output.
 
 # Drawbacks
 
-The only drawback of this approach is the additional disk space it consumes to store the additional information. If
-sweeping becomes a central part of the protocol with all wallets supporting it, then this solution will however most probably not perform much worse than an account-based ledger.
+The drawbacks of this approach are:
 
-Considering how the ledger state is managed today, with several *checkpoints* where we *cache the ledger state* to reduce possible tangle walking time, it is however even possible that the resource consumption drops because we are no longer able
+- A UTXO-based ledger is much more complex in the implementation than just a dictionary of balances.
+- A UTXO-based ledger stores more information and therefore requires "potentially" more disk space.
+  
+  However, if
+sweeping becomes a central part of the protocol with all wallets supporting it, then this solution will most
+probably not perform much worse than an account-based ledger.
 
-It does not introduce a new attack vector because it is already today possible to spread out small balances on 
+  Considering how we store ledger state today, with several *checkpoints* where we *cache the ledger state* to reduce possible tangle walking time, it might also be possible that the resource consumption drops because we are no longer required to have these additional checkpoints with their corresponding ledger state (in memory and on disk).
+
+  In general, it does not introduce a new attack vector because it is already today possible to spread out small balances onto many addresses, which is the equivalent of spreading a lot of outputs on a single address.
 
 # Rationale and alternatives
 
-- Why is this design the best in the space of possible designs?
-- What other designs have been considered and what is the rationale for not
-  choosing them?
-- What is the impact of not doing this?
+There are currently only two known options for a ledger state - the UTXO model, and the account model.
+
+The account-model does not work very well with "parallelism" (i.e. multiple people sending funds to the same
+address). We can never be sure, that our transaction has seen all the funds and the only way to make sure, that this is the case is to use the tangle structure to define a *scope* for a spend. This however is very slow, because the only way to use the tangle structure is to walk around in the tangle. In addition, it adds additional constraints to the tip selection as it requires to have the correct funding transactions in the past cone of a spending transaction.
+
+Considering the "parall" nature of the tangle, it seems like UTXO is the only possible choice. Using addresses as the additional identifier for outputs, allows us to bundle multiple colored balances in a single output, which leads to a smaller fragmentation of the funds as if we would give every color a separate output.
+
+If we decide to not go with this approach, then we will essentially limit ourselves to just a few hundred TPS because of the massive overhead of checking incoming transactions. In addition, the conflict detection will be much harder.
 
 # Unresolved questions
 
-- What parts of the design do you expect to resolve through the RFC process
-  before this gets merged?
-- What parts of the design do you expect to resolve through the implementation
-  of this feature before stabilization?
-- What related issues do you consider out of scope for this RFC that could be
-  addressed in the future independently of the solution that comes out of this
-  RFC?
+- We need to think about good unlock opcodes and options.
+- We should define a PR that specifies the "parallel branch" based ledger state as this is very closely related to the
+use of UTXO.
