@@ -1,6 +1,6 @@
 + Feature name: `utxo-model`
 + Start date: 2020-05-04
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0011](https://github.com/iotaledger/protocol-rfcs/pull/0011)
 
 # Summary
 
