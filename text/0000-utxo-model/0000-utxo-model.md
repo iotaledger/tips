@@ -114,13 +114,39 @@ addition to the list of colored balances and its ID, we store an ``OPCode`` and 
 
 Currently, an output is *unlocked* if there is a valid signature for the address that holds the output and it is not possible to define alternative conditions.
 
-There are however use cases where being able to define additional conditions might be useful. A famous example are hashlocks and timelocks, that are used to create [Hashed Timelock Contracts](https://en.bitcoinwiki.org/wiki/Hashed_Timelock_Contracts) enabling things like atomic swaps and 2nd layer scaling solutions like the Lightning Network.
+There are however use cases where being able to define different conditions might be useful. A famous example are hashlocks and timelocks, that are used to create [Hashed Timelock Contracts](https://en.bitcoinwiki.org/wiki/Hashed_Timelock_Contracts) enabling things like atomic swaps and 2nd layer scaling solutions like the Lightning Network.
 
-The opcode will allow us to build dynamic unlock methods that are checking additional conditions next to the 
+The opcode is a single byte that is mapped to a specific unlock method. This will allow us to switch between different unlock conditions which introduces some very basic smart contract capabilities on the base layer.
+
+``OPCode = byte``
+
+Since some opcodes might require certain parameters (like a timestamp or a hash), we define a metadata field, that holds
+a marshaled version of these parameters.
+
+``OPCodeMetadata = Array<byte>`` 
+
+As long as these checks are not much more *expensive* than signature checks, it does not introduce problems but massively extends the functionality of the protocol. We have to however be very careful with adding new conditions, to not accidentally introduce potential bottlenecks.
+
+In contrast to bitcoin, we do not add a fully scriptable outputs (because that could result in long execution times), but we offer predefined methods for different use cases.
+
+For now, we simply reserve the additional fields in the Output but hard code the OPCode to be ``SIG_CHECK = OPCode(0)``.
+
+### Conflict Detection
+
+The biggest benefits of this ledger state is the fast and easy detection of double spends and invalid transaction.
+
+A transaction is valid, if the sum of the moved funds is ``0`` and it only spends colors that were available in the used
+inputs. It is however possible, to override the color of the consumed tokens using either the IOTA_MINT color to create a new colored token or by using the ``IOTA_COLOR`` to remove the color).
+
+Instead of having to walk through multiple transaction to eventually find the spent balance in the tangle, we can now
+instantly load the corresponding funds by accessing the consumed outputs. A transaction that tries to spend non-existing
+funds would never become solid.
+
+Accordingly, a transaction is performing a double spend when there is already another transaction consuming the same output.
 
 # Drawbacks
 
-The biggest drawback of this approach is the additional disk space it consumes to store the additional information. If
+The only drawback of this approach is the additional disk space it consumes to store the additional information. If
 sweeping becomes a central part of the protocol with all wallets supporting it, then this solution will however most probably not perform much worse than an account-based ledger.
 
 Considering how the ledger state is managed today, with several *checkpoints* where we *cache the ledger state* to reduce possible tangle walking time, it is however even possible that the resource consumption drops because we are no longer able
