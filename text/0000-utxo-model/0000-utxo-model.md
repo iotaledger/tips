@@ -79,7 +79,7 @@ addresses instead of output indexes as this additional identifier:
 
 ``OutputID = Pair<Address, TransactionID>``
 
-All **colored balances** sent to the same address (by the same transaction) become part of the same output.
+All **colored balances** sent to the same address (by the same transaction) becomes part of the same output.
 
 ### Colored Balances
 
@@ -108,7 +108,7 @@ A **colored balance** is accordingly a combination of a numeric balance with its
 An Output is a container for the colored balances that were spent by a particular transaction to a certain address. In
 addition to the list of colored balances and its ID, we store an ``OPCode`` and a corresponding ``OPCodeMetadata``.
 
-``Output = {ID: OutputID, Balances: Array<ColoredBalance>, OpCode: OPCode, OPCodeMetadata: Array<byte>}``
+``Output = {ID: OutputID, Balances: Array<ColoredBalance>, OpCode: OPCode, OPCodeMetadata: OPCodeMetadata}``
 
 ### OPCodes
 
