@@ -52,14 +52,14 @@ In the following we define the Merkle tree hash (MTH) function that returns the 
 - The output is a single 64-byte hash.
 
 Given an ordered list of n inputs, D<sub>n</sub> = {d<sub>1</sub>, d<sub>2</sub>, ..., d<sub>n</sub>}, the Merkle tree hash of D, MTH(D) is defined as follows:
-- If D is an empty list, MTH(D) is the hash of an empty string: 
-  MTH() = BLAKE2().
-- If D has the length 1, the hash (also known as a leaf hash) is:
-  MTH(d<sub>1</sub>) = BLAKE2( 0x00 || d<sub>1</sub> ).
+- If D is an empty list, MTH(D) is the hash of an empty string:<br>
+  MTH({}) = BLAKE2().
+- If D has the length 1, the hash (also known as a leaf hash) is:<br>
+  MTH({d<sub>1</sub>}) = BLAKE2( 0x00 || d<sub>1</sub> ).
 - Otherwise, for D<sub>n</sub> with n > 1:
   - Let k be the largest power of two less than n, i.e. k < n ≤ 2k.
-  - The Merkle tree hash can be defined recursively:
-    MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH(d<sub>1</sub>, ..., d<sub>k</sub>) || MTH(d<sub>k+1</sub>, ..., d<sub>n</sub>) ).
+  - The Merkle tree hash can be defined recursively:<br>
+    MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) || MTH({d<sub>k+1</sub>, ..., d<sub>n</sub>}) ).
 
 Note that the hash calculations for leaves and nodes differ. This allows the validator to distinguish between leaves and nodes, which is required to provide second preimage resistance.
 
@@ -109,7 +109,7 @@ root: d07161bdb535afb7dbb3f5b2fb198ecf715cbd9dfca133d2b48d67b1e11173c6f92bed2f4d
 # Drawbacks
 
 - With this proposal the `signatureMessageFragment` now consists of two parts: The audit path of the Coordinator's Merkle tree and the 128-tryte Merkle tree hash of the confirmed bundles. This approach limits the depth of the Coordinator's Merkle tree to at most 25 (instead of 27 without the hash). However, a depth of 25 still allows to issue a milestone every 30 seconds for over 30 years.
-- The computation of the Merkle tree hash of D<sub>n</sub> requires n + log<sub>2</sub>(n) evaluations of the underlying hashing algorithm. This makes the milestone creation and validation computationally slightly more expensive.
+- The computation of the Merkle tree hash of D<sub>n</sub> requires O(n) evaluations of the underlying hashing algorithm. This makes the milestone creation and validation computationally slightly more expensive.
 
 # Rationale and alternatives
 
