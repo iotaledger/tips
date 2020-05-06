@@ -156,8 +156,6 @@ output.
 
 # Drawbacks
 
-The drawbacks of this approach are:
-
 - A UTXO-based ledger is much more complex in the implementation than just a dictionary of balances.
 - A UTXO-based ledger stores more information and therefore requires "potentially" more disk space.
   
@@ -174,17 +172,17 @@ probably not perform much worse than an account-based ledger.
 
 # Rationale and alternatives
 
-There are currently only two options for a ledger state, that are known - the UTXO model, and the account model.
+There are currently only two options for a ledger state, that are known - the UTXO model, and the account model:
 
-The account-model does not work very well with "parallelism" (i.e. multiple people sending funds to the same
+- The account-model does not work very well with "parallelism" (i.e. multiple people sending funds to the same
 address). We can never be sure, that our transaction has seen all the funds and the only way to make sure, that this is
 the case is to use the tangle structure to define a *scope* for a spend. This however is very slow, because the only way
 to use the tangle structure is to walk around in the tangle. In addition, it adds additional constraints to the tip
 selection as it requires to have the correct funding transactions in the past cone of a spending transaction.
 
-Considering the "parallel" nature of the tangle, it seems like UTXO is the only possible choice. Using addresses as the
-additional identifier for outputs, allows us to bundle multiple colored balances in a single output, which leads to a
-smaller fragmentation of the funds as if we would give every color a separate output.
+- Considering the "parallel" nature of the tangle, it seems like UTXO is the only reasonable choice. Using addresses as
+the additional identifier for outputs, allows us to bundle multiple colored balances in a single output, which leads to
+a smaller fragmentation of the funds as if we would give every color a separate output.
 
 If we decide to not go with this approach, then we will essentially limit ourselves to just a few hundred TPS because of
 the massive overhead of checking incoming transactions. In addition, the conflict detection will be much harder.
@@ -192,5 +190,5 @@ the massive overhead of checking incoming transactions. In addition, the conflic
 # Unresolved questions
 
 - We need to think about good unlock opcodes and options.
-- We should define a PR that specifies the "parallel branch" based ledger state as this is very closely related to the
+- We should define a PR that specifies the "branch based ledger state" as this is very closely related to the
 use of UTXO.
