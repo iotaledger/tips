@@ -10,7 +10,7 @@ current model.
 
 # Motivation
 
-Switching to a voting-based consensus requires a fast and easy way to determine a nodes initial opinion for every
+Switching to a voting-based consensus requires a fast and easy way to determine a node's initial opinion for every
 received transaction. This includes the ability to detect double spends and transactions that try to spend non-existing
 funds.
 
@@ -23,7 +23,7 @@ The UTXO model uses a different form of record keeping which enables the validat
 `O(1)` and vastly improves the "expressiveness" of the ledger state by enabling things like:
 
 + **Colored Coins:** IOTA tokens can be marked with a certain "color". This color is retained throughout transfers and
-gives the tokens a certain "meaning" (i.e. tokenized assets, ressource- and access-tokens ...).
+gives the tokens a certain "meaning" (i.e. tokenized assets, resource- and access-tokens ...).
   
 + **Scalable Layer1 Smart Contracts:** Balances can be extended by a sequence of dynamic unlock conditions that will
 enable the use of a non-touring complete scripting language for smart contracts on layer1, which would not just be run
@@ -33,11 +33,11 @@ by a small committee of validators but by everybody. This will enable things lik
     
     + decentralized exchanges
     
-    + hashed timelock contracts (enabling i.e. "lightning network"-like scaling)
+    + hashed time lock contracts (enabling i.e. "lightning network"-like scaling)
     
     + regulatory compliant tokenized assets
     
-    + and much more ...
+    + ...
 
 # Detailed design
 
@@ -112,11 +112,16 @@ addition to the list of colored balances and its ID, we store an ``OPCode`` and 
 
 ### OPCodes
 
-Currently, an output is *unlocked* if there is a valid signature for the address that holds the output and it is not possible to define alternative conditions.
+Currently, an output is *unlocked* if there is a valid signature for the address that holds the output, and it is not
+possible to define alternative conditions.
 
-There are however use cases where being able to define different conditions might be useful. A famous example are hashlocks and timelocks, that are used to create [Hashed Timelock Contracts](https://en.bitcoinwiki.org/wiki/Hashed_Timelock_Contracts) enabling things like atomic swaps and 2nd layer scaling solutions like the Lightning Network.
+There are however use cases where being able to define different conditions might be useful. A famous example are hash
+locks and time locks, that are used to create
+[Hashed Timelock Contracts](https://en.bitcoinwiki.org/wiki/Hashed_Timelock_Contracts) enabling things like atomic swaps
+and 2nd layer scaling solutions like the Lightning Network.
 
-The opcode is a single byte that is mapped to a specific unlock method. This will allow us to switch between different unlock conditions which introduces some very basic smart contract capabilities on the base layer.
+The opcode is a single byte that is mapped to a specific unlock method. This will allow us to switch between different
+unlock conditions which introduces some very basic smart contract capabilities on the base layer.
 
 ``OPCode = byte``
 
@@ -125,9 +130,12 @@ a marshaled version of these parameters.
 
 ``OPCodeMetadata = Array<byte>`` 
 
-As long as these checks are not much more *expensive* than signature checks, it does not introduce problems but massively extends the functionality of the protocol. We have to however be very careful with adding new conditions, to not accidentally introduce potential bottlenecks.
+As long as these checks are not much more *expensive* than signature checks, it does not introduce problems but
+massively extends the functionality of the protocol. We have to however be very careful with adding new conditions, to
+not accidentally introduce potential bottlenecks.
 
-In contrast to bitcoin, we do not add a fully scriptable outputs (because that could result in long execution times), but we offer predefined methods for different use cases.
+In contrast to bitcoin, we do not add a fully scriptable outputs (because that could result in long execution times),
+but we offer predefined methods for different use cases.
 
 For now, we simply reserve the additional fields in the Output but hard code the OPCode to be ``SIG_CHECK = OPCode(0)``.
 
@@ -136,7 +144,8 @@ For now, we simply reserve the additional fields in the Output but hard code the
 The biggest benefits of this ledger state is the fast and easy detection of double spends and invalid transaction:
 
 - A transaction is valid, if the sum of the moved funds is ``0`` and it only spends colors in the amounts that were
-available in the used inputs. It is however possible to override the color of the consumed tokens using either the ``MINT_COLOR`` color to create a new colored token or by using the ``IOTA_COLOR`` to remove the color.
+available in the used inputs. It is however possible to override the color of the consumed tokens using either the
+``MINT_COLOR`` color to create a new colored token or by using the ``IOTA_COLOR`` to remove the color.
 
   Instead of having to walk through multiple transaction to eventually find the spent balance in the tangle, we can now
 instantly load the corresponding funds by accessing the consumed outputs. A transaction that tries to spend non-existing
@@ -156,20 +165,29 @@ The drawbacks of this approach are:
 sweeping becomes a central part of the protocol with all wallets supporting it, then this solution will most
 probably not perform much worse than an account-based ledger.
 
-  Considering how we store ledger state today, with several *checkpoints* where we *cache the ledger state* to reduce possible tangle walking time, it might also be possible that the resource consumption drops because we are no longer required to have these additional checkpoints with their corresponding ledger state (in memory and on disk).
+  Considering how we store ledger state today, with several *checkpoints* where we *cache the ledger state* to reduce
+  possible tangle walking time, it might also be possible that the resource consumption drops because we are no longer
+  required to have these additional checkpoints with their corresponding ledger state (in memory and on disk).
 
-  In general, it does not introduce a new attack vector because it is already today possible to spread out small balances onto many addresses, which is the equivalent of spreading a lot of outputs on a single address.
+  In general, it does not introduce a new attack vector because it is already today possible to spread out small
+  balances onto many addresses, which is the equivalent of spreading a lot of outputs on a single address.
 
 # Rationale and alternatives
 
-There are currently only two known options for a ledger state - the UTXO model, and the account model.
+There are currently only two options for a ledger state, that are known - the UTXO model, and the account model.
 
 The account-model does not work very well with "parallelism" (i.e. multiple people sending funds to the same
-address). We can never be sure, that our transaction has seen all the funds and the only way to make sure, that this is the case is to use the tangle structure to define a *scope* for a spend. This however is very slow, because the only way to use the tangle structure is to walk around in the tangle. In addition, it adds additional constraints to the tip selection as it requires to have the correct funding transactions in the past cone of a spending transaction.
+address). We can never be sure, that our transaction has seen all the funds and the only way to make sure, that this is
+the case is to use the tangle structure to define a *scope* for a spend. This however is very slow, because the only way
+to use the tangle structure is to walk around in the tangle. In addition, it adds additional constraints to the tip
+selection as it requires to have the correct funding transactions in the past cone of a spending transaction.
 
-Considering the "parall" nature of the tangle, it seems like UTXO is the only possible choice. Using addresses as the additional identifier for outputs, allows us to bundle multiple colored balances in a single output, which leads to a smaller fragmentation of the funds as if we would give every color a separate output.
+Considering the "parallel" nature of the tangle, it seems like UTXO is the only possible choice. Using addresses as the
+additional identifier for outputs, allows us to bundle multiple colored balances in a single output, which leads to a
+smaller fragmentation of the funds as if we would give every color a separate output.
 
-If we decide to not go with this approach, then we will essentially limit ourselves to just a few hundred TPS because of the massive overhead of checking incoming transactions. In addition, the conflict detection will be much harder.
+If we decide to not go with this approach, then we will essentially limit ourselves to just a few hundred TPS because of
+the massive overhead of checking incoming transactions. In addition, the conflict detection will be much harder.
 
 # Unresolved questions
 
