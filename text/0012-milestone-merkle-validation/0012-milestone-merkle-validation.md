@@ -4,16 +4,16 @@
 
 # Summary
 
-In the IOTA protocol, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC adds further information to each milestone in the form of a Merkle tree hash, which allows nodes to explicitly validate their local view of the ledger state against the coordinator's. This mechanism further enables a simple cryptographic proof of inclusion for transactions confirmed by the particular milestone.
+In the IOTA protocol, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC adds extra information to each milestone in the form of a Merkle tree hash, which allows nodes to explicitly validate their local view of the ledger state against the coordinator's. This mechanism further enables a simple cryptographic proof of inclusion for transactions confirmed by the particular milestone.
 
 # Motivation
 
-With the changes proposed in [RFC-0005 (white flag)](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md), milestones are allowed to reference conflicting transactions. These conflicts are resolved in a second step by traversing the newly confirmed transactions in a global, deterministic order and then applying the corresponding ledger state changes in that order. Conflicts or invalid transactions are ignored but stay in the Tangle.
+With the changes proposed in [RFC-0005 (white flag)](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md), milestones are allowed to reference conflicting transactions. These conflicts are then resolved by traversing the newly confirmed transactions in a global, deterministic order and applying the corresponding ledger state changes in that order. Conflicts or invalid transactions are ignored, but stay in the Tangle.
 This approach has considerable advantages in terms of network security (e.g. protection against [conflict spamming attacks](https://iota.cafe/t/conflict-spamming-attack/232)) and network performance. However, a milestone no longer represents the inclusion state of all its referenced transactions, but only marks the order in which transactions are checked against the ledger state and then, if not violating, applied. This has two significant drawbacks:
- - Milestone validation: In the IOTA protocol, each node always compares the milestones issued by the Coordinator against its current ledger state. Discrepancies are reported and force an immediate halt of the node software. However, when the white flag proposal is implemented, this detection is no longer possible as any milestone can lead to a valid ledger state by ignoring the corresponding violating ledger changes. There are two reasons for such discrepancies: a faulty coordinator or an invalid/malicious snapshot file that was used during initialization.
+ - Milestone validation: In the IOTA protocol, each node always compares the milestones issued by the Coordinator against its current ledger state. Discrepancies are reported and force an immediate halt of the node software. However, in the white flag proposal this detection is no longer possible as any milestone can lead to a valid ledger state by ignoring the corresponding violating ledger changes.
  - Proof of inclusion: In the pre-white-flag protocol, the inclusion of transaction t in the Tangle, and thus, the ledger, can be shown by providing an audit path of referencing transactions from t to its confirming milestone. In the white flag proposal this is no longer possible, as such an audit path does not provide any information on whether the transaction has been included or ignored. 
 
-Where previously the structure of the Tangle alone was sufficient to address those issues, this RFC proposes to also add the Merkle tree hash of all the valid (i.e. not ignored) newly confirmed bundles to the signed part of a milestone. This way, each IOTA node can check that the hash matches its local ledger state changes or provide a Merkle audit path for that milestone to prove the inclusion of a particular bundle.
+Where previously the structure of the Tangle alone was sufficient to address those issues, this RFC proposes to add the Merkle tree hash of all the valid (i.e. not ignored) newly confirmed bundles to the signed part of a milestone. This way, each IOTA node can check that the hash matches its local ledger state changes or provide a Merkle audit path for that milestone to prove the inclusion of a particular bundle.
 
 # Detailed design
 
@@ -21,25 +21,26 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 
 - Perform tip selection to choose a branch and a trunk for the new milestone.
 - Determine the topological order according to [RFC-0005](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) of the referenced bundles that are not yet confirmed by a previous milestone.
-- Construct the list B<sup>tri</sup> consisting of the tail transaction hashes of all the non-violating bundles in that particular order.
-- Convert each element of B<sup>tri</sup> to binary by splitting it into groups of 5 trits and interpreting the value of each group as a signed (two's complement) 8-bit integer value. (This exactly matches the conversion used for binary I/O of ternary data in the current protocol.)
+- Construct the list B<sup>tri</sup> consisting of the tail transaction hashes of all the not-ignored bundles in that particular order.
+- Convert each element of B<sup>tri</sup> to binary by splitting it into groups of 5 trits and interpreting each group as a balanced ternary value in little-endian representation. Each value is then encoded as a signed (two's complement) 8-bit integer. (This exactly matches the conversion used for binary I/O of ternary data in the current protocol.) This leads to the ordered list B containing 49-byte strings.
 - Compute the 64-byte Merkle tree hash H = MTH(B).
-- Encode the hash H into ternary by interpreting each octet of the string H as a signed 8-bit integer value v and then by encoding v as a little-endian 6-trit string in balanced ternary representation. This leads to H<sup>tri</sup> with a length of 384 trits.
-- Prepare the milestone bundle as usual. Its head transaction contains the information required to verify the Coordinator's signature in its `signatureMessageFragment` field. This information has a length of d×81 trytes, where d is the depth of the Coordinator's Merkle tree. 
+- Encode H into ternary by interpreting each octet of the string H as a signed 8-bit integer value v and then encoding v as a little-endian 6-trit string in balanced ternary representation. This leads to H<sup>tri</sup> with a length of 384 trits.
+- Prepare the milestone bundle as usual. Its head transaction contains the information required to verify the Coordinator's signature in its `signatureMessageFragment` field. This information has a length of d·81 trytes, where d is the depth of the Coordinator's Merkle tree. 
 - Append H<sup>tri</sup> to the `signatureMessageFragment` field. For any depth d < 26 the field provides sufficient space.
-- Sign the head transaction and add its fragmented signature to the bundle's zero value transactions.
+- Sign the head transaction and add its fragmented signature to the milestone bundle's zero value transactions.
 
 ## Milestone validation
 
 - Verify the signature of the milestone m.
-- Construct the ordered list B<sup>tri</sup> of the tail transaction hashes of the non-violating bundles m confirms.
+- Construct the ordered list B<sup>tri</sup> of the tail transaction hashes of the not-ignored bundles m confirms.
 - Encode the hashes B<sup>tri</sup> into their binary representation B and compute H = MTH(B).
 - Extract the first 192 trits after the Coordinator's Merkle tree information from the `signatureMessageFragment` field of the head transaction and verify that this matches the ternary encoded H.
 
 ## Proof of inclusion
 
 - Identify the confirming milestone m of the input bundle b.
-- Compute the Merkle audit path of b with respect to the ordered list of confirmed bundles induced by m.
+- Determine the ordered list of the not-ignored bundles m confirms.
+- Compute the Merkle audit path of b with respect to the Merkle tree for this ordered list.
 - Provide the audit path as well as m as proof of inclusion for b.
 
 ## Cryptographic components
@@ -48,10 +49,10 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 
 This RFC uses a binary Merkle hash tree for efficient auditing. In general, any cryptographic hashing algorithm can be used for this. However, we propose to use [BLAKE2b-512](https://tools.ietf.org/html/rfc7693), as it provides a faster and more secure alternative to the widely used SHA-256/SHA-512. 
 In the following we define the Merkle tree hash (MTH) function that returns the hash of the root node of a Merkle tree:
-- The input is a list of data entries; these entries will be hashed to form the leaves of the tree.
+- The input is a list of binary data entries; these entries will be hashed to form the leaves of the tree.
 - The output is a single 64-byte hash.
 
-Given an ordered list of n inputs, D<sub>n</sub> = {d<sub>1</sub>, d<sub>2</sub>, ..., d<sub>n</sub>}, the Merkle tree hash of D, MTH(D) is defined as follows:
+Given an ordered list of n input strings D<sub>n</sub> = {d<sub>1</sub>, d<sub>2</sub>, ..., d<sub>n</sub>}, the Merkle tree hash of D is defined as follows:
 - If D is an empty list, MTH(D) is the hash of an empty string:<br>
   MTH({}) = BLAKE2().
 - If D has the length 1, the hash (also known as a leaf hash) is:<br>
@@ -67,7 +68,7 @@ Note that we do not require the length of the input to be a power of two. Howeve
 
 ### Merkle audit paths
 
-A Merkle audit path for a leaf in a Merkle hash tree is the shortest list of additional nodes in a Merkle tree required to compute the Merkle tree hash for that tree. At each step up the tree (towards the root), a node from the audit path is combined with a node computed so far. If the root computed from the audit path matches the Merkle tree hash, then the audit path is proof that the leaf exists in the tree.
+A Merkle audit path for a leaf in a Merkle hash tree is the shortest list of additional nodes in a Merkle tree required to compute the Merkle tree hash for that tree. At each step towards the root, a node from the audit path is combined with a node computed so far. If the root computed from the audit path matches the Merkle tree hash, then the audit path is proof that the leaf exists in the tree.
 
 ## Example
 
@@ -109,7 +110,7 @@ root: d07161bdb535afb7dbb3f5b2fb198ecf715cbd9dfca133d2b48d67b1e11173c6f92bed2f4d
 # Drawbacks
 
 - With this proposal the `signatureMessageFragment` now consists of two parts: The audit path of the Coordinator's Merkle tree and the 128-tryte Merkle tree hash of the confirmed bundles. This approach limits the depth of the Coordinator's Merkle tree to at most 25 (instead of 27 without the hash). However, a depth of 25 still allows to issue a milestone every 30 seconds for over 30 years.
-- The computation of the Merkle tree hash of D<sub>n</sub> requires O(n) evaluations of the underlying hashing algorithm. This makes the milestone creation and validation computationally slightly more expensive.
+- The computation of the Merkle tree hash of D<sub>n</sub> requires 2n-1 evaluations of the underlying hashing algorithm. This makes the milestone creation and validation computationally slightly more expensive.
 
 # Rationale and alternatives
 
@@ -118,7 +119,7 @@ A Merkle tree hash provides an efficient, secure and well-established method to 
 
 In this context, it could also be possible to use an unsecured checksum (such as CRCs) of the bundles instead of a Merkle tree hash. However, the small benefit of faster computation times does no justify the potential security risks and attack vectors.
 
-The described approach is even in some sense backward compatible: As long as only the first d×81 trytes of the `signatureMessageFragment` are considered, the milestone processing remains unchanged.
+The described approach is even in some sense backward compatible: As long as only the first d·81 trytes of the `signatureMessageFragment` are considered, the milestone processing remains unchanged.
 
 # Unresolved questions
 
