@@ -34,7 +34,7 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 - Verify the signature of the milestone m.
 - Construct the ordered list B<sup>tri</sup> of the tail transaction hashes of the not-ignored bundles m confirms.
 - Encode the hashes B<sup>tri</sup> into their binary representation B and compute H = MTH(B).
-- Extract the first 192 trits after the Coordinator's Merkle tree information from the `signatureMessageFragment` field of the head transaction and verify that this matches the ternary encoded H.
+- Extract the first 384 trits after the Coordinator's Merkle tree information from the `signatureMessageFragment` field of the head transaction and verify that this matches the ternary encoded H.
 
 ## Proof of inclusion
 
