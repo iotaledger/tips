@@ -26,7 +26,7 @@ The UTXO model uses a different form of record keeping which enables the validat
 gives the tokens a certain "meaning" (i.e. tokenized assets, resource- and access-tokens ...).
   
 + **Scalable Layer1 Smart Contracts:** Balances can be extended by a sequence of dynamic unlock conditions that will
-enable the use of a non-touring complete scripting language for smart contracts on layer1, which would not just be run
+enable the use of a non-turing complete scripting language for smart contracts on layer1, which would not just be run
 by a small committee of validators but by everybody. This will enable things like:
 
     + decentralized gambling
@@ -83,7 +83,7 @@ All **colored balances** sent to the same address (by the same transaction) beco
 
 ### Colored Balances
 
-To be able to support tokenized assets on layer1 without the need for touring-complete smart contracts, we do not just
+To be able to support tokenized assets on layer1 without the need for turing-complete smart contracts, we do not just
 use a numeric value to represent a balance, but instead allow balances to have an additional **color** which can be
 used to give coins a *meaning*.
 
