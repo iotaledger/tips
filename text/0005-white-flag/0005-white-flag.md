@@ -158,7 +158,7 @@ by allowing a potential increase of TPS/CTPS.
 # Unresolved questions
 
 A node consumes and produces snapshot files and bases the computation of its ledger state on them. In the current
-network, if one of these files was tempered with and fed to a node, it would eventually lead to an invalid ledger state
+network, if one of these files was tampered with and fed to a node, it would eventually lead to an invalid ledger state
 where a bundle confirmed by a milestone would actually be a double spend. This situation would be detected by the node
 and it would stop its activities as a security measure. However, with White Flag, such bundles would be confirmed by
 milestones but ignored by the node, the fake snapshot then going unnoticed. The ledger state would then become more and
