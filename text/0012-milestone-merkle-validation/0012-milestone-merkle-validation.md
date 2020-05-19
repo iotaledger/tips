@@ -21,7 +21,7 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 
 - Perform tip selection to choose a branch and a trunk for the new milestone.
 - Determine the topological order according to [RFC-0005](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) of the referenced bundles that are not yet confirmed by a previous milestone.
-- Construct the list B<sup>tri</sup> consisting of the tail transaction hashes of all the not-ignored bundles in that particular order.
+- Construct the list B<sup>tri</sup> consisting of the tail transaction hashes of all the not-ignored state-mutating bundles in that particular order. A bundle is state-mutating, if it actually modifies the ledger state by moving funds from one address to another. That is, any bundle having an address with a total output value larger than that address' total input value, is a state-mutating transaction.
 - Convert each element of B<sup>tri</sup> to binary by splitting it into groups of 5 trits and interpreting each group as a balanced ternary value in little-endian representation. Each value is then encoded as a signed (two's complement) 8-bit integer. (This exactly matches the conversion used for binary I/O of ternary data in the current protocol.) This leads to the ordered list B containing 49-byte strings.
 - Compute the 64-byte Merkle tree hash H = MTH(B).
 - Encode H into ternary by interpreting each octet of the string H as a signed 8-bit integer value v and then encoding v as a little-endian 6-trit string in balanced ternary representation. This leads to H<sup>tri</sup> with a length of 384 trits.
@@ -32,13 +32,13 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 ## Milestone validation
 
 - Verify the signature of the milestone m.
-- Construct the ordered list B<sup>tri</sup> of the tail transaction hashes of the not-ignored bundles m confirms.
+- Construct the ordered list B<sup>tri</sup> of the tail transaction hashes of the not-ignored state-mutating bundles m confirms.
 - Encode the hashes B<sup>tri</sup> into their binary representation B and compute H = MTH(B).
 - Extract the first 384 trits after the Coordinator's Merkle tree information from the `signatureMessageFragment` field of the head transaction and verify that this matches the ternary encoded H.
 
 ## Proof of inclusion
 
-- Identify the confirming milestone m of the input bundle b.
+- Identify the confirming milestone m of the state-mutating input bundle b.
 - Determine the ordered list of the not-ignored bundles m confirms.
 - Compute the Merkle audit path of b with respect to the Merkle tree for this ordered list.
 - Provide the audit path as well as m as proof of inclusion for b.
