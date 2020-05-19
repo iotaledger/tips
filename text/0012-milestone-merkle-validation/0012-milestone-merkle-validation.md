@@ -120,9 +120,3 @@ A Merkle tree hash provides an efficient, secure and well-established method to 
 In this context, it could also be possible to use an unsecured checksum (such as CRCs) of the bundles instead of a Merkle tree hash. However, the small benefit of faster computation times does no justify the potential security risks and attack vectors.
 
 The described approach is even in some sense backward compatible: As long as only the first d·81 trytes of the `signatureMessageFragment` are considered, the milestone processing remains unchanged.
-
-# Unresolved questions
-
-The Merkle tree hash can be computed using any secure cryptographic hashing algorithm. Thus, the usage of BLAKE2 can easily be replaced in this proposal. Potential alternatives are, for example:
-- SHA-256: to avoid the introduction of a new hash function and for better hardware support
-- [Troika](https://www.cyber-crypt.com/troika/)/[Kerl](https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md): to keep the entire Merkle tree hash computation in ternary.
