@@ -26,7 +26,8 @@ Definitions:
 Example: the trunk/branch transactions are the approvees of a given transaction.
 * `Solid` means that the past cone of a given transaction exists in the database.
 * A `tail transaction` is the transaction at index zero of a bundle. Only a tail transaction can be a `tip`.
-* A `tip` is a solid tail transaction of a bundle without any approvers. Its past cone contains only structural valid bundles.
+* A `valid bundle` is a bundle which is structurally correct and has valid signatures (in case it moves funds).
+* A `tip` is a solid tail transaction of a valid bundle without any approvers. Its past cone contains only valid bundles.
 * A `score` is a scoring  determining the likeliness to select a given `tip`.
 * `Confirmed Root Transactions` defines the set of first seen transactions which are confirmed by a previous milestone 
 when we walk the past cone of a given transaction. The walk stops on confirmed transactions.  
@@ -165,15 +166,10 @@ func select() Tip {
 }
 ```
 
-A tip must not be removed from the tips set after it was selected in `select()`, 
+A tip should not be removed from the tips set immediately after it was selected in `select()`, 
 in order to make it possible for it to be re-selected, which in turn makes the Tangle wider
-and improves synchronization speed.
-
-A tip will be removed  from the tips set after it either: 
-* gained a direct approver and time `X` passed.
-* a threshold of direct approvers `Y` is reached.
-
-This RFC proposes to use 5 seconds for `X` and 2 for `Y`. 
+and improves synchronization speed. A tip is removed from the tips set if `X` amount of direct
+approvers are reached. It is recommended to use 2 for `X` but the threshold should be configurable. 
 
 
 # Drawbacks
