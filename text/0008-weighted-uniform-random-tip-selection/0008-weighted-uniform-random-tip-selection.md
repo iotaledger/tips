@@ -41,7 +41,7 @@ Note that the red marked milestone is also a `Confirmed Root Transaction`.
 * `Latest Solid Milestone Index (LSMI)` the index of the latest solid milestone.
 * `Below Max Depth (BMD)` defines a threshold value up on which it is decided on whether a transaction is not
 relevant in relation to the recent parts of the Tangle. The current `BMD` for mainnet nodes is 15 milestones, 
-which means that transactions of which their `OTRSI` is more than 15, are "below max depth".
+which means that transactions of which their `OTRSI` in relation to the `LSMI` is more than 15, are "below max depth".
 
 ### OTRSI / YTRSI example
 Given the blue PoV transaction, the `OTRSI` of it is milestone 1 and `YTRSI` milestone 2.
