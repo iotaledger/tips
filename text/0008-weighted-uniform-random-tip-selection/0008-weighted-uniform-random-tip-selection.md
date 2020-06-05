@@ -107,7 +107,7 @@ func score(tip Tip) Score {
             return Score.LAZY
         }
         
-        // if the OTRSI to LSMI delta of the approvee is C2, we mark it as such
+        // if the OTRSI to LSMI delta of the approvee is above C2, we mark it as such
         if (LSMI - OTRSI(approvee) > C2) {
             approveesOTRSICheck--
         }
