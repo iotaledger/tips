@@ -31,8 +31,7 @@ Example: the trunk/branch transactions are the approvees of a given transaction.
 * A `score` is a scoring  determining the likeliness to select a given `tip`.
 * `Confirmed Root Transactions` defines the set of first seen transactions which are confirmed by a previous milestone 
 when we walk the past cone of a given transaction. The walk stops on confirmed transactions.  
-Yellow = `Confirmed Root Transactions` for PoV transaction, Red = Milestone, Blue = PoV transaction.
-Note that the red marked milestone is also a `confirmed root transaction`.
+Note that the red marked milestone is also a `Confirmed Root Transaction`.
 ![sdf](images/cnf_tx_roots.PNG)
 * `Transaction Snapshot Index (TSI)` defines the index of the milestone which confirmed a given transaction.
 * `Oldest Transaction Root Snapshot Index (OTRSI)` defines the lowest milestone index of a set of
@@ -46,7 +45,7 @@ which means that transactions of which their `OTRSI` is more than 15, are "below
 
 ### OTRSI / YTRSI example
 Given the blue PoV transaction, the `OTRSI` of it is milestone 1 and `YTRSI` milestone 2.
-The orange/purple transactions and the red milestones are the `Confirmed Root Transactions`.
+Note that here again, the milestones are also `Confirmed Root Transactions`.
 ![sdf](images/otrsi_ytrsi.PNG)
 
 ### Milestone based tip scoring
