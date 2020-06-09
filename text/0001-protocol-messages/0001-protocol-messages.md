@@ -60,13 +60,13 @@ The network rewrite introduces a new breaking protocol between nodes which works
 #### Header
 Each message in the protocol is denoted by a 3 byte header:
 
-| Order | Name | Length (byte) | Desc             |
-| ----- | ---- | ------------- | ----                         |
-|   1   | Type |   1           | Type of message              |
-|   2   |Length|   2           | Length of message (65 KB max)|
+| Order | Name | Length (byte) | type              | Desc             |
+| ----- | ---- | ------------- | ----------------- | ----                         |
+|   1   | Type |   1           | byte              | Type of message              |
+|   2   |Length|   2           |uint16 (Big Endian)| Length of message (65 KB max)|
 
 #### Handshake
-The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for message types as a bitmap. Each index of the bitmap corresponds to a message type. If the bit on that index is turned on, then the corresponding message type is supported by the node. For example, `[01101110, 01010001]` denotes that this node supports message types 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the bitmap depends on the number of message types supported. The nodes can use that information to know what message types can be realyed to the peers.
+The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for message types as a bit array. Each index of the bit array corresponds to a supported message type. If the bit on that index is turned on, then the corresponding message type is supported by the node. For example, `[01101110, 01010001]` denotes that this node supports message types 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the bit array depends on the number of message types supported. The nodes can use that information to know what message types can be realyed to the peers.
 
 
 | Order | Description            | Length (bytes) |
