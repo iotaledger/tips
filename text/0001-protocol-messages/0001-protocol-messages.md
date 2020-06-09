@@ -60,30 +60,30 @@ The network rewrite introduces a new breaking protocol between nodes which works
 #### Header
 Each message in the protocol is denoted by a 3 byte header:
 
-| Order | Name | Length (byte) | type              | Desc             |
+| Order | Name | Length (byte) | Type              | Desc             |
 | ----- | ---- | ------------- | ----------------- | ----                         |
 |   1   | Type |   1           | byte              | Type of message              |
 |   2   |Length|   2           |uint16 (Big Endian)| Length of message (65 KB max)|
 
 #### Handshake
-The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for gossip protocol versions as a bit array. Each index of the bit array corresponds to a supported gossip protocol version. If the bit on that index is turned on, then the corresponding protocol version is supported by the node. For example, `[01101110, 01010001]` denotes that this node supports protocol versions 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the bit array depends on the number of protocol versions supported. The nodes can use that information to know what message types can be relayed to the peers.
+The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for gossip protocol versions as a little-endian byte array. The nodes can use that information to know what message types can be relayed to the peers.
+Each index of a bit in the byte array corresponds to a supported gossip protocol version. If the bit on that index is turned on, then the corresponding protocol version is supported by the node. The LSB of the first byte has index 1, the LSB of the second byte has index 9, the LSB of the third byte has index 17, and so on.
+For example, `[01101110, 01010001]` denotes that this node supports protocol versions 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the byte array depends on the number of protocol versions supported. Thanks to the `length` field given in the header, the peer can parse the array correctly.
 
-
-| Order | Description            | Length (bytes) |
-| ----- | -----------            | -------------- |
-|  1   | Neighbor's server socket port number, range 1024-65535| 2 |
-| 2     | Timestamp in milliseconds - when the handshake packet was constructed, in order to display the latency to/from the neighbor | 8|
-| 3     | Neighbor's used coordinator address  | 49 |
-| 4     | Own used minimum weight magnitude    | 1  |
-| 5     | Supported supported protocol versions          | variable  |
-
+| Order | Description                                                                                                                 | Type                       | Length (bytes)   |
+| ----- | ----------------------------------------------------------------------                                                      | ----                       | ---------------  |
+|  1    | Neighbor's server socket port number, range 1024-65535                                                                      | uint16 (Big Endian)        | 2                |
+| 2     | Timestamp in milliseconds - when the handshake packet was constructed, in order to display the latency to/from the neighbor | uint64 (Big Endian)        | 8                |
+| 3     | Neighbor's used coordinator address. Encoded in bytes with `t5b1`.                                                          | byte array                 | 49               |
+| 4     | Own used minimum weight magnitude                                                                                           | byte                       | 1                |
+| 5     | Supported supported protocol versions                                                                                       | byte array (Little Endian) | var, max size:32 |
 
 #### Transaction Gossip
 Contains the tx data and a hash of a requested tx. Encodes 5 trits in a byte. If the requested hash corresponds to the hash of the tx data, the receiving node is instructed to send back a random tip.
 The total size of this message varies between 341-1653 bytes due to signature message fragment compaction.
 
 ##### Signature Message Fragment Compaction
-The byte encoded tx data is truncated by removing all suffix 0 bytes (9 trytes) from the signature message fragment before transmission. This can reduce the size up to 81.7%. Spam transactions, however, can prevent this reduction easily by adding data at the end of the signature message fragment).
+The byte encoded tx data is truncated by removing all suffix 0 bytes (9 trytes) from the signature message fragment before transmission. This can reduce the size up to 81.7%. Spam transactions, however, can prevent this reduction easily by adding data at the end of the signature message fragment.
 
 
  
