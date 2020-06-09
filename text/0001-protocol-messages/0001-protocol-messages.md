@@ -66,7 +66,7 @@ Each message in the protocol is denoted by a 3 byte header:
 |   2   |Length|   2           |uint16 (Big Endian)| Length of message (65 KB max)|
 
 #### Handshake
-The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for message types as a bit array. Each index of the bit array corresponds to a supported message type. If the bit on that index is turned on, then the corresponding message type is supported by the node. For example, `[01101110, 01010001]` denotes that this node supports message types 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the bit array depends on the number of message types supported. The nodes can use that information to know what message types can be realyed to the peers.
+The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for gossip protocol versions as a bit array. Each index of the bit array corresponds to a supported gossip protocol version. If the bit on that index is turned on, then the corresponding protocol version is supported by the node. For example, `[01101110, 01010001]` denotes that this node supports protocol versions 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the bit array depends on the number of protocol versions supported. The nodes can use that information to know what message types can be relayed to the peers.
 
 
 | Order | Description            | Length (bytes) |
@@ -75,7 +75,7 @@ The handshake message is the first message which must be sent and received to/fr
 | 2     | Timestamp in milliseconds - when the handshake packet was constructed, in order to display the latency to/from the neighbor | 8|
 | 3     | Neighbor's used coordinator address  | 49 |
 | 4     | Own used minimum weight magnitude    | 1  |
-| 5     | Supported message types          | variable  |
+| 5     | Supported supported protocol versions          | variable  |
 
 
 #### Transaction Gossip
