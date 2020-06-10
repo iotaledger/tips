@@ -17,7 +17,7 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 |  1     | Handshake    |
 |  2     | Legacy Transaction Gossip |
 |  3     | Milestone Request|
-|  4     | Transaction Message |
+|  4     | Transaction |
 |  5     | Transaction Request   |
 |  6     | Heartbeats            |
 
@@ -95,7 +95,7 @@ The byte encoded transaction data is truncated by removing all suffix 0 bytes (9
 
 ## STING - Protocol Version 2
 
-STING is an extension to the IOTA protocol. It breaks the transaction gossip into Transaction Broadcast and Transaction Request. Besides that it adds the Milestone Request and Heartbeat messages.
+STING is an extension to the IOTA protocol. It breaks the transaction gossip into Transaction and Transaction Request messages. Besides that it adds the Milestone Request and Heartbeat messages.
 
 #### Milestone Request
 
