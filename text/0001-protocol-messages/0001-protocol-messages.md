@@ -79,7 +79,7 @@ For example, `[01101110, 01010001]` denotes that this node supports protocol ver
 | 5     | Supported supported protocol versions                                                                                       | byte array (Little Endian) | 1 - 32           |
 
 #### Transaction Gossip
-Contains the tx data and a hash of a requested tx. Encodes 5 trits in a byte. If the requested hash corresponds to the hash of the tx data, the receiving node is instructed to send back a random tip.
+Contains the tx data and a hash of a requested tx. The data is encoded with 5 trits in a byte (`t5b1`). If the requested hash corresponds to the hash of the tx data, the receiving node is instructed to send back a random tip.
 The total size of this message varies between 341-1653 bytes due to signature message fragment compaction.
 
 ##### Signature Message Fragment Compaction
