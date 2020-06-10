@@ -93,7 +93,7 @@ The byte encoded transaction data is truncated by removing all suffix 0 bytes (9
 |  2    | Requested Hash   | byte array (`t5b1`)     | 49              |
 
 
-## STING (Still TrInary Network Gossip) - Protocol Version 2
+## STING - Protocol Version 2
 
 STING is an extension to the IOTA protocol. It breaks the transaction gossip into Transaction Broadcast and Transaction Request. Besides that it adds the Milestone Request and Heartbeat messages.
 
