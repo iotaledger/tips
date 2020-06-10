@@ -1,6 +1,6 @@
 + Feature name: `binary-to-ternary-encoding`
 + Start date: 2020-06-08
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0015](https://github.com/iotaledger/protocol-rfcs/pull/15)
 
 # Summary
 
