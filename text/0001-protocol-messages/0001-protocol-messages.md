@@ -6,9 +6,9 @@
 
 
 # Summary
-Defines the changes that were introduced during the network rewrite. [iotaledger/iri#1072](https://github.com/iotaledger/iri/issues/1072). This is mainly the introduction of new TLV (type-length-value) messages. A header was added to each message, allowing us to create different message types and support different versiond of the protocol. A handshake message was also inroduced to help establish manageable connections with neighbors.
+Defines the changes that were introduced during the network rewrite. [iotaledger/iri#1072](https://github.com/iotaledger/iri/issues/1072). This is mainly the introduction of new TLV (type-length-value) messages. A header was added to each message, allowing us to create different message types and support different versions of the protocol. A handshake message was also introduced to help establish manageable connections with neighbors.
 
-Will also define the STING protocol introduced by the Hornet team. It seperates between transaction requests and broadcasts, allows to request milestones by index, and introduces the concept of heartbeats.
+Will also define the STING protocol introduced by the Hornet team. It separates between transaction requests and broadcasts, allows to request milestones by index, and introduces the concept of heartbeats.
 
 Here is a table summarizing all the new message types. The 3-6 types are part of STING:
 
@@ -38,7 +38,7 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 ***STING (Still TrInary Network Gossip)***
 
 1. Allow for faster syncing by
-    a. Seperating between requests and broadcasts of transactions.
+    a. Separating between requests and broadcasts of transactions.
     b. Allowing to request specific milestones by index.
     c. Sharing between nodes information on the milestones in their databases via Heartbeats
     
@@ -50,7 +50,7 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 # Detailed design
 
 ## **TLV Messages - Protocol Version 1**
-The network rewrite introduces a new breaking protocol between nodes which works with type-length-value (TLV) denoted messages. Meaning that each sent message is composed of a header follwed by the message itself.
+The network rewrite introduces a new breaking protocol between nodes which works with type-length-value (TLV) denoted messages. Meaning that each sent message is composed of a header followed by the message itself.
 
 | Order | Name   | Length (byte) | Desc             |
 | ----- | ----   | ------------- | ----                         |
