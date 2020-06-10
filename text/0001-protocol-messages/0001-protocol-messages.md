@@ -15,9 +15,9 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 | Type # | Message Type |
 | ------ | ------------ |
 |  1     | Handshake    |
-|  2     | Legacy Tx Gossip |
+|  2     | Legacy Transaction Gossip |
 |  3     | Milestone Request|
-|  4     | Transaction Broadcast |
+|  4     | Transaction Message |
 |  5     | Transaction Request   |
 |  6     | Heartbeats            |
 
@@ -41,7 +41,7 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
     a. Separating between requests and broadcasts of transactions.
     b. Allowing to request specific milestones by index.
     c. Sharing between nodes information on the milestones in their databases via Heartbeats
-    
+  
 2. Eliminates fragmentation of request messages.
 
 
@@ -79,11 +79,11 @@ For example, `[01101110, 01010001]` denotes that this node supports protocol ver
 | 5     | Supported supported protocol versions                                                                                       | byte array (Little Endian) | 1 - 32           |
 
 #### Transaction Gossip
-Contains the tx data and a hash of a requested tx. The data is encoded with 5 trits in a byte (`t5b1`). If the requested hash corresponds to the hash of the tx data, the receiving node is instructed to send back a random tip.
+Contains the transaction data and a hash of a requested transaction. The data is encoded with 5 trits in a byte (`t5b1`). If the requested hash corresponds to the hash of the transaction data, the receiving node is instructed to send back a random tip.
 The total size of this message varies between 341-1653 bytes due to signature message fragment compaction.
 
 ##### Signature Message Fragment Compaction
-The byte encoded tx data is truncated by removing all suffix 0 bytes (9 trytes) from the signature message fragment before transmission. This can reduce the size up to 81.7%. Spam transactions, however, can prevent this reduction easily by adding data at the end of the signature message fragment.
+The byte encoded transaction data is truncated by removing all suffix 0 bytes (9 trytes) from the signature message fragment before transmission. This can reduce the size up to 81.7%. Spam transactions, however, can prevent this reduction easily by adding data at the end of the signature message fragment.
 
 
  
