@@ -76,7 +76,7 @@ For example, `[01101110, 01010001]` denotes that this node supports protocol ver
 | 2     | Timestamp in milliseconds - when the handshake packet was constructed, in order to display the latency to/from the neighbor | uint64 (Big Endian)        | 8                |
 | 3     | Neighbor's used coordinator address. Encoded with 5 trits in a byte.                                                        | byte array (`t5b1`)        | 49               |
 | 4     | Own used minimum weight magnitude                                                                                           | byte                       | 1                |
-| 5     | Supported supported protocol versions                                                                                       | byte array (Little Endian) | 1 - 32           |
+| 5     | Supported protocol versions                                                                                       | byte array (Little Endian) | 1 - 32           |
 
 #### Transaction Gossip
 Contains the transaction data and a hash of a requested transaction. The data is encoded with 5 trits in a byte (`t5b1`). If the requested hash corresponds to the hash of the transaction data, the receiving node is instructed to send back a random tip.
