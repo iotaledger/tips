@@ -105,7 +105,7 @@ Requests a milestones by the index. Expects to receive in response the milestone
 | ----- | -----------                            | ---------------------   |----------------  |
 |  1    | Milestone Index                        | uint32 (Big Endian)     |     4            |
 
-#### Transaction Broadcast
+#### Transaction 
 
 Broadcasts the transaction trytes with a 5 trits to a byte encoding. Doesn't expect any message in return. The size remains dynamic to due to signature message compaction.
 
@@ -114,18 +114,10 @@ Broadcasts the transaction trytes with a 5 trits to a byte encoding. Doesn't exp
 | ----- | -----------      | ------------------- | ---------------- |
 |  1    | Transaction Data | byte array (`t5b1`) |292 - 1604       |
 
-####  Transaction Request
-
-Request a transaction by its 81 trytes hash with a 5 trits to a byte encoding.
-
-| Order | Description     | Type                 | Length (bytes)   |
-| ----- | -----------     | -------------------  | ---------------- |
-|  1    | Transaction Hash| byte array (`t5b1`)  |49                |
-
-
 #### Heartbeat
 
-Relays the neighbor last and first solid milestone indexes. The first one depends on what the pruning. This is used to help a syncing node know what data their neighbor has.
+Relays the node's last and first solid milestone indexes. The first one is the milestone where the node pruned at. If no pruning was done on the node it will start on the global snapshot milestone.  This is used to help a syncing node know what data their neighbor has.
+The heartbeat message will be sent to the peers every time the node solidifies on a new milestone or when pruning is done.
 
 |Order | Description                 | Type                   | Length (bytes) |
 | ---- | ------------------          | -------------------    | -------------  | 
