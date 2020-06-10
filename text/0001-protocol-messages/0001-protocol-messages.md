@@ -8,7 +8,7 @@
 # Summary
 Defines the changes that were introduced during the network rewrite. [iotaledger/iri#1072](https://github.com/iotaledger/iri/issues/1072). This is mainly the introduction of new TLV (type-length-value) messages. A header was added to each message, allowing us to create different message types and support different versions of the protocol. A handshake message was also introduced to help establish manageable connections with neighbors.
 
-Will also define the STING protocol introduced by the Hornet team. It separates between transaction requests and broadcasts, allows to request milestones by index, and introduces the concept of heartbeats.
+Will also define the STING protocol introduced by the Hornet team. It separates between transaction requests and the transactions, allows to request milestones by index, and introduces the concept of heartbeats.
 
 Here is a table summarizing all the new message types. The 3-6 types are part of STING:
 
