@@ -101,9 +101,9 @@ STING is an extension to the IOTA protocol. It breaks the transaction gossip int
 
 Requests a range of milestones by index. Expects to receive in response the milestone bundle for the specified index.
 
-| Order | Description                            | Length (bytes)   |
-| ----- | -----------                            | ---------------- |
-|  1    | Milestone Index encoded in Big Endian  | 4                |
+| Order | Description                            | type                    | Length (bytes)   |
+| ----- | -----------                            | ---------------------   |----------------  |
+|  1    | Milestone Index                        | uint32 (Big Endian)     |     4            |
 
 #### Transaction Broadcast
 
