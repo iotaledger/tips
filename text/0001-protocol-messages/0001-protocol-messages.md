@@ -24,7 +24,7 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 # Motivation
 
 ***The network rewrite change***
-1. Ability to kick-out a compromised/malfunctioning neighbor while preserving overall architecture performance. This means that a malfunctioning neighbor will only affect its own relationship with the node and will not affect how then node  treats other neighbors
+1. Ability to kick-out a compromised/malfunctioning neighbor while preserving overall architecture performance. This means that a malfunctioning neighbor will only affect its own relationship with the node and will not affect how then node  treats other neighbors.
 
 2. Drop support for UDP which is in practice slow (due to lack of congestion control) and not so reliable. Only utilize TCP.
 
