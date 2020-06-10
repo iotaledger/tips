@@ -99,7 +99,7 @@ STING is an extension to the IOTA protocol. It breaks the transaction gossip int
 
 #### Milestone Request
 
-Requests a range of milestones by index. Expects to receive in response the milestone bundle for the specified index.
+Requests a milestones by the index. Expects to receive in response the milestone bundle for the specified index.
 
 | Order | Description                            | Type                    | Length (bytes)   |
 | ----- | -----------                            | ---------------------   |----------------  |
