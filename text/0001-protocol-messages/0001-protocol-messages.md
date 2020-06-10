@@ -87,10 +87,10 @@ The byte encoded tx data is truncated by removing all suffix 0 bytes (9 trytes) 
 
 
  
-| Order | Description      | Length (bytes)   |
-| ----- | -----------      | ---------------- |
-|  1    | Transaction Data | 292 - 1604       |
-|  2    | Requested Hash   |  49              |
+| Order | Description      | Type                    |Length (bytes)   |
+| ----- | -----------      | --------------------    |---------------- |
+|  1    | Transaction Data | byte array (`t5b1`)     |292 - 1604       |
+|  2    | Requested Hash   | byte array (`t5b1`)     | 49              |
 
 
 ## STING (Still TrInary Network Gossip) - Protocol Version 2
