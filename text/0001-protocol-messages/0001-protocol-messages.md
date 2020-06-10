@@ -101,7 +101,7 @@ STING is an extension to the IOTA protocol. It breaks the transaction gossip int
 
 Requests a range of milestones by index. Expects to receive in response the milestone bundle for the specified index.
 
-| Order | Description                            | type                    | Length (bytes)   |
+| Order | Description                            | Type                    | Length (bytes)   |
 | ----- | -----------                            | ---------------------   |----------------  |
 |  1    | Milestone Index                        | uint32 (Big Endian)     |     4            |
 
@@ -110,24 +110,24 @@ Requests a range of milestones by index. Expects to receive in response the mile
 Broadcasts the transaction trytes with a 5 trits to a byte encoding. Doesn't expect any message in return. The size remains dynamic to due to signature message compaction.
 
 
-| Order | Description      | Length (bytes)   |
-| ----- | -----------      | ---------------- |
-|  1    | Transaction Data | 292 - 1604       |
+| Order | Description      | Type                | Length (bytes)   |
+| ----- | -----------      | ------------------- | ---------------- |
+|  1    | Transaction Data | byte array (`t5b1`) |292 - 1604       |
 
 ####  Transaction Request
 
-Request a transaction by its 81 trytes hash encoded in bytes.
+Request a transaction by its 81 trytes hash with a 5 trits to a byte encoding.
 
-| Order | Description      | Length (bytes)   |
-| ----- | -----------      | ---------------- |
-|  1    | Transaction Hash | 49               |
+| Order | Description     | Type                 | Length (bytes)   |
+| ----- | -----------     | -------------------  | ---------------- |
+|  1    | Transaction Hash| byte array (`t5b1`)  |49                |
 
 
 #### Heartbeat
 
 Relays the neighbor last and first solid milestone indexes. The first one depends on what the pruning. This is used to help a syncing node know what data their neighbor has.
 
-|Order | Description                       | Length (bytes) |
-| ---- | -------------                     | -------------  | 
-|  1   | First solid milestone index       | 4  (Big Endian)|
-|  2   | Last solid milestone index        | 4 (Big Endian) |
+|Order | Description                 | Type                   | Length (bytes) |
+| ---- | ------------------          | -------------------    | -------------  | 
+|  1   | Last solid milestone index  | uint32 (Big Endian)    | 4 (Big Endian) |
+|  2   | First solid milestone index | unit32 (Big Endian)    | 4  (Big Endian)|
