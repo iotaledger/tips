@@ -35,14 +35,14 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 6. Enabling the addition of new message types and versioning the protocol. Thus paving the way for STING.
 
 
-***STING (Still TrInary Network Gossip)***
+***STING***
 
 1. Allow for faster syncing by
-    a. Separating between requests and broadcasts of transactions.
+    a. Separating between requests and transaction data.
     b. Allowing to request specific milestones by index.
-    c. Sharing between nodes information on the milestones in their databases via Heartbeats
+    c. Sharing between nodes information on the milestones in their databases via heartbeats.
   
-2. Eliminates fragmentation of request messages.
+2. Eliminates fragmentation of request messages. In the legacy gossip messages exceeded TCP's MTU of 1,500 bytes, meaning all gossip transmissions were fragmented by TCP to two packets. Now at least the transaction requests won't be fragmented. Transaction messages are still fragmented unfortunately.
 
 
 
@@ -66,7 +66,7 @@ Each message in the protocol is denoted by a 3 byte header:
 |   2   |Length|   2           |uint16 (Big Endian)| Length of message (65 KB max)|
 
 #### Handshake
-The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for gossip protocol versions as a little-endian byte array. The nodes can use that information to know what message types can be relayed to the peers.
+The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for gossip protocol versions as a little-endian byte array. The nodes can use that information to know what message types can be transmitted to the peers.
 Each index of a bit in the byte array corresponds to a supported gossip protocol version. If the bit on that index is turned on, then the corresponding protocol version is supported by the node. The LSB of the first byte has index 1, the LSB of the second byte has index 9, the LSB of the third byte has index 17, and so on.
 For example, `[01101110, 01010001]` denotes that this node supports protocol versions 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the byte array depends on the number of protocol versions supported. Thanks to the `length` field given in the header, the peer can parse the array correctly.
 
