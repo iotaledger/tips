@@ -24,15 +24,15 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 # Motivation
 
 ***The network rewrite change***
-1. Ability to kick-out a compromised/malfunctioning neighbor while preserving overall architecture performance. This means that a malfunctioning neighbor will only affect its own relationship with the node and will not affect how then node  treats other neighbors.
+- Ability to kick-out a compromised/malfunctioning neighbor while preserving overall architecture performance. This means that a malfunctioning neighbor will only affect its own relationship with the node and will not affect how then node  treats other neighbors.
 
-2. Drop support for UDP which is in practice slow (due to lack of congestion control) and not so reliable. Only utilize TCP.
+- Drop support for UDP which is in practice slow (due to lack of congestion control) and not so reliable. Only utilize TCP.
 
-3. Enabling possibility to enforce global and per neighbor rate limits in both ingress and egress direction. 
+- Enabling possibility to enforce global and per neighbor rate limits in both ingress and egress direction. 
 
-5. Enabling prioritization of message types.
+- Enabling prioritization of message types.
 
-6. Enabling the addition of new message types and versioning the protocol. Thus paving the way for STING.
+- Enabling the addition of new message types and versioning the protocol. Thus paving the way for STING.
 
 
 ***STING***
