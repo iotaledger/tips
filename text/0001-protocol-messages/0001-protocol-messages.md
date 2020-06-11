@@ -37,12 +37,11 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 
 ***STING***
 
-1. Allow for faster syncing by
-    a. Separating between requests and transaction data.
-    b. Allowing to request specific milestones by index.
-    c. Sharing between nodes information on the milestones in their databases via heartbeats.
-  
-2. Eliminates fragmentation of request messages. In the legacy gossip messages exceeded TCP's MTU of 1,500 bytes, meaning all gossip transmissions were fragmented by TCP to two packets. Now at least the transaction requests won't be fragmented. Transaction messages are still fragmented unfortunately.
+- Allow for faster syncing by
+  - Separating between requests and transaction data.
+  - Allowing to request specific milestones by index.
+  - Sharing between nodes information on the milestones in their databases via heartbeats.
+- Eliminates fragmentation of request messages. In the legacy gossip messages exceeded TCP's MTU of 1,500 bytes, meaning all gossip transmissions were fragmented by TCP to two packets. Now, at least the transaction requests will not be fragmented. Transaction messages are still fragmented unfortunately.
 
 
 
@@ -107,7 +106,7 @@ Requests a milestones by the index. Expects to receive in response the milestone
 
 #### Transaction 
 
-Broadcasts the transaction trytes with a 5 trits to a byte encoding. Doesn't expect any message in return. The size remains dynamic to due to signature message compaction.
+Broadcasts the transaction trytes with a 5 trits to a byte encoding. Does not expect any message in return. The size remains dynamic to due to signature message compaction.
 
 
 | Order | Description      | Type                | Length (bytes)   |
@@ -121,5 +120,5 @@ The heartbeat message will be sent to the peers every time the node solidifies o
 
 |Order | Description                 | Type                   | Length (bytes) |
 | ---- | ------------------          | -------------------    | -------------  | 
-|  1   | Last solid milestone index  | uint32 (Big Endian)    | 4 (Big Endian) |
-|  2   | First solid milestone index | unit32 (Big Endian)    | 4  (Big Endian)|
+|  1   | Last solid milestone index  | uint32 (Big Endian)    | 4 |
+|  2   | First solid milestone index | unit32 (Big Endian)    | 4 |
