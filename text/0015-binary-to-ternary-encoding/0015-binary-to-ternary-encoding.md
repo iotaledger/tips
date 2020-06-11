@@ -20,7 +20,7 @@ This algorithm can also be described using the following pseudocode:
 ```
 T ← []
 foreach byte b in S:
-  v ← int(b)
+  v ← int8(b)
   g ← IntToTrits(v, 6)
   T ← T || g
 ```
@@ -35,7 +35,7 @@ S ← []
 foreach 6-trit group g in T:
   v ← TritsToInt(g)
   b ← byte(v)
-  T ← S || b
+  S ← S || b
 ```
 
 ## Examples
@@ -44,9 +44,9 @@ foreach 6-trit group g in T:
   - binary (hex): `00`
   - ternary (trytes): `99`
 - II
-  - binary (hex): `0001020304fbfcfdfeff`
+  - binary (hex): `0001027e7f8081fdfeff`
   - ternary (trytes):
-`99A9B9C9D9V9W9X9Y9Z9`
+`99A9B9RESEGVHVX9Y9Z9`
 - III
   - binary (hex): `9ba06c78552776a596dfe360cc2b5bf644c0f9d343a10e2e71debecd30730d03`
   - ternary (trytes): `GWLW9DLDDCLAJDQXBWUZYZODBYPBJCQ9NCQYT9IYMBMWNASBEDTZOYCYUBGDM9C9`
