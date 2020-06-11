@@ -53,7 +53,8 @@ foreach 6-trit group g in T:
 
 # Drawbacks
 
-Conceptually, one byte can be encoded using log<sub>3</sub>(256) ≈ 5.0474 trits. Thus, encoding 1 byte as 6 trits consumes considerably more memory than the mathematical minimum.
+- Conceptually, one byte can be encoded using log<sub>3</sub>(256) ≈ 5.0474 trits. Thus, encoding 1 byte as 6 trits consumes considerably more memory than the mathematical minimum.
+- Depending on the actual implementation the conversion might be malleable: E.g. both `Z9` (-1) and `LI`(255) could be decoded as `ff`. However, `LI` can never be the result of a valid encoding. As such, the implementation must reject such invalid inputs.
 
 # Rationale and alternatives
 
