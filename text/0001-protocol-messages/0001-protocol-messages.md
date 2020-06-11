@@ -72,7 +72,7 @@ For example, `[01101110, 01010001]` denotes that this node supports protocol ver
 | Order | Description                                                                                                                 | Type                       | Length (bytes)   |
 | ----- | ----------------------------------------------------------------------                                                      | ----                       | ---------------  |
 |  1    | Neighbor's server socket port number, range 1024-65535                                                                      | uint16 (Big Endian)        | 2                |
-| 2     | Timestamp in milliseconds - when the handshake packet was constructed, in order to display the latency to/from the neighbor | uint64 (Big Endian)        | 8                |
+| 2     | Timestamp in milliseconds since Unix epoch - when the handshake packet was constructed. The node uses it to calculate the latency to/from the neighbor | uint64 (Big Endian)        | 8                |
 | 3     | Neighbor's used coordinator address. Encoded with 5 trits in a byte.                                                        | byte array (`t5b1`)        | 49               |
 | 4     | Own used minimum weight magnitude                                                                                           | byte                       | 1                |
 | 5     | Supported protocol versions                                                                                       | byte array (Little Endian) | 1 - 32           |
