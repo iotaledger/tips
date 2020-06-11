@@ -39,9 +39,10 @@ First, this RFC proposes a deterministic ordering of the Tangle, then it explain
 conflicts.
 
 **Note: this RFC is about ledger computation only. For this reason, it assumes that the past cone of a milestone has
-already been confirmed and all the referenced bundles have been validated. However, in the event that an invalid bundle
-was encountered in the confirmation traversal, a node's expected behaviour would be to completely stop operations - and
-log the error - as it would mean the coordinator confirmed something it should not have.**
+already been confirmed and all the referenced bundles have been validated. A bundle is considered valid if it is
+syntactically valid and its signatures are valid. In the event that an invalid bundle was encountered in the
+confirmation traversal, a node's expected behaviour would be to completely stop operations - and log the error - as it
+would mean the coordinator confirmed something it should not have.**
 
 ## Deterministically ordering the Tangle
 
