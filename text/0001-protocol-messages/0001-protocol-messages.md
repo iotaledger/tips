@@ -106,7 +106,7 @@ Requests a milestones by the index. Expects to receive in response the milestone
 
 #### Transaction 
 
-Broadcasts the transaction trytes with a 5 trits to a byte encoding. Does not expect any message in return. The size remains dynamic to due to signature message compaction.
+The transaction trytes with a 5 trits to a byte encoding. Does not expect any message in return. The size remains dynamic to due to signature message compaction.
 
 
 | Order | Description      | Type                | Length (bytes)   |
