@@ -28,7 +28,7 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 
 - Drop support for UDP which is in practice slow (due to lack of congestion control) and not so reliable. Only utilize TCP.
 
-- Enabling possibility to enforce global and per neighbor rate limits in both ingress and egress direction. 
+- Enabling possibility to enforce global and per neighbor rate limits in both ingress and egress directions. 
 
 - Enabling prioritization of message types.
 
