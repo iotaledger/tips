@@ -8,7 +8,7 @@
 # Summary
 Defines the changes that were introduced during the network rewrite. [iotaledger/iri#1072](https://github.com/iotaledger/iri/issues/1072). This is mainly the introduction of new TLV (type-length-value) messages. A header was added to each message, allowing us to create different message types and support different versions of the protocol. A handshake message was also introduced to help establish manageable connections with neighbors.
 
-Will also define the STING protocol introduced by the Hornet team. It separates between transaction requests and the transactions, allows to request milestones by index, and introduces the concept of heartbeats.
+This RFC also defines the STING protocol introduced by the Hornet team. It separates between transaction requests and the transactions, allows to request milestones by index, and introduces the concept of heartbeats.
 
 Here is a table summarizing all the new message types. The 3-6 types are part of STING:
 
@@ -19,12 +19,12 @@ Here is a table summarizing all the new message types. The 3-6 types are part of
 |  3     | Milestone Request|
 |  4     | Transaction |
 |  5     | Transaction Request   |
-|  6     | Heartbeats            |
+|  6     | Heartbeat            |
 
 # Motivation
 
 ***The network rewrite change***
-- Ability to kick-out a compromised/malfunctioning neighbor while preserving overall architecture performance. This means that a malfunctioning neighbor will only affect its own relationship with the node and will not affect how then node  treats other neighbors.
+- Ability to kick-out a compromised/malfunctioning neighbor while preserving overall architecture performance. This means that a malfunctioning neighbor will only affect its own relationship with the node and will not affect how the node  treats other neighbors.
 
 - Drop support for UDP which is in practice slow (due to lack of congestion control) and not so reliable. Only utilize TCP.
 
@@ -73,7 +73,7 @@ For example, `[01101110, 01010001]` denotes that this node supports protocol ver
 | ----- | ----------------------------------------------------------------------                                                      | ----                       | ---------------  |
 |  1    | Neighbor's server socket port number, range 1024-65535                                                                      | uint16 (Big Endian)        | 2                |
 | 2     | Timestamp in milliseconds since Unix epoch - when the handshake packet was constructed. The node uses it to calculate the latency to/from the neighbor | uint64 (Big Endian)        | 8                |
-| 3     | Neighbor's used coordinator address. Encoded with 5 trits in a byte.                                                        | byte array (`t5b1`)        | 49               |
+| 3     | Neighbor's used coordinator address. Encoded with 5 trits in a byte                                                        | byte array (`t5b1`)        | 49               |
 | 4     | Own used minimum weight magnitude                                                                                           | byte                       | 1                |
 | 5     | Supported protocol versions                                                                                       | byte array (Little Endian) | 1 - 32           |
 
