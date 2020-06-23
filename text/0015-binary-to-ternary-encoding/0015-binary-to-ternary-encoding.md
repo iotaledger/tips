@@ -58,7 +58,7 @@ foreach 6-trit group g in T:
 
 # Rationale and alternatives
 
-There are several ways to convert binary data into ternaray, e.g.
+There are several ways to convert binary data into ternary, e.g.
  - the conversion used as part of the [Kerl](https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md) hash function encoding chunks of 48 bytes as 242 trits,
  - or by encoding each bit as one trit with the corresponding value.
 
