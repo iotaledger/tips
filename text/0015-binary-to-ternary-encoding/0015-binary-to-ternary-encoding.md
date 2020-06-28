@@ -64,11 +64,7 @@ There are several ways to convert binary data into ternary, e.g.
  - the conversion used as part of the [Kerl](https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md) hash function encoding chunks of 48 bytes as 242 trits,
  - or by encoding each bit as one trit with the corresponding value.
 
-Each conversion method has different advantages and disadvantages. However, since the `t5b1` encoding is well-defined and has been used in [IRI](https://github.com/iotaledger/iri) for both network communications and storage layers for a long time, choosing the direct counterpart for the opposite conversion represents the most logical solution providing a nice balance between performance and memory-efficiency.
-
-# Open questions
-
-The current client libraries do not offer any functionality to convert bytes into trits. The closest offered functionality is the ASCII to trit conversion, which is used for human-readable messages in transactions:
+The current client libraries do not provide any functionality to convert an arbitrary amount of bytes into trits. The closest available functionality is the ASCII to trit conversion, which is used for human-readable messages in transactions:
 ```
 T ← []
 foreach char c in S:
@@ -77,5 +73,6 @@ foreach char c in S:
   T ← T || IntToTrits(first, 3) || IntToTrits(second, 3)
 ```
 This function can be adapted to encode any general byte string. However, the conversion seems rather arbitrary and the algorithm is computationally more intense than the proposed solution.
+On the other hand, using the algorithm from this RFC also for the conversion of ASCII messages would break backward compatibility, which is also undesirable.
 
-On the other hand, using the algorithm from this RFC also for the conversion of ASCII messages would break backward compatibility.
+Each conversion method has different advantages and disadvantages. However, since the `t5b1` encoding is well-defined and has been used in [IRI](https://github.com/iotaledger/iri) for both network communications and storage layers for a long time, choosing the direct counterpart for the opposite conversion represents the most logical solution providing a nice balance between performance and memory-efficiency.
