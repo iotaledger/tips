@@ -5,11 +5,13 @@
 # Summary
 
 In the IOTA protocol, a transaction is represented as ternary data. However, sometimes it is necessary to store binary data (e.g. the digest of a binary hash function) inside of a transaction. This requires the conversion of binary into ternary strings.
-The IOTA client libraries support the opposite conversion that encodes 5 trits as 1 byte (sometimes also referred to as `t5b1`), which is used for network communication and in storage layers. This RFC describes the corresponding counterpart to encode 1 byte as 6 trits.
+The IOTA client libraries support the opposite conversion that encodes 5 trits as 1 byte (sometimes also referred to as `t5b1` encoding), which is used for network communication and in storage layers. This RFC describes the corresponding counterpart to encode 1 byte as 6 trits.
 
 # Motivation
 
 A byte is composed of 8 bits that can represent 2<sup>8</sup> = 256 different values. On the other hand, 6 trits can hold 3<sup>6</sup> = 729 values while 5 trits can hold 3<sup>5</sup> = 243 values. Therefore, the most memory-efficient way to encode one byte requires the use of 6 trits. Although there exist many potential encoding schemes to convert binary data into ternary, the proposed version has been designed to directly match the widely used `t5b1` encoding.
+
+It is important to note that the `b1t6` encoding presented in this RFC does not replace the current `t5b1` encoding (or its corresponding decoding): `t5b1` is for example used to store trytes in a binary database, while `b1t6` will be used to attach binary data to an IOTA transaction.
 
 # Detailed design
 
@@ -54,7 +56,7 @@ foreach 6-trit group g in T:
 # Drawbacks
 
 - Conceptually, one byte can be encoded using log<sub>3</sub>(256) ≈ 5.0474 trits. Thus, encoding 1 byte as 6 trits consumes considerably more memory than the mathematical minimum.
-- Depending on the actual implementation the conversion might be malleable: E.g. both `Z9` (-1) and `LI`(255) could be decoded as `ff`. However, `LI` can never be the result of a valid encoding. As such, the implementation must reject such invalid inputs.
+- Depending on the actual implementation the conversion might be malleable: E.g. since `byte(-1) = 0xff` and `byte(255) = 0xff`, both `Z9` (-1) and `LI`(255) could be decoded as `ff`. However, `LI` can never be the result of a valid `b1t6` encoding. As such, the implementation must reject such invalid inputs.
 
 # Rationale and alternatives
 
