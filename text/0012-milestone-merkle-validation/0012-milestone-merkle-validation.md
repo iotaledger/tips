@@ -23,7 +23,7 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 
 - Perform tip selection to choose a branch and a trunk for the new milestone.
 - Determine the topological order according to [RFC-0005](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) of the referenced bundles that are not yet confirmed by a previous milestone.
-- Construct the list B<sup>tri</sup> consisting of the tail transaction hashes of all the not-ignored state-mutating bundles in that particular order. A bundle is state-mutating, if it actually modifies the ledger state by moving funds from one address to another. That is, any bundle having an address with a total output value larger than that address' total input value, is a state-mutating transaction.
+- Construct the list B<sup>tri</sup> consisting of the tail transaction hashes of all the not-ignored state-mutating bundles in that particular order. A bundle is state-mutating, if it actually modifies the ledger state by moving funds from one address to another. That is, any bundle having an address with a total output value larger than that address' total input value, is a state-mutating bundle.
 - Convert each element of B<sup>tri</sup> to binary by applying the `t5b1` encoding. (This is exactly the conversion used for binary I/O of ternary data in the current protocol.) This leads to the ordered list B containing 49-byte strings.
 - Compute the 64-byte Merkle tree hash H = MTH(B).
 - Convert H to ternary by applying the encoding described in [RFC-0015](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.md). This leads to H<sup>tri</sup> with a length of 384 trits.
