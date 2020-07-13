@@ -64,7 +64,7 @@ Given an ordered list of n input strings D<sub>n</sub> = {d<sub>1</sub>, d<sub>2
   - The Merkle tree hash can be defined recursively:<br>
     MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) || MTH({d<sub>k+1</sub>, ..., d<sub>n</sub>}) ).
 
-Note that the hash calculations for leaves and nodes differ. This allows the validator to distinguish between leaves and nodes, which is required to provide second preimage resistance.
+Note that the hash calculations for leaves and nodes differ. This is required to provide second preimage resistance: Without such a prefix, for a given input D an attacker could replace  two (or more) leaves with their corresponding aggregated node hash without changing the final value of MTH(D). This violates the fundamental assumption that, given MTH(D), it should be practically impossible to find a different input D' leading to the same value. Adding a simple prefix mitigates this issue, since now leaf and node hashes are computed differently and can no longer be interchanged.
 
 Note that we do not require the length of the input to be a power of two. However, its shape is still uniquely determined by the number of leaves.
 
@@ -111,7 +111,7 @@ root: d07161bdb535afb7dbb3f5b2fb198ecf715cbd9dfca133d2b48d67b1e11173c6f92bed2f4d
 
 # Drawbacks
 
-- With this proposal the `signatureMessageFragment` now consists of two parts: The audit path of the Coordinator's Merkle tree and the 128-tryte Merkle tree hash of the confirmed bundles. This approach limits the depth of the Coordinator's Merkle tree to at most 25 (instead of 27 without the hash). However, a depth of 25 still allows to issue a milestone every 30 seconds for over 30 years.
+- With this proposal the `signatureMessageFragment` now consists of two parts: The audit path of the Coordinator's Merkle tree and the 128-tryte Merkle tree hash of the confirmed bundles. This approach limits the depth of the Coordinator's Merkle tree to at most 25 (instead of 27 without the hash). However, a depth of 25 still allows to issue a milestone every 30s for over 30 years or every 10s for 10 years.
 - The computation of the Merkle tree hash of D<sub>n</sub> requires 2n-1 evaluations of the underlying hashing algorithm. This makes the milestone creation and validation computationally slightly more expensive.
 
 # Rationale and alternatives
