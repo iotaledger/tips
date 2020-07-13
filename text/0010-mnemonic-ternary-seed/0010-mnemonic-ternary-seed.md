@@ -1,4 +1,4 @@
-+ Feature name: `mnemonic-seed`
++ Feature name: `mnemonic-ternary-seed`
 + Start date: 2020-03-11
 + RFC PR: [iotaledger/protocol-rfcs#0010](https://github.com/iotaledger/protocol-rfcs/pull/10)
 
