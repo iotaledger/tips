@@ -33,7 +33,7 @@ Using an UTXO based model provides several benefits:
 * Parallel validation of transactions.
 * Easier double-spend detection, since conflicting transactions would reference the same UTXO.
 * Replay-protection which is especially important when having reusable addresses. Replaying the same transaction would manifest itself as already being applied or existent and thus not have any impact.
-* Technically seen, balances are no longer associated to addresses which raises the level of abstraction and thus enables other types of outputs. Consider for example a type of output which specifies the balance to be unlocked by a transaction using this output which must fulfill a very hard Proof-of-Work difficulty or supply some other unlock criteria etc.
+* Technically seen, balances may no longer be associated to addresses which raises the level of abstraction and thus enables other types of outputs. Consider for example a type of output which specifies the balance to be unlocked by a transaction which must fulfill a very hard Proof-of-Work difficulty or supply some other unlock criteria etc.
 
 Within a transaction using UTXOs, inputs and outputs make up the to be signed data of the transaction. The section unlocking the inputs is called *unlock block*. An unlock block may contain a signature proving ownership of a given input's address and/or other unlock criteria.
 
@@ -54,40 +54,8 @@ A <i>Signed Transaction</i> payload is made up of two parts:
 All values are serialized in little-endian encoding. The serialized form of the transaction is deterministic, meaning the same logical transaction always results in the same serialized byte sequence.
 
 Following table structure describes the entirety of a <i>Signed Transaction</i> payload's serialized form:
-<details>
-    <summary>Data Types</summary>
-    <table>
-        <tr>
-            <th>Notation</th>
-            <th>Size</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td><code>byte</code></td>
-            <td>1 byte</td>
-            <td>An unsigned 8-bit integer.</td>
-        </tr>
-        <tr>
-            <td><code>varint</code></td>
-            <td>variable</td>
-            <td>
-            A numerical value using N amount of bytes needed to represent its value. <a href="https://developers.google.com/protocol-buffers/docs/encoding#varints">See docs on the Protocol Buffers site</a>.
-            </td>
-        </tr>
-        <tr>
-            <td><code>ByteArray</code></td>
-            <td>1 varint (length) + <i>L</i> * bytes</td>
-            <td>A variable sized array of bytes where the leading varint <i>L</i> denotes the size of the array.</td>
-        </tr>
-        <tr>
-            <td><code>ByteArray[N]</code></td>
-            <td><i>N</i> * bytes</td>
-            <td>A fixed sized array of bytes (<strong>without</strong> a leading varint <i>N</i> denoting the size of the array).<br/> i.e. <code>ByteArray[32]</code>: A byte array with 32 bytes. </td>
-        </tr>
-    </table>
-</details>
-
-<details>
+* [Data Type Notation](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md#data-types)
+* <details>
     <summary>Subschema Notation</summary>
     <table>
         <tr>
@@ -114,7 +82,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
 <table>
     <tr>
         <th>Name</th>
-        <th>Type</b></th>
+        <th>Type</th>
         <th>Description</th>
     </tr>
     <tr>
@@ -134,7 +102,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                 </blockquote>
                 <table>
                     <tr>
-                        <td><b>Name<b></td>
+                        <td><b>Name</b></td>
                         <td><b>Type</b></td>
                         <td><b>Description</b></td>
                     </tr>
@@ -160,7 +128,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                 </blockquote>
                                 <table>
                                     <tr>
-                                        <td><b>Name<b></td>
+                                        <td><b>Name</b></td>
                                         <td><b>Type</b></td>
                                         <td><b>Description</b></td>
                                     </tr>
@@ -200,7 +168,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                 </blockquote>
                                 <table>
                                     <tr>
-                                        <td><b>Name<b></td>
+                                        <td><b>Name</b></td>
                                         <td><b>Type</b></td>
                                         <td><b>Description</b></td>
                                     </tr>
@@ -215,10 +183,32 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                         <td valign="top">Address <code>oneOf</code></td>
                                         <td colspan="2">
                                             <details>
+                                                <summary>WOTS Address</summary>
+                                                <table>
+                                                    <tr>
+                                                        <td><b>Name</b></td>
+                                                        <td><b>Type</b></td>
+                                                        <td><b>Description</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Address Type</td>
+                                                        <td>byte/varint</td>
+                                                        <td>
+                                                            Set to <strong>value 0</strong> to denote a <i>WOTS Address</i>.
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Address</td>
+                                                        <td>ByteArray[49]</td>
+                                                        <td>The T5B1 encoded WOTS address.</td>
+                                                    </tr>
+                                                </table>
+                                            </details>
+                                            <details>
                                                 <summary>Ed25519 Address</summary>
                                                 <table>
                                                     <tr>
-                                                        <td><b>Name<b></td>
+                                                        <td><b>Name</b></td>
                                                         <td><b>Type</b></td>
                                                         <td><b>Description</b></td>
                                                     </tr>
@@ -233,28 +223,6 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                                         <td>Address</td>
                                                         <td>ByteArray[32]</td>
                                                         <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-                                                    </tr>
-                                                </table>
-                                            </details>
-                                            <details>
-                                                <summary>WOTS Address</summary>
-                                                <table>
-                                                    <tr>
-                                                        <td><b>Name<b></td>
-                                                        <td><b>Type</b></td>
-                                                        <td><b>Description</b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Address Type</td>
-                                                        <td>byte/varint</td>
-                                                        <td>
-                                                            Set to <strong>value 1</strong> to denote a <i>WOTS Address</i>.
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Address</td>
-                                                        <td>ByteArray[49]</td>
-                                                        <td>The T5B1 encoded WOTS address.</td>
                                                     </tr>
                                                 </table>
                                             </details>
@@ -399,33 +367,6 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     <tr>
                         <td valign="top">Signature <code>oneOf</code></td>
                         <td colspan="2">
-                             <details>
-                                <summary>Ed25519 Signature</summary>
-                                <table>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Signature Type</td>
-                                        <td>byte/varint</td>
-                                        <td>
-                                            Set to <strong>value 0</strong> to denote an <i>Ed25519 Signature</i>.
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Public key</td>
-                                        <td>ByteArray[32]</td>
-                                        <td>The public key of the Ed25519 keypair which is used to verify the signature.</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Signature</td>
-                                        <td>ByteArray[64]</td>
-                                        <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
-                                    </tr>
-                                </table>
-                            </details>
                             <details>
                                 <summary>WOTS Signature</summary>
                                 <table>
@@ -438,12 +379,39 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                         <td>Signature Type</td>
                                         <td>byte/varint</td>
                                         <td>
-                                            Set to <strong>value 1</strong> to denote a <i>WOTS Signature</i>.
+                                            Set to <strong>value 0</strong> to denote a <i>WOTS Signature</i>.
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Signature</td>
                                         <td>ByteArray</td>
+                                        <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
+                                    </tr>
+                                </table>
+                            </details>
+                             <details>
+                                <summary>Ed25519 Signature</summary>
+                                <table>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Signature Type</td>
+                                        <td>byte/varint</td>
+                                        <td>
+                                            Set to <strong>value 1</strong> to denote an <i>Ed25519 Signature</i>.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Public key</td>
+                                        <td>ByteArray[32]</td>
+                                        <td>The public key of the Ed25519 keypair which is used to verify the signature.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Signature</td>
+                                        <td>ByteArray[64]</td>
                                         <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
                                     </tr>
                                 </table>
@@ -503,7 +471,7 @@ Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at
     <summary>Format</summary>
     <table>
         <tr>
-            <td><b>Name<b></td>
+            <td><b>Name</b></td>
             <td><b>Type</b></td>
             <td><b>Description</b></td>
         </tr>
@@ -542,7 +510,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
     <summary>Format</summary>
     <table>
         <tr>
-            <td><b>Name<b></td>
+            <td><b>Name</b></td>
             <td><b>Type</b></td>
             <td><b>Description</b></td>
         </tr>
@@ -557,32 +525,10 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
             <td>Address (oneOf)</td>
             <td colspan="2">
                 <details>
-                    <summary>Ed25519 Address</summary>
-                    <table>
-                        <tr>
-                            <td><b>Name<b></td>
-                            <td><b>Type</b></td>
-                            <td><b>Description</b></td>
-                        </tr>
-                        <tr>
-                            <td>Address Type</td>
-                            <td>byte/varint</td>
-                            <td>
-                                Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Address</td>
-                            <td>ByteArray[32]</td>
-                            <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-                        </tr>
-                    </table>
-                </details>
-                <details>
                     <summary>WOTS Address</summary>
                     <table>
                         <tr>
-                            <td><b>Name<b></td>
+                            <td><b>Name</b></td>
                             <td><b>Type</b></td>
                             <td><b>Description</b></td>
                         </tr>
@@ -590,13 +536,35 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
                             <td>Address Type</td>
                             <td>byte/varint</td>
                             <td>
-                                Set to <strong>value 1</strong> to denote a <i>WOTS Address</i>.
+                                Set to <strong>value 0</strong> to denote a <i>WOTS Address</i>.
                             </td>
                         </tr>
                         <tr>
                             <td>Address</td>
                             <td>ByteArray[49]</td>
                             <td>The T5B1 encoded WOTS address.</td>
+                        </tr>
+                    </table>
+                </details>
+                <details>
+                    <summary>Ed25519 Address</summary>
+                    <table>
+                        <tr>
+                            <td><b>Name</b></td>
+                            <td><b>Type</b></td>
+                            <td><b>Description</b></td>
+                        </tr>
+                        <tr>
+                            <td>Address Type</td>
+                            <td>byte/varint</td>
+                            <td>
+                                Set to <strong>value 1</strong> to denote an <i>Ed25519 Address</i>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td>ByteArray[32]</td>
+                            <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
                         </tr>
                     </table>
                 </details>
@@ -633,7 +601,7 @@ The <i>Unlock Blocks</i> part holds the unlock blocks unlocking inputs within an
 There are different types of <i>Unlock Blocks</i>:
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Value</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -669,33 +637,6 @@ There are different types of <i>Unlock Blocks</i>:
         <tr>
             <td valign="top">Signature <code>oneOf</code></td>
             <td colspan="2">
-                 <details>
-                    <summary>Ed25519 Signature</summary>
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                        </tr>
-                        <tr>
-                            <td>Signature Type</td>
-                            <td>byte/varint</td>
-                            <td>
-                                Set to <strong>value 0</strong> to denote an <i>Ed25519 Signature</i>.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Public key</td>
-                            <td>ByteArray[32]</td>
-                            <td>The public key of the Ed25519 keypair which is used to verify the signature.</td>
-                        </tr>
-                        <tr>
-                            <td>Signature</td>
-                            <td>ByteArray[64]</td>
-                            <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
-                        </tr>
-                    </table>
-                </details>
                 <details>
                     <summary>WOTS Signature</summary>
                     <table>
@@ -708,12 +649,39 @@ There are different types of <i>Unlock Blocks</i>:
                             <td>Signature Type</td>
                             <td>byte/varint</td>
                             <td>
-                                Set to <strong>value 1</strong> to denote a <i>WOTS Signature</i>.
+                                Set to <strong>value 0</strong> to denote a <i>WOTS Signature</i>.
                             </td>
                         </tr>
                         <tr>
                             <td>Signature</td>
                             <td>ByteArray</td>
+                            <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
+                        </tr>
+                    </table>
+                </details>
+                 <details>
+                    <summary>Ed25519 Signature</summary>
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td>Signature Type</td>
+                            <td>byte/varint</td>
+                            <td>
+                                Set to <strong>value 1</strong> to denote an <i>Ed25519 Signature</i>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Public key</td>
+                            <td>ByteArray[32]</td>
+                            <td>The public key of the Ed25519 keypair which is used to verify the signature.</td>
+                        </tr>
+                        <tr>
+                            <td>Signature</td>
+                            <td>ByteArray[64]</td>
                             <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
                         </tr>
                     </table>
@@ -792,9 +760,10 @@ Following criteria defines whether the transaction passes the syntactical valida
     * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
 * `Payload Length` must be 0 (to indicate that there's no payload) or be valid for the specified payload type.
 * `Payload Type` must be one of the supported payload types if `Payload Length` is not 0.
-* `Unlock Blocks Count` must match the amount of inputs. Must be 0 < x ≤ 127.
+* `Unlock Blocks Count` must match the amount of inputs. Must be 0 < x < 127.
 * `Unlock Block Type` must either be 0 or 1, denoting a `Signature Unlock Block` or `Reference Unlock block`.
-* `Signature Unlock Blocks` must define either an `Ed25519`- or `WOTS Signature` and be unique.
+* `Signature Unlock Blocks` must define either an `Ed25519`- or `WOTS Signature`.
+* A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at same index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin `Signature Unlock Block`.
 * `Reference Unlock Blocks` must specify a previous `Unlock Block` which is not of type `Reference Unlock Block`. The reference index must therefore be < the index of the `Reference Unlock Block`.
 * Given the type and length information, the <i>Signed Transaction</i> must consume the entire byte array the `Payload Length` field in the <i>Message</i> defines.
 
@@ -809,10 +778,9 @@ Processing transactions in the White-Flag ordering enables users to spend UTXOs 
 
 Following criteria defines whether the transaction passes the semantic validation:
 1. The UTXOs the transaction references must be known (booked) and unspent.
-1. The transaction is spending the entirety of the funds of the referenced UTXOs to the ouputs.
+1. The transaction is spending the entirety of the funds of the referenced UTXOs to the outputs.
 1. The address type of the referenced UTXO must match the signature type contained in the corresponding <i>Signature Unlock Block</i>.
 1. The <i>Signature Unlock Blocks</i> are valid, i.e. the signatures prove ownership over the addresses of the referenced UTXOs.
-1. <i>Signature Unlock Blocks</i> unlocking multiple inputs must only appear once (be unique) at same index of the first input it unlocks. All other inputs unlocked by the same <i>Signature Unlock Block</i> must have a companion <i>Reference Unlock Block</i> at the same index as the corresponding input which points to the origin <i>Signature Unlock Block</i>.
 
 If a transaction passes the semantic validation, its referenced UTXOs must be marked as spent and the corresponding new outputs must be booked/specified in the ledger. The booked transaction then also becomes part of the White-Flag Merkle tree inclusion set.
 
