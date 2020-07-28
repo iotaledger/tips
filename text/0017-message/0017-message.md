@@ -37,7 +37,7 @@ The following are data types that we will use when we specify fields in the mess
 
 
 ### Message ID
-The message ID will be the `Blake2b-256` hash of the byte contents of the message. It should be used by the nodes to index the messages and by external APIs.
+The message ID will be the `BLAKE2b-256` hash of the byte contents of the message. It should be used by the nodes to index the messages and by external APIs.
 
 
 ### Message Structure
@@ -54,12 +54,12 @@ The message ID will be the `Blake2b-256` hash of the byte contents of the messag
         <td>The message version. The schema specified in this RFC is for version <strong>1</strong> only. </td>
     </tr>
     <tr>
-        <td>Parent #1 (<code>trunk</code>)</td>
+        <td>Parent1 (<code>trunk</code>)</td>
         <td>ByteArray[32]</td>
         <td>The Message ID of the first <i>Message</i> we reference.</td>
     </tr>
     <tr>
-        <td>Parent #2 (<code>branch</code>)</td>
+        <td>Parent2 (<code>branch</code>)</td>
         <td>ByteArray[32]</td>
         <td>The Message ID of the second <i>Message</i> we reference.</td>
     </tr>
@@ -112,9 +112,9 @@ The message ID will be the `Blake2b-256` hash of the byte contents of the messag
 
 ### Message PoW Hash
 
-This  hash is computed by converting all the messages raw bytes into trytes with `b1t6`. Then hash the result with CURL-P81. The result will be used to verify the proof-of-work done on the message. This will be used for spam protection.
+This hash is computed by converting all the messages raw bytes into trytes with `b1t6`. Then hash the result with Curl-P-81. The result will be used to verify the proof-of-work done on the message. This will be used for spam protection.
 
-Ideally the Message ID would have been used. Then we could have fully deprecated all trinary remnants. However we must pay attention to specialized hardware that can render the PoW protection useless. The advantage of CURL that we have a scarce presence of FPGAs that can easily break it.
+Ideally, the Message ID would also be used for the PoW, but then the Hash function used for the Message ID must also be used for the PoW. Separating them gives us much more flexibility with the PoW method and we can even apply the current Curl based PoW mechanism.
 
 ### Message Validation
 
@@ -142,12 +142,12 @@ A message is considered valid, if the following syntactic rules are met:
 
 Each message will contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `Unsigned Payload` will be specified here as an example.
 
-| Payload Name                            |  Type Value | 
-| --------------------------------------- |  ---------- |
-| Signed Transaction                      |     0       |
-| [Unsigned Data](#Unsigned-Data-Payload) |     2       |
-| Signed Data                             |     3       |                                   |
-| Indexation                              |     4       |
+| Payload Name                              |   Type Value |
+| ---------------------------------------   | -----------  | 
+|  Signed Transaction                       |     0        |
+|  Signed Data                              |     1        |
+|  [Unsigned Data](#Unsigned-Data-Payload)  |     2        |
+| Indexation                                |     3        |
 
 ### Unsigned Data Payload
 
@@ -174,7 +174,8 @@ This approach seems less extensible. It might have made sense if we wanted to bu
 
 # Unresolved questions
 
-- What should be the length of the message?
+- What should be the maximum length of the message?
 - Better protection with PoW? how does the length of the message and type of payloads should affect difficulty?
 - How should we pad the message to fit it into CURL for PoW?
-- To what non-trinary hash function should we switch to?
+- How should we pad the input for CURL? One proposal is to go with padding method 2 that is described here https://en.wikipedia.org/wiki/ISO/IEC_9797-1#Padding
+- Do we want to move away from using CURL for PoW in the future?
