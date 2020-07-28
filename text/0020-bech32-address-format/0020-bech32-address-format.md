@@ -1,6 +1,6 @@
 + Feature name: `bech32-address-format`
 + Start date: 2020-07-28
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0020](https://github.com/iotaledger/protocol-rfcs/pull/20)
 
 # Summary
 
