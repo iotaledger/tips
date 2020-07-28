@@ -108,14 +108,14 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                     <tr>
                         <td>Transaction Type</td>
-                        <td>byte/varint</td>
+                        <td>varint</td>
                         <td>
                         Set to <strong>value 0</strong> to denote an <i>Unsigned Transaction</i>.
                         </td>
                     </tr>
                    <tr>
                         <td>Inputs Count</td>
-                        <td>byte/varint</td>
+                        <td>varint</td>
                         <td>The amount of inputs proceeding.</td>
                     </tr>
                    <tr>
@@ -134,7 +134,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Input Type</td>
-                                        <td>byte/varint</td>
+                                        <td>varint</td>
                                         <td>
                                             Set to <strong>value 0</strong> to denote an <i>UTXO Input</i>.
                                         </td>
@@ -146,7 +146,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Transaction Output Index</td>
-                                        <td>byte/varint</td>
+                                        <td>varint</td>
                                         <td>The index of the output on the referenced transaction to consume.</td>
                                     </tr>
                                 </table>
@@ -155,7 +155,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                    <tr>
                         <td>Outputs Count</td>
-                        <td>byte/varint</td>
+                        <td>varint</td>
                         <td>The amount of outputs proceeding.</td>
                     </tr>
                    <tr>
@@ -174,7 +174,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Output Type</td>
-                                        <td>byte/varint</td>
+                                        <td>varint</td>
                                         <td>
                                             Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.
                                         </td>
@@ -192,7 +192,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                                     </tr>
                                                     <tr>
                                                         <td>Address Type</td>
-                                                        <td>byte/varint</td>
+                                                        <td>varint</td>
                                                         <td>
                                                             Set to <strong>value 0</strong> to denote a <i>WOTS Address</i>.
                                                         </td>
@@ -214,7 +214,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                                     </tr>
                                                     <tr>
                                                         <td>Address Type</td>
-                                                        <td>byte/varint</td>
+                                                        <td>varint</td>
                                                         <td>
                                                             Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
                                                         </td>
@@ -239,7 +239,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                     <tr>
                         <td>Payload Length</td>
-                        <td>byte/varint</td>
+                        <td>varint</td>
                         <td>The length in bytes of the optional payload.</td>
                     </tr>
                    <tr>
@@ -258,7 +258,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Payload Type</td>
-                                        <td>byte/varint</td>
+                                        <td>varint</td>
                                         <td>
                                         Set to <strong>value 2</strong> to denote an <i>Unsigned Data</i> payload.
                                         </td>
@@ -284,7 +284,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Payload Type</td>
-                                        <td>byte/varint</td>
+                                        <td>varint</td>
                                         <td>
                                         Set to <strong>value 3</strong> to denote an <i>Signed Data</i> payload.
                                         </td>
@@ -320,7 +320,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Payload Type</td>
-                                        <td>byte/varint</td>
+                                        <td>varint</td>
                                         <td>
                                         Set to <strong>value 4</strong> to denote an <i>Indexation</i> payload.
                                         </td>
@@ -340,7 +340,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
     </tr>
     <tr>
         <td>Unlock Blocks Count</td>
-        <td>byte/varint</td>
+        <td>varint</td>
         <td>The count of unlock blocks proceeding. Must match count of inputs specified.</td>
     </tr>
     <tr>
@@ -359,7 +359,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                     <tr>
                         <td>Unlock Type</td>
-                        <td>byte/varint</td>
+                        <td>varint</td>
                         <td>
                             Set to <strong>value 0</strong> to denote a <i>Signature Unlock Block</i>.
                         </td>
@@ -377,7 +377,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Signature Type</td>
-                                        <td>byte/varint</td>
+                                        <td>varint</td>
                                         <td>
                                             Set to <strong>value 0</strong> to denote a <i>WOTS Signature</i>.
                                         </td>
@@ -399,7 +399,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Signature Type</td>
-                                        <td>byte/varint</td>
+                                        <td>varint</td>
                                         <td>
                                             Set to <strong>value 1</strong> to denote an <i>Ed25519 Signature</i>.
                                         </td>
@@ -433,7 +433,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                     <tr>
                         <td>Unlock Type</td>
-                        <td>byte/varint</td>
+                        <td>varint</td>
                         <td>
                             Set to <strong>value 1</strong> to denote a <i>Reference Unlock Block</i>.
                         </td>
@@ -477,7 +477,7 @@ Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at
         </tr>
         <tr>
             <td>Input Type</td>
-            <td>byte/varint</td>
+            <td>varint</td>
             <td>
                 Set to <strong>value 0</strong> to denote a <i>UTXO Input</i>.
             </td>
@@ -489,7 +489,7 @@ Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at
         </tr>
         <tr>
             <td>Transaction Output Index</td>
-            <td>byte/varint</td>
+            <td>varint</td>
             <td>The index of the output on the referenced transaction to consume.</td>
         </tr>
     </table>
@@ -516,7 +516,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
         </tr>
         <tr>
             <td>Output Type</td>
-            <td>byte/varint</td>
+            <td>varint</td>
             <td>
                 Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.
             </td>
@@ -534,7 +534,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
                         </tr>
                         <tr>
                             <td>Address Type</td>
-                            <td>byte/varint</td>
+                            <td>varint</td>
                             <td>
                                 Set to <strong>value 0</strong> to denote a <i>WOTS Address</i>.
                             </td>
@@ -556,7 +556,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
                         </tr>
                         <tr>
                             <td>Address Type</td>
-                            <td>byte/varint</td>
+                            <td>varint</td>
                             <td>
                                 Set to <strong>value 1</strong> to denote an <i>Ed25519 Address</i>.
                             </td>
@@ -629,7 +629,7 @@ There are different types of <i>Unlock Blocks</i>:
         </tr>
         <tr>
             <td>Unlock Type</td>
-            <td>byte/varint</td>
+            <td>varint</td>
             <td>
                 Set to <strong>value 0</strong> to denote a <i>Signature Unlock Block</i>.
             </td>
@@ -647,7 +647,7 @@ There are different types of <i>Unlock Blocks</i>:
                         </tr>
                         <tr>
                             <td>Signature Type</td>
-                            <td>byte/varint</td>
+                            <td>varint</td>
                             <td>
                                 Set to <strong>value 0</strong> to denote a <i>WOTS Signature</i>.
                             </td>
@@ -669,7 +669,7 @@ There are different types of <i>Unlock Blocks</i>:
                         </tr>
                         <tr>
                             <td>Signature Type</td>
-                            <td>byte/varint</td>
+                            <td>varint</td>
                             <td>
                                 Set to <strong>value 1</strong> to denote an <i>Ed25519 Signature</i>.
                             </td>
@@ -705,7 +705,7 @@ A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one o
         </tr>
         <tr>
             <td>Unlock Type</td>
-            <td>byte/varint</td>
+            <td>varint</td>
             <td>
                 Set to <strong>value 1</strong> to denote a <i>Reference Unlock Block</i>.
             </td>
