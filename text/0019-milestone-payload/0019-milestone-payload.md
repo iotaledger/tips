@@ -17,8 +17,8 @@ The EdDSA signature algorithm in its variants **Ed25519** and **Ed448** (providi
 Size of both private and public keys are of 32 or 57 bytes depending on the curve used. Similarly, the signature size is of 64 or 114 bytes.
 
 - The Ed25519 key generation can be fed with a given random sequence of bytes (i.e., seed) of length 32 bytes. Output of the key generation is the pair of private and public keys. Note that the generation of the seed is out of the scope of this RFC, but in general, any cryptographic pseudo-random function (PRF) would suffice.
-- The Ed25519 signature function takes a Ed25519 private key, a sequnce of bytes of arbitrary size and produces an Ed25519 signature of length 64 bytes. The given sequence of bytes should then be internally hashed (using sha512) by the same function.
-- The Ed25519 verification function takes a public key, a sequnce of bytes of arbitrary size, a Ed25519 signature, and returns true/false based on the signature validity.
+- The Ed25519 signature function takes a Ed25519 private key, a sequence of bytes of arbitrary size and produces an Ed25519 signature of length 64 bytes. The given sequence of bytes should then be internally hashed (using sha512) by the same function.
+- The Ed25519 verification function takes a public key, a sequence of bytes of arbitrary size, a Ed25519 signature, and returns true/false based on the signature validity.
 
 To generate a valid milestone, the Coordinator *MUST*: 
 1. Generate a *Message* as defined in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md).
@@ -43,16 +43,16 @@ To verify a given milestone, a node *MUST*:
 | Payload Type           | varint          | Must be set to **1**.                                                                                                                                                                                                                                                                                   |
 | Index Number           | varint          | The index number of the milestone.                                                                                                                                                                                                                                                                      |
 | Timestamp              | uint64          | The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.                                                                                                                                                                                                       |
-| Inclusion Merkle Proof | Array<byte>[64] | Specifies the merkle proof which is computed out of all the tail transaction hashes of transactions which the mutated ledger state with this milestone. ([RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md)) |
+| Inclusion Merkle Proof | Array<byte>[64] | Specifies the merkle proof which is computed out of all the tail transaction hashes of all the newly confirmed state-mutating bundles. ([RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md)) |
 | Signature              | Array<byte>[64] | The signature signing the entire message excluding the nonce and the signature itself.                                                                                                                                                                                                                  |
 
 # Rationale and alternatives
 
-Instead of going with EdDSA we could have choosen ECDSA. Both algorithms are well supported and widespread. However, signing with ECDSA requires fresh randomness while EdDSA does not. Morevoer, we could have used a commit-reveal mechanism to update and commit the Coordinator public key at each next milestone. This method would make a quantum-based attack aimed at braking the "current" Coordinator private-key more difficult. On the other hand, key management as well as verification of the milestone chain would become more complex.
+Instead of going with EdDSA we could have chosen ECDSA. Both algorithms are well supported and widespread. However, signing with ECDSA requires fresh randomness while EdDSA does not. Moreover, we could have used a commit-reveal mechanism to update and commit the Coordinator public key at each next milestone. This method would make a quantum-based attack aimed at breaking the "current" Coordinator private-key more difficult. On the other hand, key management as well as verification of the milestone chain would become more complex.
 
 # Unresolved questions
 
 - Should we add support for multi-signature or multi-stage signature? Could that be a desired feature from a devOps perspective?
 - Are we sure we want to lose quantum-robustness? We could have used a hash-based signature scheme, such as [XMSS](https://tools.ietf.org/html/rfc8391) or [LMS](https://tools.ietf.org/html/rfc8554) that provide quantum robustness at the price of increasing both communication and computation overhead. For more detail, please refer to this [document](https://docs.google.com/document/d/15_FkOhHFR4arxBBl07H_ETUGjPbf5jlJOiyYwZ7zKOg/edit?usp=sharing).
-- Do we want to pick Ed25519 or Ed448? They provide a security level of 128-bit and 224-bit respectively. Size of both private and public keys are of 32 or 57 bytes depending on the curve used. Similarly, the signature size is of 64 or 114 bytes. Ed25519 has a better library-wise support with respect to Ed448.
+- Do we want to pick Ed25519 or Ed448? They provide a security level of 128-bit and 224-bit respectively. Size of both private and public keys are of 32 or 57 bytes depending on the curve used. Similarly, the signature size is of 64 or 114 bytes. Ed25519 has better library-wise support with respect to Ed448.
 - Should we add a Network ID field to the payload? If yes, is the ID a string or a uint64?
