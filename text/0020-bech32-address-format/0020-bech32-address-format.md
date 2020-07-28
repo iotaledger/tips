@@ -78,7 +78,7 @@ While it is absolutely possible to transform legacy W-OTS addresses from their 8
 
 There are several ways to convert the binary serialization into a human-readable format, e.g. Base58 or hexadecimal. The Bech32 format, however, offers the best compromise between compactness and error correction guarantees. A more detailed motivation can be found in [BIP-0173 Motivation](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#motivation).
 
-The binary serialization itself must be as compact as possible while still allowing to distinguish between different address types of the same byte length. As such, the introduction of a version byte offers support for up to 256 different kinds of addresses at only the cost of one single byte.
+The binary serialization itself must be as compact as possible while still allowing you to distinguish between different address types of the same byte length. As such, the introduction of a version byte offers support for up to 256 different kinds of addresses at only the cost of one single byte.
 
 # Unresolved questions
 
