@@ -1,8 +1,3 @@
----
-tags: RFC, draft
----
-# Draft RFC: Signed Transaction Payload
-
 + Feature name: signed_transaction_payload
 + Start date: 2020-07-10
 + RFC PR: [iotaledger/protocol-rfcs#18](https://github.com/iotaledger/protocol-rfcs/pull/18)
