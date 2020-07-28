@@ -142,12 +142,12 @@ A message is considered valid, if the following syntactic rules are met:
 
 Each message will contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `Unsigned Payload` will be specified here as an example.
 
-| Payload Name                            |
-| --------------------------------------- |
-| [Unsigned Data](#Unsigned-Data-Payload) |
-| Signed Data                             |
-| Transaction                             |
-| Indexation                              |
+| Payload Name                            |  Type Value | 
+| --------------------------------------- |  ---------- |
+| Signed Transaction                      |     0       |
+| [Unsigned Data](#Unsigned-Data-Payload) |     2       |
+| Signed Data                             |     3       |                                   |
+| Indexation                              |     4       |
 
 ### Unsigned Data Payload
 
