@@ -168,7 +168,7 @@ There are no validation rules for the payload. Message validation rules suffice 
 
 # Rationale and alternatives
 
-Instead of creating a layered approach, we could have simply created a flat`transaction message`, that is tailored for mutating the ledger state, and try to fit all the use cases there. For example with the unsigned data use-case, we could have filled some section of the transaction with the data. Then via a flag in the transaction we could have instructed to not pass this transaction to the service that attempts to mutate the ledger state.
+Instead of creating a layered approach, we could have simply created a flat `transaction message`, that is tailored for mutating the ledger state, and try to fit all the use cases there. For example with the unsigned data use-case, we could have filled some section of the transaction with the data. Then via a flag in the transaction we could have instructed to not pass this transaction to the service that attempts to mutate the ledger state.
 
 This approach seems less extensible. It might have made sense if we wanted to build a protocol that is just for ledger mutating transactions, but we want to be able to extend the protocol to do more than that.
 
