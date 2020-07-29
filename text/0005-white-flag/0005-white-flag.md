@@ -131,7 +131,7 @@ The set of blue bundles `{Q, U, X, Y, Z, W, T, P}` is confirmed by another miles
 ![][Tangle]
 
 Applying the previously shown algorithm on the purple set produces the topological order
-`{D, G, J, L, M, R, I, K, N O, S, V}`.
+`{D, G, J, L, M, R, I, K, O, N, S, V}`.
 
 ![][Tangle-conflict]
 
