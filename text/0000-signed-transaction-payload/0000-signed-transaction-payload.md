@@ -752,7 +752,7 @@ Following criteria defines whether the transaction passes the syntactical valida
     * At least one output must be specified.
     * `Output Type` must be 0, denoting a `SigLockedSingleDeposit`.
     * `SigLockedSingleDeposit`:
-        * `Address Type` must either be 0 or 1, denoting an `Ed25519`- or `WOTS address`.
+        * `Address Type` must either be 0 or 1, denoting a `WOTS`- or `Ed25519` address .
         * If `Address` is of type `WOTS address`, its bytes must be valid `T5B1` bytes.
         * The `Address` must be unique in the set of `SigLockedSingleDeposits`.
         * `Amount` must be > 0.
