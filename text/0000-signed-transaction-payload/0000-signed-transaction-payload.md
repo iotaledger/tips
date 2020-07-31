@@ -731,7 +731,7 @@ Consider an <i>Unsigned Transaction</i> containing <i>UTXO Inputs</i> A, B and C
 
 ## Validation
 
-A <i>Signed Transaction</i> payload has different validation stages, since some validation steps can only be executed if certain information becomes present, respectively should have become present. We therefore distinguish between syntactical- and semantic validation.
+A <i>Signed Transaction</i> payload has different validation stages, since some validation steps can only be executed at the point when certain information has (or has not) been received. We therefore distinguish between syntactical- and semantic validation.
 
 ### Syntactical Validation
 
