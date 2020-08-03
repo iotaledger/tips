@@ -145,9 +145,10 @@ Each message will contain a payload. The specification of the payloads is out of
 | Payload Name                              |   Type Value |
 | ---------------------------------------   | -----------  | 
 |  Signed Transaction                       |     0        |
-|  Signed Data                              |     1        |
+|  Milestone                                |     1        |
 |  [Unsigned Data](#Unsigned-Data-Payload)  |     2        |
-| Indexation                                |     3        |
+| Signed Data                               |     3        |
+| Indexation                                |     4        |
 
 ### Unsigned Data Payload
 
