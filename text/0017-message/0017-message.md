@@ -133,10 +133,9 @@ A message is considered valid, if the following syntactic rules are met:
     `1111`
     So the varint `0x0F` equals to `0x8F8000`, but is encoded with different bytes.
     * *Size Protection*: The varint must not be more than 10 bytes long. A 10 byte varint can encompass all the range of `uint64`. In case of an overflow above the `uint64` range the message is invalid.
-2. When we are done parsing the message there shouldn't be any trailing bytes left that were not parsed.
+3. When we are done parsing the message there shouldn't be any trailing bytes left that were not parsed.
 4. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is in the range of 128-16383. The upper limit of 16383 is the maximal value of a 2 byte varint, and it should suffice for all the optional payload types we need.
-5. If the payload is valid according to the **syntactic** rules the `payload type` defines.
-6. If the Message PoW Hash will contain at least the number of trailing 0 trits the node defines as required.
+5. If the Message PoW Hash will contain at least the number of trailing 0 trits the node defines as required.
 
 ### Payloads
 
