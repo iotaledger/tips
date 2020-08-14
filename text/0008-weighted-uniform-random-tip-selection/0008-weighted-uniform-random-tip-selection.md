@@ -2,6 +2,8 @@
 + Start date: 2020-03-09
 + RFC PR: [iotaledger/protocol-rfcs#0008](https://github.com/iotaledger/protocol-rfcs/pull/0008)
 
+### Notice: This RFC will be deprecated and replaced by a new RFC soon.
+
 # Summary
 
 Weighted Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase transaction throughput.
