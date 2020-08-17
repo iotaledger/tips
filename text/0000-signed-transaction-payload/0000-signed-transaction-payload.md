@@ -216,7 +216,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                                         <td>Address Type</td>
                                                         <td>varint</td>
                                                         <td>
-                                                            Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+                                                            Set to <strong>value 1</strong> to denote an <i>Ed25519 Address</i>.
                                                         </td>
                                                     </tr>
                                                     <tr>
