@@ -62,7 +62,7 @@ Ed25519-based addresses will result in a Bech32 string of 63 characters.
    - Ed25519 address hash (32-byte): `52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649`
       - serialized (33-byte): `0152fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649`
       - Bech32 string: `iot1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjtzcp98`
-- **Devnet**
+- **Testnet**
    - W-OTS address hash (81-tryte): `EQSAUZXULTTYZCLNJNTXQTQHOMOFZERHTCGTXOLTVAHKSA9OGAZDEKECURBRIXIJWNPFCQIOVFVVXJVD9`
       - serialized (50-byte): `00ea38caaeeec5c3fd6d0e89e32c9097bcc02ddcec40a8dcc516c7bc012d0b6bbe315493b0b86cdfbd11a7b8f0d5aa6f2200`
       - Bech32 string: `tio1qr4r3j4wamzu8ltdp6y7xtysj77vqtwua3q23hx9zmrmcqfdpd4muv25jwctsmxlh5g60w8s6k4x7gsqcmnkzh`
