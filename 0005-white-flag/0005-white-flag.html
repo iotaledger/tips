@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>0005-white-flag - The IOTA Protocol RFC Book</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0001-protocol-messages/0001-protocol-messages.html">0001-protocol-messages</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html" class="active">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-weighted-uniform-random-tip-selection/0008-weighted-uniform-random-tip-selection.html">0008-weighted-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">The IOTA Protocol RFC Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <ul>
+<li>Feature name: <code>white-flag</code></li>
+<li>Start date: 2020-03-06</li>
+<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/5">iotaledger/protocol-rfcs#0005</a></li>
+</ul>
+<h1><a class="header" href="#summary" id="summary">Summary</a></h1>
+<p>This RFC is part of a set of protocol changes, <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, aiming at improving the
+network before <a href="https://coordicide.iota.org/">Coordicide</a> is complete.</p>
+<p>The feature presented in this RFC, White Flag, allows milestones to confirm conflicting bundles by enforcing
+deterministic ordering of the Tangle and applying only the first bundle(s) that does not violate the ledger state.</p>
+<p>The content of this RFC is based on <a href="https://iota.cafe/t/conflict-white-flag-mitigate-conflict-spamming-by-ignoring-conflicts/233">Conflict white flag: Mitigate conflict spamming by ignoring conflicts</a>.</p>
+<h1><a class="header" href="#motivation" id="motivation">Motivation</a></h1>
+<ul>
+<li>Eliminates the <a href="https://iota.cafe/t/conflict-spamming-attack/232">Conflict spamming attack</a>;</li>
+<li>As conflicts are ignored in the balance computation, they do not need to be considered during tip selection of the
+nodes allowing much easier tip selection algorithms leading to increased TPS;</li>
+<li>By using this approach in combination with an appropriate TSA, during regular use, no honest transaction will ever
+require re-attaching leading to increased CTPS;</li>
+<li>Does not come with added computation complexity by integrating nicely into already existing algorithms;</li>
+</ul>
+<h1><a class="header" href="#detailed-design" id="detailed-design">Detailed design</a></h1>
+<p>First, let us define what it means for a bundle A to be:</p>
+<ul>
+<li>referenced (indirectly or directly) by bundle B: A is contained in the past cone of B;</li>
+<li>confirmed: A is referenced by a milestone;</li>
+<li>applied: A is confirmed and applied to the ledger state;</li>
+<li>ignored: A is confirmed but not applied;</li>
+<li>conflicting: A would lead to an invalid ledger state if applied;</li>
+</ul>
+<p>In case of conflicting bundles with White Flag, a node applies only one bundle to the ledger state and ignores all the
+others. For this to work, all the nodes need to be sure they are all applying the same bundle; hence, the need for a
+deterministic ordering of the Tangle.</p>
+<p>First, this RFC proposes a deterministic ordering of the Tangle, then it explains which bundle is selected in case of
+conflicts.</p>
+<p><strong>Note: this RFC is about ledger computation only. For this reason, it assumes that the past cone of a milestone has
+already been confirmed and all the referenced bundles have been validated. A bundle is considered valid if it is
+syntactically valid and its signatures are valid. In the event that an invalid bundle was encountered in the
+confirmation traversal, a node's expected behaviour would be to completely stop operations - and log the error - as it
+would mean the coordinator confirmed something it should not have.</strong></p>
+<h2><a class="header" href="#deterministically-ordering-the-tangle" id="deterministically-ordering-the-tangle">Deterministically ordering the Tangle</a></h2>
+<p>When a new milestone is broadcasted to the network, nodes will need to order the set of bundles it confirms.</p>
+<p>A subset of the Tangle can be ordered depending on many of its properties (e.g. alphanumeric sort of the bundle hashes);
+however, to compute the ledger state, a graph traversal has to be done so it can be used to order the bundles in a
+deterministic order with no extra overhead.</p>
+<p>This ordering is then defined as a <a href="https://en.wikipedia.org/wiki/Topological_sorting">topological ordering</a> because
+it respects the dependency of bundles, ensuring that the <code>trunk</code> and <code>branch</code> of a bundle are applied before it. Since
+there are multiple valid topological orders for the same graph and in order to avoid conflicting ledger states it is
+required that all nodes apply bundles in the exact same order.</p>
+<p>For this reason, this RFC propose an order that has to be rigorously followed by all node implementations. This order is
+the topological ordering generated by a post-order <a href="https://en.wikipedia.org/wiki/Depth-first_search">Depth-First Search (DFS)</a>
+starting from a milestone and by going first through <code>trunk</code> bundle, then <code>branch</code> bundle and finally current bundles.
+Since only a subset of bundles is considered, the stopping condition of this DFS is reaching bundles that are already
+confirmed by another milestone.</p>
+<h2><a class="header" href="#applying-first-bundles-that-does-not-violate-the-ledger-state" id="applying-first-bundles-that-does-not-violate-the-ledger-state">Applying first bundle(s) that does not violate the ledger state</a></h2>
+<p>If a conflict is occurring in the set of bundles confirmed by a milestone, nodes have to apply the first - with regards
+to the order previously proposed - of the conflicting bundles to the ledger and ignore all the others.</p>
+<p>Once a bundle is marked as ignored, this is final and cannot be changed by a later milestone.</p>
+<p>Since the ledger state is maintained from one milestone to another, a bundle conflicting with a bundle already confirmed
+by a previous milestone would also obviously be ignored.</p>
+<h2><a class="header" href="#pseudo-code" id="pseudo-code">Pseudo-code</a></h2>
+<p>The following algorithm describes the process of updating the ledger state which is usually triggered by the arrival of
+a new milestone confirming many new bundles.</p>
+<p>Pseudo-code means that implementation details such as types, parameters, ..., are not important but that the logic has
+to be followed with care when implementing a node to avoid differences in the ledger state.</p>
+<pre><code>update_ledger_state(ledger, milestone, solid_entry_points) {
+    s = new Stack()
+    visited = new Set()
+
+    s.push(milestone)
+
+    while (!s.empty()) {
+        curr = s.peek()
+
+        // Only apply if a leaf has been reached or both approvees have been visited or confirmed by another milestone
+        if ((solid_entry_points.contains(curr.trunk) || visited.contains(curr.trunk) || curr.trunk.confirmation_index != milestone.index)
+          &amp;&amp; (solid_entry_points.contains(curr.branch) || visited.contains(curr.branch) || curr.branch.confirmation_index != milestone.index)) {
+            ledger.apply(curr)
+            visited.add(curr)
+            s.pop()
+        }
+        else if (!solid_entry_points.contains(curr.trunk)
+          &amp;&amp; !visited.contains(curr.trunk)
+          &amp;&amp; curr.trunk.confirmation_index == milestone.index) {
+            s.push(curr.trunk)
+        }
+        else if (!solid_entry_points.contains(curr.branch)
+          &amp;&amp; !visited.contains(curr.branch)
+          &amp;&amp; curr.branch.confirmation_index == milestone.index) {
+            s.push(curr.branch)
+        }
+    }
+}
+</code></pre>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>Even though the tangle is a graph made of transactions, for the sake of this pseudo-code it is considered as a graph
+of bundles. For this reason, when the <code>trunk</code> and/or the <code>branch</code> of a bundle are mentioned, they are actually referring
+to the <code>trunk</code> and/or <code>branch</code> of the last transaction of the bundle.</li>
+<li><code>solid_entry_points</code> is a set of hashes that are considered solid even though we do not have them or their past in
+database. They often come from a snapshot file and allow a node to solidify without needing the full tangle history.
+The hash of the genesis transaction is also a solid entry point.</li>
+<li><code>confirmation_index</code> is the index of the milestone that confirmed the bundle.</li>
+</ul>
+<h3><a class="header" href="#example" id="example">Example</a></h3>
+<p>In this example, there are 26 bundles labeled from <code>A</code> to <code>Z</code>.
+The set of red bundles <code>{A, B, C, E, F, H}</code> is confirmed by milestone <code>H</code>.
+The set of purple bundles <code>{D, G, J, L, M, N, K, I, O, S, R, V}</code> is confirmed by milestone <code>V</code>.
+The set of blue bundles <code>{Q, U, X, Y, Z, W, T, P}</code> is confirmed by another milestone.</p>
+<p><img src="img/tangle.svg" alt="" /></p>
+<p>Applying the previously shown algorithm on the purple set produces the topological order
+<code>{D, G, J, L, M, R, I, K, N O, S, V}</code>.</p>
+<p><img src="img/tangle-conflict.svg" alt="" /></p>
+<p>Here, bundle <code>G</code> and bundle <code>O</code> both confirmed by milestone <code>V</code> are conflicting. Since in the topological order just
+produced, <code>G</code> appears before <code>O</code>, <code>G</code> is applied to the ledger and <code>O</code> is ignored.</p>
+<h1><a class="header" href="#drawbacks" id="drawbacks">Drawbacks</a></h1>
+<ul>
+<li>The ledger state is now only well-defined at milestones, meaning that we have to wait until each milestone is
+issued in order to confirm a spend;</li>
+<li>Everything that is seen is now part of the Tangle, including double-spend attempts, meaning that malicious data will
+now be saved as part of the consensus set of the Tangle;</li>
+<li>To prove that a specific (non-milestone) transaction is valid, it is no longer sufficient to just provide the &quot;path&quot;
+to its confirming milestone, but instead all transactions in its past cone.</li>
+</ul>
+<h1><a class="header" href="#rationale-and-alternatives" id="rationale-and-alternatives">Rationale and alternatives</a></h1>
+<p>The main alternative to White Flag is what has been done so far i.e. not allowing conflicting bundles confirmation.
+As explained in this RFC, this comes with added complexity when performing a Tip Selection Algorithm because a node has
+to constantly check for ledger inconsistencies.</p>
+<p>As part of Chrysalis and coupled with an adequate Tip Selection Algorithm, White Flag is an improvement of the network
+by allowing a potential increase of TPS/CTPS.</p>
+<h1><a class="header" href="#unresolved-questions" id="unresolved-questions">Unresolved questions</a></h1>
+<p>A node consumes and produces snapshot files and bases the computation of its ledger state on them. In the current
+network, if one of these files was tampered with and fed to a node, it would eventually lead to an invalid ledger state
+where a bundle confirmed by a milestone would actually be a double spend. This situation would be detected by the node
+and it would stop its activities as a security measure. However, with White Flag, such bundles would be confirmed by
+milestones but ignored by the node, the fake snapshot then going unnoticed. The ledger state would then become more and
+more corrupted and the view of the balances completely wrong, errors just accumulating over time. The need for a
+snapshot verification mechanism is then amplified by the implementation of White Flag. This mechanism being out of the
+scope of this RFC, it will be described in another RFC.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../0001-protocol-messages/0001-protocol-messages.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../0008-weighted-uniform-random-tip-selection/0008-weighted-uniform-random-tip-selection.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../0001-protocol-messages/0001-protocol-messages.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../0008-weighted-uniform-random-tip-selection/0008-weighted-uniform-random-tip-selection.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
