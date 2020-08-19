@@ -2,8 +2,6 @@
 + Start date: 2020-03-09
 + RFC PR: [iotaledger/protocol-rfcs#0008](https://github.com/iotaledger/protocol-rfcs/pull/0008)
 
-### Notice: This RFC will be deprecated and replaced by a new RFC soon.
-
 # Summary
 
 Weighted Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase transaction throughput.
@@ -67,8 +65,8 @@ Definitions:
 `M` is the `below max depth (BMD)` parameter.
 
 Recommended defaults:
-* `C1` = 2 milestones
-* `C2` = 7 milestones
+* `C1` = 8 milestones
+* `C2` = 13 milestones
 * `M` = 15 milestones
 
 Scoring Algorithm (pseudo code):
@@ -98,30 +96,7 @@ func score(tip Tip) Score {
         return Score.LAZY
     }
     
-    // the approvees (trunk and branch) are the tail transactions this tip approves
-    approvees := tip.Approvees()
-    approveesOTRSICheck := 2
-    for (i := 0; i < 2; i++) {
-        approvee := approvees[i]
-    
-        // direct approvee is already lazy, therefore so is this tip
-        if (approvee.Score == 0) {
-            return Score.LAZY
-        }
-        
-        // if the OTRSI to LSMI delta of the approvee is above C2, we mark it as such
-        if (LSMI - OTRSI(approvee) > C2) {
-            approveesOTRSICheck--
-        }
-    }
-
-    // if both approvees' OTRSI violates the LSMI delta in relation to C2 the tip is lazy too
-    if (approveesOTRSICheck == 0) {
-        return Score.LAZY
-    }
-    
-    // if only one of the approvees violated the OTRSI to LMSI delta, the tip is considered semi-lazy
-    if (approveesOTRSICheck == 1) {
+    if (LSMI - ORTSI(tip) > C2) {
         return Score.SEMI_LAZY
     }
 
@@ -129,48 +104,25 @@ func score(tip Tip) Score {
 }
 ```
 
-### Weighted Random Tip-Selection
+### Random Tip-Selection
 
-Given the scoring, a node should keep a set of semi-/non-lazy tips with their associated score.
+A node should keep a set of non-lazy tips (score 2).
+Every time a node is asked to select to tips to be approved it will just pick randomly from the set. 
 A node must not execute tip-selection if it is not synchronized.
-
-Tip-Selection (pseudo code):
-```
-
-// a set which contains only semi- and non-lazy tips
-var tips = Set(tips_and_score)
-
-func select() Tip {
-    // if we have no semi-/non-lazy tips, we return null
-    if (tips.length == 0) {
-        return null
-    }
-
-    // compute the sum of the score of all tips
-    scoreSum := tips.ScoreSum()
-    
-    // get a random number between 1 and the score sum
-    r := rand.Int(1, scoreSum)
-    
-    // iterate over the tips set and subtract each tip's score from r
-    for (i := 0; i < tips.length; i++){
-        // subtract the tip's score from r
-        r -= tips[i].Score
-        // if r reaches zero or below, we return the given tip
-        if (r <= 0) {
-            return tips[i] 
-        }
-    }
-    
-    // no tips
-    return null
-}
-```
 
 A tip should not be removed from the tips set immediately after it was selected in `select()`, 
 in order to make it possible for it to be re-selected, which in turn makes the Tangle wider
 and improves synchronization speed. A tip is removed from the tips set if `X` amount of direct
-approvers are reached. It is recommended to use 2 for `X` but the threshold should be configurable. 
+approvers are reached or if a certain amount of time `T` passed. 
+It is recommended to use `X` = 2 and `T` = 3  but the threshold should be configurable.
+
+### Purpose Of Semi-Lazy Tips
+
+Semi-Lazy tips are not eligible for tip-selection, but the coordinator node may implement a tip selection algorithm
+that confirms semi-lazy tips. Semi-lazy tips will usually be left behind, but parties interested in having them confirmed
+are incentivized to run spammers that will merge them into one thin subtangle. 
+Given a coordinator that chooses semi-lazy tips, running such spammers may get those transactions confirmed before
+they become lazy.
 
 
 # Drawbacks
@@ -194,13 +146,11 @@ The only important thing is to disincentive lazy behaviour in order to be able t
 
 # Unresolved questions
 
-#### When to compute the `YTRSI`/`OTRSI` of a transaction?
+#### When to compute the score and `YTRSI`/`OTRSI` of a transaction?
 It is not yet clear when or how often the `YTRSI`/`OTRSI` values of a transaction should be updated.
 If the values are only computed once after a transaction became solid, the `YTRSI`/`OTRSI` might not
 resemble the true values, as subsequent milestones might confirm transactions within the same cone the
 given transaction approved.
 
-However, one can argue that the `YTRSI`/`OTRSI` do not shift by that much in
-such case, so that it is fine to compute them only up on solidification of a given transaction.
-This assumption builds up on the fact, that the Coordinator would not confirm transactions
-in such depth that it would cause the origin values to differ by much from the newly computed values.
+Currently, we suggest recomputing the values every time a new milestone solidifies. 
+Since different tips indirectly reference the same transactions, this computation can be optimized.  
