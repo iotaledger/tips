@@ -1,4 +1,4 @@
-+ Feature name: `weighted-uniform-random-tip-selection`
++ Feature name: `uniform-random-tip-selection`
 + Start date: 2020-03-09
 + RFC PR: [iotaledger/protocol-rfcs#0008](https://github.com/iotaledger/protocol-rfcs/pull/0008)
 
