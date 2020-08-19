@@ -79,8 +79,8 @@ enum Score (
 )
 
 const (
-    C1 = 2
-    C2 = 7
+    C1 = 8
+    C2 = 13
     M = 15
 )
 
