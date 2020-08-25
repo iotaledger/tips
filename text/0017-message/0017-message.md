@@ -128,7 +128,7 @@ A message is considered valid, if the following syntactic rules are met:
 
 ### Payloads
 
-A message may contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `Unsigned Payload` will be specified here as an example.
+A message may contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `unsigned data payload` will be specified here as an example.
 
 | Payload Name                              |   Type Value |
 | ---------------------------------------   | -----------  | 
