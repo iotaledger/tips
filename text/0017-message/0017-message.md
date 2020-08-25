@@ -6,12 +6,8 @@
 
 A message is the object nodes gossip around in the network. It always references two other messages that are known as `parents`. It is stored as a vertex on the tangle data structure that the nodes maintain.
 
-The messages will contain payloads. Some of them will be core payloads that will be processed by all nodes as part of the core protocol. Some of them will be community payloads that will enable to build new functionality on top of the tangle.
-
-Some payloads may have other nested payloads embedded inside.
+The messages will contain payloads. Some of them will be core payloads that will be processed by all nodes as part of the core protocol. Some of them will be community payloads that will enable to build new functionality on top of the tangle. Some payloads may have other nested payloads embedded inside.
 So upon parsing it is done layer by layer.
-
-
 
 # Motivation
 
@@ -20,7 +16,6 @@ To better understand this layered design, consider the internet protocol for exa
 The same goes with how we parse messages. The outer layer of the message enables us to map the message to a vertex in the Tangle and perform some basic validation. The next layer may be a transaction that mutates the ledger state. The next layer may provide some extra functionality on the transactions to be used by applications.
 
 By making it possible to add and exchange payloads, we are creating an architecture that can be easily extended to accommodate future needs.
-
 
 # Detailed design
 
@@ -149,16 +144,12 @@ To make the Payload concept clear we will define the `unsigned data payload`. As
 
 The structure of the payload is simple:
 
-
-
 | Name             | Type     | Description               |
 | --------         | -------- | -----------               |
 | Payload Type     | varint   | Must be set to **2**      |
 | Data             | ByteArray| The data we are attaching |
 
 There are no validation rules for the payload. Message validation rules suffice here.
-
-
 
 # Rationale and alternatives
 
