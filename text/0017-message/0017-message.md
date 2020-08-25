@@ -1,4 +1,4 @@
-+ Feature name: `Tangle Messages`
++ Feature name: `tangle-message`
 + Start date: 2020-07-28
 + RFC PR: [iotaledger/protocol-rfcs#0017](https://github.com/iotaledger/protocol-rfcs/pull/0017)
 
