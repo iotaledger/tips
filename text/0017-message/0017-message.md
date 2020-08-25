@@ -61,7 +61,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
     <tr>
         <td>Parent2 (<code>branch</code>)</td>
         <td>ByteArray[32]</td>
-        <td>The Message ID of the second <i>Message</i> we reference.</td>
+        <td>The Message ID of the second <i>Message</i> it references.</td>
     </tr>
     <tr>
         <td>Payload Length</td>
@@ -110,12 +110,6 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
     </tr>
 </table>
 
-### Message PoW Hash
-
-This hash is computed by converting all the messages raw bytes into trytes with `b1t6`. Then hash the result with Curl-P-81. The result will be used to verify the proof-of-work done on the message. This will be used for spam protection.
-
-Ideally, the Message ID would also be used for the PoW, but then the Hash function used for the Message ID must also be used for the PoW. Separating them gives us much more flexibility with the PoW method and we can even apply the current Curl based PoW mechanism.
-
 ### Message Validation
 
 A message is considered valid, if the following syntactic rules are met:
@@ -135,7 +129,7 @@ A message is considered valid, if the following syntactic rules are met:
     * *Size Protection*: The varint must not be more than 10 bytes long. A 10 byte varint can encompass all the range of `uint64`. In case of an overflow above the `uint64` range the message is invalid.
 3. When we are done parsing the message there shouldn't be any trailing bytes left that were not parsed.
 4. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is in the range of 128-16383. The upper limit of 16383 is the maximal value of a 2 byte varint, and it should suffice for all the optional payload types we need.
-5. If the Message PoW Hash will contain at least the number of trailing 0 trits the node defines as required.
+5. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
 
 ### Payloads
 
