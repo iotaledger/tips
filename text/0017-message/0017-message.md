@@ -56,7 +56,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
     <tr>
         <td>Parent1 (<code>trunk</code>)</td>
         <td>ByteArray[32]</td>
-        <td>The Message ID of the first <i>Message</i> we reference.</td>
+        <td>The Message ID of the first <i>Message</i> it references.</td>
     </tr>
     <tr>
         <td>Parent2 (<code>branch</code>)</td>
