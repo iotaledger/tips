@@ -1,6 +1,6 @@
 + Feature name: `message-pow`
 + Start date: 2020-08-25
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0024](https://github.com/iotaledger/protocol-rfcs/pull/0024)
 
 # Summary
 
@@ -8,8 +8,8 @@ The IOTA protocol uses proof-of-work as a means to rate-limit the network. Curre
 
 # Motivation
 
-In the current IOTA Protocol, each transaction has a fixed size of 8019 trits and is hashed using Curl-P-81 to compute its 243-trit transaction hash, where the PoW's difficulty equals the number of trailing zero trits in that hash.
-Unfortunately, the performance of Curl-P-81 is rather slow, achieving only about 2 MB/s on a single core. This would make the PoW validation a bottleneck, especially for high usage scenarios with larger messages. Thus, this RFC proposes a two-stage approach to greatly speed up the validation process: First, the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash function is used to create a short, fixed length digest of the message. Then, this digest together with the nonce is hashed using Curl-P-81. Since the digest only needs to be computed once while iterating over different nonce values, this preserves Curl as the PoW-relevant hash. However, the validation is much faster, as BLAKE2b-256 has a performance of about 1 GB/s and Curl then only needs to be executed for one single 243-trit block of input. Since the input of the final Curl computation is always fixed, parallel Curl variants can be used in this stage to further speed up the validation if necessary.
+In the current IOTA Protocol, each transaction has a fixed size of 8019 trits and is hashed using Curl-P-81 to compute its 243-trit transaction hash, where the PoW's difficulty equals the number of trailing zero trits in that hash.<br>
+Unfortunately, the performance of Curl-P-81 is rather slow, achieving only about 2 MB/s on a single core. This would make the PoW validation a bottleneck, especially for high usage scenarios with larger messages. Thus, this RFC proposes a two-stage approach to greatly speed up the validation process: First, the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash function is used to create a short, fixed length digest of the message. Then, this digest together with the nonce is hashed using Curl-P-81. Since the digest only needs to be computed once while iterating over different nonce values, this preserves Curl as the PoW-relevant hash. However, the validation is much faster, as BLAKE2b-256 has a performance of about 1 GB/s and Curl then only needs to be executed for one single 243-trit block of input. Since the input of the final Curl computation is always fixed, parallel Curl variants can be used in this stage to further speed up the validation if necessary.<br>
 Furthermore, it is important to note that the time required to do the PoW does not depend on the message length. As such, we need to weight the PoW difficulty by the message length.
 
 It will be easy to adapt existing hardware and software implementations of the current PoW mechanism to work with the proposed design. Only the input and the position of the nonce in the buffer needs to be adapted. This enables existing Curl projects to continue persisting and also the entire PoW landscape should stay almost the same.
