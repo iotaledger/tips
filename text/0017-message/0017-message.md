@@ -160,7 +160,3 @@ This approach seems less extensible. It might have made sense if we wanted to bu
 # Unresolved questions
 
 - What should be the maximum length of the message?
-- Better protection with PoW? how does the length of the message and type of payloads should affect difficulty?
-- How should we pad the message to fit it into CURL for PoW?
-- How should we pad the input for CURL? One proposal is to go with padding method 2 that is described here https://en.wikipedia.org/wiki/ISO/IEC_9797-1#Padding
-- Do we want to move away from using CURL for PoW in the future?
