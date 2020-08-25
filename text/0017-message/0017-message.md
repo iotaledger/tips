@@ -19,7 +19,7 @@ By making it possible to add and exchange payloads, we are creating an architect
 
 # Detailed design
 
-### Data Types
+### Data types
 
 The following are data types that we will use when we specify fields in the message and payloads.
 
@@ -35,7 +35,7 @@ The following are data types that we will use when we specify fields in the mess
 The message ID will be the `BLAKE2b-256` hash of the byte contents of the message. It should be used by the nodes to index the messages and by external APIs.
 
 
-### Message Structure
+### Message structure
 
 <table>
     <tr>
@@ -105,7 +105,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
     </tr>
 </table>
 
-### Message Validation
+### Message validation
 
 A message is considered valid, if the following syntactic rules are met:
 
@@ -138,7 +138,7 @@ A message may contain a payload. The specification of the payloads is out of sco
 | Signed Data                               |     3        |
 | Indexation                                |     4        |
 
-### Unsigned Data Payload
+### Unsigned data payload
 
 To make the Payload concept clear we will define the `unsigned data payload`. As the name suggests it simply allows to add arbitrary data to a message. A message that has been attached to the tangle and approved by a milestone has useful properties: You can verify that the content of the data did not change, and you can ascertain the approximate time it was published by checking the approving milestone. For example, one can record a hash of a text document on the tangle with such a payload. When a third party requests a proof that the document was published at a certain time and was not changed, one can point them to the message containing the `unsigned data payload` with the hash.
 
