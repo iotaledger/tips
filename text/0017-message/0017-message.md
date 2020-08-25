@@ -140,7 +140,7 @@ A message may contain a payload. The specification of the payloads is out of sco
 
 ### Unsigned Data Payload
 
-To make the Payload concept clear we will define the `unsigned data payload`. As the name suggests it simply allows to add arbitrary data to a message. A message that has been attached to the tangle and approved by a milestone has useful properties: You can verify that the content of the data did not change, and you can ascertain the approximate time it was published by checking the approving milestone. For example, one can record a hash of a text document on the tangle with such a payload. When a third party requests a proof that the document was published at a certain time and was not changed, one can point them to them to the message containing the `unsigned data payload` with the hash.
+To make the Payload concept clear we will define the `unsigned data payload`. As the name suggests it simply allows to add arbitrary data to a message. A message that has been attached to the tangle and approved by a milestone has useful properties: You can verify that the content of the data did not change, and you can ascertain the approximate time it was published by checking the approving milestone. For example, one can record a hash of a text document on the tangle with such a payload. When a third party requests a proof that the document was published at a certain time and was not changed, one can point them to the message containing the `unsigned data payload` with the hash.
 
 The structure of the payload is simple:
 
