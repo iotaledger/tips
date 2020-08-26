@@ -79,7 +79,7 @@ SEP = solid entry point. `Array[T]` are prefixed with a varint denoting the leng
                         </td>
                         <td colspan="2">
                             <details open="true">
-                                <summary>Array<Outputs></summary>
+                                <summary>Array[Outputs]</summary>
                                 <table>
                                     <tr>
                                         <td>Index</td>
