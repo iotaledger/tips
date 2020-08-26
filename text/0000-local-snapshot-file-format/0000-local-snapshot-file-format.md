@@ -172,5 +172,7 @@ Unlike the current format, this new format does no longer include:
 
 # Unresolved questions
 
-* Can we get rid of the spent addresses or do we still need to keep them?
 * Is all the information to startup a node from the local snapshot available with the described format?
+* Can we get rid of the spent addresses or do we still need to keep them?
+* Can we just use a byte for the index or do we need to use something different?
+* Do we need to account for different types of outputs already? (we currently only have them deposit to addresses)
