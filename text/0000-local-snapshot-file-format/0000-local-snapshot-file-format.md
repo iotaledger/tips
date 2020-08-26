@@ -23,7 +23,7 @@ SEP = solid entry point. `Array[T]` are prefixed with a varint denoting the leng
 <table>
     <tr>
         <th>Name</th>
-        <th>Type</b></th>
+        <th>Type</th>
         <th>Description</th>
     </tr>
     <tr>
