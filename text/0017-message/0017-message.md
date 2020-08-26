@@ -132,11 +132,11 @@ A message may contain a payload. The specification of the payloads is out of sco
 
 | Payload Name                              |   Type Value |
 | ---------------------------------------   | -----------  | 
-|  Signed Transaction                       |     0        |
-|  Milestone                                |     1        |
+|  [Signed Transaction](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md)                       |     0        |
+|  [Milestone Draft](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md)                                |     1        |
 |  [Unsigned Data](#Unsigned-Data-Payload)  |     2        |
-| Signed Data                               |     3        |
-| Indexation                                |     4        |
+| Signed Data (TBD)                               |     3        |
+| Indexation  (TBD)                              |     4        |
 
 ### Unsigned data payload
 
