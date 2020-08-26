@@ -152,7 +152,7 @@ Below is a simple serialized message with the unsigned data payload that carries
 Bytes are expressesd with hexadecimal numbers.
 
 [Version] **`01`** [Parent 1] `F532A53545103276B46876C473846D98648EE418468BCE76DF4868648DD73E5D` [Parent 2] `78D546B46AEC4557872139A48F66BC567687E8413578A14323548732358914A2` [Payload Length]
-*`0C`*[Payload Type]**`02`**[PayloadData]*`0B`*`48656c6c6f20576f726c64`[Nonce]`24AFA821371892D1`
+*`0C`*[Payload Type]**`02`**[PayloadData]*`0B`*`48656C6C6F20576F726C64`[Nonce]`513F000000000080`
 
 # Rationale and alternatives
 
