@@ -20,12 +20,20 @@ All types are serialized in little-endian and occur in the sequence of the rows 
 
 SEP = solid entry point. `Array[T]` are prefixed with a varint denoting the length.
 
+This format describes version 1:
 <table>
     <tr>
         <th>Name</th>
         <th>Type</th>
         <th>Description</th>
     </tr>
+    <tr>
+        <td>Version</td>
+        <td>byte</td>
+        <td>
+        The version of the local snapshot file format.
+        </td>
+    </tr>    
     <tr>
         <td>Milestone Index</td>
         <td>uint64</td>
