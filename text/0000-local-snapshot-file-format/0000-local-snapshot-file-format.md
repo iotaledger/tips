@@ -18,7 +18,7 @@ Current node implementations use a [local snapshot file format](https://github.c
 
 All types are serialized in little-endian and occur in the sequence of the rows defined below. Local snapshot files are compressed via zlib to further reduce size.
 
-SEP = solid entry point. `Array<T>` are prefixed with a varint denoting the length.
+SEP = solid entry point. `Array[T]` are prefixed with a varint denoting the length.
 
 <table>
     <tr>
@@ -49,7 +49,7 @@ SEP = solid entry point. `Array<T>` are prefixed with a varint denoting the leng
     </tr>
     <tr>
         <td>SEPs</td>
-        <td>Array<ByteArray[32]></td>
+        <td>Array[ByteArray[32]]</td>
         <td>
         The BLAKE2b-256 hashes of the SEP messages at the cut off point of the given milestone.
         </td>
@@ -58,7 +58,7 @@ SEP = solid entry point. `Array<T>` are prefixed with a varint denoting the leng
         <td>UTXOs</td>
         <td colspan="2">
             <details open="true">
-                <summary>Array<UTXO></summary>
+                <summary>Array[UTXO]</summary>
                 <blockquote>
                 Describes the unspent transaction outputs per transaction.
                 </blockquote>
