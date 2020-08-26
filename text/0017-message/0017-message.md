@@ -91,11 +91,6 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
                         <td>ANY</td>
                         <td>A sequence of fields, where the structure depends on <code>payload type</code>.</td>
                     </tr>
-                    <tr>
-                        <td>Nested Payload (Optional)</td>
-                        <td> Payload</td>
-                        <td> Some payloads support nesting other payloads inside of them.</td>
-                    </tr>
                 </table>
             </details>
     <tr>
