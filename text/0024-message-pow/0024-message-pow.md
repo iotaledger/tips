@@ -32,7 +32,7 @@ pow_digest ← BLAKE2b-256(serialized message excluding nonce field)
 pow_hash ← Curl-P-81(b1t6(pow_digest) || b1t6(nonce) || [0, 0, 0])
 pow ← 3**trailing_zeros(pow_hash) / size
 ```
-where `size` is the size of the full serialized message.
+where `size` is the number of bytes of the full serialized message.
 
 ## Example
 
@@ -52,6 +52,7 @@ where `size` is the size of the full serialized message.
 # Rationale and alternatives
 
 The premise of this proposal is that the PoW should remain Curl-based in order to cause the least amount of disruption to the protocol and its established projects. Therefore, other hash functions or PoW algorithms have not been considered. However, modifications of the described calculation are possible:
+- There are several potential encodings for the nonce: E.g. converting its value directly to balanced ternary (the most compact encoding) or using the `b1t8` encoding. The chosen `b1t6` encoding acchieves a nice balance between compactness and performance. Since it is possible to fit the PoW digest and the `b1t6` encoded nonce into one Curl block, the simplicity of having only one encoding (for PoW digest and nonce) was peferred over minimal performance improvements other encodings could bring.
 - Curl can be computed directly on the `b1t6` encoded message (after an appropriate padding has been added). However, performance analysis of existing node implementation suggests that the Curl computations during the PoW could become critical, especially since parallel Curl implementations would be much more difficult to deploy because of the dynamic message lengths.
 - BLAKE2b-256 could be replaced with BLAKE2b-512 or any other binary cryptographic hash function. However, a 256-bit digest fits very nicely into exactly one Curl block and since BLAKE2b-256 is also used for the _message ID_, it is reasonable to also use it for the PoW digest. This reduces the number of required hashing implementations and even allows reusage of intermediate values between the PoW digest and the message ID computation.
 
