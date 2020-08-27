@@ -106,7 +106,7 @@ This format describes version 1:
                                 <table>
                                     <tr>
                                         <td>Index</td>
-                                        <td>byte</td>
+                                        <td>uint16</td>
                                         <td>The index of the output on the transaction.</td>
                                     </tr>
                                     <tr>
