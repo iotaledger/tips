@@ -84,7 +84,7 @@ This format describes version 1:
                 </p>
                 <table>
                     <tr>
-                        <td><b>Name<b></td>
+                        <td><b>Name</b></td>
                         <td><b>Type</b></td>
                         <td><b>Description</b></td>
                     </tr>
@@ -104,6 +104,11 @@ This format describes version 1:
                                 This array is prefixed with an uint16 denoting the amount of outputs.
                                 </p>
                                 <table>
+                                    <tr>
+                                        <td><b>Name</b></td>
+                                        <td><b>Type</b></td>
+                                        <td><b>Description</b></td>
+                                    </tr>
                                     <tr>
                                         <td>Index</td>
                                         <td>uint16</td>
