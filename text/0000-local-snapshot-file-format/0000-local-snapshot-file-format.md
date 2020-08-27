@@ -1,8 +1,3 @@
----
-title: Local Snapshot File Format
-tags: RFC, draft
----
-
 + Feature name: `local_snapshot_file_format`
 + Start date: 2020-08-25
 + RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
