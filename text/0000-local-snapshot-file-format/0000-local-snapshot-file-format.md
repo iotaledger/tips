@@ -1,3 +1,8 @@
+---
+title: Local Snapshot File Format
+tags: RFC, draft
+---
+
 + Feature name: `local_snapshot_file_format`
 + Start date: 2020-08-25
 + RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
@@ -16,9 +21,7 @@ Current node implementations use a [local snapshot file format](https://github.c
 
 # Detailed design
 
-All types are serialized in little-endian and occur in the sequence of the rows defined below. Local snapshot files are compressed via zlib to further reduce size.
-
-SEP = solid entry point. `Array[T]` are prefixed with a varint denoting the length.
+All types are serialized in little-endian and occur in the sequence of the rows defined below.
 
 This format describes version 1:
 <table>
@@ -33,7 +36,14 @@ This format describes version 1:
         <td>
         The version of the local snapshot file format.
         </td>
-    </tr>    
+    </tr> 
+    <tr>
+        <td>Timestamp</td>
+        <td>uint64</td>
+        <td>
+        The UNIX epoch timestamp in seconds of when this snapshot was created.
+        </td>
+    </tr>
     <tr>
         <td>Milestone Index</td>
         <td>uint64</td>
@@ -49,17 +59,24 @@ This format describes version 1:
         </td>
     </tr>
     <tr>
-        <td>Timestamp</td>
+        <td>SEPs Count</td>
         <td>uint64</td>
         <td>
-        The UNIX epoch timestamp in seconds of when this snapshot was created.
+        The amount of solid entry points contained within the file.
+        </td>
+    </tr> 
+    <tr>
+        <td>UTXOs Count</td>
+        <td>uint64</td>
+        <td>
+        The amount of transactions and their outputs contained within the file.
         </td>
     </tr>
     <tr>
         <td>SEPs</td>
         <td>Array[ByteArray[32]]</td>
         <td>
-        The BLAKE2b-256 hashes of the SEP messages at the cut off point of the given milestone.
+        The BLAKE2b-256 hashes of the SEP messages at the cut off point of the given milestone. There are <code>SEPs Count</code> SEPs in this array.
         </td>
     </tr>
     <tr>
@@ -67,9 +84,9 @@ This format describes version 1:
         <td colspan="2">
             <details open="true">
                 <summary>Array[UTXO]</summary>
-                <blockquote>
-                Describes the unspent transaction outputs per transaction.
-                </blockquote>
+                <p>
+                Describes the unspent transaction outputs per transaction. There are <code>UTXOs Count</code> transactions in this array.
+                </p>
                 <table>
                     <tr>
                         <td><b>Name<b></td>
@@ -88,6 +105,9 @@ This format describes version 1:
                         <td colspan="2">
                             <details open="true">
                                 <summary>Array[Outputs]</summary>
+                                <p>
+                                This array is prefixed with an uint16 denoting the amount of outputs.
+                                </p>
                                 <table>
                                     <tr>
                                         <td>Index</td>
@@ -156,13 +176,6 @@ This format describes version 1:
             </details>
         </td>
     </tr>
-    <tr>
-        <td>Integrity hash</td>
-        <td>ByteArray[32]</td>
-        <td>
-        The SHA256 hash of all the previous fields.
-        </td>
-    </tr>
 </table>
 
 # Drawbacks
@@ -171,8 +184,10 @@ Nodes need to support this new format.
 
 # Rationale and alternatives
 
-* Grouping the UTXO per transaction reduces the file size.
-* Using zlib for compression yields a ~55 MB (from ~115 MB) file on a local snapshot with ~2 million outputs (on Ed25519 addresses) from ~1 million transactions and 150 SEPs.
+* Since local snapshots may include millions of UTXOs, code generating such files needs to stream data directly onto disk instead of keeping the entire representation in memory. In order to facilitate this, the count denotations for SEPs and UTXOs are at the beginning of the file. This allows code generating local snapshot files to only have to seek back once after the actual count of elements is known.
+* If a design were to be used where the corresponding SEPs and UTXOs arrays are directly prefixed with their count, the generating code would have to seek multiples to override the counts with the count only known after having generated all elements.
+* Grouping the UTXOs per transaction reduces the file size.
+* No compression is used since for example only a 13% reduction (~134 MB -> ~120 MB) on a local snapshot with ~2 million outputs (on Ed25519 addresses) from ~1 million transactions and 150 SEPs is achieved.
 
 Unlike the current format, this new format does no longer include:
 * Spent addresses: since this information is no longer held by nodes.
@@ -182,5 +197,5 @@ Unlike the current format, this new format does no longer include:
 
 * Is all the information to startup a node from the local snapshot available with the described format?
 * Can we get rid of the spent addresses or do we still need to keep them?
-* Can we just use a byte for the index or do we need to use something different?
+* Are the sizes of the count denotations for the arrays sensible?
 * Do we need to account for different types of outputs already? (we currently only have them deposit to addresses)
