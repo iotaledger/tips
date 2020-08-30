@@ -123,27 +123,37 @@ A message is considered valid, if the following syntactic rules are met:
 
 ### Payloads
 
-A message may contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `unsigned data payload` will be specified here as an example.
+A message may contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `indexation payload` will be specified here as an example.
 
 | Payload Name                              |   Type Value |
 | ---------------------------------------   | -----------  | 
 |  [Signed Transaction](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md)                       |     0        |
 |  [Milestone Draft](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md)                                |     1        |
-|  [Unsigned Data](#Unsigned-Data-Payload)  |     2        |
-| Signed Data (TBD)                               |     3        |
-| Indexation  (TBD)                              |     4        |
+|  [Indexation Payload](#Unsigned-Data-Payload)  |     2        |
 
-### Unsigned data payload
+### Indexation payload
 
-To make the Payload concept clear we will define the `unsigned data payload`. As the name suggests it simply allows to add arbitrary data to a message. A message that has been attached to the tangle and approved by a milestone has useful properties: You can verify that the content of the data did not change, and you can ascertain the approximate time it was published by checking the approving milestone. For example, one can record a hash of a text document on the tangle with such a payload. When a third party requests a proof that the document was published at a certain time and was not changed, one can point them to the message containing the `unsigned data payload` with the hash.
+To make the Payload concept clear we will define the `indexation payload`. As the name suggests it allows to add an index to the encapsulating message, as well as some arbitrary data. Nodes will expose an API, that will enable to query messages by the index.
+Adding those capabilities may open nodes to DOS attack vectors:
+1. Proliferation of index keys that may blow up the node's DB
+2. Proliferation of messages associated with the same index
+
+Node implementations may provide weak guarantees regarding the completion of indexes to address the above scenarios. 
+
+Besides the index, the payload will also have a data field.
+  A message that has been attached to the tangle and approved by a milestone has useful properties: You can verify that the content of the data did not change, and you can ascertain the approximate time it was published by checking the approving milestone. If the payload will be incorporated under
+  the `signed transaction payload`, the content will be signed as well.
+
 
 The structure of the payload is simple:
 
 | Name             | Type          | Description               |
 | --------         | -----------   | -----------               |
 | Payload Type     | varint        | Must be set to **2**      |
-| Data             | ByteArray     | The data we are attaching |
+| Index            | ByteArray     | The index key of the message |
+| Data             | ByteArray     | Data we are attaching    |
 
+Note that `index` and `data` may both have a length of 0.
 There are no validation rules for the payload. Message validation rules suffice here.
 
 ### Serialization Example
