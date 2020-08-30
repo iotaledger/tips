@@ -158,11 +158,12 @@ There are no validation rules for the payload. Message validation rules suffice 
 
 ### Serialization Example
 
-Below is a simple serialized message with the unsigned data payload that carries "Hello World" ASCII string. 
-Bytes are expressesd with hexadecimal numbers.
+Below is a serialized valid message with the indexation payload. The index is the "SPAM" ASCII string and the message is the "Hello Iota"
+ASCII string. The [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) should have
+  14 trailing zeroes. Bytes are expressed as hexadecimal numbers. 
 
 [Version] **`01`** [Parent 1] `F532A53545103276B46876C473846D98648EE418468BCE76DF4868648DD73E5D` [Parent 2] `78D546B46AEC4557872139A48F66BC567687E8413578A14323548732358914A2` [Payload Length]
-*`0C`*[Payload Type]**`02`**[PayloadData]*`0B`*`48656C6C6F20576F726C64`[Nonce]`513F000000000080`
+*`0C`*[Payload Type]**`02`**[Index] *`04`*`9A52` [Data]*`0A`*`48656c6c6f20496f7461`[Nonce]`dc293f3333333333`
 
 # Rationale and alternatives
 
