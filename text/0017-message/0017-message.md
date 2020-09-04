@@ -25,10 +25,11 @@ The following are data types that we will use when we specify fields in the mess
 
 | Name   | Description   |
 | ------ | ------------- |
-| varint | An unsigned numerical value using a dynamic amount of bytes encoded in Little Endian. Evaluate by inspecting the MSB of the first byte. If it is `0` stop. If it is `1` go to the next byte. Continue applying this rule until you reach a byte with MSB `0`. Transform each byte to a 7-bit bit sequence by stripping the MSBs from each byte. Reverse the order of the 7 bit groups (Little Endian). Concatenate all the bits and evaluate as an unsigned integer. [It is similar to how it is done in Protocol Buffers](https://developers.google.com/protocol-buffers/docs/encoding). We must add [validation rules](#Message-Validation) that ensure that the varint is not malleable, and it is limited in size. |
-| uint64  | An unsigned 64 bit integer encoded in Little Endian.
-| ByteArray    | A dynamic size byte array. It is a prefixed by a `varint` that indicates the number of bytes in the array. The following bytes are simply the content of the array.
-| ByteArray[N] | A static size array of size N. Since the size is expected, no need to prefix with a varint   |
+| uint8  | An unsigned 8 bit integer encoded in Little Endian. |
+| uint16  | An unsigned 16 bit integer encoded in Little Endian. |
+| uint32  | An unsigned 32 bit integer encoded in Little Endian. |
+| uint64  | An unsigned 64 bit integer encoded in Little Endian. |
+| ByteArray[N] | A static size array of size N.   |
 
 
 ### Message ID
@@ -45,7 +46,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
     </tr>
     <tr>
         <td>Version</td>
-        <td>varint</td>
+        <td>uint8</td>
         <td>The message version. The schema specified in this RFC is for version <strong>1</strong> only. </td>
     </tr>
     <tr>
@@ -60,7 +61,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
     </tr>
     <tr>
         <td>Payload Length</td>
-        <td>varint</td>
+        <td>uint32</td>
         <td> The length of the Payload. Since its type may be unknown to the node it must be declared in advanced. 0 length means no payload will be attached.</td>
     </tr>
     <tr>
@@ -81,7 +82,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
                     </tr>
                     <tr>
                         <td>Payload Type</td>
-                        <td>varint</td>
+                        <td>uint16</td>
                         <td>
                             The type of the payload. It will instruct the node how to parse the fields that follow. Types in the range of 0-127 are "core types" that all nodes are expected to know.
                         </td>
@@ -105,21 +106,9 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
 A message is considered valid, if the following syntactic rules are met:
 
 1. The message length must not exceed X [tbd] bytes.
-2. Varint fields must adhere to the following rules:
-    * *Malleability protection:* No `0x80` or `0x00` trailing bytes. Take for example the following 3 byte varint: `0x8F8000`. 
-    In order to parse it we look at its bits: 
-    `1000 1111 1000 0000 0000 0000`.
-    First we strip the msbs:
-    `000 1111 000 0000 000 0000`
-    Then we reverse the groups of 7 bits (Little Endian):
-    `000 0000 000 0000 000 1111`
-    Then we concatenate all the bits to finally get:
-    `1111`
-    So the varint `0x0F` equals to `0x8F8000`, but is encoded with different bytes.
-    * *Size Protection*: The varint must not be more than 10 bytes long. A 10 byte varint can encompass all the range of `uint64`. In case of an overflow above the `uint64` range the message is invalid.
-3. When we are done parsing the message there shouldn't be any trailing bytes left that were not parsed.
-4. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is above this range.
-5. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
+2. When we are done parsing the message there shouldn't be any trailing bytes left that were not parsed.
+3. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is above this range.
+4. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
 
 ### Payloads
 
@@ -149,7 +138,7 @@ The structure of the payload is simple:
 
 | Name             | Type          | Description               |
 | --------         | -----------   | -----------               |
-| Payload Type     | varint        | Must be set to **2**      |
+| Payload Type     | uint16        | Must be set to **2**      |
 | Index            | ByteArray     | The index key of the message |
 | Data             | ByteArray     | Data we are attaching    |
 
