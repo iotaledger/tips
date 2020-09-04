@@ -87,7 +87,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
     </tr>
     <tr>
         <td>Payload Type</td>
-        <td>varint</td>
+        <td>uint16</td>
         <td>
         Set to <strong>value 0</strong> to denote a <i>Signed Transaction</i> payload.
         </td>
@@ -108,14 +108,14 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                     <tr>
                         <td>Transaction Type</td>
-                        <td>varint</td>
+                        <td>uint8</td>
                         <td>
                         Set to <strong>value 0</strong> to denote an <i>Unsigned Transaction</i>.
                         </td>
                     </tr>
                    <tr>
                         <td>Inputs Count</td>
-                        <td>varint</td>
+                        <td>uint16</td>
                         <td>The amount of inputs proceeding.</td>
                     </tr>
                    <tr>
@@ -134,7 +134,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Input Type</td>
-                                        <td>varint</td>
+                                        <td>uint8</td>
                                         <td>
                                             Set to <strong>value 0</strong> to denote an <i>UTXO Input</i>.
                                         </td>
@@ -146,7 +146,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Transaction Output Index</td>
-                                        <td>varint</td>
+                                        <td>uint16</td>
                                         <td>The index of the output on the referenced transaction to consume.</td>
                                     </tr>
                                 </table>
@@ -155,7 +155,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                    <tr>
                         <td>Outputs Count</td>
-                        <td>varint</td>
+                        <td>uint16</td>
                         <td>The amount of outputs proceeding.</td>
                     </tr>
                    <tr>
@@ -174,7 +174,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Output Type</td>
-                                        <td>varint</td>
+                                        <td>uint8</td>
                                         <td>
                                             Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.
                                         </td>
@@ -192,7 +192,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                                     </tr>
                                                     <tr>
                                                         <td>Address Type</td>
-                                                        <td>varint</td>
+                                                        <td>uint8</td>
                                                         <td>
                                                             Set to <strong>value 0</strong> to denote a <i>WOTS Address</i>.
                                                         </td>
@@ -214,7 +214,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                                     </tr>
                                                     <tr>
                                                         <td>Address Type</td>
-                                                        <td>varint</td>
+                                                        <td>uint8</td>
                                                         <td>
                                                             Set to <strong>value 1</strong> to denote an <i>Ed25519 Address</i>.
                                                         </td>
@@ -239,7 +239,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                     <tr>
                         <td>Payload Length</td>
-                        <td>varint</td>
+                        <td>uint32</td>
                         <td>The length in bytes of the optional payload.</td>
                     </tr>
                    <tr>
@@ -258,7 +258,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Payload Type</td>
-                                        <td>varint</td>
+                                        <td>uint16</td>
                                         <td>
                                         Set to <strong>value 2</strong> to denote an <i>Unsigned Data</i> payload.
                                         </td>
@@ -284,7 +284,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Payload Type</td>
-                                        <td>varint</td>
+                                        <td>uint16</td>
                                         <td>
                                         Set to <strong>value 3</strong> to denote an <i>Signed Data</i> payload.
                                         </td>
@@ -320,7 +320,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Payload Type</td>
-                                        <td>varint</td>
+                                        <td>uint16</td>
                                         <td>
                                         Set to <strong>value 4</strong> to denote an <i>Indexation</i> payload.
                                         </td>
@@ -340,7 +340,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
     </tr>
     <tr>
         <td>Unlock Blocks Count</td>
-        <td>varint</td>
+        <td>uint16</td>
         <td>The count of unlock blocks proceeding. Must match count of inputs specified.</td>
     </tr>
     <tr>
@@ -359,7 +359,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                     <tr>
                         <td>Unlock Type</td>
-                        <td>varint</td>
+                        <td>uint8</td>
                         <td>
                             Set to <strong>value 0</strong> to denote a <i>Signature Unlock Block</i>.
                         </td>
@@ -377,7 +377,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Signature Type</td>
-                                        <td>varint</td>
+                                        <td>uint8</td>
                                         <td>
                                             Set to <strong>value 0</strong> to denote a <i>WOTS Signature</i>.
                                         </td>
@@ -399,7 +399,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Signature Type</td>
-                                        <td>varint</td>
+                                        <td>uint8</td>
                                         <td>
                                             Set to <strong>value 1</strong> to denote an <i>Ed25519 Signature</i>.
                                         </td>
@@ -433,14 +433,14 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                     </tr>
                     <tr>
                         <td>Unlock Type</td>
-                        <td>varint</td>
+                        <td>uint8</td>
                         <td>
                             Set to <strong>value 1</strong> to denote a <i>Reference Unlock Block</i>.
                         </td>
                     </tr>
                     <tr>
                         <td>Reference</td>
-                        <td>varint</td>
+                        <td>uint16</td>
                         <td>Represents the index of a previous unlock block.</td>
                     </tr>
                 </table>
@@ -468,7 +468,7 @@ Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at
 ###### UTXO Input
 
 <details>
-    <summary>Format</summary>
+    <summary>UTXO Input</summary>
     <table>
         <tr>
             <td><b>Name</b></td>
@@ -477,19 +477,19 @@ Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at
         </tr>
         <tr>
             <td>Input Type</td>
-            <td>varint</td>
+            <td>uint8</td>
             <td>
-                Set to <strong>value 0</strong> to denote a <i>UTXO Input</i>.
+                Set to <strong>value 0</strong> to denote an <i>UTXO Input</i>.
             </td>
         </tr>
         <tr>
             <td>Transaction ID</td>
-            <td>ByteArray[64]</td>
-            <td>The transaction reference from which the UTXO comes from.</td>
+            <td>ByteArray[32]</td>
+            <td>The BLAKE2b-256 hash of the transaction from which the UTXO comes from.</td>
         </tr>
         <tr>
             <td>Transaction Output Index</td>
-            <td>varint</td>
+            <td>uint16</td>
             <td>The index of the output on the referenced transaction to consume.</td>
         </tr>
     </table>
@@ -506,8 +506,11 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
 
 ###### SigLockedSingleDeposit
 
- <details>
-    <summary>Format</summary>
+<details>
+    <summary>SigLockedSingleDeposit</summary>
+    <blockquote>
+    Describes a deposit to a single address which is unlocked via a signature.
+    </blockquote>
     <table>
         <tr>
             <td><b>Name</b></td>
@@ -516,13 +519,13 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
         </tr>
         <tr>
             <td>Output Type</td>
-            <td>varint</td>
+            <td>uint8</td>
             <td>
                 Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.
             </td>
         </tr>
         <tr>
-            <td>Address (oneOf)</td>
+            <td valign="top">Address <code>oneOf</code></td>
             <td colspan="2">
                 <details>
                     <summary>WOTS Address</summary>
@@ -534,7 +537,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
                         </tr>
                         <tr>
                             <td>Address Type</td>
-                            <td>varint</td>
+                            <td>uint8</td>
                             <td>
                                 Set to <strong>value 0</strong> to denote a <i>WOTS Address</i>.
                             </td>
@@ -556,7 +559,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
                         </tr>
                         <tr>
                             <td>Address Type</td>
-                            <td>varint</td>
+                            <td>uint8</td>
                             <td>
                                 Set to <strong>value 1</strong> to denote an <i>Ed25519 Address</i>.
                             </td>
@@ -629,7 +632,7 @@ There are different types of <i>Unlock Blocks</i>:
         </tr>
         <tr>
             <td>Unlock Type</td>
-            <td>varint</td>
+            <td>uint8</td>
             <td>
                 Set to <strong>value 0</strong> to denote a <i>Signature Unlock Block</i>.
             </td>
@@ -647,7 +650,7 @@ There are different types of <i>Unlock Blocks</i>:
                         </tr>
                         <tr>
                             <td>Signature Type</td>
-                            <td>varint</td>
+                            <td>uint8</td>
                             <td>
                                 Set to <strong>value 0</strong> to denote a <i>WOTS Signature</i>.
                             </td>
@@ -669,7 +672,7 @@ There are different types of <i>Unlock Blocks</i>:
                         </tr>
                         <tr>
                             <td>Signature Type</td>
-                            <td>varint</td>
+                            <td>uint8</td>
                             <td>
                                 Set to <strong>value 1</strong> to denote an <i>Ed25519 Signature</i>.
                             </td>
@@ -705,14 +708,14 @@ A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one o
         </tr>
         <tr>
             <td>Unlock Type</td>
-            <td>varint</td>
+            <td>uint8</td>
             <td>
                 Set to <strong>value 1</strong> to denote a <i>Reference Unlock Block</i>.
             </td>
         </tr>
         <tr>
             <td>Reference</td>
-            <td>varint</td>
+            <td>uint16</td>
             <td>Represents the index of a previous unlock block.</td>
         </tr>
     </table>
