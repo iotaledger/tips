@@ -82,7 +82,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
                     </tr>
                     <tr>
                         <td>Payload Type</td>
-                        <td>uint16</td>
+                        <td>uint32</td>
                         <td>
                             The type of the payload. It will instruct the node how to parse the fields that follow. Types in the range of 0-127 are "core types" that all nodes are expected to know.
                         </td>
@@ -138,7 +138,7 @@ The structure of the payload is simple:
 
 | Name             | Type          | Description               |
 | --------         | -----------   | -----------               |
-| Payload Type     | uint16        | Must be set to **2**      |
+| Payload Type     | uint32        | Must be set to **2**      |
 | Index            | ByteArray     | The index key of the message |
 | Data             | ByteArray     | Data we are attaching    |
 
