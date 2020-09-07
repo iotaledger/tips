@@ -120,7 +120,7 @@ It is recommended to use `X` = 2 and `T` = 3  but the threshold should be config
 
 Semi-Lazy tips are not eligible for tip-selection, but the coordinator node may implement a tip selection algorithm
 that confirms semi-lazy tips. Semi-lazy tips will usually be left behind, but parties interested in having them confirmed
-are incentivized to run spammers that will merge them into one thin subtangle. 
+are incentivized to run spammers that will actively reduce the amount of semi-lazy tips eligible for coordinator's tip selection. 
 Given a coordinator that chooses semi-lazy tips, running such spammers may get those transactions confirmed before
 they become lazy.
 
