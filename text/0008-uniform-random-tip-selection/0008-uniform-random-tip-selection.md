@@ -60,7 +60,7 @@ A tip can have one of 3 score states:
 
 Definitions:
 * `C1`: Max allowed delta value for the `YTRSI` of a given transaction in relation to the current `LSMI`.
-* `C2`: Max allowed delta value between `OTRSI` of the approvees of a given transaction in relation to the current `LSMI`. 
+* `C2`: Max allowed delta value between `OTRSI` of a given transaction in relation to the current `LSMI`. 
 * `M`: Max allowed delta value between `OTRSI` of the given transaction in relation to the current `LSMI`.
 `M` is the `below max depth (BMD)` parameter.
 
