@@ -247,34 +247,6 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                         <td colspan="2">
                             <details>
                                 <summary>Indexation Payload</summary>
-                                <blockquote>
-                                Describes a payload which is used to instruct the node to index the <i>Message</i>
-                                of which it is part of.    
-                                </blockquote>
-                                <table>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Payload Type</td>
-                                        <td>uint32</td>
-                                        <td>
-                                        Set to <strong>value 2</strong> to denote an <i>Indexation</i> payload.
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Index</td>
-                                        <td>ByteArray[uint16]</td>
-                                        <td>The tag which is used to index the message containing this transaction.</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tag</td>
-                                        <td>ByteArray[16]</td>
-                                        <td>The tag which is used to index the <i>Signed Transaction</i>'s hash.</td>
-                                    </tr>
-                                </table>
                             </details>
                         </td>
                     </tr>
