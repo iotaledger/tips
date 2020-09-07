@@ -30,6 +30,8 @@ The following are data types that we will use when we specify fields in the mess
 | uint32  | An unsigned 32 bit integer encoded in Little Endian. |
 | uint64  | An unsigned 64 bit integer encoded in Little Endian. |
 | ByteArray[N] | A static size array of size N.   |
+| ByteArray | A dynamically sized array. A uint32 denotes its length.   |
+| string | A dynamically sized array of an UTF-8 encoded string. A uint16 denotes its length.   |
 
 
 ### Message ID
@@ -139,7 +141,7 @@ The structure of the payload is simple:
 | Name             | Type          | Description               |
 | --------         | -----------   | -----------               |
 | Payload Type     | uint32        | Must be set to **2**      |
-| Index            | ByteArray     | The index key of the message |
+| Index            | string     | The index key of the message |
 | Data             | ByteArray     | Data we are attaching    |
 
 Note that `index` and `data` may both have a length of 0.
