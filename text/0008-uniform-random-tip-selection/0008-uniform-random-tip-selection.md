@@ -139,7 +139,7 @@ However, relatively soon it became apparent that the cumulative weight computati
 for an actual high throughput scenario and as such, the CW calculation is currently not used within
 node implementations at all.
 
-Because confirmations with the `white-flag` approach no longer only approve cones with state mutations
+Because confirmations with the [white-flag](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) approach no longer only approve cones with state mutations
 which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide 
 a fast way to get tips to approve with one's own transaction.
 The only important thing is to disincentive lazy behaviour in order to be able to maximize confirmation rate.
