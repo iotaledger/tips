@@ -87,7 +87,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
     </tr>
     <tr>
         <td>Payload Type</td>
-        <td>uint16</td>
+        <td>uint32</td>
         <td>
         Set to <strong>value 0</strong> to denote a <i>Signed Transaction</i> payload.
         </td>
@@ -246,67 +246,6 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                         <td valign="top">Payload <code>optOneOf</code></td>
                         <td colspan="2">
                             <details>
-                                <summary>Unsigned Data Payload</summary>
-                                <blockquote>
-                                Describes a payload containing data without any specification what the data means.
-                                </blockquote>
-                                <table>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Payload Type</td>
-                                        <td>uint16</td>
-                                        <td>
-                                        Set to <strong>value 2</strong> to denote an <i>Unsigned Data</i> payload.
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Data</td>
-                                        <td>ByteArray</td>
-                                        <td>The data of the Unsigned Data payload.</td>
-                                    </tr>
-                                </table>
-                            </details>
-                            <details>
-                                <summary>Signed Data Payload</summary>
-                                <blockquote>
-                                Describes a payload containing signed data (and its corresponding Ed25519 public key and signature) without
-                                any specification what the data means.
-                                </blockquote>
-                                <table>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Payload Type</td>
-                                        <td>uint16</td>
-                                        <td>
-                                        Set to <strong>value 3</strong> to denote an <i>Signed Data</i> payload.
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Data</td>
-                                        <td>ByteArray</td>
-                                        <td>The data of the <i>Signed Data</i> payload.</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Public Key</td>
-                                        <td>ByteArray[32]</td>
-                                        <td>The Ed25519 public key used to verify the signature.</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Signature</td>
-                                        <td>ByteArray[64]</td>
-                                        <td>The signature signing the data.</td>
-                                    </tr>
-                                </table>
-                            </details>
-                            <details>
                                 <summary>Indexation Payload</summary>
                                 <blockquote>
                                 Describes a payload which is used to instruct the node to index the <i>Message</i>
@@ -320,10 +259,15 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Payload Type</td>
-                                        <td>uint16</td>
+                                        <td>uint32</td>
                                         <td>
-                                        Set to <strong>value 4</strong> to denote an <i>Indexation</i> payload.
+                                        Set to <strong>value 2</strong> to denote an <i>Indexation</i> payload.
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Index</td>
+                                        <td>ByteArray[uint16]</td>
+                                        <td>The tag which is used to index the message containing this transaction.</td>
                                     </tr>
                                     <tr>
                                         <td>Tag</td>
@@ -593,9 +537,7 @@ Supported payload types to be embedded into an <i>Unsigned Transaction</i>:
 
 | Name                  | Type Value |
 | --------------------- | ---------- |
-| Unsigned Data Payload | 2          |
-| Signed Data Payload   | 3          |
-| Indexation Payload    | 4          |
+| Indexation Payload    | 2          |
 
 #### Unlock Blocks
 
