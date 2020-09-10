@@ -42,30 +42,13 @@ paths:
                   $ref: '#/components/schemas/GetInfoResponse'
               examples:
                 Example 1:
-                  value:
-                    data:
-                      name: Hornet
-                      version: 0.5.2
-                      isHealthy: true
-                      operatingNetwork: Mainnet
-                      peers: 5
-                      coordinatorAddress: UDYXTZBE9GZGPM9SSQV9LTZNDLJIZMPUVVXYXFYVBLIEUHLSEWFTKZZLXYRHHWVQV9MNNX9KZC9D9UZWZ
-                      isSynced: true
-                      latestMilestone: JXVC9LGIEPCEJLEN9EXOKGUBFXOZDTZYIMZMPIJCGUALBENVTTRFYVUCKZCOVPRZKEUYZGYPSQGAA9999
-                      latestMilestoneindex: 1699556
-                      lastestSolidMilestone: JXVC9LGIEPCEJLEN9EXOKGUBFXOZDTZYIMZMPIJCGUALBENVTTRFYVUCKZCOVPRZKEUYZGYPSQGAA9999
-                      latestSolidMilestoneIndex: 1699556
-                      pruningIndex: 1696326
-                      time: 1599584382
-                      features:
-                        - Plugin X
-                        - Plugin Y
+                  $ref: '#/components/examples/get-info-response-example-1'
   /tips:
     get:
       tags:
         - tangle
       summary: Returns two non-lazy tips.
-      description: Returns two non-lazy tips. In case the node can only provide one tip, tip1 and tip2 will be the same.
+      description: Returns two non-lazy tips. In case the node can only provide one tip, tip1 and tip2 are identical.
       operationId: get-tips
       responses:
         200:
@@ -85,14 +68,14 @@ paths:
     get:
       tags:
         - messages
-      summary: Find a message by the message hash.
-      description: Find a message by the message hash. This endpoint returns the full
-        message object including formatted payload.
+      summary: Find a message by its hash.
+      description: Find a message by its hash. This endpoint returns the given
+        message including payload.
       operationId: get-messages-by-hash
       parameters:
         - name: hash
           in: path
-          description: Hash of the message to return
+          description: Hash of the message
           required: true
           schema:
             type: string
@@ -169,13 +152,13 @@ paths:
     get:
       tags:
         - messages
-      summary: Find all messages that have a certain indexation tag.
-      description: Find all messages that have a certain indexation tag. This endpoint returns a mapping of hashes and message objects. The tag can be passed ASCII encoded.
+      summary: Find all messages that are marked by a given tag.
+      description: Find all messages that are marked by a given tag.
       operationId: get-messages-by-tag
       parameters:
         - name: tag
           in: path
-          description: Tag of the messages to return
+          description: ASCII encoded tag of the message.
           required: true
           schema:
             type: string
@@ -338,7 +321,7 @@ paths:
       tags:
         - messages
       summary: Submit a message.
-      description: Submit a message as a JSON object to the node. If certain fields are missing the node tries to take care of it (e.g. missing nonce, missing branch/trunk, …) and builds the message. On success, the node stores the message and broadcasts it to its peers. Furthermore it will return an “201 created response” and include a Location field in the response header which includes the hash.
+      description: Submit a message. The node takes care of missing fields and tries to build the message. On success, the message will be stored in the Tangle. This endpoint will return the hash of the message by the response headers.
       operationId: post-messages
       requestBody:
         content:
@@ -353,7 +336,7 @@ paths:
             Location:
               schema:
                 $ref: '#/components/schemas/PostMessagesResponse'
-              description: The hash of the submitted message.
+              description: Hash of the submitted message.
         "400":
           description: unsuccessful operation
           content:
@@ -458,7 +441,7 @@ paths:
       parameters:
         - name: address
           in: path
-          description: Address of the messages to return
+          description: Address that is being used by messages.
           required: true
           schema:
             type: string
@@ -535,13 +518,13 @@ paths:
     get:
       tags:
         - transaction-messages
-      summary: Find a output by its hash.
-      description: Find a output its hash. Get the producer of the output, the corresponding address, amount and spend status of an output. This information can only be retrieved for outputs which are part of a confirmed transaction.
+      summary: Find an output by its hash.
+      description: Find an output by its hash. Get the producer of the output, the corresponding address, amount and spend status. This information can only be retrieved for outputs which are part of a confirmed transaction.
       operationId: get-outputs-by-hash
       parameters:
         - name: hash
           in: path
-          description: Hash of the output to return
+          description: Hash of the output
           required: true
           schema:
             type: string
@@ -618,8 +601,8 @@ paths:
     get:
       tags:
         - transaction-messages
-      summary: Get all outputs that reference a given address.
-      description: Get all outputs that reference a given address.
+      summary: Get all outputs that use a given address.
+      description: Get all outputs that use a given address.
       operationId: get-outputs-by-address
       parameters:
         - name: address
@@ -711,6 +694,25 @@ components:
         error:
           code: 404
           message: "can not find data"
+    get-info-response-example-1:
+      value:
+        data:
+          name: Hornet
+          version: 0.5.2
+          isHealthy: true
+          operatingNetwork: Mainnet
+          peers: 5
+          coordinatorAddress: UDYXTZBE9GZGPM9SSQV9LTZNDLJIZMPUVVXYXFYVBLIEUHLSEWFTKZZLXYRHHWVQV9MNNX9KZC9D9UZWZ
+          isSynced: true
+          latestMilestoneHash: JXVC9LGIEPCEJLEN9EXOKGUBFXOZDTZYIMZMPIJCGUALBENVTTRFYVUCKZCOVPRZKEUYZGYPSQGAA9999
+          latestMilestoneindex: 1699556
+          lastestSolidMilestoneHash: JXVC9LGIEPCEJLEN9EXOKGUBFXOZDTZYIMZMPIJCGUALBENVTTRFYVUCKZCOVPRZKEUYZGYPSQGAA9999
+          latestSolidMilestoneIndex: 1699556
+          pruningIndex: 1696326
+          time: 1599584382
+          features:
+            - Plugin X
+            - Plugin Y
     get-tips-response-example-1:
       value:
         data:
@@ -785,7 +787,7 @@ components:
               payloadLength: 0
               payload:
                 type: 2
-                index: "5472696e697479"
+                index: "TAG X"
                 data: "SGVsbG8gd29ybGQh"
           "TAG Y":
             "MESSAGE HASH B":
@@ -795,7 +797,7 @@ components:
               payloadLength: 0
               payload:
                 type: 2
-                index: "5350414d"
+                index: "TAG Y"
                 data: "SGVsbG8gd29ybGQh"
             "MESSAGE HASH C":
               version: 1
@@ -804,7 +806,7 @@ components:
               payloadLength: 0
               payload:
                 type: 2
-                index: "5350414d"
+                index: "TAG Y"
                 data: "SGVsbG8gd29ybGQh"
     get-is-referenced-by-milestone-response-example-1:
       value:
@@ -868,7 +870,7 @@ components:
       value:
         data:
           "ADDRESS X":
-            "MESSAGE HASH X":
+            "MESSAGE HASH A":
               version: 1
               parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
               parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
@@ -887,7 +889,7 @@ components:
                     outputType: 0
                     address:
                       addressType: 1
-                      address: XYZ
+                      address: "ADDRESS X"
                     amount: 6345
                   payloadLength: 0
                   unlockBlocksCount: 1
@@ -895,7 +897,7 @@ components:
                     unlocktype: 0
                     signature: "XYZ"
           "ADDRESS Y":
-            "MESSAGE HASH X":
+            "MESSAGE HASH B":
               version: 1
               parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
               parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
@@ -914,7 +916,7 @@ components:
                     outputType: 0
                     address:
                       addressType: 1
-                      address: XYZ
+                      address: "ADDRESS Y"
                     amount: 6345
                   payloadLength: 0
                   unlockBlocksCount: 1
@@ -1005,7 +1007,10 @@ components:
           required:
             - type
           additionalProperties: true
-
+        nonce:
+          type: string
+      required:
+        - payload
     ErrorResponse:
       properties:
         error:
@@ -1140,7 +1145,28 @@ components:
               - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-1'
               - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-2'
     PostMessagesParameters:
-      $ref: "#/components/schemas/Message"
+      properties:
+        version:
+          type: integer
+        parent1:
+          type: string
+        parent2:
+          type: string
+        payloadLength:
+          type: integer
+        payload:
+          type: object
+          properties:
+            type:
+              type: integer
+          required:
+            - type
+          additionalProperties: true
+        nonce:
+          type: string
+      required:
+        - payload
+
     PostMessagesResponse:
       type: string
     GetIsConfirmedResponse:
