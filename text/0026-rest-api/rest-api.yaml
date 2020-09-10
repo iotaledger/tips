@@ -1,0 +1,1247 @@
+openapi: 3.0.1
+info:
+  title: IOTA REST API
+  description: 'This document describes the upcoming REST API for Hornet and Bee.'
+  contact:
+    email: contact@iota.org
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about IOTA
+  url: https://iota.org
+servers:
+  - url: https://127.0.0.1:8080/v1
+
+tags:
+  - name: node
+    description: Everything about the node itself.
+  - name: tangle
+    description: Everything about the tangle.
+  - name: messages
+    description: Everything about messages.
+paths:
+  /info:
+    get:
+      tags:
+        - node
+      summary: Returns information about the node.
+      description: Returns information about the node.
+      operationId: get-info
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetInfoResponse'
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      name: Hornet
+                      version: 0.5.2
+                      isHealthy: true
+                      operatingNetwork: Mainnet
+                      peers: 5
+                      coordinatorAddress: UDYXTZBE9GZGPM9SSQV9LTZNDLJIZMPUVVXYXFYVBLIEUHLSEWFTKZZLXYRHHWVQV9MNNX9KZC9D9UZWZ
+                      isSynced: true
+                      latestMilestone: JXVC9LGIEPCEJLEN9EXOKGUBFXOZDTZYIMZMPIJCGUALBENVTTRFYVUCKZCOVPRZKEUYZGYPSQGAA9999
+                      latestMilestoneindex: 1699556
+                      lastestSolidMilestone: JXVC9LGIEPCEJLEN9EXOKGUBFXOZDTZYIMZMPIJCGUALBENVTTRFYVUCKZCOVPRZKEUYZGYPSQGAA9999
+                      latestSolidMilestoneIndex: 1699556
+                      pruningIndex: 1696326
+                      time: 1599584382
+                      features:
+                        - Plugin X
+                        - Plugin Y
+  /tips:
+    get:
+      tags:
+        - tangle
+      summary: Returns two non-lazy tips.
+      description: Returns two non-lazy tips. In case the node can only provide one tip, tip1 and tip2 will be the same.
+      operationId: get-tips
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetTipsResponse'
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/get-tips-response-example-1'
+                Example 2:
+                  $ref: '#/components/examples/get-tips-response-example-2'
+  /messages/by-hash/{hash}:
+    get:
+      tags:
+        - messages
+      summary: Find a message by the message hash.
+      description: Find a message by the message hash. This endpoint returns the full
+        message object including formatted payload.
+      operationId: get-messages-by-hash
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of the message to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessagesByHashResponse'
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/get-messages-by-hash-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /messages/by-hash:
+    post:
+      tags:
+        - messages
+      summary: The bulk version of GET /messages/by-hash/{hash}.
+      description: The bulk version of GET /messages/by-hash/{hash}.
+      operationId: post-messages-by-hash
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostMessagesByHashParameters"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostMessagesByHashResponse"
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/post-messages-by-hash-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /messages/by-tag/{tag}:
+    get:
+      tags:
+        - messages
+      summary: Find all messages that have a certain indexation tag.
+      description: Find all messages that have a certain indexation tag. This endpoint returns a mapping of hashes and message objects. The tag can be passed ASCII encoded.
+      operationId: get-messages-by-tag
+      parameters:
+        - name: tag
+          in: path
+          description: Tag of the messages to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessagesByTagResponse'
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/get-messages-by-tag-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /messages/by-tag:
+    post:
+      tags:
+        - messages
+      summary: The bulk version of GET /messages/by-tag/{tag}.
+      description: The bulk version of GET /messages/by-tag/{tag}.
+      operationId: post-messages-by-tag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostMessagesByTagParameters"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostMessagesByTagResponse"
+              examples:
+                default:
+                  $ref: '#/components/examples/post-messages-by-tag-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /messages/by-hash/{hash}/-is-referenced-by-milestone:
+    get:
+      tags:
+        - messages
+      summary: Check if a message is referenced by a milestone.
+      description: Check if a message is referenced by a milestone.
+      operationId: get-is-referenced-by-milestone
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of the message.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse'
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/get-is-referenced-by-milestone-response-example-1'
+                Example 2:
+                  $ref: '#/components/examples/get-is-referenced-by-milestone-response-example-2'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /messages/by-hash/-is-referenced-by-milestone:
+    post:
+      tags:
+        - messages
+      summary: The bulk version of GET /messages/by-hash/{hash}/is-referenced-by-milestone.
+      description: The bulk version of GET /messages/by-hash/{hash}/is-referenced-by-milestone.
+      operationId: post-is-referenced-by-milestone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostIsReferencedByMilestoneParameters"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostIsReferencedByMilestoneResponse"
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/post-is-referenced-by-milestone-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /messages:
+    post:
+      tags:
+        - messages
+      summary: Submit a message.
+      description: Submit a message as a JSON object to the node. If certain fields are missing the node tries to take care of it (e.g. missing nonce, missing branch/trunk, …) and builds the message. On success, the node stores the message and broadcasts it to its peers. Furthermore it will return an “201 created response” and include a Location field in the response header which includes the hash.
+      operationId: post-messages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostMessagesParameters"
+        required: true
+      responses:
+        "201":
+          description: successful operation
+          headers:
+            Location:
+              schema:
+                $ref: '#/components/schemas/PostMessagesResponse'
+              description: The hash of the submitted message.
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+  /transaction-messages/by-hash/{hash}/-is-confirmed:
+    get:
+      tags:
+        - transaction-messages
+      summary: Check if a transaction-message is confirmed.
+      description: Check if a transaction-message is confirmed.
+      operationId: get-is-confirmed
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of the message.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetIsConfirmedResponse'
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/get-is-confirmed-example-1'
+                Example 2:
+                  $ref: '#/components/examples/get-is-confirmed-example-2'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /transaction-messages/is-confirmed:
+    post:
+      tags:
+        - transaction-messages
+      summary: The bulk version of GET /transactions/by-message-hash/{hash}/is-confirmed.
+      description: The bulk version of GET /transactions/by-message-hash/{hash}/is-confirmed.
+      operationId: post-is-confirmed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostIsConfirmedParameters"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostIsConfirmedResponse"
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/post-is-referenced-by-milestone-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /transaction-messages/by-address/{address}:
+    get:
+      tags:
+        - transaction-messages
+      summary: Find all transaction-messages that use a given address.
+      description: Find all transaction-messages that use a given address.
+      operationId: get-messages-by-address
+      parameters:
+        - name: address
+          in: path
+          description: Address of the messages to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessagesByAddressResponse'
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/get-messages-by-address-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /transaction-messages/by-address:
+    post:
+      tags:
+        - transaction-messages
+      summary: The bulk version of GET /transactions/by-address/{address}.
+      description: The bulk version of GET /transactions/by-address/{address}.
+      operationId: post-messages-by-address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostMessagesByAddressParameters"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostMessagesByAddressResponse"
+              examples:
+                default:
+                  $ref: '#/components/examples/post-messages-by-address-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /outputs/by-hash/{hash}:
+    get:
+      tags:
+        - outputs
+      summary: Find a output by its hash.
+      description: Find a output its hash. Get the producer of the output, the corresponding address, amount and spend status of an output. This information can only be retrieved for outputs which are part of a confirmed transaction.
+      operationId: get-outputs-by-hash
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of the output to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOutputsByHashResponse'
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/get-outputs-by-hash-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /outputs/by-hash:
+    post:
+      tags:
+        - outputs
+      summary: The bulk version of GET /outputs/by-hash/{hash}.
+      description: The bulk version of GET /outputs/by-hash/{hash}.
+      operationId: post-outputs-by-hash
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostOutputsByHashParameters"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostOutputsByHashResponse"
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/post-outputs-by-hash-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /outputs/by-address/{address}:
+    get:
+      tags:
+        - outputs
+      summary: Get all outputs that reference a given address.
+      description: Get all outputs that reference a given address.
+      operationId: get-outputs-by-address
+      parameters:
+        - name: address
+          in: path
+          description: Address of the outputs to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOutputsByAddressResponse'
+              examples:
+                Example 1:
+                  $ref: '#/components/examples/get-outputs-by-address-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+  /outputs/by-address:
+    post:
+      tags:
+        - outputs
+      summary: The bulk version of GET /outputs/by-address/{address}.
+      description: The bulk version of GET /outputs/by-address/{address}.
+      operationId: post-outputs-by-address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostOutputsByAddressParameters"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostOutputsByAddressResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/post-outputs-by-address-response-example-1'
+        "400":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/invalid-data-provided-response-example'
+        "404":
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/can-not-find-data-response-example'
+
+components:
+
+  examples:
+    invalid-data-provided-response-example:
+      value:
+        error:
+          code: 400
+          message: "invalid data provided"
+    can-not-find-data-response-example:
+      value:
+        error:
+          code: 404
+          message: "can not find data"
+    get-tips-response-example-1:
+      value:
+        data:
+          tip1: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          tip2: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
+    get-tips-response-example-2:
+      value:
+        data:
+          tip1: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          tip2: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+    get-messages-by-hash-response-example-1:
+      value:
+        data:
+          version: 1
+          parent1: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          parent2: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
+          payloadLength: 0
+          payload:
+            type: 2
+            index: "5350414d"
+            data: "SGVsbG8gd29ybGQh"
+    post-messages-by-hash-response-example-1:
+      value:
+        data:
+          "MESSAGE HASH X":
+            version: 1
+            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+            payloadLength: 0
+            payload:
+              type: 2
+              index: "5350414d"
+              data: "SGVsbG8gd29ybGQh"
+          "MESSAGE HASH Y":
+            version: 1
+            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            parent2: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+            payloadLength: 0
+            payload:
+              type: 2
+              index: "5350414d"
+              data: "SGVsbG8gd29ybGQh"
+    get-messages-by-tag-response-example-1:
+      value:
+        data:
+          "MESSAGE HASH X":
+            version: 1
+            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+            payloadLength: 0
+            payload:
+              type: 2
+              index: "5350414d"
+              data: "SGVsbG8gd29ybGQh"
+          "MESSAGE HASH Y":
+            version: 1
+            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            parent2: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+            payloadLength: 13
+            payload:
+              type: 2
+              index: "5350414d"
+              data: "SGVsbG8gd29ybGQh"
+    post-messages-by-tag-response-example-1:
+      value:
+        data:
+          "TAG X":
+            "MESSAGE HASH A":
+              version: 1
+              parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+              parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+              payloadLength: 0
+              payload:
+                type: 2
+                index: "5472696e697479"
+                data: "SGVsbG8gd29ybGQh"
+          "TAG Y":
+            "MESSAGE HASH B":
+              version: 1
+              parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+              parent2: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+              payloadLength: 0
+              payload:
+                type: 2
+                index: "5350414d"
+                data: "SGVsbG8gd29ybGQh"
+            "MESSAGE HASH C":
+              version: 1
+              parent1: "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+              parent2: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+              payloadLength: 0
+              payload:
+                type: 2
+                index: "5350414d"
+                data: "SGVsbG8gd29ybGQh"
+    get-is-referenced-by-milestone-response-example-1:
+      value:
+        data:
+          isReferencedByMilestone: true
+          milestoneIndex: 1599584382
+          milestoneTimestamp: 1699556
+    get-is-referenced-by-milestone-response-example-2:
+      value:
+        data:
+          isReferencedByMilestone: false
+    post-is-referenced-by-milestone-response-example-1:
+      value:
+        data:
+          "MESSAGE HASH X":
+            isReferencedByMilestone: true
+            milestoneIndex: 1599584382
+            milestoneTimestamp: 1699556
+          "MESSAGE HASH Y":
+            isReferencedByMilestone: false
+    get-is-confirmed-example-1:
+      value:
+        data:
+          isConfirmed: true
+          milestoneIndex: 1599584382
+          milestoneTimestamp: 1699556
+    get-is-confirmed-example-2:
+      value:
+        data:
+          isConfirmed: false
+    get-messages-by-address-response-example-1:
+      value:
+        data:
+          "MESSAGE HASH X":
+            version: 1
+            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+            payloadLength: 0
+            payload:
+              type: 0
+              transaction:
+                transactionType: 0
+                inputsCount: 1
+                inputs:
+                  inputType: 0
+                  transactionId: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+                  transactionOutputIndex: 1
+                outputsCount: 1
+                outputs:
+                  outputType: 0
+                  address:
+                    addressType: 1
+                    address: XYZ
+                  amount: 6345
+                payloadLength: 0
+                unlockBlocksCount: 1
+                unlockBlocks:
+                  unlocktype: 0
+                  signature: "XYZ"
+    post-messages-by-address-response-example-1:
+      value:
+        data:
+          "ADDRESS X":
+            "MESSAGE HASH X":
+              version: 1
+              parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+              parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+              payloadLength: 0
+              payload:
+                type: 0
+                transaction:
+                  transactionType: 0
+                  inputsCount: 1
+                  inputs:
+                    inputType: 0
+                    transactionId: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+                    transactionOutputIndex: 1
+                  outputsCount: 1
+                  outputs:
+                    outputType: 0
+                    address:
+                      addressType: 1
+                      address: XYZ
+                    amount: 6345
+                  payloadLength: 0
+                  unlockBlocksCount: 1
+                  unlockBlocks:
+                    unlocktype: 0
+                    signature: "XYZ"
+          "ADDRESS Y":
+            "MESSAGE HASH X":
+              version: 1
+              parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+              parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+              payloadLength: 0
+              payload:
+                type: 0
+                transaction:
+                  transactionType: 0
+                  inputsCount: 1
+                  inputs:
+                    inputType: 0
+                    transactionId: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+                    transactionOutputIndex: 1
+                  outputsCount: 1
+                  outputs:
+                    outputType: 0
+                    address:
+                      addressType: 1
+                      address: XYZ
+                    amount: 6345
+                  payloadLength: 0
+                  unlockBlocksCount: 1
+                  unlockBlocks:
+                    unlocktype: 0
+                    signature: "XYZ"
+    get-outputs-by-hash-response-example-1:
+      value:
+        data:
+          producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          address: "XYZ"
+          amount: "5473"
+          spent: false
+    post-outputs-by-hash-response-example-1:
+      value:
+        data:
+          "OUTPUT HASH X":
+            producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+            address: "XYZ"
+            amount: "5473"
+            spent: false
+          "OUTPUT HASH Y":
+            producer: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
+            address: "ABC"
+            amount: "3456"
+            spent: true
+    get-outputs-by-address-response-example-1:
+      value:
+        data:
+          "OUTPUT A":
+            producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+            address: "ADDRESS X"
+            amount: "5473"
+            spent: false
+          "OUTPUT B":
+            producer: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
+            address: "ADDRESS X"
+            amount: "3456"
+            spent: true
+    post-outputs-by-address-response-example-1:
+      value:
+        data:
+          "ADDRESS X":
+            "OUTPUT A":
+              producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+              address: "ADDRESS X"
+              amount: "5473"
+              spent: false
+            "OUTPUT B":
+              producer: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
+              address: "ADDRESS X"
+              amount: "3456"
+              spent: true
+          "ADDRESS Y":
+            "OUTPUT C":
+              producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+              address: "ADDRESS Y"
+              amount: "5473"
+              spent: false
+  schemas:
+    Output:
+      type: object
+      properties:
+        producer:
+          type: string
+        address:
+          type: string
+        amount:
+          type: integer
+        spent:
+          type: boolean
+    Message:
+      type: object
+      properties:
+        version:
+          type: integer
+        parent1:
+          type: string
+        parent2:
+          type: string
+        payloadLength:
+          type: integer
+        payload:
+          type: object
+          properties:
+            type:
+              type: integer
+          required:
+            - type
+          additionalProperties: true
+
+    ErrorResponse:
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    GetInfoResponse:
+      properties:
+        data:
+          type: object
+          properties:
+            name:
+              type: string
+            version:
+              type: string
+            isHealthy:
+              type: boolean
+            operatingNetwork:
+              type: string
+            peers:
+              type: integer
+            coordinatorAddress:
+              type: string
+            isSynced:
+              type: boolean
+            latestMilestone:
+              type: string
+            latestMilestoneindex:
+              type: integer
+            lastestSolidMilestone:
+              type: string
+            latestSolidMilestoneIndex:
+              type: integer
+            pruningIndex:
+              type: integer
+            time:
+              type: integer
+            features:
+              type: array
+              items:
+                type: string
+    GetTipsResponse:
+      properties:
+        data:
+          type: object
+          properties:
+            tip1:
+              type: string
+            tip2:
+              type: string
+    GetMessagesByHashResponse:
+      properties:
+        data:
+          type: object
+          allOf:
+            - $ref: "#/components/schemas/Message"
+    PostMessagesByHashParameters:
+      properties:
+        hashes:
+          type: array
+          items:
+            type: string
+      required:
+        - hashes
+    PostMessagesByHashResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            allOf:
+              - $ref: "#/components/schemas/Message"
+    GetMessagesByTagResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            allOf:
+              - $ref: "#/components/schemas/Message"
+    PostMessagesByTagParameters:
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - tags
+    PostMessagesByTagResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              allOf:
+                - $ref: "#/components/schemas/Message"
+    GetIsReferencedByMilestoneResponse:
+      properties:
+        data:
+          type: object
+          oneOf:
+            - $ref: "#/components/schemas/GetIsReferencedByMilestoneResponse-1"
+            - $ref: "#/components/schemas/GetIsReferencedByMilestoneResponse-2"
+    GetIsReferencedByMilestoneResponse-1:
+      properties:
+        isConfirmed:
+          type: boolean
+        milestoneIndex:
+          type: integer
+        milestoneTimestamp:
+          type: integer
+    GetIsReferencedByMilestoneResponse-2:
+      properties:
+        isConfirmed:
+          type: boolean
+    PostIsReferencedByMilestoneParameters:
+      properties:
+        hashes:
+          type: array
+          items:
+            type: string
+      required:
+        - hashes
+    PostIsReferencedByMilestoneResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            oneOf:
+              - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-1'
+              - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-2'
+    PostMessagesParameters:
+      $ref: "#/components/schemas/Message"
+    PostMessagesResponse:
+      type: string
+    GetIsConfirmedResponse:
+      properties:
+        data:
+          type: object
+          oneOf:
+            - $ref: "#/components/schemas/GetIsConfirmedResponse-1"
+            - $ref: "#/components/schemas/GetIsConfirmedResponse-2"
+    GetIsConfirmedResponse-1:
+      properties:
+        isConfirmed:
+          type: boolean
+        milestoneIndex:
+          type: integer
+        milestoneTimestamp:
+          type: integer
+    GetIsConfirmedResponse-2:
+      properties:
+        isConfirmed:
+          type: boolean
+    PostIsConfirmedParameters:
+      properties:
+        hashes:
+          type: array
+          items:
+            type: string
+      required:
+        - hashes
+    PostIsConfirmedResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            oneOf:
+              - $ref: '#/components/schemas/GetIsConfirmedResponse-1'
+              - $ref: '#/components/schemas/GetIsConfirmedResponse-2'
+    GetMessagesByAddressResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            allOf:
+              - $ref: "#/components/schemas/Message"
+    PostMessagesByAddressParameters:
+      properties:
+        addresses:
+          type: array
+          items:
+            type: string
+      required:
+        - addresses
+    PostMessagesByAddressResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              allOf:
+                - $ref: "#/components/schemas/Message"
+    GetOutputsByHashResponse:
+      properties:
+        data:
+          type: object
+          allOf:
+            - $ref: "#/components/schemas/Output"
+    PostOutputsByHashParameters:
+      properties:
+        hashes:
+          type: array
+          items:
+            type: string
+      required:
+        - hashes
+    PostOutputsByHashResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            allOf:
+              - $ref: "#/components/schemas/Output"
+    GetOutputsByAddressResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            allOf:
+              - $ref: "#/components/schemas/Output"
+    PostOutputsByAddressParameters:
+      properties:
+        address:
+          type: array
+          items:
+            type: string
+      required:
+        - address
+    PostOutputsByAddressResponse:
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              allOf:
+                - $ref: "#/components/schemas/Output"
