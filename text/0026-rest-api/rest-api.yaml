@@ -18,9 +18,11 @@ tags:
   - name: node
     description: Everything about the node itself.
   - name: tangle
-    description: Everything about the tangle.
+    description: Everything about the tangle itself.
   - name: messages
     description: Everything about messages.
+  - name: transaction-messages
+    description: Everything about transaction-messages.
 paths:
   /info:
     get:
@@ -532,7 +534,7 @@ paths:
   /outputs/by-hash/{hash}:
     get:
       tags:
-        - outputs
+        - transaction-messages
       summary: Find a output by its hash.
       description: Find a output its hash. Get the producer of the output, the corresponding address, amount and spend status of an output. This information can only be retrieved for outputs which are part of a confirmed transaction.
       operationId: get-outputs-by-hash
@@ -574,7 +576,7 @@ paths:
   /outputs/by-hash:
     post:
       tags:
-        - outputs
+        - transaction-messages
       summary: The bulk version of GET /outputs/by-hash/{hash}.
       description: The bulk version of GET /outputs/by-hash/{hash}.
       operationId: post-outputs-by-hash
@@ -615,7 +617,7 @@ paths:
   /outputs/by-address/{address}:
     get:
       tags:
-        - outputs
+        - transaction-messages
       summary: Get all outputs that reference a given address.
       description: Get all outputs that reference a given address.
       operationId: get-outputs-by-address
@@ -657,7 +659,7 @@ paths:
   /outputs/by-address:
     post:
       tags:
-        - outputs
+        - transaction-messages
       summary: The bulk version of GET /outputs/by-address/{address}.
       description: The bulk version of GET /outputs/by-address/{address}.
       operationId: post-outputs-by-address
