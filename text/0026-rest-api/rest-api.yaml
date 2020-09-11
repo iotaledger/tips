@@ -124,7 +124,7 @@ paths:
             items:
               type: string
           required: true
-          description: Hash of the message.
+          description: Tag of the message.
       responses:
         "200":
           description: successful operation
@@ -286,7 +286,7 @@ paths:
             items:
               type: string
           required: true
-          description: Hash of the message.
+          description: Address of the message.
       responses:
         "200":
           description: successful operation
@@ -330,7 +330,7 @@ paths:
             items:
               type: string
           required: true
-          description: Hash of the message.
+          description: Hash of the output.
       responses:
         "200":
           description: successful operation
