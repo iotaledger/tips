@@ -87,7 +87,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostMessagesByHashResponse"
+                $ref: "#/components/schemas/GetMessagesByHashResponse"
               examples:
                 Example 1:
                   $ref: '#/components/examples/post-messages-by-hash-response-example-1'
@@ -131,7 +131,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostMessagesByTagResponse"
+                $ref: "#/components/schemas/GetMessagesByTagResponse"
               examples:
                 default:
                   $ref: '#/components/examples/post-messages-by-tag-response-example-1'
@@ -175,7 +175,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostIsReferencedByMilestoneResponse"
+                $ref: "#/components/schemas/GetIsReferencedByMilestoneResponse"
               examples:
                 Example 1:
                   $ref: '#/components/examples/post-is-referenced-by-milestone-response-example-1'
@@ -216,7 +216,7 @@ paths:
           headers:
             Location:
               schema:
-                $ref: '#/components/schemas/PostMessagesResponse'
+                $ref: '#/components/schemas/GetMessagesResponse'
               description: Hash of the submitted message.
         "400":
           description: unsuccessful operation
@@ -249,7 +249,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostIsConfirmedResponse"
+                $ref: "#/components/schemas/GetIsConfirmedResponse"
               examples:
                 Example 1:
                   $ref: '#/components/examples/post-is-referenced-by-milestone-response-example-1'
@@ -293,7 +293,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostMessagesByAddressResponse"
+                $ref: "#/components/schemas/GetMessagesByAddressResponse"
               examples:
                 default:
                   $ref: '#/components/examples/post-messages-by-address-response-example-1'
@@ -330,14 +330,14 @@ paths:
             items:
               type: string
           required: true
-          description: Hash of the output.
+          description: Hash of the message.
       responses:
         "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostOutputsByHashResponse"
+                $ref: "#/components/schemas/GetOutputsByHashResponse"
               examples:
                 Example 1:
                   $ref: '#/components/examples/post-outputs-by-hash-response-example-1'
@@ -381,7 +381,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PostOutputsByAddressResponse'
+                $ref: '#/components/schemas/GetOutputsByAddressResponse'
               examples:
                 default:
                   $ref: '#/components/examples/post-outputs-by-address-response-example-1'
@@ -787,14 +787,14 @@ components:
               type: string
             tip2:
               type: string
-    PostMessagesByHashResponse:
+    GetMessagesByHashResponse:
       properties:
         data:
           type: object
           additionalProperties:
             allOf:
               - $ref: "#/components/schemas/Message"
-    PostMessagesByTagResponse:
+    GetMessagesByTagResponse:
       properties:
         data:
           type: object
@@ -815,7 +815,7 @@ components:
       properties:
         isConfirmed:
           type: boolean
-    PostIsReferencedByMilestoneResponse:
+    GetIsReferencedByMilestoneResponse:
       properties:
         data:
           type: object
@@ -846,7 +846,7 @@ components:
       required:
         - payload
 
-    PostMessagesResponse:
+    GetMessagesResponse:
       type: string
     GetIsConfirmedResponse-1:
       properties:
@@ -860,7 +860,7 @@ components:
       properties:
         isConfirmed:
           type: boolean
-    PostIsConfirmedResponse:
+    GetIsConfirmedResponse:
       properties:
         data:
           type: object
@@ -868,7 +868,7 @@ components:
             oneOf:
               - $ref: '#/components/schemas/GetIsConfirmedResponse-1'
               - $ref: '#/components/schemas/GetIsConfirmedResponse-2'
-    PostMessagesByAddressResponse:
+    GetMessagesByAddressResponse:
       properties:
         data:
           type: object
@@ -877,14 +877,14 @@ components:
             additionalProperties:
               allOf:
                 - $ref: "#/components/schemas/Message"
-    PostOutputsByHashResponse:
+    GetOutputsByHashResponse:
       properties:
         data:
           type: object
           additionalProperties:
             allOf:
               - $ref: "#/components/schemas/Output"
-    PostOutputsByAddressResponse:
+    GetOutputsByAddressResponse:
       properties:
         data:
           type: object
