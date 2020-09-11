@@ -64,7 +64,7 @@ paths:
                   $ref: '#/components/examples/get-tips-response-example-1'
                 Example 2:
                   $ref: '#/components/examples/get-tips-response-example-2'
-  /messages/by-hash/{hash}:
+  /messages/by-hash:
     get:
       tags:
         - messages
@@ -73,53 +73,14 @@ paths:
         message including payload.
       operationId: get-messages-by-hash
       parameters:
-        - name: hash
-          in: path
-          description: Hash of the message
-          required: true
+        - in: query
+          name: hashes
           schema:
-            type: string
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMessagesByHashResponse'
-              examples:
-                Example 1:
-                  $ref: '#/components/examples/get-messages-by-hash-response-example-1'
-        "400":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        "404":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/by-hash:
-    post:
-      tags:
-        - messages
-      summary: The bulk version of GET /messages/by-hash/{hash}.
-      description: The bulk version of GET /messages/by-hash/{hash}.
-      operationId: post-messages-by-hash
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PostMessagesByHashParameters"
-        required: true
+            type: array
+            items:
+              type: string
+          required: true
+          description: Hash of the message.
       responses:
         "200":
           description: successful operation
@@ -148,7 +109,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/by-tag/{tag}:
+  /messages/by-tag:
     get:
       tags:
         - messages
@@ -156,53 +117,14 @@ paths:
       description: Find all messages that are marked by a given tag.
       operationId: get-messages-by-tag
       parameters:
-        - name: tag
-          in: path
-          description: ASCII encoded tag of the message.
-          required: true
+        - in: query
+          name: hashes
           schema:
-            type: string
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMessagesByTagResponse'
-              examples:
-                Example 1:
-                  $ref: '#/components/examples/get-messages-by-tag-response-example-1'
-        "400":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        "404":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/by-tag:
-    post:
-      tags:
-        - messages
-      summary: The bulk version of GET /messages/by-tag/{tag}.
-      description: The bulk version of GET /messages/by-tag/{tag}.
-      operationId: post-messages-by-tag
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PostMessagesByTagParameters"
-        required: true
+            type: array
+            items:
+              type: string
+          required: true
+          description: Hash of the message.
       responses:
         "200":
           description: successful operation
@@ -231,7 +153,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/by-hash/{hash}/-is-referenced-by-milestone:
+  /messages/by-hash/-is-referenced-by-milestone:
     get:
       tags:
         - messages
@@ -239,55 +161,14 @@ paths:
       description: Check if a message is referenced by a milestone.
       operationId: get-is-referenced-by-milestone
       parameters:
-        - name: hash
-          in: path
-          description: Hash of the message.
-          required: true
+        - in: query
+          name: hashes
           schema:
-            type: string
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse'
-              examples:
-                Example 1:
-                  $ref: '#/components/examples/get-is-referenced-by-milestone-response-example-1'
-                Example 2:
-                  $ref: '#/components/examples/get-is-referenced-by-milestone-response-example-2'
-        "400":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        "404":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/by-hash/-is-referenced-by-milestone:
-    post:
-      tags:
-        - messages
-      summary: The bulk version of GET /messages/by-hash/{hash}/is-referenced-by-milestone.
-      description: The bulk version of GET /messages/by-hash/{hash}/is-referenced-by-milestone.
-      operationId: post-is-referenced-by-milestone
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PostIsReferencedByMilestoneParameters"
-        required: true
+            type: array
+            items:
+              type: string
+          required: true
+          description: Hash of the message.
       responses:
         "200":
           description: successful operation
@@ -346,7 +227,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/invalid-data-provided-response-example'
-  /transaction-messages/by-hash/{hash}/-is-confirmed:
+  /transaction-messages/is-confirmed:
     get:
       tags:
         - transaction-messages
@@ -354,55 +235,14 @@ paths:
       description: Check if a transaction-message is confirmed.
       operationId: get-is-confirmed
       parameters:
-        - name: hash
-          in: path
-          description: Hash of the message.
-          required: true
+        - in: query
+          name: hashes
           schema:
-            type: string
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetIsConfirmedResponse'
-              examples:
-                Example 1:
-                  $ref: '#/components/examples/get-is-confirmed-example-1'
-                Example 2:
-                  $ref: '#/components/examples/get-is-confirmed-example-2'
-        "400":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        "404":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  /transaction-messages/is-confirmed:
-    post:
-      tags:
-        - transaction-messages
-      summary: The bulk version of GET /transactions/by-message-hash/{hash}/is-confirmed.
-      description: The bulk version of GET /transactions/by-message-hash/{hash}/is-confirmed.
-      operationId: post-is-confirmed
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PostIsConfirmedParameters"
-        required: true
+            type: array
+            items:
+              type: string
+          required: true
+          description: Hash of the message.
       responses:
         "200":
           description: successful operation
@@ -431,7 +271,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /transaction-messages/by-address/{address}:
+  /transaction-messages/by-address:
     get:
       tags:
         - transaction-messages
@@ -439,53 +279,14 @@ paths:
       description: Find all transaction-messages that use a given address.
       operationId: get-messages-by-address
       parameters:
-        - name: address
-          in: path
-          description: Address that is being used by messages.
-          required: true
+        - in: query
+          name: hashes
           schema:
-            type: string
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMessagesByAddressResponse'
-              examples:
-                Example 1:
-                  $ref: '#/components/examples/get-messages-by-address-response-example-1'
-        "400":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        "404":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  /transaction-messages/by-address:
-    post:
-      tags:
-        - transaction-messages
-      summary: The bulk version of GET /transactions/by-address/{address}.
-      description: The bulk version of GET /transactions/by-address/{address}.
-      operationId: post-messages-by-address
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PostMessagesByAddressParameters"
-        required: true
+            type: array
+            items:
+              type: string
+          required: true
+          description: Hash of the message.
       responses:
         "200":
           description: successful operation
@@ -514,7 +315,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /outputs/by-hash/{hash}:
+  /outputs/by-hash:
     get:
       tags:
         - transaction-messages
@@ -522,53 +323,14 @@ paths:
       description: Find an output by its hash. Get the producer of the output, the corresponding address, amount and spend status. This information can only be retrieved for outputs which are part of a confirmed transaction.
       operationId: get-outputs-by-hash
       parameters:
-        - name: hash
-          in: path
-          description: Hash of the output
-          required: true
+        - in: query
+          name: hashes
           schema:
-            type: string
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetOutputsByHashResponse'
-              examples:
-                Example 1:
-                  $ref: '#/components/examples/get-outputs-by-hash-response-example-1'
-        "400":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        "404":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  /outputs/by-hash:
-    post:
-      tags:
-        - transaction-messages
-      summary: The bulk version of GET /outputs/by-hash/{hash}.
-      description: The bulk version of GET /outputs/by-hash/{hash}.
-      operationId: post-outputs-by-hash
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PostOutputsByHashParameters"
-        required: true
+            type: array
+            items:
+              type: string
+          required: true
+          description: Hash of the message.
       responses:
         "200":
           description: successful operation
@@ -597,7 +359,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /outputs/by-address/{address}:
+  /outputs/by-address:
     get:
       tags:
         - transaction-messages
@@ -605,53 +367,14 @@ paths:
       description: Get all outputs that use a given address.
       operationId: get-outputs-by-address
       parameters:
-        - name: address
-          in: path
-          description: Address of the outputs to return
-          required: true
+        - in: query
+          name: outputs
           schema:
-            type: string
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetOutputsByAddressResponse'
-              examples:
-                Example 1:
-                  $ref: '#/components/examples/get-outputs-by-address-response-example-1'
-        "400":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        "404":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  /outputs/by-address:
-    post:
-      tags:
-        - transaction-messages
-      summary: The bulk version of GET /outputs/by-address/{address}.
-      description: The bulk version of GET /outputs/by-address/{address}.
-      operationId: post-outputs-by-address
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PostOutputsByAddressParameters"
-        required: true
+            type: array
+            items:
+              type: string
+          required: true
+          description: Address of the outputs to return.
       responses:
         "200":
           description: successful operation
@@ -1064,20 +787,6 @@ components:
               type: string
             tip2:
               type: string
-    GetMessagesByHashResponse:
-      properties:
-        data:
-          type: object
-          allOf:
-            - $ref: "#/components/schemas/Message"
-    PostMessagesByHashParameters:
-      properties:
-        hashes:
-          type: array
-          items:
-            type: string
-      required:
-        - hashes
     PostMessagesByHashResponse:
       properties:
         data:
@@ -1085,21 +794,6 @@ components:
           additionalProperties:
             allOf:
               - $ref: "#/components/schemas/Message"
-    GetMessagesByTagResponse:
-      properties:
-        data:
-          type: object
-          additionalProperties:
-            allOf:
-              - $ref: "#/components/schemas/Message"
-    PostMessagesByTagParameters:
-      properties:
-        tags:
-          type: array
-          items:
-            type: string
-      required:
-        - tags
     PostMessagesByTagResponse:
       properties:
         data:
@@ -1109,13 +803,6 @@ components:
             additionalProperties:
               allOf:
                 - $ref: "#/components/schemas/Message"
-    GetIsReferencedByMilestoneResponse:
-      properties:
-        data:
-          type: object
-          oneOf:
-            - $ref: "#/components/schemas/GetIsReferencedByMilestoneResponse-1"
-            - $ref: "#/components/schemas/GetIsReferencedByMilestoneResponse-2"
     GetIsReferencedByMilestoneResponse-1:
       properties:
         isConfirmed:
@@ -1128,14 +815,6 @@ components:
       properties:
         isConfirmed:
           type: boolean
-    PostIsReferencedByMilestoneParameters:
-      properties:
-        hashes:
-          type: array
-          items:
-            type: string
-      required:
-        - hashes
     PostIsReferencedByMilestoneResponse:
       properties:
         data:
@@ -1169,13 +848,6 @@ components:
 
     PostMessagesResponse:
       type: string
-    GetIsConfirmedResponse:
-      properties:
-        data:
-          type: object
-          oneOf:
-            - $ref: "#/components/schemas/GetIsConfirmedResponse-1"
-            - $ref: "#/components/schemas/GetIsConfirmedResponse-2"
     GetIsConfirmedResponse-1:
       properties:
         isConfirmed:
@@ -1188,14 +860,6 @@ components:
       properties:
         isConfirmed:
           type: boolean
-    PostIsConfirmedParameters:
-      properties:
-        hashes:
-          type: array
-          items:
-            type: string
-      required:
-        - hashes
     PostIsConfirmedResponse:
       properties:
         data:
@@ -1204,21 +868,6 @@ components:
             oneOf:
               - $ref: '#/components/schemas/GetIsConfirmedResponse-1'
               - $ref: '#/components/schemas/GetIsConfirmedResponse-2'
-    GetMessagesByAddressResponse:
-      properties:
-        data:
-          type: object
-          additionalProperties:
-            allOf:
-              - $ref: "#/components/schemas/Message"
-    PostMessagesByAddressParameters:
-      properties:
-        addresses:
-          type: array
-          items:
-            type: string
-      required:
-        - addresses
     PostMessagesByAddressResponse:
       properties:
         data:
@@ -1228,20 +877,6 @@ components:
             additionalProperties:
               allOf:
                 - $ref: "#/components/schemas/Message"
-    GetOutputsByHashResponse:
-      properties:
-        data:
-          type: object
-          allOf:
-            - $ref: "#/components/schemas/Output"
-    PostOutputsByHashParameters:
-      properties:
-        hashes:
-          type: array
-          items:
-            type: string
-      required:
-        - hashes
     PostOutputsByHashResponse:
       properties:
         data:
@@ -1249,21 +884,6 @@ components:
           additionalProperties:
             allOf:
               - $ref: "#/components/schemas/Output"
-    GetOutputsByAddressResponse:
-      properties:
-        data:
-          type: object
-          additionalProperties:
-            allOf:
-              - $ref: "#/components/schemas/Output"
-    PostOutputsByAddressParameters:
-      properties:
-        address:
-          type: array
-          items:
-            type: string
-      required:
-        - address
     PostOutputsByAddressResponse:
       properties:
         data:
