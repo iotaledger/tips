@@ -153,7 +153,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/by-hash/is-referenced-by-milestone:
+  /messages/is-referenced-by-milestone:
     get:
       tags:
         - messages
