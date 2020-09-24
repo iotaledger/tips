@@ -216,7 +216,7 @@ paths:
           headers:
             Location:
               schema:
-                $ref: '#/components/schemas/GetMessagesResponse'
+                $ref: '#/components/schemas/PostMessagesResponse'
               description: Hash of the submitted message.
         "400":
           description: unsuccessful operation
@@ -293,7 +293,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetMessagesByAddressResponse"
+                $ref: '#/components/schemas/GetMessagesByAddressResponse'
               examples:
                 Example 1:
                   $ref: '#/components/examples/get-messages-by-address-response-example-1'
@@ -337,7 +337,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetOutputsByHashResponse"
+                $ref: "#/components/schemas/GetOutputsByIdResponse"
               examples:
                 Example 1:
                   $ref: '#/components/examples/get-outputs-by-id-response-example-1'
@@ -554,38 +554,36 @@ components:
                 amount: "5473"
                 spent: false
   schemas:
-    Output:
+    OutputResponse:
       type: object
       properties:
+        id:
+          type: string
         address:
           type: string
         amount:
           type: integer
         spent:
           type: boolean
-    Message:
+    MessageResponse:
       type: object
       properties:
+        hash:
+          type: string
         version:
           type: integer
         parent1:
           type: string
         parent2:
           type: string
-        payloadLength:
-          type: integer
         payload:
           type: object
           properties:
             type:
               type: integer
-          required:
-            - type
           additionalProperties: true
         nonce:
           type: string
-      required:
-        - payload
     ErrorResponse:
       properties:
         error:
@@ -608,8 +606,6 @@ components:
               type: boolean
             operatingNetwork:
               type: string
-            peers:
-              type: integer
             coordinatorAddress:
               type: string
             isSynced:
@@ -642,21 +638,24 @@ components:
     GetMessagesByHashResponse:
       properties:
         data:
-          type: object
-          additionalProperties:
+          type: array
+          items:
             allOf:
-              - $ref: "#/components/schemas/Message"
+              - $ref: "#/components/schemas/MessageResponse"
     GetMessagesByTagResponse:
       properties:
         data:
-          type: object
-          additionalProperties:
-            type: object
+          type: array
+          items:
             additionalProperties:
-              allOf:
-                - $ref: "#/components/schemas/Message"
+              type: array
+              items:
+                allOf:
+                  - $ref: "#/components/schemas/MessageResponse"
     GetIsReferencedByMilestoneResponse-1:
       properties:
+        hash:
+          type: string
         isConfirmed:
           type: boolean
         milestoneIndex:
@@ -670,8 +669,8 @@ components:
     GetIsReferencedByMilestoneResponse:
       properties:
         data:
-          type: object
-          additionalProperties:
+          type: array
+          items:
             oneOf:
               - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-1'
               - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-2'
@@ -695,11 +694,12 @@ components:
           type: string
       required:
         - payload
-
-    GetMessagesResponse:
+    PostMessagesResponse:
       type: string
     GetIsConfirmedResponse-1:
       properties:
+        hash:
+          type: string
         isConfirmed:
           type: boolean
         milestoneIndex:
@@ -713,33 +713,36 @@ components:
     GetIsConfirmedResponse:
       properties:
         data:
-          type: object
-          additionalProperties:
+          type: array
+          items:
             oneOf:
               - $ref: '#/components/schemas/GetIsConfirmedResponse-1'
               - $ref: '#/components/schemas/GetIsConfirmedResponse-2'
     GetMessagesByAddressResponse:
       properties:
         data:
-          type: object
-          additionalProperties:
-            type: object
+          type: array
+          items:
             additionalProperties:
-              allOf:
-                - $ref: "#/components/schemas/Message"
-    GetOutputsByHashResponse:
+              type: array
+              items:
+                allOf:
+                  - $ref: "#/components/schemas/MessageResponse"
+    GetOutputsByIdResponse:
       properties:
         data:
-          type: object
-          additionalProperties:
+          type: array
+          items:
             allOf:
-              - $ref: "#/components/schemas/Output"
+              - $ref: "#/components/schemas/OutputResponse"
+
     GetOutputsByAddressResponse:
       properties:
         data:
-          type: object
-          additionalProperties:
-            type: object
+          type: array
+          items:
             additionalProperties:
-              allOf:
-                - $ref: "#/components/schemas/Output"
+              type: array
+              items:
+                allOf:
+                  - $ref: "#/components/schemas/OutputResponse"
