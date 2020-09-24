@@ -315,22 +315,22 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /outputs/by-hash:
+  /outputs/by-id:
     get:
       tags:
         - transaction-messages
-      summary: Find an output by its hash.
-      description: Find an output by its hash. Get the producer of the output, the corresponding address, amount and spend status. This information can only be retrieved for outputs which are part of a confirmed transaction.
-      operationId: get-outputs-by-hash
+      summary: Find an output by its identifier.
+      description: Find an output by its identifier. An output is identified by the concatenation of `transaction_hash+output_index`. This endpoint returns the producer of the output, the corresponding address, the amount and spend status. This information can only be retrieved for outputs which are part of a confirmed transaction.
+      operationId: get-outputs-by-id
       parameters:
         - in: query
-          name: hashes
+          name: ids
           schema:
             type: array
             items:
               type: string
           required: true
-          description: Hash of the output.
+          description: Identifiers of the outputs.
       responses:
         "200":
           description: successful operation
@@ -368,7 +368,7 @@ paths:
       operationId: get-outputs-by-address
       parameters:
         - in: query
-          name: addresses
+          name: outputs
           schema:
             type: array
             items:
