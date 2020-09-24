@@ -368,7 +368,7 @@ paths:
       operationId: get-outputs-by-address
       parameters:
         - in: query
-          name: outputs
+          name: addresses
           schema:
             type: array
             items:
