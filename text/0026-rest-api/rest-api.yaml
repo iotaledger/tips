@@ -340,7 +340,7 @@ paths:
                 $ref: "#/components/schemas/GetOutputsByHashResponse"
               examples:
                 Example 1:
-                  $ref: '#/components/examples/get-outputs-by-hash-response-example-1'
+                  $ref: '#/components/examples/get-outputs-by-id-response-example-1'
         "400":
           description: unsuccessful operation
           content:
@@ -424,11 +424,11 @@ components:
           version: 0.5.2
           isHealthy: true
           operatingNetwork: Mainnet
-          coordinatorAddress: UDYXTZBE9GZGPM9SSQV9LTZNDLJIZMPUVVXYXFYVBLIEUHLSEWFTKZZLXYRHHWVQV9MNNX9KZC9D9UZWZ
+          coordinatorAddress: cedb6ed996fc9a4e62dd6cb58f09ee3354c5f034f3250bfad9b0481e98cde625
           isSynced: true
-          latestMilestoneHash: JXVC9LGIEPCEJLEN9EXOKGUBFXOZDTZYIMZMPIJCGUALBENVTTRFYVUCKZCOVPRZKEUYZGYPSQGAA9999
+          latestMilestoneHash: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
           latestMilestoneIndex: 1699556
-          latestSolidMilestoneHash: JXVC9LGIEPCEJLEN9EXOKGUBFXOZDTZYIMZMPIJCGUALBENVTTRFYVUCKZCOVPRZKEUYZGYPSQGAA9999
+          latestSolidMilestoneHash: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           latestSolidMilestoneIndex: 1699556
           pruningIndex: 1696326
           time: 1599584382
@@ -448,79 +448,45 @@ components:
     get-messages-by-hash-response-example-1:
       value:
         data:
-          "MESSAGE HASH X":
+          - hash: "1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d"
             version: 1
-            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-            parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-            payloadLength: 0
+            parent1: "ae07bf7ee5117a8fac99cb9969cfec17e74b3d5a575171e172d8a6e5bcbb237c"
+            parent2: "d33ec3e5a9e4d5759923f10771ce61d62627ec12464fc600dd46d58c542e5fd2"
             payload:
               type: 2
-              index: "5350414d"
-              data: "SGVsbG8gd29ybGQh"
-          "MESSAGE HASH Y":
-            version: 1
-            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-            parent2: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
-            payloadLength: 0
-            payload:
-              type: 2
-              index: "5350414d"
+              index: "abc"
               data: "SGVsbG8gd29ybGQh"
     get-messages-by-tag-response-example-1:
       value:
         data:
-          "TAG X":
-            "MESSAGE HASH A":
-              version: 1
-              parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-              parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-              payloadLength: 0
-              payload:
-                type: 2
-                index: "TAG X"
-                data: "SGVsbG8gd29ybGQh"
-          "TAG Y":
-            "MESSAGE HASH B":
-              version: 1
-              parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-              parent2: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
-              payloadLength: 0
-              payload:
-                type: 2
-                index: "TAG Y"
-                data: "SGVsbG8gd29ybGQh"
-            "MESSAGE HASH C":
-              version: 1
-              parent1: "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
-              parent2: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
-              payloadLength: 0
-              payload:
-                type: 2
-                index: "TAG Y"
-                data: "SGVsbG8gd29ybGQh"
+          - "abc":
+              - hash: "1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d"
+                version: 1
+                parent1: "ae07bf7ee5117a8fac99cb9969cfec17e74b3d5a575171e172d8a6e5bcbb237c"
+                parent2: "d33ec3e5a9e4d5759923f10771ce61d62627ec12464fc600dd46d58c542e5fd2"
+                payload:
+                  type: 2
+                  index: "abc"
+                  data: "SGVsbG8gd29ybGQh"
     get-is-referenced-by-milestone-response-example-1:
       value:
         data:
-          "MESSAGE HASH X":
+          - hash: "1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d"
             isReferencedByMilestone: true
             milestoneIndex: 1599584382
             milestoneTimestamp: 1699556
-          "MESSAGE HASH Y":
-            isReferencedByMilestone: false
     get-is-confirmed-response-example-1:
       value:
         data:
-          "MESSAGE HASH X":
+          - hash: "1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d"
             isConfirmed: true
             milestoneIndex: 1599584382
             milestoneTimestamp: 1699556
-          "MESSAGE HASH Y":
-            isConfirmed: false
     get-messages-by-address-response-example-1:
       value:
         data:
-          "ADDRESS X":
-            "MESSAGE HASH A":
+          "afc4930b7b2828bf0e47d4ad07212fbed75830d04665fc24b007e6231f6e20e8":
+            - hash: "1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d"
               version: 1
               parent1: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
               parent2: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
@@ -572,39 +538,23 @@ components:
                   - type: 1
                     reference: 0
               nonce: 133945865838
-    get-outputs-by-hash-response-example-1:
+    get-outputs-by-id-response-example-1:
       value:
         data:
-          "OUTPUT HASH X":
+          - "id": "606c41249a0ad5fc1e026ed40b507d73bfa83aaaeb59665be916e61b119f2d531"
             producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-            address: "XYZ"
+            address: "67632d2dbb334ba8f408bd83b2f70fd43f528ab08bea8dd5c6fdea4c34dc36fb"
             amount: "5473"
             spent: false
-          "OUTPUT HASH Y":
-            producer: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
-            address: "ABC"
-            amount: "3456"
-            spent: true
     get-outputs-by-address-response-example-1:
       value:
         data:
-          "ADDRESS X":
-            "OUTPUT A":
-              producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-              address: "ADDRESS X"
-              amount: "5473"
-              spent: false
-            "OUTPUT B":
-              producer: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
-              address: "ADDRESS X"
-              amount: "3456"
-              spent: true
-          "ADDRESS Y":
-            "OUTPUT C":
-              producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-              address: "ADDRESS Y"
-              amount: "5473"
-              spent: false
+          "67632d2dbb334ba8f408bd83b2f70fd43f528ab08bea8dd5c6fdea4c34dc36fb":
+            - "606c41249a0ad5fc1e026ed40b507d73bfa83aaaeb59665be916e61b119f2d531":
+                producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+                address: "67632d2dbb334ba8f408bd83b2f70fd43f528ab08bea8dd5c6fdea4c34dc36fb"
+                amount: "5473"
+                spent: false
   schemas:
     Output:
       type: object
