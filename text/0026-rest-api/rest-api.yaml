@@ -133,7 +133,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/GetMessagesByTagResponse"
               examples:
-                default:
+                Example 1:
                   $ref: '#/components/examples/get-messages-by-tag-response-example-1'
         "400":
           description: unsuccessful operation
@@ -295,7 +295,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/GetMessagesByAddressResponse"
               examples:
-                default:
+                Example 1:
                   $ref: '#/components/examples/get-messages-by-address-response-example-1'
         "400":
           description: unsuccessful operation
@@ -383,7 +383,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetOutputsByAddressResponse'
               examples:
-                default:
+                Example 1:
                   $ref: '#/components/examples/get-outputs-by-address-response-example-1'
         "400":
           description: unsuccessful operation
