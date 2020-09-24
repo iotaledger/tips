@@ -118,7 +118,7 @@ paths:
       operationId: get-messages-by-tag
       parameters:
         - in: query
-          name: hashes
+          name: tags
           schema:
             type: array
             items:
