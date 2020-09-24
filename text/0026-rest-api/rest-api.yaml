@@ -90,7 +90,7 @@ paths:
                 $ref: "#/components/schemas/GetMessagesByHashResponse"
               examples:
                 Example 1:
-                  $ref: '#/components/examples/post-messages-by-hash-response-example-1'
+                  $ref: '#/components/examples/get-messages-by-hash-response-example-1'
         "400":
           description: unsuccessful operation
           content:
@@ -134,7 +134,7 @@ paths:
                 $ref: "#/components/schemas/GetMessagesByTagResponse"
               examples:
                 default:
-                  $ref: '#/components/examples/post-messages-by-tag-response-example-1'
+                  $ref: '#/components/examples/get-messages-by-tag-response-example-1'
         "400":
           description: unsuccessful operation
           content:
@@ -178,7 +178,7 @@ paths:
                 $ref: "#/components/schemas/GetIsReferencedByMilestoneResponse"
               examples:
                 Example 1:
-                  $ref: '#/components/examples/post-is-referenced-by-milestone-response-example-1'
+                  $ref: '#/components/examples/get-is-referenced-by-milestone-response-example-1'
         "400":
           description: unsuccessful operation
           content:
@@ -252,7 +252,7 @@ paths:
                 $ref: "#/components/schemas/GetIsConfirmedResponse"
               examples:
                 Example 1:
-                  $ref: '#/components/examples/post-is-referenced-by-milestone-response-example-1'
+                  $ref: '#/components/examples/get-is-confirmed-response-example-1'
         "400":
           description: unsuccessful operation
           content:
@@ -296,7 +296,7 @@ paths:
                 $ref: "#/components/schemas/GetMessagesByAddressResponse"
               examples:
                 default:
-                  $ref: '#/components/examples/post-messages-by-address-response-example-1'
+                  $ref: '#/components/examples/get-messages-by-address-response-example-1'
         "400":
           description: unsuccessful operation
           content:
@@ -340,7 +340,7 @@ paths:
                 $ref: "#/components/schemas/GetOutputsByHashResponse"
               examples:
                 Example 1:
-                  $ref: '#/components/examples/post-outputs-by-hash-response-example-1'
+                  $ref: '#/components/examples/get-outputs-by-hash-response-example-1'
         "400":
           description: unsuccessful operation
           content:
@@ -384,7 +384,7 @@ paths:
                 $ref: '#/components/schemas/GetOutputsByAddressResponse'
               examples:
                 default:
-                  $ref: '#/components/examples/post-outputs-by-address-response-example-1'
+                  $ref: '#/components/examples/get-outputs-by-address-response-example-1'
         "400":
           description: unsuccessful operation
           content:
@@ -449,17 +449,6 @@ components:
     get-messages-by-hash-response-example-1:
       value:
         data:
-          version: 1
-          parent1: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-          parent2: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
-          payloadLength: 0
-          payload:
-            type: 2
-            index: "5350414d"
-            data: "SGVsbG8gd29ybGQh"
-    post-messages-by-hash-response-example-1:
-      value:
-        data:
           "MESSAGE HASH X":
             version: 1
             parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -479,27 +468,6 @@ components:
               index: "5350414d"
               data: "SGVsbG8gd29ybGQh"
     get-messages-by-tag-response-example-1:
-      value:
-        data:
-          "MESSAGE HASH X":
-            version: 1
-            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-            parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-            payloadLength: 0
-            payload:
-              type: 2
-              index: "5350414d"
-              data: "SGVsbG8gd29ybGQh"
-          "MESSAGE HASH Y":
-            version: 1
-            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-            parent2: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
-            payloadLength: 13
-            payload:
-              type: 2
-              index: "5350414d"
-              data: "SGVsbG8gd29ybGQh"
-    post-messages-by-tag-response-example-1:
       value:
         data:
           "TAG X":
@@ -534,62 +502,22 @@ components:
     get-is-referenced-by-milestone-response-example-1:
       value:
         data:
-          isReferencedByMilestone: true
-          milestoneIndex: 1599584382
-          milestoneTimestamp: 1699556
-    get-is-referenced-by-milestone-response-example-2:
-      value:
-        data:
-          isReferencedByMilestone: false
-    post-is-referenced-by-milestone-response-example-1:
-      value:
-        data:
           "MESSAGE HASH X":
             isReferencedByMilestone: true
             milestoneIndex: 1599584382
             milestoneTimestamp: 1699556
           "MESSAGE HASH Y":
             isReferencedByMilestone: false
-    get-is-confirmed-example-1:
-      value:
-        data:
-          isConfirmed: true
-          milestoneIndex: 1599584382
-          milestoneTimestamp: 1699556
-    get-is-confirmed-example-2:
-      value:
-        data:
-          isConfirmed: false
-    get-messages-by-address-response-example-1:
+    get-is-confirmed-response-example-1:
       value:
         data:
           "MESSAGE HASH X":
-            version: 1
-            parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-            parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-            payloadLength: 0
-            payload:
-              type: 0
-              transaction:
-                transactionType: 0
-                inputsCount: 1
-                inputs:
-                  inputType: 0
-                  transactionId: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
-                  transactionOutputIndex: 1
-                outputsCount: 1
-                outputs:
-                  outputType: 0
-                  address:
-                    addressType: 1
-                    address: XYZ
-                  amount: 6345
-                payloadLength: 0
-                unlockBlocksCount: 1
-                unlockBlocks:
-                  unlocktype: 0
-                  signature: "XYZ"
-    post-messages-by-address-response-example-1:
+            isConfirmed: true
+            milestoneIndex: 1599584382
+            milestoneTimestamp: 1699556
+          "MESSAGE HASH Y":
+            isConfirmed: false
+    get-messages-by-address-response-example-1:
       value:
         data:
           "ADDRESS X":
@@ -649,13 +577,6 @@ components:
     get-outputs-by-hash-response-example-1:
       value:
         data:
-          producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-          address: "XYZ"
-          amount: "5473"
-          spent: false
-    post-outputs-by-hash-response-example-1:
-      value:
-        data:
           "OUTPUT HASH X":
             producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
             address: "XYZ"
@@ -667,19 +588,6 @@ components:
             amount: "3456"
             spent: true
     get-outputs-by-address-response-example-1:
-      value:
-        data:
-          "OUTPUT A":
-            producer: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-            address: "ADDRESS X"
-            amount: "5473"
-            spent: false
-          "OUTPUT B":
-            producer: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
-            address: "ADDRESS X"
-            amount: "3456"
-            spent: true
-    post-outputs-by-address-response-example-1:
       value:
         data:
           "ADDRESS X":
