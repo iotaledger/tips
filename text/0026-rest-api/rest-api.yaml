@@ -522,57 +522,56 @@ components:
           "ADDRESS X":
             "MESSAGE HASH A":
               version: 1
-              parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-              parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-              payloadLength: 0
+              parent1: "f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+              parent2: "78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
               payload:
                 type: 0
                 transaction:
-                  transactionType: 0
-                  inputsCount: 1
+                  type: 0
                   inputs:
-                    inputType: 0
-                    transactionId: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
-                    transactionOutputIndex: 1
-                  outputsCount: 1
+                    - type: 0
+                      transactionId: 162863a2f4b134d352a886bf9cfb08788735499694864753ee686e02b3763d9d
+                      transactionOutputIndex: 3
+                    - type: 0
+                      transactionId: 1bd024285b8237c31f159d1707d48e0be2cdd88cc1a266f6376df501619bd312
+                      transactionOutputIndex: 1
+                    - type: 0
+                      transactionId: 62041ae44cb1746739bb4f4afe58cba7901250325b1ee139d2c8f64eb5d1fd93
+                      transactionOutputIndex: 4
                   outputs:
-                    outputType: 0
-                    address:
-                      addressType: 1
-                      address: "ADDRESS X"
-                    amount: 6345
-                  payloadLength: 0
-                  unlockBlocksCount: 1
-                  unlockBlocks:
-                    unlocktype: 0
-                    signature: "XYZ"
-          "ADDRESS Y":
-            "MESSAGE HASH B":
-              version: 1
-              parent1: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-              parent2: "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-              payloadLength: 0
-              payload:
-                type: 0
-                transaction:
-                  transactionType: 0
-                  inputsCount: 1
-                  inputs:
-                    inputType: 0
-                    transactionId: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
-                    transactionOutputIndex: 1
-                  outputsCount: 1
-                  outputs:
-                    outputType: 0
-                    address:
-                      addressType: 1
-                      address: "ADDRESS Y"
-                    amount: 6345
-                  payloadLength: 0
-                  unlockBlocksCount: 1
-                  unlockBlocks:
-                    unlocktype: 0
-                    signature: "XYZ"
+                    - type: 0
+                      address:
+                        type: 1
+                        address: 5f24ebcb5d48acbbfe6e7401b502ba7bb93acb3591d55eda7d32c37306cc805f
+                      amount: 5710
+                    - type: 0
+                      address:
+                        type: 1
+                        address: 5f24ebcb5d48acbbfe6e7401b502ba7bb93acb3591d55eda7d32c37306cc805f
+                      amount: 7425
+                    - type: 0
+                      address:
+                        type: 1
+                        address: 4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
+                      amount: 7342
+                  payload:
+                    type: 2
+                    index: allyourtritsbelongtous
+                    data: a487f431d852b060b49427f513dca1d5288e697e8bd9eb062534d09e7cb337ac
+                unlockBlocks:
+                  - type: 0
+                    signature:
+                      type: 1
+                      publicKey: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+                      signature: 651941eddb3e68cb1f6ef4ef5b04625dcf5c70de1fdc4b1c9eadb2c219c074e0ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+                  - type: 0
+                    signature:
+                      type: 1
+                      publicKey: 1bd024285b8237c31f159d1707d48e0be2cdd88cc1a266f6376df501619bd312
+                      signature: c106ef037ad707ebd76991d654e4d06982f7cab80219f35337d8d546372c88e832aa30914971eb00d8d953bdaaa0f6bd575df87fe9efefaabc13c31b60429385
+                  - type: 1
+                    reference: 0
+              nonce: 133945865838
     get-outputs-by-hash-response-example-1:
       value:
         data:
