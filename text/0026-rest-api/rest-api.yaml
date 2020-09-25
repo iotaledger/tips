@@ -523,32 +523,47 @@ components:
     get-outputs-by-id-response-example-1:
       value:
         data:
-          - id: 606c41249a0ad5fc1e026ed40b507d73bfa83aaaeb59665be916e61b119f2d531
-            address: 67632d2dbb334ba8f408bd83b2f70fd43f528ab08bea8dd5c6fdea4c34dc36fb
-            amount: '5473'
-            spent: false
+          - transaction_id: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
+            output_index: 3
+            spent: true
+            output:
+              type: 0
+              address:
+                type: 1
+                address: 4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
+              amount: 7342
     get-outputs-by-address-response-example-1:
       value:
         data:
           - 67632d2dbb334ba8f408bd83b2f70fd43f528ab08bea8dd5c6fdea4c34dc36fb:
-              - id: >-
-                  606c41249a0ad5fc1e026ed40b507d73bfa83aaaeb59665be916e61b119f2d531
-                address: >-
-                  67632d2dbb334ba8f408bd83b2f70fd43f528ab08bea8dd5c6fdea4c34dc36fb
-                amount: '5473'
-                spent: false
+              - transaction_id: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
+                output_index: 3
+                spent: true
+                output:
+                  type: 0
+                  address:
+                    type: 1
+                    address: 4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
+                  amount: 7342
   schemas:
     OutputResponse:
       type: object
       properties:
-        id:
+        transaction_id:
           type: string
-        address:
-          type: string
-        amount:
+        output_index:
           type: integer
         spent:
           type: boolean
+        output:
+          type: object
+          properties:
+            type:
+              type: integer
+            address:
+              type: string
+        amount:
+          type: integer
     MessageResponse:
       type: object
       properties:
