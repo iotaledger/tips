@@ -284,11 +284,10 @@ paths:
         - UTXO
       summary: Find an output by its identifier.
       description: >-
-        Find an output by its identifier. An output is identified by the
-        concatenation of `transaction_id+output_index`. This endpoint returns
-        the id of the output, the corresponding address, the amount and spend
-        status. This information can only be retrieved for outputs which are
-        part of a confirmed transaction.
+        Find an output by its identifier. This endpoint returns ID of the
+        transaction that produced the output, the corresponding output index,
+        the address, the amount and the spend status. This information can only
+        be retrieved for outputs which are part of a confirmed transaction.
       operationId: get-outputs-by-id
       parameters:
         - in: path
@@ -296,7 +295,9 @@ paths:
           schema:
             type: string
           required: true
-          description: Identifiers of the outputs.
+          description: >-
+            Identifier of the output. An output is identified by the
+            concatenation of `transaction_id+output_index`.
       responses:
         '200':
           description: successful operation
@@ -515,8 +516,8 @@ components:
     get-outputs-by-id-response-example-1:
       value:
         data:
-          transaction_id: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
-          output_index: 3
+          transactionId: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
+          outputIndex: 3
           spent: true
           output:
             type: 0
@@ -527,8 +528,8 @@ components:
     get-outputs-by-address-response-example-1:
       value:
         data:
-          - transaction_id: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
-            output_index: 3
+          - transactionId: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
+            outputIndex: 3
             spent: true
             output:
               type: 0
@@ -541,9 +542,9 @@ components:
     OutputResponse:
       type: object
       properties:
-        transaction_id:
+        transactionId:
           type: string
-        output_index:
+        outputIndex:
           type: integer
         spent:
           type: boolean
