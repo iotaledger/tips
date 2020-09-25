@@ -392,15 +392,13 @@ components:
           name: Hornet
           version: 0.5.2
           isHealthy: true
-          operatingNetwork: Mainnet
-          coordinatorAddress: cedb6ed996fc9a4e62dd6cb58f09ee3354c5f034f3250bfad9b0481e98cde625
+          cooPubKey : cedb6ed996fc9a4e62dd6cb58f09ee3354c5f034f3250bfad9b0481e98cde625
           isSynced: true
-          latestMilestoneHash: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          latestMilestoneMessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
           latestMilestoneIndex: 1699556
-          latestSolidMilestoneHash: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          latestSolidMilestoneMessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           latestSolidMilestoneIndex: 1699556
           pruningIndex: 1696326
-          time: 1599584382
           features:
             - Plugin X
             - Plugin Y
@@ -603,9 +601,7 @@ components:
               type: string
             isHealthy:
               type: boolean
-            operatingNetwork:
-              type: string
-            coordinatorAddress:
+            cooPubKey:
               type: string
             isSynced:
               type: boolean
@@ -618,8 +614,6 @@ components:
             latestSolidMilestoneIndex:
               type: integer
             pruningIndex:
-              type: integer
-            time:
               type: integer
             features:
               type: array
