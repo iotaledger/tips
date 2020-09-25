@@ -65,36 +65,36 @@ paths:
                   $ref: '#/components/examples/get-tips-response-example-1'
                 Example 2:
                   $ref: '#/components/examples/get-tips-response-example-2'
-  /messages/by-hash:
+  /messages/by-id:
     get:
       tags:
         - messages
-      summary: Find a message by its hash.
+      summary: Find a message by its identifier.
       description: >-
-        Find a message by its hash. This endpoint returns the given message
+        Find a message by its identifer. This endpoint returns the given message
         including payload.
-      operationId: get-messages-by-hash
+      operationId: get-messages-by-id
       parameters:
         - in: query
-          name: hashes
+          name: ids
           schema:
             type: array
             items:
               type: string
           required: true
-          description: Hash of the message.
+          description: Identifier of the message.
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetMessagesByHashResponse'
+                $ref: '#/components/schemas/GetMessagesByIdResponse'
               examples:
                 Example 1:
-                  $ref: '#/components/examples/get-messages-by-hash-response-example-1'
+                  $ref: '#/components/examples/get-messages-by-id-response-example-1'
                 Example 2:
-                  $ref: '#/components/examples/get-messages-by-hash-response-example-2'
+                  $ref: '#/components/examples/get-messages-by-id-response-example-2'
         '400':
           description: unsuccessful operation
           content:
@@ -166,13 +166,13 @@ paths:
       operationId: get-is-referenced-by-milestone
       parameters:
         - in: query
-          name: hashes
+          name: ids
           schema:
             type: array
             items:
               type: string
           required: true
-          description: Hash of the message.
+          description: identifier of the message.
       responses:
         '200':
           description: successful operation
@@ -211,13 +211,13 @@ paths:
       operationId: get-is-confirmed
       parameters:
         - in: query
-          name: hashes
+          name: ids
           schema:
             type: array
             items:
               type: string
           required: true
-          description: Hash of the message.
+          description: identifier of the message.
       responses:
         '200':
           description: successful operation
@@ -287,7 +287,7 @@ paths:
       summary: Find an output by its identifier.
       description: >-
         Find an output by its identifier. An output is identified by the
-        concatenation of `transaction_hash+output_index`. This endpoint returns
+        concatenation of `transaction_id+output_index`. This endpoint returns
         the id of the output, the corresponding address, the amount and spend
         status. This information can only be retrieved for outputs which are
         part of a confirmed transaction.
@@ -412,10 +412,10 @@ components:
         data:
           tip1: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
           tip2: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-    get-messages-by-hash-response-example-1:
+    get-messages-by-id-response-example-1:
       value:
         data:
-          - hash: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
+          - messageId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
             version: 1
             parent1: ae07bf7ee5117a8fac99cb9969cfec17e74b3d5a575171e172d8a6e5bcbb237c
             parent2: d33ec3e5a9e4d5759923f10771ce61d62627ec12464fc600dd46d58c542e5fd2
@@ -423,10 +423,10 @@ components:
               type: 2
               index: abc
               data: SGVsbG8gd29ybGQh
-    get-messages-by-hash-response-example-2:
+    get-messages-by-id-response-example-2:
       value:
         data:
-          - hash: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
+          - messageId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
             version: 1
             parent1: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
             parent2: 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
@@ -493,7 +493,7 @@ components:
       value:
         data:
           - abc:
-              - hash: >-
+              - messageId: >-
                   1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
                 version: 1
                 parent1: >-
@@ -507,21 +507,21 @@ components:
     get-is-referenced-by-milestone-response-example-1:
       value:
         data:
-          - hash: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
+          - messageId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
             isReferencedByMilestone: true
             milestoneIndex: 1599584382
             milestoneTimestamp: 1699556
     get-is-confirmed-response-example-1:
       value:
         data:
-          - hash: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
+          - messageId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
             isConfirmed: true
             milestoneIndex: 1599584382
             milestoneTimestamp: 1699556
     get-outputs-by-id-response-example-1:
       value:
         data:
-          - transaction_hash: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
+          - transaction_id: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
             output_index: 3
             spent: true
             output:
@@ -534,7 +534,7 @@ components:
       value:
         data:
           - 67632d2dbb334ba8f408bd83b2f70fd43f528ab08bea8dd5c6fdea4c34dc36fb:
-              - transaction_hash: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
+              - transaction_id: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
                 output_index: 3
                 spent: true
                 output:
@@ -547,7 +547,7 @@ components:
     OutputResponse:
       type: object
       properties:
-        transaction_hash:
+        transaction_id:
           type: string
         output_index:
           type: integer
@@ -565,7 +565,7 @@ components:
     MessageResponse:
       type: object
       properties:
-        hash:
+        messageId:
           type: string
         version:
           type: integer
@@ -628,7 +628,7 @@ components:
               type: string
             tip2:
               type: string
-    GetMessagesByHashResponse:
+    GetMessagesByIdResponse:
       properties:
         data:
           type: array
@@ -647,7 +647,7 @@ components:
                   - $ref: '#/components/schemas/MessageResponse'
     GetIsReferencedByMilestoneResponse-1:
       properties:
-        hash:
+        messageId:
           type: string
         isConfirmed:
           type: boolean
@@ -657,6 +657,8 @@ components:
           type: integer
     GetIsReferencedByMilestoneResponse-2:
       properties:
+        messageId:
+          type: string
         isConfirmed:
           type: boolean
     GetIsReferencedByMilestoneResponse:
@@ -691,7 +693,7 @@ components:
       type: string
     GetIsConfirmedResponse-1:
       properties:
-        hash:
+        messageId:
           type: string
         isConfirmed:
           type: boolean
@@ -701,6 +703,8 @@ components:
           type: integer
     GetIsConfirmedResponse-2:
       properties:
+        messageId:
+          type: string
         isConfirmed:
           type: boolean
     GetIsConfirmedResponse:
