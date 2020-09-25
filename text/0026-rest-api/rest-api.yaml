@@ -113,32 +113,32 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/by-tag:
+  /messages/by-index:
     get:
       tags:
         - messages
-      summary: Find all messages that are marked by a given tag.
-      description: Find all messages that are marked by a given tag.
-      operationId: get-messages-by-tag
+      summary: Find all messages that are marked by a given index.
+      description: Find all messages that are marked by a given index.
+      operationId: get-messages-by-index
       parameters:
         - in: query
-          name: tags
+          name: index
           schema:
             type: array
             items:
               type: string
           required: true
-          description: Tag of the message.
+          description: Index of the message.
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetMessagesByTagResponse'
+                $ref: '#/components/schemas/GetMessagesByIndexResponse'
               examples:
                 Example 1:
-                  $ref: '#/components/examples/get-messages-by-tag-response-example-1'
+                  $ref: '#/components/examples/get-messages-by-index-response-example-1'
         '400':
           description: unsuccessful operation
           content:
@@ -489,7 +489,7 @@ components:
                 - type: 1
                   reference: 0
             nonce: 133945865838
-    get-messages-by-tag-response-example-1:
+    get-messages-by-index-response-example-1:
       value:
         data:
           - abc:
@@ -635,7 +635,7 @@ components:
           items:
             allOf:
               - $ref: '#/components/schemas/MessageResponse'
-    GetMessagesByTagResponse:
+    GetMessagesByIndexResponse:
       properties:
         data:
           type: array
