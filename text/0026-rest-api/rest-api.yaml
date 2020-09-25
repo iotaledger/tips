@@ -179,6 +179,9 @@ paths:
                 Example 1:
                   $ref: >-
                     #/components/examples/get-is-referenced-by-milestone-response-example-1
+                Example 2:
+                  $ref: >-
+                    #/components/examples/get-is-referenced-by-milestone-response-example-2
         '400':
           description: unsuccessful operation
           content:
@@ -221,6 +224,8 @@ paths:
               examples:
                 Example 1:
                   $ref: '#/components/examples/get-is-confirmed-response-example-1'
+                Example 2:
+                  $ref: '#/components/examples/get-is-confirmed-response-example-2'
         '400':
           description: unsuccessful operation
           content:
@@ -247,7 +252,7 @@ paths:
       description: >-
         Submit a message. The node takes care of missing fields and tries to
         build the message. On success, the message will be stored in the Tangle.
-        This endpoint will return the hash of the message by the response
+        This endpoint will return the identifier of the message by the response
         headers.
       operationId: post-messages
       requestBody:
@@ -263,7 +268,7 @@ paths:
             Location:
               schema:
                 $ref: '#/components/schemas/PostMessagesResponse'
-              description: Hash of the submitted message.
+              description: Identifier of the submitted message.
         '400':
           description: unsuccessful operation
           content:
@@ -493,12 +498,20 @@ components:
           isReferencedByMilestone: true
           milestoneIndex: 1599584382
           milestoneTimestamp: 1699556
+    get-is-referenced-by-milestone-response-example-2:
+      value:
+        data:
+          isReferencedByMilestone: false
     get-is-confirmed-response-example-1:
       value:
         data:
           isConfirmed: true
           milestoneIndex: 1599584382
           milestoneTimestamp: 1699556
+    get-is-confirmed-response-example-2:
+      value:
+        data:
+          isConfirmed: false
     get-outputs-by-id-response-example-1:
       value:
         data:
