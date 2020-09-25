@@ -65,7 +65,7 @@ paths:
                   $ref: '#/components/examples/get-tips-response-example-1'
                 Example 2:
                   $ref: '#/components/examples/get-tips-response-example-2'
-  /messages/by-id:
+  '/messages/by-id/{messageId}':
     get:
       tags:
         - messages
@@ -75,12 +75,10 @@ paths:
         including payload.
       operationId: get-messages-by-id
       parameters:
-        - in: query
-          name: ids
+        - in: path
+          name: messageId
           schema:
-            type: array
-            items:
-              type: string
+            type: string
           required: true
           description: Identifier of the message.
       responses:
@@ -113,20 +111,18 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/by-index:
+  '/messages/by-index/{index}':
     get:
       tags:
         - messages
-      summary: Find all messages that are marked by a given index.
-      description: Find all messages that are marked by a given index.
+      summary: Find all messages that include a certain index.
+      description: Find all messages that include a certain index.
       operationId: get-messages-by-index
       parameters:
-        - in: query
+        - in: path
           name: index
           schema:
-            type: array
-            items:
-              type: string
+            type: string
           required: true
           description: Index of the message.
       responses:
@@ -138,7 +134,8 @@ paths:
                 $ref: '#/components/schemas/GetMessagesByIndexResponse'
               examples:
                 Example 1:
-                  $ref: '#/components/examples/get-messages-by-index-response-example-1'
+                  $ref: >-
+                    #/components/examples/get-messages-by-index-response-example-1
         '400':
           description: unsuccessful operation
           content:
@@ -157,7 +154,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/is-referenced-by-milestone:
+  '/messages/is-referenced-by-milestone/{messageId}':
     get:
       tags:
         - messages
@@ -165,14 +162,12 @@ paths:
       description: Check if a message is referenced by a milestone.
       operationId: get-is-referenced-by-milestone
       parameters:
-        - in: query
-          name: ids
+        - in: path
+          name: messageId
           schema:
-            type: array
-            items:
-              type: string
+            type: string
           required: true
-          description: identifier of the message.
+          description: Identifier of the message.
       responses:
         '200':
           description: successful operation
@@ -202,22 +197,20 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages/is-confirmed:
+  '/messages/is-confirmed/{messageId}':
     get:
       tags:
         - messages
-      summary: Check if a transaction-message is confirmed.
-      description: Check if a transaction-message is confirmed.
+      summary: Check if a message is confirmed.
+      description: Check if a message is confirmed.
       operationId: get-is-confirmed
       parameters:
-        - in: query
-          name: ids
+        - in: path
+          name: messageId
           schema:
-            type: array
-            items:
-              type: string
+            type: string
           required: true
-          description: identifier of the message.
+          description: Identifier of the message.
       responses:
         '200':
           description: successful operation
@@ -280,7 +273,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/invalid-data-provided-response-example'
-  /outputs/by-id:
+  '/outputs/by-id/{outputId}':
     get:
       tags:
         - UTXO
@@ -293,12 +286,10 @@ paths:
         part of a confirmed transaction.
       operationId: get-outputs-by-id
       parameters:
-        - in: query
-          name: ids
+        - in: path
+          name: outputId
           schema:
-            type: array
-            items:
-              type: string
+            type: string
           required: true
           description: Identifiers of the outputs.
       responses:
@@ -329,7 +320,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/can-not-find-data-response-example'
-  /outputs/by-address:
+  '/outputs/by-address/{address}':
     get:
       tags:
         - UTXO
@@ -337,14 +328,12 @@ paths:
       description: Get all outputs that use a given address.
       operationId: get-outputs-by-address
       parameters:
-        - in: query
-          name: outputs
+        - in: path
+          name: address
           schema:
-            type: array
-            items:
-              type: string
+            type: string
           required: true
-          description: Address of the outputs to return.
+          description: Address that is referenced by the outputs.
       responses:
         '200':
           description: successful operation
@@ -392,7 +381,7 @@ components:
           name: Hornet
           version: 0.5.2
           isHealthy: true
-          cooPubKey : cedb6ed996fc9a4e62dd6cb58f09ee3354c5f034f3250bfad9b0481e98cde625
+          cooPubKey: cedb6ed996fc9a4e62dd6cb58f09ee3354c5f034f3250bfad9b0481e98cde625
           isSynced: true
           latestMilestoneMessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
           latestMilestoneIndex: 1699556
@@ -415,6 +404,81 @@ components:
     get-messages-by-id-response-example-1:
       value:
         data:
+          version: 1
+          parent1: ae07bf7ee5117a8fac99cb9969cfec17e74b3d5a575171e172d8a6e5bcbb237c
+          parent2: d33ec3e5a9e4d5759923f10771ce61d62627ec12464fc600dd46d58c542e5fd2
+          payload:
+            type: 2
+            index: abc
+            data: SGVsbG8gd29ybGQh
+    get-messages-by-id-response-example-2:
+      value:
+        data:
+          version: 1
+          parent1: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          parent2: 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
+          payload:
+            type: 0
+            transaction:
+              type: 0
+              inputs:
+                - type: 0
+                  transactionId: >-
+                    162863a2f4b134d352a886bf9cfb08788735499694864753ee686e02b3763d9d
+                  transactionOutputIndex: 3
+                - type: 0
+                  transactionId: >-
+                    1bd024285b8237c31f159d1707d48e0be2cdd88cc1a266f6376df501619bd312
+                  transactionOutputIndex: 1
+                - type: 0
+                  transactionId: >-
+                    62041ae44cb1746739bb4f4afe58cba7901250325b1ee139d2c8f64eb5d1fd93
+                  transactionOutputIndex: 4
+              outputs:
+                - type: 0
+                  address:
+                    type: 1
+                    address: >-
+                      5f24ebcb5d48acbbfe6e7401b502ba7bb93acb3591d55eda7d32c37306cc805f
+                  amount: 5710
+                - type: 0
+                  address:
+                    type: 1
+                    address: >-
+                      5f24ebcb5d48acbbfe6e7401b502ba7bb93acb3591d55eda7d32c37306cc805f
+                  amount: 7425
+                - type: 0
+                  address:
+                    type: 1
+                    address: >-
+                      4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
+                  amount: 7342
+              payload:
+                type: 2
+                index: allyourtritsbelongtous
+                data: >-
+                  a487f431d852b060b49427f513dca1d5288e697e8bd9eb062534d09e7cb337ac
+            unlockBlocks:
+              - type: 0
+                signature:
+                  type: 1
+                  publicKey: >-
+                    ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+                  signature: >-
+                    651941eddb3e68cb1f6ef4ef5b04625dcf5c70de1fdc4b1c9eadb2c219c074e0ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+              - type: 0
+                signature:
+                  type: 1
+                  publicKey: >-
+                    1bd024285b8237c31f159d1707d48e0be2cdd88cc1a266f6376df501619bd312
+                  signature: >-
+                    c106ef037ad707ebd76991d654e4d06982f7cab80219f35337d8d546372c88e832aa30914971eb00d8d953bdaaa0f6bd575df87fe9efefaabc13c31b60429385
+              - type: 1
+                reference: 0
+          nonce: 133945865838
+    get-messages-by-index-response-example-1:
+      value:
+        data:
           - messageId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
             version: 1
             parent1: ae07bf7ee5117a8fac99cb9969cfec17e74b3d5a575171e172d8a6e5bcbb237c
@@ -423,102 +487,31 @@ components:
               type: 2
               index: abc
               data: SGVsbG8gd29ybGQh
-    get-messages-by-id-response-example-2:
-      value:
-        data:
-          - messageId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
-            version: 1
-            parent1: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-            parent2: 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
-            payload:
-              type: 0
-              transaction:
-                type: 0
-                inputs:
-                  - type: 0
-                    transactionId: >-
-                      162863a2f4b134d352a886bf9cfb08788735499694864753ee686e02b3763d9d
-                    transactionOutputIndex: 3
-                  - type: 0
-                    transactionId: >-
-                      1bd024285b8237c31f159d1707d48e0be2cdd88cc1a266f6376df501619bd312
-                    transactionOutputIndex: 1
-                  - type: 0
-                    transactionId: >-
-                      62041ae44cb1746739bb4f4afe58cba7901250325b1ee139d2c8f64eb5d1fd93
-                    transactionOutputIndex: 4
-                outputs:
-                  - type: 0
-                    address:
-                      type: 1
-                      address: >-
-                        5f24ebcb5d48acbbfe6e7401b502ba7bb93acb3591d55eda7d32c37306cc805f
-                    amount: 5710
-                  - type: 0
-                    address:
-                      type: 1
-                      address: >-
-                        5f24ebcb5d48acbbfe6e7401b502ba7bb93acb3591d55eda7d32c37306cc805f
-                    amount: 7425
-                  - type: 0
-                    address:
-                      type: 1
-                      address: >-
-                        4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
-                    amount: 7342
-                payload:
-                  type: 2
-                  index: allyourtritsbelongtous
-                  data: >-
-                    a487f431d852b060b49427f513dca1d5288e697e8bd9eb062534d09e7cb337ac
-              unlockBlocks:
-                - type: 0
-                  signature:
-                    type: 1
-                    publicKey: >-
-                      ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
-                    signature: >-
-                      651941eddb3e68cb1f6ef4ef5b04625dcf5c70de1fdc4b1c9eadb2c219c074e0ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
-                - type: 0
-                  signature:
-                    type: 1
-                    publicKey: >-
-                      1bd024285b8237c31f159d1707d48e0be2cdd88cc1a266f6376df501619bd312
-                    signature: >-
-                      c106ef037ad707ebd76991d654e4d06982f7cab80219f35337d8d546372c88e832aa30914971eb00d8d953bdaaa0f6bd575df87fe9efefaabc13c31b60429385
-                - type: 1
-                  reference: 0
-            nonce: 133945865838
-    get-messages-by-index-response-example-1:
-      value:
-        data:
-          - abc:
-              - messageId: >-
-                  1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
-                version: 1
-                parent1: >-
-                  ae07bf7ee5117a8fac99cb9969cfec17e74b3d5a575171e172d8a6e5bcbb237c
-                parent2: >-
-                  d33ec3e5a9e4d5759923f10771ce61d62627ec12464fc600dd46d58c542e5fd2
-                payload:
-                  type: 2
-                  index: abc
-                  data: SGVsbG8gd29ybGQh
     get-is-referenced-by-milestone-response-example-1:
       value:
         data:
-          - messageId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
-            isReferencedByMilestone: true
-            milestoneIndex: 1599584382
-            milestoneTimestamp: 1699556
+          isReferencedByMilestone: true
+          milestoneIndex: 1599584382
+          milestoneTimestamp: 1699556
     get-is-confirmed-response-example-1:
       value:
         data:
-          - messageId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
-            isConfirmed: true
-            milestoneIndex: 1599584382
-            milestoneTimestamp: 1699556
+          isConfirmed: true
+          milestoneIndex: 1599584382
+          milestoneTimestamp: 1699556
     get-outputs-by-id-response-example-1:
+      value:
+        data:
+          transaction_id: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
+          output_index: 3
+          spent: true
+          output:
+            type: 0
+            address:
+              type: 1
+              address: 4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
+            amount: 7342
+    get-outputs-by-address-response-example-1:
       value:
         data:
           - transaction_id: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
@@ -528,21 +521,9 @@ components:
               type: 0
               address:
                 type: 1
-                address: 4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
+                address: >-
+                  4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
               amount: 7342
-    get-outputs-by-address-response-example-1:
-      value:
-        data:
-          - 67632d2dbb334ba8f408bd83b2f70fd43f528ab08bea8dd5c6fdea4c34dc36fb:
-              - transaction_id: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
-                output_index: 3
-                spent: true
-                output:
-                  type: 0
-                  address:
-                    type: 1
-                    address: 4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
-                  amount: 7342
   schemas:
     OutputResponse:
       type: object
@@ -631,24 +612,17 @@ components:
     GetMessagesByIdResponse:
       properties:
         data:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/MessageResponse'
+          allOf:
+            - $ref: '#/components/schemas/MessageResponse'
     GetMessagesByIndexResponse:
       properties:
         data:
           type: array
           items:
-            additionalProperties:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/MessageResponse'
+            allOf:
+              - $ref: '#/components/schemas/MessageResponse'
     GetIsReferencedByMilestoneResponse-1:
       properties:
-        messageId:
-          type: string
         isConfirmed:
           type: boolean
         milestoneIndex:
@@ -657,18 +631,14 @@ components:
           type: integer
     GetIsReferencedByMilestoneResponse-2:
       properties:
-        messageId:
-          type: string
         isConfirmed:
           type: boolean
     GetIsReferencedByMilestoneResponse:
       properties:
         data:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-1'
-              - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-2'
+          oneOf:
+            - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-1'
+            - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-2'
     PostMessagesParameters:
       properties:
         version:
@@ -693,8 +663,6 @@ components:
       type: string
     GetIsConfirmedResponse-1:
       properties:
-        messageId:
-          type: string
         isConfirmed:
           type: boolean
         milestoneIndex:
@@ -703,32 +671,23 @@ components:
           type: integer
     GetIsConfirmedResponse-2:
       properties:
-        messageId:
-          type: string
         isConfirmed:
           type: boolean
     GetIsConfirmedResponse:
       properties:
         data:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/GetIsConfirmedResponse-1'
-              - $ref: '#/components/schemas/GetIsConfirmedResponse-2'
+          oneOf:
+            - $ref: '#/components/schemas/GetIsConfirmedResponse-1'
+            - $ref: '#/components/schemas/GetIsConfirmedResponse-2'
     GetOutputsByIdResponse:
+      properties:
+        data:
+          allOf:
+            - $ref: '#/components/schemas/OutputResponse'
+    GetOutputsByAddressResponse:
       properties:
         data:
           type: array
           items:
             allOf:
               - $ref: '#/components/schemas/OutputResponse'
-    GetOutputsByAddressResponse:
-      properties:
-        data:
-          type: array
-          items:
-            additionalProperties:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/OutputResponse'
