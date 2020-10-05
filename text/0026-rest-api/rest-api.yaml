@@ -12,7 +12,7 @@ externalDocs:
   description: Find out more about IOTA
   url: 'https://iota.org'
 servers:
-  - url: 'https://127.0.0.1:8080/v1'
+  - url: 'https://127.0.0.1:14265/v1'
 tags:
   - name: node
     description: Everything about the node itself.
