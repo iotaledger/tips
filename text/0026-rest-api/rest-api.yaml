@@ -92,7 +92,7 @@ paths:
               description: "message in raw binary format"
         required: true
       responses:
-        '200':
+        '201':
           description: successful operation
           content:
             application/json:
