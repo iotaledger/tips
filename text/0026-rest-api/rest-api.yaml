@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
   title: IOTA REST API
   description: This document describes the upcoming REST API for Hornet and Bee.
@@ -12,7 +12,7 @@ externalDocs:
   description: Find out more about IOTA
   url: 'https://iota.org'
 servers:
-  - url: 'https://127.0.0.1:14265/v1'
+  - url: 'http://127.0.0.1:14265/api/v1'
 tags:
   - name: node
     description: Everything about the node itself.
@@ -22,14 +22,17 @@ tags:
     description: Everything about messages.
   - name: UTXO
     description: Everything about UTXOs.
+  - name: milestones
+    description: Everything about milestones.
+
 paths:
-  /info:
+
+  '/info':
     get:
       tags:
         - node
       summary: Returns information about the node.
       description: Returns information about the node.
-      operationId: get-info
       responses:
         '200':
           description: successful operation
@@ -40,9 +43,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/GetInfoResponse'
               examples:
-                Example 1:
-                  $ref: '#/components/examples/get-info-response-example-1'
-  /tips:
+                default:
+                  $ref: '#/components/examples/get-info-response-example'
+  '/tips':
     get:
       tags:
         - tangle
@@ -50,7 +53,6 @@ paths:
       description: >-
         Returns two non-lazy tips. In case the node can only provide one tip,
         tip1 and tip2 are identical.
-      operationId: get-tips
       responses:
         '200':
           description: successful operation
@@ -61,70 +63,64 @@ paths:
                 items:
                   $ref: '#/components/schemas/GetTipsResponse'
               examples:
-                Example 1:
-                  $ref: '#/components/examples/get-tips-response-example-1'
-                Example 2:
-                  $ref: '#/components/examples/get-tips-response-example-2'
-  '/messages/by-id/{messageId}':
-    get:
+                Normal:
+                  $ref: '#/components/examples/get-tips-response-example-normal'
+                Identical Tips:
+                  $ref: '#/components/examples/get-tips-response-example-same'
+  
+  '/messages':
+    post:
       tags:
         - messages
-      summary: Find a message by its identifier.
+      summary: Submit a message to the node.
       description: >-
-        Find a message by its identifer. This endpoint returns the given message
-        including payload.
-      operationId: get-messages-by-id
-      parameters:
-        - in: path
-          name: messageId
-          schema:
-            type: string
-          required: true
-          description: Identifier of the message.
+        Submit a message. The node takes care of missing fields and tries to
+        build the message. On success, the message will be stored in the Tangle.
+        This endpoint will return the identifier of the message.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+            examples:
+              default:
+                $ref: '#/components/examples/get-message-by-id-data-response-example'
+          application/octet-steam:
+            schema:
+              type: 'string'
+              format: binary
+              description: "message in raw binary format"
+        required: true
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetMessagesByIdResponse'
+                $ref: '#/components/schemas/PostMessagesResponse'
               examples:
-                Example 1:
-                  $ref: '#/components/examples/get-messages-by-id-response-example-1'
-                Example 2:
-                  $ref: '#/components/examples/get-messages-by-id-response-example-2'
+                default:
+                  $ref: '#/components/examples/post-messages-response-example'
         '400':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  '/messages/by-index/{index}':
+                $ref: '#/components/schemas/BadRequestErrorResponse'
     get:
       tags:
         - messages
-      summary: Find all messages that include a certain index.
-      description: Find all messages that include a certain index.
-      operationId: get-messages-by-index
+      summary: Filter messages by a matching criteria.
+      description: >-
+        Search for messages matching the criteria.
       parameters:
-        - in: path
+        - in: query
           name: index
           schema:
             type: string
+          example: someindexkey
           required: true
-          description: Index of the message.
+          description: Indexation key of the message.
       responses:
         '200':
           description: successful operation
@@ -133,162 +129,183 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetMessagesByIndexResponse'
               examples:
-                Example 1:
-                  $ref: >-
-                    #/components/examples/get-messages-by-index-response-example-1
+                default:
+                  $ref: '#/components/examples/get-messages-by-index-response-example'
         '400':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  '/messages/is-referenced-by-milestone/{messageId}':
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+  
+  '/message/{messageId}':
     get:
       tags:
         - messages
-      summary: Check if a message is referenced by a milestone.
-      description: Check if a message is referenced by a milestone.
-      operationId: get-is-referenced-by-milestone
-      parameters:
-        - in: path
-          name: messageId
-          schema:
-            type: string
-          required: true
-          description: Identifier of the message.
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse'
-              examples:
-                Example 1:
-                  $ref: >-
-                    #/components/examples/get-is-referenced-by-milestone-response-example-1
-                Example 2:
-                  $ref: >-
-                    #/components/examples/get-is-referenced-by-milestone-response-example-2
-        '400':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  '/messages/is-confirmed/{messageId}':
-    get:
-      tags:
-        - messages
-      summary: Check if a message is confirmed.
-      description: Check if a message is confirmed.
-      operationId: get-is-confirmed
-      parameters:
-        - in: path
-          name: messageId
-          schema:
-            type: string
-          required: true
-          description: Identifier of the message.
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetIsConfirmedResponse'
-              examples:
-                Example 1:
-                  $ref: '#/components/examples/get-is-confirmed-response-example-1'
-                Example 2:
-                  $ref: '#/components/examples/get-is-confirmed-response-example-2'
-        '400':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  /messages:
-    post:
-      tags:
-        - messages
-      summary: Submit a message.
+      summary: Returns message metadata by its identifier.
       description: >-
-        Submit a message. The node takes care of missing fields and tries to
-        build the message. On success, the message will be stored in the Tangle.
-        This endpoint will return the identifier of the message by the response
-        headers.
-      operationId: post-messages
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PostMessagesParameters'
-        required: true
+        Find a message by its identifer. This endpoint returns the given message metadata.
+      parameters:
+        - in: path
+          name: messageId
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          required: true
+          description: Identifier of the message.
       responses:
-        '201':
+        '200':
           description: successful operation
-          headers:
-            Location:
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/PostMessagesResponse'
-              description: Identifier of the submitted message.
+                $ref: '#/components/schemas/GetMessageMetadataByIdResponse'
+              examples:
+                New Message:
+                  $ref: '#/components/examples/get-message-by-id-response-example-new'
+                Solid:
+                  $ref: '#/components/examples/get-message-by-id-response-example-solid'
+                Included:
+                  $ref: '#/components/examples/get-message-by-id-response-example-included'
+                Conflicting:
+                  $ref: '#/components/examples/get-message-by-id-response-example-conflicting'
         '400':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+
+  '/message/{messageId}/data':
+    get:
+      tags:
+        - messages
+      summary: Returns message data as JSON by its identifier.
+      description: >-
+        Find a message by its identifer. This endpoint returns the given message as JSON.
+      parameters:
+        - in: path
+          name: messageId
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          required: true
+          description: Identifier of the message.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
               examples:
                 default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
-  '/outputs/by-id/{outputId}':
+                  $ref: '#/components/examples/get-message-by-id-data-response-example'
+                
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+
+  '/message/{messageId}/raw':
+    get:
+      tags:
+        - messages
+      summary: Returns message raw bytes by its identifier.
+      description: >-
+        Find a message by its identifer. This endpoint returns the given message raw data.
+      parameters:
+        - in: path
+          name: messageId
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          required: true
+          description: Identifier of the message.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+              example: '0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000eb000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000020000016920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92640000000000000000018afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd65d5d2dd3f7df09000000000001000001f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c9095100000000000000'
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+
+  '/message/{messageId}/children':
+    get:
+      tags:
+        - messages
+      summary: Returns the list of messages that reference a message by its identifier.
+      description: >-
+        Find a message by its identifer. This endpoint returns the given message
+        including payload.
+      parameters:
+        - in: path
+          name: messageId
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          required: true
+          description: Identifier of the message.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessageChildrenResponse'
+              examples:
+                Children:
+                  $ref: '#/components/examples/get-messages-by-index-response-example-children'
+                No Children:
+                  $ref: '#/components/examples/get-messages-by-index-response-example-nochildren'
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+
+  '/output/{outputId}':
     get:
       tags:
         - UTXO
       summary: Find an output by its identifier.
       description: >-
-        Find an output by its identifier. This endpoint returns ID of the
-        transaction that produced the output, the corresponding output index,
-        the address, the amount and the spend status. This information can only
-        be retrieved for outputs which are part of a confirmed transaction.
-      operationId: get-outputs-by-id
+        Find an output by its identifier.
       parameters:
         - in: path
           name: outputId
@@ -306,38 +323,35 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetOutputsByIdResponse'
               examples:
-                Example 1:
-                  $ref: '#/components/examples/get-outputs-by-id-response-example-1'
+                default:
+                  $ref: '#/components/examples/get-outputs-by-id-response-example'
         '400':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
+                $ref: '#/components/schemas/BadRequestErrorResponse'
         '404':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
-  '/outputs/by-address/{address}':
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+
+  '/address/{address}':
     get:
       tags:
         - UTXO
-      summary: Get all outputs that use a given address.
-      description: Get all outputs that use a given address.
-      operationId: get-outputs-by-address
+      summary: Get the balance of a given address.
+      description: >-
+        Get the balance of a given address.
+        If count equals maxResults, then there might be more outputs available but those were skipped for performance reasons. User should sweep the address to reduce the amount of outputs.
       parameters:
         - in: path
           name: address
           schema:
             type: string
+          example: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           required: true
           description: Address that is referenced by the outputs.
       responses:
@@ -346,202 +360,515 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetOutputsByAddressResponse'
+                $ref: '#/components/schemas/GetAddressBalanceResponse'
               examples:
-                Example 1:
-                  $ref: >-
-                    #/components/examples/get-outputs-by-address-response-example-1
+                Normal:
+                  $ref: '#/components/examples/get-address-balance-response-example'
+                Max Results:
+                  $ref: '#/components/examples/get-address-balance-response-example-maxResults'
         '400':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/invalid-data-provided-response-example'
+                $ref: '#/components/schemas/BadRequestErrorResponse'
         '404':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+                  
+  '/address/{address}/outputs':
+    get:
+      tags:
+        - UTXO
+      summary: Get all outputs that use a given address.
+      description: >-
+        Get all outputs that use a given address.
+        If count equals maxResults, then there might be more outputs available but those were skipped for performance reasons. User should sweep the address to reduce the amount of outputs.
+      parameters:
+        - in: path
+          name: address
+          schema:
+            type: string
+          example: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          required: true
+          description: Address that is referenced by the outputs.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAddressOutputsResponse'
               examples:
                 default:
-                  $ref: '#/components/examples/can-not-find-data-response-example'
+                  $ref: '#/components/examples/get-address-outputs-response-example'
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+
+  '/milestone/{index}':
+    get:
+      tags:
+        - milestones
+      summary: Get the milestone by the given index.
+      description: Get the milestone by the given index.
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: number
+          example: 154862
+          required: true
+          description: Index of the milestone.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMilestoneByIndexResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-milestone-by-index-response-example'
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+
 components:
   examples:
-    invalid-data-provided-response-example:
+  
+    'get-info-response-example':
       value:
-        error:
-          code: 400
-          message: invalid data provided
-    can-not-find-data-response-example:
+        name: Hornet
+        version: 0.5.2
+        isHealthy: true
+        coordinatorPublicKey: cedb6ed996fc9a4e62dd6cb58f09ee3354c5f034f3250bfad9b0481e98cde625
+        latestMilestoneMessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+        latestMilestoneIndex: 1699556
+        solidMilestoneMessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        solidMilestoneIndex: 1699556
+        pruningIndex: 1696326
+        features:
+          - Plugin X
+          - Plugin Y
+    
+    'get-tips-response-example-normal':
       value:
-        error:
-          code: 404
-          message: can not find data
-    get-info-response-example-1:
+        tip1MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        tip2MessageId: 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
+          
+    'get-tips-response-example-same':
       value:
-        data:
-          name: Hornet
-          version: 0.5.2
-          isHealthy: true
-          cooPubKey: cedb6ed996fc9a4e62dd6cb58f09ee3354c5f034f3250bfad9b0481e98cde625
-          isSynced: true
-          latestMilestoneMessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-          latestMilestoneIndex: 1699556
-          latestSolidMilestoneMessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          latestSolidMilestoneIndex: 1699556
-          pruningIndex: 1696326
-          features:
-            - Plugin X
-            - Plugin Y
-    get-tips-response-example-1:
+        tip1MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        tip2MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+    
+    'post-messages-response-example':
       value:
-        data:
-          tip1: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          tip2: 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
-    get-tips-response-example-2:
+        messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+    
+    'get-messages-by-index-response-example':
       value:
-        data:
-          tip1: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          tip2: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-    get-messages-by-id-response-example-1:
+        index: someindexkey
+        maxResults: 1000
+        count: 2
+        messageIds:
+          - f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+    
+    'get-message-by-id-response-example-new':
       value:
-        data:
-          version: 1
-          parent1: ae07bf7ee5117a8fac99cb9969cfec17e74b3d5a575171e172d8a6e5bcbb237c
-          parent2: d33ec3e5a9e4d5759923f10771ce61d62627ec12464fc600dd46d58c542e5fd2
-          payload:
-            type: 2
-            index: abc
-            data: SGVsbG8gd29ybGQh
-    get-messages-by-id-response-example-2:
+        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+        solid: false
+        referencedByMilestone: null
+        shouldPromote: true
+        shouldReattach: false
+    
+    'get-message-by-id-response-example-solid':
       value:
-        data:
-          version: 1
-          parent1: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          parent2: 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
-          payload:
+        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+        solid: true
+        referencedByMilestone: null
+        shouldPromote: false
+        shouldReattach: false
+    
+    'get-message-by-id-response-example-included':
+      value:
+        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+        solid: true
+        referencedByMilestone: 15465
+        ledgerInclusionState: included
+    
+    'get-message-by-id-response-example-conflicting':
+      value:
+        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+        solid: true
+        referencedByMilestone: 15465
+        ledgerInclusionState: conflicting
+
+    'get-message-by-id-data-response-example':
+      value:
+        hash: 82b1f7ba715d23874168f132eaa53cb7e9860cc84bca092b64e23b228bf1b8e2
+        version: 1
+        parent1: '0000000000000000000000000000000000000000000000000000000000000000'
+        parent2: '0000000000000000000000000000000000000000000000000000000000000000'
+        payload:
+          type: 0
+          transaction:
             type: 0
-            transaction:
-              type: 0
-              inputs:
-                - type: 0
-                  transactionId: >-
-                    162863a2f4b134d352a886bf9cfb08788735499694864753ee686e02b3763d9d
-                  transactionOutputIndex: 3
-                - type: 0
-                  transactionId: >-
-                    1bd024285b8237c31f159d1707d48e0be2cdd88cc1a266f6376df501619bd312
-                  transactionOutputIndex: 1
-                - type: 0
-                  transactionId: >-
-                    62041ae44cb1746739bb4f4afe58cba7901250325b1ee139d2c8f64eb5d1fd93
-                  transactionOutputIndex: 4
-              outputs:
-                - type: 0
-                  address:
-                    type: 1
-                    address: >-
-                      5f24ebcb5d48acbbfe6e7401b502ba7bb93acb3591d55eda7d32c37306cc805f
-                  amount: 5710
-                - type: 0
-                  address:
-                    type: 1
-                    address: >-
-                      5f24ebcb5d48acbbfe6e7401b502ba7bb93acb3591d55eda7d32c37306cc805f
-                  amount: 7425
-                - type: 0
-                  address:
-                    type: 1
-                    address: >-
-                      4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
-                  amount: 7342
-              payload:
-                type: 2
-                index: allyourtritsbelongtous
-                data: >-
-                  a487f431d852b060b49427f513dca1d5288e697e8bd9eb062534d09e7cb337ac
-            unlockBlocks:
+            inputs:
               - type: 0
-                signature:
-                  type: 1
-                  publicKey: >-
-                    ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
-                  signature: >-
-                    651941eddb3e68cb1f6ef4ef5b04625dcf5c70de1fdc4b1c9eadb2c219c074e0ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+                transactionId: '0000000000000000000000000000000000000000000000000000000000000000'
+                transactionOutputIndex: 0
+            outputs:
               - type: 0
-                signature:
+                address:
                   type: 1
-                  publicKey: >-
-                    1bd024285b8237c31f159d1707d48e0be2cdd88cc1a266f6376df501619bd312
-                  signature: >-
-                    c106ef037ad707ebd76991d654e4d06982f7cab80219f35337d8d546372c88e832aa30914971eb00d8d953bdaaa0f6bd575df87fe9efefaabc13c31b60429385
-              - type: 1
-                reference: 0
-          nonce: 133945865838
-    get-messages-by-index-response-example-1:
-      value:
-        data:
-          - messageId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
-            version: 1
-            parent1: ae07bf7ee5117a8fac99cb9969cfec17e74b3d5a575171e172d8a6e5bcbb237c
-            parent2: d33ec3e5a9e4d5759923f10771ce61d62627ec12464fc600dd46d58c542e5fd2
-            payload:
-              type: 2
-              index: abc
-              data: SGVsbG8gd29ybGQh
-    get-is-referenced-by-milestone-response-example-1:
-      value:
-        data:
-          isReferencedByMilestone: true
-          milestoneIndex: 1599584382
-          milestoneTimestamp: 1699556
-    get-is-referenced-by-milestone-response-example-2:
-      value:
-        data:
-          isReferencedByMilestone: false
-    get-is-confirmed-response-example-1:
-      value:
-        data:
-          isConfirmed: true
-          milestoneIndex: 1599584382
-          milestoneTimestamp: 1699556
-    get-is-confirmed-response-example-2:
-      value:
-        data:
-          isConfirmed: false
-    get-outputs-by-id-response-example-1:
-      value:
-        data:
-          transactionId: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
-          outputIndex: 3
-          spent: true
-          output:
-            type: 0
-            address:
-              type: 1
-              address: 4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
-            amount: 7342
-    get-outputs-by-address-response-example-1:
-      value:
-        data:
-          - transactionId: 7e463851d0c4a5639327d1fab188a5f8ec75517749e43849f9acc65a746c8985
-            outputIndex: 3
-            spent: true
-            output:
-              type: 0
-              address:
+                  address: 6920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92
+                amount: 100
+              - type: 0
+                address:
+                  type: 1
+                  address: 8afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd6
+                amount: 2779530283277661
+            payload: null
+          unlockBlocks:
+            - type: 0
+              signature:
                 type: 1
-                address: >-
-                  4e07ceb3a3e51c79021c07c764d69265ed484aeff646817b21051a17a6af53db
-              amount: 7342
+                publicKey: f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44
+                signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c909
+        nonce: 81
+        
+
+    'get-messages-by-index-response-example-children':
+      value:
+        index: "someindex"
+        maxResults: 1000
+        count: 2
+        messageIds:
+          - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
+          - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+          - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          
+    'get-messages-by-index-response-example-nochildren':
+      value:
+        index: "otherindex"
+        maxResults: 1000
+        count: 0
+        messageIds: []
+    
+    'get-outputs-by-id-response-example':
+      value:
+        messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+        transactionId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
+        outputIndex: 3
+        spent: false
+        output:
+          type: 0
+          address:
+            type: 0
+            address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          amount: 1338263
+    
+    'get-address-balance-response-example':
+      value:
+        address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        maxResults: 1000
+        count: 25
+        balance: 1338263
+        
+    'get-address-balance-response-example-maxResults':
+      value:
+        address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        maxResults: 1000
+        count: 1000
+        balance: 112848192
+    
+    'get-address-outputs-response-example':
+      value:
+        address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        maxResults: 1000
+        count: 2
+        outputIds: 
+          - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d0005
+          - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c0010
+    
+    'get-milestone-by-index-response-example':
+      value:
+        milestoneIndex: 15465
+        messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        timestamp: '2020-10-06T17:18:40+00:00'
+    
   schemas:
-    OutputResponse:
-      type: object
+    
+    'Message':
       properties:
+        version:
+          type: integer
+        parent1:
+          type: string
+        parent2:
+          type: string
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/Indexation'
+            - $ref: '#/components/schemas/Milestone'
+            - $ref: '#/components/schemas/SignedTransaction'
+        nonce:
+          type: string
+  
+    'Indexation':
+      properties:
+        type:
+          type: integer
+        index:
+          type: string
+        data:
+          type: string
+    
+    'Milestone':
+      properties:
+        type:
+          type: integer
+        index:
+          type: integer
+        timestamp:
+          type: integer
+        inclusionMerkleProof:
+          type: string
+        signature:
+          type: string
+  
+    'UTXOInput':
+      properties:
+        type:
+          type: integer
+        transactionId:
+          type: string
+        transactionOutputIndex:
+          type: integer
+  
+    'UnsignedTransaction':
+      properties:
+        type:
+          type: integer
+        inputs:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/UTXOInput'
+        outputs:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/SigLockedSingleDeposit'
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/Indexation'
+          nullable: true
+
+    'SignedTransaction':
+      properties:
+        type:
+          type: integer
+        transaction:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/UnsignedTransaction'
+        unlockBlocks:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/SignatureUnlockBlock'
+              - $ref: '#/components/schemas/ReferenceUnlockBlock'
+        
+    'SignatureUnlockBlock':
+      properties:
+        type:
+          type: integer
+        signature:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Signature'
+    
+    'ReferenceUnlockBlock':
+      properties:
+        type:
+          type: integer
+        reference:
+          type: integer
+        
+
+    'Ed25519Address':
+      properties:
+        type:
+          type: integer
+        address:
+          type: string
+          
+    'Ed25519Signature':
+      properties:
+        type:
+          type: integer
+        address:
+          type: string
+    
+    'SigLockedSingleDeposit':
+      properties:
+        type:
+          type: integer
+        address:
+          anyOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+        amount:
+          type: integer
+  
+    'ErrorResponse':
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+          
+    'BadRequestErrorResponse':
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        code: "invalid_data"
+        message: invalid data provided
+          
+    'NotFoundErrorResponse':
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        code: "not_found"
+        message: could not find data
+  
+    'GetInfoResponse':
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        isHealthy:
+          type: boolean
+        coordinatorPublicKey:
+          type: string
+          format: binary
+        latestMilestoneMessageId:
+          type: string
+        latestMilestoneIndex:
+          type: integer
+        solidMilestoneMessageId:
+          type: string
+        solidMilestoneIndex:
+          type: integer
+        pruningIndex:
+          type: integer
+        features:
+          type: array
+          items:
+            type: string
+            
+    'GetTipsResponse':
+      properties:
+        tip1:
+          type: string
+        tip2:
+          type: string
+    
+    'PostMessagesResponse':
+      properties:
+        messageId:
+          type: string
+          
+    'GetMessagesByIndexResponse':
+      properties:
+        index:
+          type: string
+        maxResults:
+          type: integer
+        count:
+          type: integer
+        messageIds:
+          type: array
+          items:
+            type: string
+
+    'GetMessageMetadataByIdResponse':
+      properties:
+        messageId:
+          type: string
+        parent1MessageId:
+          type: string
+        parent2MessageId:
+          type: string
+        solid:
+          type: boolean
+        referencedByMilestone:
+          type: integer
+          nullable: true
+        ledgerInclusionState:
+          enum: 
+            - included
+            - conflicting
+        shouldPromote:
+          type: boolean
+        shouldReattach:
+          type: boolean
+      required:
+        - messageId
+        - parent1MessageId
+        - parent2MessageId
+        - solid
+        - referencedByMilestone
+        
+    'GetMessageChildrenResponse':
+      properties:
+        messageId:
+          type: string
+        maxResults:
+          type: integer
+        count:
+          type: integer
+        children:
+          type: array
+          items:
+            type: string
+    
+    'GetOutputsByIdResponse':
+      properties:
+        messageId:
+          type: string
         transactionId:
           type: string
         outputIndex:
@@ -549,159 +876,39 @@ components:
         spent:
           type: boolean
         output:
-          type: object
-          properties:
-            type:
-              type: integer
-            address:
-              type: string
-        amount:
-          type: integer
-    MessageResponse:
-      type: object
+          anyOf:
+            - $ref: '#/components/schemas/SigLockedSingleDeposit'
+    
+    'GetAddressBalanceResponse':
       properties:
+        address:
+          type: string
+        maxResults:
+          type: integer
+        count:
+          type: integer
+        balance:
+          type: integer
+          
+    'GetAddressOutputsResponse':
+      properties:
+        address:
+          type: string
+        maxResults:
+          type: integer
+        count:
+          type: integer
+        outputIDs:
+          type: array
+          items: 
+            type: string
+    
+    'GetMilestoneByIndexResponse':
+      properties:
+        milestoneIndex: 
+          type: integer
         messageId:
           type: string
-        version:
-          type: integer
-        parent1:
+        timestamp:
           type: string
-        parent2:
-          type: string
-        payload:
-          type: object
-          properties:
-            type:
-              type: integer
-          additionalProperties: true
-        nonce:
-          type: string
-    ErrorResponse:
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
-    GetInfoResponse:
-      properties:
-        data:
-          type: object
-          properties:
-            name:
-              type: string
-            version:
-              type: string
-            isHealthy:
-              type: boolean
-            cooPubKey:
-              type: string
-            isSynced:
-              type: boolean
-            latestMilestone:
-              type: string
-            latestMilestoneindex:
-              type: integer
-            lastestSolidMilestone:
-              type: string
-            latestSolidMilestoneIndex:
-              type: integer
-            pruningIndex:
-              type: integer
-            features:
-              type: array
-              items:
-                type: string
-    GetTipsResponse:
-      properties:
-        data:
-          type: object
-          properties:
-            tip1:
-              type: string
-            tip2:
-              type: string
-    GetMessagesByIdResponse:
-      properties:
-        data:
-          allOf:
-            - $ref: '#/components/schemas/MessageResponse'
-    GetMessagesByIndexResponse:
-      properties:
-        data:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/MessageResponse'
-    GetIsReferencedByMilestoneResponse-1:
-      properties:
-        isConfirmed:
-          type: boolean
-        milestoneIndex:
-          type: integer
-        milestoneTimestamp:
-          type: integer
-    GetIsReferencedByMilestoneResponse-2:
-      properties:
-        isConfirmed:
-          type: boolean
-    GetIsReferencedByMilestoneResponse:
-      properties:
-        data:
-          oneOf:
-            - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-1'
-            - $ref: '#/components/schemas/GetIsReferencedByMilestoneResponse-2'
-    PostMessagesParameters:
-      properties:
-        version:
-          type: integer
-        parent1:
-          type: string
-        parent2:
-          type: string
-        payload:
-          type: object
-          properties:
-            type:
-              type: integer
-          required:
-            - type
-          additionalProperties: true
-        nonce:
-          type: string
-      required:
-        - payload
-    PostMessagesResponse:
-      type: string
-    GetIsConfirmedResponse-1:
-      properties:
-        isConfirmed:
-          type: boolean
-        milestoneIndex:
-          type: integer
-        milestoneTimestamp:
-          type: integer
-    GetIsConfirmedResponse-2:
-      properties:
-        isConfirmed:
-          type: boolean
-    GetIsConfirmedResponse:
-      properties:
-        data:
-          oneOf:
-            - $ref: '#/components/schemas/GetIsConfirmedResponse-1'
-            - $ref: '#/components/schemas/GetIsConfirmedResponse-2'
-    GetOutputsByIdResponse:
-      properties:
-        data:
-          allOf:
-            - $ref: '#/components/schemas/OutputResponse'
-    GetOutputsByAddressResponse:
-      properties:
-        data:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/OutputResponse'
+          description: Timestamp in RFC3339
