@@ -12,7 +12,7 @@ externalDocs:
   description: Find out more about IOTA
   url: 'https://iota.org'
 servers:
-  - url: 'http://127.0.0.1:14265/api/v1'
+  - url: 'http://127.0.0.1:14265'
 tags:
   - name: node
     description: Everything about the node itself.
@@ -27,7 +27,19 @@ tags:
 
 paths:
 
-  '/info':
+  '/health':
+    get:
+      tags:
+        - node
+      summary: Returns the health of the node.
+      description: Returns the health of the node, which can be used for load-balancing or uptime monitoring.
+      responses:
+        '200':
+          description: node is healthy
+        '503':
+          description: node is not healthy
+
+  '/api/v1/info':
     get:
       tags:
         - node
@@ -45,7 +57,8 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/get-info-response-example'
-  '/tips':
+  
+  '/api/v1/tips':
     get:
       tags:
         - tangle
@@ -68,7 +81,7 @@ paths:
                 Identical Tips:
                   $ref: '#/components/examples/get-tips-response-example-same'
   
-  '/messages':
+  '/api/v1/messages':
     post:
       tags:
         - messages
@@ -138,7 +151,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
   
-  '/message/{messageId}':
+  '/api/v1/message/{messageId}':
     get:
       tags:
         - messages
@@ -182,7 +195,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/message/{messageId}/data':
+  '/api/v1/message/{messageId}/data':
     get:
       tags:
         - messages
@@ -221,7 +234,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/message/{messageId}/raw':
+  '/api/v1/message/{messageId}/raw':
     get:
       tags:
         - messages
@@ -258,7 +271,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/message/{messageId}/children':
+  '/api/v1/message/{messageId}/children':
     get:
       tags:
         - messages
@@ -299,7 +312,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/output/{outputId}':
+  '/api/v1/output/{outputId}':
     get:
       tags:
         - UTXO
@@ -338,7 +351,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/address/{address}':
+  '/api/v1/address/{address}':
     get:
       tags:
         - UTXO
@@ -379,7 +392,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
                   
-  '/address/{address}/outputs':
+  '/api/v1/address/{address}/outputs':
     get:
       tags:
         - UTXO
@@ -418,7 +431,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/milestone/{index}':
+  '/api/v1/milestone/{index}':
     get:
       tags:
         - milestones
