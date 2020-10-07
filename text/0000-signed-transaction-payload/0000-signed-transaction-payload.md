@@ -1,4 +1,4 @@
-+ Feature name: signed_transaction_payload
++ Feature name: transaction_payload
 + Start date: 2020-07-10
 + RFC PR: [iotaledger/protocol-rfcs#18](https://github.com/iotaledger/protocol-rfcs/pull/18)
 
@@ -47,13 +47,13 @@ The way UTXOs are referenced is further described in the <i>Structure</i> sectio
 
 ### Serialized Layout
 
-A <i>Signed Transaction</i> payload is made up of two parts:
-1. The <i>Unsigned Transaction</i> part which contains the inputs, outputs and an optional embedded payload.
-2. The <i>Unlock Blocks</i> which unlock the <i>Unsigned Transaction</i>'s inputs. In case the unlock block contains a signature, it signs the entire <i>Unsigned Transaction</i> part.
+A <i>Transaction Payload</i> payload is made up of two parts:
+1. The <i>The Transaction Essence</i> part which contains the inputs, outputs and an optional embedded payload.
+2. The <i>Unlock Blocks</i> which unlock the <i>Transaction Essence</i>'s inputs. In case the unlock block contains a signature, it signs the entire <i>Transaction Essence</i> part.
 
 All values are serialized in little-endian encoding. The serialized form of the transaction is deterministic, meaning the same logical transaction always results in the same serialized byte sequence.
 
-Following table structure describes the entirety of a <i>Signed Transaction</i> payload's serialized form:
+Following table structure describes the entirety of a <i>Transaction Payload</i>'s serialized form:
 * [Data Type Notation](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md#data-types)
 * <details>
     <summary>Subschema Notation</summary>
@@ -89,14 +89,14 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
         <td>Payload Type</td>
         <td>uint32</td>
         <td>
-        Set to <strong>value 0</strong> to denote a <i>Signed Transaction</i> payload.
+        Set to <strong>value 0</strong> to denote a <i>Transaction Payload</i>.
         </td>
     </tr>
     <tr>
         <td valign="top">Transaction <code>oneOf</code></td>
         <td colspan="2">
             <details open="true">
-                <summary>Unsigned Transaction</summary>
+                <summary>Transaction Essence</summary>
                 <blockquote>
                 Describes the essence data making up a transaction by defining its inputs and outputs and an optional payload.
                 </blockquote>
@@ -110,7 +110,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                         <td>Transaction Type</td>
                         <td>uint8</td>
                         <td>
-                        Set to <strong>value 0</strong> to denote an <i>Unsigned Transaction</i>.
+                        Set to <strong>value 0</strong> to denote a <i>Transaction Essence</i>.
                         </td>
                     </tr>
                    <tr>
@@ -141,7 +141,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Transaction ID</td>
-                                        <td>ByteArray[32]</td>
+                                        <td>Array&lt;byte&gt;[32]</td>
                                         <td>The BLAKE2b-256 hash of the transaction from which the UTXO comes from.</td>
                                     </tr>
                                     <tr>
@@ -199,7 +199,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                                     </tr>
                                                     <tr>
                                                         <td>Address</td>
-                                                        <td>ByteArray[49]</td>
+                                                        <td>Array&lt;byte&gt;[49]</td>
                                                         <td>The T5B1 encoded WOTS address.</td>
                                                     </tr>
                                                 </table>
@@ -221,7 +221,7 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                                     </tr>
                                                     <tr>
                                                         <td>Address</td>
-                                                        <td>ByteArray[32]</td>
+                                                        <td>Array&lt;byte&gt;[32]</td>
                                                         <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
                                                     </tr>
                                                 </table>
@@ -300,8 +300,8 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Signature</td>
-                                        <td>ByteArray</td>
-                                        <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
+                                        <td>Array&lt;byte&gt;</td>
+                                        <td>The signature signing the serialized <i>Transaction Essence</i>.</td>
                                     </tr>
                                 </table>
                             </details>
@@ -322,13 +322,13 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
                                     </tr>
                                     <tr>
                                         <td>Public key</td>
-                                        <td>ByteArray[32]</td>
+                                        <td>Array&lt;byte&gt;[32]</td>
                                         <td>The public key of the Ed25519 keypair which is used to verify the signature.</td>
                                     </tr>
                                     <tr>
                                         <td>Signature</td>
-                                        <td>ByteArray[64]</td>
-                                        <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
+                                        <td>Array&lt;byte&gt;[64]</td>
+                                        <td>The signature signing the serialized <i>Transaction Essence</i>.</td>
                                     </tr>
                                 </table>
                             </details>
@@ -367,19 +367,22 @@ Following table structure describes the entirety of a <i>Signed Transaction</i> 
 
 ### Transaction Parts
 
-In general, all parts of a <i>Signed Transaction</i> begin with a byte describing the type of the given part in order to keep the flexibility to introduce new types/versions of the given part in the future.
+In general, all parts of a <i>Transaction Payload</i> begin with a byte describing the type of the given part in order to keep the flexibility to introduce new types/versions of the given part in the future.
 
-#### Unsigned Transaction / Essence Data
+#### Transaction Essence Data
 
-As described, the <i>Unsigned Transaction</i> of a <i>Signed Transaction</i> carries the inputs, outputs and an optional payload. The <i>Unsigned Transaction</i> is an explicit type of transaction and therefore starts with its own <i>Transaction Type</i> byte which is of value 0.
+As described, the <i>Transaction Essence</i> of a <i>Transaction Payload</i> carries the inputs, outputs and an optional payload. The <i>Transaction Essence</i> is an explicit type and therefore starts with its own <i>Transaction Essence Type</i> byte which is of value 0.
 
-An <i>Unsigned Transaction</i> must contain at least one input and output.
+A <i>Transaction Essence</i> must contain at least one input and output.
 
 ##### Inputs
 
-The <i>Inputs</i> part holds the inputs to consume, respectively to fund the outputs of the <i>Unsigned Transaction</i>. There is only one type of input as of now, the <i>UTXO Input</i>. In the future, more types of inputs may be specified as part of protocol upgrades.
+The <i>Inputs</i> part holds the inputs to consume, respectively to fund the outputs of the <i>Transaction Essence</i>. There is only one type of input as of now, the <i>UTXO Input</i>. In the future, more types of inputs may be specified as part of protocol upgrades.
 
-Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at the same index in the <i>Unlock Blocks</i> part of the <i>Signed Transaction</i>. If multiple inputs can be unlocked through the same <i>Unlock Block</i>, then the given <i>Unlock Block</i> only needs to be specified at the index of the first input which gets unlocked by it. Subsequent inputs which are unlocked through the same data must have a <i>Reference Unlock Block</i> pointing to the previous <i>Unlock Block</i>. This ensures that no duplicate data needs to occur in the same transaction.
+Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at the same index in the <i>Unlock Blocks</i> part of the <i>Transaction Payload</i>. 
+If multiple inputs can be unlocked through the same <i>Unlock Block</i>, then the given <i>Unlock Block</i> only needs to be specified at the index of the first input which gets unlocked by it. 
+Subsequent inputs which are unlocked through the same data must have a <i>Reference Unlock Block</i> pointing to the previous <i>Unlock Block</i>. 
+This ensures that no duplicate data needs to occur in the same transaction.
 
 ###### UTXO Input
 
@@ -400,7 +403,7 @@ Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at
         </tr>
         <tr>
             <td>Transaction ID</td>
-            <td>ByteArray[32]</td>
+            <td>Array&lt;byte&gt;[32]</td>
             <td>The BLAKE2b-256 hash of the transaction from which the UTXO comes from.</td>
         </tr>
         <tr>
@@ -418,7 +421,7 @@ Example: If the output the input references outputs to an Ed25519 address, then 
 
 ##### Outputs
 
-The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transaction</i>. There is only one type of output as of now, the <i>SigLockedSingleDeposit</i>.
+The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Payload</i>. There is only one type of output as of now, the <i>SigLockedSingleDeposit</i>.
 
 ###### SigLockedSingleDeposit
 
@@ -460,7 +463,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
                         </tr>
                         <tr>
                             <td>Address</td>
-                            <td>ByteArray[49]</td>
+                            <td>Array&lt;byte&gt;[49]</td>
                             <td>The T5B1 encoded WOTS address.</td>
                         </tr>
                     </table>
@@ -482,7 +485,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Unsigned Transa
                         </tr>
                         <tr>
                             <td>Address</td>
-                            <td>ByteArray[32]</td>
+                            <td>Array&lt;byte&gt;[32]</td>
                             <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
                         </tr>
                     </table>
@@ -503,9 +506,9 @@ The <i>SigLockedSingleDeposit</i> defines an output (with a certain amount) to a
 
 ##### Payload
 
-The payload part of an <i>Unsigned Transaction</i> can hold an optional payload. This payload does not affect the validity of the <i>Unsigned Transaction</i>. If the transaction is not valid, then the payload must also be discarded.
+The payload part of a <i>Transaction Essence</i> can hold an optional payload. This payload does not affect the validity of the <i>Transaction Essence</i>. If the transaction is not valid, then the payload must also be discarded.
 
-Supported payload types to be embedded into an <i>Unsigned Transaction</i>:
+Supported payload types to be embedded into a <i>Transaction Essence</i>:
 
 | Name                  | Type Value |
 | --------------------- | ---------- |
@@ -513,7 +516,7 @@ Supported payload types to be embedded into an <i>Unsigned Transaction</i>:
 
 #### Unlock Blocks
 
-The <i>Unlock Blocks</i> part holds the unlock blocks unlocking inputs within an <i>Unsigned Transaction</i>.
+The <i>Unlock Blocks</i> part holds the unlock blocks unlocking inputs within an <i>Transaction Essence</i>.
 
 There are different types of <i>Unlock Blocks</i>:
 <table>
@@ -571,8 +574,8 @@ There are different types of <i>Unlock Blocks</i>:
                         </tr>
                         <tr>
                             <td>Signature</td>
-                            <td>ByteArray</td>
-                            <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
+                            <td>Array&lt;byte&gt;</td>
+                            <td>The signature signing the serialized <i>Transaction Essence</i>.</td>
                         </tr>
                     </table>
                 </details>
@@ -593,13 +596,13 @@ There are different types of <i>Unlock Blocks</i>:
                         </tr>
                         <tr>
                             <td>Public key</td>
-                            <td>ByteArray[32]</td>
+                            <td>Array&lt;byte&gt;[32]</td>
                             <td>The public key of the Ed25519 keypair which is used to verify the signature.</td>
                         </tr>
                         <tr>
                             <td>Signature</td>
-                            <td>ByteArray[64]</td>
-                            <td>The signature signing the serialized <i>Unsigned Transaction</i>.</td>
+                            <td>Array&lt;byte&gt;[64]</td>
+                            <td>The signature signing the serialized <i>Transaction Essence</i>.</td>
                         </tr>
                     </table>
                 </details>
@@ -608,7 +611,8 @@ There are different types of <i>Unlock Blocks</i>:
     </table>
 </details>
 
-A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one or more signatures unlocking one or more inputs. Such block signs the entire <i>Unsigned Transaction</i> part of a <i>Signed Transaction</i> including the optional payload.
+A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one or more signatures unlocking one or more inputs.
+Such block signs the entire <i>Transaction Essence</i> part of a <i>Transaction Payload</i> including the optional payload.
 
 ##### Reference Unlock block
 
@@ -638,7 +642,7 @@ A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one o
 A <i>Reference Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i> (which must not be another <i>Reference Unlock Block</i>). It must be used if multiple inputs can be unlocked through the same origin <i>Unlock Block</i>.
 
 Example:
-Consider an <i>Unsigned Transaction</i> containing <i>UTXO Inputs</i> A, B and C, where A and C are both spending the UTXOs originating from the same Ed25519 address. The <i>Unlock Block</i> part must thereby have following structure:
+Consider an <i>Transaction Essence</i> containing <i>UTXO Inputs</i> A, B and C, where A and C are both spending the UTXOs originating from the same Ed25519 address. The <i>Unlock Block</i> part must thereby have following structure:
 
 | Index | Must Contain                                                                                                         |
 | ----- | ---------------------------------------------------------------------------------------------------------------- |
@@ -648,14 +652,14 @@ Consider an <i>Unsigned Transaction</i> containing <i>UTXO Inputs</i> A, B and C
 
 ## Validation
 
-A <i>Signed Transaction</i> payload has different validation stages, since some validation steps can only be executed at the point when certain information has (or has not) been received. We therefore distinguish between syntactical- and semantic validation.
+A <i>Transaction Payload</i> payload has different validation stages, since some validation steps can only be executed at the point when certain information has (or has not) been received. We therefore distinguish between syntactical- and semantic validation.
 
 ### Syntactical Validation
 
 This validation can commence as soon as the transaction data has been received in its entirety. It validates the structure but not the signatures of the transaction. If the transaction does not pass this stage, it must not be further broadcasted and can be discarded right away.
 
 Following criteria defines whether the transaction passes the syntactical validation:
-* `Transaction Type` value must be 0, denoting an `Unsigned Transaction`.
+* `Transaction Essence Type` value must be 0, denoting an `Transaction Essence`.
 * Inputs:
     * `Inputs Count` must be 0 < x < 127.
     * At least one input must be specified.
@@ -682,7 +686,7 @@ Following criteria defines whether the transaction passes the syntactical valida
 * `Signature Unlock Blocks` must define either an `Ed25519`- or `WOTS Signature`.
 * A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at same index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin `Signature Unlock Block`.
 * `Reference Unlock Blocks` must specify a previous `Unlock Block` which is not of type `Reference Unlock Block`. The reference index must therefore be < the index of the `Reference Unlock Block`.
-* Given the type and length information, the <i>Signed Transaction</i> must consume the entire byte array the `Payload Length` field in the <i>Message</i> defines.
+* Given the type and length information, the <i>Transaction Payload</i> must consume the entire byte array the `Payload Length` field in the <i>Message</i> defines.
 
 <sup>1</sup> ensures that serialization of the transaction becomes deterministic, meaning that libraries always produce the same bytes given the logical transaction.
 
@@ -715,11 +719,13 @@ Since the ledger no longer is account based, meaning that balances are directly 
 
 ### Reusing the same address with Ed25519
 
-While creating multiple signatures with Ed25519 does not reduce security, reusing the same address over and over again not only drastically reduces the privacy of yourself but also all other people in the UTXO chain of the moved funds. Applications and services are therefore instructed to create new addresses per deposit, in order to circumvent the privacy issues stemming from address reuse. In essence, Ed25519 support allows for smaller transaction sizes and to safely spend funds which were sent to an already used deposit address. Ed25519 addresses are not meant to be used like an e-mail address. See this [Bitcoin wiki entry](https://en.bitcoin.it/wiki/Address_reuse#:~:text=The%20most%20private%20and%20secure,a%20brand%20new%20bitcoin%20address.) for further information on how address reuse reduces privacy and this [article](https://en.bitcoin.it/wiki/Receiving_donations_with_bitcoin) why the same should be applied to donation addresses.
+While creating multiple signatures with Ed25519 does not reduce security, reusing the same address over and over again not only drastically reduces the privacy of yourself but also all other people in the UTXO chain of the moved funds. Applications and services are therefore instructed to create new addresses per deposit, in order to circumvent the privacy issues stemming from address reuse. 
+In essence, Ed25519 support allows for smaller transaction sizes and to safely spend funds which were sent to an already used deposit address. 
+Ed25519 addresses are not meant to be used like an e-mail address. See this [Bitcoin wiki entry](https://en.bitcoin.it/wiki/Address_reuse#:~:text=The%20most%20private%20and%20secure,a%20brand%20new%20bitcoin%20address.) for further information on how address reuse reduces privacy and this [article](https://en.bitcoin.it/wiki/Receiving_donations_with_bitcoin) why the same should be applied to donation addresses.
 
 # Drawbacks
 
-The new transaction format is the core data type within the IOTA ecosystem. Changing it means that all projects need to accommodate for it including client libraries, blueprints, PoC and applications using IOTA in general. There is no way to keep the changes backwards compatible. Additionally, these changes are breaking, meaning that all nodes must upgrade in order to further participate in the network.
+The new transaction format is the core data type within the IOTA ecosystem. Changing it means that all projects need to accommodate for it, including client libraries, blueprints, PoC and applications using IOTA in general. There is no way to keep the changes backwards compatible. Additionally, these changes are breaking, meaning that all nodes must upgrade in order to further participate in the network.
 
 Local snapshots can also no longer be simply represented by a list of addresses and their balances, since the ledger is now made up of the UTXOs on which the actual funds reside on. Therefore local snapshot file schemes have to be adjusted to incorporate the transaction hashes, output indices and then the destination addresses plus the balances. 
 
