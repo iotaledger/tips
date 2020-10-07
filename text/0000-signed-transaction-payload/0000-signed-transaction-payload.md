@@ -162,7 +162,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                         <td valign="top">Outputs <code>anyOf</code></td>
                         <td colspan="2">
                             <details>
-                                <summary>SigLockedSingleDeposit</summary>
+                                <summary>SigLockedSingleOutput</summary>
                                 <blockquote>
                                 Describes a deposit to a single address which is unlocked via a signature.
                                 </blockquote>
@@ -176,7 +176,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                                         <td>Output Type</td>
                                         <td>uint8</td>
                                         <td>
-                                            Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.
+                                            Set to <strong>value 0</strong> to denote a <i>SigLockedSingleOutput</i>.
                                         </td>
                                     </tr>
                                     <tr>
@@ -231,7 +231,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                                     <tr>
                                         <td>Amount</td>
                                         <td>uint64</td>
-                                        <td>The amount of tokens to deposit with this <i>SigLockedSingleDeposit</i> output.</td>
+                                        <td>The amount of tokens to deposit with this <i>SigLockedSingleOutput</i> output.</td>
                                     </tr>
                                 </table>
                             </details>
@@ -421,12 +421,12 @@ Example: If the output the input references outputs to an Ed25519 address, then 
 
 ##### Outputs
 
-The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Payload</i>. There is only one type of output as of now, the <i>SigLockedSingleDeposit</i>.
+The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Payload</i>. There is only one type of output as of now, the <i>SigLockedSingleOutput</i>.
 
-###### SigLockedSingleDeposit
+###### SigLockedSingleOutput
 
 <details>
-    <summary>SigLockedSingleDeposit</summary>
+    <summary>SigLockedSingleOutput</summary>
     <blockquote>
     Describes a deposit to a single address which is unlocked via a signature.
     </blockquote>
@@ -440,7 +440,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Pay
             <td>Output Type</td>
             <td>uint8</td>
             <td>
-                Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.
+                Set to <strong>value 0</strong> to denote a <i>SigLockedSingleOutput</i>.
             </td>
         </tr>
         <tr>
@@ -495,14 +495,14 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Pay
         <tr>
             <td>Amount</td>
             <td>uint64</td>
-            <td>The amount of tokens to deposit with this <i>SigLockedSingleDeposit</i> output.</td>
+            <td>The amount of tokens to deposit with this <i>SigLockedSingleOutput</i> output.</td>
         </tr>
     </table>
 </details>
 
 <p></p>
 
-The <i>SigLockedSingleDeposit</i> defines an output (with a certain amount) to a single target address which is unlocked via a signature proving ownership over the given address. Such output can hold addresses of different types.
+The <i>SigLockedSingleOutput</i> defines an output (with a certain amount) to a single target address which is unlocked via a signature proving ownership over the given address. Such output can hold addresses of different types.
 
 ##### Payload
 
@@ -671,11 +671,11 @@ Following criteria defines whether the transaction passes the syntactical valida
 * Outputs:
     * `Outputs Count` must be 0 < x < 127.
     * At least one output must be specified.
-    * `Output Type` must be 0, denoting a `SigLockedSingleDeposit`.
-    * `SigLockedSingleDeposit`:
+    * `Output Type` must be 0, denoting a `SigLockedSingleOutput`.
+    * `SigLockedSingleOutput`:
         * `Address Type` must either be 0 or 1, denoting a `WOTS`- or `Ed25519` address .
         * If `Address` is of type `WOTS address`, its bytes must be valid `T5B1` bytes.
-        * The `Address` must be unique in the set of `SigLockedSingleDeposits`.
+        * The `Address` must be unique in the set of `SigLockedSingleOutputs`.
         * `Amount` must be > 0.
     * Outputs must be in lexicographical order by their serialized form.<sup>1</sup>
     * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
