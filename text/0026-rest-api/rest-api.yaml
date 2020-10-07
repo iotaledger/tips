@@ -655,7 +655,7 @@ components:
           oneOf:
             - $ref: '#/components/schemas/Indexation'
             - $ref: '#/components/schemas/Milestone'
-            - $ref: '#/components/schemas/SignedTransaction'
+            - $ref: '#/components/schemas/Transaction'
         nonce:
           type: string
   
@@ -690,7 +690,7 @@ components:
         transactionOutputIndex:
           type: integer
   
-    'UnsignedTransaction':
+    'TransactionEssence':
       properties:
         type:
           type: integer
@@ -703,20 +703,20 @@ components:
           type: array
           items:
             anyOf:
-              - $ref: '#/components/schemas/SigLockedSingleDeposit'
+              - $ref: '#/components/schemas/SigLockedSingleOutput'
         payload:
           oneOf:
             - $ref: '#/components/schemas/Indexation'
           nullable: true
 
-    'SignedTransaction':
+    'Transaction':
       properties:
         type:
           type: integer
-        transaction:
+        essence:
           type: object
           oneOf:
-            - $ref: '#/components/schemas/UnsignedTransaction'
+            - $ref: '#/components/schemas/TransactionEssence'
         unlockBlocks:
           type: array
           items:
@@ -755,7 +755,7 @@ components:
         address:
           type: string
     
-    'SigLockedSingleDeposit':
+    'SigLockedSingleOutput':
       properties:
         type:
           type: integer
@@ -890,7 +890,7 @@ components:
           type: boolean
         output:
           anyOf:
-            - $ref: '#/components/schemas/SigLockedSingleDeposit'
+            - $ref: '#/components/schemas/SigLockedSingleOutput'
     
     'GetAddressBalanceResponse':
       properties:
