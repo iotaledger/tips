@@ -216,7 +216,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/GetMessageByIdDataResponse'
               examples:
                 default:
                   $ref: '#/components/examples/get-message-by-id-data-response-example'
@@ -391,7 +391,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
-                  
+
   '/api/v1/address/{address}/outputs':
     get:
       tags:
@@ -473,71 +473,79 @@ components:
   
     'get-info-response-example':
       value:
-        name: Hornet
-        version: 0.5.2
-        isHealthy: true
-        coordinatorPublicKey: cedb6ed996fc9a4e62dd6cb58f09ee3354c5f034f3250bfad9b0481e98cde625
-        latestMilestoneMessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-        latestMilestoneIndex: 1699556
-        solidMilestoneMessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        solidMilestoneIndex: 1699556
-        pruningIndex: 1696326
-        features:
-          - Plugin X
-          - Plugin Y
-    
+        data:
+          name: Hornet
+          version: 0.5.2
+          isHealthy: true
+          coordinatorPublicKey: cedb6ed996fc9a4e62dd6cb58f09ee3354c5f034f3250bfad9b0481e98cde625
+          latestMilestoneMessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          latestMilestoneIndex: 1699556
+          solidMilestoneMessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          solidMilestoneIndex: 1699556
+          pruningIndex: 1696326
+          features:
+            - Plugin X
+            - Plugin Y
+
     'get-tips-response-example-normal':
       value:
-        tip1MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-        tip2MessageId: 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
-          
+        data:
+          tip1MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          tip2MessageId: 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
+
     'get-tips-response-example-same':
       value:
-        tip1MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-        tip2MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-    
+        data:
+          tip1MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          tip2MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+
     'post-messages-response-example':
       value:
-        messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-    
+        data:
+          messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+
     'get-messages-by-index-response-example':
       value:
-        index: someindexkey
-        maxResults: 1000
-        count: 2
-        messageIds:
-          - f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-    
+        data:
+          index: someindexkey
+          maxResults: 1000
+          count: 2
+          messageIds:
+            - f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+            - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+
     'get-message-by-id-response-example-new':
       value:
-        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-        parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-        solid: false
-        referencedByMilestone: null
-        shouldPromote: true
-        shouldReattach: false
-    
+        data:
+          messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          solid: false
+          referencedByMilestone: null
+          shouldPromote: true
+          shouldReattach: false
+
     'get-message-by-id-response-example-solid':
       value:
-        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-        parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-        solid: true
-        referencedByMilestone: null
-        shouldPromote: false
-        shouldReattach: false
-    
+        data:
+          messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          solid: true
+          referencedByMilestone: null
+          shouldPromote: false
+          shouldReattach: false
+
     'get-message-by-id-response-example-included':
       value:
-        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-        parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-        solid: true
-        referencedByMilestone: 15465
-        ledgerInclusionState: included
-    
+        data:
+          messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          solid: true
+          referencedByMilestone: 15465
+          ledgerInclusionState: included
+
     'get-message-by-id-response-example-conflicting':
       value:
         messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
@@ -549,97 +557,103 @@ components:
 
     'get-message-by-id-data-response-example':
       value:
-        hash: 82b1f7ba715d23874168f132eaa53cb7e9860cc84bca092b64e23b228bf1b8e2
-        version: 1
-        parent1: '0000000000000000000000000000000000000000000000000000000000000000'
-        parent2: '0000000000000000000000000000000000000000000000000000000000000000'
-        payload:
-          type: 0
-          transaction:
+        data:
+          version: 1
+          parent1: '0000000000000000000000000000000000000000000000000000000000000000'
+          parent2: '0000000000000000000000000000000000000000000000000000000000000000'
+          payload:
             type: 0
-            inputs:
+            transaction:
+              type: 0
+              inputs:
+                - type: 0
+                  transactionId: '0000000000000000000000000000000000000000000000000000000000000000'
+                  transactionOutputIndex: 0
+              outputs:
+                - type: 0
+                  address:
+                    type: 1
+                    address: 6920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92
+                  amount: 100
+                - type: 0
+                  address:
+                    type: 1
+                    address: 8afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd6
+                  amount: 2779530283277661
+              payload: null
+            unlockBlocks:
               - type: 0
-                transactionId: '0000000000000000000000000000000000000000000000000000000000000000'
-                transactionOutputIndex: 0
-            outputs:
-              - type: 0
-                address:
+                signature:
                   type: 1
-                  address: 6920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92
-                amount: 100
-              - type: 0
-                address:
-                  type: 1
-                  address: 8afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd6
-                amount: 2779530283277661
-            payload: null
-          unlockBlocks:
-            - type: 0
-              signature:
-                type: 1
-                publicKey: f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44
-                signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c909
-        nonce: 81
-        
+                  publicKey: f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44
+                  signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c909
+          nonce: 81
 
     'get-messages-by-index-response-example-children':
       value:
-        index: "someindex"
-        maxResults: 1000
-        count: 3
-        messageIds:
-          - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
-          - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
-          - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          
+        data:
+          index: "someindex"
+          maxResults: 1000
+          count: 3
+          messageIds:
+            - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
+            - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+            - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+ 
     'get-messages-by-index-response-example-nochildren':
       value:
-        index: "otherindex"
-        maxResults: 1000
-        count: 0
-        messageIds: []
-    
+        data:
+          index: "otherindex"
+          maxResults: 1000
+          count: 0
+          messageIds: []
+
     'get-outputs-by-id-response-example':
       value:
-        messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
-        transactionId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
-        outputIndex: 3
-        spent: false
-        output:
-          type: 0
-          address:
+        data:
+          messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+          transactionId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
+          outputIndex: 3
+          spent: false
+          output:
             type: 0
-            address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          amount: 1338263
-    
+            address:
+              type: 0
+              address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+            amount: 1338263
+
     'get-address-balance-response-example':
       value:
-        address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        maxResults: 1000
-        count: 25
-        balance: 1338263
-        
+        data:
+          address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          maxResults: 1000
+          count: 25
+          balance: 1338263
+
     'get-address-balance-response-example-maxResults':
       value:
-        address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        maxResults: 1000
-        count: 1000
-        balance: 112848192
-    
+        data:
+          address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          maxResults: 1000
+          count: 1000
+          balance: 112848192
+
     'get-address-outputs-response-example':
       value:
-        address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        maxResults: 1000
-        count: 2
-        outputIds: 
-          - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d0005
-          - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c0010
-    
+        data:
+          address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          maxResults: 1000
+          count: 2
+          outputIds: 
+            - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d0005
+            - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c0010
+
     'get-milestone-by-index-response-example':
       value:
-        milestoneIndex: 15465
-        messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        timestamp: '2020-10-06T17:18:40+00:00'
+        data:
+          milestoneIndex: 15465
+          messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          timestamp: '2020-10-06T17:18:40+00:00'
     
   schemas:
     
@@ -723,7 +737,7 @@ components:
             anyOf:
               - $ref: '#/components/schemas/SignatureUnlockBlock'
               - $ref: '#/components/schemas/ReferenceUnlockBlock'
-        
+
     'SignatureUnlockBlock':
       properties:
         type:
@@ -732,14 +746,13 @@ components:
           type: object
           oneOf:
             - $ref: '#/components/schemas/Ed25519Signature'
-    
+
     'ReferenceUnlockBlock':
       properties:
         type:
           type: integer
         reference:
           type: integer
-        
 
     'Ed25519Address':
       properties:
@@ -747,14 +760,14 @@ components:
           type: integer
         address:
           type: string
-          
+
     'Ed25519Signature':
       properties:
         type:
           type: integer
         address:
           type: string
-    
+
     'SigLockedSingleOutput':
       properties:
         type:
@@ -767,161 +780,204 @@ components:
   
     'ErrorResponse':
       properties:
-        code:
-          type: string
-        message:
-          type: string
-          
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+
     'BadRequestErrorResponse':
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
-        code: "invalid_data"
-        message: invalid data provided
-          
+        error:
+          code: "invalid_data"
+          message: invalid data provided
+
     'NotFoundErrorResponse':
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
-        code: "not_found"
-        message: could not find data
+        error:
+          code: "not_found"
+          message: could not find data
   
     'GetInfoResponse':
       properties:
-        name:
-          type: string
-        version:
-          type: string
-        isHealthy:
-          type: boolean
-        coordinatorPublicKey:
-          type: string
-          format: binary
-        latestMilestoneMessageId:
-          type: string
-        latestMilestoneIndex:
-          type: integer
-        solidMilestoneMessageId:
-          type: string
-        solidMilestoneIndex:
-          type: integer
-        pruningIndex:
-          type: integer
-        features:
-          type: array
-          items:
-            type: string
-            
+        data:
+          type: object
+          properties:
+            name:
+              type: string
+            version:
+              type: string
+            isHealthy:
+              type: boolean
+            coordinatorPublicKey:
+              type: string
+              format: binary
+            latestMilestoneMessageId:
+              type: string
+            latestMilestoneIndex:
+              type: integer
+            solidMilestoneMessageId:
+              type: string
+            solidMilestoneIndex:
+              type: integer
+            pruningIndex:
+              type: integer
+            features:
+              type: array
+              items:
+                type: string
+  
     'GetTipsResponse':
       properties:
-        tip1:
-          type: string
-        tip2:
-          type: string
-    
+        data:
+          type: object    
+          properties:
+            tip1:
+              type: string
+            tip2:
+              type: string
+
     'PostMessagesResponse':
       properties:
-        messageId:
-          type: string
-          
+        data:    
+          type: object    
+          properties:        
+            messageId:
+              type: string
+
     'GetMessagesByIndexResponse':
       properties:
-        index:
-          type: string
-        maxResults:
-          type: integer
-        count:
-          type: integer
-        messageIds:
-          type: array
-          items:
-            type: string
+        data:    
+          type: object    
+          properties:  
+            index:
+             type: string
+            maxResults:
+             type: integer
+            count:
+             type: integer
+            messageIds:
+             type: array
+             items:
+               type: string
 
     'GetMessageMetadataByIdResponse':
       properties:
-        messageId:
-          type: string
-        parent1MessageId:
-          type: string
-        parent2MessageId:
-          type: string
-        solid:
-          type: boolean
-        referencedByMilestone:
-          type: integer
-          nullable: true
-        ledgerInclusionState:
-          enum: 
-            - included
-            - conflicting
-        shouldPromote:
-          type: boolean
-        shouldReattach:
-          type: boolean
-      required:
-        - messageId
-        - parent1MessageId
-        - parent2MessageId
-        - solid
-        - referencedByMilestone
-        
+        data:
+          type: object    
+          properties:
+            messageId:
+              type: string
+            parent1MessageId:
+              type: string
+            parent2MessageId:
+              type: string
+            solid:
+              type: boolean
+            referencedByMilestone:
+              type: integer
+              nullable: true
+            ledgerInclusionState:
+              enum: 
+                - included
+                - conflicting
+            shouldPromote:
+              type: boolean
+            shouldReattach:
+              type: boolean
+          required:
+            - messageId
+            - parent1MessageId
+            - parent2MessageId
+            - solid
+            - referencedByMilestone
+
+    'GetMessageByIdDataResponse':
+      properties:
+        data:
+          type: object
+          properties:
+            allOf:
+              $ref: '#/components/schemas/Message'
+  
     'GetMessageChildrenResponse':
       properties:
-        messageId:
-          type: string
-        maxResults:
-          type: integer
-        count:
-          type: integer
-        children:
-          type: array
-          items:
-            type: string
-    
+        data:
+          type: object    
+          properties:
+            messageId:
+              type: string
+            maxResults:
+              type: integer
+            count:
+              type: integer
+            children:
+              type: array
+              items:
+                type: string
+
     'GetOutputsByIdResponse':
       properties:
-        messageId:
-          type: string
-        transactionId:
-          type: string
-        outputIndex:
-          type: integer
-        spent:
-          type: boolean
-        output:
-          anyOf:
-            - $ref: '#/components/schemas/SigLockedSingleOutput'
-    
+        data:
+          type: object
+          properties:
+            messageId:
+              type: string
+            transactionId:
+              type: string
+            outputIndex:
+              type: integer
+            spent:
+              type: boolean
+            output:
+              anyOf:
+                - $ref: '#/components/schemas/SigLockedSingleOutput'
+
     'GetAddressBalanceResponse':
       properties:
-        address:
-          type: string
-        maxResults:
-          type: integer
-        count:
-          type: integer
-        balance:
-          type: integer
-          
+        data:
+          type: object    
+          properties:
+            address:
+              type: string
+            maxResults:
+              type: integer
+            count:
+              type: integer
+            balance:
+              type: integer
+  
     'GetAddressOutputsResponse':
       properties:
-        address:
-          type: string
-        maxResults:
-          type: integer
-        count:
-          type: integer
-        outputIDs:
-          type: array
-          items: 
-            type: string
-    
+        data:
+          type: object    
+          properties:
+            address:
+              type: string
+            maxResults:
+              type: integer
+            count:
+              type: integer              
+            outputIDs:
+              type: array
+              items: 
+                type: string
+
     'GetMilestoneByIndexResponse':
       properties:
-        milestoneIndex: 
-          type: integer
-        messageId:
-          type: string
-        timestamp:
-          type: string
-          description: Timestamp in RFC3339
+        data:
+          type: object
+          properties:
+            milestoneIndex: 
+              type: integer
+            messageId:
+              type: string
+            timestamp:
+              type: string
+              description: Timestamp in RFC3339
