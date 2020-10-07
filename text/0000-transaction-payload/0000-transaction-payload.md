@@ -93,7 +93,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
         </td>
     </tr>
     <tr>
-        <td valign="top">Transaction <code>oneOf</code></td>
+        <td valign="top">Essence <code>oneOf</code></td>
         <td colspan="2">
             <details open="true">
                 <summary>Transaction Essence</summary>
