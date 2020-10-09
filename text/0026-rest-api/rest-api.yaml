@@ -151,7 +151,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
   
-  '/api/v1/message/{messageId}':
+  '/api/v1/messages/{messageId}':
     get:
       tags:
         - messages
@@ -195,7 +195,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/message/{messageId}/data':
+  '/api/v1/messages/{messageId}/data':
     get:
       tags:
         - messages
@@ -234,7 +234,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/message/{messageId}/raw':
+  '/api/v1/messages/{messageId}/raw':
     get:
       tags:
         - messages
@@ -271,7 +271,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/message/{messageId}/children':
+  '/api/v1/messages/{messageId}/children':
     get:
       tags:
         - messages
@@ -312,7 +312,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/output/{outputId}':
+  '/api/v1/outputs/{outputId}':
     get:
       tags:
         - UTXO
@@ -351,7 +351,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/address/{address}':
+  '/api/v1/addresses/{address}':
     get:
       tags:
         - UTXO
@@ -392,7 +392,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/address/{address}/outputs':
+  '/api/v1/addresses/{address}/outputs':
     get:
       tags:
         - UTXO
@@ -431,7 +431,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/milestone/{index}':
+  '/api/v1/milestones/{index}':
     get:
       tags:
         - milestones
