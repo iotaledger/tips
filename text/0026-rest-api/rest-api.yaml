@@ -152,8 +152,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
-  
+
   '/api/v1/messages/{messageId}':
+    get:
+      tags:
+        - messages
+      summary: Returns message data as JSON by its identifier.
+      description: >-
+        Find a message by its identifer. This endpoint returns the given message as JSON.
+      parameters:
+        - in: path
+          name: messageId
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          required: true
+          description: Identifier of the message.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessageByIdDataResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-message-by-id-data-response-example'
+                
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+
+  '/api/v1/messages/{messageId}/metadata':
     get:
       tags:
         - messages
@@ -184,45 +223,6 @@ paths:
                   $ref: '#/components/examples/get-message-by-id-response-example-included'
                 Conflicting:
                   $ref: '#/components/examples/get-message-by-id-response-example-conflicting'
-        '400':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
-
-  '/api/v1/messages/{messageId}/data':
-    get:
-      tags:
-        - messages
-      summary: Returns message data as JSON by its identifier.
-      description: >-
-        Find a message by its identifer. This endpoint returns the given message as JSON.
-      parameters:
-        - in: path
-          name: messageId
-          schema:
-            type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          required: true
-          description: Identifier of the message.
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMessageByIdDataResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/get-message-by-id-data-response-example'
-                
         '400':
           description: unsuccessful operation
           content:
