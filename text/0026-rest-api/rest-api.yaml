@@ -658,7 +658,7 @@ components:
           index: "someindex"
           maxResults: 1000
           count: 3
-          messageIds:
+          childrenMessageIds:
             - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
             - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
             - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
@@ -669,7 +669,7 @@ components:
           index: "otherindex"
           maxResults: 1000
           count: 0
-          messageIds: []
+          childrenMessageIds: []
 
     'get-outputs-by-id-response-example':
       value:
@@ -989,7 +989,7 @@ components:
               type: integer
             count:
               type: integer
-            children:
+            childrenMessageIds:
               type: array
               items:
                 type: string
