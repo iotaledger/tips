@@ -410,6 +410,13 @@ paths:
           example: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           required: true
           description: Address that is referenced by the outputs.
+        - in: query
+          name: include-spent
+          schema:
+            type: boolean
+          example: true
+          required: false
+          description: Set to true to also include the known spent outputs for the given address.
       responses:
         '200':
           description: successful operation
