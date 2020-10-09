@@ -559,8 +559,8 @@ components:
       value:
         data:
           version: 1
-          parent1: '0000000000000000000000000000000000000000000000000000000000000000'
-          parent2: '0000000000000000000000000000000000000000000000000000000000000000'
+          parent1MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
+          parent2MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
           payload:
             type: 0
             transaction:
@@ -661,9 +661,9 @@ components:
       properties:
         version:
           type: integer
-        parent1:
+        parent1MessageId:
           type: string
-        parent2:
+        parent2MessageId:
           type: string
         payload:
           oneOf:
