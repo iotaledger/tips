@@ -298,9 +298,9 @@ paths:
                 $ref: '#/components/schemas/GetMessageChildrenResponse'
               examples:
                 Children:
-                  $ref: '#/components/examples/get-messages-by-index-response-example-children'
+                  $ref: '#/components/examples/get-messages-by-id-response-example-children'
                 No Children:
-                  $ref: '#/components/examples/get-messages-by-index-response-example-nochildren'
+                  $ref: '#/components/examples/get-messages-by-id-response-example-nochildren'
         '400':
           description: unsuccessful operation
           content:
@@ -652,10 +652,10 @@ components:
                   signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c909
           nonce: 81
 
-    'get-messages-by-index-response-example-children':
+    'get-messages-by-id-response-example-children':
       value:
         data:
-          index: "someindex"
+          messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
           maxResults: 1000
           count: 3
           childrenMessageIds:
@@ -663,10 +663,10 @@ components:
             - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
             - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
  
-    'get-messages-by-index-response-example-nochildren':
+    'get-messages-by-id-response-example-nochildren':
       value:
         data:
-          index: "otherindex"
+          messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
           maxResults: 1000
           count: 0
           childrenMessageIds: []
