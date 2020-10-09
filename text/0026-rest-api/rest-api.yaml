@@ -94,10 +94,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Message'
+              $ref: '#/components/schemas/PostMessagesRequest'
             examples:
-              default:
-                $ref: '#/components/examples/get-message-by-id-data-response-example'
+              Normal:
+                $ref: '#/components/examples/post-message-request-example'
+              Minimal:
+                $ref: '#/components/examples/post-message-request-example-minimal'                
           application/octet-steam:
             schema:
               type: 'string'
@@ -151,7 +153,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
   
-  '/api/v1/message/{messageId}':
+  '/api/v1/messages/{messageId}':
     get:
       tags:
         - messages
@@ -195,7 +197,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/message/{messageId}/data':
+  '/api/v1/messages/{messageId}/data':
     get:
       tags:
         - messages
@@ -234,7 +236,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/message/{messageId}/raw':
+  '/api/v1/messages/{messageId}/raw':
     get:
       tags:
         - messages
@@ -271,7 +273,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/message/{messageId}/children':
+  '/api/v1/messages/{messageId}/children':
     get:
       tags:
         - messages
@@ -312,7 +314,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/output/{outputId}':
+  '/api/v1/outputs/{outputId}':
     get:
       tags:
         - UTXO
@@ -351,7 +353,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/address/{address}':
+  '/api/v1/addresses/{address}':
     get:
       tags:
         - UTXO
@@ -392,7 +394,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/address/{address}/outputs':
+  '/api/v1/addresses/{address}/outputs':
     get:
       tags:
         - UTXO
@@ -431,7 +433,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
 
-  '/api/v1/milestone/{index}':
+  '/api/v1/milestones/{index}':
     get:
       tags:
         - milestones
@@ -520,8 +522,7 @@ components:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
           parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-          solid: false
-          referencedByMilestone: null
+          isSolid: false
           shouldPromote: true
           shouldReattach: false
 
@@ -531,8 +532,7 @@ components:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
           parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-          solid: true
-          referencedByMilestone: null
+          isSolid: true
           shouldPromote: false
           shouldReattach: false
 
@@ -542,25 +542,88 @@ components:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
           parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-          solid: true
-          referencedByMilestone: 15465
+          isSolid: true
+          referencedByMilestoneIndex: 15465
           ledgerInclusionState: included
 
     'get-message-by-id-response-example-conflicting':
       value:
-        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-        parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-        solid: true
-        referencedByMilestone: 15465
-        ledgerInclusionState: conflicting
+        data:
+          messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          isSolid: true
+          referencedByMilestoneIndex: 15465
+          ledgerInclusionState: conflicting
+
+    'post-message-request-example':
+      value:
+        version: 1
+        parent1MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
+        parent2MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
+        payload:
+          type: 0
+          transaction:
+            type: 0
+            inputs:
+              - type: 0
+                transactionId: '0000000000000000000000000000000000000000000000000000000000000000'
+                transactionOutputIndex: 0
+            outputs:
+              - type: 0
+                address:
+                  type: 1
+                  address: 6920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92
+                amount: 100
+              - type: 0
+                address:
+                  type: 1
+                  address: 8afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd6
+                amount: 2779530283277661
+            payload: null
+          unlockBlocks:
+            - type: 0
+              signature:
+                type: 1
+                publicKey: f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44
+                signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf7b8d38d219fb62a9a2f718d4c909
+        nonce: 81
+        
+    'post-message-request-example-minimal':
+      value:
+        payload:
+          type: 0
+          transaction:
+            type: 0
+            inputs:
+              - type: 0
+                transactionId: '0000000000000000000000000000000000000000000000000000000000000000'
+                transactionOutputIndex: 0
+            outputs:
+              - type: 0
+                address:
+                  type: 1
+                  address: 6920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92
+                amount: 100
+              - type: 0
+                address:
+                  type: 1
+                  address: 8afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd6
+                amount: 2779530283277661
+            payload: null
+          unlockBlocks:
+            - type: 0
+              signature:
+                type: 1
+                publicKey: f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44
+                signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf7b8d38d219fb62a9a2f718d4c909
 
     'get-message-by-id-data-response-example':
       value:
         data:
           version: 1
-          parent1: '0000000000000000000000000000000000000000000000000000000000000000'
-          parent2: '0000000000000000000000000000000000000000000000000000000000000000'
+          parent1MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
+          parent2MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
           payload:
             type: 0
             transaction:
@@ -595,7 +658,7 @@ components:
           index: "someindex"
           maxResults: 1000
           count: 3
-          messageIds:
+          childrenMessageIds:
             - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
             - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
             - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
@@ -606,7 +669,7 @@ components:
           index: "otherindex"
           maxResults: 1000
           count: 0
-          messageIds: []
+          childrenMessageIds: []
 
     'get-outputs-by-id-response-example':
       value:
@@ -614,7 +677,7 @@ components:
           messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
           transactionId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
           outputIndex: 3
-          spent: false
+          isSpent: false
           output:
             type: 0
             address:
@@ -653,7 +716,7 @@ components:
         data:
           milestoneIndex: 15465
           messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          timestamp: '2020-10-06T17:18:40+00:00'
+          timestamp: 1602227215
     
   schemas:
     
@@ -661,9 +724,9 @@ components:
       properties:
         version:
           type: integer
-        parent1:
+        parent1MessageId:
           type: string
-        parent2:
+        parent2MessageId:
           type: string
         payload:
           oneOf:
@@ -765,6 +828,8 @@ components:
       properties:
         type:
           type: integer
+        publicKey:
+          type: string          
         address:
           type: string
 
@@ -843,6 +908,14 @@ components:
             tip2:
               type: string
 
+    'PostMessagesRequest':
+      allOf:
+        - $ref: '#/components/schemas/Message'
+        - type: object
+          required:
+            - payload
+
+
     'PostMessagesResponse':
       properties:
         data:    
@@ -878,9 +951,9 @@ components:
               type: string
             parent2MessageId:
               type: string
-            solid:
+            isSolid:
               type: boolean
-            referencedByMilestone:
+            referencedByMilestoneIndex:
               type: integer
               nullable: true
             ledgerInclusionState:
@@ -895,8 +968,7 @@ components:
             - messageId
             - parent1MessageId
             - parent2MessageId
-            - solid
-            - referencedByMilestone
+            - isSolid
 
     'GetMessageByIdDataResponse':
       properties:
@@ -917,7 +989,7 @@ components:
               type: integer
             count:
               type: integer
-            children:
+            childrenMessageIds:
               type: array
               items:
                 type: string
@@ -933,7 +1005,7 @@ components:
               type: string
             outputIndex:
               type: integer
-            spent:
+            isSpent:
               type: boolean
             output:
               anyOf:
@@ -979,5 +1051,4 @@ components:
             messageId:
               type: string
             timestamp:
-              type: string
-              description: Timestamp in RFC3339
+              type: integer
