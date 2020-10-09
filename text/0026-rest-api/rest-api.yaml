@@ -520,7 +520,7 @@ components:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
           parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-          solid: false
+          isSolid: false
           referencedByMilestone: null
           shouldPromote: true
           shouldReattach: false
@@ -531,7 +531,7 @@ components:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
           parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-          solid: true
+          isSolid: true
           referencedByMilestone: null
           shouldPromote: false
           shouldReattach: false
@@ -542,7 +542,7 @@ components:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
           parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-          solid: true
+          isSolid: true
           referencedByMilestone: 15465
           ledgerInclusionState: included
 
@@ -551,7 +551,7 @@ components:
         messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
         parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
         parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-        solid: true
+        isSolid: true
         referencedByMilestone: 15465
         ledgerInclusionState: conflicting
 
@@ -614,7 +614,7 @@ components:
           messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
           transactionId: 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
           outputIndex: 3
-          spent: false
+          isSpent: false
           output:
             type: 0
             address:
@@ -878,7 +878,7 @@ components:
               type: string
             parent2MessageId:
               type: string
-            solid:
+            isSolid:
               type: boolean
             referencedByMilestone:
               type: integer
@@ -933,7 +933,7 @@ components:
               type: string
             outputIndex:
               type: integer
-            spent:
+            isSpent:
               type: boolean
             output:
               anyOf:
