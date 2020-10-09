@@ -94,10 +94,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Message'
+              $ref: '#/components/schemas/PostMessagesRequest'
             examples:
-              default:
-                $ref: '#/components/examples/get-message-by-id-data-response-example'
+              Normal:
+                $ref: '#/components/examples/post-message-request-example'
+              Minimal:
+                $ref: '#/components/examples/post-message-request-example-minimal'                
           application/octet-steam:
             schema:
               type: 'string'
@@ -554,6 +556,68 @@ components:
           referencedByMilestoneIndex: 15465
           ledgerInclusionState: conflicting
 
+    'post-message-request-example':
+      value:
+        version: 1
+        parent1MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
+        parent2MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
+        payload:
+          type: 0
+          transaction:
+            type: 0
+            inputs:
+              - type: 0
+                transactionId: '0000000000000000000000000000000000000000000000000000000000000000'
+                transactionOutputIndex: 0
+            outputs:
+              - type: 0
+                address:
+                  type: 1
+                  address: 6920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92
+                amount: 100
+              - type: 0
+                address:
+                  type: 1
+                  address: 8afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd6
+                amount: 2779530283277661
+            payload: null
+          unlockBlocks:
+            - type: 0
+              signature:
+                type: 1
+                publicKey: f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44
+                signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf7b8d38d219fb62a9a2f718d4c909
+        nonce: 81
+        
+    'post-message-request-example-minimal':
+      value:
+        payload:
+          type: 0
+          transaction:
+            type: 0
+            inputs:
+              - type: 0
+                transactionId: '0000000000000000000000000000000000000000000000000000000000000000'
+                transactionOutputIndex: 0
+            outputs:
+              - type: 0
+                address:
+                  type: 1
+                  address: 6920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92
+                amount: 100
+              - type: 0
+                address:
+                  type: 1
+                  address: 8afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd6
+                amount: 2779530283277661
+            payload: null
+          unlockBlocks:
+            - type: 0
+              signature:
+                type: 1
+                publicKey: f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44
+                signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf7b8d38d219fb62a9a2f718d4c909
+
     'get-message-by-id-data-response-example':
       value:
         data:
@@ -843,6 +907,14 @@ components:
               type: string
             tip2:
               type: string
+
+    'PostMessagesRequest':
+      allOf:
+        - $ref: '#/components/schemas/Message'
+        - type: object
+          required:
+            - payload
+
 
     'PostMessagesResponse':
       properties:
