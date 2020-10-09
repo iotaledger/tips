@@ -152,8 +152,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
-  
+
   '/api/v1/messages/{messageId}':
+    get:
+      tags:
+        - messages
+      summary: Returns message data as JSON by its identifier.
+      description: >-
+        Find a message by its identifer. This endpoint returns the given message as JSON.
+      parameters:
+        - in: path
+          name: messageId
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          required: true
+          description: Identifier of the message.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessageByIdDataResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-message-by-id-data-response-example'
+                
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+
+  '/api/v1/messages/{messageId}/metadata':
     get:
       tags:
         - messages
@@ -184,45 +223,6 @@ paths:
                   $ref: '#/components/examples/get-message-by-id-response-example-included'
                 Conflicting:
                   $ref: '#/components/examples/get-message-by-id-response-example-conflicting'
-        '400':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
-
-  '/api/v1/messages/{messageId}/data':
-    get:
-      tags:
-        - messages
-      summary: Returns message data as JSON by its identifier.
-      description: >-
-        Find a message by its identifer. This endpoint returns the given message as JSON.
-      parameters:
-        - in: path
-          name: messageId
-          schema:
-            type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          required: true
-          description: Identifier of the message.
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMessageByIdDataResponse'
-              examples:
-                default:
-                  $ref: '#/components/examples/get-message-by-id-data-response-example'
-                
         '400':
           description: unsuccessful operation
           content:
@@ -298,9 +298,9 @@ paths:
                 $ref: '#/components/schemas/GetMessageChildrenResponse'
               examples:
                 Children:
-                  $ref: '#/components/examples/get-messages-by-index-response-example-children'
+                  $ref: '#/components/examples/get-messages-by-id-response-example-children'
                 No Children:
-                  $ref: '#/components/examples/get-messages-by-index-response-example-nochildren'
+                  $ref: '#/components/examples/get-messages-by-id-response-example-nochildren'
         '400':
           description: unsuccessful operation
           content:
@@ -360,7 +360,7 @@ paths:
       summary: Get the balance of a given address.
       description: >-
         Get the balance of a given address.
-        If count equals maxResults, then there might be more outputs available but those were skipped for performance reasons. User should sweep the address to reduce the amount of outputs.
+        If count equals maxResults, then there might be more outputs available but those were skipped from the balance calculation for performance reasons. User should sweep the address to reduce the amount of outputs and get the correct balance.
       parameters:
         - in: path
           name: address
@@ -410,6 +410,13 @@ paths:
           example: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           required: true
           description: Address that is referenced by the outputs.
+        - in: query
+          name: include-spent
+          schema:
+            type: boolean
+          example: true
+          required: false
+          description: Set to true to also include the known spent outputs for the given address.
       responses:
         '200':
           description: successful operation
@@ -652,10 +659,10 @@ components:
                   signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c909
           nonce: 81
 
-    'get-messages-by-index-response-example-children':
+    'get-messages-by-id-response-example-children':
       value:
         data:
-          index: "someindex"
+          messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
           maxResults: 1000
           count: 3
           childrenMessageIds:
@@ -663,10 +670,10 @@ components:
             - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
             - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
  
-    'get-messages-by-index-response-example-nochildren':
+    'get-messages-by-id-response-example-nochildren':
       value:
         data:
-          index: "otherindex"
+          messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
           maxResults: 1000
           count: 0
           childrenMessageIds: []
@@ -734,7 +741,7 @@ components:
             - $ref: '#/components/schemas/Milestone'
             - $ref: '#/components/schemas/Transaction'
         nonce:
-          type: string
+          type: integer
   
     'Indexation':
       properties:
