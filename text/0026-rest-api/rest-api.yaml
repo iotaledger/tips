@@ -765,6 +765,8 @@ components:
       properties:
         type:
           type: integer
+        publicKey:
+          type: string          
         address:
           type: string
 
