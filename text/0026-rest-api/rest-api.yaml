@@ -360,7 +360,7 @@ paths:
       summary: Get the balance of a given address.
       description: >-
         Get the balance of a given address.
-        If count equals maxResults, then there might be more outputs available but those were skipped for performance reasons. User should sweep the address to reduce the amount of outputs.
+        If count equals maxResults, then there might be more outputs available but those were skipped from the balance calculation for performance reasons. User should sweep the address to reduce the amount of outputs and get the correct balance.
       parameters:
         - in: path
           name: address
