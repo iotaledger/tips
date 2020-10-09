@@ -653,7 +653,7 @@ components:
         data:
           milestoneIndex: 15465
           messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          timestamp: '2020-10-06T17:18:40+00:00'
+          timestamp: 1602227215
     
   schemas:
     
@@ -979,5 +979,4 @@ components:
             messageId:
               type: string
             timestamp:
-              type: string
-              description: Timestamp in RFC3339
+              type: integer
