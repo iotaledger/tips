@@ -734,7 +734,7 @@ components:
             - $ref: '#/components/schemas/Milestone'
             - $ref: '#/components/schemas/Transaction'
         nonce:
-          type: string
+          type: integer
   
     'Indexation':
       properties:
