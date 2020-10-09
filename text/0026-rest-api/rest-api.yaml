@@ -546,12 +546,13 @@ components:
 
     'get-message-by-id-response-example-conflicting':
       value:
-        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-        parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-        parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
-        isSolid: true
-        referencedByMilestone: 15465
-        ledgerInclusionState: conflicting
+        data:
+          messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          isSolid: true
+          referencedByMilestoneIndex: 15465
+          ledgerInclusionState: conflicting
 
     'get-message-by-id-data-response-example':
       value:
