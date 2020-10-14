@@ -14,8 +14,8 @@ tip-selection which evaluates ledger mutations while walking, therefore, a simpl
 performing algorithm can be used to select tips, which in turn increases overall transaction throughput.
 
 In order to maximize confirmation rate however, the algorithm needs to return tips which are `non-lazy`.
-Non-lazy in this context means, that a tip does not attach to a cone of transactions which is too far
-in the past, as such cone is likely to be already confirmed and therefore does not contribute to the
+Non-lazy in this context means that a tip does not attach to a cone of transactions which is too far
+in the past. Such a cone is likely to be already confirmed and does not contribute to the
 rate of newly confirmed transactions when a milestone is issued.
 
 # Detailed design
