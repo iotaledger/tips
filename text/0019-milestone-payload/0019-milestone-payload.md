@@ -51,9 +51,9 @@ To verify a given milestone, a node *MUST*:
 | Payload Type           | uint32          | Must be set to **1**.                                                                                                                                                                                                                                                                                   |
 | Index Number           | uint64          | The index number of the milestone.                                                                                                                                                                                                                                                                      |
 | Timestamp              | uint64          | The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.                                                                                                                                                                                                       |
-| Inclusion Merkle Proof | Array\<uint8\>[64] | Specifies the Merkle Proof which is computed out of all the tail transaction hashes of all the newly confirmed state-mutating bundles. ([RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md)) |
+| Inclusion Merkle Proof | ByteArray[64] | Specifies the Merkle Proof which is computed out of all the tail transaction hashes of all the newly confirmed state-mutating bundles. ([RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md)) |
 | Signatures Count       | uint8           | Number of signatures provided in the milestone. |
-| Signatures             | Array\<Array\<uint8\>[64]\> | An array of signatures signing the entire message excluding the nonce and the signatures array itself. There are `Signatures Count` Signatures in this array. |
+| Signatures             | Array\<ByteArray[64]\> | An array of signatures signing the entire message excluding the nonce and the signatures array itself. There are `Signatures Count` Signatures in this array. |
 
 # Rationale and alternatives
 
