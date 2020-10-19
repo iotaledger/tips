@@ -22,9 +22,12 @@ Size of both private and public keys are of 32 or 57 bytes depending on the curv
 
 In order to increase the security of the design, a milestone can optionally be independently signed by multiple keys at once. These keys should be operated by detached signature provider services, running on independent infrastructure elements, thus mitigating the risk of an attacker having access to all the key material necessary for forging milestones. While the Coordinator takes responsibility of forming Milestone Payload Messages, it delegates signing to these providers through an ad-hoc RPC connector. Mutual authentication should be enforced between the Coordinator and the signature providers: a [client-authenticated TLS handshake](https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake) scheme is advisable. To increase the flexibility of the mechanism, nodes can be configured to require a quorum of valid signatures to consider a milestone as genuine.
 
-In addition, a key rotation policy can also be enforced, using milestone indexes as ranges for a key to be applicable to a specific milestone. Accordingly, nodes need to maintain a list of public keys mapped to specific milestone index ranges. Keys should be rotated with a maximum frequency of 6 months. In order to guarantee a smooth rotation, the rotated key's expiration can be set for several indexes in the future at the time of publishing the new public key.
+In addition, a key rotation policy can also be enforced by limiting key validity to certain milestone intervals. Accordingly, nodes need to know which public keys are applicable for which milestone index. This can be provided by configuring a list of entries consisting of the following fields:
+- _Milestone index range_ providing the interval of indices for which this entry is valid. The interval must not overlap with any other entry.
+- _Sorted set of public keys_ defining the applicable keys and their order.
 
-To generate a valid milestone, the Coordinator *MUST*: 
+## Milestone generation
+
 1. Generate a *Message* as defined in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md).
 2. Generate a new [milestone payload](#Milestone-payload), specify the number of provided signatures in the signatures count field but without filling the signatures array field.
 3. Serialize the bytes given by the concatenation of the following fields:
@@ -33,27 +36,28 @@ To generate a valid milestone, the Coordinator *MUST*:
 4. Transmit the serialized bytes to the corresponding number of signature service providers.
     1. The signature provider service will sign the received serialized bytes as-is.
     2. The signature provider will serialize the signature bytes and return them to the Coordinator.
-5. Fill the signatures array field of the milestone payload with the received signatures' bytes.
+5. Fill the signatures array field of the milestone payload with the received signature bytes. In the case of threshold signatures, certain entries of the array can be filled with zeroes in order to skip this signature. 
 6. Perform the PoW over the Message to compute the value for the Nonce field.
 
-To verify a given milestone, a node *MUST*:
+## Milestone validation
+
 1. Verify the validity of the Message containing the Milestone Payload as in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md).
-2. The payload type *MUST* be 1.
+2. Check that the payload type is 1.
 3. The milestone payload must consume the entire byte array the Payload Length field in the Message defines.
-4. Select the applicable public keys according to the milestone index, and validate the milestone signatures array by using the exact same field concatenation used to sign the milestone.
-5. The amount of valid signatures in the array must be equal or greater than the required minimum configured in the node.
+4. Select the set of public keys configured for the provided milestone index. Then, validate the Signatures by using the selected keys in that particular order to verify each signature in the array. 
+5. The amount of valid signatures in the array must be equal or greater than the configured threshold value.
 6. Validate Inclusion Merkle Proof as described in [RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md).
 
 # Milestone payload
 
-| Field Name             | Type            | Description                                                                                                                                                                                                                                                                                             |
-| ---------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Payload Type           | uint32          | Must be set to **1**.                                                                                                                                                                                                                                                                                   |
-| Index Number           | uint64          | The index number of the milestone.                                                                                                                                                                                                                                                                      |
-| Timestamp              | uint64          | The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.                                                                                                                                                                                                       |
-| Inclusion Merkle Proof | ByteArray[64] | Specifies the Merkle Proof which is computed out of all the tail transaction hashes of all the newly confirmed state-mutating bundles. ([RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md)) |
-| Signatures Count       | uint8           | Number of signatures provided in the milestone. |
-| Signatures             | Array\<ByteArray[64]\> | An array of signatures signing the entire message excluding the nonce and the signatures array itself. There are `Signatures Count` Signatures in this array. |
+| Field Name             | Type                   | Description                                                                                                                                                                                                                                                                            |
+| ---------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Payload Type           | uint32                 | Must be set to **1**.                                                                                                                                                                                                                                                                  |
+| Index Number           | uint64                 | The index number of the milestone.                                                                                                                                                                                                                                                     |
+| Timestamp              | uint64                 | The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.                                                                                                                                                                                      |
+| Inclusion Merkle Proof | ByteArray[64]          | Specifies the Merkle Proof which is computed out of all the tail transaction hashes of all the newly confirmed state-mutating bundles. ([RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md)) |
+| Signatures Count       | uint8                  | Number of signatures provided in the milestone.                                                                                                                                                                                                                                        |
+| Signatures             | Array\<ByteArray[64]\> | An array of signatures signing the entire message excluding the nonce and the signatures array itself. There are `Signatures Count` Signatures in this array.
 
 # Rationale and alternatives
 
