@@ -61,5 +61,4 @@ Instead of going with EdDSA we could have chosen ECDSA. Both algorithms are well
 
 # Unresolved questions
 
-- Are we sure we want to lose quantum-robustness? We could have used a hash-based signature scheme, such as [XMSS](https://tools.ietf.org/html/rfc8391) or [LMS](https://tools.ietf.org/html/rfc8554) that provide quantum robustness at the price of increasing both communication and computation overhead. For more detail, please refer to this [document](https://docs.google.com/document/d/15_FkOhHFR4arxBBl07H_ETUGjPbf5jlJOiyYwZ7zKOg/edit?usp=sharing).
-- Should we add a Network ID field to the payload? If yes, is the ID a string or a uint64?
+- Should the milestone payload contain a Network ID field to distinguish different networks / versions.
