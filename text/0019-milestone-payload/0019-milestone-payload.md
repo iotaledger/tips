@@ -20,21 +20,29 @@ Size of both private and public keys are of 32 or 57 bytes depending on the curv
 - The Ed25519 signature function takes a Ed25519 private key, a sequence of bytes of arbitrary size and produces an Ed25519 signature of length 64 bytes. The given sequence of bytes should then be internally hashed (using sha512) by the same function.
 - The Ed25519 verification function takes a public key, a sequence of bytes of arbitrary size, a Ed25519 signature, and returns true/false based on the signature validity.
 
+In order to increase the security of the design, a milestone can optionally be independently signed by multiple keys at once. These keys should be operated by detached signature provider services, running on independent infrastructure elements, thus mitigating the risk of an attacker having access to all the key material necessary for forging milestones. While the Coordinator takes responsibility of forming Milestone Payload Messages, it delegates signing to these providers through an ad-hoc RPC connector. Mutual authentication should be enforced between the Coordinator and the signature providers: a [client-authenticated TLS handshake](https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake) scheme is advisable. To increase the flexibility of the mechanism, nodes can be configured to require a quorum of valid signatures to consider a milestone as genuine.
+
+In addition, a key rotation policy can also be enforced, using milestone indexes as ranges for a key to be applicable to a specific milestone. Accordingly, nodes need to maintain a list of public keys mapped to specific milestone index ranges. Keys should be rotated with a maximum frequency of 6 months. In order to guarantee a smooth rotation, the rotated key's expiration can be set for several indexes in the future at the time of publishing the new public key.
+
 To generate a valid milestone, the Coordinator *MUST*: 
 1. Generate a *Message* as defined in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md).
-2. Generate a new [milestone payload](#Milestone-payload) without filling the signature field.
-3. Sign the serialized bytes given by the concatenation of the following fields:
+2. Generate a new [milestone payload](#Milestone-payload), specify the number of provided signatures in the signatures count field but without filling the signatures array field.
+3. Serialize the bytes given by the concatenation of the following fields:
     - Version, Parent1, Parent2, Payload Length of the Message;
-    - Payload Type, Index Number, Timestamp, Inclusion Merkle Proof of the Milestone Payload.
-4. Fill the signature field of the milestone payload with the generated signature.
-5. Perform the PoW over the Message to compute the value for the Nonce field.
+    - Payload Type, Index Number, Timestamp, Inclusion Merkle Proof, Signatures Count of the Milestone Payload.
+4. Transmit the serialized bytes to the corresponding number of signature service providers.
+    1. The signature provider service will sign the received serialized bytes as-is.
+    2. The signature provider will serialize the signature bytes and return them to the Coordinator.
+5. Fill the signatures array field of the milestone payload with the received signatures' bytes.
+6. Perform the PoW over the Message to compute the value for the Nonce field.
 
 To verify a given milestone, a node *MUST*:
-- Verify the validity of the Message containing the Milestone Payload as in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md).
-- The payload type *MUST* be 1.
-- The milestone payload must consume the entire byte array the Payload Length field in the Message defines.
-- Verify the milestone signature against the Coordinator public key by using the exact same ByteArray used to sign the milestone.
-- Validate Inclusion Merkle Proof as described in [RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md).
+1. Verify the validity of the Message containing the Milestone Payload as in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md).
+2. The payload type *MUST* be 1.
+3. The milestone payload must consume the entire byte array the Payload Length field in the Message defines.
+4. Select the applicable public keys according to the milestone index, and validate the milestone signatures array by using the exact same field concatenation used to sign the milestone.
+5. The amount of valid signatures in the array must be equal or greater than the required minimum configured in the node.
+6. Validate Inclusion Merkle Proof as described in [RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md).
 
 # Milestone payload
 
@@ -43,8 +51,9 @@ To verify a given milestone, a node *MUST*:
 | Payload Type           | uint32          | Must be set to **1**.                                                                                                                                                                                                                                                                                   |
 | Index Number           | uint64          | The index number of the milestone.                                                                                                                                                                                                                                                                      |
 | Timestamp              | uint64          | The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.                                                                                                                                                                                                       |
-| Inclusion Merkle Proof | Array<byte>[64] | Specifies the merkle proof which is computed out of all the tail transaction hashes of all the newly confirmed state-mutating bundles. ([RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md)) |
-| Signature              | Array<byte>[64] | The signature signing the entire message excluding the nonce and the signature itself.                                                                                                                                                                                                                  |
+| Inclusion Merkle Proof | Array\<uint8\>[64] | Specifies the Merkle Proof which is computed out of all the tail transaction hashes of all the newly confirmed state-mutating bundles. ([RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md)) |
+| Signatures Count       | uint8           | Number of signatures provided in the milestone. |
+| Signatures             | Array\<Array\<uint8\>[64]\> | An array of signatures signing the entire message excluding the nonce and the signatures array itself. There are `Signatures Count` Signatures in this array. |
 
 # Rationale and alternatives
 
@@ -52,7 +61,5 @@ Instead of going with EdDSA we could have chosen ECDSA. Both algorithms are well
 
 # Unresolved questions
 
-- Should we add support for multi-signature or multi-stage signature? Could that be a desired feature from a devOps perspective?
 - Are we sure we want to lose quantum-robustness? We could have used a hash-based signature scheme, such as [XMSS](https://tools.ietf.org/html/rfc8391) or [LMS](https://tools.ietf.org/html/rfc8554) that provide quantum robustness at the price of increasing both communication and computation overhead. For more detail, please refer to this [document](https://docs.google.com/document/d/15_FkOhHFR4arxBBl07H_ETUGjPbf5jlJOiyYwZ7zKOg/edit?usp=sharing).
-- Do we want to pick Ed25519 or Ed448? They provide a security level of 128-bit and 224-bit respectively. Size of both private and public keys are of 32 or 57 bytes depending on the curve used. Similarly, the signature size is of 64 or 114 bytes. Ed25519 has better library-wise support with respect to Ed448.
 - Should we add a Network ID field to the payload? If yes, is the ID a string or a uint64?
