@@ -1,4 +1,4 @@
-+ Feature name: `Milestone Payload`
++ Feature name: `milestone-payload`
 + Start date: 2020-07-28
 + RFC PR: [iotaledger/protocol-rfcs#0019](https://github.com/iotaledger/protocol-rfcs/pull/19)
 + Author: Angelo Capossele
