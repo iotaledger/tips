@@ -79,7 +79,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           <tr>
             <td>Inclusion Merkle Root</td>
             <td>ByteArray[64]</td>
-            <td>256-bit hash based on all of the not-ignored state-mutating transactions referenced by the milestone. (<a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md">RFC-0012</a>)</td>
+            <td>512-bit hash based on all of the not-ignored state-mutating transactions referenced by the milestone. (<a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md">RFC-0012</a>)</td>
           </tr>
           <tr>
             <td>Keys Count</td>
