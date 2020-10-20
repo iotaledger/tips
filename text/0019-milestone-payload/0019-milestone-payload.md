@@ -23,41 +23,109 @@ Size of both private and public keys are of 32 or 57 bytes depending on the curv
 In order to increase the security of the design, a milestone can optionally be independently signed by multiple keys at once. These keys should be operated by detached signature provider services, running on independent infrastructure elements, thus mitigating the risk of an attacker having access to all the key material necessary for forging milestones. While the Coordinator takes responsibility of forming Milestone Payload Messages, it delegates signing to these providers through an ad-hoc RPC connector. Mutual authentication should be enforced between the Coordinator and the signature providers: a [client-authenticated TLS handshake](https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake) scheme is advisable. To increase the flexibility of the mechanism, nodes can be configured to require a quorum of valid signatures to consider a milestone as genuine.
 
 In addition, a key rotation policy can also be enforced by limiting key validity to certain milestone intervals. Accordingly, nodes need to know which public keys are applicable for which milestone index. This can be provided by configuring a list of entries consisting of the following fields:
-- _Milestone index range_ providing the interval of indices for which this entry is valid. The interval must not overlap with any other entry.
-- _Sorted set of public keys_ defining the applicable keys and their order.
+- _Index Range_ providing the interval of milestone indices for which this entry is valid. The interval must not overlap with any other entry.
+- _Applicable Public Keys_ defining the set of valid public keys.
+- _Signature Threshold_ specifying the minimum number of valid signatures. Must be at least one and not greater than the number of _Applicable Public Keys_.
 
-## Milestone generation
+## Structure
 
-1. Generate a *Message* as defined in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md).
-2. Generate a new [milestone payload](#Milestone-payload), specify the number of provided signatures in the signatures count field but without filling the signatures array field.
-3. Serialize the bytes given by the concatenation of the following fields:
-    - Version, Parent1, Parent2, Payload Length of the Message;
-    - Payload Type, Index Number, Timestamp, Inclusion Merkle Proof, Signatures Count of the Milestone Payload.
-4. Transmit the serialized bytes to the corresponding number of signature service providers.
-    1. The signature provider service will sign the received serialized bytes as-is.
-    2. The signature provider will serialize the signature bytes and return them to the Coordinator.
-5. Fill the signatures array field of the milestone payload with the received signature bytes. In the case of threshold signatures, certain entries of the array can be filled with zeroes in order to skip this signature. 
-6. Perform the PoW over the Message to compute the value for the Nonce field.
+All values are serialized in little-endian encoding. The serialized form of the milestone is deterministic, meaning the same logical milestone always results in the same serialized byte sequence.
 
-## Milestone validation
+The following table structure describes the entirety of a _Milestone Payload_ in its serialized form ([Data Type Notation](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md#data-types)):
 
-1. Verify the validity of the Message containing the Milestone Payload as in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md).
-2. Check that the payload type is 1.
-3. The milestone payload must consume the entire byte array the Payload Length field in the Message defines.
-4. Select the set of public keys configured for the provided milestone index. Then, validate the Signatures by using the selected keys in that particular order to verify each signature in the array. 
-5. The amount of valid signatures in the array must be equal or greater than the configured threshold value.
-6. Validate Inclusion Merkle Proof as described in [RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md).
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Payload Type</td>
+    <td>uint32</td>
+    <td>Set to <strong>value 1</strong> to denote a <i>Milestone Payload</i>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Essence <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Milestone Essence</summary>
+        <blockquote>Describes the signed part of a <i>Milestone Payload</i>.</blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Index Number</td>
+            <td>uint64</td>
+            <td>The index number of the milestone.</td>
+          </tr>
+          <tr>
+            <td>Timestamp</td>
+            <td>uint64</td>
+            <td>The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.</td>
+          </tr>
+          <tr>
+            <td>Parent1</td>
+            <td>ByteArray[32]</td>
+            <td>The Message ID of the first <i>Message</i> referenced by the milestone.</td>
+          </tr>
+          <tr>
+            <td>Parent2</td>
+            <td>ByteArray[32]</td>
+            <td>The Message ID of the second <i>Message</i> referenced by the milestone.</td>
+          </tr>
+          <tr>
+            <td>Inclusion Merkle Root</td>
+            <td>ByteArray[64]</td>
+            <td>256-bit hash based on all of the not-ignored state-mutating transactions referenced by the milestone. (<a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md">RFC-0012</a>)</td>
+          </tr>
+          <tr>
+            <td>Keys Count</td>
+            <td>uint8</td>
+            <td>Number of public keys entries.</td>
+          </tr>
+          <tr>
+            <td>Public Keys</td>
+            <td>Array<ByteArray[32]></td>
+            <td>An array of public keys to validate the signatures. The keys must be in lexicographical order.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Signatures Count</td>
+    <td>uint8</td>
+    <td>Number of signature entries. The number must match the field <code>Keys Count</code>.</td>
+  </tr>
+  <tr>
+    <td>Signatures</td>
+    <td>Array<ByteArray[64]></td>
+    <td>An array of signatures signing the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
+  </tr>
+</table>
 
-# Milestone payload
+## Generation
 
-| Field Name             | Type                   | Description                                                                                                                                                                                                                                                                            |
-| ---------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Payload Type           | uint32                 | Must be set to **1**.                                                                                                                                                                                                                                                                  |
-| Index Number           | uint64                 | The index number of the milestone.                                                                                                                                                                                                                                                     |
-| Timestamp              | uint64                 | The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.                                                                                                                                                                                      |
-| Inclusion Merkle Proof | ByteArray[64]          | Specifies the Merkle Proof which is computed out of all the tail transaction hashes of all the newly confirmed state-mutating bundles. ([RFC-0012](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md)) |
-| Signatures Count       | uint8                  | Number of signatures provided in the milestone.                                                                                                                                                                                                                                        |
-| Signatures             | Array\<ByteArray[64]\> | An array of signatures signing the entire message excluding the nonce and the signatures array itself. There are `Signatures Count` Signatures in this array.
+- Generate a new _Milestone Essence_ corresponding to the Coordinator milestone.
+- Transmit the serialized _Milestone Essence_ to the corresponding number of signature service providers.
+  - The signature provider service will sign the received serialized bytes as-is.
+  - The signature provider will serialize the signature bytes and return them to the Coordinator.
+- Fill the `Signatures` field of the milestone payload with the received signature bytes.
+- Generate a *Message* as defined in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md) using the same `Parent1` and `Parent2` for the created _Milestone Payload_.
+
+## Syntactical validation
+
+- `Parent1` and `Parent2` of the payload must match `Parent1` and `Parent2` of the encapsulating _Message_.
+- `Keys Count` must be at least the _Signature Threshold_ and at most the number of _Applicable Public Keys_ for the current milestone index.
+- Public keys:
+  - The provided keys must form a subset of the _Applicable Public Keys_ for the current milestone index.
+  - The keys must be in lexicographical order.
+- `Signatures Count` must match the amount of public keys. 
+- All `Signatures` must be valid.
+- Given the type and length information, the _Milestone Payload_ must consume the entire byte array of the `Payload` field of the _Message_.
 
 # Rationale and alternatives
 
@@ -65,4 +133,4 @@ Instead of going with EdDSA we could have chosen ECDSA. Both algorithms are well
 
 # Unresolved questions
 
-- Should the milestone payload contain a Network ID field to distinguish different networks / versions.
+- Forcing matching `Parent1`, `Parent2` in the _Milestone Payload_ and its _Message_ makes it impossible to reattach the same payload at different positions in the Tangle. While this does not prevent reattachments in general (a different, valid `Nonce`, for example would lead to a new Message ID), this still simplifies milestone processing. However, it violates a clean separation of payload and message. As such, it might still be desirable to slightly complicate the milestone processing in order to allow any reattachments of _Milestone Payloads_ by not validating the parents.
