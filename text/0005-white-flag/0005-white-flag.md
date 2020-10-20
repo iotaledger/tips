@@ -113,9 +113,6 @@ update_ledger_state(ledger, milestone, solid_entry_points) {
 ```
 
 **Notes**:
-- Even though the tangle is a graph made of transactions, for the sake of this pseudo-code it is considered as a graph
-of bundles. For this reason, when the `parent1` and/or the `parent2` of a bundle are mentioned, they are actually referring
-to the `parent1` and/or `parent2` of the last transaction of the bundle.
 - `solid_entry_points` is a set of hashes that are considered solid even though we do not have them or their past in
 database. They often come from a snapshot file and allow a node to solidify without needing the full tangle history.
 The hash of the genesis transaction is also a solid entry point.
