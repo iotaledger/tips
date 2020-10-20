@@ -88,7 +88,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           </tr>
           <tr>
             <td>Public Keys</td>
-            <td>Array<ByteArray[32]></td>
+            <td>Array&lt;ByteArray[32]&gt;</td>
             <td>An array of public keys to validate the signatures. The keys must be in lexicographical order.</td>
           </tr>
         </table>
@@ -102,7 +102,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
   </tr>
   <tr>
     <td>Signatures</td>
-    <td>Array<ByteArray[64]></td>
+    <td>Array&lt;ByteArray[64]&gt;</td>
     <td>An array of signatures signing the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
   </tr>
 </table>
