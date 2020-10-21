@@ -58,7 +58,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           </tr>
           <tr>
             <td>Index Number</td>
-            <td>uint64</td>
+            <td>uint32</td>
             <td>The index number of the milestone.</td>
           </tr>
           <tr>
