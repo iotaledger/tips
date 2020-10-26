@@ -58,7 +58,7 @@ outputs<array[outputs_count]>:
 		address_type<byte>
 		wots_address<array[49]>
 		||
-		address_tybe<byte>
+		address_type<byte>
 		ed25519_address<array[32]>
 	value<uint64>
 diffs<array[diffs_count]>:
