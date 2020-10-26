@@ -128,7 +128,7 @@ diffs<array[diffs_count]>:
 			address_type<byte> = 0
 			wots_address<array[49]>
 			||
-			address_tybe<byte> = 1
+			address_type<byte> = 1
 			ed25519_address<array[32]>
 		value<uint64>
 ```
