@@ -1,3 +1,7 @@
++ Feature name:`ed25519 validation`
++ Start date: 2020-10-30
++ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
+
 # ED25519 Validation
 
 ## Summary
