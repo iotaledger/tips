@@ -120,7 +120,7 @@ A message may contain a payload. The specification of the payloads is out of sco
 | ---------------------------------------   | -----------  | 
 |  [Signed Transaction](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md)                       |     0        |
 |  [Milestone Draft](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md)                                |     1        |
-|  [Indexation Payload](#Unsigned-Data-Payload)  |     2        |
+|  [Indexation Payload](#indexation-payload)  |     2        |
 
 ### Indexation payload
 
