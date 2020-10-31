@@ -57,7 +57,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/get-info-response-example'
-  
+
   '/api/v1/tips':
     get:
       tags:
@@ -80,7 +80,12 @@ paths:
                   $ref: '#/components/examples/get-tips-response-example-normal'
                 Identical Tips:
                   $ref: '#/components/examples/get-tips-response-example-same'
-  
+        '503':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableErrorResponse'
   '/api/v1/messages':
     post:
       tags:
@@ -99,7 +104,7 @@ paths:
               Normal:
                 $ref: '#/components/examples/post-message-request-example'
               Minimal:
-                $ref: '#/components/examples/post-message-request-example-minimal'                
+                $ref: '#/components/examples/post-message-request-example-minimal'
           application/octet-steam:
             schema:
               type: 'string'
@@ -178,7 +183,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/get-message-by-id-data-response-example'
-                
+
         '400':
           description: unsuccessful operation
           content:
@@ -479,7 +484,7 @@ paths:
 
 components:
   examples:
-  
+
     'get-info-response-example':
       value:
         data:
@@ -595,7 +600,7 @@ components:
                 publicKey: f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44
                 signature: e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf7b8d38d219fb62a9a2f718d4c909
         nonce: 81
-        
+
     'post-message-request-example-minimal':
       value:
         payload:
@@ -669,7 +674,7 @@ components:
             - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
             - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
             - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
- 
+
     'get-messages-by-id-response-example-nochildren':
       value:
         data:
@@ -714,7 +719,7 @@ components:
           address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           maxResults: 1000
           count: 2
-          outputIds: 
+          outputIds:
             - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d0005
             - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c0010
 
@@ -724,9 +729,9 @@ components:
           milestoneIndex: 15465
           messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           timestamp: 1602227215
-    
+
   schemas:
-    
+
     'Message':
       properties:
         version:
@@ -742,7 +747,7 @@ components:
             - $ref: '#/components/schemas/Transaction'
         nonce:
           type: integer
-  
+
     'Indexation':
       properties:
         type:
@@ -751,7 +756,7 @@ components:
           type: string
         data:
           type: string
-    
+
     'Milestone':
       properties:
         type:
@@ -764,7 +769,7 @@ components:
           type: string
         signature:
           type: string
-  
+
     'UTXOInput':
       properties:
         type:
@@ -773,7 +778,7 @@ components:
           type: string
         transactionOutputIndex:
           type: integer
-  
+
     'TransactionEssence':
       properties:
         type:
@@ -836,7 +841,7 @@ components:
         type:
           type: integer
         publicKey:
-          type: string          
+          type: string
         address:
           type: string
 
@@ -849,7 +854,7 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
         amount:
           type: integer
-  
+
     'ErrorResponse':
       properties:
         error:
@@ -859,6 +864,14 @@ components:
               type: string
             message:
               type: string
+
+    'ServiceUnavailableErrorResponse':
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        error:
+          code: "service_unavailable"
+          message: unable to handle the request
 
     'BadRequestErrorResponse':
       allOf:
@@ -875,7 +888,7 @@ components:
         error:
           code: "not_found"
           message: could not find data
-  
+
     'GetInfoResponse':
       properties:
         data:
@@ -904,11 +917,11 @@ components:
               type: array
               items:
                 type: string
-  
+
     'GetTipsResponse':
       properties:
         data:
-          type: object    
+          type: object
           properties:
             tip1:
               type: string
@@ -925,32 +938,32 @@ components:
 
     'PostMessagesResponse':
       properties:
-        data:    
-          type: object    
-          properties:        
+        data:
+          type: object
+          properties:
             messageId:
               type: string
 
     'GetMessagesByIndexResponse':
       properties:
-        data:    
-          type: object    
-          properties:  
+        data:
+          type: object
+          properties:
             index:
-             type: string
+              type: string
             maxResults:
-             type: integer
+              type: integer
             count:
-             type: integer
+              type: integer
             messageIds:
-             type: array
-             items:
-               type: string
+              type: array
+              items:
+                type: string
 
     'GetMessageMetadataByIdResponse':
       properties:
         data:
-          type: object    
+          type: object
           properties:
             messageId:
               type: string
@@ -964,7 +977,7 @@ components:
               type: integer
               nullable: true
             ledgerInclusionState:
-              enum: 
+              enum:
                 - included
                 - conflicting
             shouldPromote:
@@ -984,11 +997,11 @@ components:
           properties:
             allOf:
               $ref: '#/components/schemas/Message'
-  
+
     'GetMessageChildrenResponse':
       properties:
         data:
-          type: object    
+          type: object
           properties:
             messageId:
               type: string
@@ -1021,7 +1034,7 @@ components:
     'GetAddressBalanceResponse':
       properties:
         data:
-          type: object    
+          type: object
           properties:
             address:
               type: string
@@ -1031,21 +1044,21 @@ components:
               type: integer
             balance:
               type: integer
-  
+
     'GetAddressOutputsResponse':
       properties:
         data:
-          type: object    
+          type: object
           properties:
             address:
               type: string
             maxResults:
               type: integer
             count:
-              type: integer              
+              type: integer
             outputIDs:
               type: array
-              items: 
+              items:
                 type: string
 
     'GetMilestoneByIndexResponse':
@@ -1053,7 +1066,7 @@ components:
         data:
           type: object
           properties:
-            milestoneIndex: 
+            milestoneIndex:
               type: integer
             messageId:
               type: string
