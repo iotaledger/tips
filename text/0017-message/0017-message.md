@@ -52,6 +52,11 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
         <td>The message version. The schema specified in this RFC is for version <strong>1</strong> only. </td>
     </tr>
     <tr>
+        <td>NetworkID</td>
+        <td>uint64</td>
+        <td>Network identifier. This field will signify whether this message was meant for mainnet, testnet, or a private net. It also tells what protocol rules apply to the message.</td>
+        </tr>
+    <tr>
         <td>Parent1 (<code>trunk</code>)</td>
         <td>ByteArray[32]</td>
         <td>The Message ID of the first <i>Message</i> it references.</td>
