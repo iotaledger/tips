@@ -23,15 +23,15 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 
 - Perform tip selection to choose a branch and a trunk for the new milestone.
 - Determine the topological order according to [RFC-5](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) of the referenced messages that are not yet confirmed by a previous milestone.
-- Construct the list M consisting of the message IDs of all the not-ignored state-mutating transaction payloads in that particular order. A UTXO transaction is considered state-mutating, if it creates a new output.
-- Compute the 32-byte Merkle tree hash H = MTH(M).
+- Construct the list D consisting of the message IDs of all the not-ignored state-mutating transaction payloads in that particular order. A UTXO transaction is considered state-mutating, if it creates a new output.
+- Compute the 32-byte Merkle tree hash H = MTH(D).
 - Prepare the milestone payload as described in [Draft RFC-19](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md), where the field `Inclusion Merkle Root` is set to H.
 
 ## Milestone validation
 
 - Verify the signature of the milestone m.
-- Construct the ordered list M of the message IDs  of all the not-ignored state-mutating transaction payloads m confirms.
-- Compute H = MTH(M).
+- Construct the ordered list D of the message IDs  of all the not-ignored state-mutating transaction payloads m confirms.
+- Compute H = MTH(D).
 - Verify that the field `Inclusion Merkle Root` in m matches H.
 
 ## Proof of inclusion
@@ -71,7 +71,7 @@ A Merkle audit path for a leaf in a Merkle hash tree is the shortest list of add
 ## Example
 
 Merkle tree with 7 leaves:
-- input M:
+- input D:
   1. 52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649
   1. 81855ad8681d0d86d1e91e00167939cb6694d2c422acd208a0072939487f6999
   1. eb9d18a44784045d87f3c67cf22746e995af5a25367951baa2ff6cd471c483f1
@@ -79,7 +79,7 @@ Merkle tree with 7 leaves:
   1. 6325253fec738dd7a9e28bf921119c160f0702448615bbda08313f6a8eb668d2
   1. 0bf5059875921e668a5bdf2c7fc4844592d2572bcd0668d2d6c52f5054e2d083
   1. 6bf84c7174cb7476364cc3dbd968b0f7172ed85794bb358b0c3b525da1786f9f
-- Merkle tree hash H = MTH(M) (32-byte): bf67ce7ba23e8c0951b5abaec4f5524360d2c26d971ff226d3359fa70cdb0beb
+- Merkle tree hash H = MTH(D) (32-byte): bf67ce7ba23e8c0951b5abaec4f5524360d2c26d971ff226d3359fa70cdb0beb
 
 ```
 root: bf67ce7ba23e8c0951b5abaec4f5524360d2c26d971ff226d3359fa70cdb0beb
