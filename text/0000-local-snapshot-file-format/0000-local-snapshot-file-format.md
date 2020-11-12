@@ -42,6 +42,7 @@ A full ledger state local snapshot is denoted by the type byte `0`:
 version<byte>
 type<byte> = 0
 timestamp<uint64>
+network_id<uint64>
 seps_milestone_index<uint64>
 seps_milestone_hash<array[32]>
 ledger_milestone_index<uint64>
@@ -99,6 +100,7 @@ A delta ledger state local snapshot is denoted by the type byte `1`:
 version<byte>
 type<byte> = 1
 timestamp<uint64>
+network_id<uint64>
 seps_milestone_index<uint64>
 seps_milestone_hash<array[32]>
 ledger_milestone_index<uint64>
