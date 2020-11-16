@@ -1,6 +1,6 @@
 + Feature name: `milestone-merkle-validation`
 + Start date: 2020-05-04
-+ RFC PR: [iotaledger/protocol-rfcs#0012](https://github.com/iotaledger/protocol-rfcs/pull/12)
++ RFC PR: [iotaledger/protocol-rfcs#0012](https://github.com/iotaledger/protocol-rfcs/pull/12), [iotaledger/protocol-rfcs#0031](https://github.com/iotaledger/protocol-rfcs/pull/31)
 
 # Summary
 
