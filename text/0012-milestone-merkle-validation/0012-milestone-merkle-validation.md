@@ -21,7 +21,7 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 
 ## Creating a Milestone
 
-- Perform tip selection to choose a branch and a trunk for the new milestone.
+- Perform tip selection to choose the parents referenced by the milestone.
 - Determine the topological order according to [RFC-5](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) of the referenced messages that are not yet confirmed by a previous milestone.
 - Construct the list D consisting of the message IDs of all the not-ignored state-mutating transaction payloads in that particular order. A UTXO transaction is considered state-mutating, if it creates a new output.
 - Compute the 32-byte Merkle tree hash H = MTH(D).
