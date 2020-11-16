@@ -25,10 +25,9 @@ Definitions:
 * `Approvee` is the directly approved transaction of a given transaction.
 Example: the trunk/branch transactions are the approvees of a given transaction.
 * `Solid` means that the past cone of a given transaction exists in the database.
-* A `tail transaction` is the transaction at index zero of a bundle. Only a tail transaction can be a `tip`.
-* A `valid bundle` is a bundle which is structurally correct and has valid signatures (in case it moves funds).
-* A `tip` is a solid tail transaction of a valid bundle without any approvers. Its past cone contains only valid bundles.
-* A `score` is a scoring  determining the likeliness to select a given `tip`.
+* A `valid message` is a message which is structurally correct and has valid signatures (in case it moves funds).
+* A `tip` is a valid message without any approvers. Its past cone contains only valid messages.
+* A `score` is an integer assigned to a `tip`. The tip selection algorithm uses it to determine how to select tips.
 * `Confirmed Root Transactions` defines the set of first seen transactions which are confirmed by a previous milestone 
 when we walk the past cone of a given transaction. The walk stops on confirmed transactions.  
 Note that the red marked milestone is also a `Confirmed Root Transaction`.
