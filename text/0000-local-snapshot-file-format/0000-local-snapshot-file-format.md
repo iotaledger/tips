@@ -44,9 +44,7 @@ type<byte> = 0
 timestamp<uint64>
 network_id<uint64>
 seps_milestone_index<uint64>
-seps_milestone_hash<array[32]>
 ledger_milestone_index<uint64>
-ledger_milestone_hash<array[32]>
 seps_count<uint64>
 outputs_count<uint64>
 diffs_count<uint64>
@@ -102,9 +100,7 @@ type<byte> = 1
 timestamp<uint64>
 network_id<uint64>
 seps_milestone_index<uint64>
-seps_milestone_hash<array[32]>
 ledger_milestone_index<uint64>
-ledger_milestone_hash<array[32]>
 seps_count<uint64>
 diffs_count<uint64>
 seps<array[seps_count]>:
