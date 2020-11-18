@@ -15,7 +15,7 @@ The current IOTA protocol relies on Base27 addresses with a truncated Kerl check
 - The Kerl hash function also requires ternary input. Further, it is slow and provides no error-detection guarantees.
 - It does not support the addition of version or type information to distinguish between different kinds of addresses with the same length.
 
-All of these points are addressed in the Bech32 format introduced in [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki): In addition to the usage of the human-friendly Base32 encoding with an optimized character set, it implements a [BCH code](https://en.wikipedia.org/wiki/BCH_code) that _guarantees detection_ of any error affecting at most 4 characters and has less than a 1 in 10<sup>9</sup> chance of failing to detect more errors.
+All of these points are addressed in the Bech32 format introduced in [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki): In addition to the usage of the human-friendly Base32 encoding with an optimized character set, it implements a [BCH code](https://en.wikipedia.org/wiki/BCH_code) that _guarantees detection_ of any error affecting at most four characters and has less than a 1 in 10<sup>9</sup> chance of failing to detect more errors.
 
 This RFC proposes a simple and extendable binary serialization for the two address types that is then Bech32 encoded to provide a unique appearance for human-facing applications such as wallets. 
 
@@ -42,7 +42,7 @@ They are serialized as follows:
 
 ## Bech32 for human-readable encoding
 
-The human readable encoding of the address is Bech32 (as described in [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)). A Bech32 string is at most 90 characters long and consists of: 
+The human-readable encoding of the address is Bech32 (as described in [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)). A Bech32 string is at most 90 characters long and consists of: 
 
 - The **human-readable part** (HRP), which conveys the IOTA protocol and distinguishes between Mainnet (the IOTA token) and Testnet (testing version):
    -  `iot` is the human-readable part for Mainnet addresses
