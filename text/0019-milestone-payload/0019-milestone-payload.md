@@ -120,8 +120,9 @@ The following table structure describes the entirety of a _Milestone Payload_ in
 
 - `Parent1` and `Parent2` of the payload must match `Parent1` and `Parent2` of the encapsulating _Message_.
 - `Keys Count` must be at least the _Signature Threshold_ and at most the number of _Applicable Public Keys_ for the current milestone index.
-- Public keys:
+- `Public keys`:
   - The provided keys must form a subset of the _Applicable Public Keys_ for the current milestone index.
+  - The keys must be unique.
   - The keys must be in lexicographical order.
 - `Signatures Count` must match the amount of public keys. 
 - All `Signatures` must be valid.
