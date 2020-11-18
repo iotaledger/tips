@@ -6,16 +6,16 @@
 
 A message is the object nodes gossip around in the network. It always references two other messages that are known as `parents`. It is stored as a vertex on the tangle data structure that the nodes maintain.
 
-The messages will contain payloads. Some of them will be core payloads that will be processed by all nodes as part of the core protocol. Some of them will be community payloads that will enable to build new functionality on top of the tangle. Some payloads may have other nested payloads embedded inside.
-So upon parsing it is done layer by layer.
+The messages will contain payloads. Some of them will be core payloads that will be processed by all nodes as part of the core protocol. Some of them will be community payloads that will enable the building of new functionalities on top of the Tangle. Some payloads may have other nested payloads embedded inside.
+So upon parsing, it is done layer by layer.
 
 # Motivation
 
-To better understand this layered design, consider the internet protocol for example. There is an Ethernet frame, that contains an IP payload. This in turn contains a TCP packet that encapsulates an HTTP payload. Each layer has a certain responsibility, once this responsibility is completed, we move on to the next layer.
+To better understand this layered design, consider the internet protocol, for example: there is an Ethernet frame that contains an IP payload. This in turn contains a TCP packet that encapsulates an HTTP payload. Each layer has a certain responsibility and once this responsibility is completed, we move on to the next layer.
 
-The same goes with how we parse messages. The outer layer of the message enables us to map the message to a vertex in the Tangle and perform some basic validation. The next layer may be a transaction that mutates the ledger state. The next layer may provide some extra functionality on the transactions to be used by applications.
+The same is true with how messages are parsed. The outer layer of the message enables the mapping of the message to a vertex in the Tangle and performing some basic validation. The next layer may be a transaction that mutates the ledger state, and the next layer may provide some extra functionality on the transactions to be used by applications.
 
-By making it possible to add and exchange payloads, we are creating an architecture that can be easily extended to accommodate future needs.
+By making it possible to add and exchange payloads, an architecture is being created that can be easily extended to accommodate future needs.
 
 # Detailed design
 
@@ -108,13 +108,13 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
 A message is considered valid, if the following syntactic rules are met:
 
 1. The message length must not exceed X [tbd] bytes.
-2. When we are done parsing the message there shouldn't be any trailing bytes left that were not parsed.
+2. When parsing the message is complete, there should not be any trailing bytes left that were not parsed.
 3. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is above this range.
 4. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
 
 ### Payloads
 
-A message may contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `indexation payload` will be specified here as an example.
+A message may contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `indexation payload` will be specified here as an example:
 
 | Payload Name                              |   Type Value |
 | ---------------------------------------   | -----------  | 
@@ -124,7 +124,7 @@ A message may contain a payload. The specification of the payloads is out of sco
 
 ### Indexation payload
 
-To make the Payload concept clear we will define the `indexation payload`. As the name suggests it allows to add an index to the encapsulating message, as well as some arbitrary data. Nodes will expose an API, that will enable to query messages by the index.
+To be clear, the concept of the Payload allows the addition of an index to the encapsulating message, as well as some arbitrary data. Nodes will expose an API that will enable the querying of messages by the index.
 Adding those capabilities may open nodes to DOS attack vectors:
 1. Proliferation of index keys that may blow up the node's DB
 2. Proliferation of messages associated with the same index
@@ -132,7 +132,7 @@ Adding those capabilities may open nodes to DOS attack vectors:
 Node implementations may provide weak guarantees regarding the completion of indexes to address the above scenarios. 
 
 Besides the index, the payload will also have a data field.
-  A message that has been attached to the tangle and approved by a milestone has useful properties: You can verify that the content of the data did not change, and you can ascertain the approximate time it was published by checking the approving milestone. If the payload will be incorporated under
+  A message that has been attached to the Tangle and approved by a milestone has several useful properties: verifying that the content of the data did not change and determining the approximate time it was published by checking the approving milestone. If the payload will be incorporated under
   the `signed transaction payload`, the content will be signed as well.
 
 
@@ -157,7 +157,7 @@ ASCII string. The [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blo
 
 # Rationale and alternatives
 
-Instead of creating a layered approach, we could have simply created a flat `transaction message`, that is tailored for mutating the ledger state, and try to fit all the use cases there. For example with the unsigned data use-case, we could have filled some section of the transaction with the data. Then via a flag in the transaction we could have instructed to not pass this transaction to the service that attempts to mutate the ledger state.
+Instead of creating a layered approach, we could have simply created a flat `transaction message` that is tailored for mutating the ledger state, and try to fit all the use cases there. For example, with the unsigned data use-case, we could have filled some section of the transaction with the data. Then via a flag in the transaction, we could have instructed to not pass this transaction to the service that attempts to mutate the ledger state.
 
 This approach seems less extensible. It might have made sense if we wanted to build a protocol that is just for ledger mutating transactions, but we want to be able to extend the protocol to do more than that.
 
