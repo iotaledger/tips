@@ -8,34 +8,34 @@ This RFC defines a new transaction structure for Chrysalis Phase 2, which replac
 
 # Motivation
 
-The current IOTA protocol uses so-called **transactions** (which are vertices in the Tangle), where each transaction defines either an input or output. A grouping of those input/output transaction vertices make up a so-called **bundle** which transfers the given values as an atomic unit (the entire bundle is applied or none of it). The input transactions define the funds to consume to create the deposits onto the output transactions target addresses. Additionally, to accommodate the rather big WOTS signatures, additional transaction vertices might be part of the bundle in order to carry parts of the signature which don't fit into one transaction vertex.
+The current IOTA protocol uses **transactions** (which are vertices in the Tangle), where each transaction defines either an input or output. A grouping of those input/output transaction vertices make up a **bundle** which transfers the given values as an atomic unit (the entire bundle is applied or none of it). The input transactions define the funds to consume and create the deposits onto the output transactions target addresses. Additionally, to accommodate the larger WOTS signatures, additional transaction vertices might be part of the bundle to carry parts of the signature which do not fit into one transaction vertex.
 
-The bundle concept has proven to be tedious, spawning a plethora of problems:
-* Since the data making up the bundle is split across multiple vertices, it complicates the validation of the entire transfer. Instead of being able to immediately tell whether a bundle is valid or not, a node implementation must first collect all parts of the bundle before any actual validation can happen. This increases the complexity of the node implementation immensely.
+The bundle concept has proven to be time consuming, with several issues as well:
+* Since the data making up the bundle is split across multiple vertices, it complicates the validation of the entire transfer. Instead of being able to immediately tell whether a bundle is valid or not, a node implementation must first collect all parts of the bundle before any actual validation can happen. This increases the complexity of the node implementation.
 * Reattaching the tail transaction of a bundle causes the entire transfer to be reapplied.
-* Due to the split across multiple transaction vertices and having to do PoW for each of them, a created bundle might already be lazy in terms of where it attaches, reducing its chances to get confirmed.
+* Due to the split across multiple transaction vertices and having to do PoW for each of them, a bundle might already be lazy in terms of where it attaches, reducing its chances to be confirmed.
 
-To fix the problems mentioned above and creating a more flexible transaction structure, we want to achieve a self-contained transaction structure defining the data of the entire transfer as a payload to be embedded into a message.
+To fix the problems mentioned above and to create a more flexible transaction structure, the goal is to achieve a self-contained transaction structure defining the data of the entire transfer as a payload to be embedded into a message.
 
-The new transaction structure should fulfill following criteria:
+The new transaction structure should fulfil the following criteria:
 * Support for Ed25519 (and thus reusable addresses) and WOTS signatures.
-* Support for adding new types of signature schemes, addresses, inputs and outputs as part of protocol upgrades.
-* Self-contained as in being able to validate the transaction immediately after receiving it.
-* Enable unspent transaction outputs (UTXO) as inputs instead of an account based model. (UTXO enables easier double-spend detection)
+* Support for adding new types of signature schemes, addresses, inputs, and outputs as part of protocol upgrades.
+* Self-contained, as in being able to validate the transaction immediately after receiving it.
+* Enable unspent transaction outputs (UTXO) as inputs instead of an account based model (UTXO enables easier double-spend detection).
 
 # Detailed design
 
 ## UTXO
 
-The *unspent transaction output* (UTXO) model defines a ledger state where balances are not directly associated to addresses but to the outputs of transactions. In this model, transactions specify the outputs of previous transactions as inputs, which are consumed in order to create new outputs. A transaction must consume the entirety of the specified inputs.
+The *unspent transaction output* (UTXO) model defines a ledger state where balances are not directly associated to addresses but to the outputs of transactions. In this model, transactions specify the outputs of previous transactions as inputs, which are consumed to create new outputs. A transaction must consume the entirety of the specified inputs.
 
 Using an UTXO based model provides several benefits:
 * Parallel validation of transactions.
 * Easier double-spend detection, since conflicting transactions would reference the same UTXO.
-* Replay-protection which is especially important when having reusable addresses. Replaying the same transaction would manifest itself as already being applied or existent and thus not have any impact.
-* Technically seen, balances may no longer be associated to addresses which raises the level of abstraction and thus enables other types of outputs. Consider for example a type of output which specifies the balance to be unlocked by a transaction which must fulfill a very hard Proof-of-Work difficulty or supply some other unlock criteria etc.
+* Replay-protection which is important when having reusable addresses. Replaying the same transaction would manifest itself as already being applied or existent and thus not have any impact.
+* Technically seen, balances may no longer be associated to addresses which raises the level of abstraction and thus enables other types of outputs. Consider, for example, a type of output which specifies the balance to be unlocked by a transaction which must fulfil a Proof-of-Work difficulty or supply some other unlock criteria, etc.
 
-Within a transaction using UTXOs, inputs and outputs make up the to be signed data of the transaction. The section unlocking the inputs is called *unlock block*. An unlock block may contain a signature proving ownership of a given input's address and/or other unlock criteria.
+Within a transaction using UTXOs, inputs and outputs make up the to-be-signed data of the transaction. The section unlocking the inputs is called *unlock block*. An unlock block may contain a signature proving ownership of a given input's address and/or other unlock criteria.
 
 The following image depicts the flow of funds using UTXO:
 
@@ -367,17 +367,17 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
 
 ### Transaction Parts
 
-In general, all parts of a <i>Transaction Payload</i> begin with a byte describing the type of the given part in order to keep the flexibility to introduce new types/versions of the given part in the future.
+In general, all parts of a <i>Transaction Payload</i> begin with a byte describing the type of the given part to keep the flexibility to introduce new types/versions of the given part in the future.
 
 #### Transaction Essence Data
 
-As described, the <i>Transaction Essence</i> of a <i>Transaction Payload</i> carries the inputs, outputs and an optional payload. The <i>Transaction Essence</i> is an explicit type and therefore starts with its own <i>Transaction Essence Type</i> byte which is of value 0.
+As described, the <i>Transaction Essence</i> of a <i>Transaction Payload</i> carries the inputs, outputs, and an optional payload. The <i>Transaction Essence</i> is an explicit type and therefore starts with its own <i>Transaction Essence Type</i> byte which is of value 0.
 
 A <i>Transaction Essence</i> must contain at least one input and output.
 
 ##### Inputs
 
-The <i>Inputs</i> part holds the inputs to consume, respectively to fund the outputs of the <i>Transaction Essence</i>. There is only one type of input as of now, the <i>UTXO Input</i>. In the future, more types of inputs may be specified as part of protocol upgrades.
+The <i>Inputs</i> part holds the inputs to consume, respectively, to fund the outputs of the <i>Transaction Essence</i>. There is only one type of input as of now, the <i>UTXO Input</i>. In the future, more types of inputs may be specified as part of protocol upgrades.
 
 Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at the same index in the <i>Unlock Blocks</i> part of the <i>Transaction Payload</i>. 
 If multiple inputs can be unlocked through the same <i>Unlock Block</i>, then the given <i>Unlock Block</i> only needs to be specified at the index of the first input which gets unlocked by it. 
@@ -502,7 +502,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Pay
 
 <p></p>
 
-The <i>SigLockedSingleOutput</i> defines an output (with a certain amount) to a single target address which is unlocked via a signature proving ownership over the given address. Such output can hold addresses of different types.
+The <i>SigLockedSingleOutput</i> defines an output (with a certain amount) to a single target address which is unlocked via a signature proving ownership over the given address. This output can hold addresses of different types.
 
 ##### Payload
 
@@ -612,7 +612,7 @@ There are different types of <i>Unlock Blocks</i>:
 </details>
 
 A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one or more signatures unlocking one or more inputs.
-Such block signs the entire <i>Transaction Essence</i> part of a <i>Transaction Payload</i> including the optional payload.
+This block signs the entire <i>Transaction Essence</i> part of a <i>Transaction Payload</i> including the optional payload.
 
 ##### Reference Unlock block
 
@@ -656,9 +656,9 @@ A <i>Transaction Payload</i> payload has different validation stages, since some
 
 ### Syntactical Validation
 
-This validation can commence as soon as the transaction data has been received in its entirety. It validates the structure but not the signatures of the transaction. If the transaction does not pass this stage, it must not be further broadcasted and can be discarded right away.
+This validation can commence as soon as the transaction data has been received in its entirety. It validates the structure but not the signatures of the transaction. If the transaction does not pass this stage, it must not be broadcasted further and can be discarded right away.
 
-Following criteria defines whether the transaction passes the syntactical validation:
+The following criteria defines whether the transaction passes the syntactical validation:
 * `Transaction Essence Type` value must be 0, denoting an `Transaction Essence`.
 * Inputs:
     * `Inputs Count` must be 0 < x < 127.
@@ -673,7 +673,7 @@ Following criteria defines whether the transaction passes the syntactical valida
     * At least one output must be specified.
     * `Output Type` must be 0, denoting a `SigLockedSingleOutput`.
     * `SigLockedSingleOutput`:
-        * `Address Type` must either be 0 or 1, denoting a `WOTS`- or `Ed25519` address .
+        * `Address Type` must either be 0 or 1, denoting a `WOTS`- or `Ed25519` address.
         * If `Address` is of type `WOTS address`, its bytes must be valid `T5B1` bytes.
         * The `Address` must be unique in the set of `SigLockedSingleOutputs`.
         * `Amount` must be > 0.
@@ -684,20 +684,20 @@ Following criteria defines whether the transaction passes the syntactical valida
 * `Unlock Blocks Count` must match the amount of inputs. Must be 0 < x < 127.
 * `Unlock Block Type` must either be 0 or 1, denoting a `Signature Unlock Block` or `Reference Unlock block`.
 * `Signature Unlock Blocks` must define either an `Ed25519`- or `WOTS Signature`.
-* A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at same index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin `Signature Unlock Block`.
+* A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at the same index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin `Signature Unlock Block`.
 * `Reference Unlock Blocks` must specify a previous `Unlock Block` which is not of type `Reference Unlock Block`. The reference index must therefore be < the index of the `Reference Unlock Block`.
-* Given the type and length information, the <i>Transaction Payload</i> must consume the entire byte array the `Payload Length` field in the <i>Message</i> defines.
+* Given the type and length of the information, the <i>Transaction Payload</i> must consume the entire byte array for the `Payload Length` field in the <i>Message</i> it defines.
 
 <sup>1</sup> ensures that serialization of the transaction becomes deterministic, meaning that libraries always produce the same bytes given the logical transaction.
 
 ### Semantic Validation
 
-Semantic validation starts when a message which is part of a confirmation cone of a milestone, is processed in the [White-Flag ordering](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md#deterministically-ordering-the-tangle). Semantics are only validated during White-Flag confirmations to enforce an ordering which can be understood by all the nodes (i.e. milestone cones), no matter in which order transactions are received. Otherwise, if semantic validation would occur as soon as a transaction would be received, it could potentially lead to nodes having different views of the UTXOs available to spend. 
+Semantic validation starts when a message that is part of a confirmation cone of a milestone is processed in the [White-Flag ordering](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md#deterministically-ordering-the-tangle). Semantics are only validated during White-Flag confirmations to enforce an ordering that can be understood by all the nodes (i.e. milestone cones), no matter the order the transactions are received. Otherwise, if semantic validation would occur as soon as a transaction would be received, it could potentially lead to nodes having different views of the UTXOs available to spend. 
 
 
 Processing transactions in the White-Flag ordering enables users to spend UTXOs which are in the same milestone confirmation cone, if their transaction comes after the funding transaction in the mentioned White-Flag ordering. It is recommended that users spending unconfirmed UTXOs attach their message directly onto the message containing the source transaction.
 
-Following criteria defines whether the transaction passes the semantic validation:
+The following criteria defines whether the transaction passes the semantic validation:
 1. The UTXOs the transaction references must be known (booked) and unspent.
 1. The transaction is spending the entirety of the funds of the referenced UTXOs to the outputs.
 1. The address type of the referenced UTXO must match the signature type contained in the corresponding <i>Signature Unlock Block</i>.
@@ -711,29 +711,29 @@ Transactions which do not pass semantic validation are ignored. Their UTXOs are 
 
 ### Absent transaction timestamp
 
-A transaction timestamp whether signed or not, does not actually tell when the transaction was issued. Therefore the timestamp has been left out from the transaction structure. The correct way to determine the issuance time is to use a combination of the solidification and confirmation timestamps of the message embedding the transaction.
+A transaction timestamp whether signed or not, does not actually tell when the transaction was issued. Therefore, the timestamp has been left out from the transaction structure. The correct way to determine the issuance time is to use a combination of the solidification and confirmation timestamps of the message embedding the transaction.
 
 ### How to compute the balance
 
-Since the ledger no longer is account based, meaning that balances are directly mapped to addresses, computing the balance involves iterating over all UTXOs of which their destination address is the address in question and then accumulating their amounts.
+Since the ledger is no longer account based, meaning that balances are directly mapped to addresses, computing the balance involves iterating over all UTXOs where their destination address is the address in question and then accumulating their amounts.
 
 ### Reusing the same address with Ed25519
 
-While creating multiple signatures with Ed25519 does not reduce security, reusing the same address over and over again not only drastically reduces the privacy of yourself but also all other people in the UTXO chain of the moved funds. Applications and services are therefore instructed to create new addresses per deposit, in order to circumvent the privacy issues stemming from address reuse. 
+While creating multiple signatures with Ed25519 does not reduce security, repeatedly reusing the same address not only drastically reduces the privacy of users but also all other people in the UTXO chain of the moved funds. Applications and services are then instructed to create new addresses per deposit, to circumvent the privacy issues stemming from address reuse. 
 In essence, Ed25519 support allows for smaller transaction sizes and to safely spend funds which were sent to an already used deposit address. 
-Ed25519 addresses are not meant to be used like an e-mail address. See this [Bitcoin wiki entry](https://en.bitcoin.it/wiki/Address_reuse#:~:text=The%20most%20private%20and%20secure,a%20brand%20new%20bitcoin%20address.) for further information on how address reuse reduces privacy and this [article](https://en.bitcoin.it/wiki/Receiving_donations_with_bitcoin) why the same should be applied to donation addresses.
+Ed25519 addresses are not meant to be used like an e-mail address. See this [Bitcoin wiki entry](https://en.bitcoin.it/wiki/Address_reuse#:~:text=The%20most%20private%20and%20secure,a%20brand%20new%20bitcoin%20address.) for further information on how address reuse reduces privacy and this [article](https://en.bitcoin.it/wiki/Receiving_donations_with_bitcoin) on why the same should be applied to donation addresses.
 
 # Drawbacks
 
-The new transaction format is the core data type within the IOTA ecosystem. Changing it means that all projects need to accommodate for it, including client libraries, blueprints, PoC and applications using IOTA in general. There is no way to keep the changes backwards compatible. Additionally, these changes are breaking, meaning that all nodes must upgrade in order to further participate in the network.
+The new transaction format is the core data type within the IOTA ecosystem. Changing it means that all projects need to accommodate for it, including client libraries, blueprints, PoC, and applications using IOTA in general. There is no way to keep the changes backwards compatible. Additionally, these changes are breaking, meaning that all nodes must upgrade to further participate in the network.
 
-Local snapshots can also no longer be simply represented by a list of addresses and their balances, since the ledger is now made up of the UTXOs on which the actual funds reside on. Therefore local snapshot file schemes have to be adjusted to incorporate the transaction hashes, output indices and then the destination addresses plus the balances. 
+Additionally, local snapshots can no longer be represented by a list of addresses and their balances, since the ledger is now made up of the UTXOs on which the actual funds reside on. Therefore, local snapshot file schemes have to be adjusted to incorporate the transaction hashes, output indices, and then the destination addresses including the balances. 
 
 # Rationale and alternatives
 
-Introducing this new transaction structure allows for further extensions in the future, in order to accommodate new requirements. With the support for Ed25519 addresses/signatures, transaction size is drastically reduced and allows for safe re-signing in case funds appear to be deposited onto a previous generated address. Due to the switch to a complete binary transaction, size is further reduced, saving network bandwidth and processing time. The new structure is backwards compatible with "Kerl" WOTS addresses and therefore allows both current methods of signing transactions to co-exist.
+Introducing this new transaction structure allows for further extensions in the future, to accommodate new requirements. With the support for Ed25519 addresses/signatures, transaction size is drastically reduced and allows for safe re-signing in case funds appear to be deposited onto a previous generated address. Due to the switch to a complete binary transaction, size is further reduced, saving network bandwidth and processing time. The new structure is backwards compatible with "Kerl" WOTS addresses and so allows both current methods of signing transactions to co-exist.
 
-Other transaction structures have been considered but they would have misused existing transaction fields to accommodate for new features, instead of putting them into a proper descriptive structure. Additionally, those ideas would have not been safe against replay attacks, deeming reusing the old transaction structure for example for Ed25519 addresses/signatures as infeasible.
+Other transaction structures have been considered but they would have misused existing transaction fields to accommodate for new features, instead of putting them into a proper descriptive structure. Additionally, those ideas would not have been safe against replay attacks, which deems reusing the old transaction structure, for example for Ed25519 addresses/signatures, as infeasible.
 
 Not switching to the new transaction structure described in this RFC leads to people being open to loss of funds because of WOTS address re-use and not being able to properly extend the protocol further down the line.
 
