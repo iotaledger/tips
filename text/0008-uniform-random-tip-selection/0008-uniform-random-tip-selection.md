@@ -5,15 +5,15 @@
 # Summary
 
 Weighted Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase message throughput.
-The algorithm selects tips which are non-lazy in order to maximize confirmation rate.
+The algorithm selects tips which are non-lazy to maximize confirmation rate.
 
 # Motivation
 
 Because of the `white-flag` confirmation algorithm, it is no longer necessary to perform complex
-tip-selection which evaluates ledger mutations while walking, therefore, a simpler and better 
+tip-selection which evaluates ledger mutations while walking. Therefore, a more simple, better 
 performing algorithm can be used to select tips, which in turn increases overall message throughput.
 
-In order to maximize confirmation rate however, the algorithm needs to return tips which are `non-lazy`.
+To maximize confirmation rate however, the algorithm needs to return tips which are `non-lazy`.
 Non-lazy in this context means that a tip does not attach to a cone of messages which is too far
 in the past. Such a cone is likely to be already confirmed and does not contribute to the
 rate of newly confirmed messages when a milestone is issued.
@@ -43,7 +43,7 @@ which means that messages of which their `OMRSI` in relation to the `LSMI` is mo
 
 ### OMRSI / YMRSI example
 Given the blue PoV message, the `OMRSI` of it is milestone 1 and `YMRSI` milestone 2.
-Note that here again, the milestones are also `Confirmed Root Messages`.
+Note that, here again, the milestones are also `Confirmed Root Messages`.
 ![sdf](images/otrsi_ytrsi.PNG)
 
 ### Milestone based tip scoring
@@ -105,11 +105,10 @@ func score(tip Tip) Score {
 ### Random Tip-Selection
 
 A node should keep a set of non-lazy tips (score 2).
-Every time a node is asked to select to tips to be approved it will just pick randomly from the set. 
+Every time a node is asked to select tips to be approved, it will pick randomly from the set. 
 A node must not execute tip-selection if it is not synchronized.
 
-A tip should not be removed from the tips set immediately after it was selected in `select()`, 
-in order to make it possible for it to be re-selected, which in turn makes the Tangle wider
+A tip should not be removed from the tips set immediately after it was selected in `select()`,  to make it possible for it to be re-selected, which in turn makes the Tangle wider
 and improves synchronization speed. A tip is removed from the tips set if `X` amount of direct
 approvers are reached or if a certain amount of time `T` passed. 
 It is recommended to use `X` = 2 and `T` = 3  but the threshold should be configurable.
@@ -126,7 +125,7 @@ they become lazy.
 # Drawbacks
 
 Depending on when and how often `YMRSI`/`OMRSI` values are computed, this tip-selection could still
-have a slow runtime, as one would need to constantly walk down the Tangle in order to compute those
+have a slow runtime, as one would need to constantly walk down the Tangle to compute those
 values. However, smart caching might resolve this issue. 
 
 # Rationale and alternatives
@@ -134,13 +133,13 @@ values. However, smart caching might resolve this issue.
 The previous tip-selection was written in accordance to the original IOTA whitepaper, as it also
 functioned as part of the consensus mechanism.
 However, relatively soon it became apparent that the cumulative weight computation was too heavy
-for an actual high throughput scenario and as such, the CW calculation is currently not used within
+for an actual high throughput scenario and, as such, the CW calculation is currently not used within
 node implementations at all.
 
-Because confirmations with the [white-flag](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) approach no longer only approve cones with state mutations
+Because confirmations with the [white-flag](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) approach no longer approve cones only with state mutations,
 which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide 
 a fast way to get tips to approve with one's own message.
-The only important thing is to disincentive lazy behaviour in order to be able to maximize confirmation rate.
+The only important thing is to disincentive lazy behaviour to be able to maximize confirmation rate.
 
 # Unresolved questions
 
