@@ -31,8 +31,8 @@ paths:
         - node
       summary: Returns the health of the node.
       description: >-
-        Returns the health of the node, which can be useful for load-balancing or
-        uptime monitoring.
+        Returns the health of the node, which can be useful for load-balancing
+        or uptime monitoring.
       responses:
         '200':
           description: node is healthy
@@ -62,7 +62,8 @@ paths:
         - tangle
       summary: Returns two non-lazy tips.
       description: >-
-        Returns two non-lazy tips. If the node can only provide a single tip, `tip1MessageId` and `tip2MessageId` are identical.
+        Returns two non-lazy tips. If the node can only provide a single tip,
+        `tip1MessageId` and `tip2MessageId` are identical.
       responses:
         '200':
           description: successful operation
@@ -89,7 +90,8 @@ paths:
         - messages
       summary: Submit a message.
       description: >-
-        Submit a message. The node takes care of missing fields and tries to build the message. On success, the message will be stored in the Tangle.
+        Submit a message. The node takes care of missing fields and tries to
+        build the message. On success, the message will be stored in the Tangle.
         This endpoint will return the identifier of the message.
       requestBody:
         content:
@@ -596,8 +598,8 @@ components:
       value:
         data:
           networkId: '6530425480034647824'
-          parent1MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
-          parent2MessageId: '0000000000000000000000000000000000000000000000000000000000000000'
+          parent1MessageId: 56d181a75f95c5106e6da9a2a44da43266c59d9c3ba51eb8798145d54d43498b
+          parent2MessageId: a65bcd62adfedb571be1738f2c52bd539c0295347210f02c16dc39ec22e54f85
           payload:
             type: 0
             essence:
@@ -605,31 +607,31 @@ components:
               inputs:
                 - type: 0
                   transactionId: >-
-                    0000000000000000000000000000000000000000000000000000000000000000
+                    704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
                   transactionOutputIndex: 0
               outputs:
                 - type: 0
                   address:
                     type: 1
                     address: >-
-                      6920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92
-                  amount: 100
+                      06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582
+                  amount: 999999999000
                 - type: 0
                   address:
                     type: 1
                     address: >-
-                      8afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd6
-                  amount: 2779530283277661
+                      5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
+                  amount: 1000
               payload: null
             unlockBlocks:
               - type: 0
                 signature:
                   type: 1
                   publicKey: >-
-                    f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44
+                    34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
                   signature: >-
-                    e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c909
-          nonce: '742632'
+                    b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
+          nonce: '1398515'
     get-message-by-id-milestone-response-example:
       value:
         data:
