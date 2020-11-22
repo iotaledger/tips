@@ -31,7 +31,7 @@ paths:
         - node
       summary: Returns the health of the node.
       description: >-
-        Returns the health of the node, which can be used for load-balancing or
+        Returns the health of the node, which can be useful for load-balancing or
         uptime monitoring.
       responses:
         '200':
@@ -42,8 +42,8 @@ paths:
     get:
       tags:
         - node
-      summary: Returns information about the node.
-      description: Returns information about the node.
+      summary: Returns general information about the node.
+      description: Returns general information about the node.
       responses:
         '200':
           description: successful operation
@@ -62,8 +62,7 @@ paths:
         - tangle
       summary: Returns two non-lazy tips.
       description: >-
-        Returns two non-lazy tips. In case the node can only provide one tip,
-        tip1 and tip2 are identical.
+        Returns two non-lazy tips. If the node can only provide a single tip, `tip1MessageId` and `tip2MessageId` are identical.
       responses:
         '200':
           description: successful operation
@@ -88,10 +87,9 @@ paths:
     post:
       tags:
         - messages
-      summary: Submit a message to the node.
+      summary: Submit a message.
       description: >-
-        Submit a message. The node takes care of missing fields and tries to
-        build the message. On success, the message will be stored in the Tangle.
+        Submit a message. The node takes care of missing fields and tries to build the message. On success, the message will be stored in the Tangle.
         This endpoint will return the identifier of the message.
       requestBody:
         content:
