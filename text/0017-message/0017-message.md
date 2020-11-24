@@ -144,7 +144,7 @@ The structure of the payload is simple:
 | Index            | string     | The index key of the message |
 | Data             | ByteArray     | Data we are attaching    |
 
-Note that `index` must be at least 1 byte long for the payload to be valid. The `data` may have a length of 0.
+Note that `index` field should be 1 to 64 bytes long for the payload to be valid. The `data` may have a length of 0.
 
 ### Serialization Example
 
