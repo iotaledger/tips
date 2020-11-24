@@ -107,7 +107,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
 
 A message is considered valid, if the following syntactic rules are met:
 
-1. The message length must not exceed X [tbd] bytes.
+1. The message size must not exceed 32 KB.
 2. When parsing the message is complete, there should not be any trailing bytes left that were not parsed.
 3. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is above this range.
 4. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
