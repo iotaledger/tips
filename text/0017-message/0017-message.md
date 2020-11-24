@@ -49,7 +49,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
     <tr>
         <td>NetworkID</td>
         <td>uint64</td>
-        <td>Network identifier. This field will signify whether this message was meant for mainnet, testnet, or a private net. It also tells what protocol rules apply to the message. It will usually be calculated as the hash of the concatenation of the network type and the protocol version.</td>
+        <td>Network identifier. This field will signify whether this message was meant for mainnet, testnet, or a private net. It also tells what protocol rules apply to the message. It is first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and the protocol version string.</td>
         </tr>
     <tr>
         <td>Parent1 (<code>trunk</code>)</td>
