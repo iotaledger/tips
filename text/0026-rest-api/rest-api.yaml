@@ -370,20 +370,20 @@ paths:
     get:
       tags:
         - UTXO
-      summary: Get the balance of a given address.
+      summary: Get the balance of a bench32-encoded address.
       description: >-
-        Get the balance of a given address. If count equals maxResults, then
+        Get the balance of a bench32-encoded address. If `count` equals `maxResults`, then
         there might be more outputs available but those were skipped from the
-        balance calculation for performance reasons. User should sweep the
+        balance calculation for performance reasons. The user should sweep the
         address to reduce the amount of outputs and get the correct balance.
       parameters:
         - in: path
           name: address
           schema:
             type: string
-          example: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          example: iot1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjtzcp98
           required: true
-          description: Address that is referenced by the outputs.
+          description: bench32 encoded address
       responses:
         '200':
           description: successful operation
@@ -392,11 +392,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetAddressBalanceResponse'
               examples:
-                Normal:
-                  $ref: '#/components/examples/get-address-balance-response-example'
+                Default:
+                  $ref: '#/components/examples/get-address-balance-bench32-response-example'
                 Max Results:
-                  $ref: >-
-                    #/components/examples/get-address-balance-response-example-maxResults
+                  $ref: '#/components/examples/get-address-balance-bench32-response-example-maxResults'
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+  '/api/v1/addresses/ed25519/{address}':
+    get:
+      tags:
+        - UTXO
+      summary: Get the balance of a hex-encoded Ed25519 address.
+      description: >-
+        Get the balance of a hex-encoded Ed25519 address. If `count` equals `maxResults`, then
+        there might be more outputs available but those were skipped from the
+        balance calculation for performance reasons. The user should sweep the
+        address to reduce the amount of outputs and get the correct balance.
+      parameters:
+        - in: path
+          name: address
+          schema:
+            type: string
+          example: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          required: true
+          description: hex-encoded Ed25519 address
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAddressBalanceResponse'
+              examples:
+                Default:
+                  $ref: '#/components/examples/get-address-balance-ed25519-response-example'
+                Max Results:
+                  $ref: '#/components/examples/get-address-balance-ed25519-response-example-maxResults'
         '400':
           description: unsuccessful operation
           content:
@@ -692,14 +733,28 @@ components:
               type: 0
               address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
             amount: 1338263
-    get-address-balance-response-example:
+    get-address-balance-bench32-response-example:
+      value:
+        data:
+          address: iot1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjtzcp98
+          maxResults: 1000
+          count: 25
+          balance: 1338263
+    get-address-balance-bench32-response-example-maxResults:
+      value:
+        data:
+          address: iot1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjtzcp98
+          maxResults: 1000
+          count: 1000
+          balance: 112848192
+    get-address-balance-ed25519-response-example:
       value:
         data:
           address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           maxResults: 1000
           count: 25
           balance: 1338263
-    get-address-balance-response-example-maxResults:
+    get-address-balance-ed25519-response-example-maxResults:
       value:
         data:
           address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
