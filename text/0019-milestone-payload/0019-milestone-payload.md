@@ -5,22 +5,17 @@
 
 # Summary
 
-In the IOTA protocol, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. 
-This RFC proposes a new milestone payload as well as the EdDSA signature algorithm as a replacement to the current Coordinator digital signature scheme to authenticate the issued milestones.
+In IOTA, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC proposes a milestone payload for the messages described in [Draft RFC-17](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md). It uses Edwards-curve Digital Signature Algorithm (EdDSA) to authenticate the milestones.
 
 # Motivation
-The current signature scheme used to authenticate milestones issued by the Coordinator has been designed with ternary and quantum robustness in mind. Due to the switch to binary, the new message layout as well as the upcoming Coordicide (i.e., Coordinator removal), we now have the opportunity to revisit such a mechanism and replace it with a more simple, well-vetted and standardized one. Although the proposed digital signature scheme, EdDSA, does not provide quantum robustness, its simplicity and easier key-managment make it a good candidate for the time being.
+
+In the current IOTA protocol, milestones are authenticated using a ternary Merkle signature scheme. With [Chrysalis](https://roadmap.iota.org/chrysalis), ternary transactions will be replaced with with binary messages containing different payload types. In order to address these new requirements, this RFC proposes the use of a dedicated payload type for milestones. It contains the same essential data fields that were previously included in the milestone bundle. Additionally, this document also describes how Ed25519 signatures are used to assure authenticity of the issued milestones. In order to make the management and security of the used private keys easier, simple multisignature features with support for key rotation have been added.
 
 # Detailed design
 
-The EdDSA signature algorithm in its variants **Ed25519** and **Ed448** (providing a security level of 128-bit and 224-bit respectively) are technically described in the IRTF [RFC 8032](https://tools.ietf.org/html/rfc8032).
-Size of both private and public keys are of 32 or 57 bytes depending on the curve used. Similarly, the signature size is of 64 or 114 bytes.
+The _Milestone Essence_, consisting of the actual milestone information (like its index number or position in the tangle), is signed using the Ed25519 signature scheme as described in the IRTF [RFC 8032](https://tools.ietf.org/html/rfc8032). It uses keys of 32 bytes, while the generated signatures are 64 bytes.
 
-- The Ed25519 key generation can be fed with a given random sequence of bytes (i.e., seed) of length 32 bytes. Output of the key generation is the pair of private and public keys. Note that the generation of the seed is out of the scope of this RFC, but in general, any cryptographic pseudo-random function (PRF) would suffice.
-- The Ed25519 signature function takes a Ed25519 private key, a sequence of bytes of arbitrary size and produces an Ed25519 signature of length 64 bytes. The given sequence of bytes should then be internally hashed (using sha512) by the same function.
-- The Ed25519 verification function takes a public key, a sequence of bytes of arbitrary size, a Ed25519 signature, and returns true/false based on the signature validity.
-
-In order to increase the security of the design, a milestone can optionally be independently signed by multiple keys at once. These keys should be operated by detached signature provider services, running on independent infrastructure elements, thus mitigating the risk of an attacker having access to all the key material necessary for forging milestones. While the Coordinator takes responsibility of forming Milestone Payload Messages, it delegates signing to these providers through an ad-hoc RPC connector. Mutual authentication should be enforced between the Coordinator and the signature providers: a [client-authenticated TLS handshake](https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake) scheme is advisable. To increase the flexibility of the mechanism, nodes can be configured to require a quorum of valid signatures to consider a milestone as genuine.
+To increase the security of the design, a milestone can (optionally) be independently signed by multiple keys at once. These keys should be operated by detached signature provider services running on independent infrastructure elements. This assist in mitigating the risk of an attacker having access to all the key material necessary for forging milestones. While the Coordinator takes responsibility for forming Milestone Payload Messages, it delegates signing in to these providers through an ad-hoc RPC connector. Mutual authentication should be enforced between the Coordinator and the signature providers: a [client-authenticated TLS handshake](https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake) scheme is advisable. To increase the flexibility of the mechanism, nodes can be configured to require a quorum of valid signatures to consider a milestone as genuine.
 
 In addition, a key rotation policy can also be enforced by limiting key validity to certain milestone intervals. Accordingly, nodes need to know which public keys are applicable for which milestone index. This can be provided by configuring a list of entries consisting of the following fields:
 - _Index Range_ providing the interval of milestone indices for which this entry is valid. The interval must not overlap with any other entry.
@@ -78,8 +73,8 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           </tr>
           <tr>
             <td>Inclusion Merkle Root</td>
-            <td>ByteArray[64]</td>
-            <td>512-bit hash based on all of the not-ignored state-mutating transactions referenced by the milestone. (<a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md">RFC-0012</a>)</td>
+            <td>ByteArray[32]</td>
+            <td>256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone. (<a href="https://github.com/iotaledger/protocol-rfcs/blob/milestone-merkle-validation-chrysalis-pt-2/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md">Update RFC-0012</a>)</td>
           </tr>
           <tr>
             <td>Keys Count</td>
@@ -130,8 +125,9 @@ The following table structure describes the entirety of a _Milestone Payload_ in
 
 # Rationale and alternatives
 
-Instead of going with EdDSA we could have chosen ECDSA. Both algorithms are well supported and widespread. However, signing with ECDSA requires fresh randomness while EdDSA does not. Moreover, we could have used a commit-reveal mechanism to update and commit the Coordinator public key at each next milestone. This method would make a quantum-based attack aimed at breaking the "current" Coordinator private-key more difficult. On the other hand, key management as well as verification of the milestone chain would become more complex.
+- Instead of using EdDSA we could have chosen ECDSA. Both algorithms are well supported and widespread. However, signing with ECDSA requires fresh randomness while EdDSA does not. Especially in the case of milestones where essences are signed many times using the same key, this is a crucial property.
+- Due to the layered design of messages and payloads, it is practically not possible to prevent reattachments of milestone payloads. Hence, this payload has been designed in a way to be independent from the message it is contained in. A milestone should be considered as a virtual marker (referencing `Parent1` and `Parent2`) rather than an actual message in the Tangle. This concept is compatible with reattachments and supports a cleaner separation of the message layers.
 
 # Unresolved questions
 
-- Forcing matching `Parent1`, `Parent2` in the _Milestone Payload_ and its _Message_ makes it impossible to reattach the same payload at different positions in the Tangle. While this does not prevent reattachments in general (a different, valid `Nonce`, for example would lead to a new Message ID), this still simplifies milestone processing. However, it violates a clean separation of payload and message. As such, it might still be desirable to slightly complicate the milestone processing in order to allow any reattachments of _Milestone Payloads_ by not validating the parents.
+- Forcing matching `Parent1`, `Parent2` in the _Milestone Payload_ and its _Message_ makes it impossible to reattach the same payload at different positions in the Tangle. While this does not prevent reattachments in general (a different, valid `Nonce`, for example would lead to a new Message ID), this still simplifies milestone processing. However, it violates a clear separation of payload and message. As such, it might still be desirable to slightly complicate the milestone processing by allowing arbitrary `Parent1` and `Parent2` fields. This separates the two layers completely and should not have any impact on the actual milestone properties.
