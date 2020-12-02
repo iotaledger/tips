@@ -44,7 +44,7 @@ The human-readable encoding of the address is Bech32 (as described in [BIP-0173]
 
 - The **human-readable part** (HRP), which conveys the IOTA protocol and distinguishes between Mainnet (the IOTA token) and Testnet (testing version):
    -  `iota` is the human-readable part for Mainnet addresses
-   -  `atio` is the human-readable part for Testnet addresses
+   -  `atoi` is the human-readable part for Testnet addresses
 - The **separator**, which is always `1`.
 - The **data part**, which consists of the Base32 encoded serialized address and the 6-character checksum.
 
@@ -59,7 +59,7 @@ Hence, Ed25519-based addresses will result in a Bech32 string of 64 characters.
 - **Testnet**
    - Ed25519 address hash (32-byte): `52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649`
       - serialized (33-byte): `0152fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649`
-      - Bech32 string: `atio1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjgr6rcz`
+      - Bech32 string: `atoi1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjgqtp5x`
 
 # Drawbacks
 
