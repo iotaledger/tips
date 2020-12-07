@@ -74,9 +74,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/GetTipsResponse'
               examples:
-                Differing Tips:
-                  $ref: '#/components/examples/get-tips-response-example-differing'
-                Identical Tips:
+                Different tips:
+                  $ref: '#/components/examples/get-tips-response-example-different'
+                Identical tips:
                   $ref: '#/components/examples/get-tips-response-example-identical'
         '503':
           description: unsuccessful operation
@@ -370,9 +370,9 @@ paths:
     get:
       tags:
         - UTXO
-      summary: Get the balance of a bench32-encoded address.
+      summary: Get the balance of a bech32-encoded address.
       description: >-
-        Get the balance of a bench32-encoded address. If `count` equals
+        Get the balance of a bech32-encoded address. If `count` equals
         `maxResults`, then there might be more outputs available but those were
         skipped from the balance calculation for performance reasons. The user
         should sweep the address to reduce the amount of outputs and get the
@@ -382,9 +382,9 @@ paths:
           name: address
           schema:
             type: string
-          example: iot1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjtzcp98
+          example: iota1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj0w6qwt
           required: true
-          description: bench32 encoded address
+          description: bech32 encoded address
       responses:
         '200':
           description: successful operation
@@ -395,10 +395,10 @@ paths:
               examples:
                 Default:
                   $ref: >-
-                    #/components/examples/get-address-balance-bench32-response-example
+                    #/components/examples/get-address-balance-bech32-response-example
                 Max Results:
                   $ref: >-
-                    #/components/examples/get-address-balance-bench32-response-example-maxResults
+                    #/components/examples/get-address-balance-bech32-response-example-maxResults
         '400':
           description: unsuccessful operation
           content:
@@ -460,9 +460,58 @@ paths:
     get:
       tags:
         - UTXO
-      summary: Get all outputs that use a given address.
+      summary: Get all outputs that use a given bech32-encoded address.
       description: >-
-        Get all outputs that use a given address. If count equals maxResults,
+        Get all outputs that use a given bech32-encoded address. If count equals maxResults,
+        then there might be more outputs available but those were skipped for
+        performance reasons. User should sweep the address to reduce the amount
+        of outputs.
+      parameters:
+        - in: path
+          name: address
+          schema:
+            type: string
+          example: iota1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj0w6qwt
+          required: true
+          description: bech32-encoded address that is referenced by the outputs.
+        - in: query
+          name: include-spent
+          schema:
+            type: boolean
+          example: true
+          required: false
+          description: >-
+            Set to true to also include the known spent outputs for the given
+            address.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAddressOutputsResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-address-outputs-response-example'
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+  '/api/v1/addresses/ed25519/{address}/outputs':
+    get:
+      tags:
+        - UTXO
+      summary: Get all outputs that use a given hex-encoded Ed25519 address.
+      description: >-
+        Get all outputs that use a given hex-encoded Ed25519 address. If count equals maxResults,
         then there might be more outputs available but those were skipped for
         performance reasons. User should sweep the address to reduce the amount
         of outputs.
@@ -473,7 +522,7 @@ paths:
             type: string
           example: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           required: true
-          description: Address that is referenced by the outputs.
+          description: hex-encoded Ed25519 address that is referenced by the outputs.
         - in: query
           name: include-spent
           schema:
@@ -556,7 +605,7 @@ components:
           pruningIndex: 0
           features:
             - PoW
-    get-tips-response-example-differing:
+    get-tips-response-example-different:
       value:
         data:
           tip1MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
@@ -747,17 +796,17 @@ components:
               type: 0
               address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
             amount: 1338263
-    get-address-balance-bench32-response-example:
+    get-address-balance-bech32-response-example:
       value:
         data:
-          address: iot1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjtzcp98
+          address: 52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649
           maxResults: 1000
           count: 25
           balance: 1338263
-    get-address-balance-bench32-response-example-maxResults:
+    get-address-balance-bech32-response-example-maxResults:
       value:
         data:
-          address: iot1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjtzcp98
+          address: 52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649
           maxResults: 1000
           count: 1000
           balance: 112848192
@@ -921,21 +970,21 @@ components:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         error:
-          code: service_unavailable
+          code: 503
           message: unable to handle the request
     BadRequestErrorResponse:
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         error:
-          code: invalid_data
+          code: 400
           message: invalid data provided
     NotFoundErrorResponse:
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         error:
-          code: not_found
+          code: 404
           message: could not find data
     GetInfoResponse:
       properties:
