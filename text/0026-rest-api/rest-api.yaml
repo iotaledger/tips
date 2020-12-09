@@ -732,28 +732,23 @@ components:
       value:
         data:
           networkId: '6530425480034647824'
-          parent1MessageId: 3982743fd35648a0b4bfe8d9015ec0cb18de77e05c2b7f15fc90e5561e09e695
-          parent2MessageId: 39d5abbc3eba51b7406405cfed643d30e34e6ef7f9d760352a0b75d14b65be64
+          parent1MessageId: 363234351b3fce9283e730ebd72dc51246b260f2e4d50f64a003f4ad28c88e57
+          parent2MessageId: ad565d4733347b22cc7229691e388a1d4e4af4a7d5ed3295bfbc904939c4d5ba
           payload:
             type: 1
             essence:
-              index: 106263
-              timestamp: 1606859973
-              parent1MessageId: 3982743fd35648a0b4bfe8d9015ec0cb18de77e05c2b7f15fc90e5561e09e695
-              parent2MessageId: 3982743fd35648a0b4bfe8d9015ec0cb18de77e05c2b7f15fc90e5561e09e695
-              merkleProof: >-
-                786a02f742015903c6c6fd852552d272912f4740e15847618a86e217f71f5419d25e1031afee585313896444934eb04b903a685b1448b755d56f701afe9be2ce
+              index: 20239
+              timestamp: 1607468606
+              parent1MessageId: 363234351b3fce9283e730ebd72dc51246b260f2e4d50f64a003f4ad28c88e57
+              parent2MessageId: ad565d4733347b22cc7229691e388a1d4e4af4a7d5ed3295bfbc904939c4d5ba
+              inclusionMerkleProof: 0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8
               publicKeys:
-                - >-
-                  7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a
-                - >-
-                  e468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6
+                - 7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a
+                - e468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6
             signatures:
-              - >-
-                ab64e711a093c4ab8c01585090f4026c825bdab8b2c34a9235a028a239fae95692d440bc790f016266cb5261c8d9f8be370504467a4c2b8571f184299b813b0a
-              - >-
-                dfbe1db0dff1285c1168ec64fc41b55f71ef31ba8c92fc50b1813d9b8e50bc7f0265053adcd85712d92e53275306ac087a61d1db9a3bac8a43865238a7ba6a07
-          nonce: '700'
+              - f5a48946b8fca18fb2e96aec6e5da618a3dda6aaa543821726676dbc675081b0038566548913cb7dc87dbce506bcbd345b7836a5a1f727b8ce53a22f3cbdc609
+              - 27738e6b61a987a25a510f00a649d4cbec8a580af4ca1de93e6938dbf0a2aa2fc90b350e29593421cda88110e63e8e02068678b88e25c0bed44b0ff8c95e7606
+          nonce: '1666062'
     get-message-by-id-indexation-response-example:
       value:
         data:
