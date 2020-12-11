@@ -736,15 +736,14 @@ components:
           parent2MessageId: ad565d4733347b22cc7229691e388a1d4e4af4a7d5ed3295bfbc904939c4d5ba
           payload:
             type: 1
-            essence:
-              index: 20239
-              timestamp: 1607468606
-              parent1MessageId: 363234351b3fce9283e730ebd72dc51246b260f2e4d50f64a003f4ad28c88e57
-              parent2MessageId: ad565d4733347b22cc7229691e388a1d4e4af4a7d5ed3295bfbc904939c4d5ba
-              inclusionMerkleProof: 0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8
-              publicKeys:
-                - 7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a
-                - e468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6
+            index: 20239
+            timestamp: 1607468606
+            parent1MessageId: 363234351b3fce9283e730ebd72dc51246b260f2e4d50f64a003f4ad28c88e57
+            parent2MessageId: ad565d4733347b22cc7229691e388a1d4e4af4a7d5ed3295bfbc904939c4d5ba
+            inclusionMerkleProof: 0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8
+            publicKeys:
+              - 7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a
+              - e468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6
             signatures:
               - f5a48946b8fca18fb2e96aec6e5da618a3dda6aaa543821726676dbc675081b0038566548913cb7dc87dbce506bcbd345b7836a5a1f727b8ce53a22f3cbdc609
               - 27738e6b61a987a25a510f00a649d4cbec8a580af4ca1de93e6938dbf0a2aa2fc90b350e29593421cda88110e63e8e02068678b88e25c0bed44b0ff8c95e7606
@@ -868,8 +867,16 @@ components:
           type: integer
         timestamp:
           type: integer
+        parent1MessageId:
+          type: string
+        parent2MessageId:
+          type: string
         inclusionMerkleProof:
           type: string
+        publicKeys:
+          type: array
+          items:
+            type: string
         signature:
           type: array
           items:
