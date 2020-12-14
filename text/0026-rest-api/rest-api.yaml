@@ -100,9 +100,13 @@ paths:
               $ref: '#/components/schemas/PostMessagesRequest'
             examples:
               Full message with Indexation Payload:
-                $ref: '#/components/examples/post-message-request-example-full'
+                $ref: '#/components/examples/post-indexation-message-request-example-full'
               Minimal Message with Indexation Payload:
-                $ref: '#/components/examples/post-message-request-example-minimal'
+                $ref: '#/components/examples/post-indexation-message-request-example-minimal'
+              Full message with Transaction Payload:
+                $ref: '#/components/examples/post-transaction-message-request-example-full'
+              Minimal Message with Transaction Payload:
+                $ref: '#/components/examples/post-transaction-message-request-example-minimal'
           application/octet-steam:
             schema:
               type: string
@@ -664,7 +668,7 @@ components:
           isSolid: true
           referencedByMilestoneIndex: 15465
           ledgerInclusionState: conflicting
-    post-message-request-example-full:
+    post-indexation-message-request-example-full:
       value:
         networkId: '6530425480034647824'
         parent1MessageId: 0b80adc0ca06b21842ac50d32e8132cf369d5e6a556e8454fdc846fd821d0fa2
@@ -675,13 +679,73 @@ components:
           data: >-
             42696e61727920697320746865206675747572652e0a436f756e743a203132313437320a54696d657374616d703a20323032302d31312d32325431323a34303a34325a0a54697073656c656374696f6e3a203333c2b573
         nonce: '2695978'
-    post-message-request-example-minimal:
+    post-indexation-message-request-example-minimal:
       value:
         payload:
           type: 2
           index: HORNET Spammer
           data: >-
             42696e61727920697320746865206675747572652e0a436f756e743a203132313437320a54696d657374616d703a20323032302d31312d32325431323a34303a34325a0a54697073656c656374696f6e3a203333c2b573
+    post-transaction-message-request-example-minimal:
+      value:
+        payload:
+          type: 0
+          essence:
+            type: 0
+            inputs:
+              - type: 0
+                transactionId: 704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
+                transactionOutputIndex: 0
+            outputs:
+              - type: 0
+                address:
+                  type: 1
+                  address: '06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582'
+                amount: 999999999000
+              - type: 0
+                address:
+                  type: 1
+                  address: 5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
+                amount: 1000
+            payload:
+          unlockBlocks:
+            - type: 0
+              signature:
+                type: 1
+                publicKey: 34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
+                signature: b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
+    post-transaction-message-request-example-full:
+      value:
+        networkId: '6530425480034647824'
+        parent1MessageId: 56d181a75f95c5106e6da9a2a44da43266c59d9c3ba51eb8798145d54d43498b
+        parent2MessageId: a65bcd62adfedb571be1738f2c52bd539c0295347210f02c16dc39ec22e54f85
+        payload:
+          type: 0
+          essence:
+            type: 0
+            inputs:
+              - type: 0
+                transactionId: 704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
+                transactionOutputIndex: 0
+            outputs:
+              - type: 0
+                address:
+                  type: 1
+                  address: '06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582'
+                amount: 999999999000
+              - type: 0
+                address:
+                  type: 1
+                  address: 5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
+                amount: 1000
+            payload:
+          unlockBlocks:
+            - type: 0
+              signature:
+                type: 1
+                publicKey: 34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
+                signature: b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
+        nonce: '1398515'
     get-message-by-id-empty-response-example:
       value:
         data:
@@ -690,6 +754,7 @@ components:
           parent2MessageId: e8db39681478cf9826bd2f31d045f16f5e1f478c5abc3030419da7911df9e288
           payload: null
           nonce: '1481'
+
     get-message-by-id-transaction-response-example:
       value:
         data:
