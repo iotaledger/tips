@@ -76,15 +76,21 @@ An additional benefit of this rule is that it makes a mass of privacy violating 
 
 ### Validation
 
-Let `A` be the address that should hold the dust outputs' balances. Let `M` be the sum of all SigLockedDustAllowanceOutputs' values on `A`.So the total allowed dust outputs on `A` is (`M`/1 MIOTA) * 100 rounded down to the nearest integer. So 100 outputs for 1 MIOTA deposited.
+Let A be the address that should hold the dust outputs' balances. Let S be the sum of all the amounts of all unspent `SigLockedDustAllowanceOutputs` on A. Then, the maximum number of allowed dust outputs on A is S divided by 10,000 and rounded down, i.e. 100 outputs for each 1 Mi deposited.
 
-The SigLockedDustAllowanceOutput must be greater or equal to 1MI.
+The amount of a `SigLockedDustAllowanceOutput` must be at least 1 Mi. Apart from this, `SigLockedDustAllowanceOutputs` are processed identical to `SigLockedDustAllowanceOutput`. The transaction validation as defined in [Draft RFC-18](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-transaction-payload/0000-transaction-payload.md), however, needs to be adapted.
 
-If while processing a milestone a new dust UTXO is created but there is not a sufficient amount already locked in SigLockedDustAllowanceOutputs then the encompassing message should be marked as `ignored`.
+_Syntactical validation_ for `SigLockedDustAllowanceOutput`:
+- The `Address` must be unique in the set of `SigLockedDustAllowanceOutputs` in one transaction T. However, there can be one `SigLockedSingleOutput` and one `SigLockedDustAllowanceOutputs` T.
+- The `Amount` must be ≥ 1,000,000.
 
-If while processing a milestone an unspent SigLockedDustAllowanceOutput is consumed and as a result we have a violation on the number of allowed dust outputs then the encompassing message should be marked as `ignored`.
+The _semantic validation_ remains unchanged and are checked for both `SigLockedSingleOutputs` and `SigLockedDustAllowanceOutput`, but this RFC introduces one additional criterion:
 
-The checks should happen after the entire message was processed. Messages that were previously applied by the current milestone are taken into account.
+A transaction T
+  - consuming a `SigLockedDustAllowanceOutput` on address A **or**
+  - creating a dust output with address A,
+
+is only semantically valid, if, after T is booked, the number of unspent dust outputs on A does not exceed the allowed threshold of S / 10,000.
 
 
 # Drawbacks
