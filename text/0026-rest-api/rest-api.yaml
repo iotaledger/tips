@@ -1013,7 +1013,7 @@ components:
       example:
         error:
           code: 503
-          message: unable to handle the request
+          message: service unavailable
     BadRequestErrorResponse:
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
