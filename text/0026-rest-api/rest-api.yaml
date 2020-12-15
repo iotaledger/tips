@@ -327,12 +327,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
   '/api/v1/outputs/{outputId}':
     get:
       tags:
@@ -386,7 +380,7 @@ paths:
           name: address
           schema:
             type: string
-          example: iota1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj0w6qwt
+          example: iot1qx82lpavrafwkp0jclqvz4gzm7vs5g5g8rwr00gcm62s8456l5jh6aw0td8
           required: true
           description: bech32 encoded address
       responses:
@@ -409,12 +403,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
   '/api/v1/addresses/ed25519/{address}':
     get:
       tags:
@@ -431,7 +419,7 @@ paths:
           name: address
           schema:
             type: string
-          example: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          example: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
           required: true
           description: hex-encoded Ed25519 address
       responses:
@@ -454,12 +442,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
   '/api/v1/addresses/{address}/outputs':
     get:
       tags:
@@ -475,7 +457,7 @@ paths:
           name: address
           schema:
             type: string
-          example: iota1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj0w6qwt
+          example: iot1qx82lpavrafwkp0jclqvz4gzm7vs5g5g8rwr00gcm62s8456l5jh6aw0td8
           required: true
           description: bech32-encoded address that is referenced by the outputs.
         - in: query
@@ -503,12 +485,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
   '/api/v1/addresses/ed25519/{address}/outputs':
     get:
       tags:
@@ -524,7 +500,7 @@ paths:
           name: address
           schema:
             type: string
-          example: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          example: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
           required: true
           description: hex-encoded Ed25519 address that is referenced by the outputs.
         - in: query
@@ -552,12 +528,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestErrorResponse'
-        '404':
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
   '/api/v1/milestones/{index}':
     get:
       tags:
@@ -858,35 +828,35 @@ components:
     get-address-balance-bech32-response-example:
       value:
         data:
-          address: 52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649
+          address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
           maxResults: 1000
           count: 25
           balance: 1338263
     get-address-balance-bech32-response-example-maxResults:
       value:
         data:
-          address: 52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649
+          address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
           maxResults: 1000
           count: 1000
           balance: 112848192
     get-address-balance-ed25519-response-example:
       value:
         data:
-          address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
           maxResults: 1000
           count: 25
           balance: 1338263
     get-address-balance-ed25519-response-example-maxResults:
       value:
         data:
-          address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
           maxResults: 1000
           count: 1000
           balance: 112848192
     get-address-outputs-response-example:
       value:
         data:
-          address: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
           maxResults: 1000
           count: 2
           outputIds:
