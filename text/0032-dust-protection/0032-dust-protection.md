@@ -92,6 +92,58 @@ A transaction T
 
 is only semantically valid, if, after T is booked, the number of unspent dust outputs on A does not exceed the allowed threshold of S / 10,000.
 
+The following pseudocode demonstrates the new rules:
+
+```python
+boolean DustValidation(Transaction tx):
+    # maps return 0 for non-existent keys
+    dustAllowanceAddressesToBalances = new map()
+    dustAddressesToNumOfDustOutputs = new map()
+    
+    if tx not null:
+        for output in tx.outputs:
+            if output.type == SigLockedDustAllowanceOutput:
+                # must be at least 1 Mi
+                if output.balance < 1_000_000:
+                    return false
+                # only one allowance deposit per address per transaction
+                if (dustAllowanceAddressesToBalances[output.address] == 0):
+                    dustAllowanceAddressesToBalances[output.address] = output.amount
+                else
+                    return false
+            # count new dust outputs
+            if output.type == SigLockedSingleOutput & output.balance < 1_000_000:
+                dustAddressesToNumOfDustOutputs[output.address] += 1
+        for input in tx.inputs:
+            # load from the UTXO set
+            output = UTXO.loadUtxoForInput(input)
+            if output.amount < 1_000_000:
+               dustAddressesToNumOfDustOutputs[output.address] -= 1
+            if output.type == SigLockedDustAllowanceOutput:
+                dustAllowanceAddressesToBalances[output.address] =- output.amount
+        
+        addressesToValidate = SetUnion(dustAddressesToNumOfDustOutputs.keys, dustAddressesToNumOfDustOutputs.keys)
+        for address in addressesToValidate:
+            # load number of dust outputs directly from UTXO set
+            numOfDustOutputs = UTXO.loadOutputsOnAddress(address)
+                .filter(output -> output.amount < 1_000_000)
+                .count()
+            # update that number from tx data
+            numOfDustOutputs += dustAddressesToNumOfDustOutputs[address]
+            # load the allowance deposit sum from the UTXO set
+            dustAllowanceDeposit = UTXO.loadOutputsOnAddress(address)
+                                 .filter(output -> output.type == SigLockedDustAllowanceOutput)
+                                 .map(output -> output.amount)
+                                 .sum()
+            # update that number from tx data
+            dustAllowanceDeposit += dustAllowanceAddressesToBalances[address]
+
+            numOfAllowedDustOutputs = round_down(dustAllowanceDeposit/10_000)
+            if numOfDustDeposits > numOfAllowedDustOutputs:
+                return false
+        
+     return true              
+```
 
 # Drawbacks
 
