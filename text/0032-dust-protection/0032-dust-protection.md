@@ -152,7 +152,15 @@ boolean DustValidation(Transaction tx):
 
 # Rationale and alternatives
 
-There are potential alternatives to introducing dust deposits:
+The rationale for creating a special `SigLockedDustAllowanceOutput` rather than rely on the default `SigLockedSingleOutputs` is to prevent attackers from polluting arbitrary addresses that happen to hold
+a large amount of funds with dust.
+
+One may note that an attacker can deposit a dust allowance on 3rd party address outside his control and pollute that address with dust.
+From a security perspective this is better than an attacker depositing a dust allowance on addresses under his control.
+This is because the receiving party might later choose to consolidate the dust outputs and hence relief UTXO memory consumption.
+The receiving party is also unlikely to be displeased from obtaining more funds, small as they may be.
+
+There are potential alternatives to introducing dust allowance deposits:
 
 - *Burning dust*: Allow dust outputs to exists only for a limited amount of time in the ledger. After this, they are removed completely and the associated funds are invalidated.
 - *Sweeping dust into Merkle trees*: Instead of burning dust outputs after some time, they are instead compressed into a Merkle tree and only the tree root is kept. In order to spend one of these compressed outputs, the corresponding Merkle audit path needs to be supplied in addition to a regular signature.
