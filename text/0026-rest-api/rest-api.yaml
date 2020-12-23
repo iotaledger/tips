@@ -579,6 +579,7 @@ components:
           pruningIndex: 0
           features:
             - PoW
+          minPowScore: 4000.0
     get-tips-response-example-different:
       value:
         data:
@@ -1051,6 +1052,8 @@ components:
               type: array
               items:
                 type: string
+            minPowScore:
+              type: number
     GetTipsResponse:
       properties:
         data:
