@@ -24,7 +24,7 @@ An additional benefit of this rule is that it makes a mass of privacy violating 
 
 *Dust output*: A transaction output that has an amount smaller than 1 Mi
 
-*SigLockedDustAllowanceOutput*: A new output type for deposits that enables an address to receive dust outputs. It can be consumed as an input like a regular `SigLockedSingleOutputs`.
+*SigLockedDustAllowanceOutput*: A new output type for deposits that enables an address to receive dust outputs. It can be consumed as an input like a regular `SigLockedSingleOutput`.
 
 <table>
   <tr>
