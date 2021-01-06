@@ -28,7 +28,7 @@ First, let us define what it means for a message A to be:
 - referenced (indirectly or directly) by message B: A is contained in the past cone of B;
 - confirmed: A is referenced by a milestone;
 - applied: A is confirmed and applied to the ledger state;
-- ignored: A is confirmed but not applied;
+- ignored: A is confirmed but not applied because it is semantically invalid;
 - conflicting: A would lead to an invalid ledger state if applied;
 
 In case of conflicting message with White Flag, a node applies only one message to the ledger state and ignores
@@ -38,11 +38,7 @@ need for a deterministic ordering of the Tangle.
 First, this RFC proposes a deterministic ordering of the Tangle, then it explains which message is selected in case
 of conflicts.
 
-**Note: this RFC is about ledger computation only. For this reason, it assumes that the past cone of a milestone has
-already been confirmed and all the referenced messages have been validated. A message is considered valid if it is
-syntactically valid and its signatures are valid. In the event that an invalid message was encountered in the
-confirmation traversal, a node's expected behaviour would be to completely stop operations - and log the error - as it
-would mean the coordinator confirmed something it should not have.**
+**Note: The pastcone of milestone can only contain syntactically valid messages. If an invalid message is encountered operations must be stopped immediately.**
 
 ## Deterministically ordering the Tangle
 
