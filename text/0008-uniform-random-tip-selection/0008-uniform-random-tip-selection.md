@@ -24,7 +24,7 @@ Definitions:
 * `Direct Approvers` - The set of messages which directly approve a given message.
 * `Approvee` - The directly approved message of a given message.
 * `Solid Message` - A message that its past cone is known to the node.
-* `Valid Message`- A message which is structurally correct and has valid signatures (in case it moves funds).
+* `Valid Message`- A message which is syntactically valid.
 * `Tip` - A valid solid message that doesn't have approvers. Its past cone contains only valid messages.
 * `Score` - An integer assigned to a `tip`. The tip selection algorithm uses it to determine how to select tips.
 * `Confirmed Root Message` - The set of first seen messages which are confirmed by a previous milestone 
