@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>0008-weighted-uniform-random-tip-selection - The IOTA Protocol RFC Book</title>
+        <title>0008-uniform-random-tip-selection - The IOTA Protocol RFC Book</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0001-protocol-messages/0001-protocol-messages.html">0001-protocol-messages</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-weighted-uniform-random-tip-selection/0008-weighted-uniform-random-tip-selection.html" class="active">0008-weighted-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0001-protocol-messages/0001-protocol-messages.html">0001-protocol-messages</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html" class="active">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -164,50 +164,47 @@
                 <div id="content" class="content">
                     <main>
                         <ul>
-<li>Feature name: <code>weighted-uniform-random-tip-selection</code></li>
+<li>Feature name: <code>uniform-random-tip-selection</code></li>
 <li>Start date: 2020-03-09</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/0008">iotaledger/protocol-rfcs#0008</a></li>
 </ul>
-<h3><a class="header" href="#notice-this-rfc-will-be-deprecated-and-replaced-by-a-new-rfc-soon" id="notice-this-rfc-will-be-deprecated-and-replaced-by-a-new-rfc-soon">Notice: This RFC will be deprecated and replaced by a new RFC soon.</a></h3>
 <h1><a class="header" href="#summary" id="summary">Summary</a></h1>
-<p>Weighted Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase transaction throughput.
-The algorithm selects tips which are non-lazy in order to maximize confirmation rate.</p>
+<p>Weighted Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase message throughput.
+The algorithm selects tips which are non-lazy to maximize confirmation rate.</p>
 <h1><a class="header" href="#motivation" id="motivation">Motivation</a></h1>
 <p>Because of the <code>white-flag</code> confirmation algorithm, it is no longer necessary to perform complex
-tip-selection which evaluates ledger mutations while walking, therefore, a simpler and better 
-performing algorithm can be used to select tips, which in turn increases overall transaction throughput.</p>
-<p>In order to maximize confirmation rate however, the algorithm needs to return tips which are <code>non-lazy</code>.
-Non-lazy in this context means, that a tip does not attach to a cone of transactions which is too far
-in the past, as such cone is likely to be already confirmed and therefore does not contribute to the
-rate of newly confirmed transactions when a milestone is issued.</p>
+tip-selection which evaluates ledger mutations while walking. Therefore, a more simple, better 
+performing algorithm can be used to select tips, which in turn increases overall message throughput.</p>
+<p>To maximize confirmation rate however, the algorithm needs to return tips which are <code>non-lazy</code>.
+Non-lazy in this context means that a tip does not attach to a cone of messages which is too far
+in the past. Such a cone is likely to be already confirmed and does not contribute to the
+rate of newly confirmed messages when a milestone is issued.</p>
 <h1><a class="header" href="#detailed-design" id="detailed-design">Detailed design</a></h1>
 <p>Definitions:</p>
 <ul>
-<li><code>Direct Approvers</code> are the set of transactions which directly approve a given transaction.</li>
-<li><code>Approvee</code> is the directly approved transaction of a given transaction.
-Example: the trunk/branch transactions are the approvees of a given transaction.</li>
-<li><code>Solid</code> means that the past cone of a given transaction exists in the database.</li>
-<li>A <code>tail transaction</code> is the transaction at index zero of a bundle. Only a tail transaction can be a <code>tip</code>.</li>
-<li>A <code>valid bundle</code> is a bundle which is structurally correct and has valid signatures (in case it moves funds).</li>
-<li>A <code>tip</code> is a solid tail transaction of a valid bundle without any approvers. Its past cone contains only valid bundles.</li>
-<li>A <code>score</code> is a scoring  determining the likeliness to select a given <code>tip</code>.</li>
-<li><code>Confirmed Root Transactions</code> defines the set of first seen transactions which are confirmed by a previous milestone 
-when we walk the past cone of a given transaction. The walk stops on confirmed transactions.<br />
-Note that the red marked milestone is also a <code>Confirmed Root Transaction</code>.
+<li><code>Direct Approvers</code> - The set of messages which directly approve a given message.</li>
+<li><code>Approvee</code> - The directly approved message of a given message.</li>
+<li><code>Solid Message</code> - A message that its past cone is known to the node.</li>
+<li><code>Valid Message</code>- A message which is syntactically valid.</li>
+<li><code>Tip</code> - A valid solid message that doesn't have approvers. Its past cone contains only valid messages.</li>
+<li><code>Score</code> - An integer assigned to a <code>tip</code>. The tip selection algorithm uses it to determine how to select tips.</li>
+<li><code>Confirmed Root Message</code> - The set of first seen messages which are confirmed by a previous milestone 
+when we walk the past cone of a given message. The walk stops on a confirmed message.<br />
+Note that the red marked milestone is also a <code>Confirmed Root Message</code>.
 <img src="images/cnf_tx_roots.PNG" alt="sdf" /></li>
-<li><code>Transaction Snapshot Index (TSI)</code> defines the index of the milestone which confirmed a given transaction.</li>
-<li><code>Oldest Transaction Root Snapshot Index (OTRSI)</code> defines the lowest milestone index of a set of
-<code>Confirmed Root Transactions</code> of a given transaction.</li>
-<li><code>Youngest Transaction Root Snapshot Index (YTRSI)</code> defines the highest milestone index of a set of
-<code>Confirmed Root Transactions</code> of a given transaction.</li>
+<li><code>Message Snapshot Index (MSI)</code> defines the index of the milestone which confirmed a given message.</li>
+<li><code>Oldest Message Root Snapshot Index (OMRSI)</code> defines the lowest milestone index of a set of
+<code>Confirmed Root Messages</code> of a given messages.</li>
+<li><code>Youngest Message Root Snapshot Index (YMRSI)</code> defines the highest milestone index of a set of
+<code>Confirmed Root Messages</code> of a given message.</li>
 <li><code>Latest Solid Milestone Index (LSMI)</code> the index of the latest solid milestone.</li>
-<li><code>Below Max Depth (BMD)</code> defines a threshold value up on which it is decided on whether a transaction is not
+<li><code>Below Max Depth (BMD)</code> defines a threshold value up on which it is decided on whether a message is not
 relevant in relation to the recent parts of the Tangle. The current <code>BMD</code> for mainnet nodes is 15 milestones, 
-which means that transactions of which their <code>OTRSI</code> in relation to the <code>LSMI</code> is more than 15, are &quot;below max depth&quot;.</li>
+which means that messages of which their <code>OMRSI</code> in relation to the <code>LSMI</code> is more than 15, are &quot;below max depth&quot;.</li>
 </ul>
-<h3><a class="header" href="#otrsi--ytrsi-example" id="otrsi--ytrsi-example">OTRSI / YTRSI example</a></h3>
-<p>Given the blue PoV transaction, the <code>OTRSI</code> of it is milestone 1 and <code>YTRSI</code> milestone 2.
-Note that here again, the milestones are also <code>Confirmed Root Transactions</code>.
+<h3><a class="header" href="#omrsi--ymrsi-example" id="omrsi--ymrsi-example">OMRSI / YMRSI example</a></h3>
+<p>Given the blue PoV message, the <code>OMRSI</code> of it is milestone 1 and <code>YMRSI</code> milestone 2.
+Note that, here again, the milestones are also <code>Confirmed Root Messages</code>.
 <img src="images/otrsi_ytrsi.PNG" alt="sdf" /></p>
 <h3><a class="header" href="#milestone-based-tip-scoring" id="milestone-based-tip-scoring">Milestone based tip scoring</a></h3>
 <p>The milestone based scoring defines a tip's score by investigating the tip's relation to
@@ -220,15 +217,15 @@ the cone it approves and previous issued  milestones.</p>
 </ul>
 <p>Definitions:</p>
 <ul>
-<li><code>C1</code>: Max allowed delta value for the <code>YTRSI</code> of a given transaction in relation to the current <code>LSMI</code>.</li>
-<li><code>C2</code>: Max allowed delta value between <code>OTRSI</code> of the approvees of a given transaction in relation to the current <code>LSMI</code>. </li>
-<li><code>M</code>: Max allowed delta value between <code>OTRSI</code> of the given transaction in relation to the current <code>LSMI</code>.
+<li><code>C1</code>: Max allowed delta value for the <code>YMRSI</code> of a given message in relation to the current <code>LSMI</code>.</li>
+<li><code>C2</code>: Max allowed delta value between <code>OMRSI</code> of a given message in relation to the current <code>LSMI</code>. </li>
+<li><code>M</code>: Max allowed delta value between <code>OMRSI</code> of the given message in relation to the current <code>LSMI</code>.
 <code>M</code> is the <code>below max depth (BMD)</code> parameter.</li>
 </ul>
 <p>Recommended defaults:</p>
 <ul>
-<li><code>C1</code> = 2 milestones</li>
-<li><code>C2</code> = 7 milestones</li>
+<li><code>C1</code> = 8 milestones</li>
+<li><code>C2</code> = 13 milestones</li>
 <li><code>M</code> = 15 milestones</li>
 </ul>
 <p>Scoring Algorithm (pseudo code):</p>
@@ -240,115 +237,66 @@ enum Score (
 )
 
 const (
-    C1 = 2
-    C2 = 7
+    C1 = 8
+    C2 = 13
     M = 15
 )
 
 func score(tip Tip) Score {
     
-    // if the LSMI to YTRSI delta is over C1, then the tip is lazy
-    if (LSMI - YTRSI(tip) &gt; C1) {
+    // if the LSMI to YMRSI delta is over C1, then the tip is lazy
+    if (LSMI - YMRSI(tip) &gt; C1) {
         return Score.LAZY
     }
     
-    // if the OTRSI to LSMI delta is over M/below-max-depth, then the tip is lazy
-    if (LSMI - OTRSI(tip) &gt; M) {
+    // if the OMRSI to LSMI delta is over M/below-max-depth, then the tip is lazy
+    if (LSMI - OMRSI(tip) &gt; M) {
         return Score.LAZY
     }
     
-    // the approvees (trunk and branch) are the tail transactions this tip approves
-    approvees := tip.Approvees()
-    approveesOTRSICheck := 2
-    for (i := 0; i &lt; 2; i++) {
-        approvee := approvees[i]
-    
-        // direct approvee is already lazy, therefore so is this tip
-        if (approvee.Score == 0) {
-            return Score.LAZY
-        }
-        
-        // if the OTRSI to LSMI delta of the approvee is above C2, we mark it as such
-        if (LSMI - OTRSI(approvee) &gt; C2) {
-            approveesOTRSICheck--
-        }
-    }
-
-    // if both approvees' OTRSI violates the LSMI delta in relation to C2 the tip is lazy too
-    if (approveesOTRSICheck == 0) {
-        return Score.LAZY
-    }
-    
-    // if only one of the approvees violated the OTRSI to LMSI delta, the tip is considered semi-lazy
-    if (approveesOTRSICheck == 1) {
+    if (LSMI - OMRSI(tip) &gt; C2) {
         return Score.SEMI_LAZY
     }
 
     return Score.NON_LAZY
 }
 </code></pre>
-<h3><a class="header" href="#weighted-random-tip-selection" id="weighted-random-tip-selection">Weighted Random Tip-Selection</a></h3>
-<p>Given the scoring, a node should keep a set of semi-/non-lazy tips with their associated score.
+<h3><a class="header" href="#random-tip-selection" id="random-tip-selection">Random Tip-Selection</a></h3>
+<p>A node should keep a set of non-lazy tips (score 2).
+Every time a node is asked to select tips to be approved, it will pick randomly from the set. 
 A node must not execute tip-selection if it is not synchronized.</p>
-<p>Tip-Selection (pseudo code):</p>
-<pre><code>
-// a set which contains only semi- and non-lazy tips
-var tips = Set(tips_and_score)
-
-func select() Tip {
-    // if we have no semi-/non-lazy tips, we return null
-    if (tips.length == 0) {
-        return null
-    }
-
-    // compute the sum of the score of all tips
-    scoreSum := tips.ScoreSum()
-    
-    // get a random number between 1 and the score sum
-    r := rand.Int(1, scoreSum)
-    
-    // iterate over the tips set and subtract each tip's score from r
-    for (i := 0; i &lt; tips.length; i++){
-        // subtract the tip's score from r
-        r -= tips[i].Score
-        // if r reaches zero or below, we return the given tip
-        if (r &lt;= 0) {
-            return tips[i] 
-        }
-    }
-    
-    // no tips
-    return null
-}
-</code></pre>
-<p>A tip should not be removed from the tips set immediately after it was selected in <code>select()</code>, 
-in order to make it possible for it to be re-selected, which in turn makes the Tangle wider
+<p>A tip should not be removed from the tips set immediately after it was selected in <code>select()</code>,  to make it possible for it to be re-selected, which in turn makes the Tangle wider
 and improves synchronization speed. A tip is removed from the tips set if <code>X</code> amount of direct
-approvers are reached. It is recommended to use 2 for <code>X</code> but the threshold should be configurable. </p>
+approvers are reached or if a certain amount of time <code>T</code> passed. 
+It is recommended to use <code>X</code> = 2 and <code>T</code> = 3  but the threshold should be configurable.</p>
+<h3><a class="header" href="#purpose-of-semi-lazy-tips" id="purpose-of-semi-lazy-tips">Purpose Of Semi-Lazy Tips</a></h3>
+<p>Semi-Lazy tips are not eligible for tip-selection, but the coordinator node may implement a tip selection algorithm
+that confirms semi-lazy tips. Semi-lazy tips will usually be left behind, but parties interested in having them confirmed
+are incentivized to run spammers that will actively reduce the amount of semi-lazy tips eligible for coordinator's tip selection. 
+Given a coordinator that chooses semi-lazy tips, running such spammers may get those messages confirmed before
+they become lazy.</p>
 <h1><a class="header" href="#drawbacks" id="drawbacks">Drawbacks</a></h1>
-<p>Depending on when and how often <code>YTRSI</code>/<code>OTRSI</code> values are computed, this tip-selection could still
-have a slow runtime, as one would need to constantly walk down the Tangle in order to compute those
+<p>Depending on when and how often <code>YMRSI</code>/<code>OMRSI</code> values are computed, this tip-selection could still
+have a slow runtime, as one would need to constantly walk down the Tangle to compute those
 values. However, smart caching might resolve this issue. </p>
 <h1><a class="header" href="#rationale-and-alternatives" id="rationale-and-alternatives">Rationale and alternatives</a></h1>
 <p>The previous tip-selection was written in accordance to the original IOTA whitepaper, as it also
-functioned as the consensus mechanism to determine a transaction's confirmation rate.
+functioned as part of the consensus mechanism.
 However, relatively soon it became apparent that the cumulative weight computation was too heavy
-for an actual high throughput scenario and as such, the CW calculation is currently not used within
+for an actual high throughput scenario and, as such, the CW calculation is currently not used within
 node implementations at all.</p>
-<p>Because confirmations with the <code>white-flag</code> approach no longer only approve cones with state mutations
+<p>Because confirmations with the <a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md">white-flag</a> approach no longer approve cones only with state mutations,
 which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide 
-a fast way to get tips to approve with one's own transaction.
-The only important thing is to disincentive lazy behaviour in order to be able to maximize confirmation rate.</p>
+a fast way to get tips to approve with one's own message.
+The only important thing is to disincentive lazy behaviour to be able to maximize confirmation rate.</p>
 <h1><a class="header" href="#unresolved-questions" id="unresolved-questions">Unresolved questions</a></h1>
-<h4><a class="header" href="#when-to-compute-the-ytrsiotrsi-of-a-transaction" id="when-to-compute-the-ytrsiotrsi-of-a-transaction">When to compute the <code>YTRSI</code>/<code>OTRSI</code> of a transaction?</a></h4>
-<p>It is not yet clear when or how often the <code>YTRSI</code>/<code>OTRSI</code> values of a transaction should be updated.
-If the values are only computed once after a transaction became solid, the <code>YTRSI</code>/<code>OTRSI</code> might not
+<h4><a class="header" href="#when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction" id="when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction">When to compute the score and <code>YMRSI</code>/<code>OMRSI</code> of a transaction?</a></h4>
+<p>It is not yet clear when or how often the <code>YMRSI</code>/<code>OMRSI</code> values of a transaction should be updated.
+If the values are only computed once after a transaction became solid, the <code>YMRSI</code>/<code>OMRSI</code> might not
 resemble the true values, as subsequent milestones might confirm transactions within the same cone the
 given transaction approved.</p>
-<p>However, one can argue that the <code>YTRSI</code>/<code>OTRSI</code> do not shift by that much in
-such case, so that it is fine to compute them only up on solidification of a given transaction.
-This assumption builds up on the fact, that the Coordinator would not confirm transactions
-in such depth that it would cause the origin values to differ by much from the newly computed values.</p>
+<p>Currently, we suggest recomputing the values every time a new milestone solidifies. 
+Since different tips indirectly reference the same transactions, this computation can be optimized.</p>
 
                     </main>
 
