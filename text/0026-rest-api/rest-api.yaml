@@ -743,6 +743,7 @@ components:
           isSolid: true
           referencedByMilestoneIndex: 15465
           ledgerInclusionState: conflicting
+          conflictReason: 1
     post-indexation-message-request-example-full:
       value:
         networkId: '6530425480034647824'
@@ -1320,10 +1321,14 @@ components:
             referencedByMilestoneIndex:
               type: integer
               nullable: true
+            milestoneIndex:
+              type: integer
             ledgerInclusionState:
               enum:
                 - included
                 - conflicting
+            conflictReason:
+              type: integer
             shouldPromote:
               type: boolean
             shouldReattach:
