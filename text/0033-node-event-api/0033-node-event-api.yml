@@ -70,10 +70,10 @@ components:
       payload:
         type: object
         required:
-          - "milestoneIndex"
+          - "index"
           - "timestamp"
         properties:
-          milestoneIndex:
+          index:
             type: number
             description: The index of the milestone.
             example: 242412
