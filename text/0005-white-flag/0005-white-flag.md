@@ -8,7 +8,7 @@ This RFC is part of a set of protocol changes, [Chrysalis](https://roadmap.iota.
 network before [Coordicide](https://coordicide.iota.org/) is complete.
 
 The feature presented in this RFC, White Flag, allows milestones to confirm conflicting messages by enforcing
-deterministic ordering of the Tangle and applying only the first message(s) that does not violate the ledger state.
+deterministic ordering of the Tangle and applying only the first message(s) that will not violate the ledger state.
 
 The content of this RFC is based on [Conflict white flag: Mitigate conflict spamming by ignoring conflicts](https://iota.cafe/t/conflict-white-flag-mitigate-conflict-spamming-by-ignoring-conflicts/233).
 
@@ -31,14 +31,14 @@ First, let us define what it means for a message A to be:
 - ignored: A is confirmed but not applied because it is semantically invalid;
 - conflicting: A would lead to an invalid ledger state if applied;
 
-In case of conflicting message with White Flag, a node applies only one message to the ledger state and ignores
+In case of conflicting messages with White Flag, a node applies only one message to the ledger state and ignores
 all the others. For this to work, all the nodes need to be sure they are all applying the same message; hence, the
 need for a deterministic ordering of the Tangle.
 
 First, this RFC proposes a deterministic ordering of the Tangle, then it explains which message is selected in case
 of conflicts.
 
-**Note: The pastcone of milestone can only contain syntactically valid messages. If an invalid message is encountered operations must be stopped immediately.**
+**Note: The pastcone of milestone can only contain syntactically valid messages. If an invalid message is encountered, operations must be stopped immediately.**
 
 ## Deterministically ordering the Tangle
 
@@ -50,7 +50,7 @@ in a deterministic order with no extra overhead.
 
 This ordering is then defined as a [topological ordering](https://en.wikipedia.org/wiki/Topological_sorting) because
 it respects the dependency of messages, ensuring that the `parent1` and `parent2` of a message are applied before it.
-Since there are multiple valid topological orders for the same graph and in order to avoid conflicting ledger states it
+Since there are multiple valid topological orders for the same graph and, to avoid conflicting ledger states, it
 is required that all nodes apply messages in the exact same order.
 
 For this reason, this RFC propose an order that has to be rigorously followed by all node implementations. This order is
@@ -67,7 +67,7 @@ to the order previously proposed - of the conflicting messages to the ledger and
 Once a message is marked as ignored, this is final and cannot be changed by a later milestone.
 
 Since the ledger state is maintained from one milestone to another, a message conflicting with a message already
-confirmed by a previous milestone would also obviously be ignored.
+confirmed by a previous milestone would also be ignored.
 
 ## Pseudo-code
 
@@ -110,7 +110,7 @@ update_ledger_state(ledger, milestone, solid_entry_points) {
 
 **Notes**:
 - `solid_entry_points` is a set of hashes that are considered solid even though we do not have them or their past in
-database. They often come from a snapshot file and allow a node to solidify without needing the full tangle history.
+a database. They often come from a snapshot file and allow a node to solidify without needing the full tangle history.
 The hash of the genesis message is also a solid entry point.
 - `confirmation_index` is the index of the milestone that confirmed the message.
 
@@ -128,7 +128,7 @@ Applying the previously shown algorithm on the purple set produces the topologic
 
 ![][Tangle-conflict]
 
-Here, message `G` and message `O` both confirmed by milestone `V` are conflicting. Since in the topological order just
+Here, message `G` and message `O`, both confirmed by milestone `V`, are conflicting. Since in the topological order just
 produced, `G` appears before `O`, `G` is applied to the ledger and `O` is ignored.
 
 # Drawbacks
