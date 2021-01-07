@@ -24,6 +24,8 @@ tags:
     description: Everything about UTXOs.
   - name: milestones
     description: Everything about milestones.
+  - name: peers
+    description: Everything about the peers of the node.
 paths:
   /health:
     get:
@@ -50,9 +52,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GetInfoResponse'
+                $ref: '#/components/schemas/GetInfoResponse'
               examples:
                 default:
                   $ref: '#/components/examples/get-info-response-example'
@@ -70,9 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GetTipsResponse'
+                $ref: '#/components/schemas/GetTipsResponse'
               examples:
                 Different tips:
                   $ref: '#/components/examples/get-tips-response-example-different'
@@ -100,13 +98,17 @@ paths:
               $ref: '#/components/schemas/PostMessagesRequest'
             examples:
               Full message with Indexation Payload:
-                $ref: '#/components/examples/post-indexation-message-request-example-full'
+                $ref: >-
+                  #/components/examples/post-indexation-message-request-example-full
               Minimal Message with Indexation Payload:
-                $ref: '#/components/examples/post-indexation-message-request-example-minimal'
+                $ref: >-
+                  #/components/examples/post-indexation-message-request-example-minimal
               Full message with Transaction Payload:
-                $ref: '#/components/examples/post-transaction-message-request-example-full'
+                $ref: >-
+                  #/components/examples/post-transaction-message-request-example-full
               Minimal Message with Transaction Payload:
-                $ref: '#/components/examples/post-transaction-message-request-example-minimal'
+                $ref: >-
+                  #/components/examples/post-transaction-message-request-example-minimal
           application/octet-steam:
             schema:
               type: string
@@ -448,10 +450,10 @@ paths:
         - UTXO
       summary: Get all outputs that use a given bech32-encoded address.
       description: >-
-        Get all outputs that use a given bech32-encoded address. If count equals maxResults,
-        then there might be more outputs available but those were skipped for
-        performance reasons. User should sweep the address to reduce the amount
-        of outputs.
+        Get all outputs that use a given bech32-encoded address. If count equals
+        maxResults, then there might be more outputs available but those were
+        skipped for performance reasons. User should sweep the address to reduce
+        the amount of outputs.
       parameters:
         - in: path
           name: address
@@ -491,10 +493,10 @@ paths:
         - UTXO
       summary: Get all outputs that use a given hex-encoded Ed25519 address.
       description: >-
-        Get all outputs that use a given hex-encoded Ed25519 address. If count equals maxResults,
-        then there might be more outputs available but those were skipped for
-        performance reasons. User should sweep the address to reduce the amount
-        of outputs.
+        Get all outputs that use a given hex-encoded Ed25519 address. If count
+        equals maxResults, then there might be more outputs available but those
+        were skipped for performance reasons. User should sweep the address to
+        reduce the amount of outputs.
       parameters:
         - in: path
           name: address
@@ -565,6 +567,108 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundErrorResponse'
+  /api/v1/peers:
+    get:
+      tags:
+        - peers
+      summary: Get information about all peers of the node.
+      description: Get information about all peers of the node.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPeersResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-peers-response-example'
+    post:
+      tags:
+        - peers
+      summary: Add a peer to the node.
+      description: 'Add a peer to the node. '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostPeerRequest'
+            examples:
+              default:
+                $ref: '#/components/examples/post-peer-request-example'
+        required: true
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostPeerResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/post-peer-response-example'
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+  '/api/v1/peers/{peerId}':
+    get:
+      tags:
+        - peers
+      summary: Get information about a specific peer.
+      description: Get information about a specific peer.
+      parameters:
+        - in: path
+          name: peerId
+          schema:
+            type: string
+          example: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+          required: true
+          description: Identifier of the message.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPeerResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-peer-response-example'
+        '400':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorResponse'
+        '404':
+          description: unsuccessful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorResponse'
+    delete:
+      tags:
+        - peers
+      summary: Remove a specific peer.
+      description: Remove a specific peer.
+      parameters:
+        - in: path
+          name: peerId
+          schema:
+            type: string
+          example: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+          required: true
+          description: Identifier of the message.
+      responses:
+        '200':
+          description: peer sucessfully removed
+        '400':
+          description: invalid request
+        '404':
+          description: peer not found
 components:
   examples:
     get-info-response-example:
@@ -579,7 +683,7 @@ components:
           pruningIndex: 0
           features:
             - PoW
-          minPowScore: 4000.0
+          minPowScore: 4000
     get-tips-response-example-different:
       value:
         data:
@@ -665,26 +769,31 @@ components:
             type: 0
             inputs:
               - type: 0
-                transactionId: 704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
+                transactionId: >-
+                  704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
                 transactionOutputIndex: 0
             outputs:
               - type: 0
                 address:
                   type: 1
-                  address: '06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582'
+                  address: >-
+                    06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582
                 amount: 999999999000
               - type: 0
                 address:
                   type: 1
-                  address: 5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
+                  address: >-
+                    5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
                 amount: 1000
-            payload:
+            payload: null
           unlockBlocks:
             - type: 0
               signature:
                 type: 1
-                publicKey: 34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
-                signature: b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
+                publicKey: >-
+                  34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
+                signature: >-
+                  b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
     post-transaction-message-request-example-full:
       value:
         networkId: '6530425480034647824'
@@ -696,26 +805,31 @@ components:
             type: 0
             inputs:
               - type: 0
-                transactionId: 704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
+                transactionId: >-
+                  704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
                 transactionOutputIndex: 0
             outputs:
               - type: 0
                 address:
                   type: 1
-                  address: '06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582'
+                  address: >-
+                    06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582
                 amount: 999999999000
               - type: 0
                 address:
                   type: 1
-                  address: 5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
+                  address: >-
+                    5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
                 amount: 1000
-            payload:
+            payload: null
           unlockBlocks:
             - type: 0
               signature:
                 type: 1
-                publicKey: 34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
-                signature: b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
+                publicKey: >-
+                  34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
+                signature: >-
+                  b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
         nonce: '1398515'
     get-message-by-id-empty-response-example:
       value:
@@ -725,7 +839,6 @@ components:
           parent2MessageId: e8db39681478cf9826bd2f31d045f16f5e1f478c5abc3030419da7911df9e288
           payload: null
           nonce: '1481'
-
     get-message-by-id-transaction-response-example:
       value:
         data:
@@ -781,8 +894,10 @@ components:
               - 7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a
               - e468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6
             signatures:
-              - f5a48946b8fca18fb2e96aec6e5da618a3dda6aaa543821726676dbc675081b0038566548913cb7dc87dbce506bcbd345b7836a5a1f727b8ce53a22f3cbdc609
-              - 27738e6b61a987a25a510f00a649d4cbec8a580af4ca1de93e6938dbf0a2aa2fc90b350e29593421cda88110e63e8e02068678b88e25c0bed44b0ff8c95e7606
+              - >-
+                f5a48946b8fca18fb2e96aec6e5da618a3dda6aaa543821726676dbc675081b0038566548913cb7dc87dbce506bcbd345b7836a5a1f727b8ce53a22f3cbdc609
+              - >-
+                27738e6b61a987a25a510f00a649d4cbec8a580af4ca1de93e6938dbf0a2aa2fc90b350e29593421cda88110e63e8e02068678b88e25c0bed44b0ff8c95e7606
           nonce: '1666062'
     get-message-by-id-indexation-response-example:
       value:
@@ -866,16 +981,86 @@ components:
           maxResults: 1000
           count: 4
           outputIds:
-            - 1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a52980100
-            - 3d36ec4afb2d634b9313f84606b98b69675a3ef6f44dcdecb18c30945b57221e0100
-            - ee3447d088e3e2c53c5b3e56a38fdc859ca2c4b4161cf256c0462ce4d34731820100
-            - f8bdbfb0f57ade7fbb95d31b11e2dbda9b2a35e9dc0cd3e11cb324e8a6bedc260100
+            - >-
+              1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a52980100
+            - >-
+              3d36ec4afb2d634b9313f84606b98b69675a3ef6f44dcdecb18c30945b57221e0100
+            - >-
+              ee3447d088e3e2c53c5b3e56a38fdc859ca2c4b4161cf256c0462ce4d34731820100
+            - >-
+              f8bdbfb0f57ade7fbb95d31b11e2dbda9b2a35e9dc0cd3e11cb324e8a6bedc260100
     get-milestone-by-index-response-example:
       value:
         data:
           milestoneIndex: 15465
           messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           timestamp: 1602227215
+    get-peers-response-example:
+      value:
+        data:
+          - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            multiAddresses:
+              - /dns/abc.com/tcp/15602
+            relation: known
+            connected: true
+            gossipMetrics:
+              sentPackets: 0
+              droppedSentPackets: 0
+              receivedHeartbeats: 0
+              sentHeartbeats: 0
+              receivedMessages: 0
+              newMessages: 0
+              knownMessages: 0
+          - id: 12F4AooXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            multiAddresses:
+              - /dns/xyz.io/tcp/15600
+            relation: known
+            connected: true
+            gossipMetrics:
+              sentPackets: 0
+              droppedSentPackets: 0
+              receivedHeartbeats: 0
+              sentHeartbeats: 0
+              receivedMessages: 0
+              newMessages: 0
+              knownMessages: 0
+    get-peer-response-example:
+      value:
+        data:
+          - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            multiAddresses:
+              - /dns/abc.com/tcp/15602
+            relation: known
+            connected: true
+            gossipMetrics:
+              sentPackets: 0
+              droppedSentPackets: 0
+              receivedHeartbeats: 0
+              sentHeartbeats: 0
+              receivedMessages: 0
+              newMessages: 0
+              knownMessages: 0
+    post-peer-request-example:
+      value:
+        multiAddress: >-
+          /dns/abc.com/tcp/15602/p2p/12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+        alias: abc.com
+    post-peer-response-example:
+      value:
+        data:
+          - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            multiAddresses:
+              - /dns/abc.com/tcp/15602
+            relation: known
+            connected: true
+            gossipMetrics:
+              sentPackets: 0
+              droppedSentPackets: 0
+              receivedHeartbeats: 0
+              sentHeartbeats: 0
+              receivedMessages: 0
+              newMessages: 0
+              knownMessages: 0
   schemas:
     Message:
       properties:
@@ -999,6 +1184,34 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
         amount:
           type: integer
+    Peer:
+      properties:
+        id:
+          type: string
+        multiAddresses:
+          type: array
+          items:
+            type: string
+        relation:
+          type: integer
+        connected:
+          type: boolean
+        gossipMetrics:
+          properties:
+            sentPackets:
+              type: integer
+            droppedSentPackets:
+              type: integer
+            receivedHeartbeats:
+              type: integer
+            sentHeartbeats:
+              type: integer
+            receivedMessages:
+              type: integer
+            newMessages:
+              type: integer
+            knownMessages:
+              type: integer
     ErrorResponse:
       properties:
         error:
@@ -1197,3 +1410,28 @@ components:
               type: string
             timestamp:
               type: integer
+    GetPeersResponse:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Peer'
+    GetPeerResponse:
+      properties:
+        data:
+          allOf:
+            - $ref: '#/components/schemas/Peer'
+    PostPeerRequest:
+      properties:
+        multiAddress:
+          type: string
+        alias:
+          type: string
+      required:
+        - multiAddress
+        - alias
+    PostPeerResponse:
+      properties:
+        data:
+          allOf:
+            - $ref: '#/components/schemas/Peer'
