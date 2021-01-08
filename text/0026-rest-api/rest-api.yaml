@@ -1030,6 +1030,26 @@ components:
             relation: known
             connected: true
             gossipMetrics:
+              receivedMessages: 10352
+              newMessages: 23423
+              knownMessages: 6754
+              receivedMessageRequests: 3
+              receivedMilestoneRequests: 12
+              receivedHeartbeats: 53
+              sentMessages: 546
+              sentMessageRequests: 547234
+              sentMilestoneRequests: 234
+              sentHeartbeats: 3
+              droppedPackets: 435
+    get-peer-response-example:
+      value:
+        data:
+          - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            multiAddresses:
+              - /dns/abc.com/tcp/15602
+            relation: known
+            connected: true
+            gossipMetrics:
               receivedMessages: 109779
               newMessages: 104893
               knownMessages: 4415
@@ -1041,22 +1061,6 @@ components:
               sentMilestoneRequests: 909
               sentHeartbeats: 2
               droppedPackets: 324
-    get-peer-response-example:
-      value:
-        data:
-          - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
-            multiAddresses:
-              - /dns/abc.com/tcp/15602
-            relation: known
-            connected: true
-            gossipMetrics:
-              sentPackets: 0
-              droppedSentPackets: 0
-              receivedHeartbeats: 0
-              sentHeartbeats: 0
-              receivedMessages: 0
-              newMessages: 0
-              knownMessages: 0
     post-peer-request-example:
       value:
         multiAddress: >-
@@ -1071,13 +1075,17 @@ components:
             relation: known
             connected: true
             gossipMetrics:
-              sentPackets: 0
-              droppedSentPackets: 0
-              receivedHeartbeats: 0
-              sentHeartbeats: 0
               receivedMessages: 0
               newMessages: 0
               knownMessages: 0
+              receivedMessageRequests: 0
+              receivedMilestoneRequests: 0
+              receivedHeartbeats: 0
+              sentMessages: 0
+              sentMessageRequests: 0
+              sentMilestoneRequests: 0
+              sentHeartbeats: 0
+              droppedPackets: 0
   schemas:
     Message:
       properties:
