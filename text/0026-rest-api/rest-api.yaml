@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: IOTA REST API
-  description: This document describes the upcoming REST API for Hornet and Bee.
+  description: This document specifies the REST API for IOTA node software.
   contact:
     email: contact@iota.org
   license:
@@ -34,12 +34,15 @@ paths:
       summary: Returns the health of the node.
       description: >-
         Returns the health of the node, which can be useful for load-balancing
-        or uptime monitoring.
+        or uptime monitoring. <br> A node considers itself healthy if its solid
+        milestone is max. 2 delta away from the latest known milestone, has at
+        least one ongoing gossip stream and the latest known milestone is newer
+        than 5 minutes.
       responses:
         '200':
-          description: node is healthy
+          description: The node does consider itself healthy.
         '503':
-          description: node is not healthy
+          description: The node does not consider itself healthy.
   /api/v1/info:
     get:
       tags:
@@ -66,18 +69,22 @@ paths:
         `tip1MessageId` and `tip2MessageId` are identical.
       responses:
         '200':
-          description: successful operation
+          description: >-
+            If there is at least on tip available and the node does consider itself
+            synced.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTipsResponse'
               examples:
-                Different tips:
+                Multiple tips availalbe:
                   $ref: '#/components/examples/get-tips-response-example-different'
-                Identical tips:
+                Only one tip available:
                   $ref: '#/components/examples/get-tips-response-example-identical'
         '503':
-          description: unsuccessful operation
+          description: >-
+            If there are no tips available and the node does not consider
+            iteself synced.
           content:
             application/json:
               schema:
@@ -88,9 +95,12 @@ paths:
         - messages
       summary: Submit a message.
       description: >-
-        Submit a message. The node takes care of missing fields and tries to
+        Submit a message. The node takes care of missing* fields and tries to
         build the message. On success, the message will be stored in the Tangle.
-        This endpoint will return the identifier of the message.
+        This endpoint will return the identifier of the message. <br><br> *The
+        node will try to auto-fill the following fields in case they are
+        missing: `networkId`, `parent1MessageId`, `parent2MessageId`, `nonce`.
+        If `payload`  is missing, the message will be built without a payload.
       requestBody:
         content:
           application/json:
@@ -297,10 +307,8 @@ paths:
     get:
       tags:
         - messages
-      summary: Returns the list of messages that reference a message by its identifier.
-      description: >-
-        Find a message by its identifer. This endpoint returns the given message
-        including payload.
+      summary: Returns the children of a message.
+      description: Returns the children of a message.
       parameters:
         - in: path
           name: messageId
@@ -342,8 +350,8 @@ paths:
             type: string
           required: true
           description: >-
-            Identifier of the output. An output is identified by the
-            concatenation of `transaction_id+output_index`.
+            Identifier of the output encoded in hex. An output is identified by
+            the concatenation of `transaction_id+output_index`.
       responses:
         '200':
           description: successful operation
@@ -382,7 +390,7 @@ paths:
           name: address
           schema:
             type: string
-          example: iot1qx82lpavrafwkp0jclqvz4gzm7vs5g5g8rwr00gcm62s8456l5jh6aw0td8
+          example: iota1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj0w6qwt
           required: true
           description: bech32 encoded address
       responses:
@@ -459,7 +467,7 @@ paths:
           name: address
           schema:
             type: string
-          example: iot1qx82lpavrafwkp0jclqvz4gzm7vs5g5g8rwr00gcm62s8456l5jh6aw0td8
+          example: iota1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj0w6qwt
           required: true
           description: bech32-encoded address that is referenced by the outputs.
         - in: query
@@ -587,7 +595,7 @@ paths:
       tags:
         - peers
       summary: Add a peer to the node.
-      description: 'Add a peer to the node. '
+      description: Add a peer to the node.
       requestBody:
         content:
           application/json:
@@ -652,8 +660,8 @@ paths:
     delete:
       tags:
         - peers
-      summary: Remove a specific peer.
-      description: Remove a specific peer.
+      summary: Remove/disconnect a specific peer.
+      description: Remove/disconnect a specific peer.
       parameters:
         - in: path
           name: peerId
@@ -993,7 +1001,7 @@ components:
     get-milestone-by-index-response-example:
       value:
         data:
-          milestoneIndex: 15465
+          index: 15465
           messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           timestamp: 1602227215
     get-peers-response-example:
@@ -1409,7 +1417,7 @@ components:
         data:
           type: object
           properties:
-            milestoneIndex:
+            index:
               type: integer
             messageId:
               type: string
