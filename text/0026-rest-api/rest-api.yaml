@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: IOTA REST API
-  description: This document describes the upcoming REST API for Hornet and Bee.
+  description: This document specifies the REST API for IOTA node software.
   contact:
     email: contact@iota.org
   license:
