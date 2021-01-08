@@ -1013,26 +1013,34 @@ components:
             relation: known
             connected: true
             gossipMetrics:
-              sentPackets: 0
-              droppedSentPackets: 0
-              receivedHeartbeats: 0
-              sentHeartbeats: 0
-              receivedMessages: 0
-              newMessages: 0
-              knownMessages: 0
+              receivedMessages: 109779
+              newMessages: 104893
+              knownMessages: 4415
+              receivedMessageRequests: 0
+              receivedMilestoneRequests: 1
+              receivedHeartbeats: 3
+              sentMessages: 474
+              sentMessageRequests: 108250
+              sentMilestoneRequests: 909
+              sentHeartbeats: 2
+              droppedPackets: 324
           - id: 12F4AooXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
             multiAddresses:
               - /dns/xyz.io/tcp/15600
             relation: known
             connected: true
             gossipMetrics:
-              sentPackets: 0
-              droppedSentPackets: 0
-              receivedHeartbeats: 0
-              sentHeartbeats: 0
-              receivedMessages: 0
-              newMessages: 0
-              knownMessages: 0
+              receivedMessages: 109779
+              newMessages: 104893
+              knownMessages: 4415
+              receivedMessageRequests: 0
+              receivedMilestoneRequests: 1
+              receivedHeartbeats: 3
+              sentMessages: 474
+              sentMessageRequests: 108250
+              sentMilestoneRequests: 909
+              sentHeartbeats: 2
+              droppedPackets: 324
     get-peer-response-example:
       value:
         data:
@@ -1207,19 +1215,27 @@ components:
           type: boolean
         gossipMetrics:
           properties:
-            sentPackets:
-              type: integer
-            droppedSentPackets:
-              type: integer
-            receivedHeartbeats:
-              type: integer
-            sentHeartbeats:
-              type: integer
             receivedMessages:
               type: integer
             newMessages:
               type: integer
             knownMessages:
+              type: integer
+            receivedMessageRequests:
+              type: integer
+            receivedMilestoneRequests:
+              type: integer
+            receivedHeartbeats:
+              type: integer
+            sentMessages:
+              type: integer
+            sentMessageRequests:
+              type: integer
+            sentMilestoneRequests:
+              type: integer
+            sentHeartbeats:
+              type: integer
+            droppedPackets:
               type: integer
     ErrorResponse:
       properties:
