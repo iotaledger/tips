@@ -34,7 +34,7 @@ paths:
       summary: Returns the health of the node.
       description: >-
         Returns the health of the node, which can be useful for load-balancing
-        or uptime monitoring. <br> A node considers itself healthy if its solid
+        or uptime monitoring. A node considers itself healthy if its solid
         milestone is max. 2 delta away from the latest known milestone, has at
         least one ongoing gossip stream and the latest known milestone is newer
         than 5 minutes.
@@ -97,7 +97,7 @@ paths:
       description: >-
         Submit a message. The node takes care of missing* fields and tries to
         build the message. On success, the message will be stored in the Tangle.
-        This endpoint will return the identifier of the message. <br><br> *The
+        This endpoint will return the identifier of the message. *The
         node will try to auto-fill the following fields in case they are
         missing: `networkId`, `parent1MessageId`, `parent2MessageId`, `nonce`.
         If `payload`  is missing, the message will be built without a payload.
