@@ -55,7 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetInfoResponse'
+                $ref: '#/components/schemas/InfoResponse'
               examples:
                 default:
                   $ref: '#/components/examples/get-info-response-example'
@@ -75,7 +75,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetTipsResponse'
+                $ref: '#/components/schemas/TipsResponse'
               examples:
                 Multiple tips availalbe:
                   $ref: '#/components/examples/get-tips-response-example-different'
@@ -88,7 +88,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceUnavailableErrorResponse'
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
   /api/v1/messages:
     post:
       tags:
@@ -105,7 +105,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostMessagesRequest'
+              $ref: '#/components/schemas/SubmitMessageRequest'
             examples:
               Full message with Indexation Payload:
                 $ref: >-
@@ -131,7 +131,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PostMessagesResponse'
+                $ref: '#/components/schemas/SubmitMessageResponse'
               examples:
                 default:
                   $ref: '#/components/examples/post-messages-response-example'
@@ -140,11 +140,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
     get:
       tags:
         - messages
-      summary: Filter messages by a matching criteria.
+      summary: Search for messages matching the criteria.
       description: Search for messages matching the criteria.
       parameters:
         - in: query
@@ -160,7 +160,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetMessagesByIndexResponse'
+                $ref: '#/components/schemas/MessagesFindResponse'
               examples:
                 default:
                   $ref: '#/components/examples/get-messages-by-index-response-example'
@@ -169,7 +169,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
   '/api/v1/messages/{messageId}':
     get:
       tags:
@@ -192,7 +192,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetMessageByIdDataResponse'
+                $ref: '#/components/schemas/MessageResponse'
               examples:
                 Empty Payload:
                   $ref: >-
@@ -211,13 +211,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
         '404':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
   '/api/v1/messages/{messageId}/metadata':
     get:
       tags:
@@ -240,7 +240,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetMessageMetadataByIdResponse'
+                $ref: '#/components/schemas/MessageMetadataResponse'
               examples:
                 New Message:
                   $ref: '#/components/examples/get-message-by-id-response-example-new'
@@ -258,13 +258,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
         '404':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
   '/api/v1/messages/{messageId}/raw':
     get:
       tags:
@@ -296,13 +296,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
         '404':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
   '/api/v1/messages/{messageId}/children':
     get:
       tags:
@@ -323,7 +323,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetMessageChildrenResponse'
+                $ref: '#/components/schemas/MessageChildrenResponse'
               examples:
                 Children:
                   $ref: >-
@@ -336,7 +336,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
   '/api/v1/outputs/{outputId}':
     get:
       tags:
@@ -358,7 +358,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetOutputsByIdResponse'
+                $ref: '#/components/schemas/OutputResponse'
               examples:
                 default:
                   $ref: '#/components/examples/get-outputs-by-id-response-example'
@@ -367,13 +367,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
         '404':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
   '/api/v1/addresses/{address}':
     get:
       tags:
@@ -399,7 +399,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetAddressBalanceResponse'
+                $ref: '#/components/schemas/BalanceAddressResponse'
               examples:
                 Default:
                   $ref: >-
@@ -412,7 +412,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
   '/api/v1/addresses/ed25519/{address}':
     get:
       tags:
@@ -438,7 +438,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetAddressBalanceResponse'
+                $ref: '#/components/schemas/BalanceAddressResponse'
               examples:
                 Default:
                   $ref: >-
@@ -451,7 +451,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
   '/api/v1/addresses/{address}/outputs':
     get:
       tags:
@@ -485,7 +485,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetAddressOutputsResponse'
+                $ref: '#/components/schemas/OutputsAddressResponse'
               examples:
                 default:
                   $ref: '#/components/examples/get-address-outputs-response-example'
@@ -494,7 +494,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
   '/api/v1/addresses/ed25519/{address}/outputs':
     get:
       tags:
@@ -528,7 +528,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetAddressOutputsResponse'
+                $ref: '#/components/schemas/OutputsAddressResponse'
               examples:
                 default:
                   $ref: '#/components/examples/get-address-outputs-response-example'
@@ -537,7 +537,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
   '/api/v1/milestones/{index}':
     get:
       tags:
@@ -558,7 +558,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetMilestoneByIndexResponse'
+                $ref: '#/components/schemas/MilestoneResponse'
               examples:
                 default:
                   $ref: >-
@@ -568,13 +568,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
         '404':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
   /api/v1/peers:
     get:
       tags:
@@ -587,7 +587,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetPeersResponse'
+                $ref: '#/components/schemas/PeersResponse'
               examples:
                 default:
                   $ref: '#/components/examples/get-peers-response-example'
@@ -600,7 +600,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostPeerRequest'
+              $ref: '#/components/schemas/AddPeerRequest'
             examples:
               default:
                 $ref: '#/components/examples/post-peer-request-example'
@@ -611,7 +611,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PostPeerResponse'
+                $ref: '#/components/schemas/AddPeerResponse'
               examples:
                 default:
                   $ref: '#/components/examples/post-peer-response-example'
@@ -620,7 +620,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
   '/api/v1/peers/{peerId}':
     get:
       tags:
@@ -641,7 +641,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetPeerResponse'
+                $ref: '#/components/schemas/PeerResponse'
               examples:
                 default:
                   $ref: '#/components/examples/get-peer-response-example'
@@ -650,13 +650,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestErrorResponse'
+                $ref: '#/components/schemas/BadRequestResponse'
         '404':
           description: unsuccessful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundErrorResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
     delete:
       tags:
         - peers
@@ -1087,81 +1087,34 @@ components:
               sentHeartbeats: 0
               droppedPackets: 0
   schemas:
+
     Message:
+      description: A message is the object nodes gossip around in the network. It always references two other messages that are known as parents. It is stored as a vertex on the tangle data structure that the nodes maintain.
       properties:
         networkId:
           type: string
+          description: Network identifier. This field will signify whether this message was meant for mainnet, testnet, or a private net. It also tells what protocol rules apply to the message. It is first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and the protocol version string.
         parent1MessageId:
           type: string
+          description: The Message ID of the first Message it references.
         parent2MessageId:
           type: string
+          description: The Message ID of the second Message it references.
         payload:
           oneOf:
-            - $ref: '#/components/schemas/Indexation'
-            - $ref: '#/components/schemas/Milestone'
-            - $ref: '#/components/schemas/Transaction'
+            - $ref: '#/components/schemas/TransactionPayload'
+            - $ref: '#/components/schemas/MilestonePayload'
+            - $ref: '#/components/schemas/IndexationPayload'
         nonce:
           type: string
-    Indexation:
+          description: The nonce which lets this message fulfill the Proof-of-Work requirement.
+
+    TransactionPayload:
+      description: The Transaction Payload to be embedded into a message.
       properties:
         type:
           type: integer
-        index:
-          type: string
-        data:
-          type: string
-    Milestone:
-      properties:
-        type:
-          type: integer
-        index:
-          type: integer
-        timestamp:
-          type: integer
-        parent1MessageId:
-          type: string
-        parent2MessageId:
-          type: string
-        inclusionMerkleProof:
-          type: string
-        publicKeys:
-          type: array
-          items:
-            type: string
-        signature:
-          type: array
-          items:
-            type: string
-    UTXOInput:
-      properties:
-        type:
-          type: integer
-        transactionId:
-          type: string
-        transactionOutputIndex:
-          type: integer
-    TransactionEssence:
-      properties:
-        type:
-          type: integer
-        inputs:
-          type: array
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/UTXOInput'
-        outputs:
-          type: array
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/SigLockedSingleOutput'
-        payload:
-          oneOf:
-            - $ref: '#/components/schemas/Indexation'
-          nullable: true
-    Transaction:
-      properties:
-        type:
-          type: integer
+          description: Set to value 0 to denote a Transaction Payload.
         essence:
           type: object
           oneOf:
@@ -1169,138 +1122,275 @@ components:
         unlockBlocks:
           type: array
           items:
-            anyOf:
+            oneOf:
               - $ref: '#/components/schemas/SignatureUnlockBlock'
               - $ref: '#/components/schemas/ReferenceUnlockBlock'
-    SignatureUnlockBlock:
+
+    TransactionEssence:
+      description: Describes the essence data making up a transaction by defining its inputs and outputs and an optional payload.
       properties:
         type:
           type: integer
-        signature:
-          type: object
+          description: Set to value 0 to denote a Transaction Essence.
+        inputs:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/UTXOInput'
+        outputs:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/SigLockedSingleOutput'
+        payload:
           oneOf:
-            - $ref: '#/components/schemas/Ed25519Signature'
-    ReferenceUnlockBlock:
+            - $ref: '#/components/schemas/IndexationPayload'
+          nullable: true
+
+    UTXOInput:
+      description: Describes an input which references an unspent transaction output to consume.
       properties:
         type:
           type: integer
-        reference:
-          type: integer
-    Ed25519Address:
-      properties:
-        type:
-          type: integer
-        address:
+          description: Set to value 0 to denote an UTXO Input.
+        transactionId:
           type: string
-    Ed25519Signature:
-      properties:
-        type:
+          description: The BLAKE2b-256 hash of the transaction from which the UTXO comes from.
+        transactionOutputIndex:
           type: integer
-        publicKey:
-          type: string
-        address:
-          type: string
+          description: The index of the output on the referenced transaction to consume.
     SigLockedSingleOutput:
+      description: Describes a deposit to a single address which is unlocked via a signature.
       properties:
         type:
           type: integer
+          description: Set to value 0 to denote a SigLockedSingleOutput.
         address:
           anyOf:
             - $ref: '#/components/schemas/Ed25519Address'
         amount:
           type: integer
+
+    Ed25519Address:
+      description: The Ed25519 address.
+      properties:
+        type:
+          type: integer
+          description: Set to value 1 to denote an Ed25519 Address.
+        address:
+          type: string
+          description: The hex-encoded BLAKE2b-256 hash of the Ed25519 public key.
+
+    SignatureUnlockBlock:
+      description: Defines an unlock block containing signature(s) unlocking input(s).
+      properties:
+        type:
+          type: integer
+          description: Denotes a Signature Unlock Block.
+        signature:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Signature'
+
+    Ed25519Signature:
+      description: The Ed25519 signature.
+      properties:
+        type:
+          type: integer
+          description: Set to value 1 to denote an Ed25519 Signature.
+        publicKey:
+          type: string
+          description: The public key of the Ed25519 keypair which is used to verify the signature.
+        signature:
+          type: string
+          description: The signature signing the serialized Transaction Essence.
+
+    ReferenceUnlockBlock:
+      description: References a previous unlock block in order to substitute the duplication of the same unlock block data for inputs which unlock through the same data.
+      properties:
+        type:
+          type: integer
+          description: Set to value 1 to denote a Reference Unlock Block.
+        reference:
+          type: integer
+          description: Represents the index of a previous unlock block.
+
+    MilestonePayload:
+      description: The Milestone Payload to be embedded into a message.
+      properties:
+        type:
+          type: integer
+          description: Set to value 1 to denote a Milestone Payload.
+        index:
+          type: integer
+          description: The index number of the milestone.
+        timestamp:
+          type: integer
+          description: The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.
+        parent1MessageId:
+          type: string
+          description: The Message ID of the first Message referenced by the milestone.
+        parent2MessageId:
+          type: string
+          description: The Message ID of the second Message referenced by the milestone.
+        inclusionMerkleProof:
+          type: string
+          description: 256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone.
+        publicKeys:
+          type: array
+          items:
+            type: string
+          description: An array of public keys to validate the signatures. The keys must be in lexicographical order.
+        signature:
+          type: array
+          items:
+            type: string
+          description: An array of signatures signing the serialized Milestone Essence. The signatures must be in the same order as the specified public keys.
+
+    IndexationPayload:
+      description: The Indexation Payload to be embedded into a message.
+      properties:
+        type:
+          type: integer
+          description: Set to value 2 to denote a Indexation Payload.
+        index:
+          type: string
+          description: The indexation key to find/look up this message.
+        data:
+          type: string
+          description: The data to attach.
+
     Peer:
+      description: The peer of a node.
       properties:
         id:
           type: string
+          description: The identifier of a peer.
         multiAddresses:
           type: array
           items:
             type: string
+          description: The address of a peer.
         relation:
           type: integer
         connected:
           type: boolean
+          description: Tells if a peer is connected or not.
         gossipMetrics:
+          description: Metrics about the gossip stream with the peer.
           properties:
             receivedMessages:
               type: integer
+              description: The number of received messages from the peer.
             newMessages:
               type: integer
+              description: The number of received messages that were new for the node.
             knownMessages:
               type: integer
+              description: The number of received messages that already were known to the node.
             receivedMessageRequests:
               type: integer
+              description: The number of received message requests from the peer.
             receivedMilestoneRequests:
               type: integer
+              description: The number of received milestone requests from the peer.
             receivedHeartbeats:
               type: integer
+              description: The number of received heartbeats from the peer.
             sentMessages:
               type: integer
+              description: The number of sent messages to the peer.
             sentMessageRequests:
               type: integer
+              description: The number of sent message requests to the peer.
             sentMilestoneRequests:
               type: integer
+              description: The number of sent milestone requests to the peer.
             sentHeartbeats:
               type: integer
+              description: The number of sent heartbeats to the peer.
             droppedPackets:
               type: integer
+              description: The number of dropped packets.
+
     ErrorResponse:
+      description: The error format.
       properties:
         error:
           type: object
           properties:
             code:
               type: string
+              description: The application error code.
             message:
               type: string
-    ServiceUnavailableErrorResponse:
+              description: The error reason.
+
+    ServiceUnavailableResponse:
+      description: Indicate that the service is unavailable.
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         error:
           code: 503
           message: service unavailable
-    BadRequestErrorResponse:
+
+    BadRequestResponse:
+      description: Indicates that the request was bad.
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         error:
           code: 400
           message: invalid data provided
-    NotFoundErrorResponse:
+
+    NotFoundResponse:
+      description: Indicates that the data was not found.
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         error:
           code: 404
           message: could not find data
-    GetInfoResponse:
+
+    InfoResponse:
+      description: Returns general information about the node.
       properties:
         data:
           type: object
           properties:
             name:
               type: string
+              description: The name of the node.
             version:
               type: string
+              description: The version of the node.
             isHealthy:
               type: boolean
+              description: Tells if the node is healthy or not.
             networkId:
               type: string
+              description: Network identifier. This field will signify whether the node operates on mainnet, testnet, or a private net. It also tells what protocol rules apply to the message.
             latestMilestoneIndex:
               type: integer
+              description: The latest milestone known to the node.
             solidMilestoneIndex:
               type: integer
+              description: The latest solidified milestone.
             pruningIndex:
               type: integer
+              description: The index from which data of the tangle is available.
             features:
+              description: The activated features of the node.
               type: array
               items:
                 type: string
             minPowScore:
+              description: The Proof-of-Work requirement for the network.
               type: number
-    GetTipsResponse:
+
+    TipsResponse:
+      description: Returns two non-lazy tips.
       properties:
         data:
           type: object
@@ -1309,156 +1399,215 @@ components:
               type: string
             tip2:
               type: string
-    PostMessagesRequest:
+
+    SubmitMessageRequest:
+      description: Request format to submit a message.
       allOf:
         - $ref: '#/components/schemas/Message'
         - type: object
           required:
             - payload
-    PostMessagesResponse:
+
+    SubmitMessageResponse:
+      description: Response of submitted message.
       properties:
         data:
           type: object
           properties:
             messageId:
               type: string
-    GetMessagesByIndexResponse:
+
+    MessagesFindResponse:
+      description: Filters messages by a matching criteria.
       properties:
         data:
           type: object
           properties:
             index:
               type: string
+              description: The indexation key that was used to look up.
             maxResults:
               type: integer
+              description: The number of results it can return at most.
             count:
               type: integer
+              description: The actual number of found results.
             messageIds:
               type: array
               items:
                 type: string
-    GetMessageMetadataByIdResponse:
+              description: The identifiers of the found messages that make use of the given indexation key.
+
+    MessageMetadataResponse:
+      description: Returns the metadata of the message.
       properties:
         data:
           type: object
           properties:
             messageId:
               type: string
+              description: The identifier of the message.
             parent1MessageId:
               type: string
+              description: The Message ID of the first Message it references.
             parent2MessageId:
               type: string
+              description: The Message ID of the second Message it references.
             isSolid:
               type: boolean
+              description: Tells if the message is solid or not.
             referencedByMilestoneIndex:
               type: integer
               nullable: true
+              description: Tells which milestone references this message. If field is `null` the message was not referenced by a milestone yet.
             milestoneIndex:
               type: integer
+              description: Tells if the message contains a valid milestone payload.
             ledgerInclusionState:
               enum:
                 - included
                 - conflicting
+                - noTransaction
+              description: Tells about the inclusion state in the ledger.
             conflictReason:
               type: integer
+              description: Describes the conflict reason, why the message was not included in the ledger.
             shouldPromote:
               type: boolean
+              description: Tells if the message should be promoted.
             shouldReattach:
               type: boolean
+              description: Tells if the message should be reattached.
           required:
             - messageId
             - parent1MessageId
             - parent2MessageId
             - isSolid
-    GetMessageByIdDataResponse:
+
+    MessageResponse:
+      description: Returns a given message.
       properties:
         data:
           type: object
           properties:
             allOf:
               $ref: '#/components/schemas/Message'
-    GetMessageChildrenResponse:
+
+    MessageChildrenResponse:
+      description: Returns the children of a given message.
       properties:
         data:
           type: object
           properties:
             messageId:
               type: string
+              description: The message identifiers of the children.
             maxResults:
               type: integer
+              description: The number of results it can return at most.
             count:
               type: integer
+              description: The actual number of found results.
             childrenMessageIds:
               type: array
               items:
                 type: string
-    GetOutputsByIdResponse:
+              description: The message identifiers of the children.
+
+    OutputResponse:
+      description: Returns an output.
       properties:
         data:
           type: object
           properties:
             messageId:
               type: string
+              description: The message identifier that references the output.
             transactionId:
               type: string
+              description: The identifier of the transaction.
             outputIndex:
               type: integer
+              description: The index of the output.
             isSpent:
               type: boolean
+              description: Tells if the output is spent or not.
             output:
               anyOf:
                 - $ref: '#/components/schemas/SigLockedSingleOutput'
-    GetAddressBalanceResponse:
+
+    BalanceAddressResponse:
+      description: Returns the balance of an address.
       properties:
         data:
           type: object
           properties:
             address:
               type: string
+              description: The hex-encoded Ed25519 address.
             maxResults:
               type: integer
+              description: The number of results it can return at most.
             count:
               type: integer
+              description: The actual number of found results.
             balance:
               type: integer
-    GetAddressOutputsResponse:
+              description: The computed balance for the address.
+
+    OutputsAddressResponse:
       properties:
         data:
           type: object
           properties:
             address:
               type: string
+              description: The hex-encoded Ed25519 address.
             maxResults:
               type: integer
+              description: The number of results it can return at most.
             count:
               type: integer
-            outputIDs:
+              description: The actual number of found results.
+            outputIds:
               type: array
               items:
                 type: string
-    GetMilestoneByIndexResponse:
+              description: The identifiers of the outputs that use a certain address.
+
+    MilestoneResponse:
+      description: Returns information about a milestone.
       properties:
         data:
           type: object
           properties:
             index:
               type: integer
+              description: The index number of the milestone.
             messageId:
               type: string
+              description: The identifier of a message where the milestone payload is embedded.
             timestamp:
               type: integer
-    GetPeersResponse:
+              description: The timestamp of the issued milestone.
+
+    PeersResponse:
+      description: Returns all peers of the node.
       properties:
         data:
           type: array
           items:
             $ref: '#/components/schemas/Peer'
-    GetPeerResponse:
+
+    PeerResponse:
+      description: Returns a given peer of the node.
       properties:
         data:
           allOf:
             - $ref: '#/components/schemas/Peer'
-    PostPeerRequest:
+
+    AddPeerRequest:
+      description: The request format to adds a given peer to the node.
       properties:
         multiAddress:
           type: string
@@ -1467,7 +1616,9 @@ components:
       required:
         - multiAddress
         - alias
-    PostPeerResponse:
+
+    AddPeerResponse:
+      description: Adds response of when a given peer to the node was added.
       properties:
         data:
           allOf:
