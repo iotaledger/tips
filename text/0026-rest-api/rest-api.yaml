@@ -1465,17 +1465,18 @@ components:
               type: integer
               description: If set, this message can be considered as a valid milestone message. This field therefore describes the milestone index of the involved milestone. A message can be considered as a valid milestone message if the milestone payload is valid and if the referenced parents in the milestone payload do match the referenced parents in the message itself. Note it's possible to have different milestone messages that all represent the same milestone.
             ledgerInclusionState:
+              type: string
               enum:
                 - included
                 - conflicting
                 - noTransaction
-              description: Tells about the inclusion state in the ledger.
+              description: If `included`, the message contains a transaction that has been included in the ledger. If `conflicitng`, the message contains a transaction that has not been included in the ledger because it conflicts with another transaction. If the message does not contain a transaction, `ledgerInclusionState` is set to `noTransaction`.
             conflictReason:
               type: integer
-              description: Describes the conflict reason, why the message was not included in the ledger.
+              description: Describes the exact reason why the transaction was not included in the ledger.
             shouldPromote:
               type: boolean
-              description: Tells if the message should be promoted.
+              description: Tells if the message should be promoted to get more likely picked up by the Coordinator.
             shouldReattach:
               type: boolean
               description: Tells if the message should be reattached.
