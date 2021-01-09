@@ -40,9 +40,9 @@ paths:
         than 5 minutes.
       responses:
         '200':
-          description: The node does consider itself healthy.
+          description: The node is healthy.
         '503':
-          description: The node does not consider itself healthy.
+          description: The node is healthy.
   /api/v1/info:
     get:
       tags:
@@ -1370,23 +1370,23 @@ components:
               description: Tells if the node is healthy or not.
             networkId:
               type: string
-              description: Network identifier. This field will signify whether the node operates on mainnet, testnet, or a private net. It also tells what protocol rules apply to the message.
+              description: Tells whether the node operates on mainnet, testnet, or a private net. It also tells what protocol rules apply to messages.
             latestMilestoneIndex:
               type: integer
               description: The latest milestone known to the node.
             solidMilestoneIndex:
               type: integer
-              description: The latest solidified milestone.
+              description: The latest milestone that could get solidified by the node.
             pruningIndex:
               type: integer
               description: The index from which data of the tangle is available.
             features:
-              description: The activated features of the node.
+              description: The features that are supported by the node. For example, a node could support the Proof-of-Work (PoW) feature, which would allow the PoW to be performed on the node itself.
               type: array
               items:
                 type: string
             minPowScore:
-              description: The Proof-of-Work requirement for the network.
+              description: The Proof-of-Work difficulty for a message to be sent over the network. Helps to avoid spam.
               type: number
 
     TipsResponse:
@@ -1397,35 +1397,36 @@ components:
           properties:
             tip1:
               type: string
+              description: The first parent that can be used to a attach a message to.
             tip2:
               type: string
+              description: The second parent that can be used to a attach a message to.
 
     SubmitMessageRequest:
-      description: Request format to submit a message.
+      description: Submits a message to the node.
       allOf:
         - $ref: '#/components/schemas/Message'
         - type: object
-          required:
-            - payload
 
     SubmitMessageResponse:
-      description: Response of submitted message.
+      description: Returns the message identifier of the submitted message.
       properties:
         data:
           type: object
           properties:
             messageId:
               type: string
+              description: The message identifier of the submitted message.
 
     MessagesFindResponse:
-      description: Filters messages by a matching criteria.
+      description: Searches for messages matching the criteria.
       properties:
         data:
           type: object
           properties:
             index:
               type: string
-              description: The indexation key that was used to look up.
+              description: The provided indexation key for searching messages.
             maxResults:
               type: integer
               description: The number of results it can return at most.
@@ -1436,7 +1437,7 @@ components:
               type: array
               items:
                 type: string
-              description: The identifiers of the found messages that make use of the given indexation key.
+              description: The identifiers of the found messages that contain the given indexation key.
 
     MessageMetadataResponse:
       description: Returns the metadata of the message.
@@ -1449,20 +1450,20 @@ components:
               description: The identifier of the message.
             parent1MessageId:
               type: string
-              description: The Message ID of the first Message it references.
+              description: The identifier of the first Message it references.
             parent2MessageId:
               type: string
-              description: The Message ID of the second Message it references.
+              description: The identifier of the second Message it references.
             isSolid:
               type: boolean
-              description: Tells if the message is solid or not.
+              description: Tells if the message could get solidified by the node or not.
             referencedByMilestoneIndex:
               type: integer
               nullable: true
-              description: Tells which milestone references this message. If field is `null` the message was not referenced by a milestone yet.
+              description: Tells which milestone references this message. If `null` the message was not referenced by a milestone yet.
             milestoneIndex:
               type: integer
-              description: Tells if the message contains a valid milestone payload.
+              description: If set, this message can be considered as a valid milestone message. This field therefore describes the milestone index of the involved milestone. A message can be considered as a valid milestone message if the milestone payload is valid and if the referenced parents in the milestone payload do match the referenced parents in the message itself. Note it's possible to have different milestone messages that all represent the same milestone.
             ledgerInclusionState:
               enum:
                 - included
