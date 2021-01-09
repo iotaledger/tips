@@ -63,10 +63,10 @@ paths:
     get:
       tags:
         - tangle
-      summary: Returns two non-lazy tips.
+      summary: Returns two tips.
       description: >-
-        Returns two non-lazy tips. If the node can only provide a single tip,
-        `tip1MessageId` and `tip2MessageId` are identical.
+        Returns two tips that can be used to attach a message to. If the node can only provide a single tip,
+        `tip1MessageId` and `tip2MessageId` are identical. The provided tips can be considered as `non-lazy` and are therefore ideal for attaching a message.
       responses:
         '200':
           description: >-
@@ -144,8 +144,8 @@ paths:
     get:
       tags:
         - messages
-      summary: Search for messages matching the criteria.
-      description: Search for messages matching the criteria.
+      summary: Search for messages matching a given indexation key.
+      description: Search for messages matching a given indexation key.
       parameters:
         - in: query
           name: index
@@ -153,7 +153,7 @@ paths:
             type: string
           example: someindexkey
           required: true
-          description: Indexation key of the message.
+          description: Indexation key that should be searched for.
       responses:
         '200':
           description: successful operation
@@ -222,10 +222,9 @@ paths:
     get:
       tags:
         - messages
-      summary: Returns message metadata by its identifier.
+      summary: Find the metadata of a given message.
       description: >-
-        Find a message by its identifer. This endpoint returns the given message
-        metadata.
+        Find the metadata of a given message.
       parameters:
         - in: path
           name: messageId
@@ -325,10 +324,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/MessageChildrenResponse'
               examples:
-                Children:
+                Children were found:
                   $ref: >-
                     #/components/examples/get-messages-by-id-response-example-children
-                No Children:
+                No children were found:
                   $ref: >-
                     #/components/examples/get-messages-by-id-response-example-nochildren
         '400':
@@ -542,8 +541,8 @@ paths:
     get:
       tags:
         - milestones
-      summary: Get the milestone by the given index.
-      description: Get the milestone by the given index.
+      summary: Look up a milestone by a given milestone index.
+      description: Look up a milestone by a given milestone index.
       parameters:
         - in: path
           name: index
@@ -551,7 +550,7 @@ paths:
             type: number
           example: 154862
           required: true
-          description: Index of the milestone.
+          description: Index of the milestone to look up.
       responses:
         '200':
           description: successful operation
@@ -594,8 +593,8 @@ paths:
     post:
       tags:
         - peers
-      summary: Add a peer to the node.
-      description: Add a peer to the node.
+      summary: Add a given peer to the node.
+      description: Add a given peer to the node.
       requestBody:
         content:
           application/json:
@@ -625,8 +624,8 @@ paths:
     get:
       tags:
         - peers
-      summary: Get information about a specific peer.
-      description: Get information about a specific peer.
+      summary: Get information about a given peer.
+      description: Get information about a given peer.
       parameters:
         - in: path
           name: peerId
@@ -660,8 +659,8 @@ paths:
     delete:
       tags:
         - peers
-      summary: Remove/disconnect a specific peer.
-      description: Remove/disconnect a specific peer.
+      summary: Remove/disconnect a given peer.
+      description: Remove/disconnect a given peer.
       parameters:
         - in: path
           name: peerId
@@ -925,15 +924,14 @@ components:
         data:
           messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
           maxResults: 1000
-          count: 3
+          count: 2
           childrenMessageIds:
             - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
-            - ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
             - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
     get-messages-by-id-response-example-nochildren:
       value:
         data:
-          messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+          messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           maxResults: 1000
           count: 0
           childrenMessageIds: []
@@ -1223,7 +1221,7 @@ components:
           description: Set to value 1 to denote a Milestone Payload.
         index:
           type: integer
-          description: The index number of the milestone.
+          description: The index of the milestone.
         timestamp:
           type: integer
           description: The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.
@@ -1265,17 +1263,17 @@ components:
       properties:
         id:
           type: string
-          description: The identifier of a peer.
+          description: The identifier of the peer.
         multiAddresses:
           type: array
           items:
             type: string
-          description: The address of a peer.
+          description: The address of the peer.
         relation:
           type: integer
         connected:
           type: boolean
-          description: Tells if a peer is connected or not.
+          description: Tells whether the peer is connected or not.
         gossipMetrics:
           description: Metrics about the gossip stream with the peer.
           properties:
@@ -1367,40 +1365,40 @@ components:
               description: The version of the node.
             isHealthy:
               type: boolean
-              description: Tells if the node is healthy or not.
+              description: Tells whether the node is healthy or not.
             networkId:
               type: string
-              description: Tells whether the node operates on mainnet, testnet, or a private net. It also tells what protocol rules apply to messages.
+              description: Tells whether the node operates on mainnet, testnet, or a private net. It also tells which protocol rules apply to the messages.
             latestMilestoneIndex:
               type: integer
-              description: The latest milestone known to the node.
+              description: The most recent milestone known to the node.
             solidMilestoneIndex:
               type: integer
-              description: The latest milestone that could get solidified by the node.
+              description: The most recent milestone that has been solidified by the node.
             pruningIndex:
               type: integer
-              description: The index from which data of the tangle is available.
+              description: Tells from which starting point the node holds data.
             features:
-              description: The features that are supported by the node. For example, a node could support the Proof-of-Work (PoW) feature, which would allow the PoW to be performed on the node itself.
+              description: The features that are supported by the node. For example, a node could support the Proof-of-Work (PoW) feature, which would allow the PoW to be performed by the node itself.
               type: array
               items:
                 type: string
             minPowScore:
-              description: The Proof-of-Work difficulty for a message to be sent over the network. Helps to avoid spam.
+              description: The Proof-of-Work difficulty for a message to be sent over the network to mitigate spam.
               type: number
 
     TipsResponse:
-      description: Returns two non-lazy tips.
+      description: Returns two tips.
       properties:
         data:
           type: object
           properties:
-            tip1:
+            tip1MessageId:
               type: string
-              description: The first parent that can be used to a attach a message to.
-            tip2:
+              description: The first message identifier that can be used to a attach a message to.
+            tip2MessageId:
               type: string
-              description: The second parent that can be used to a attach a message to.
+              description: The second message identifier that can be used to a attach a message to.
 
     SubmitMessageRequest:
       description: Submits a message to the node.
@@ -1419,14 +1417,14 @@ components:
               description: The message identifier of the submitted message.
 
     MessagesFindResponse:
-      description: Searches for messages matching the criteria.
+      description: Searches for messages matching a given indexation key.
       properties:
         data:
           type: object
           properties:
             index:
               type: string
-              description: The provided indexation key for searching messages.
+              description: The provided indexation key to search for.
             maxResults:
               type: integer
               description: The number of results it can return at most.
@@ -1437,10 +1435,10 @@ components:
               type: array
               items:
                 type: string
-              description: The identifiers of the found messages that contain the given indexation key.
+              description: The identifiers of the found messages that match the given indexation key.
 
     MessageMetadataResponse:
-      description: Returns the metadata of the message.
+      description: Returns the metadata of a given message.
       properties:
         data:
           type: object
@@ -1473,7 +1471,7 @@ components:
               description: If `included`, the message contains a transaction that has been included in the ledger. If `conflicitng`, the message contains a transaction that has not been included in the ledger because it conflicts with another transaction. If the message does not contain a transaction, `ledgerInclusionState` is set to `noTransaction`.
             conflictReason:
               type: integer
-              description: Describes the exact reason why the transaction was not included in the ledger.
+              description: A byte that describes the exact reason why the transaction was not included in the ledger.
             shouldPromote:
               type: boolean
               description: Tells if the message should be promoted to get more likely picked up by the Coordinator.
@@ -1503,7 +1501,7 @@ components:
           properties:
             messageId:
               type: string
-              description: The message identifiers of the children.
+              description: The message identifier of the given message that was used to look up its children.
             maxResults:
               type: integer
               description: The number of results it can return at most.
@@ -1514,7 +1512,7 @@ components:
               type: array
               items:
                 type: string
-              description: The message identifiers of the children.
+              description: The message identifiers of the found children.
 
     OutputResponse:
       description: Returns an output.
@@ -1588,10 +1586,10 @@ components:
               description: The index number of the milestone.
             messageId:
               type: string
-              description: The identifier of a message where the milestone payload is embedded.
+              description: The identifier of a message which describes this milestone. Note that different messages could describe the same milestone.
             timestamp:
               type: integer
-              description: The timestamp of the issued milestone.
+              description: The timestamp of when the  milestone was issued.
 
     PeersResponse:
       description: Returns all peers of the node.
@@ -1609,7 +1607,7 @@ components:
             - $ref: '#/components/schemas/Peer'
 
     AddPeerRequest:
-      description: The request format to adds a given peer to the node.
+      description: Adds a given peer to the node.
       properties:
         multiAddress:
           type: string
@@ -1620,7 +1618,7 @@ components:
         - alias
 
     AddPeerResponse:
-      description: Adds response of when a given peer to the node was added.
+      description: Returns information about an added peer.
       properties:
         data:
           allOf:
