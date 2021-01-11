@@ -1097,7 +1097,7 @@ components:
           description: The identifier of the first message this message references.
         parent2MessageId:
           type: string
-          The identifier of the second message this message references.
+          description: The identifier of the second message this message references.
         payload:
           oneOf:
             - $ref: '#/components/schemas/TransactionPayload'
