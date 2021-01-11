@@ -1230,7 +1230,7 @@ components:
           description: The identifier of the first message this milestone references.
         parent2MessageId:
           type: string
-          description: The Message ID of the second Message referenced by the milestone.
+          description: The identifier of the second message this milestone references.
         inclusionMerkleProof:
           type: string
           description: 256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone.
