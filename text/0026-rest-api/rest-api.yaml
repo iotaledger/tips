@@ -100,7 +100,7 @@ paths:
         This endpoint will return the identifier of the message. *The
         node will try to auto-fill the following fields in case they are
         missing: `networkId`, `parent1MessageId`, `parent2MessageId`, `nonce`.
-        If `payload`  is missing, the message will be built without a payload.
+        If `payload` is missing, the message will be built without a payload.
       requestBody:
         content:
           application/json:
