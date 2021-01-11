@@ -70,7 +70,7 @@ paths:
       responses:
         '200':
           description: >-
-            If there is at least on tip available and the node does consider itself
+            If there is at least one tip available and the node does consider itself
             synced.
           content:
             application/json:
