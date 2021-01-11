@@ -661,7 +661,7 @@ This validation can commence as soon as the transaction data has been received i
 The following criteria defines whether the transaction passes the syntactical validation:
 * `Transaction Essence Type` value must be 0, denoting an `Transaction Essence`.
 * Inputs:
-    * `Inputs Count` must be 0 < x < 127.
+    * `Inputs Count` must be 0 < x ≤ 127.
     * At least one input must be specified.
     * `Input Type` value must be 0, denoting an `UTXO Input`.
     * `UTXO Input`:
@@ -669,7 +669,7 @@ The following criteria defines whether the transaction passes the syntactical va
         * Every combination of `Transaction ID` + `Transaction Output Index` must be unique in the inputs set.
     * Inputs must be in lexicographical order of their serialized form.<sup>1</sup>
 * Outputs:
-    * `Outputs Count` must be 0 < x < 127.
+    * `Outputs Count` must be 0 < x ≤ 127.
     * At least one output must be specified.
     * `Output Type` must be 0, denoting a `SigLockedSingleOutput`.
     * `SigLockedSingleOutput`:
@@ -681,7 +681,7 @@ The following criteria defines whether the transaction passes the syntactical va
     * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
 * `Payload Length` must be 0 (to indicate that there's no payload) or be valid for the specified payload type.
 * `Payload Type` must be one of the supported payload types if `Payload Length` is not 0.
-* `Unlock Blocks Count` must match the amount of inputs. Must be 0 < x < 127.
+* `Unlock Blocks Count` must match the amount of inputs. Must be 0 < x ≤ 127.
 * `Unlock Block Type` must either be 0 or 1, denoting a `Signature Unlock Block` or `Reference Unlock block`.
 * `Signature Unlock Blocks` must define either an `Ed25519`- or `WOTS Signature`.
 * A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at the same index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin `Signature Unlock Block`.
