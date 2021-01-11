@@ -381,7 +381,7 @@ The <i>Inputs</i> part holds the inputs to consume, respectively, to fund the ou
 
 Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at the same index in the <i>Unlock Blocks</i> part of the <i>Transaction Payload</i>. 
 If multiple inputs can be unlocked through the same <i>Unlock Block</i>, then the given <i>Unlock Block</i> only needs to be specified at the index of the first input which gets unlocked by it. 
-Subsequent inputs which are unlocked through the same data must have a <i>Reference Unlock Block</i> pointing to the previous <i>Unlock Block</i>. 
+Subsequent inputs which are unlocked through the same data must have a <i>Reference Unlock Block</i> pointing to the index of a previous <i>Unlock Block</i>. 
 This ensures that no duplicate data needs to occur in the same transaction.
 
 ###### UTXO Input
