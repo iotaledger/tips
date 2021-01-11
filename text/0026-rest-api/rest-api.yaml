@@ -1362,7 +1362,7 @@ components:
               description: The name of the node.
             version:
               type: string
-              description: The version of the node.
+              description: The semantic version of the node.
             isHealthy:
               type: boolean
               description: Tells whether the node is healthy or not.
