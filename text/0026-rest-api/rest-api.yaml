@@ -1091,7 +1091,7 @@ components:
       properties:
         networkId:
           type: string
-          description: Network identifier. This field will signify whether this message was meant for mainnet, testnet, or a private net. It also tells what protocol rules apply to the message. It is first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and the protocol version string.
+          description: Network identifier. This field signifies for which network the message is meant for. It also tells which protocol rules apply to the message. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and protocol version string.
         parent1MessageId:
           type: string
           description: The Message ID of the first Message it references.
