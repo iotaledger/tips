@@ -18,11 +18,11 @@ Based on [research done by Henry de Valence](https://hdevalence.ca/blog/2020-10-
 
 This lack of consistent validation behavior is especially critical for IOTA as they can cause a breach of consensus across node implementations! For example, one node implementation may consider a particular transaction valid and mutate the ledger state accordingly, while a different implementation may discard the same transaction due to invalidity. This would result in a network fork and could only be resolved outside of the protocol. Therefore, an explicit and unambiguous definition of validation criteria, such as ZIP-215, is necessary.
 
-It is further important to note that the holder of the secret key can produce more than one valid distinct signature. Such transactions with the same essence but different signatures are considered as double spends by the consensus protocol and handled accordingly. While this does not pose a problem for the core protocol, it may be a problem for 2nd layer solutions, similar to how [transaction malleability in bitcoin presented an issue for the lightning network](https://en.bitcoinwiki.org/wiki/Transaction_Malleability#How_Does_Transaction_Malleability_Affect_The_Lightning_Network.3F).
+Furthermore, it is important to note that the holder of the secret key can produce more than one valid distinct signature. Such transactions with the same essence but different signatures are considered as double spends by the consensus protocol and handled accordingly. While this does not pose a problem for the core protocol, it may be a problem for 2nd layer solutions, similar to how [transaction malleability in bitcoin presented an issue for the lightning network](https://en.bitcoinwiki.org/wiki/Transaction_Malleability#How_Does_Transaction_Malleability_Affect_The_Lightning_Network.3F).
 
 # Detailed Design
 
-In order to have consistent validation of Ed25519 signatures for all edge cases and throughout different implementations, this RFC proposes explicit validation criteria. Exactly these three criteria must be checked to evaluate whether a signature is valid.
+In order to have consistent validation of Ed25519 signatures for all edge cases and throughout different implementations, this RFC proposes explicit validation criteria. These three criteria **must** be checked to evaluate whether a signature is valid.
 
 Using the notation and Ed25519 parameters as described in the RFC 8032, the criteria are defined as follows:
 
@@ -30,7 +30,7 @@ Using the notation and Ed25519 parameters as described in the RFC 8032, the crit
 2. Reject values for S that are greater or equal than L.
 3. Use the equation [8][S]B = [8]R + [8][k]A' for validation.
 
-In the following we will explain each of these in more detail.
+In the following, we will explain each of these in more detail.
 
 ## Decoding
 
