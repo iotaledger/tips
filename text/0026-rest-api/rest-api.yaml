@@ -1368,7 +1368,7 @@ components:
               description: Tells whether the node is healthy or not.
             networkId:
               type: string
-              description: Tells whether the node operates on mainnet, testnet, or a private net. It also tells which protocol rules apply to the messages.
+              description: Tells on which network the nodes operates on.
             latestMilestoneIndex:
               type: integer
               description: The most recent milestone known to the node.
