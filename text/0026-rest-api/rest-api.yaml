@@ -1227,7 +1227,7 @@ components:
           description: The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.
         parent1MessageId:
           type: string
-          description: The Message ID of the first Message referenced by the milestone.
+          description: The identifier of the first message this milestone references.
         parent2MessageId:
           type: string
           description: The Message ID of the second Message referenced by the milestone.
