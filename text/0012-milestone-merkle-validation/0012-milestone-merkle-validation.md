@@ -4,7 +4,7 @@
 
 # Summary
 
-In the IOTA protocol, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC adds extra information to each milestone in the form of a Merkle tree hash, which allows nodes to explicitly validate their local view of the ledger state against the coordinator's. This mechanism further enables a simple cryptographic proof of inclusion for transactions confirmed by the particular milestone.
+In the IOTA protocol, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC adds extra information to each milestone in the form of a Merkle tree hash, which allows nodes to explicitly validate their local view of the ledger state against the Coordinator's. This mechanism further enables a simple cryptographic proof of inclusion for transactions confirmed by the particular milestone.
 
 # Motivation
 
