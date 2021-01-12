@@ -52,6 +52,7 @@ A <i>Transaction Payload</i> payload is made up of two parts:
 2. The <i>Unlock Blocks</i> which unlock the <i>Transaction Essence</i>'s inputs. In case the unlock block contains a signature, it signs the entire <i>Transaction Essence</i> part.
 
 All values are serialized in little-endian encoding. The serialized form of the transaction is deterministic, meaning the same logical transaction always results in the same serialized byte sequence.
+A `Blake2b-256` hash of the entire serialized data makes up <i>Transaction Payload</i>'s ID.
 
 Following table structure describes the entirety of a <i>Transaction Payload</i>'s serialized form:
 * [Data Type Notation](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md#data-types)
