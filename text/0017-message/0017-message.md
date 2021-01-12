@@ -52,14 +52,14 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
         <td>Network identifier. This field will signify whether this message was meant for mainnet, testnet, or a private net. It also tells what protocol rules apply to the message. It is first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and the protocol version string.</td>
         </tr>
     <tr>
-        <td>Parent1 (<code>trunk</code>)</td>
-        <td>ByteArray[32]</td>
-        <td>The Message ID of the first <i>Message</i> it references.</td>
+        <td> Parents' length </td>
+        <td> uint8</td>
+        <td> The number of messages we directly approve. Currently we fix this value to 2, or else the message is invalid.</td>
     </tr>
     <tr>
-        <td>Parent2 (<code>branch</code>)</td>
-        <td>ByteArray[32]</td>
-        <td>The Message ID of the second <i>Message</i> it references.</td>
+        <td>Parents </td>
+        <td>ByteArray[32 * `parents length`]</td>
+        <td>The Message IDs that are referenced.</td>
     </tr>
     <tr>
         <td>Payload Length</td>
@@ -111,6 +111,8 @@ A message is considered valid, if the following syntactic rules are met:
 2. When parsing the message is complete, there should not be any trailing bytes left that were not parsed.
 3. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is above this range.
 4. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
+5. `Parents' length` must be 2.
+
 
 ### Payloads
 
