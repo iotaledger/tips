@@ -33,16 +33,18 @@ paths:
         - node
       summary: Returns the health of the node.
       description: >-
-        Returns the health of the node, which can be useful for load-balancing
-        or uptime monitoring. A node considers itself healthy if its solid
-        milestone is max. 2 delta away from the latest known milestone, has at
+        Returns the health of the node. A node considers itself healthy if its solid
+        milestone is at most two delta away from the latest known milestone, has at
         least one ongoing gossip stream and the latest known milestone is newer
-        than 5 minutes.
+        than 5 minutes. This information might be useful for load-balancing
+        or uptime monitoring.
       responses:
         '200':
-          description: The node is healthy.
+          description: "Successful operation: indicates that the node is healthy."
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
         '503':
-          description: The node is healthy.
+          description: "Unsuccessful operation: indicates that the node isn´t healthy."
   /api/v1/info:
     get:
       tags:
@@ -51,7 +53,7 @@ paths:
       description: Returns general information about the node.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -59,19 +61,23 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/get-info-response-example'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
   /api/v1/tips:
     get:
       tags:
         - tangle
       summary: Returns two tips.
       description: >-
-        Returns two tips that can be used to attach a message to. If the node can only provide a single tip,
-        `tip1MessageId` and `tip2MessageId` are identical. The provided tips can be considered as `non-lazy` and are therefore ideal for attaching a message.
+        Returns two tips. If the node can only serve a single tip,
+        `tip1MessageId` and `tip2MessageId` are identical. The tips can be considered as `non-lazy` and are therefore ideal for attaching a message.
       responses:
         '200':
-          description: >-
-            If there is at least one tip available and the node does consider itself
-            synced.
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -81,10 +87,14 @@ paths:
                   $ref: '#/components/examples/get-tips-response-example-different'
                 Only one tip available:
                   $ref: '#/components/examples/get-tips-response-example-identical'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
         '503':
-          description: >-
-            If there are no tips available and the node does not consider
-            iteself synced.
+          description: "Unsuccessful operation: indicates that there are no tips available or the node isn´t synced."
           content:
             application/json:
               schema:
@@ -97,7 +107,7 @@ paths:
       description: >-
         Submit a message. The node takes care of missing* fields and tries to
         build the message. On success, the message will be stored in the Tangle.
-        This endpoint will return the identifier of the message. *The
+        This endpoint will return the identifier of the built message. *The
         node will try to auto-fill the following fields in case they are
         missing: `networkId`, `parent1MessageId`, `parent2MessageId`, `nonce`.
         If `payload` is missing, the message will be built without a payload.
@@ -127,7 +137,7 @@ paths:
         required: true
       responses:
         '201':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -136,11 +146,23 @@ paths:
                 default:
                   $ref: '#/components/examples/post-messages-response-example'
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node can´t auto-fill the parents or perform Proof-of-Work."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
     get:
       tags:
         - messages
@@ -156,7 +178,7 @@ paths:
           description: Indexation key that should be searched for.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -165,11 +187,17 @@ paths:
                 default:
                   $ref: '#/components/examples/get-messages-by-index-response-example'
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
   '/api/v1/messages/{messageId}':
     get:
       tags:
@@ -188,7 +216,7 @@ paths:
           description: Identifier of the message.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -207,17 +235,23 @@ paths:
                   $ref: >-
                     #/components/examples/get-message-by-id-indexation-response-example
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '404':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the requested data was not found."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
   '/api/v1/messages/{messageId}/metadata':
     get:
       tags:
@@ -235,7 +269,7 @@ paths:
           description: Identifier of the message.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -253,17 +287,29 @@ paths:
                   $ref: >-
                     #/components/examples/get-message-by-id-response-example-conflicting
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '404':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the requested data was not found."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
   '/api/v1/messages/{messageId}/raw':
     get:
       tags:
@@ -282,7 +328,7 @@ paths:
           description: Identifier of the message.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/octet-stream:
               schema:
@@ -291,17 +337,23 @@ paths:
               example: >-
                 0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000eb000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000020000016920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92640000000000000000018afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd65d5d2dd3f7df09000000000001000001f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c9095100000000000000
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '404':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the requested data was not found."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
   '/api/v1/messages/{messageId}/children':
     get:
       tags:
@@ -318,7 +370,7 @@ paths:
           description: Identifier of the message.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -331,11 +383,17 @@ paths:
                   $ref: >-
                     #/components/examples/get-messages-by-id-response-example-nochildren
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
   '/api/v1/outputs/{outputId}':
     get:
       tags:
@@ -353,7 +411,7 @@ paths:
             the concatenation of `transaction_id+output_index`.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -362,17 +420,23 @@ paths:
                 default:
                   $ref: '#/components/examples/get-outputs-by-id-response-example'
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '404':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the requested data was not found."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
   '/api/v1/addresses/{address}':
     get:
       tags:
@@ -394,7 +458,7 @@ paths:
           description: bech32 encoded address
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -407,11 +471,24 @@ paths:
                   $ref: >-
                     #/components/examples/get-address-balance-bech32-response-example-maxResults
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
+
   '/api/v1/addresses/ed25519/{address}':
     get:
       tags:
@@ -433,7 +510,7 @@ paths:
           description: hex-encoded Ed25519 address
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -446,11 +523,24 @@ paths:
                   $ref: >-
                     #/components/examples/get-address-balance-ed25519-response-example-maxResults
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
+
   '/api/v1/addresses/{address}/outputs':
     get:
       tags:
@@ -480,7 +570,7 @@ paths:
             address.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -489,11 +579,24 @@ paths:
                 default:
                   $ref: '#/components/examples/get-address-outputs-response-example'
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
+
   '/api/v1/addresses/ed25519/{address}/outputs':
     get:
       tags:
@@ -523,7 +626,7 @@ paths:
             address.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -532,11 +635,24 @@ paths:
                 default:
                   $ref: '#/components/examples/get-address-outputs-response-example'
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
+
   '/api/v1/milestones/{index}':
     get:
       tags:
@@ -553,7 +669,7 @@ paths:
           description: Index of the milestone to look up.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -563,26 +679,32 @@ paths:
                   $ref: >-
                     #/components/examples/get-milestone-by-index-response-example
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '404':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the requested data was not found."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
   /api/v1/peers:
     get:
       tags:
         - peers
-      summary: Get information about all peers of the node.
-      description: Get information about all peers of the node.
+      summary: Get information about the peers of the node.
+      description: Get information about the peers of the node.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -590,6 +712,12 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/get-peers-response-example'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
     post:
       tags:
         - peers
@@ -606,7 +734,7 @@ paths:
         required: true
       responses:
         '201':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -614,12 +742,18 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/post-peer-response-example'
-        '400':
-          description: unsuccessful operation
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
   '/api/v1/peers/{peerId}':
     get:
       tags:
@@ -636,7 +770,7 @@ paths:
           description: Identifier of the message.
       responses:
         '200':
-          description: successful operation
+          description: "Successful operation."
           content:
             application/json:
               schema:
@@ -645,17 +779,23 @@ paths:
                 default:
                   $ref: '#/components/examples/get-peer-response-example'
         '400':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '404':
-          description: unsuccessful operation
+          description: "Unsuccessful operation: indicates that the requested data was not found."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
     delete:
       tags:
         - peers
@@ -668,14 +808,17 @@ paths:
             type: string
           example: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
           required: true
-          description: Identifier of the message.
+          description: Identifier of the peer.
       responses:
         '200':
-          description: peer sucessfully removed
+          description: "Successful operation."
         '400':
-          description: invalid request
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
         '404':
-          description: peer not found
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+
 components:
   examples:
     get-info-response-example:
@@ -1351,6 +1494,15 @@ components:
           code: 404
           message: could not find data
 
+    InternalErrorResponse:
+      description: Indicates that the server encountered an unexpected condition, which prevented it from fulfilling the request by the client.
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        error:
+          code: 500
+          message: internal server error
+
     InfoResponse:
       description: Returns general information about the node.
       properties:
@@ -1424,7 +1576,7 @@ components:
           properties:
             index:
               type: string
-              description: The provided indexation key to search for.
+              description: The provided indexation key that was used to search for.
             maxResults:
               type: integer
               description: The number of results it can return at most.
