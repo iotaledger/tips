@@ -107,7 +107,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
 
 A message is considered valid, if the following syntactic rules are met:
 
-1. The message size must not exceed 32 KB.
+1. The message size must not exceed 32 KiB (32 * 1024 bytes).
 2. When parsing the message is complete, there should not be any trailing bytes left that were not parsed.
 3. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is above this range.
 4. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
@@ -141,10 +141,11 @@ The structure of the payload is simple:
 | Name             | Type          | Description               |
 | --------         | -----------   | -----------               |
 | Payload Type     | uint32        | Must be set to **2**      |
-| Index            | string     | The index key of the message |
+| Index            | string        | The index key of the message, a UTF-8 encoded string |
 | Data             | ByteArray     | Data we are attaching    |
 
-Note that `index` field should be 1 to 64 bytes long for the payload to be valid. The `data` may have a length of 0.
+Note that `index` field should be 1 to 64 bytes long for the payload to be valid. If `index` can't be decoded to a UTF-8 string, then the payload is invalid. The `data` may have a length of 0.
+
 
 ### Serialization Example
 
