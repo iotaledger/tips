@@ -1149,6 +1149,7 @@ components:
       value:
         data:
           - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            alias: abc.com
             multiAddresses:
               - /dns/abc.com/tcp/15602
             relation: known
@@ -1166,6 +1167,7 @@ components:
               sentHeartbeats: 2
               droppedPackets: 324
           - id: 12F4AooXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            alias: xyz
             multiAddresses:
               - /dns/xyz.io/tcp/15600
             relation: known
@@ -1186,6 +1188,7 @@ components:
       value:
         data:
           - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            alias: abc.com
             multiAddresses:
               - /dns/abc.com/tcp/15602
             relation: known
@@ -1396,10 +1399,10 @@ components:
           description: Set to value 2 to denote a Indexation Payload.
         index:
           type: string
-          description: The indexation key to find/look up this message. The indexation key has a size between 1 and 64 bytes and should be UTF-8.
+          description: The indexation key to find/look up this message. It has a size between 1 and 64 bytes and must be UTF-8 encoded.
         data:
           type: string
-          description: The data to attach.
+          description: The optional data to attach. This may have a length of 0.
 
     Peer:
       description: The peer of a node.
