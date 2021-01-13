@@ -1230,7 +1230,7 @@ components:
   schemas:
 
     Message:
-      description: A message is the object nodes gossip around in the network. It always references two other messages that are known as parents. It is stored as a vertex on the tangle data structure that the nodes maintain.
+      description: A message is the object nodes gossip around in the network. It always references two other messages that are known as parents. It is stored as a vertex on the tangle data structure that the nodes maintain. A message can have a maximum size of 32Kb.
       properties:
         networkId:
           type: string
@@ -1382,7 +1382,7 @@ components:
           items:
             type: string
           description: An array of public keys to validate the signatures. The keys must be in lexicographical order.
-        signature:
+        signatures:
           type: array
           items:
             type: string
@@ -1396,7 +1396,7 @@ components:
           description: Set to value 2 to denote a Indexation Payload.
         index:
           type: string
-          description: The indexation key to find/look up this message.
+          description: The indexation key to find/look up this message. The indexation key has a size between 1 and 64 bytes and should be UTF-8.
         data:
           type: string
           description: The data to attach.
@@ -1407,6 +1407,9 @@ components:
         id:
           type: string
           description: The identifier of the peer.
+        alias:
+          type: string
+          description: The alias of the peer.
         multiAddresses:
           type: array
           items:
@@ -1623,7 +1626,7 @@ components:
               description: If `included`, the message contains a transaction that has been included in the ledger. If `conflicitng`, the message contains a transaction that has not been included in the ledger because it conflicts with another transaction. If the message does not contain a transaction, `ledgerInclusionState` is set to `noTransaction`.
             conflictReason:
               type: integer
-              description: A byte that describes the exact reason why the transaction was not included in the ledger.
+              description: "Defines the reason why a message is marked as conflicting. Value `1` denotes that the referenced UTXO was already spent. Value `2`denotes that the referenced UTXO was already spent while confirming this milestone. Value `3` denotes that the referenced UTXO cannot be found. Value `4` denotes that the sum of the inputs and output values does not match. Value `5` denotes that the unlock block signature is invalid. Value `6` denotes that the input or output type used is unsupported. Value `7` denotes that the used address type is unsupported. Value `8` denotes that the semantic validation failed."
             shouldPromote:
               type: boolean
               description: Tells if the message should be promoted to get more likely picked up by the Coordinator.
