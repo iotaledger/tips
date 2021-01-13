@@ -1286,6 +1286,7 @@ components:
           items:
             oneOf:
               - $ref: '#/components/schemas/SigLockedSingleOutput'
+              - $ref: '#/components/schemas/SigLockedDustAllowanceOutput'
         payload:
           oneOf:
             - $ref: '#/components/schemas/IndexationPayload'
@@ -1314,6 +1315,20 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
         amount:
           type: integer
+          description: The amount of tokens to deposit with this SigLockedSingleOutput output.
+
+    SigLockedDustAllowanceOutput:
+      description: "Output type for deposits that enables an address to receive dust outputs. It can be consumed as an input like a regular SigLockedSingleOutput"
+      properties:
+        type:
+          type: integer
+          description: Set to value 1 to denote a SigLockedDustAllowanceOutput.
+        address:
+          anyOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+        amount:
+          type: integer
+          description: The amount of tokens to deposit with this SigLockedDustAllowanceOutput output.
 
     Ed25519Address:
       description: The Ed25519 address.
