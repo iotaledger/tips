@@ -1358,6 +1358,12 @@ components:
         nonce:
           type: string
           description: The nonce which lets this message fulfill the Proof-of-Work requirement.
+      required:
+        - networkId
+        - parent1MessageId
+        - parent2MessageId
+        - payload
+        - nonce
 
     TransactionPayload:
       description: The Transaction Payload to be embedded into a message.
@@ -1375,6 +1381,10 @@ components:
             oneOf:
               - $ref: '#/components/schemas/SignatureUnlockBlock'
               - $ref: '#/components/schemas/ReferenceUnlockBlock'
+      required:
+        - type
+        - essence
+        - unlockBlocks
 
     TransactionEssence:
       description: Describes the essence data making up a transaction by defining its inputs and outputs and an optional payload.
@@ -1397,6 +1407,11 @@ components:
           oneOf:
             - $ref: '#/components/schemas/IndexationPayload'
           nullable: true
+      required:
+        - type
+        - inputs
+        - outputs
+        - payload
 
     UTXOInput:
       description: Describes an input which references an unspent transaction output to consume.
@@ -1410,6 +1425,11 @@ components:
         transactionOutputIndex:
           type: integer
           description: The index of the output on the referenced transaction to consume.
+      required:
+        - type
+        - transactionId
+        - transactionOutputIndex
+
     SigLockedSingleOutput:
       description: Describes a deposit to a single address which is unlocked via a signature.
       properties:
@@ -1422,6 +1442,10 @@ components:
         amount:
           type: integer
           description: The amount of tokens to deposit with this SigLockedSingleOutput output.
+      required:
+        - type
+        - address
+        - amount
 
     SigLockedDustAllowanceOutput:
       description: "Output type for deposits that enables an address to receive dust outputs. It can be consumed as an input like a regular SigLockedSingleOutput"
@@ -1435,6 +1459,10 @@ components:
         amount:
           type: integer
           description: The amount of tokens to deposit with this SigLockedDustAllowanceOutput output.
+      required:
+        - type
+        - address
+        - amount
 
     Ed25519Address:
       description: The Ed25519 address.
@@ -1445,6 +1473,9 @@ components:
         address:
           type: string
           description: The hex-encoded BLAKE2b-256 hash of the Ed25519 public key.
+      required:
+        - type
+        - address
 
     SignatureUnlockBlock:
       description: Defines an unlock block containing signature(s) unlocking input(s).
@@ -1456,6 +1487,9 @@ components:
           type: object
           oneOf:
             - $ref: '#/components/schemas/Ed25519Signature'
+      required:
+        - type
+        - signature
 
     Ed25519Signature:
       description: The Ed25519 signature.
@@ -1469,6 +1503,10 @@ components:
         signature:
           type: string
           description: The signature signing the serialized Transaction Essence.
+      required:
+        - type
+        - publicKey
+        - signature
 
     ReferenceUnlockBlock:
       description: References a previous unlock block in order to substitute the duplication of the same unlock block data for inputs which unlock through the same data.
@@ -1479,6 +1517,9 @@ components:
         reference:
           type: integer
           description: Represents the index of a previous unlock block.
+      required:
+        - type
+        - reference
 
     MilestonePayload:
       description: The Milestone Payload to be embedded into a message.
@@ -1511,6 +1552,15 @@ components:
           items:
             type: string
           description: An array of signatures signing the serialized Milestone Essence. The signatures must be in the same order as the specified public keys.
+      required:
+        - type
+        - index
+        - timestamp
+        - parent1MessageId
+        - parent2MessageId
+        - inclusionMerkleProof
+        - publicKeys
+        - signatures
 
     IndexationPayload:
       description: The Indexation Payload to be embedded into a message.
@@ -1524,6 +1574,10 @@ components:
         data:
           type: string
           description: The optional data to attach. This may have a length of 0.
+      required:
+        - type
+        - index
+        - data
 
     Peer:
       description: The peer of a node.
@@ -1545,41 +1599,65 @@ components:
           type: boolean
           description: Tells whether the peer is connected or not.
         gossipMetrics:
-          description: Metrics about the gossip stream with the peer.
-          properties:
-            receivedMessages:
-              type: integer
-              description: The number of received messages from the peer.
-            newMessages:
-              type: integer
-              description: The number of received messages that were new for the node.
-            knownMessages:
-              type: integer
-              description: The number of received messages that already were known to the node.
-            receivedMessageRequests:
-              type: integer
-              description: The number of received message requests from the peer.
-            receivedMilestoneRequests:
-              type: integer
-              description: The number of received milestone requests from the peer.
-            receivedHeartbeats:
-              type: integer
-              description: The number of received heartbeats from the peer.
-            sentMessages:
-              type: integer
-              description: The number of sent messages to the peer.
-            sentMessageRequests:
-              type: integer
-              description: The number of sent message requests to the peer.
-            sentMilestoneRequests:
-              type: integer
-              description: The number of sent milestone requests to the peer.
-            sentHeartbeats:
-              type: integer
-              description: The number of sent heartbeats to the peer.
-            droppedPackets:
-              type: integer
-              description: The number of dropped packets.
+          allOf:
+            - $ref: '#/components/schemas/GossipMetrics'
+      required:
+        - id
+        - alias
+        - multiAddresses
+        - relation
+        - connected
+        - gossipMetrics
+        - receivedMessages
+
+    GossipMetrics:
+      description: Metrics about the gossip stream with the peer.
+      properties:
+        receivedMessages:
+          type: integer
+          description: The number of received messages from the peer.
+        newMessages:
+          type: integer
+          description: The number of received messages that were new for the node.
+        knownMessages:
+          type: integer
+          description: The number of received messages that already were known to the node.
+        receivedMessageRequests:
+          type: integer
+          description: The number of received message requests from the peer.
+        receivedMilestoneRequests:
+          type: integer
+          description: The number of received milestone requests from the peer.
+        receivedHeartbeats:
+          type: integer
+          description: The number of received heartbeats from the peer.
+        sentMessages:
+          type: integer
+          description: The number of sent messages to the peer.
+        sentMessageRequests:
+          type: integer
+          description: The number of sent message requests to the peer.
+        sentMilestoneRequests:
+          type: integer
+          description: The number of sent milestone requests to the peer.
+        sentHeartbeats:
+          type: integer
+          description: The number of sent heartbeats to the peer.
+        droppedPackets:
+          type: integer
+          description: The number of dropped packets.
+      required:
+        - receivedMessages
+        - newMessages
+        - knownMessages
+        - receivedMessageRequests
+        - receivedMilestoneRequests
+        - receivedHeartbeats
+        - sentMessages
+        - sentMessageRequests
+        - sentMilestoneRequests
+        - sentHeartbeats
+        - droppedPackets
 
     ErrorResponse:
       description: The error format.
@@ -1593,6 +1671,11 @@ components:
             message:
               type: string
               description: The error reason.
+          required:
+            - code
+            - message
+      required:
+        - error
 
     ForbiddenResponse:
       description: Indicates that this endpoint is not available for public use.
@@ -1674,6 +1757,18 @@ components:
             minPowScore:
               description: The Proof-of-Work difficulty for a message to be sent over the network to mitigate spam.
               type: number
+          required:
+            - name
+            - version
+            - isHealthy
+            - networkId
+            - latestMilestoneIndex
+            - solidMilestoneIndex
+            - pruningIndex
+            - features
+            - minPowScore
+      required:
+        - data
 
     TipsResponse:
       description: Returns two tips.
@@ -1687,12 +1782,32 @@ components:
             tip2MessageId:
               type: string
               description: The second message identifier that can be used to a attach a message to.
+          required:
+            - tip1MessageId
+            - tip2MessageId
+      required:
+        - data
 
     SubmitMessageRequest:
       description: Submits a message to the node.
-      allOf:
-        - $ref: '#/components/schemas/Message'
-        - type: object
+      properties:
+        networkId:
+          type: string
+          description: Network identifier. This field signifies for which network the message is meant for. It also tells which protocol rules apply to the message. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and protocol version string.
+        parent1MessageId:
+          type: string
+          description: The identifier of the first message this message references.
+        parent2MessageId:
+          type: string
+          description: The identifier of the second message this message references.
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/TransactionPayload'
+            - $ref: '#/components/schemas/MilestonePayload'
+            - $ref: '#/components/schemas/IndexationPayload'
+        nonce:
+          type: string
+          description: The nonce which lets this message fulfill the Proof-of-Work requirement.
 
     SubmitMessageResponse:
       description: Returns the message identifier of the submitted message.
@@ -1703,6 +1818,10 @@ components:
             messageId:
               type: string
               description: The message identifier of the submitted message.
+          required:
+            - messageId
+      required:
+        - data
 
     MessagesFindResponse:
       description: Searches for messages matching a given indexation key.
@@ -1724,6 +1843,13 @@ components:
               items:
                 type: string
               description: The identifiers of the found messages that match the given indexation key.
+          required:
+            - index
+            - maxResults
+            - count
+            - messageIds
+      required:
+        - data
 
     MessageMetadataResponse:
       description: Returns the metadata of a given message.
@@ -1771,6 +1897,8 @@ components:
             - parent1MessageId
             - parent2MessageId
             - isSolid
+      required:
+        - data
 
     MessageResponse:
       description: Returns a given message.
@@ -1780,6 +1908,8 @@ components:
           properties:
             allOf:
               $ref: '#/components/schemas/Message'
+      required:
+        - data
 
     MessageChildrenResponse:
       description: Returns the children of a given message.
@@ -1801,6 +1931,13 @@ components:
               items:
                 type: string
               description: The message identifiers of the found children.
+          required:
+            - messageId
+            - maxResults
+            - count
+            - childrenMessageIds
+      required:
+        - data
 
     OutputResponse:
       description: Returns an output.
@@ -1824,6 +1961,14 @@ components:
               anyOf:
                 - $ref: '#/components/schemas/SigLockedSingleOutput'
                 - $ref: '#/components/schemas/SigLockedDustAllowanceOutput'
+          required:
+            - messageId
+            - transactionId
+            - outputIndex
+            - isSpent
+            - output
+      required:
+        - data
 
     BalanceAddressResponse:
       description: Returns the balance of an address.
@@ -1843,6 +1988,14 @@ components:
             balance:
               type: integer
               description: The computed balance for the address.
+          required:
+            - address
+            - maxResults
+            - count
+            - balance
+      required:
+        - data
+
 
     OutputsAddressResponse:
       properties:
@@ -1863,6 +2016,13 @@ components:
               items:
                 type: string
               description: The identifiers of the outputs that use a certain address.
+          required:
+            - address
+            - maxResults
+            - count
+            - outputIds
+      required:
+        - data
 
     MilestoneResponse:
       description: Returns information about a milestone.
@@ -1879,6 +2039,12 @@ components:
             timestamp:
               type: integer
               description: The timestamp of when the  milestone was issued.
+          required:
+            - index
+            - messageId
+            - timestamp
+      required:
+        - data
 
     PeersResponse:
       description: Returns all peers of the node.
@@ -1887,6 +2053,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Peer'
+      required:
+        - data
 
     PeerResponse:
       description: Returns a given peer of the node.
@@ -1894,6 +2062,8 @@ components:
         data:
           allOf:
             - $ref: '#/components/schemas/Peer'
+      required:
+        - data
 
     AddPeerRequest:
       description: Adds a given peer to the node.
@@ -1912,3 +2082,5 @@ components:
         data:
           allOf:
             - $ref: '#/components/schemas/Peer'
+      required:
+        - data
