@@ -9,7 +9,7 @@ In IOTA, nodes use the milestones issued by the Coordinator to reach a consensus
 
 # Motivation
 
-In the current IOTA protocol, milestones are authenticated using a ternary Merkle signature scheme. With [Chrysalis](https://roadmap.iota.org/chrysalis), ternary transactions will be replaced with with binary messages containing different payload types. In order to address these new requirements, this RFC proposes the use of a dedicated payload type for milestones. It contains the same essential data fields that were previously included in the milestone bundle. Additionally, this document also describes how Ed25519 signatures are used to assure authenticity of the issued milestones. In order to make the management and security of the used private keys easier, simple multisignature features with support for key rotation have been added.
+In the current IOTA protocol, milestones are authenticated using a ternary Merkle signature scheme. With [Chrysalis](https://roadmap.iota.org/chrysalis), ternary transactions will be replaced with binary messages containing different payload types. In order to address these new requirements, this RFC proposes the use of a dedicated payload type for milestones. It contains the same essential data fields that were previously included in the milestone bundle. Additionally, this document also describes how Ed25519 signatures are used to assure authenticity of the issued milestones. In order to make the management and security of the used private keys easier, simple multisignature features with support for key rotation have been added.
 
 # Detailed design
 
