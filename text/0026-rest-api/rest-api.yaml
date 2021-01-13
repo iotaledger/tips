@@ -1284,7 +1284,7 @@ components:
         outputs:
           type: array
           items:
-            oneOf:
+            anyOf:
               - $ref: '#/components/schemas/SigLockedSingleOutput'
               - $ref: '#/components/schemas/SigLockedDustAllowanceOutput'
         payload:
@@ -1708,6 +1708,7 @@ components:
             output:
               anyOf:
                 - $ref: '#/components/schemas/SigLockedSingleOutput'
+                - $ref: '#/components/schemas/SigLockedDustAllowanceOutput'
 
     BalanceAddressResponse:
       description: Returns the balance of an address.
