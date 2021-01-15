@@ -939,7 +939,7 @@ components:
           pruningIndex: 0
           features:
             - PoW
-          minPowScore: 4000
+          minPowScore: 4000.0
     get-tips-response-example-different:
       value:
         data:
@@ -1757,6 +1757,7 @@ components:
             minPowScore:
               description: The Proof-of-Work difficulty for a message to be sent over the network to mitigate spam.
               type: number
+              format: float
           required:
             - name
             - version
