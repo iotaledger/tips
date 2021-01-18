@@ -499,11 +499,7 @@ paths:
         - UTXO
       summary: Get the balance of a bech32-encoded address.
       description: >-
-        Get the balance of a bech32-encoded address. If `count` equals
-        `maxResults`, then there might be more outputs available but those were
-        skipped from the balance calculation for performance reasons. The user
-        should sweep the address to reduce the amount of outputs and get the
-        correct balance.
+        Get the balance of a bech32-encoded address.
       parameters:
         - in: path
           name: address
@@ -520,12 +516,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/BalanceAddressResponse'
               examples:
-                Default:
+                default:
                   $ref: >-
                     #/components/examples/get-address-balance-bech32-response-example
-                Max Results:
-                  $ref: >-
-                    #/components/examples/get-address-balance-bech32-response-example-maxResults
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -557,11 +550,7 @@ paths:
         - UTXO
       summary: Get the balance of a hex-encoded Ed25519 address.
       description: >-
-        Get the balance of a hex-encoded Ed25519 address. If `count` equals
-        `maxResults`, then there might be more outputs available but those were
-        skipped from the balance calculation for performance reasons. The user
-        should sweep the address to reduce the amount of outputs and get the
-        correct balance.
+        Get the balance of a hex-encoded Ed25519 address.
       parameters:
         - in: path
           name: address
@@ -578,12 +567,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/BalanceAddressResponse'
               examples:
-                Default:
+                default:
                   $ref: >-
                     #/components/examples/get-address-balance-ed25519-response-example
-                Max Results:
-                  $ref: >-
-                    #/components/examples/get-address-balance-ed25519-response-example-maxResults
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -1202,33 +1188,13 @@ components:
         data:
           addressType: 1
           address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
-          maxResults: 1000
-          count: 25
           balance: 1338263
-    get-address-balance-bech32-response-example-maxResults:
-      value:
-        data:
-          addressType: 1
-          address: 53908a8e2cd91a52895d9adfa2ebec9204bfff78a1f8b0ebc2ef09f973108959
-          maxResults: 1000
-          count: 1000
-          balance: 112848192
     get-address-balance-ed25519-response-example:
       value:
         data:
           addressType: 1
           address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
-          maxResults: 1000
-          count: 25
           balance: 1338263
-    get-address-balance-ed25519-response-example-maxResults:
-      value:
-        data:
-          addressType: 1
-          address: 53908a8e2cd91a52895d9adfa2ebec9204bfff78a1f8b0ebc2ef09f973108959
-          maxResults: 1000
-          count: 1000
-          balance: 112848192
     get-address-outputs-response-example:
       value:
         data:
@@ -1977,22 +1943,18 @@ components:
         data:
           type: object
           properties:
+            addressType:
+              type: integer
+              description: The type of the address. Value `1` denotes a Ed25519 address.
             address:
               type: string
               description: The hex-encoded Ed25519 address.
-            maxResults:
-              type: integer
-              description: The number of results it can return at most.
-            count:
-              type: integer
-              description: The actual number of found results.
             balance:
               type: integer
               description: The computed balance for the address.
           required:
+            - addressType
             - address
-            - maxResults
-            - count
             - balance
       required:
         - data
@@ -2003,6 +1965,9 @@ components:
         data:
           type: object
           properties:
+            addressType:
+              type: integer
+              description: The type of the address. Value `1` denotes a Ed25519 address.
             address:
               type: string
               description: The hex-encoded Ed25519 address.
@@ -2018,6 +1983,7 @@ components:
                 type: string
               description: The identifiers of the outputs that use a certain address.
           required:
+            - addressType
             - address
             - maxResults
             - count
