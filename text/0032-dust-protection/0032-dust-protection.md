@@ -76,7 +76,7 @@ An additional benefit of this rule is that it makes a mass of privacy violating 
 
 ### Validation
 
-*Once a user created any number of `SigLockedDustAllowanceOutput` with at least 1 Mi, up to 127 dust outputs can be created on the same address*. Apart from this, `SigLockedDustAllowanceOutputs` are processed identical to `SigLockedSingleOutput`. The transaction validation as defined in [Draft RFC-18](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-transaction-payload/0000-transaction-payload.md), however, needs to be adapted.
+*Once a user created any number of `SigLockedDustAllowanceOutput` with at least 1 Mi, up to 126 dust outputs can be created on the same address*. Apart from this, `SigLockedDustAllowanceOutputs` are processed identical to `SigLockedSingleOutput`. The transaction validation as defined in [Draft RFC-18](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-transaction-payload/0000-transaction-payload.md), however, needs to be adapted.
 
 _Syntactical validation_ for `SigLockedDustAllowanceOutput`:
 - The `Address` must be unique in the set of `SigLockedDustAllowanceOutputs` in one transaction T. However, there can be one `SigLockedSingleOutput` and one `SigLockedDustAllowanceOutputs` T.
@@ -99,6 +99,11 @@ is only semantically valid, if, after T is booked, the number of unspent dust ou
 
 The rationale for creating a special `SigLockedDustAllowanceOutput` rather than rely on the default `SigLockedSingleOutputs` is to prevent attackers from polluting arbitrary addresses that happen to hold
 a large amount of funds with dust.
+
+We limit the number of dust outputs to 126 so: 
+1. To incentivize users to sweep so they could collect more dust on the address.
+2. With 127 outputs a single message can sweep all the outputs and the `dustAllowanceDeposit`.
+3. A high number of outputs may have adverse affects on I/O performance.
 
 One may note that an attacker can deposit a dust allowance on 3rd party address outside his control and pollute that address with dust.
 From a security perspective this is better than an attacker depositing a dust allowance on addresses under his control.
