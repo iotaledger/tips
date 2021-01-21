@@ -88,7 +88,7 @@ A transaction T
   - consuming a `SigLockedDustAllowanceOutput` on address A **or**
   - creating a dust output with address A,
 
-is only semantically valid, if, after T is booked, the number of unspent dust outputs on A does not exceed the allowed threshold of S / 10,000.
+is only semantically valid, if, after T is booked, there are no dust outputs on an address without at least a single corresponding `SigLockedDustAllowanceOutput`.
 
 # Drawbacks
 
