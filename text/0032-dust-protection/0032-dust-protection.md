@@ -9,7 +9,8 @@ This RFC proposes a new protocol rule regarding the processing of outputs that t
 
 # Motivation
 
-A single typical `SigLockedSingleOutput` as described in [Draft RFC-18](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-transaction-payload/0000-transaction-payload.md) has a size of 42 bytes. When 1 Gi is split up into one billion outputs of 1 IOTA each, this corresponds to about 40 GB of outputs that need to be processed and stored. Since IOTA is feeless, this is far from a prohibitively expensive attack.
+An attacker, or even honest users, can proliferate the UTXO set with outputs holding a tiny amount of iotas. This can cause the UTXO set to grow to a prohibitively large size. 
+Nodes may stall or crash due to the increasing amount of memory and computational resources needed.
 
 In order to protect nodes from such attacks, one possible solution is to make accumulating dust outputs expensive. Since IOTA does not have any fees that might limit the feasibility of issuing many dust transactions, deposits pose a valid alternative to achieve a similar effect.
 
