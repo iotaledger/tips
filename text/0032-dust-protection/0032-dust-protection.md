@@ -76,9 +76,7 @@ An additional benefit of this rule is that it makes a mass of privacy violating 
 
 ### Validation
 
-Let A be the address that should hold the dust outputs' balances. Let S be the sum of all the amounts of all unspent `SigLockedDustAllowanceOutputs` on A. Then, the maximum number of allowed dust outputs on A is S divided by 10,000 and rounded down, i.e. 100 outputs for each 1 Mi deposited.
-
-The amount of a `SigLockedDustAllowanceOutput` must be at least 1 Mi. Apart from this, `SigLockedDustAllowanceOutputs` are processed identical to `SigLockedSingleOutput`. The transaction validation as defined in [Draft RFC-18](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-transaction-payload/0000-transaction-payload.md), however, needs to be adapted.
+*Once a user created any number of `SigLockedDustAllowanceOutput` with at least 1 Mi, up to 127 dust outputs can be created on the same address*. Apart from this, `SigLockedDustAllowanceOutputs` are processed identical to `SigLockedSingleOutput`. The transaction validation as defined in [Draft RFC-18](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-transaction-payload/0000-transaction-payload.md), however, needs to be adapted.
 
 _Syntactical validation_ for `SigLockedDustAllowanceOutput`:
 - The `Address` must be unique in the set of `SigLockedDustAllowanceOutputs` in one transaction T. However, there can be one `SigLockedSingleOutput` and one `SigLockedDustAllowanceOutputs` T.
@@ -120,7 +118,3 @@ The second option is much more complicated as it introduces a completely new unl
 # Unresolved questions
 
 - An attacker can send microtransactions to an address with a `SigLockedDustAllowanceOutput` in order to fill the allowed threshold and block honest senders of microtransactions. The owner of the address can mitigate this by simply consolidating the attacker's dust and collecting it for profit. The problem is that the cost of doing PoW too often may exceed the profit made by collecting dust. Perhaps it is a good idea to limit "tiny" (1 i) dust outputs more than larger dust outputs? In the original discussion each dust class was supposed to be capped to a certain fixed amount. But perhaps we should give weights to different dust classes. So "tiny" dust will weigh more and fill the cap more quickly than larger dust?
-
-- Total cap per address so db key won't be polluted... should this be part of the RFC? This also depends on how key-value dbs will behave at the implementation level. RocksDb for example can configured to handle this well.
-
-- If we stay with the naive linear scheme, is 100 outputs per 1MI is really our choice?
