@@ -811,7 +811,7 @@ paths:
                 $ref: '#/components/examples/post-peer-request-example'
         required: true
       responses:
-        '201':
+        '200':
           description: "Successful operation."
           content:
             application/json:
@@ -849,7 +849,7 @@ paths:
           name: peerId
           schema:
             type: string
-          example: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+          example: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
           required: true
           description: Identifier of the message.
       responses:
@@ -896,7 +896,7 @@ paths:
           name: peerId
           schema:
             type: string
-          example: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+          example: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
           required: true
           description: Identifier of the peer.
       responses:
@@ -1220,88 +1220,120 @@ components:
     get-peers-response-example:
       value:
         data:
-          - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
-            alias: abc.com
+          - id: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
             multiAddresses:
-              - /dns/abc.com/tcp/15602
+              - "/dns/abc.com/tcp/15602"
+            alias: abc
             relation: known
             connected: true
-            gossipMetrics:
-              receivedMessages: 109779
-              newMessages: 104893
-              knownMessages: 4415
-              receivedMessageRequests: 0
-              receivedMilestoneRequests: 1
-              receivedHeartbeats: 3
-              sentMessages: 474
-              sentMessageRequests: 108250
-              sentMilestoneRequests: 909
-              sentHeartbeats: 2
-              droppedPackets: 324
-          - id: 12F4AooXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            gossip:
+              heartbeat:
+                solidMilestoneIndex: 61527
+                prunedMilestoneIndex: 61200
+                latestMilestoneIndex: 61527
+                connectedNeighbors: 5
+                syncedNeighbors: 7
+              metrics:
+                newMessages: 3799
+                knownMessages: 554
+                receivedMessages: 4370
+                receivedMessageRequests: 0
+                receivedMilestoneRequests: 1
+                receivedHeartbeats: 1
+                sentMessages: 6
+                sentMessageRequests: 4325
+                sentMilestoneRequests: 31
+                sentHeartbeats: 9
+                droppedPackets: 0
+          - id: 12D3KooWNYDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+            multiAddresses:
+              - "/dns/xyz.com/tcp/15600"
             alias: xyz
-            multiAddresses:
-              - /dns/xyz.io/tcp/15600
             relation: known
             connected: true
-            gossipMetrics:
-              receivedMessages: 10352
-              newMessages: 23423
-              knownMessages: 6754
-              receivedMessageRequests: 3
-              receivedMilestoneRequests: 12
-              receivedHeartbeats: 53
-              sentMessages: 546
-              sentMessageRequests: 547234
-              sentMilestoneRequests: 234
-              sentHeartbeats: 3
-              droppedPackets: 435
+            gossip:
+              heartbeat:
+                solidMilestoneIndex: 61527
+                prunedMilestoneIndex: 56508
+                latestMilestoneIndex: 61527
+                connectedNeighbors: 5
+                syncedNeighbors: 6
+              metrics:
+                newMessages: 510
+                knownMessages: 79
+                receivedMessages: 589
+                receivedMessageRequests: 0
+                receivedMilestoneRequests: 1
+                receivedHeartbeats: 1
+                sentMessages: 42
+                sentMessageRequests: 576
+                sentMilestoneRequests: 1
+                sentHeartbeats: 9
+                droppedPackets: 0
+
     get-peer-response-example:
       value:
         data:
-          - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
-            alias: abc.com
+          - id: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
             multiAddresses:
-              - /dns/abc.com/tcp/15602
+              - "/dns/abc.com/tcp/15602"
+            alias: abc
             relation: known
             connected: true
-            gossipMetrics:
-              receivedMessages: 109779
-              newMessages: 104893
-              knownMessages: 4415
-              receivedMessageRequests: 0
-              receivedMilestoneRequests: 1
-              receivedHeartbeats: 3
-              sentMessages: 474
-              sentMessageRequests: 108250
-              sentMilestoneRequests: 909
-              sentHeartbeats: 2
-              droppedPackets: 324
+            gossip:
+              heartbeat:
+                solidMilestoneIndex: 61527
+                prunedMilestoneIndex: 61200
+                latestMilestoneIndex: 61527
+                connectedNeighbors: 5
+                syncedNeighbors: 7
+              metrics:
+                newMessages: 3799
+                knownMessages: 554
+                receivedMessages: 4370
+                receivedMessageRequests: 0
+                receivedMilestoneRequests: 1
+                receivedHeartbeats: 1
+                sentMessages: 6
+                sentMessageRequests: 4325
+                sentMilestoneRequests: 31
+                sentHeartbeats: 9
+                droppedPackets: 0
+
     post-peer-request-example:
       value:
         multiAddress: >-
-          /dns/abc.com/tcp/15602/p2p/12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+          /dns/abc.com/tcp/15602/p2p/12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
         alias: abc.com
     post-peer-response-example:
       value:
         data:
-          - id: 12D327oXYZDcJqxnWqCLSgeQKqNStwFUqHSJXPdSYTJnfxQESzie
+          - id: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
             multiAddresses:
-              - /dns/abc.com/tcp/15602
+              - "/dns/abc.com/tcp/15602"
+            alias: abc
             relation: known
             connected: true
-            gossipMetrics:
-              receivedMessages: 0
-              newMessages: 0
-              knownMessages: 0
-              receivedMessageRequests: 0
-              receivedMilestoneRequests: 0
-              receivedHeartbeats: 0
-              sentMessages: 0
-              sentMessageRequests: 0
-              sentMilestoneRequests: 0
-              sentHeartbeats: 0
-              droppedPackets: 0
+            gossip:
+              heartbeat:
+                solidMilestoneIndex: 61527
+                prunedMilestoneIndex: 61200
+                latestMilestoneIndex: 61527
+                connectedNeighbors: 5
+                syncedNeighbors: 7
+              metrics:
+                newMessages: 3799
+                knownMessages: 554
+                receivedMessages: 4370
+                receivedMessageRequests: 0
+                receivedMilestoneRequests: 1
+                receivedHeartbeats: 1
+                sentMessages: 6
+                sentMessageRequests: 4325
+                sentMilestoneRequests: 31
+                sentHeartbeats: 9
+                droppedPackets: 0
+
   schemas:
 
     Message:
@@ -1551,43 +1583,75 @@ components:
         id:
           type: string
           description: The identifier of the peer.
-        alias:
-          type: string
-          description: The alias of the peer.
         multiAddresses:
           type: array
           items:
             type: string
-          description: The address of the peer.
+          description: The addresses of the peer.
+        alias:
+          type: string
+          description: The alias of the peer.
         relation:
-          type: integer
+          type: string
+          enum:
+            - included
+            - conflicting
+            - noTransaction
         connected:
           type: boolean
           description: Tells whether the peer is connected or not.
-        gossipMetrics:
+        gossip:
           allOf:
-            - $ref: '#/components/schemas/GossipMetrics'
+            - $ref: '#/components/schemas/Gossip'
       required:
         - id
-        - alias
         - multiAddresses
         - relation
         - connected
-        - gossipMetrics
-        - receivedMessages
+        - gossip
 
-    GossipMetrics:
-      description: Metrics about the gossip stream with the peer.
+    Gossip:
+      description: Information about the gossip stream with the peer.
       properties:
-        receivedMessages:
+        heartbeat:
+          description: Information about the most recent heartbeat of the peer. The heartbeat is `null` if none has been received yet.
+          allOf:
+            - $ref: '#/components/schemas/Heartbeat'
+          nullable: true
+        metrics:
+          description: Metrics about the gossip stream with the peer.
+          allOf:
+            - $ref: '#/components/schemas/Metrics'
+
+    Heartbeat:
+      properties:
+        solidMilestoneIndex:
           type: integer
-          description: The number of received messages from the peer.
+          description: The most recent milestone that has been solidified by the node.
+        prunedMilestoneIndex:
+          type: integer
+          description: Tells from which starting point the node holds data.
+        latestMilestoneIndex:
+          type: integer
+          description: The most recent milestone known to the node.
+        connectedNeighbors:
+          type: integer
+          description: Tells how many connected peers the node has.
+        syncedNeighbors:
+          type: integer
+          description: Tells how many synced peers the node has.
+
+    Metrics:
+      properties:
         newMessages:
           type: integer
           description: The number of received messages that were new for the node.
         knownMessages:
           type: integer
           description: The number of received messages that already were known to the node.
+        receivedMessages:
+          type: integer
+          description: The number of received messages from the peer.
         receivedMessageRequests:
           type: integer
           description: The number of received message requests from the peer.
@@ -1613,9 +1677,9 @@ components:
           type: integer
           description: The number of dropped packets.
       required:
-        - receivedMessages
         - newMessages
         - knownMessages
+        - receivedMessages
         - receivedMessageRequests
         - receivedMilestoneRequests
         - receivedHeartbeats
@@ -2041,7 +2105,6 @@ components:
           type: string
       required:
         - multiAddress
-        - alias
 
     AddPeerResponse:
       description: Returns information about an added peer.
