@@ -10,7 +10,7 @@ This RFC proposes a new protocol rule regarding the processing of outputs that t
 # Motivation
 
 An attacker, or even honest users, can proliferate the UTXO set with outputs holding a tiny amount of iotas. This can cause the UTXO set to grow to a prohibitively large size. 
-Nodes may stall or crash due to the increasing amount of memory and computational resources needed.
+Nodes may freeze or crash due to the increasing amount of memory and computational resources needed.
 
 In order to protect nodes from such attacks, one possible solution is to make accumulating dust outputs expensive. Since IOTA does not have any fees that might limit the feasibility of issuing many dust transactions, deposits pose a valid alternative to achieve a similar effect.
 
@@ -78,7 +78,7 @@ An additional benefit of this rule is that it makes a mass of privacy violating 
 ### Validation
 
 Let A be the address that should hold the dust outputs' balances. Let S be the sum of all the amounts of all unspent `SigLockedDustAllowanceOutputs` on A. Then, the maximum number of allowed dust outputs on A is S divided by 100,000 and rounded down, i.e. 10 outputs for each 1 Mi deposited.
-There is also a cap of 100 dust outputs per address we shouldn't exceed. 
+However, regardless of S, the number of dust outputs must never exceed 100 per address.
 
 The amount of a `SigLockedDustAllowanceOutput` must be at least 1 Mi. Apart from this, `SigLockedDustAllowanceOutputs` are processed identical to `SigLockedSingleOutput`. The transaction validation as defined in [Draft RFC-18](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-transaction-payload/0000-transaction-payload.md), however, needs to be adapted.
 
@@ -92,7 +92,7 @@ A transaction T
   - consuming a `SigLockedDustAllowanceOutput` on address A **or**
   - creating a dust output with address A,
 
-is only semantically valid, if, after T is booked, the number of unspent dust outputs on A does not exceed the allowed threshold of min(S / 100,000, 100).
+is only semantically valid, if, after T is booked, the number of unspent dust outputs on A does not exceed the allowed threshold of min(S / 100000, 100).
 
 # Drawbacks
 
