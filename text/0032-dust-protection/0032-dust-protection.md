@@ -122,7 +122,3 @@ The second option is much more complicated as it introduces a completely new unl
 # Unresolved questions
 
 - An attacker can send microtransactions to an address with a `SigLockedDustAllowanceOutput` in order to fill the allowed threshold and block honest senders of microtransactions. The owner of the address can mitigate this by simply consolidating the attacker's dust and collecting it for profit. The problem is that the cost of doing PoW too often may exceed the profit made by collecting dust. Perhaps it is a good idea to limit "tiny" (1 i) dust outputs more than larger dust outputs? In the original discussion each dust class was supposed to be capped to a certain fixed amount. But perhaps we should give weights to different dust classes. So "tiny" dust will weigh more and fill the cap more quickly than larger dust?
-
-- Total cap per address so db key won't be polluted... should this be part of the RFC? This also depends on how key-value dbs will behave at the implementation level. RocksDb for example can configured to handle this well.
-
-- If we stay with the naive linear scheme, is 100 outputs per 1MI is really our choice?
