@@ -507,7 +507,7 @@ The <i>SigLockedSingleOutput</i> defines an output (with a certain amount) to a 
 
 ##### Payload
 
-The payload part of a <i>Transaction Essence</i> can hold an optional payload. This payload does not affect the validity of the <i>Transaction Essence</i>. If the transaction is not valid, then the payload must also be discarded.
+The payload part of a <i>Transaction Essence</i> can hold an optional payload. This payload does not affect the validity of the <i>Transaction Essence</i>. If the transaction is not syntactically valid, then the payload must also be discarded. 
 
 Supported payload types to be embedded into a <i>Transaction Essence</i>:
 
