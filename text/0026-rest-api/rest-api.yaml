@@ -782,6 +782,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
+
+  '/api/v1/milestones/{index}/utxo-changes':
+    get:
+      tags:
+        - milestones
+      summary: Get all UTXO changes of a given milestone.
+      description: Get all UTXO changes of a given milestone.
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: number
+          example: 154862
+          required: true
+          description: Index of the milestone to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UTXOChangesResponse'
+              examples:
+                default:
+                  $ref: >-
+                    #/components/examples/get-utxo-changes-response-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+
   /api/v1/peers:
     get:
       tags:
@@ -1231,6 +1283,22 @@ components:
           index: 15465
           messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
           timestamp: 1602227215
+
+    get-utxo-changes-response-example:
+      value:
+        data:
+          index: 15465
+          createdOutputs:
+            - >-
+              1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a52980100
+            - >-
+              ee3447d088e3e2c53c5b3e56a38fdc859ca2c4b4161cf256c0462ce4d34731820100
+            - >-
+              f8bdbfb0f57ade7fbb95d31b11e2dbda9b2a35e9dc0cd3e11cb324e8a6bedc260100
+          consumedOutputs:
+            - >-
+              3d36ec4afb2d634b9313f84606b98b69675a3ef6f44dcdecb18c30945b57221e0100
+
     get-peers-response-example:
       value:
         data:
@@ -2088,6 +2156,32 @@ components:
             - index
             - messageId
             - timestamp
+      required:
+        - data
+
+    UTXOChangesResponse:
+      description: Returns all UTXO changes of the given milestone.
+      properties:
+        data:
+          type: object
+          properties:
+            index:
+              type: integer
+              description: The index number of the milestone.
+            createdOutputs:
+              description: The created outputs of the given milestone.
+              type: array
+              items:
+                type: string
+            consumedOutputs:
+              description: The consumed outputs of the given milestone.
+              type: array
+              items:
+                type: string
+          required:
+            - index
+            - createdOutputs
+            - consumedOutputs
       required:
         - data
 
