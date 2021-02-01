@@ -622,6 +622,13 @@ paths:
           description: >-
             Set to true to also include the known spent outputs for the given
             address.
+        - in: query
+          name: type
+          schema:
+            type: integer
+          example: 0
+          description: >-
+            Allows to filter the results by output type. Set to value `0` to filter outputs of type `SigLockedSingleOutput`. Set to value `1` to filter outputs of type `SigLockedDustAllowanceOutput`.
       responses:
         '200':
           description: "Successful operation."
@@ -684,6 +691,13 @@ paths:
           description: >-
             Set to true to also include the known spent outputs for the given
             address.
+        - in: query
+          name: type
+          schema:
+            type: integer
+          example: 0
+          description: >-
+            Allows to filter the results by output type. Set to value `0` to filter outputs of type `SigLockedSingleOutput`. Set to value `1` to filter outputs of type `SigLockedDustAllowanceOutput`.
       responses:
         '200':
           description: "Successful operation."
