@@ -986,6 +986,7 @@ components:
           version: 0.5.3
           isHealthy: true
           networkId: alphanet1
+          bech32HRP: iota
           latestMilestoneIndex: 25211
           solidMilestoneIndex: 25211
           pruningIndex: 0
@@ -1852,6 +1853,9 @@ components:
             networkId:
               type: string
               description: Tells on which network the nodes operates on.
+            bech32HRP:
+              type: string
+              description: Tells whether the node supports mainnet or testnet addresses. Value `iota` indicates that the node supports mainnet addresses. Value `atoi` indicates that the node supports testnet addresses.
             latestMilestoneIndex:
               type: integer
               description: The most recent milestone known to the node.
@@ -1875,6 +1879,7 @@ components:
             - version
             - isHealthy
             - networkId
+            - bech32HRP
             - latestMilestoneIndex
             - solidMilestoneIndex
             - pruningIndex
