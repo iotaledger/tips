@@ -79,10 +79,9 @@ paths:
     get:
       tags:
         - tangle
-      summary: Returns two tips.
+      summary: Returns tips that are ideal for attaching a message.
       description: >-
-        Returns two tips. If the node can only serve a single tip,
-        `tip1MessageId` and `tip2MessageId` are identical. The tips can be considered as `non-lazy` and are therefore ideal for attaching a message.
+        Returns tips that are ideal for attaching a message. The tips can be considered as `non-lazy` and are therefore ideal for attaching a message.
       responses:
         '200':
           description: "Successful operation."
@@ -91,10 +90,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TipsResponse'
               examples:
-                Multiple tips availalbe:
-                  $ref: '#/components/examples/get-tips-response-example-different'
-                Only one tip available:
-                  $ref: '#/components/examples/get-tips-response-example-identical'
+                default:
+                  $ref: '#/components/examples/get-tips-response-example'
         '403':
           description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
           content:
@@ -123,7 +120,7 @@ paths:
         build the message. On success, the message will be stored in the Tangle.
         This endpoint will return the identifier of the built message. *The
         node will try to auto-fill the following fields in case they are
-        missing: `networkId`, `parent1MessageId`, `parent2MessageId`, `nonce`.
+        missing: `networkId`, `parentMessageIds`, `nonce`.
         If `payload` is missing, the message will be built without a payload.
       requestBody:
         content:
@@ -993,16 +990,12 @@ components:
           features:
             - PoW
           minPowScore: 4000.0
-    get-tips-response-example-different:
+    get-tips-response-example:
       value:
         data:
-          tip1MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          tip2MessageId: 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
-    get-tips-response-example-identical:
-      value:
-        data:
-          tip1MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          tip2MessageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          tipMessageIds:
+            - f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+            - 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
     post-messages-response-example:
       value:
         data:
@@ -1020,8 +1013,9 @@ components:
       value:
         data:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          parentMessageIds:
+            - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+            - d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
           isSolid: false
           shouldPromote: true
           shouldReattach: false
@@ -1029,8 +1023,9 @@ components:
       value:
         data:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          parentMessageIds:
+            - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+            - d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
           isSolid: true
           shouldPromote: false
           shouldReattach: false
@@ -1038,8 +1033,9 @@ components:
       value:
         data:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          parentMessageIds:
+            - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+            - d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
           isSolid: true
           referencedByMilestoneIndex: 15465
           ledgerInclusionState: included
@@ -1047,8 +1043,9 @@ components:
       value:
         data:
           messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          parent1MessageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          parent2MessageId: d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          parentMessageIds:
+            - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+            - d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
           isSolid: true
           referencedByMilestoneIndex: 15465
           ledgerInclusionState: conflicting
@@ -1056,8 +1053,9 @@ components:
     post-indexation-message-request-example-full:
       value:
         networkId: '6530425480034647824'
-        parent1MessageId: 0b80adc0ca06b21842ac50d32e8132cf369d5e6a556e8454fdc846fd821d0fa2
-        parent2MessageId: 32105f6889424d264774ce7d086ffd3629719b909f64737708c6a9e719389072
+        parentMessageIds:
+          - 0b80adc0ca06b21842ac50d32e8132cf369d5e6a556e8454fdc846fd821d0fa2
+          - 32105f6889424d264774ce7d086ffd3629719b909f64737708c6a9e719389072
         payload:
           type: 2
           index: HORNET Spammer
@@ -1107,8 +1105,9 @@ components:
     post-transaction-message-request-example-full:
       value:
         networkId: '6530425480034647824'
-        parent1MessageId: 56d181a75f95c5106e6da9a2a44da43266c59d9c3ba51eb8798145d54d43498b
-        parent2MessageId: a65bcd62adfedb571be1738f2c52bd539c0295347210f02c16dc39ec22e54f85
+        parentMessageIds:
+          - 56d181a75f95c5106e6da9a2a44da43266c59d9c3ba51eb8798145d54d43498b
+          - a65bcd62adfedb571be1738f2c52bd539c0295347210f02c16dc39ec22e54f85
         payload:
           type: 0
           essence:
@@ -1145,16 +1144,18 @@ components:
       value:
         data:
           networkId: '6530425480034647824'
-          parent1MessageId: c0b728d4c292860b57747c7bfbd989ccc40be8c76229022644c05e1352bf1ea3
-          parent2MessageId: e8db39681478cf9826bd2f31d045f16f5e1f478c5abc3030419da7911df9e288
+          parentMessageIds:
+            - c0b728d4c292860b57747c7bfbd989ccc40be8c76229022644c05e1352bf1ea3
+            - e8db39681478cf9826bd2f31d045f16f5e1f478c5abc3030419da7911df9e288
           payload: null
           nonce: '1481'
     get-message-by-id-transaction-response-example:
       value:
         data:
           networkId: '6530425480034647824'
-          parent1MessageId: 56d181a75f95c5106e6da9a2a44da43266c59d9c3ba51eb8798145d54d43498b
-          parent2MessageId: a65bcd62adfedb571be1738f2c52bd539c0295347210f02c16dc39ec22e54f85
+          parentMessageIds:
+            - 56d181a75f95c5106e6da9a2a44da43266c59d9c3ba51eb8798145d54d43498b
+            - a65bcd62adfedb571be1738f2c52bd539c0295347210f02c16dc39ec22e54f85
           payload:
             type: 0
             essence:
@@ -1191,8 +1192,9 @@ components:
       value:
         data:
           networkId: '6530425480034647824'
-          parent1MessageId: 363234351b3fce9283e730ebd72dc51246b260f2e4d50f64a003f4ad28c88e57
-          parent2MessageId: ad565d4733347b22cc7229691e388a1d4e4af4a7d5ed3295bfbc904939c4d5ba
+          parentMessageIds:
+            - 363234351b3fce9283e730ebd72dc51246b260f2e4d50f64a003f4ad28c88e57
+            - ad565d4733347b22cc7229691e388a1d4e4af4a7d5ed3295bfbc904939c4d5ba
           payload:
             type: 1
             index: 20239
@@ -1213,8 +1215,9 @@ components:
       value:
         data:
           networkId: '6530425480034647824'
-          parent1MessageId: 0b80adc0ca06b21842ac50d32e8132cf369d5e6a556e8454fdc846fd821d0fa2
-          parent2MessageId: 32105f6889424d264774ce7d086ffd3629719b909f64737708c6a9e719389072
+          parentMessageIds:
+            - 0b80adc0ca06b21842ac50d32e8132cf369d5e6a556e8454fdc846fd821d0fa2
+            - 32105f6889424d264774ce7d086ffd3629719b909f64737708c6a9e719389072
           payload:
             type: 2
             index: HORNET Spammer
@@ -1425,12 +1428,11 @@ components:
         networkId:
           type: string
           description: Network identifier. This field signifies for which network the message is meant for. It also tells which protocol rules apply to the message. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and protocol version string.
-        parent1MessageId:
-          type: string
-          description: The identifier of the first message this message references.
-        parent2MessageId:
-          type: string
-          description: The identifier of the second message this message references.
+        parentMessageIds:
+          type: array
+          description: The identifiers of the messages this message references.
+          items:
+            type: string
         payload:
           oneOf:
             - $ref: '#/components/schemas/TransactionPayload'
@@ -1441,8 +1443,7 @@ components:
           description: The nonce which lets this message fulfill the Proof-of-Work requirement.
       required:
         - networkId
-        - parent1MessageId
-        - parent2MessageId
+        - parentMessageIds
         - payload
         - nonce
 
@@ -1889,20 +1890,18 @@ components:
         - data
 
     TipsResponse:
-      description: Returns two tips.
+      description: Returns tips that are ideal for attaching a message.
       properties:
         data:
           type: object
           properties:
-            tip1MessageId:
-              type: string
-              description: The first message identifier that can be used to a attach a message to.
-            tip2MessageId:
-              type: string
-              description: The second message identifier that can be used to a attach a message to.
+            tipMessageIds:
+              type: array
+              items:
+                type: string
+              description: The message identifiers that can be used to a attach a message to.
           required:
-            - tip1MessageId
-            - tip2MessageId
+            - tipMessageIds
       required:
         - data
 
@@ -1912,12 +1911,11 @@ components:
         networkId:
           type: string
           description: Network identifier. This field signifies for which network the message is meant for. It also tells which protocol rules apply to the message. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and protocol version string.
-        parent1MessageId:
-          type: string
-          description: The identifier of the first message this message references.
-        parent2MessageId:
-          type: string
-          description: The identifier of the second message this message references.
+        parentMessageIds:
+          type: array
+          description: The identifiers of the messages this message references.
+          items:
+            type: string
         payload:
           oneOf:
             - $ref: '#/components/schemas/TransactionPayload'
@@ -1978,12 +1976,11 @@ components:
             messageId:
               type: string
               description: The identifier of the message.
-            parent1MessageId:
-              type: string
-              description: The identifier of the first Message it references.
-            parent2MessageId:
-              type: string
-              description: The identifier of the second Message it references.
+            parentMessageIds:
+              type: array
+              description: The identifiers of the messages this message references.
+              items:
+                type: string
             isSolid:
               type: boolean
               description: Tells if the message could get solidified by the node or not.
@@ -2012,8 +2009,7 @@ components:
               description: Tells if the message should be reattached.
           required:
             - messageId
-            - parent1MessageId
-            - parent2MessageId
+            - parentMessageIds
             - isSolid
       required:
         - data
