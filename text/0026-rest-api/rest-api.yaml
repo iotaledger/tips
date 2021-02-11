@@ -1052,23 +1052,24 @@ components:
           conflictReason: 1
     post-indexation-message-request-example-full:
       value:
-        networkId: '6530425480034647824'
+        networkId: '9466822412763346725'
         parentMessageIds:
-          - 0b80adc0ca06b21842ac50d32e8132cf369d5e6a556e8454fdc846fd821d0fa2
-          - 32105f6889424d264774ce7d086ffd3629719b909f64737708c6a9e719389072
+          - 222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9
+          - a22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6
+          - a6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d
+          - fd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7
         payload:
           type: 2
-          index: HORNET Spammer
-          data: >-
-            42696e61727920697320746865206675747572652e0a436f756e743a203132313437320a54696d657374616d703a20323032302d31312d32325431323a34303a34325a0a54697073656c656374696f6e3a203333c2b573
-        nonce: '2695978'
+          index: Testnet Spammer
+          data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
+        nonce: '2102864'
     post-indexation-message-request-example-minimal:
       value:
         payload:
           type: 2
-          index: HORNET Spammer
-          data: >-
-            42696e61727920697320746865206675747572652e0a436f756e743a203132313437320a54696d657374616d703a20323032302d31312d32325431323a34303a34325a0a54697073656c656374696f6e3a203333c2b573
+          index: Testnet Spammer
+          data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
+
     post-transaction-message-request-example-minimal:
       value:
         payload:
@@ -1077,69 +1078,72 @@ components:
             type: 0
             inputs:
               - type: 0
-                transactionId: >-
-                  704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
+                transactionId: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+                transactionOutputIndex: 0
+              - type: 0
+                transactionId: 309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036
+                transactionOutputIndex: 0
+              - type: 0
+                transactionId: c138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e
                 transactionOutputIndex: 0
             outputs:
               - type: 0
                 address:
                   type: 1
-                  address: >-
-                    06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582
-                amount: 999999999000
-              - type: 0
-                address:
-                  type: 1
-                  address: >-
-                    5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
-                amount: 1000
-            payload: null
+                  address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                amount: 50000000
+            payload:
           unlockBlocks:
             - type: 0
               signature:
                 type: 1
-                publicKey: >-
-                  34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
-                signature: >-
-                  b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
+                publicKey: 40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092
+                signature: ed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703
+            - type: 1
+              reference: 0
+            - type: 1
+              reference: 0
+        nonce: '1020884'
     post-transaction-message-request-example-full:
       value:
-        networkId: '6530425480034647824'
+        networkId: '9466822412763346725'
         parentMessageIds:
-          - 56d181a75f95c5106e6da9a2a44da43266c59d9c3ba51eb8798145d54d43498b
-          - a65bcd62adfedb571be1738f2c52bd539c0295347210f02c16dc39ec22e54f85
+          - 6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca
+          - 97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481
+          - c107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d
+          - ea19397d2670f904c4d8c8616ef7a0724321512f1c09f8eb2aeb0cc4299e2441
         payload:
           type: 0
           essence:
             type: 0
             inputs:
               - type: 0
-                transactionId: >-
-                  704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
+                transactionId: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+                transactionOutputIndex: 0
+              - type: 0
+                transactionId: 309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036
+                transactionOutputIndex: 0
+              - type: 0
+                transactionId: c138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e
                 transactionOutputIndex: 0
             outputs:
               - type: 0
                 address:
                   type: 1
-                  address: >-
-                    06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582
-                amount: 999999999000
-              - type: 0
-                address:
-                  type: 1
-                  address: >-
-                    5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
-                amount: 1000
-            payload: null
+                  address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                amount: 50000000
+            payload:
           unlockBlocks:
             - type: 0
               signature:
                 type: 1
-                publicKey: >-
-                  34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
-                signature: >-
-                  b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
-        nonce: '1398515'
+                publicKey: 40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092
+                signature: ed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703
+            - type: 1
+              reference: 0
+            - type: 1
+              reference: 0
+        nonce: '1020884'
     get-message-by-id-empty-response-example:
       value:
         data:
@@ -1152,78 +1156,88 @@ components:
     get-message-by-id-transaction-response-example:
       value:
         data:
-          networkId: '6530425480034647824'
+          networkId: '9466822412763346725'
           parentMessageIds:
-            - 56d181a75f95c5106e6da9a2a44da43266c59d9c3ba51eb8798145d54d43498b
-            - a65bcd62adfedb571be1738f2c52bd539c0295347210f02c16dc39ec22e54f85
+            - 6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca
+            - 97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481
+            - c107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d
+            - ea19397d2670f904c4d8c8616ef7a0724321512f1c09f8eb2aeb0cc4299e2441
           payload:
             type: 0
             essence:
               type: 0
               inputs:
                 - type: 0
-                  transactionId: >-
-                    704c198e9990587d89a6019d5346ffa1a36514fcf9cbf4bf21ed9dd6f887b8d0
+                  transactionId: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+                  transactionOutputIndex: 0
+                - type: 0
+                  transactionId: 309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036
+                  transactionOutputIndex: 0
+                - type: 0
+                  transactionId: c138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e
                   transactionOutputIndex: 0
               outputs:
                 - type: 0
                   address:
                     type: 1
-                    address: >-
-                      06588cfd44f4b75e071b6088a69476558b42a49b2a29a31106b877092038f582
-                  amount: 999999999000
-                - type: 0
-                  address:
-                    type: 1
-                    address: >-
-                      5fd30153be7f41046732400ffb47f81a15b748a077e43affa9a580ebbdfc5e1b
-                  amount: 1000
-              payload: null
+                    address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                  amount: 50000000
+              payload:
             unlockBlocks:
               - type: 0
                 signature:
                   type: 1
-                  publicKey: >-
-                    34a21d261bdc8b50518da5e8b687069f7ea8d81bc15872011b4fa13b44b954e9
-                  signature: >-
-                    b39c4f7102f2219ac9ff148ef977ca278863e9c3a7f26469b08499a26e81beb314c76ce4b9ea690be2d9c243b6cb60196802973660ed46400b1f783c4c57540e
-          nonce: '1398515'
+                  publicKey: 40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092
+                  signature: ed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703
+              - type: 1
+                reference: 0
+              - type: 1
+                reference: 0
+          nonce: '1020884'
+
     get-message-by-id-milestone-response-example:
       value:
         data:
-          networkId: '6530425480034647824'
+          networkId: '9466822412763346725'
           parentMessageIds:
-            - 363234351b3fce9283e730ebd72dc51246b260f2e4d50f64a003f4ad28c88e57
-            - ad565d4733347b22cc7229691e388a1d4e4af4a7d5ed3295bfbc904939c4d5ba
+            - 1861f88721e76f7f291a37c849264e71c766908b6f4057d440582f4290ad2074
+            - 406328b8d66ac0dd01d8d0c5413a1c34c2135c2c9e50f683a066a13dad2b4f20
+            - 96950fefe3c106e8f68e8eced1239dc0d0dec87ce9ea46158c742ad90dbb9b7a
+            - b5b5f72d4221ff1cf45237e0824ee6f44a5ccab32c8d9d1ecbce9aba6361a3c5
+            - f7708a83118a69d21c2cb438dc3d2c8237f20efb289ab58eb070c6482815c619
           payload:
             type: 1
-            index: 20239
-            timestamp: 1607468606
-            parent1MessageId: 363234351b3fce9283e730ebd72dc51246b260f2e4d50f64a003f4ad28c88e57
-            parent2MessageId: ad565d4733347b22cc7229691e388a1d4e4af4a7d5ed3295bfbc904939c4d5ba
+            index: 61986
+            timestamp: 1613036231
+            parentMessageIds:
+              - 1861f88721e76f7f291a37c849264e71c766908b6f4057d440582f4290ad2074
+              - 406328b8d66ac0dd01d8d0c5413a1c34c2135c2c9e50f683a066a13dad2b4f20
+              - 96950fefe3c106e8f68e8eced1239dc0d0dec87ce9ea46158c742ad90dbb9b7a
+              - b5b5f72d4221ff1cf45237e0824ee6f44a5ccab32c8d9d1ecbce9aba6361a3c5
+              - f7708a83118a69d21c2cb438dc3d2c8237f20efb289ab58eb070c6482815c619
             inclusionMerkleProof: 0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8
             publicKeys:
               - 7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a
               - e468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6
+            receipt:
             signatures:
-              - >-
-                f5a48946b8fca18fb2e96aec6e5da618a3dda6aaa543821726676dbc675081b0038566548913cb7dc87dbce506bcbd345b7836a5a1f727b8ce53a22f3cbdc609
-              - >-
-                27738e6b61a987a25a510f00a649d4cbec8a580af4ca1de93e6938dbf0a2aa2fc90b350e29593421cda88110e63e8e02068678b88e25c0bed44b0ff8c95e7606
-          nonce: '1666062'
+              - 971f23b0b5e508eaa37fdbbaed85d73f36c511900d3b4fb8223dbcf3a3a32d3eae5e9344342344372866f251ffdfeb26f58a1c1c16929a0cdaf9e8ae718d8e0c
+              - e4785d69c69605257326741a45398604aeb73725700d8d3590e186f55aa20101ea8ca3e1b7b194423cc8773c341820234028221637a0800548c203f1c7d8cb00
+          nonce: '10760600709664144612'
     get-message-by-id-indexation-response-example:
       value:
         data:
-          networkId: '6530425480034647824'
+          networkId: '9466822412763346725'
           parentMessageIds:
-            - 0b80adc0ca06b21842ac50d32e8132cf369d5e6a556e8454fdc846fd821d0fa2
-            - 32105f6889424d264774ce7d086ffd3629719b909f64737708c6a9e719389072
+            - 222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9
+            - a22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6
+            - a6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d
+            - fd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7
           payload:
             type: 2
-            index: HORNET Spammer
-            data: >-
-              42696e61727920697320746865206675747572652e0a436f756e743a203132313437320a54696d657374616d703a20323032302d31312d32325431323a34303a34325a0a54697073656c656374696f6e3a203333c2b573
-          nonce: '2695978'
+            index: Testnet Spammer
+            data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
+          nonce: '2102864'
     get-messages-by-id-response-example-children:
       value:
         data:
@@ -1615,12 +1629,11 @@ components:
         timestamp:
           type: integer
           description: The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.
-        parent1MessageId:
-          type: string
-          description: The identifier of the first message this milestone references.
-        parent2MessageId:
-          type: string
-          description: The identifier of the second message this milestone references.
+        parents:
+          description: The identifiers of the messages this milestone  references.
+          type: array
+          items:
+            type: string
         inclusionMerkleProof:
           type: string
           description: 256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone.
@@ -1638,8 +1651,7 @@ components:
         - type
         - index
         - timestamp
-        - parent1MessageId
-        - parent2MessageId
+        - parents
         - inclusionMerkleProof
         - publicKeys
         - signatures
