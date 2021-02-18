@@ -963,7 +963,7 @@ paths:
           required: true
           description: Identifier of the peer.
       responses:
-        '200':
+        '204':
           description: "Successful operation."
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
