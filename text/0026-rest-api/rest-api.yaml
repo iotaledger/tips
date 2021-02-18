@@ -190,9 +190,9 @@ paths:
           name: index
           schema:
             type: string
-          example: someindexkey
+          example: 68656c6c6f20776f726c64
           required: true
-          description: Indexation key that should be searched for.
+          description: Hex-encoded indexation key that should be searched for.
       responses:
         '200':
           description: "Successful operation."
@@ -1003,7 +1003,7 @@ components:
     get-messages-by-index-response-example:
       value:
         data:
-          index: someindexkey
+          index: 68656c6c6f20776f726c64
           maxResults: 1000
           count: 2
           messageIds:
@@ -1060,14 +1060,14 @@ components:
           - fd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7
         payload:
           type: 2
-          index: Testnet Spammer
+          index: 68656c6c6f20776f726c64
           data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
         nonce: '2102864'
     post-indexation-message-request-example-minimal:
       value:
         payload:
           type: 2
-          index: Testnet Spammer
+          index: 68656c6c6f20776f726c64
           data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
 
     post-transaction-message-request-example-minimal:
@@ -1235,7 +1235,7 @@ components:
             - fd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7
           payload:
             type: 2
-            index: Testnet Spammer
+            index: 68656c6c6f20776f726c64
             data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
           nonce: '2102864'
     get-messages-by-id-response-example-children:
@@ -1664,7 +1664,7 @@ components:
           description: Set to value 2 to denote a Indexation Payload.
         index:
           type: string
-          description: The indexation key to find/look up this message. It has a size between 1 and 64 bytes and must be UTF-8 encoded.
+          description: The indexation key to find/look up this message. It has a size between 1 and 64 bytes and must be encoded as a hex-string.
         data:
           type: string
           description: The optional data to attach. This may have a length of 0.
