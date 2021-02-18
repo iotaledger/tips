@@ -1,6 +1,6 @@
 + Feature name: `colored-coins`
 + Start date: 2021-02-18)
-+ RFC PR: [iotaledger/protocol-rfcs#0000](https://github.com/iotaledger/protocol-rfcs/pull/0000)
++ RFC PR: [iotaledger/protocol-rfcs#0034](https://github.com/iotaledger/protocol-rfcs/pull/0034)
 
 # Summary
 
