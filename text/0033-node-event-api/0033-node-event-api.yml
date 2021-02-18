@@ -36,7 +36,7 @@ channels:
   messages/indexation/[index]:
     subscribe:
       operationId: messagesWithIndex
-      description: Publishes newly received messages which contain indexation payloads with the specified index in their serialized binary form.
+      description: Publishes newly received messages which contain indexation payloads with the specified index parameter (encoded in hex) in their serialized binary form.
       message:
         $ref: '#/components/messages/Message'
   messages/[messageId]/metadata:
