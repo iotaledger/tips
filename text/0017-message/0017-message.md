@@ -143,10 +143,10 @@ The structure of the payload is simple:
 | Name             | Type          | Description               |
 | --------         | -----------   | -----------               |
 | Payload Type     | uint32        | Must be set to **2**      |
-| Index            | string        | The index key of the message, a UTF-8 encoded string |
+| Index            | ByteArray     | The index key of the message |
 | Data             | ByteArray     | Data we are attaching    |
 
-Note that `index` field should be 1 to 64 bytes long for the payload to be valid. If `index` can't be decoded to a UTF-8 string, then the payload is invalid. The `data` may have a length of 0.
+Note that `index` field should be 1 to 64 bytes long for the payload to be valid. The `data` may have a length of 0.
 
 
 ### Serialization Example
