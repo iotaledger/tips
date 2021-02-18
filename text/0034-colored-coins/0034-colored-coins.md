@@ -10,7 +10,7 @@ Colored coins are IOTA coins associated with a special color, that is a globally
    coins to mint is defined in the minting output(s) of a transaction. Once minted, the color can't be changed, and no
    more new coins can be minted with the same color.
  - Colored coins can be transferred just like IOTA coins, without transaction fees.
- - Colored coins can be destroyed  (uncolored), which essentially means that the coins loose their unique color
+ - Colored coins can be destroyed  (uncolored), which essentially means that the coins lose their unique color
    attribute and become regular IOTA coins.
 
 # Motivation
@@ -299,7 +299,7 @@ With the opcodes however, there can be additional steps:
       `index of the output in the transaction`
     - Mark the `color` of the output as `ColorIOTA`. <i>This might not be necessary, as unlocking an `UNCOLOR` output
       adds `ColorIOTA` to the positive side of the balance sheet. With marking the booked output with `ColorIOTA`,
-      we double enforce this rule, but also loose the information on which color it uncolored. For that, one has to
+      we double enforce this rule, but also lose the information on which color it uncolored. For that, one has to
       load the transaction and observe the outputs in their original form. </i>
     - Book the output into the ledger.
 
