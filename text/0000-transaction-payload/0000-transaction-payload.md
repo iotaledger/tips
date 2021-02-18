@@ -18,7 +18,7 @@ The bundle concept has proven to be time consuming, with several issues as well:
 To fix the problems mentioned above and to create a more flexible transaction structure, the goal is to achieve a self-contained transaction structure defining the data of the entire transfer as a payload to be embedded into a message.
 
 The new transaction structure should fulfil the following criteria:
-* Support for Ed25519 (and thus reusable addresses) and WOTS signatures.
+* Support for Ed25519 (and thus reusable addresses).
 * Support for adding new types of signature schemes, addresses, inputs, and outputs as part of protocol upgrades.
 * Self-contained, as in being able to validate the transaction immediately after receiving it.
 * Enable unspent transaction outputs (UTXO) as inputs instead of an account based model (UTXO enables easier double-spend detection).
@@ -184,28 +184,6 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                                         <td valign="top">Address <code>oneOf</code></td>
                                         <td colspan="2">
                                             <details>
-                                                <summary>WOTS Address</summary>
-                                                <table>
-                                                    <tr>
-                                                        <td><b>Name</b></td>
-                                                        <td><b>Type</b></td>
-                                                        <td><b>Description</b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Address Type</td>
-                                                        <td>uint8</td>
-                                                        <td>
-                                                            Set to <strong>value 0</strong> to denote a <i>WOTS Address</i>.
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Address</td>
-                                                        <td>Array&lt;byte&gt;[49]</td>
-                                                        <td>The T5B1 encoded WOTS address.</td>
-                                                    </tr>
-                                                </table>
-                                            </details>
-                                            <details>
                                                 <summary>Ed25519 Address</summary>
                                                 <table>
                                                     <tr>
@@ -217,7 +195,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                                                         <td>Address Type</td>
                                                         <td>uint8</td>
                                                         <td>
-                                                            Set to <strong>value 1</strong> to denote an <i>Ed25519 Address</i>.
+                                                            Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -284,28 +262,6 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                     <tr>
                         <td valign="top">Signature <code>oneOf</code></td>
                         <td colspan="2">
-                            <details>
-                                <summary>WOTS Signature</summary>
-                                <table>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Signature Type</td>
-                                        <td>uint8</td>
-                                        <td>
-                                            Set to <strong>value 0</strong> to denote a <i>WOTS Signature</i>.
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Signature</td>
-                                        <td>Array&lt;byte&gt;</td>
-                                        <td>The signature signing the serialized <i>Transaction Essence</i>.</td>
-                                    </tr>
-                                </table>
-                            </details>
                              <details>
                                 <summary>Ed25519 Signature</summary>
                                 <table>
@@ -318,7 +274,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                                         <td>Signature Type</td>
                                         <td>uint8</td>
                                         <td>
-                                            Set to <strong>value 1</strong> to denote an <i>Ed25519 Signature</i>.
+                                            Set to <strong>value 0</strong> to denote an <i>Ed25519 Signature</i>.
                                         </td>
                                     </tr>
                                     <tr>
@@ -448,28 +404,6 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Pay
             <td valign="top">Address <code>oneOf</code></td>
             <td colspan="2">
                 <details>
-                    <summary>WOTS Address</summary>
-                    <table>
-                        <tr>
-                            <td><b>Name</b></td>
-                            <td><b>Type</b></td>
-                            <td><b>Description</b></td>
-                        </tr>
-                        <tr>
-                            <td>Address Type</td>
-                            <td>uint8</td>
-                            <td>
-                                Set to <strong>value 0</strong> to denote a <i>WOTS Address</i>.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Address</td>
-                            <td>Array&lt;byte&gt;[49]</td>
-                            <td>The T5B1 encoded WOTS address.</td>
-                        </tr>
-                    </table>
-                </details>
-                <details>
                     <summary>Ed25519 Address</summary>
                     <table>
                         <tr>
@@ -481,7 +415,7 @@ The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Pay
                             <td>Address Type</td>
                             <td>uint8</td>
                             <td>
-                                Set to <strong>value 1</strong> to denote an <i>Ed25519 Address</i>.
+                                Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
                             </td>
                         </tr>
                         <tr>
@@ -558,28 +492,6 @@ There are different types of <i>Unlock Blocks</i>:
         <tr>
             <td valign="top">Signature <code>oneOf</code></td>
             <td colspan="2">
-                <details>
-                    <summary>WOTS Signature</summary>
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                        </tr>
-                        <tr>
-                            <td>Signature Type</td>
-                            <td>uint8</td>
-                            <td>
-                                Set to <strong>value 0</strong> to denote a <i>WOTS Signature</i>.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Signature</td>
-                            <td>Array&lt;byte&gt;</td>
-                            <td>The signature signing the serialized <i>Transaction Essence</i>.</td>
-                        </tr>
-                    </table>
-                </details>
                  <details>
                     <summary>Ed25519 Signature</summary>
                     <table>
@@ -592,7 +504,7 @@ There are different types of <i>Unlock Blocks</i>:
                             <td>Signature Type</td>
                             <td>uint8</td>
                             <td>
-                                Set to <strong>value 1</strong> to denote an <i>Ed25519 Signature</i>.
+                                Set to <strong>value 0</strong> to denote an <i>Ed25519 Signature</i>.
                             </td>
                         </tr>
                         <tr>
@@ -674,8 +586,7 @@ The following criteria defines whether the transaction passes the syntactical va
     * At least one output must be specified.
     * `Output Type` must be 0, denoting a `SigLockedSingleOutput`.
     * `SigLockedSingleOutput`:
-        * `Address Type` must either be 0 or 1, denoting a `WOTS`- or `Ed25519` address.
-        * If `Address` is of type `WOTS address`, its bytes must be valid `T5B1` bytes.
+        * `Address Type` must be 0, denoting an `Ed25519` address.
         * The `Address` must be unique in the set of `SigLockedSingleOutputs`.
         * `Amount` must be > 0.
     * Outputs must be in lexicographical order by their serialized form.<sup>1</sup>
@@ -684,7 +595,7 @@ The following criteria defines whether the transaction passes the syntactical va
 * `Payload Type` must be one of the supported payload types if `Payload Length` is not 0.
 * `Unlock Blocks Count` must match the amount of inputs. Must be 0 < x ≤ 127.
 * `Unlock Block Type` must either be 0 or 1, denoting a `Signature Unlock Block` or `Reference Unlock block`.
-* `Signature Unlock Blocks` must define either an `Ed25519`- or `WOTS Signature`.
+* `Signature Unlock Blocks` must define either a `Ed25519 Signature`.
 * A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at the same index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin `Signature Unlock Block`.
 * `Reference Unlock Blocks` must specify a previous `Unlock Block` which is not of type `Reference Unlock Block`. The reference index must therefore be < the index of the `Reference Unlock Block`.
 * Given the type and length of the information, the <i>Transaction Payload</i> must consume the entire byte array for the `Payload Length` field in the <i>Message</i> it defines.
@@ -732,7 +643,7 @@ Additionally, local snapshots can no longer be represented by a list of addresse
 
 # Rationale and alternatives
 
-Introducing this new transaction structure allows for further extensions in the future, to accommodate new requirements. With the support for Ed25519 addresses/signatures, transaction size is drastically reduced and allows for safe re-signing in case funds appear to be deposited onto a previous generated address. Due to the switch to a complete binary transaction, size is further reduced, saving network bandwidth and processing time. The new structure is backwards compatible with "Kerl" WOTS addresses and so allows both current methods of signing transactions to co-exist.
+Introducing this new transaction structure allows for further extensions in the future, to accommodate new requirements. With the support for Ed25519 addresses/signatures, transaction size is drastically reduced and allows for safe re-signing in case funds appear to be deposited onto a previous generated address. Due to the switch to a complete binary transaction, size is further reduced, saving network bandwidth and processing time.
 
 Other transaction structures have been considered but they would have misused existing transaction fields to accommodate for new features, instead of putting them into a proper descriptive structure. Additionally, those ideas would not have been safe against replay attacks, which deems reusing the old transaction structure, for example for Ed25519 addresses/signatures, as infeasible.
 
