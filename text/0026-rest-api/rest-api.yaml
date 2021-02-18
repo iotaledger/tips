@@ -1959,7 +1959,7 @@ components:
           properties:
             index:
               type: string
-              description: The provided indexation key that was used to search for.
+              description: The provided hex-encoded indexation key that was used to search for.
             maxResults:
               type: integer
               description: The number of results it can return at most.
