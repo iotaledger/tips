@@ -35,7 +35,7 @@ They are serialized as follows:
 
 | Type    | First byte | Address bytes                                             |
 | ------- | ---------- | --------------------------------------------------------- |
-| Ed25519 | `0x01`     | 32 bytes: The BLAKE2b-256 hash of the Ed25519 public key. |
+| Ed25519 | `0x00`     | 32 bytes: The BLAKE2b-256 hash of the Ed25519 public key. |
 
 
 ## Bech32 for human-readable encoding
@@ -53,13 +53,15 @@ Hence, Ed25519-based addresses will result in a Bech32 string of 64 characters.
 ## Examples
 
 - **Mainnet**
-   - Ed25519 address hash (32-byte): `52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649`
-      - serialized (33-byte): `0152fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649`
-      - Bech32 string: `iota1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj0w6qwt`
+   - Ed25519 compressed public key (32-byte): `6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8`
+      - BLAKE2b-256 hash (32-byte): `efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3` 
+      - serialized (33-byte): `00efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3`
+      - Bech32 string: `iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx`
 - **Testnet**
-   - Ed25519 address hash (32-byte): `52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649`
-      - serialized (33-byte): `0152fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649`
-      - Bech32 string: `atoi1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryjgqtp5x`
+   - Ed25519 compressed public key (32-byte): `6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8`
+      - BLAKE2b-256 hash (32-byte): `efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3` 
+      - serialized (33-byte): `00efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3`
+      - Bech32 string: `atoi1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6x8x4r7t`
 
 # Drawbacks
 
