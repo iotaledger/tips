@@ -281,21 +281,21 @@ Previously, post processing only meant calculating the `OutputID` of the newly c
 
 With the opcodes however, there can be additional steps:
 ####  SigLockedSingleOutput:
-- Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransctionID` ||
+- Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransactionID` ||
   `index of the output in the transaction`.
 - Book the output into the ledger.
 #### SigLockedColoredOutput:
 - **MINT** opcode:
-    - Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransctionID` ||
+    - Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransactionID` ||
       `index of the output in the transaction`.
     - Mark the `color` of the output as `OutputID`.
     - Book the output into the ledger.
 - **MOVE** opcode:
-    - Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransctionID` ||
+    - Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransactionID` ||
       `index of the output in the transaction`.
     - Book the output into the ledger.
 - **UNCOLOR** opcode:
-    - Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransctionID` ||
+    - Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransactionID` ||
       `index of the output in the transaction`
     - Mark the `color` of the output as `ColorIOTA`. <i>This might not be necessary, as unlocking an `UNCOLOR` output
       adds `ColorIOTA` to the positive side of the balance sheet. With marking the booked output with `ColorIOTA`,
