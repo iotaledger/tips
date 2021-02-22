@@ -310,9 +310,9 @@ With the opcodes however, there can be additional steps:
 - Due to the ordering, `MINT`, `MOVE` and `UNCOLOR` outputs are grouped together in the list of outputs, which helps to
   identify the purpose of the transaction by looking at its layout.
 - One transaction might mint several coins with unique colors. The maximum amount of different colors that can be
-  minted in a single transaction is exactly the maximum allowed number of outputs, that is `128`.
+  minted in a single transaction is exactly the maximum allowed number of outputs, that is `127`.
 - One transaction might uncolor several colored coins. The maximum amount of different colors that can be uncolored in
-  a single transaction is exactly the maximum allowed number of outputs, that is `128`.
+  a single transaction is exactly the maximum allowed number of outputs, that is `127`.
 - It is not possible to mint a color in a transaction and uncolor it in the same transaction, since uncoloring can only
   happen if coins with that particular color are present in list of unlocked inputs.
 - The size of a `SigLockedColoredOutput` is exactly `76 bytes`, compared to the `42 bytes` size of a
