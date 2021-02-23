@@ -985,7 +985,7 @@ components:
           networkId: alphanet1
           bech32HRP: iota
           latestMilestoneIndex: 25211
-          solidMilestoneIndex: 25211
+          confirmedMilestoneIndex: 25211
           pruningIndex: 0
           features:
             - PoW
@@ -1872,9 +1872,9 @@ components:
             latestMilestoneIndex:
               type: integer
               description: The most recent milestone known to the node.
-            solidMilestoneIndex:
+            confirmedMilestoneIndex:
               type: integer
-              description: The most recent milestone that has been solidified by the node.
+              description: The most recent milestone that has been confirmed by the node.
             pruningIndex:
               type: integer
               description: Tells from which starting point the node holds data.
@@ -1894,7 +1894,7 @@ components:
             - networkId
             - bech32HRP
             - latestMilestoneIndex
-            - solidMilestoneIndex
+            - confirmedMilestoneIndex
             - pruningIndex
             - features
             - minPowScore
