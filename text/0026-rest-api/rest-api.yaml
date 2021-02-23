@@ -1565,7 +1565,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 1 to denote an Ed25519 Address.
+          description: Set to value 0 to denote an Ed25519 Address.
         address:
           type: string
           description: The hex-encoded BLAKE2b-256 hash of the Ed25519 public key.
@@ -1592,7 +1592,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 1 to denote an Ed25519 Signature.
+          description: Set to value 0 to denote an Ed25519 Signature.
         publicKey:
           type: string
           description: The public key of the Ed25519 keypair which is used to verify the signature.
