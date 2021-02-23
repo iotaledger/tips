@@ -1129,14 +1129,14 @@ components:
             outputs:
               - type: 0
                 address:
-                  type: 1
+                  type: 0
                   address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
                 amount: 50000000
             payload:
           unlockBlocks:
             - type: 0
               signature:
-                type: 1
+                type: 0
                 publicKey: 40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092
                 signature: ed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703
             - type: 1
@@ -1179,7 +1179,7 @@ components:
               outputs:
                 - type: 0
                   address:
-                    type: 1
+                    type: 0
                     address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
                   amount: 50000000
               payload:
@@ -1264,7 +1264,7 @@ components:
           output:
             type: 0
             address:
-              type: 1
+              type: 0
               address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
             amount: 1000
     get-address-balance-bech32-response-example:
