@@ -13,9 +13,7 @@ Nodes create local snapshots to produce ledger representations at a point in tim
 * Start up from a recent milestone instead of having to synchronize from the genesis transaction.
 * Delete old transaction data below a given milestone.
 
-Current node implementations use
-a [local snapshot file format](https://github.com/iotaledger/iri-ls-sa-merger/tree/351020d3b5e342b6e9a41f2868575ab7ff8c251c#generating-an-export-file-from-a-localsnapshots-db)
-which only works with account based ledgers. For Chrysalis Phase 2, this file format has to be assimilated to support a
+Current node implementations use a [local snapshot file format](https://github.com/iotaledger/iri-ls-sa-merger/tree/351020d3b5e342b6e9a41f2868575ab7ff8c251c#generating-an-export-file-from-a-localsnapshots-db) which only works with account based ledgers. For Chrysalis Phase 2, this file format has to be assimilated to support a
 UTXO based ledger.
 
 # Detailed design
@@ -23,14 +21,11 @@ UTXO based ledger.
 Since a UTXO based ledger is much larger in size, this RFC proposes two formats for snapshot files:
 
 * A `full` format which represents a complete ledger state.
-* A `delta` format which only contains diffs (consumed and spent outputs) of milestones from a given milestone index
-  onwards.
+* A `delta` format which only contains diffs (created and consumed outputs) of milestones from a given milestone index onwards.
 
-This separation allows nodes to swiftly create new delta snapshot files, which then can be distributed with a companion
-full snapshot file to reconstruct a recent state.
+This separation allows nodes to swiftly create new delta snapshot files, which then can be distributed with a companion full snapshot file to reconstruct a recent state.
 
-Unlike the current format, these new formats do not include spent addresses since this information is no longer held by
-nodes.
+Unlike the current format, these new formats do not include spent addresses since this information is no longer held by nodes.
 
 ### Formats
 
@@ -38,172 +33,377 @@ nodes.
 
 #### Full Ledger State
 
-A full ledger snapshot file contains the UTXOs (`outputs` section) of a node's latest solid
-milestone (`ledger_milestone_index`). The `diffs` contain the diffs to rollback the `outputs` state to regain the ledger
-state of the snapshot milestone at (`seps_milestone_index`).
+A full ledger snapshot file contains the UTXOs (`outputs` section) of a node's confirmed
+milestone (`ledger_milestone_index`). The `diffs` contain the diffs to rollback the `outputs` state to regain the ledger state of the snapshot milestone at (`seps_milestone_index`).
 
 ![](https://i.imgur.com/e6WuufK.png)
 
-While the node producing such a full ledger state snapshot could theoretically pre-compute the actual snapshot milestone
-state, this is deferred to the consumer of the data to speed up local snapshot creation.
-
-A full ledger state local snapshot is denoted by the type byte `0`:
-
-```
-version<byte>
-type<byte> = 0
-timestamp<uint64>
-network_id<uint64>
-seps_milestone_index<uint64>
-ledger_milestone_index<uint64>
-seps_count<uint64>
-outputs_count<uint64>
-diffs_count<uint64>
-treasury_output:
-  milestone_hash<array[32]>
-  amount<uint64>
-seps<array[seps_count]>:
-	sep<array[32]>
-outputs<array[outputs_count]>:
-    message_hash<array[32]>
-    transaction_hash<array[32]>
-    output_index<uint16>
-    output:
-        output_type<byte> = 0 // sig_locked_single_output
-        address:
-            address_type<byte> = 1
-            ed25519_address<array[32]>
-            ||
-            ...
-        value<uint64>
-        ||
-        output_type<byte> = 1 // sig_locked_dust_allowance_output
-        address:
-            address_type<byte> = 1
-            ed25519_address<array[32]>
-            ||
-            ...
-        value<uint64>
-diffs<array[diffs_count]>:
-    milestone_payload_length<uint32>
-    milestone_payload<array[milestone_payload_length]>
-    treasury_input (if milestone contains receipt):
-            milestone_hash<array[32]>
-            amount<uint64>
-    created_outputs_count<uint64>
-    created_outputs<array>:
-        message_hash<array[32]>
-        transaction_hash<array[32]>
-        output_index<uint16>
-        output:
-            output_type<byte> = 0 // sig_locked_single_output
-            address:
-                address_type<byte> = 1
-                ed25519_address<array[32]>
-                ||
-                ...
-            value<uint64>
-            ||
-            output_type<byte> = 1 // sig_locked_dust_allowance_output
-            address:
-                address_type<byte> = 1
-                ed25519_address<array[32]>
-                ||
-                ...
-            value<uint64>
-    consumed_outputs_count<uint64>
-    consumed_outputs<array>:
-        message_hash<array[32]>
-        transaction_hash<array[32]>
-        output_index<uint16>
-        output:
-            output_type<byte> = 0 // sig_locked_single_output
-            address:
-                address_type<byte> = 1
-                ed25519_address<array[32]>
-                ||
-                ...
-            value<uint64>
-            ||
-            output_type<byte> = 1 // sig_locked_dust_allowance_output
-            address:
-                address_type<byte> = 1
-                ed25519_address<array[32]>
-                ||
-                ...
-            value<uint64>
-```
+While the node producing such a full ledger state snapshot could theoretically pre-compute the actual snapshot milestone state, this is deferred to the consumer of the data to speed up local snapshot creation.
 
 #### Delta Ledger State
 
 A delta ledger state local snapshot only contains the `diffs` of milestones starting from a
-given `ledger_milestone_index`. A node consuming such data must know the state of the ledger at `ledger_milestone_index`
-.
+given `ledger_milestone_index`. A node consuming such data must know the state of the ledger at `ledger_milestone_index`.
 
 ![](https://i.imgur.com/bt5BUpe.png)
 
-A delta ledger state local snapshot is denoted by the type byte `1`:
+#### Schema
 
-```
-version<byte>
-type<byte> = 1
-timestamp<uint64>
-network_id<uint64>
-seps_milestone_index<uint64>
-ledger_milestone_index<uint64>
-seps_count<uint64>
-diffs_count<uint64>
-seps<array[seps_count]>:
-	sep<array[32]>
-diffs<array[diffs_count]>:
-    milestone_payload_length<uint32>
-    milestone_payload<array[milestone_payload_length]>
-    treasury_input (if milestone contains receipt):
-            milestone_hash<array[32]>
-            amount<uint64>
-    created_outputs_count<uint64>
-    created_outputs<array>:
-        message_hash<array[32]>
-        transaction_hash<array[32]>
-        output_index<uint16>
-        output:
-            output_type<byte> = 0 // sig_locked_single_output
-            address:
-                address_type<byte> = 1
-                ed25519_address<array[32]>
-                ||
-                ...
-            value<uint64>
-            ||
-            output_type<byte> = 1 // sig_locked_dust_allowance_output
-            address:
-                address_type<byte> = 1
-                ed25519_address<array[32]>
-                ||
-                ...
-            value<uint64>
-    consumed_outputs_count<uint64>
-    consumed_outputs<array>:
-        message_hash<array[32]>
-        transaction_hash<array[32]>
-        output_index<uint16>
-        output:
-            output_type<byte> = 0 // sig_locked_single_output
-            address:
-                address_type<byte> = 1
-                ed25519_address<array[32]>
-                ||
-                ...
-            value<uint64>
-            ||
-            output_type<byte> = 1 // sig_locked_dust_allowance_output
-            address:
-                address_type<byte> = 1
-                ed25519_address<array[32]>
-                ||
-                ...
-            value<uint64>          
-```
+##### Output
+
+Defines an output.
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Message Hash</td>
+        <td>Array<byte>[32]</td>
+        <td>The hash of the message in which the transaction was contained which generated this output.</td>
+    </tr>
+    <tr>
+        <td>Transaction hash</td>
+        <td>Array<byte>[32]</td>
+        <td>The hash of the transaction which generated this output.</td>
+    </tr>
+    <tr>
+        <td>Output index</td>
+        <td>uint16</td>
+        <td>The index of this output within the transaction.</td>
+    </tr>
+    <tr>
+        <td valign="top">Output <code>oneOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>SigLockedSingleDeposit</summary>
+                <table>
+                    <tr>
+                        <td><b>Name<b></td>
+                        <td><b>Type</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    <tr>
+                        <td>Output Type</td>
+                        <td>byte</td>
+                        <td>Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.</td>
+                    </tr>
+                    <tr>
+                        <td valign="top">Address <code>oneOf</code></td>
+                        <td colspan="2">
+                            <details>
+                                <summary>Ed25519 Address</summary>
+                                <table>
+                                    <tr>
+                                        <td><b>Name<b></td>
+                                        <td><b>Type</b></td>
+                                        <td><b>Description</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Type</td>
+                                        <td>byte/varint</td>
+                                        <td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>ByteArray[32]</td>
+                                        <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                    </tr>
+                                </table>
+                            </details>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Amount</td>
+                        <td>uint64</td>
+                        <td>The amount of tokens this output deposits.</td>
+                    </tr>
+                </table>
+            </details>
+            <details>                                 
+                <summary>SigLockedDustAllowanceDeposit</summary>
+                <table>
+                    <tr>
+                        <td><b>Name<b></td>
+                        <td><b>Type</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    <tr>
+                        <td>Output Type</td>
+                        <td>byte</td>
+                        <td>Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceDeposit</i>.</td>
+                    </tr>
+                    <tr>
+                        <td valign="top">Address <code>oneOf</code></td>
+                        <td colspan="2">
+                            <details>
+                                <summary>Ed25519 Address</summary>
+                                <table>
+                                    <tr>
+                                        <td><b>Name<b></td>
+                                        <td><b>Type</b></td>
+                                        <td><b>Description</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Type</td>
+                                        <td>byte/varint</td>
+                                        <td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>ByteArray[32]</td>
+                                        <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                    </tr>
+                                </table>
+                            </details>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Amount</td>
+                        <td>uint64</td>
+                        <td>The amount of tokens this output deposits.</td>
+                    </tr>
+                </table>
+            </details>
+        </td>
+    </tr>
+</table>
+
+##### Milestone Diff
+
+Defines the diff a milestone produced by listing the created/consumed outputs and the milestone payload itself.
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Milestone Payload length</td>
+        <td>uint32</td>
+        <td>Denotes the length of the milestone payload.</td>
+    </tr>
+    <tr>
+        <td>Milestone Payload</td>
+        <td>Array<byte>[Milestone Payload length]</td>
+        <td>The milestone payload in its serialized binary form.</td>
+    </tr>
+    <tr>
+        <td>
+        Treasury Input
+        <blockquote>
+        only included if milestone contains a receipt
+        </blockquote>
+        </td>
+        <td colspan="2">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Treasury Input Milestone Hash</td>
+                    <td>Array<byte>[32]</td>
+                    <td>The hash of the milestone this input references.</td>
+                </tr>
+                <tr>
+                    <td>Treasury Input Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of this treasury input.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>Created Outputs Count</td>
+        <td>uint64</td>
+        <td>The amount of outputs generated with this milestone diff.</td>
+    </tr>
+    <tr>
+        <td valign="top">Created Outputs <code>anyOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td>Consumed Outputs Count</td>
+        <td>uint64</td>
+        <td>The amount of outputs consumed with this milestone diff.</td>
+    </tr>
+    <tr>
+        <td valign="top">Consumed Outputs <code>anyOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
+</table>
+
+##### Full snapshot file format
+
+Defines what a full snapshot file contains.
+
+<table>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Version</td>
+        <td>byte</td>
+        <td>Denotes the version of this file format.</td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>byte</td>
+        <td>Denotes the type of this file format. <b>Value 0</b> denotes a full snapshot.</td>
+    </tr>
+    <tr>
+        <td>Timestamp</td>
+        <td>uint64</td>
+        <td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
+    </tr>
+    <tr>
+        <td>Network ID</td>
+        <td>uint64</td>
+        <td>The ID of the network to which this snapshot is compatible.</td>
+    </tr>
+    <tr>
+        <td>SEPs milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index for which the SEPs were generated for.</td>
+    </tr>
+    <tr>
+        <td>Ledger milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index of which the UTXOs within the snapshot are from.</td>
+    </tr>
+    <tr>
+        <td>SEPs count</td>
+        <td>uint64</td>
+        <td>The amount of SEPs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Outputs count</td>
+        <td>uint64</td>
+        <td>The amount of UTXOs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Milestone diffs count</td>
+        <td>uint64</td>
+        <td>The amount of milestone diffs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Treasury Output Milestone Hash</td>
+        <td>Array<byte>[32]</td>
+        <td>The milestone hash of the milestone which generated the treasury output.</td>
+    </tr>
+    <tr>
+        <td>Treasury Output Amount</td>
+        <td>uint64</td>
+        <td>The amount of funds residing on the treasury output.</td>
+    </tr>
+    <tr>
+        <td valign="top">SEPs</td>
+        <td colspan="2">
+            <details>
+                <summary>SEP Array<byte>[32]</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Outputs</td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Milestone Diffs</td>
+        <td colspan="2">
+            <details>
+                <summary>Milestone Diff</summary>
+            </details>
+        </td>
+    </tr>
+</table>
+
+##### Delta snapshot file format
+
+Defines what a delta snapshot contains.
+
+<table>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Version</td>
+        <td>byte</td>
+        <td>Denotes the version of this file format.</td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>byte</td>
+        <td>Denotes the type of this file format. <b>Value 1</b> denotes a delta snapshot.</td>
+    </tr>
+    <tr>
+        <td>Timestamp</td>
+        <td>uint64</td>
+        <td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
+    </tr>
+    <tr>
+        <td>Network ID</td>
+        <td>uint64</td>
+        <td>The ID of the network to which this snapshot is compatible.</td>
+    </tr>
+    <tr>
+        <td>SEPs milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index for which the SEPs were generated for.</td>
+    </tr>
+    <tr>
+        <td>Ledger milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index up on which this delta snapshot builts up from.</td>
+    </tr>
+    <tr>
+        <td>SEPs count</td>
+        <td>uint64</td>
+        <td>The amount of SEPs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Milestone diffs count</td>
+        <td>uint64</td>
+        <td>The amount of milestone diffs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td valign="top">SEPs</td>
+        <td colspan="2">
+            <details>
+                <summary>SEP Array<byte>[32]</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Milestone Diffs</td>
+        <td colspan="2">
+            <details>
+                <summary>Milestone Diff</summary>
+            </details>
+        </td>
+    </tr>
+</table>
 
 # Drawbacks
 
@@ -211,16 +411,9 @@ Nodes need to support this new format.
 
 # Rationale and alternatives
 
-* In conjunction with a companion full snapshot, a tool or node can "truncate" the data from a delta snapshot back to a
-  single full snapshot. In that case, the `ledger_milestone_index` and `seps_milestone_index` would be the same. In the
-  example above, given the full and delta snapshots, one could produce a new full snapshot for milestone 1350.
-* Since snapshots may include millions of UTXOs, code generating such files needs to stream data directly onto disk
-  instead of keeping the entire representation in memory. In order to facilitate this, the count denotations for SEPs,
-  UTXOs and diffs are at the beginning of the file. This allows code generating snapshot files to only have to seek back
-  once after the actual count of elements is known.
+* In conjunction with a companion full snapshot, a tool or node can "truncate" the data from a delta snapshot back to a single full snapshot. In that case, the `ledger_milestone_index` and `seps_milestone_index` would be the same. In the example above, given the full and delta snapshots, one could produce a new full snapshot for milestone 1350.
+* Since snapshots may include millions of UTXOs, code generating such files needs to stream data directly onto disk instead of keeping the entire representation in memory. In order to facilitate this, the count denotations for SEPs, UTXOs and diffs are at the beginning of the file. This allows code generating snapshot files to only have to seek back once after the actual count of elements is known.
 
 # Unresolved questions
 
 * Is all the information to startup a node from the local snapshot available with the described format?
-* Can we get rid of the spent addresses or do we still need to keep them?
-* Do we need to account for different types of outputs already? (we currently only have them deposit to addresses)
