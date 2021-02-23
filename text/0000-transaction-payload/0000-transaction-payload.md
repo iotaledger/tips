@@ -52,6 +52,7 @@ A <i>Transaction Payload</i> payload is made up of two parts:
 2. The <i>Unlock Blocks</i> which unlock the <i>Transaction Essence</i>'s inputs. In case the unlock block contains a signature, it signs the entire <i>Transaction Essence</i> part.
 
 All values are serialized in little-endian encoding. The serialized form of the transaction is deterministic, meaning the same logical transaction always results in the same serialized byte sequence.
+
 A `Blake2b-256` hash of the entire serialized data makes up <i>Transaction Payload</i>'s ID.
 
 Following table structure describes the entirety of a <i>Transaction Payload</i>'s serialized form:
@@ -210,7 +211,59 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                                     <tr>
                                         <td>Amount</td>
                                         <td>uint64</td>
-                                        <td>The amount of tokens to deposit with this <i>SigLockedSingleOutput</i> output.</td>
+                                        <td>The amount of tokens to deposit.</td>
+                                    </tr>
+                                </table>
+                            </details>
+                            <details>
+                                <summary>SigLockedDustAllowanceOutput</summary>
+                                <blockquote>
+                                Describes a deposit which as a special property also alters the dust allowance of the target address.
+                                </blockquote>
+                                <table>
+                                    <tr>
+                                        <td><b>Name</b></td>
+                                        <td><b>Type</b></td>
+                                        <td><b>Description</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Output Type</td>
+                                        <td>uint8</td>
+                                        <td>
+                                            Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">Address <code>oneOf</code></td>
+                                        <td colspan="2">
+                                            <details>
+                                                <summary>Ed25519 Address</summary>
+                                                <table>
+                                                    <tr>
+                                                        <td><b>Name</b></td>
+                                                        <td><b>Type</b></td>
+                                                        <td><b>Description</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Address Type</td>
+                                                        <td>uint8</td>
+                                                        <td>
+                                                            Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Address</td>
+                                                        <td>Array&lt;byte&gt;[32]</td>
+                                                        <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                                    </tr>
+                                                </table>
+                                            </details>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amount</td>
+                                        <td>uint64</td>
+                                        <td>The amount of tokens to deposit.</td>
                                     </tr>
                                 </table>
                             </details>
@@ -285,7 +338,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                                     <tr>
                                         <td>Signature</td>
                                         <td>Array&lt;byte&gt;[64]</td>
-                                        <td>The signature signing the serialized <i>Transaction Essence</i>.</td>
+                                        <td>The signature signing the Blake2b-256 hash of the serialized <i>Transaction Essence</i>.</td>
                                     </tr>
                                 </table>
                             </details>
@@ -336,41 +389,14 @@ A <i>Transaction Essence</i> must contain at least one input and output.
 
 The <i>Inputs</i> part holds the inputs to consume, respectively, to fund the outputs of the <i>Transaction Essence</i>. There is only one type of input as of now, the <i>UTXO Input</i>. In the future, more types of inputs may be specified as part of protocol upgrades.
 
-Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at the same index in the <i>Unlock Blocks</i> part of the <i>Transaction Payload</i>. 
-If multiple inputs can be unlocked through the same <i>Unlock Block</i>, then the given <i>Unlock Block</i> only needs to be specified at the index of the first input which gets unlocked by it. 
-Subsequent inputs which are unlocked through the same data must have a <i>Reference Unlock Block</i> pointing to the index of a previous <i>Unlock Block</i>. 
+Each defined input must be accompanied by a corresponding <i>Unlock Block</i> at the same index in the <i>Unlock Blocks</i> part of the <i>Transaction Payload</i>.
+
+If multiple inputs can be unlocked through the same <i>Unlock Block</i>, then the given <i>Unlock Block</i> only needs to be specified at the index of the first input which gets unlocked by it.
+
+Subsequent inputs which are unlocked through the same data must have a <i>Reference Unlock Block</i> pointing to the index of a previous <i>Unlock Block</i>.
 This ensures that no duplicate data needs to occur in the same transaction.
 
 ###### UTXO Input
-
-<details>
-    <summary>UTXO Input</summary>
-    <table>
-        <tr>
-            <td><b>Name</b></td>
-            <td><b>Type</b></td>
-            <td><b>Description</b></td>
-        </tr>
-        <tr>
-            <td>Input Type</td>
-            <td>uint8</td>
-            <td>
-                Set to <strong>value 0</strong> to denote an <i>UTXO Input</i>.
-            </td>
-        </tr>
-        <tr>
-            <td>Transaction ID</td>
-            <td>Array&lt;byte&gt;[32]</td>
-            <td>The BLAKE2b-256 hash of the transaction from which the UTXO comes from.</td>
-        </tr>
-        <tr>
-            <td>Transaction Output Index</td>
-            <td>uint16</td>
-            <td>The index of the output on the referenced transaction to consume.</td>
-        </tr>
-    </table>
-</details>
-<p></p>
 
 An <i>UTXO Input</i> is an input which references an output of a previous transaction by using the given transaction's BLAKE2b-256 hash + the index of the output on that transaction. An <i>UTXO Input</i> must be accompanied by an <i>Unlock Block</i> for the corresponding type of output the <i>UTXO Input</i> is referencing.
 
@@ -378,70 +404,20 @@ Example: If the output the input references outputs to an Ed25519 address, then 
 
 ##### Outputs
 
-The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Payload</i>. There is only one type of output as of now, the <i>SigLockedSingleOutput</i>.
+The <i>Outputs</i> part holds the outputs to create with this <i>Transaction Payload</i>.
 
 ###### SigLockedSingleOutput
 
-<details>
-    <summary>SigLockedSingleOutput</summary>
-    <blockquote>
-    Describes a deposit to a single address which is unlocked via a signature.
-    </blockquote>
-    <table>
-        <tr>
-            <td><b>Name</b></td>
-            <td><b>Type</b></td>
-            <td><b>Description</b></td>
-        </tr>
-        <tr>
-            <td>Output Type</td>
-            <td>uint8</td>
-            <td>
-                Set to <strong>value 0</strong> to denote a <i>SigLockedSingleOutput</i>.
-            </td>
-        </tr>
-        <tr>
-            <td valign="top">Address <code>oneOf</code></td>
-            <td colspan="2">
-                <details>
-                    <summary>Ed25519 Address</summary>
-                    <table>
-                        <tr>
-                            <td><b>Name</b></td>
-                            <td><b>Type</b></td>
-                            <td><b>Description</b></td>
-                        </tr>
-                        <tr>
-                            <td>Address Type</td>
-                            <td>uint8</td>
-                            <td>
-                                Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Address</td>
-                            <td>Array&lt;byte&gt;[32]</td>
-                            <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-                        </tr>
-                    </table>
-                </details>
-            </td>
-        </tr>
-        <tr>
-            <td>Amount</td>
-            <td>uint64</td>
-            <td>The amount of tokens to deposit with this <i>SigLockedSingleOutput</i> output.</td>
-        </tr>
-    </table>
-</details>
-
-<p></p>
-
 The <i>SigLockedSingleOutput</i> defines an output (with a certain amount) to a single target address which is unlocked via a signature proving ownership over the given address. This output can hold addresses of different types.
+
+###### SigLockedDustAllowanceOutput
+
+The <i>SigLockedDustAllowanceOutput</i> works the same as a <i>SigLockedSingleOutput</i> but additionally controls the dust allowance on the target address. See [Dust Protection RFC](https://github.com/iotaledger/protocol-rfcs/pull/32) for further information.
+
 
 ##### Payload
 
-The payload part of a <i>Transaction Essence</i> can hold an optional payload. This payload does not affect the validity of the <i>Transaction Essence</i>. If the transaction is not syntactically valid, then the payload must also be discarded. 
+The payload part of a <i>Transaction Essence</i> can hold an optional payload. This payload does not affect the validity of the <i>Transaction Essence</i>. If the transaction is not syntactically valid, then the payload must also be discarded.
 
 Supported payload types to be embedded into a <i>Transaction Essence</i>:
 
@@ -474,83 +450,9 @@ There are different types of <i>Unlock Blocks</i>:
 
 ##### Signature Unlock Block
 
-<details>
-    <summary>Format</summary>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td>Unlock Type</td>
-            <td>uint8</td>
-            <td>
-                Set to <strong>value 0</strong> to denote a <i>Signature Unlock Block</i>.
-            </td>
-        </tr>
-        <tr>
-            <td valign="top">Signature <code>oneOf</code></td>
-            <td colspan="2">
-                 <details>
-                    <summary>Ed25519 Signature</summary>
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                        </tr>
-                        <tr>
-                            <td>Signature Type</td>
-                            <td>uint8</td>
-                            <td>
-                                Set to <strong>value 0</strong> to denote an <i>Ed25519 Signature</i>.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Public key</td>
-                            <td>Array&lt;byte&gt;[32]</td>
-                            <td>The public key of the Ed25519 keypair which is used to verify the signature.</td>
-                        </tr>
-                        <tr>
-                            <td>Signature</td>
-                            <td>Array&lt;byte&gt;[64]</td>
-                            <td>The signature signing the serialized <i>Transaction Essence</i>.</td>
-                        </tr>
-                    </table>
-                </details>
-            </td>
-        </tr>
-    </table>
-</details>
-
-A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one or more signatures unlocking one or more inputs.
-This block signs the entire <i>Transaction Essence</i> part of a <i>Transaction Payload</i> including the optional payload.
+A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one or more signatures signing the Blake2b-256 hash of the <i>Transaction Essence</i> (including the optional payload).
 
 ##### Reference Unlock block
-
-<details>
-    <summary>Format</summary>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td>Unlock Type</td>
-            <td>uint8</td>
-            <td>
-                Set to <strong>value 1</strong> to denote a <i>Reference Unlock Block</i>.
-            </td>
-        </tr>
-        <tr>
-            <td>Reference</td>
-            <td>uint16</td>
-            <td>Represents the index of a previous unlock block.</td>
-        </tr>
-    </table>
-</details>
 
 A <i>Reference Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i> (which must not be another <i>Reference Unlock Block</i>). It must be used if multiple inputs can be unlocked through the same origin <i>Unlock Block</i>.
 
@@ -574,28 +476,28 @@ This validation can commence as soon as the transaction data has been received i
 The following criteria defines whether the transaction passes the syntactical validation:
 * `Transaction Essence Type` value must be 0, denoting an `Transaction Essence`.
 * Inputs:
-    * `Inputs Count` must be 0 < x ≤ 127.
-    * At least one input must be specified.
-    * `Input Type` value must be 0, denoting an `UTXO Input`.
-    * `UTXO Input`:
-        * `Transaction Output Index` must be 0 ≤ x < 127.
-        * Every combination of `Transaction ID` + `Transaction Output Index` must be unique in the inputs set.
-    * Inputs must be in lexicographical order of their serialized form.<sup>1</sup>
+  * `Inputs Count` must be 0 < x ≤ 127.
+  * At least one input must be specified.
+  * `Input Type` value must be 0, denoting an `UTXO Input`.
+  * `UTXO Input`:
+    * `Transaction Output Index` must be 0 ≤ x < 127.
+    * Every combination of `Transaction ID` + `Transaction Output Index` must be unique in the inputs set.
+  * Inputs must be in lexicographical order of their serialized form.<sup>1</sup>
 * Outputs:
-    * `Outputs Count` must be 0 < x ≤ 127.
-    * At least one output must be specified.
-    * `Output Type` must be 0, denoting a `SigLockedSingleOutput`.
-    * `SigLockedSingleOutput`:
-        * `Address Type` must be 0, denoting an `Ed25519` address.
-        * The `Address` must be unique in the set of `SigLockedSingleOutputs`.
-        * `Amount` must be > 0.
-    * Outputs must be in lexicographical order by their serialized form.<sup>1</sup>
-    * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
+  * `Outputs Count` must be 0 < x ≤ 127.
+  * At least one output must be specified.
+  * `Output Type` must denote a `SigLockedSingleOutput` or `SigLockedDustAllowanceOutput`.
+  * `SigLockedSingleOutput`/`SigLockedDustAllowanceOutput`:
+    * `Address Type` must be 0, denoting an `Ed25519` address.
+    * The `Address` must be unique in the set of `SigLockedSingleOutputs`/`SigLockedDustAllowanceOutputs` (two separate sets).
+    * `Amount` must be > 0.
+  * Outputs must be in lexicographical order by their serialized form.<sup>1</sup>
+  * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
 * `Payload Length` must be 0 (to indicate that there's no payload) or be valid for the specified payload type.
 * `Payload Type` must be one of the supported payload types if `Payload Length` is not 0.
 * `Unlock Blocks Count` must match the amount of inputs. Must be 0 < x ≤ 127.
 * `Unlock Block Type` must either be 0 or 1, denoting a `Signature Unlock Block` or `Reference Unlock block`.
-* `Signature Unlock Blocks` must define either a `Ed25519 Signature`.
+* `Signature Unlock Blocks` must define a `Ed25519 Signature`.
 * A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at the same index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin `Signature Unlock Block`.
 * `Reference Unlock Blocks` must specify a previous `Unlock Block` which is not of type `Reference Unlock Block`. The reference index must therefore be < the index of the `Reference Unlock Block`.
 * Given the type and length of the information, the <i>Transaction Payload</i> must consume the entire byte array for the `Payload Length` field in the <i>Message</i> it defines.
@@ -604,7 +506,7 @@ The following criteria defines whether the transaction passes the syntactical va
 
 ### Semantic Validation
 
-Semantic validation starts when a message that is part of a confirmation cone of a milestone is processed in the [White-Flag ordering](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md#deterministically-ordering-the-tangle). Semantics are only validated during White-Flag confirmations to enforce an ordering that can be understood by all the nodes (i.e. milestone cones), no matter the order the transactions are received. Otherwise, if semantic validation would occur as soon as a transaction would be received, it could potentially lead to nodes having different views of the UTXOs available to spend. 
+Semantic validation starts when a message that is part of a confirmation cone of a milestone is processed in the [White-Flag ordering](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md#deterministically-ordering-the-tangle). Semantics are only validated during White-Flag confirmations to enforce an ordering that can be understood by all the nodes (i.e. milestone cones), no matter the order the transactions are received. Otherwise, if semantic validation would occur as soon as a transaction would be received, it could potentially lead to nodes having different views of the UTXOs available to spend.
 
 
 Processing transactions in the White-Flag ordering enables users to spend UTXOs which are in the same milestone confirmation cone, if their transaction comes after the funding transaction in the mentioned White-Flag ordering. It is recommended that users spending unconfirmed UTXOs attach their message directly onto the message containing the source transaction.
@@ -631,15 +533,15 @@ Since the ledger is no longer account based, meaning that balances are directly 
 
 ### Reusing the same address with Ed25519
 
-While creating multiple signatures with Ed25519 does not reduce security, repeatedly reusing the same address not only drastically reduces the privacy of users but also all other people in the UTXO chain of the moved funds. Applications and services are then instructed to create new addresses per deposit, to circumvent the privacy issues stemming from address reuse. 
-In essence, Ed25519 support allows for smaller transaction sizes and to safely spend funds which were sent to an already used deposit address. 
+While creating multiple signatures with Ed25519 does not reduce security, repeatedly reusing the same address not only drastically reduces the privacy of users but also all other people in the UTXO chain of the moved funds. Applications and services are then instructed to create new addresses per deposit, to circumvent the privacy issues stemming from address reuse.
+In essence, Ed25519 support allows for smaller transaction sizes and to safely spend funds which were sent to an already used deposit address.
 Ed25519 addresses are not meant to be used like an e-mail address. See this [Bitcoin wiki entry](https://en.bitcoin.it/wiki/Address_reuse#:~:text=The%20most%20private%20and%20secure,a%20brand%20new%20bitcoin%20address.) for further information on how address reuse reduces privacy and this [article](https://en.bitcoin.it/wiki/Receiving_donations_with_bitcoin) on why the same should be applied to donation addresses.
 
 # Drawbacks
 
 The new transaction format is the core data type within the IOTA ecosystem. Changing it means that all projects need to accommodate for it, including client libraries, blueprints, PoC, and applications using IOTA in general. There is no way to keep the changes backwards compatible. Additionally, these changes are breaking, meaning that all nodes must upgrade to further participate in the network.
 
-Additionally, local snapshots can no longer be represented by a list of addresses and their balances, since the ledger is now made up of the UTXOs on which the actual funds reside on. Therefore, local snapshot file schemes have to be adjusted to incorporate the transaction hashes, output indices, and then the destination addresses including the balances. 
+Additionally, local snapshots can no longer be represented by a list of addresses and their balances, since the ledger is now made up of the UTXOs on which the actual funds reside on. Therefore, local snapshot file schemes have to be adjusted to incorporate the transaction hashes, output indices, and then the destination addresses including the balances.
 
 # Rationale and alternatives
 
