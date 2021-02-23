@@ -1273,12 +1273,14 @@ components:
           addressType: 1
           address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
           balance: 1338263
+          dustAllowed: true
     get-address-balance-ed25519-response-example:
       value:
         data:
           addressType: 1
           address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
           balance: 1338263
+          dustAllowed: true
     get-address-outputs-response-example:
       value:
         data:
@@ -2111,10 +2113,14 @@ components:
             balance:
               type: integer
               description: The computed balance for the address.
+            dustAllowed:
+              type: boolean
+              description: Tells whether the address can receive dust or not.
           required:
             - addressType
             - address
             - balance
+            - dustAllowed
       required:
         - data
 
