@@ -502,7 +502,7 @@ paths:
           name: address
           schema:
             type: string
-          example: iota1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj0w6qwt
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           required: true
           description: bech32 encoded address
       responses:
@@ -607,7 +607,7 @@ paths:
           name: address
           schema:
             type: string
-          example: iota1q9f0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj0w6qwt
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           required: true
           description: bech32-encoded address that is referenced by the outputs.
         - in: query
