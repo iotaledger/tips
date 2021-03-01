@@ -125,22 +125,19 @@ components:
         type: object
         required:
           - "messageId"
-          - "parent1MessageId"
-          - "parent2MessageId"
+          - "parentMessageIds"
           - "isSolid"
         properties:
           messageId:
             type: string
             description: The ID of the message.
             example: cf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85
-          parent1MessageId:
-            type: string
-            description: The ID of the first parent message.
-            example: d026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7
-          parent2MessageId:
-            type: string
-            description: The ID of the second parent message.
-            example: fa3a3830a3d510c7889a9c12acdfc24b55811b995e45a690160648a3e1ecfbf7
+          parentMessageIds:
+            type: array
+            description: The IDs of the referenced parent messages.
+            example:
+              - d026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7
+              - cf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85
           isSolid:
             type: boolean
             description: Whether the message is solid or not.
@@ -152,7 +149,7 @@ components:
           ledgerInclusionState:
             type: string
             description: The inclusion state of the message.
-            enum: [noTransaction, conflicting, included]
+            enum: [ noTransaction, conflicting, included ]
           shouldPromote:
             type: boolean
             description: Whether the message should be promoted. This is determined automatically by the node by using the OCRI/YCRI of the message.
