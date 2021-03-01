@@ -15,10 +15,10 @@ channels:
       description: Publishes the newest latest known milestone.
       message:
         $ref: '#/components/messages/MilestonePayload'
-  milestones/solid:
+  milestones/confirmed:
     subscribe:
-      operationId: milestoneSolid
-      description: Publishes the newly solid milestone.
+      operationId: milestoneConfirmed
+      description: Publishes the newly confirmed milestone.
       message:
         $ref: '#/components/messages/MilestonePayload'
   messages:
