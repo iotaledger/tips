@@ -23,8 +23,6 @@ Tagging coins makes it possible to associate certain IOTA coins with real world 
 rights or loyalty points. Allowing real world assets to be represented by digital tokens that are secure, transferable,
 feeless and fast, opens up new use cases for the IOTA Protocol.
 
-It will be shown how colored coins are also important to enable layer 2 smart contracts and security token frameworks.
-
 ## Use Cases
 
 The sections below describe some, but far from all possible use cases of IOTA colored coins. It will be up to the
@@ -88,7 +86,7 @@ colored coins. An issuer might mint and distribute security tokens as colored co
 - The issuer can halt trading and enforce compliance rules since it knows the verified identities of users.
 - The security tokens are still handled in a secure, decentralized and feeless infrastructure, the IOTA Tangle.
 
-In conclusion, colored coins provide the opportunity for security tokenization on base layer with trusted issuer
+In conclusion, colored coins provide the opportunity for security tokenization on the base layer with trusted issuer
 platforms acting as guides, but also enable layer 2 solutions like ISCP that support full scale, customizable,
 self-enforcing rules to be implemented as autonomous agents.
 
@@ -117,15 +115,6 @@ An NFT can also be viewed as a "global identity token" that may have data associ
 A non-forkable (non-copyable) chain of data states can be built by attaching metadata to the transfers of the NFT on
 layer 1. Therefore, it is perfectly suited for use cases such as Access, Streams or DID.
 
-The non-fungible property of a single colored coin on layer 1 is essential for building ISCP on layer 2:
-- A smart contract chain could be identified by the account holding the unique NFT of the contract chain.
-  It is minted upon deployment of the chain, and can be destroyed if the chain dies.
-- Smart contracts need a way of handling (user) requests atomically on layer 1. A smart contract chain has to have a
-  way of administering the currently pending and completed requests. This is what we call the backlog of the smart
-  contract chain. The idea is to mint a unique colored coin for each request and transfer it to the contract chain
-  account. Upon completion of the request, its NFT can be destroyed with the state anchor transaction that settled the
-  request.
-
 It is important to note, that a colored coin used as an NFT has only one unique property: its color. Therefore,
 advanced use cases, where a myriad of unique properties have to be associated to a single token are not supported on
 layer 1, rather via ISCP on layer 2. However, if the NFT represents a property right, the original attributes of the
@@ -133,11 +122,13 @@ property could still be stored off-tangle, in a distributed registry, or in a re
 
 # Detailed design
 
-To represent colored coins in the IOTA Protocol, a new output type has to be introduced,  `SigLockedColoredOutput`.
+To represent colored coins in the IOTA Protocol, all output types must be able to deal with them. Colored coins therefore
+are not represented as a distinct output type, rather, they are part of all output types.
+The current `SigLockedSingleOutput` shall be transformed into `SigLockedOutput`:
 
-   <summary>SigLockedColoredOutput</summary>
+   <summary>SigLockedOutput</summary>
     <blockquote>
-    Describes a colored operation to a single address which is unlocked via a signature.
+    Describes a transfer to a single address which is unlocked via a signature.
     </blockquote>
     <table>
         <tr>
@@ -149,12 +140,8 @@ To represent colored coins in the IOTA Protocol, a new output type has to be int
             <td>Output Type</td>
             <td>uint8</td>
             <td>
-                Set to <strong>value 2</strong> to denote a <i>SigLockedColoredOutput</i>.
+                Set to <strong>value 0</strong> to denote a <i>SigLockedOutput</i>.
             </td>
-			<tr>
-            <td>Opcode</td>
-            <td>uint8</td>
-            <td>The operation performed by this <i>SigLockedColoredOutput</i> output.</td>
         </tr>
         <tr>
             <td valign="top">Address <code>oneOf</code></td>
@@ -183,17 +170,39 @@ To represent colored coins in the IOTA Protocol, a new output type has to be int
                 </details>
             </td>
         </tr>
-	        <tr>
-            <td>Color</td>
-            <td>Array&lt;byte&gt;[33] </td>
-            <td>The color of tokens of this <i>SigLockedColoredOutput</i> output.
-			</td>
+        <tr>
+            <td>Balances Count</td>
+            <td>uint8</td>
+            <td>
+                The number of <i>ColoredBalances</i> in a <i>SigLockedOutput</i>.
+            </td>
         </tr>
         <tr>
-            <td>Amount</td>
-            <td>uint64</td>
-            <td>The amount of tokens of this <i>SigLockedColoredOutput</i> output.</td>
-        </tr>
+            <td valign="top">Balances <code>anyOf</code></td>
+            <td colspan="2">
+				<details>
+                    <summary>ColoredBalance</summary>
+                    <table>
+                        <tr>
+                            <td><b>Name</b></td>
+                            <td><b>Type</b></td>
+                            <td><b>Description</b></td>
+                        </tr>
+                        <tr>
+                            <td>Color</td>
+                            <td>Array&lt;byte&gt;\[32\]</td>
+                            <td>
+                                The color of the tokens. `ColorIOTA` denotes IOTA tokens.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td>uint64</td>
+                            <td> The amount of tokens of this <i>ColoredBalance</i> output.</td>
+                        </tr>
+                    </table>
+                </details>
+            </td>
     </table>
 
 <p></p>
@@ -202,139 +211,157 @@ There are couple new concepts as compared to a `SigLockedSingleOutput`.
 
 ## Color
 
-Colors are globally unique and are assigned to tokens upon minting. A color refers to an output in a transaction that
-minted it, therefore colors are essentially `OutputIDs`. Since an `OutputID` is the combination of the `TransactionID`
-and the `index of the output within the transaction`, it is possible to locate the genesis transaction of a color by
-taking the first 32 bytes of it.
+Colors are globally unique and are assigned to tokens upon minting. The value of the color field is generated from the
+ID of the output that minted it. The `outputID` consists of 34 bytes: 32 bytes of `TransactionID`, and 2 bytes to
+denote the index of the output within the transaction. An `OutputID` therefore is a unique value in the tangle.
+When minting colored coins with an output, the color of the tokens is defined as the BLAKE2b-256 hash of the `OutputID`.
 
-The zero value of a color (33 bytes that are all zero) has a distinct name, it is called `ColorIOTA`, and defines the
+The zero value of a color (32 bytes that are all zero) has a distinct name, it is called `ColorIOTA`, and defines the
 color of an IOTA token.
 
-## Opcodes
+A special color, `ColorMint` indicates that an output wishes to create new colored coins. `ColorMint` is defined as 32
+bytes that are all maxed out, 256 bits that are all 1s.
 
-Opcodes, or operation codes, define how the protocol treats the output during transaction validation and post processing.
-In general, we can divide up the processing of a transaction into 3 phases:
-- **Syntactical validation**: validating rules that govern the transaction layout and can be objectively decided just
-  by looking at the raw transaction.
-- **Semantic validation**: validation rules that are concerned with the content of the inputs, outputs and unlock blocks.
-  Valid unlock blocks are a semantic check for example.
-- **Post Processing**: Once both of the previous validations are passed, the created outputs need to be booked into the
-  ledger. This step involves calculating the `OutputIDs`, and additionally can have other actions depending on the opcode.
+## Colored Balance
 
-In the previous version of the IOTA Protocol, opcodes did not exist, because the only operation the protocol allowed was
-actually to `MOVE` tokens by unlocking them from an input and locking them into a new output.
-With colored coins however, the ability to specify `MINT` operation for the creation of colors, and `UNCOLOR` operation
-to destroy such colors is absolutely necessary.
+The balance of an output is encoded as an ordered unique collection of Colored Balances. A Colored Balance describes the
+color and the amount of the tokens. Colored Balances are sorted lexicographically based on their color value.
+Therefore, in any output, `ColorIOTA` balance is always the first if present, and `ColorMint` balance is always the
+last if present.
 
-Opcodes affect the 3 transaction processing stages:
+Each color can only be present in `Balances` once, duplicates are not allowed, even if they describe different amounts.
 
-### Syntactical Validation With Opcodes
+## Transaction Validation
 
-The `Opcode` field of a `SigLockedColoredOutput` may only be:
+Previously, the only thing a transaction could do was to move tokens from an address to another address. With the
+introduction of colored coins, a transaction might mint colored coins or might uncolor them. Transaction validation
+rules have to be adjusted to implicitly handle the two new operations.
 
-- `0` to denote `MINT` operation,
-- `1` to denote `MOVE` operation and
-- `2` to denote `UNCOLOR` operation.
+### Syntactical Validation
 
-Any other value of `Opcode` is not valid, and the transaction is considered invalid.
+ - `Balances Count` defines the number of Colored Balances in the output. There should be no trailing bytes left in the
+   serialized output after parsing `Balances Count` `Colored Balances`. If the bytes of serialized output are exhausted
+   before parsing `Balances Count` `Colored Balances`, the output and the transaction is invalid.
+- `Balances` must be sorted lexicographically based on their color, otherwise the output and the transaction is invalid.
+- A `Colored Balance` must have `Amount` greater than zero.
 
-The tuple of {`OutputType`, `Opcode`, `Address`, `Color` } has to be unique in the set of outputs, except for `MINT`.
-Several `SigLockedColoredOutput`s with the `MINT` opcode and the same `Address` should be allowed, as this is the only
-way to mint different colored coins to the same address in one transaction.
-
-### Semantic Validation With Opcodes
+### Semantic Validation
 
 Unlocking doesn't change, the new output type is also locked by a signature.
-The same unlock rules apply to a `SigLockedColoredOutput` as to a `SigLockedSingleOutput`.
+The same unlock rules apply to a `SigLockedOutput` as to a `SigLockedSingleOutput`.
 
-Before opcodes, a transaction was considered invalid if it spent more funds in the created outputs, than it consumed
-from the unlocked inputs. With the introduction of colors and opcodes however, the amount of different colors and their
-operation also has to be taken into account.
+Before colored coins, a transaction was considered invalid if it spent more funds in the created outputs, than it consumed
+from the unlocked inputs. With the introduction of colors and colored balances however, the amount of different colors
+and their operation also has to be taken into account.
 
 The two sides of the transaction (inputs and outputs) define a balance sheet with positive and negative sides for
 different "colors". Consuming an input adds to the positive side, while creating a new output incurs a negative balance.
 The sum of the two side of the balance sheet must be zero.
 
 **Semantic Rules for consuming inputs (previously created outputs):**
-- If the unlocked output is a `SigLockedSingleOutput`, it adds `amount`
-  of `ColorIOTA` to the positive side.
-- If the unlocked output is a `SigLockedColorOutput`, depending on the `opcode`:
-    - `MINT` or `MOVE`: Adds `amount` `color` tokens to the positive side.
-    - `UNCOLOR`: Adds `amount` `ColorIOTA` tokens to the positive side. Previously uncolored coins become regular IOTA
-      tokens.
+- An unlocked `SigLockedOutput` adds all of its `Colored Balances` to the positive side of the balance sheet.
 
 **Semantic Rules for creating new outputs:**
-- If the created output is `SigLockedSingleOutput`, it adds `amount`
-  of `ColorIOTA` to the negative side.
-- If the created output is a `SigLockedColorOutput`, depending on the `opcode`:
-    - `MINT`: Adds `amount` `ColorIOTA` tokens to the negative side. This is actually a demand for IOTA tokens because
-      they will be colored.
-    - `MOVE` or `UNCOLOR`: Adds `amount` `color` tokens to the negative side.
+- A newly created `SigLockedOutput` adds all of its `Colored Balances` to the negative side of the balance sheet.
 
-There can be any amount of `MINT`, `MOVE` or `UNCOLOR` `SigLockedColoredOutput`s in the transaction, as long as the
-total number of outputs do not exceed `maxOutputsCount`.
+If the transaction minted or uncolored tokens, the balance sheet is no longer balanced, because either new colors
+were created or colors were destroyed, so they are only present on one side. The following rules apply to the balance
+sheet:
+ - To mint new colors, the created output has a `Colored Balance` entry with `color=ColorMint`. There is a surplus of
+   `ColorMint` tokens on the negative side of the balance sheet, which can be balanced by any remaining balances in the positive
+   side. This means that new colored coins can not only be created from `ColorIOTA` tokens, but from any colored coins.
+   The latter case is considered re-coloring.
+ - To uncolor coins, the newly created output has a `Colored Balance` entry with `color=ColorIOTA`. There is a surplus
+   of `ColorIOTA` tokens on the negative side of the balance sheet, which can be balanced by remaining balances of
+   the uncolored color on the positive side.
+
+
+Pseudo-code for semantic transaction balances validation:
+```
+consumedInputsBalances: map Color -> Amount
+
+for all consumed inputs in tx:
+    for all colored balances in input:
+        consumedInputsBalances[color] += amount
+
+recoloredCoins = 0
+
+for all outputs in tx:
+    for all colored balances in output:
+        if color is ColorMint or ColorIOTA:
+            recoloredCoins += amount
+        else if color not present in consumedInputsBalances:
+            return TransactionBalancesInvalid
+        else:
+            consumedInputsBalances[color] -= amount
+
+unspentCoins = 0
+
+for all remaining colored balances in consumedInputsBalances:
+    unspentCoins += balance
+
+if recoloredCoins does not equal unspentCoins, transaction balances are invalid
+```
+
+Implementation of above algorithm should pay great attention to buffer overflows.
+
 
 ### Post Processing
 
 Previously, post processing only meant calculating the `OutputID` of the newly created outputs by taking the
 `Transaction ID` + `index of the output in the transaction`, and booking them into the ledger.
 
-With the opcodes however, there can be additional steps:
-####  SigLockedSingleOutput:
-- Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransactionID` ||
-  `index of the output in the transaction`.
-- Book the output into the ledger.
-#### SigLockedColoredOutput:
-- **MINT** opcode:
-    - Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransactionID` ||
-      `index of the output in the transaction`.
-    - Mark the `color` of the output as `OutputID`.
-    - Book the output into the ledger.
-- **MOVE** opcode:
-    - Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransactionID` ||
-      `index of the output in the transaction`.
-    - Book the output into the ledger.
-- **UNCOLOR** opcode:
-    - Calculate `OutputID`, the unique identifier of the output in the UTXO DAG. `OutputID` = `TransactionID` ||
-      `index of the output in the transaction`
-    - Mark the `color` of the output as `ColorIOTA`. <i>This might not be necessary, as unlocking an `UNCOLOR` output
-      adds `ColorIOTA` to the positive side of the balance sheet. With marking the booked output with `ColorIOTA`,
-      we double enforce this rule, but also lose the information on which color it uncolored. For that, one has to
-      load the transaction and observe the outputs in their original form. </i>
-    - Book the output into the ledger.
+With colored coins, an additional step has to be introduced for newly minted colors in outputs. The minting operation is
+carried out by putting the special `ColorMint` colored balance into the output. This colored balance is replaced with
+the actual color before booking the output into the ledger. The color is calculated as the BLAKE2b-256 hash of the
+`OutputID`.
 
 ### Notes
 - Outputs in the serialized transaction must be in lexicographic order, therefore there can be no two transactions that
   define the same UTXO mutations while having different transaction IDs.
-- Due to the ordering, any `SigLockedColoredOutput` comes after any `SigLockedSingleOutput` within the transaction.
-- Due to the ordering, `MINT`, `MOVE` and `UNCOLOR` outputs are grouped together in the list of outputs, which helps to
-  identify the purpose of the transaction by looking at its layout.
 - One transaction might mint several coins with unique colors. The maximum amount of different colors that can be
   minted in a single transaction is exactly the maximum allowed number of outputs, that is `127`.
-- One transaction might uncolor several colored coins. The maximum amount of different colors that can be uncolored in
-  a single transaction is exactly the maximum allowed number of outputs, that is `127`.
+- One transaction might uncolor several colored coins. The theoretical maximum amount of different colors that can be
+  uncolored in a single transaction is the maximum allowed number of inputs times the maximum number of balances.
+  If all balances in all consumed outputs hold different colors, 127 * 255 = 32385 different colors could be uncolored,
+  without taking into account the maximum allowed transaction size. The size of one output with 255 colored balances is
+  1 + 33 + 1 + 255 * 40 = 10235 bytes. 4 of such outputs is already [too big to fit in a message](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md#message-validation).
 - It is not possible to mint a color in a transaction and uncolor it in the same transaction, since uncoloring can only
   happen if coins with that particular color are present in list of unlocked inputs.
-- The size of a `SigLockedColoredOutput` is exactly `76 bytes`, compared to the `42 bytes` size of a
+- The size of a `SigLockedOutput` with 1 `ColorIOTA` balance is exactly `75 bytes`, compared to the `42 bytes` size of a
   `SigLockedSingleOutput`.
-- A `SigLockedColoredOutput` with `OPCODE=MOVE` and `Color=ColorIOTA` is functionally identical to a
-  `SigLockedSingleOutput`, but the latter is preferable due to its smaller size.
+
+From the last note it seems that `SigLockedOutput` is less efficient in encoding normal IOTAs. To spare most importantly
+bandwidth, the serialized form of a transaction can encode colors into a dictionary that is part of the transaction
+essence. Whenever a color is referenced in an output of the transaction, instead of the 32 bytes of the color, and index
+is used to reference the color from the color dictionary. `ColorIOTA` and/or `ColorMint` could have their reserved
+indices in the dictionary, so they can be encoded in less, than 32 bytes.
 
 ### Dust protection
 
 Dust protection refers to preventing the unnecessary increase of the ledger database by splitting up funds into several,
 smaller outputs. Chrysalis Phase 2 introduced a new dust protection mechanism, that defines on a protocol level when
 such small outputs can be accepted.
-Dust protection doesn't change with the introduction of colored coins, a `SigLockedColoredOutput` is considered to be
-dust if it has an `amount` that is less, than `1 Mi`.
+Colored coins are just tagged IOTA tokens on protocol level. Therefore, any dust protection solution for IOTA tokens
+shall be the same as for colored coins.
+Dust protection doesn't change with the introduction of colored coins, a `SigLockedOutput` is considered to be
+dust if it has a cumulative balance that is less, than `1 Mi`.
+
+Note, that it is possible to mint colored coins into outputs that have other balances as well, so an NFT minted into an
+output that has already `1Mi` `ColorIOTA` balance is not considered dust. It is also possible to send the NFT together
+with the `1Mi` to a new owner, so it is not considered as dust.
+
+A business selling digital goods as colored coins can for example require the buyers to pay extra `1Mi` for the service,
+which will be returned to them in the transfer that sends the buyers their colored coins. The user then doesn't have to
+set up a dust allowance output. If the colored coin is distributed from a smart contract in ISCP, it can automatically
+make sure to only accept requests that include this dust prevention component.
 
 # Drawbacks
 
 - Increases the complexity of the transaction validating logic, however, it does not introduce additional signature
   validation overhead.
-- Adds additional post processing steps for `MINT` operations.
-- All client libraries have to be modified to handle colored coins, but since it is not a breaking change on client
-  side, old wallets and libs would still be operational without support for colored coins.
+- Adds additional post processing step for minting operations.
+- All client libraries have to be modified to handle colored coins and the new output type.
 
 # Rationale and alternatives
 
@@ -344,16 +371,14 @@ or try to design an [Extended UTXO](https://iohk.io/en/research/library/papers/t
 them can support a lot more functionality on protocol level, but also further increase the transaction validation logic.
 The IOTA protocol has to remain lightweight enough to be the backbone of the machine economy.
 ### Why is this design the best in the space of possible designs?
-The instruction set for programming outputs consists of 3 opcodes only, which limits the complexity of the transaction
-validating logic.
+Due to the implicit minting and uncoloring operations, colored coins become orthogonal to the output type. Any future
+output type can support colored coins by having its balance encoded as Colored Balances.
 The NFT capabilities of single supply colored coins makes it possible to register non-forkable data states on protocol
 level.
 ### What is the impact of not doing this?
-Without colored coins, layer 2 smart contracts would not be possible to implement.
+Digital assets, NFTs and utility tokens wil not be supported, hence the protocol prevents possible future use cases.
 
 # Unresolved questions
 
-- Should the balance of an output actually composed of a list of colored balances? That would make it easier to
-  uncolor several tokens to the same address at once, or to move several tokens to the same address.
-  For minting it doesn't change anything because the color depends on the output index in the transaction, so it is not
-  possible to mint several colors with one output.
+ - Color dictionary would require another RFC.
+ - `SigLockedDustAllowance`  output shall be updated with Colored Balances.
