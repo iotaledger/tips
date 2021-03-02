@@ -1436,14 +1436,17 @@ components:
               final: false
               funds:
                 - tailTransactionHash: NVDARJVAYEIFDKTBFQRLI9VLTVBWCJHRYBVKWPPGJAATBPAUTE9LPZQSH9UOQEYONICHVNRAFCXA99999
-                  address: 5eec99d6ee4ba21aa536c3364bbf2b587cb98a7f2565b75d948b10083e2143f8
-                  deposit: 100
+                  address:
+                    type: 0
+                    address: 5eec99d6ee4ba21aa536c3364bbf2b587cb98a7f2565b75d948b10083e2143f8
+                  deposit: 1702000000
               transaction:
                 input:
                   type: 1
+                  milestoneHash: 733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d
                 output:
                   type: 2
-                  amount: 100
+                  amount: 1702000000
 
     get-treasury-response-example:
       value:
@@ -1854,11 +1857,11 @@ components:
         type:
           type: integer
           description: Set to value 1 to denote a TreasuryInput.
-        messageId:
+        milestoneHash:
           type: string
       required:
         - type
-        - messageId
+        - milestoneHash
 
     TreasuryOutput:
       properties:
@@ -1984,15 +1987,18 @@ components:
         - sentHeartbeats
         - droppedPackets
 
+    ReceiptTuple:
+      description: Contains a receipt and the index of the milestone which contained the receipt.
+      properties:
+        receipt:
+          $ref: '#/components/schemas/Receipt'
+        milestoneIndex:
+          type: integer
+      required:
+        - receipt
+        - milestoneIndex
 
-
-
-
-
-
-
-
-    ReceiptPayload:
+    Receipt:
       description: Contains a receipt and the index of the milestone which contained the receipt.
       properties:
         migratedAt:
@@ -2016,20 +2022,14 @@ components:
         tailTransactionHash:
           type: string
         address:
-          type: string
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Address'
         deposit:
           type: integer
       required:
         - tailTransactionHash
         - address
         - deposit
-
-
-
-
-
-
-
 
     ErrorResponse:
       description: The error format.
@@ -2409,7 +2409,7 @@ components:
             receipts:
               type: array
               items:
-                $ref: '#/components/schemas/ReceiptPayload'
+                $ref: '#/components/schemas/ReceiptTuple'
           required:
             - receipts
       required:
