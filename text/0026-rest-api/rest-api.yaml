@@ -1991,14 +1991,14 @@ components:
       description: Contains a receipt and the index of the milestone which contained the receipt.
       properties:
         receipt:
-          $ref: '#/components/schemas/Receipt'
+          $ref: '#/components/schemas/ReceiptPayload'
         milestoneIndex:
           type: integer
       required:
         - receipt
         - milestoneIndex
 
-    Receipt:
+    ReceiptPayload:
       description: Contains a receipt and the index of the milestone which contained the receipt.
       properties:
         migratedAt:
@@ -2180,6 +2180,7 @@ components:
             - $ref: '#/components/schemas/MilestonePayload'
             - $ref: '#/components/schemas/IndexationPayload'
             - $ref: '#/components/schemas/TreasuryTransactionPayload'
+            - $ref: '#/components/schemas/ReceiptPayload'
         nonce:
           type: string
           description: The nonce which lets this message fulfill the Proof-of-Work requirement.
