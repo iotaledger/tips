@@ -54,7 +54,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
     <tr>
         <td> Parents' length </td>
         <td> uint8</td>
-        <td> The number of messages we directly approve. Currently we fix this value to 2, or else the message is invalid.</td>
+        <td> The number of messages we directly approve. Can be any value between 1-8.</td>
     </tr>
     <tr>
         <td>Parents </td>
@@ -111,7 +111,7 @@ A message is considered valid, if the following syntactic rules are met:
 2. When parsing the message is complete, there should not be any trailing bytes left that were not parsed.
 3. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is above this range.
 4. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
-5. `Parents' length` must be 2.
+5. `Parents' length` must be between 1-8.
 
 
 ### Payloads
