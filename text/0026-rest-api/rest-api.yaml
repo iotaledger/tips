@@ -1611,6 +1611,7 @@ components:
             - $ref: '#/components/schemas/TransactionPayload'
             - $ref: '#/components/schemas/MilestonePayload'
             - $ref: '#/components/schemas/IndexationPayload'
+            - $ref: '#/components/schemas/ReceiptPayload'
         nonce:
           type: string
           description: The nonce which lets this message fulfill the Proof-of-Work requirement.
