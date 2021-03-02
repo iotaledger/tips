@@ -772,6 +772,100 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
+  '/api/v1/receipts/{migratedAt}':
+    get:
+      tags:
+        - UTXO
+      summary: Returns all stored receipts for a given migration index.
+      description: >-
+        Returns all stored receipts for a given migration index.
+      parameters:
+        - in: path
+          name: migratedAt
+          schema:
+            type: number
+          example: 1000
+          required: true
+          description: Migration index to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptsResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-receipts-response-example'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
+
+
+  '/api/v1/treasury':
+    get:
+      tags:
+        - UTXO
+      summary: Returns information about the treasury.
+      description: >-
+        Returns information about the treasury.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TreasuryResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-treasury-response-example'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
+
+
 
   '/api/v1/milestones/{index}':
     get:
@@ -1350,6 +1444,12 @@ components:
                 output:
                   type: 2
                   amount: 100
+
+    get-treasury-response-example:
+      value:
+        data:
+          milestoneId: 733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d
+          amount: 133713371337
 
     get-milestone-by-index-response-example:
       value:
@@ -2312,6 +2412,21 @@ components:
                 $ref: '#/components/schemas/ReceiptPayload'
           required:
             - receipts
+      required:
+        - data
+
+    TreasuryResponse:
+      properties:
+        data:
+          type: object
+          properties:
+            milestoneId:
+              type: string
+            amount:
+              type: integer
+          required:
+            - milestoneId
+            - amount
       required:
         - data
 
