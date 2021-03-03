@@ -1443,7 +1443,7 @@ components:
               transaction:
                 input:
                   type: 1
-                  milestoneHash: 733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d
+                  milestoneId: 733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d
                 output:
                   type: 2
                   amount: 1702000000
@@ -1833,10 +1833,6 @@ components:
         - index
         - data
 
-
-
-
-
     TreasuryTransactionPayload:
       properties:
         type:
@@ -1858,11 +1854,11 @@ components:
         type:
           type: integer
           description: Set to value 1 to denote a TreasuryInput.
-        milestoneHash:
+        milestoneId:
           type: string
       required:
         - type
-        - milestoneHash
+        - milestoneId
 
     TreasuryOutput:
       properties:
