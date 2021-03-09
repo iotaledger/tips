@@ -86,7 +86,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
                         <td>Payload Type</td>
                         <td>uint32</td>
                         <td>
-                            The type of the payload. It will instruct the node how to parse the fields that follow. Types in the range of 0-127 are "core types" that all nodes are expected to know.
+                            The type of the payload. It will instruct the node how to parse the fields that follow.
                         </td>
                     </tr>
                     <tr>
@@ -109,7 +109,7 @@ A message is considered valid, if the following syntactic rules are met:
 
 1. The message size must not exceed 32 KiB (32 * 1024 bytes).
 2. When parsing the message is complete, there should not be any trailing bytes left that were not parsed.
-3. If the `payload type` is in the core payload range (0-127) and the node is familiar with it, or if it is above this range.
+3. If the `payload type` is known to the node.
 4. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
 5. `Parents' length` must be between 1-8.
 
