@@ -51,6 +51,12 @@ channels:
       description: Publishes the given wanted output on subscription and when its state changes (created, spent).
       message:
         $ref: '#/components/messages/OutputPayload'
+  transactions/[transactionId]/included-message:
+    subscribe:
+      operationId: transactions
+      description: Publishes the confirmed message which carried the transaction with the specified transaction id.
+      message:
+        $ref: '#/components/messages/Message'
   addresses/[address]/outputs:
     subscribe:
       operationId: bech32AddressOutputs
