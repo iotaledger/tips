@@ -875,7 +875,7 @@ paths:
         - in: path
           name: transactionId
           schema:
-            type: number
+            type: string
           example: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
           required: true
           description: Identifier of the transaction to look up.
