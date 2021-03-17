@@ -1,6 +1,6 @@
 + Feature name: wotsicide_migration
 + Start date: 2021-01-13
-+ RFC PR: [iotaledger/protocol-rfcs#00]()
++ RFC PR: [iotaledger/protocol-rfcs#35](https://github.com/iotaledger/protocol-rfcs/pull/35)
 
 # Summary
 
@@ -109,7 +109,7 @@ Serialized form:
     </tr>
     <tr>
         <td>Type</td>
-        <td>byte</td>
+        <td>uint32</td>
         <td>
             Set to <strong>value 4</strong> to denote a <i>TreasuryTransaction</i>.
         </td>
@@ -145,7 +145,7 @@ Serialized form:
             <summary>TreasuryOutput</summary>
             <table>
                 <tr>
-                    <td><b>Name<b></td>
+                    <td><b>Name</b></td>
                     <td><b>Type</b></td>
                     <td><b>Description</b></td>
                 </tr>
@@ -153,7 +153,7 @@ Serialized form:
                     <td>Output Type</td>
                     <td>byte</td>
                     <td>
-                        Set to <strong>value 2</strong> to denote an <i>TreasuryInput</i>.
+                        Set to <strong>value 2</strong> to denote an <i>TreasuryOutput</i>.
                     </td>
                 </tr>
                 <tr>
