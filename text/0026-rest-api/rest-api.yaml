@@ -865,7 +865,54 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-
+  '/api/v1/transactions/{transactionId}/included-message':
+    get:
+      tags:
+        - UTXO
+      summary: Returns the included message of a transaction.
+      description: Returns the included message of a transaction.
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: number
+          example: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
+          required: true
+          description: Identifier of the transaction to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-included-message-of-transaction-example'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
 
   '/api/v1/milestones/{index}':
     get:
@@ -1453,6 +1500,41 @@ components:
         data:
           milestoneId: 733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d
           amount: 133713371337
+
+    get-included-message-of-transaction-example:
+      value:
+        data:
+          networkId: '7712883261355838377'
+          parentMessageIds:
+            - 174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d6
+            - 5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c
+            - 7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695
+            - de9e9d780ba7ebeebc38da16cb53b2a8991d38eee94bcdc3f3ef99aa8c345652
+          payload:
+            type: 0
+            essence:
+              type: 0
+              inputs:
+                - type: 0
+                  transactionId: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
+                  transactionOutputIndex: 0
+              outputs:
+                - type: 0
+                  address:
+                    type: 0
+                    address: a18996d96163405e3c0eb13fa3459a07f68a89e8cf7cc239c89e7192344daa5b
+                  amount: 1000000
+              payload:
+                type: 2
+                index: 454f59
+                data: ''
+            unlockBlocks:
+              - type: 0
+                signature:
+                  type: 0
+                  publicKey: ee26ac07834c603c22130fced361ca58552b0dbfc63e4b73ba24b3b59d9f4050
+                  signature: '0492a353f96883c472e2686a640e77eda30be8fcc417aa9fc1c15eae854661e0253287be6ea68f649f19ca590de0a6c57fb88635ef0e013310e0be2b83609503'
+          nonce: '17293822569102719312'
 
     get-milestone-by-index-response-example:
       value:
