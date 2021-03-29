@@ -77,6 +77,16 @@ The following table structure describes the entirety of a _Milestone Payload_ in
             <td>256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone. (<a href="https://github.com/iotaledger/protocol-rfcs/blob/milestone-merkle-validation-chrysalis-pt-2/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md">Update RFC-0012</a>)</td>
           </tr>
           <tr>
+            <td>Next PoW Score</td>
+            <td>uint32</td>
+            <td>The new PoW score all messages should adhere to. If 0 then the PoW score should not change. See <a href="https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md">RFC-0024</a>.</td>
+          </tr>
+          <tr>
+          <td>Next PoW Score Milestone Delta</td>
+            <td>uint8</td>
+            <td>Specifies in how many milestones the PoW score should update. This field comes into effect only if the `Next PoW Score` field is non 0.</td>
+          </tr>
+          <tr>
             <td>Keys Count</td>
             <td>uint8</td>
             <td>Number of public keys entries.</td>
