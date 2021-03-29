@@ -62,14 +62,14 @@ The following table structure describes the entirety of a _Milestone Payload_ in
             <td>The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.</td>
           </tr>
           <tr>
-            <td>Parent1</td>
-            <td>ByteArray[32]</td>
-            <td>The Message ID of the first <i>Message</i> referenced by the milestone.</td>
+            <td>Parents' Length</td>
+            <td>uint8</td>
+            <td>The number of messages we directly approve. Can be any value between 1-8.</td>
           </tr>
           <tr>
-            <td>Parent2</td>
-            <td>ByteArray[32]</td>
-            <td>The Message ID of the second <i>Message</i> referenced by the milestone.</td>
+            <td>Parents</td>
+            <td>ByteArray[32 * Parents' Length]</td>
+            <td>The Message IDs of the <i>Messages</i> referenced by the milestone.</td>
           </tr>
           <tr>
             <td>Inclusion Merkle Root</td>
@@ -109,11 +109,11 @@ The following table structure describes the entirety of a _Milestone Payload_ in
   - The signature provider service will sign the received serialized bytes as-is.
   - The signature provider will serialize the signature bytes and return them to the Coordinator.
 - Fill the `Signatures` field of the milestone payload with the received signature bytes.
-- Generate a *Message* as defined in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md) using the same `Parent1` and `Parent2` for the created _Milestone Payload_.
+- Generate a *Message* as defined in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md) using the same `Parents` for the created _Milestone Payload_.
 
 ## Syntactical validation
 
-- `Parent1` and `Parent2` of the payload must match `Parent1` and `Parent2` of the encapsulating _Message_.
+- `Parents` of the payload must match `Parents` of the encapsulating _Message_.
 - `Keys Count` must be at least the _Signature Threshold_ and at most the number of _Applicable Public Keys_ for the current milestone index.
 - `Public keys`:
   - The provided keys must form a subset of the _Applicable Public Keys_ for the current milestone index.
@@ -126,8 +126,8 @@ The following table structure describes the entirety of a _Milestone Payload_ in
 # Rationale and alternatives
 
 - Instead of using EdDSA we could have chosen ECDSA. Both algorithms are well supported and widespread. However, signing with ECDSA requires fresh randomness while EdDSA does not. Especially in the case of milestones where essences are signed many times using the same key, this is a crucial property.
-- Due to the layered design of messages and payloads, it is practically not possible to prevent reattachments of milestone payloads. Hence, this payload has been designed in a way to be independent from the message it is contained in. A milestone should be considered as a virtual marker (referencing `Parent1` and `Parent2`) rather than an actual message in the Tangle. This concept is compatible with reattachments and supports a cleaner separation of the message layers.
+- Due to the layered design of messages and payloads, it is practically not possible to prevent reattachments of milestone payloads. Hence, this payload has been designed in a way to be independent from the message it is contained in. A milestone should be considered as a virtual marker (referencing `Parents`) rather than an actual message in the Tangle. This concept is compatible with reattachments and supports a cleaner separation of the message layers.
 
 # Unresolved questions
 
-- Forcing matching `Parent1`, `Parent2` in the _Milestone Payload_ and its _Message_ makes it impossible to reattach the same payload at different positions in the Tangle. While this does not prevent reattachments in general (a different, valid `Nonce`, for example would lead to a new Message ID), this still simplifies milestone processing. However, it violates a clear separation of payload and message. As such, it might still be desirable to slightly complicate the milestone processing by allowing arbitrary `Parent1` and `Parent2` fields. This separates the two layers completely and should not have any impact on the actual milestone properties.
+- Forcing matching `Parents` in the _Milestone Payload_ and its _Message_ makes it impossible to reattach the same payload at different positions in the Tangle. While this does not prevent reattachments in general (a different, valid `Nonce`, for example would lead to a new Message ID), this still simplifies milestone processing. However, it violates a clear separation of payload and message. As such, it might still be desirable to slightly complicate the milestone processing by allowing arbitrary `Parents` field. This separates the two layers completely and should not have any impact on the actual milestone properties.
