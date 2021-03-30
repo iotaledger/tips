@@ -82,9 +82,9 @@ The following table structure describes the entirety of a _Milestone Payload_ in
             <td>The new PoW score all messages should adhere to. If 0 then the PoW score should not change. See <a href="https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md">RFC-0024</a>.</td>
           </tr>
           <tr>
-          <td>Next PoW Score Milestone Delta</td>
-            <td>uint8</td>
-            <td>Specifies in how many milestones the PoW score should update. This field comes into effect only if the `Next PoW Score` field is non 0.</td>
+          <td>Next PoW Score Milestone Index</td>
+            <td>uint32</td>
+            <td>The index of the first milestone that will require a new minimal pow score for applying transactions. This field comes into effect only if the `Next PoW Score` field is non 0.</td>
           </tr>
           <tr>
             <td>Keys Count</td>
@@ -124,6 +124,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
 ## Syntactical validation
 
 - `Parents` of the payload must match `Parents` of the encapsulating _Message_.
+- `Next PoW Score Milestone Index` should be larger than the current milestone index if `Next Pow Score` is different than 0. Else, it should be 0.
 - `Keys Count` must be at least the _Signature Threshold_ and at most the number of _Applicable Public Keys_ for the current milestone index.
 - `Public keys`:
   - The provided keys must form a subset of the _Applicable Public Keys_ for the current milestone index.
