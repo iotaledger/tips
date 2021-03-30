@@ -93,7 +93,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           </tr>
           <tr>
             <td>Public Keys</td>
-            <td>Array&lt;ByteArray[32]&gt;</td>
+            <td>ByteArray[32 * Keys Count]</td>
             <td>An array of public keys to validate the signatures. The keys must be in lexicographical order.</td>
           </tr>
         </table>
