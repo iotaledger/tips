@@ -2204,20 +2204,20 @@ components:
               type: number
               format: float
             messagesPerSecond:
-              description: Messages per second.
+              description: The current rate of new messages per second.
               type: number
               format: float
             referencedMessagesPerSecond:
-              description: Referenced messages per second.
+              description: The current rate of referenced messages per second.
               type: number
               format: float
             referencedRate:
-              description: Referenced rate of messages per second.
+              description: The ratio of referenced messages in relation to new messages of the last confirmed milestone.
               type: number
               format: float
             latestMilestoneTimestamp:
               type: integer
-              description: The timestamp of the most recent seen milestone.
+              description: The timestamp of the latest seen milestone.
             latestMilestoneIndex:
               type: integer
               description: The most recent milestone known to the node.
