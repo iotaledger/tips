@@ -1164,16 +1164,21 @@ components:
       value:
         data:
           name: HORNET
-          version: 0.5.3
+          version: 0.6.0-alpha
           isHealthy: true
-          networkId: alphanet1
-          bech32HRP: iota
-          latestMilestoneIndex: 25211
-          confirmedMilestoneIndex: 25211
+          networkId: testnet7
+          bech32HRP: atoi
+          minPowScore: 4000
+          messagesPerSecond: 17
+          referencedMessagesPerSecond: 16.8
+          referencedRate: 98.82352941176471
+          latestMilestoneTimestamp: 1617802102
+          latestMilestoneIndex: 480
+          confirmedMilestoneIndex: 480
           pruningIndex: 0
           features:
             - PoW
-          minPowScore: 4000.0
+
     get-tips-response-example:
       value:
         data:
@@ -2194,6 +2199,25 @@ components:
             bech32HRP:
               type: string
               description: Tells whether the node supports mainnet or testnet addresses. Value `iota` indicates that the node supports mainnet addresses. Value `atoi` indicates that the node supports testnet addresses.
+            minPowScore:
+              description: The Proof-of-Work difficulty for a message to be sent over the network to mitigate spam.
+              type: number
+              format: float
+            messagesPerSecond:
+              description: Messages per second.
+              type: number
+              format: float
+            referencedMessagesPerSecond:
+              description: Referenced messages per second.
+              type: number
+              format: float
+            referencedRate:
+              description: Referenced rate of messages per second.
+              type: number
+              format: float
+            latestMilestoneTimestamp:
+              type: integer
+              description: The timestamp of the most recent seen milestone.
             latestMilestoneIndex:
               type: integer
               description: The most recent milestone known to the node.
@@ -2208,10 +2232,6 @@ components:
               type: array
               items:
                 type: string
-            minPowScore:
-              description: The Proof-of-Work difficulty for a message to be sent over the network to mitigate spam.
-              type: number
-              format: float
           required:
             - name
             - version
