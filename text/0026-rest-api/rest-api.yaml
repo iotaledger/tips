@@ -2238,11 +2238,15 @@ components:
             - isHealthy
             - networkId
             - bech32HRP
+            - minPowScore
+            - messagesPerSecond
+            - referencedMessagesPerSecond
+            - referencedRate
+            - latestMilestoneTimestamp
             - latestMilestoneIndex
             - confirmedMilestoneIndex
             - pruningIndex
             - features
-            - minPowScore
       required:
         - data
 
