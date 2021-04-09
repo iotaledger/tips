@@ -1168,7 +1168,7 @@ components:
           isHealthy: true
           networkId: testnet7
           bech32HRP: atoi
-          minPowScore: 4000
+          minPoWScore: 4000
           messagesPerSecond: 17
           referencedMessagesPerSecond: 16.8
           referencedRate: 98.82352941176471
@@ -1387,32 +1387,37 @@ components:
     get-message-by-id-milestone-response-example:
       value:
         data:
-          networkId: '9466822412763346725'
+          networkId: '14379272398717627559'
           parentMessageIds:
-            - 1861f88721e76f7f291a37c849264e71c766908b6f4057d440582f4290ad2074
-            - 406328b8d66ac0dd01d8d0c5413a1c34c2135c2c9e50f683a066a13dad2b4f20
-            - 96950fefe3c106e8f68e8eced1239dc0d0dec87ce9ea46158c742ad90dbb9b7a
-            - b5b5f72d4221ff1cf45237e0824ee6f44a5ccab32c8d9d1ecbce9aba6361a3c5
-            - f7708a83118a69d21c2cb438dc3d2c8237f20efb289ab58eb070c6482815c619
+            - 23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b
+            - 242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7
+            - 2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1
+            - 438a14a651b8872896b4e57c92041e8962ca7d78cc38c774534020feefeff31a
+            - 73c90398fb548a4410b49264e182e58a91baeecaa949cbfc1d01a9066cbd9935
+            - b9adfdc1effd3242b5c1d7b6df43d4b53e58943e820ced89c7dd39b8b52fcef0
           payload:
             type: 1
-            index: 61986
-            timestamp: 1613036231
+            index: 16241
+            timestamp: 1617959712
             parentMessageIds:
-              - 1861f88721e76f7f291a37c849264e71c766908b6f4057d440582f4290ad2074
-              - 406328b8d66ac0dd01d8d0c5413a1c34c2135c2c9e50f683a066a13dad2b4f20
-              - 96950fefe3c106e8f68e8eced1239dc0d0dec87ce9ea46158c742ad90dbb9b7a
-              - b5b5f72d4221ff1cf45237e0824ee6f44a5ccab32c8d9d1ecbce9aba6361a3c5
-              - f7708a83118a69d21c2cb438dc3d2c8237f20efb289ab58eb070c6482815c619
+              - 23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b
+              - 242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7
+              - 2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1
+              - 438a14a651b8872896b4e57c92041e8962ca7d78cc38c774534020feefeff31a
+              - 73c90398fb548a4410b49264e182e58a91baeecaa949cbfc1d01a9066cbd9935
+              - b9adfdc1effd3242b5c1d7b6df43d4b53e58943e820ced89c7dd39b8b52fcef0
             inclusionMerkleProof: 0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8
+            nextPoWScore: 0
+            nextPoWScoreMilestoneIndex: 0
             publicKeys:
               - 7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a
               - e468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6
             receipt:
             signatures:
-              - 971f23b0b5e508eaa37fdbbaed85d73f36c511900d3b4fb8223dbcf3a3a32d3eae5e9344342344372866f251ffdfeb26f58a1c1c16929a0cdaf9e8ae718d8e0c
-              - e4785d69c69605257326741a45398604aeb73725700d8d3590e186f55aa20101ea8ca3e1b7b194423cc8773c341820234028221637a0800548c203f1c7d8cb00
-          nonce: '10760600709664144612'
+              - a642e96f71094f8523790131481e0fbfdc8265caa8e4b08793628b286065c317a5595d56edb5e918b24d4ee749768a2b5ae6010e751bf31f0d8145a390b82c00
+              - 4bdfa2684bed01ce3a9a630b0688e868c290b8524c679daa79cb9d9f0f2aa5c57cf00a0fc694d1fed3696053ffa9bba6154ccb1564532cd49f807ba77de9a70c
+          nonce: '1229782938247321090'
+
     get-message-by-id-indexation-response-example:
       value:
         data:
@@ -1884,6 +1889,10 @@ components:
         inclusionMerkleProof:
           type: string
           description: 256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone.
+        nextPoWScore:
+          type: number
+        nextPoWScoreMilestoneIndex:
+          type: number
         publicKeys:
           type: array
           items:
@@ -1900,6 +1909,8 @@ components:
         - timestamp
         - parents
         - inclusionMerkleProof
+        - nextPoWScore
+        - nextPoWScoreMilestoneIndex
         - publicKeys
         - signatures
 
@@ -2199,7 +2210,7 @@ components:
             bech32HRP:
               type: string
               description: Tells whether the node supports mainnet or testnet addresses. Value `iota` indicates that the node supports mainnet addresses. Value `atoi` indicates that the node supports testnet addresses.
-            minPowScore:
+            minPoWScore:
               description: The Proof-of-Work difficulty for a message to be sent over the network to mitigate spam.
               type: number
               format: float
@@ -2238,7 +2249,7 @@ components:
             - isHealthy
             - networkId
             - bech32HRP
-            - minPowScore
+            - minPoWScore
             - messagesPerSecond
             - referencedMessagesPerSecond
             - referencedRate
