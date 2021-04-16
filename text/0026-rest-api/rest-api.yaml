@@ -1625,31 +1625,31 @@ components:
     get-peer-response-example:
       value:
         data:
-          - id: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
-            multiAddresses:
-              - "/dns/abc.com/tcp/15602"
-            alias: abc
-            relation: known
-            connected: true
-            gossip:
-              heartbeat:
-                solidMilestoneIndex: 61527
-                prunedMilestoneIndex: 61200
-                latestMilestoneIndex: 61527
-                connectedNeighbors: 5
-                syncedNeighbors: 7
-              metrics:
-                newMessages: 3799
-                knownMessages: 554
-                receivedMessages: 4370
-                receivedMessageRequests: 0
-                receivedMilestoneRequests: 1
-                receivedHeartbeats: 1
-                sentMessages: 6
-                sentMessageRequests: 4325
-                sentMilestoneRequests: 31
-                sentHeartbeats: 9
-                droppedPackets: 0
+          id: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
+          multiAddresses:
+            - "/dns/abc.com/tcp/15602"
+          alias: abc
+          relation: known
+          connected: true
+          gossip:
+            heartbeat:
+              solidMilestoneIndex: 61527
+              prunedMilestoneIndex: 61200
+              latestMilestoneIndex: 61527
+              connectedNeighbors: 5
+              syncedNeighbors: 7
+            metrics:
+              newMessages: 3799
+              knownMessages: 554
+              receivedMessages: 4370
+              receivedMessageRequests: 0
+              receivedMilestoneRequests: 1
+              receivedHeartbeats: 1
+              sentMessages: 6
+              sentMessageRequests: 4325
+              sentMilestoneRequests: 31
+              sentHeartbeats: 9
+              droppedPackets: 0
 
     post-peer-request-example:
       value:
@@ -1659,31 +1659,31 @@ components:
     post-peer-response-example:
       value:
         data:
-          - id: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
-            multiAddresses:
-              - "/dns/abc.com/tcp/15602"
-            alias: abc
-            relation: known
-            connected: true
-            gossip:
-              heartbeat:
-                solidMilestoneIndex: 61527
-                prunedMilestoneIndex: 61200
-                latestMilestoneIndex: 61527
-                connectedNeighbors: 5
-                syncedNeighbors: 7
-              metrics:
-                newMessages: 3799
-                knownMessages: 554
-                receivedMessages: 4370
-                receivedMessageRequests: 0
-                receivedMilestoneRequests: 1
-                receivedHeartbeats: 1
-                sentMessages: 6
-                sentMessageRequests: 4325
-                sentMilestoneRequests: 31
-                sentHeartbeats: 9
-                droppedPackets: 0
+          id: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
+          multiAddresses:
+            - "/dns/abc.com/tcp/15602"
+          alias: abc
+          relation: known
+          connected: true
+          gossip:
+            heartbeat:
+              solidMilestoneIndex: 61527
+              prunedMilestoneIndex: 61200
+              latestMilestoneIndex: 61527
+              connectedNeighbors: 5
+              syncedNeighbors: 7
+            metrics:
+              newMessages: 3799
+              knownMessages: 554
+              receivedMessages: 4370
+              receivedMessageRequests: 0
+              receivedMilestoneRequests: 1
+              receivedHeartbeats: 1
+              sentMessages: 6
+              sentMessageRequests: 4325
+              sentMilestoneRequests: 31
+              sentHeartbeats: 9
+              droppedPackets: 0
 
   schemas:
 
