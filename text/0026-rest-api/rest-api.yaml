@@ -1492,7 +1492,7 @@ components:
             - migratedAt: 1000
               final: false
               funds:
-                - tailTransactionHash: NVDARJVAYEIFDKTBFQRLI9VLTVBWCJHRYBVKWPPGJAATBPAUTE9LPZQSH9UOQEYONICHVNRAFCXA99999
+                - tailTransactionHash: e0ce1933a900d02e0a43e2ba4e922d1a706a36a117ce1eb9ad0a74d39ee722c41b00cd227232efd76f5997e91bf8000000
                   address:
                     type: 0
                     address: 5eec99d6ee4ba21aa536c3364bbf2b587cb98a7f2565b75d948b10083e2143f8
