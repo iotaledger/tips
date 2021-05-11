@@ -97,7 +97,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="0001-protocol-messages/0001-protocol-messages.html">0001-protocol-messages</a></li><li class="chapter-item expanded "><a href="0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -138,13 +138,15 @@
                         </a>
                         
                         
+                        
+
                     </div>
                 </div>
 
                 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -165,7 +167,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#iota-protocol-rfcs" id="iota-protocol-rfcs">IOTA Protocol RFCs</a></h1>
+                        <h1 id="iota-protocol-rfcs"><a class="header" href="#iota-protocol-rfcs">IOTA Protocol RFCs</a></h1>
 <blockquote>
 <p>This process is modelled after the approach taken by the Rust programming
 language, see <a href="https://github.com/rust-lang/rfcs">Rust RFC repository</a> for more information. Also see
@@ -178,7 +180,7 @@ is to organize work between the different developers affiliated with the IOTA
 Foundation, and the wider open source community. We want to vet the ideas early
 on, get and give feedback, and only then start the implementation once the
 biggest questions are taken care of.</p>
-<h2><a class="header" href="#what-is-substantial-and-when-to-follow-this-process" id="what-is-substantial-and-when-to-follow-this-process">What is <em>substantial</em> and when to follow this process</a></h2>
+<h2 id="what-is-substantial-and-when-to-follow-this-process"><a class="header" href="#what-is-substantial-and-when-to-follow-this-process">What is <em>substantial</em> and when to follow this process</a></h2>
 <p>You need to follow this process if you want to propose changes that affect the IOTA protocol. These are changes that would affect any underlying node software.</p>
 <ul>
 <li>Anything that constitutes a breaking change to the protocol that would have to be adopted by each node software operating on the network in order to keep participating in the network.</li>
@@ -188,7 +190,7 @@ biggest questions are taken care of.</p>
 <ul>
 <li>Changes to the individual node software implementations - if that is the case, follow the IRI and Bee RFC processes.</li>
 </ul>
-<h2><a class="header" href="#the-workflow-of-the-rfc-process" id="the-workflow-of-the-rfc-process">The workflow of the RFC process</a></h2>
+<h2 id="the-workflow-of-the-rfc-process"><a class="header" href="#the-workflow-of-the-rfc-process">The workflow of the RFC process</a></h2>
 <p>To make a change to the IOTA protocol, one must first get the RFC
 merged into the RFC repository as a markdown file. At that point the RFC is
 &quot;active&quot; and may be implemented with the goal of eventual inclusion into any node software. </p>
@@ -249,7 +251,7 @@ a decision is reached.</li>
 closed. However, sometimes substantial new arguments or ideas are raised, the
 FCP is canceled, and the RFC goes back into development mode.</li>
 </ul>
-<h2><a class="header" href="#the-rfc-life-cycle" id="the-rfc-life-cycle">The RFC life-cycle</a></h2>
+<h2 id="the-rfc-life-cycle"><a class="header" href="#the-rfc-life-cycle">The RFC life-cycle</a></h2>
 <p>Once an RFC becomes active then authors may implement it and submit the feature
 as a pull request to the repo. Being &quot;active&quot; is not a rubber stamp and in
 particular still does not mean the feature will ultimately be merged. It does
@@ -272,7 +274,7 @@ the document.</p>
 <p>An RFC that makes it through the entire process to implementation is considered
 &quot;implemented&quot; and is moved to the &quot;implemented&quot; folder. An RFC that fails after
 becoming active is &quot;rejected&quot; and moves to the &quot;rejected&quot; folder.</p>
-<h2><a class="header" href="#reviewing-rfcs" id="reviewing-rfcs">Reviewing RFCs</a></h2>
+<h2 id="reviewing-rfcs"><a class="header" href="#reviewing-rfcs">Reviewing RFCs</a></h2>
 <p>While the RFC pull request is up, the sub-team may schedule meetings with the
 author and/or relevant stakeholders to discuss the issues in greater detail,
 and in some cases the topic may be discussed at a sub-team meeting. In either
@@ -283,7 +285,7 @@ will regularly issue decisions. When a decision is made, the RFC pull request
 will either be merged or closed. In either case, if the reasoning is not clear
 from the discussion in thread, the sub-team will add a comment describing the
 rationale for the decision.</p>
-<h2><a class="header" href="#implementing-an-rfc" id="implementing-an-rfc">Implementing an RFC</a></h2>
+<h2 id="implementing-an-rfc"><a class="header" href="#implementing-an-rfc">Implementing an RFC</a></h2>
 <p>Some accepted RFCs represent vital features that need to be implemented right
 away. Other accepted RFCs can represent features that can wait until some
 arbitrary developer feels like doing the work. Every accepted RFC has an
@@ -296,7 +298,7 @@ review after the RFC has been accepted.</p>
 <p>If you are interested in working on the implementation for an &quot;active&quot; RFC, but
 cannot determine if someone else is already working on it, feel free to ask
 (e.g. by leaving a comment on the associated issue).</p>
-<h2><a class="header" href="#rfc-postponement" id="rfc-postponement">RFC postponement</a></h2>
+<h2 id="rfc-postponement"><a class="header" href="#rfc-postponement">RFC postponement</a></h2>
 <p>Some RFC pull requests are tagged with the &quot;postponed&quot; label when they are
 closed (as part of the rejection process). An RFC closed with &quot;postponed&quot; is
 marked as such because we want neither to think about evaluating the proposal
@@ -310,132 +312,28 @@ informal first round of evaluation, namely the round of &quot;do we think we wou
 ever possibly consider making this change, as outlined in the RFC pull request,
 or some semi-obvious variation of it.&quot; (When the answer to the latter question
 is &quot;no&quot;, then the appropriate response is to close the RFC, not postpone it.)</p>
-<h2><a class="header" href="#help-this-is-all-too-informal" id="help-this-is-all-too-informal">Help! This is all too informal</a></h2>
+<h2 id="help-this-is-all-too-informal"><a class="header" href="#help-this-is-all-too-informal">Help! This is all too informal</a></h2>
 <p>The process is intended to be as lightweight as reasonable for the present
 circumstances. As usual, we are trying to let the process be driven by
 consensus and community norms, not impose more structure than necessary.</p>
-<h1><a class="header" href="#contributions-license-copyright" id="contributions-license-copyright">Contributions, license, copyright</a></h1>
+<h1 id="contributions-license-copyright"><a class="header" href="#contributions-license-copyright">Contributions, license, copyright</a></h1>
 <p>This Protocol network library is licensed under Apache License, Version 2.0,
 (<a href="https://github.com/iotaledger/bee-rfcs/blob/master/LICENSE-APACHE">LICENSE-APACHE</a> or http://www.apache.org/licenses/LICENSE-2.0). Any
 contribution intentionally submitted for inclusion in the work by you, as
 defined in the Apache-2.0 license, shall be licensed as above, without any
 additional terms or conditions.</p>
-<ul>
-<li>Feature name:<code>New Protocol Messages</code></li>
-<li>Start date: 2019-12-19</li>
-<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/0001">iotaledger/protocol-rfcs#0001</a></li>
-<li>Node software implementation issues: 
-<ul>
-<li><a href="https://github.com/iotaledger/iri/issues/1072">iotaledger/iri#1072</a></li>
-</ul>
-</li>
-</ul>
-<h1><a class="header" href="#summary" id="summary">Summary</a></h1>
-<p>Defines the changes that were introduced during the network rewrite. <a href="https://github.com/iotaledger/iri/issues/1072">iotaledger/iri#1072</a>. This is mainly the introduction of new TLV (type-length-value) messages. A header was added to each message, allowing us to create different message types and support different versions of the protocol. A handshake message was also introduced to help establish manageable connections with neighbors.</p>
-<p>This RFC also defines the STING protocol introduced by the Hornet team. It separates between transaction requests and the transactions, allows to request milestones by index, and introduces the concept of heartbeats.</p>
-<p>Here is a table summarizing all the new message types. The 3-6 types are part of STING:</p>
-<table><thead><tr><th>Type #</th><th>Message Type</th></tr></thead><tbody>
-<tr><td>1</td><td>Handshake</td></tr>
-<tr><td>2</td><td>Legacy Transaction Gossip</td></tr>
-<tr><td>3</td><td>Milestone Request</td></tr>
-<tr><td>4</td><td>Transaction</td></tr>
-<tr><td>5</td><td>Transaction Request</td></tr>
-<tr><td>6</td><td>Heartbeat</td></tr>
-</tbody></table>
-<h1><a class="header" href="#motivation" id="motivation">Motivation</a></h1>
-<p><em><strong>The network rewrite change</strong></em></p>
-<ul>
-<li>
-<p>Ability to kick-out a compromised/malfunctioning neighbor while preserving overall architecture performance. This means that a malfunctioning neighbor will only affect its own relationship with the node and will not affect how the node  treats other neighbors.</p>
-</li>
-<li>
-<p>Drop support for UDP which is in practice slow (due to lack of congestion control) and not so reliable. Only utilize TCP.</p>
-</li>
-<li>
-<p>Enabling possibility to enforce global and per neighbor rate limits in both ingress and egress directions. </p>
-</li>
-<li>
-<p>Enabling prioritization of message types.</p>
-</li>
-<li>
-<p>Enabling the addition of new message types and versioning the protocol. Thus paving the way for STING.</p>
-</li>
-</ul>
-<p><em><strong>STING</strong></em></p>
-<ul>
-<li>Allow for faster syncing by
-<ul>
-<li>Separating between requests and transaction data.</li>
-<li>Allowing to request specific milestones by index.</li>
-<li>Sharing between nodes information on the milestones in their databases via heartbeats.</li>
-</ul>
-</li>
-<li>Eliminates fragmentation of request messages. In the legacy gossip messages exceeded TCP's MTU of 1,500 bytes, meaning all gossip transmissions were fragmented by TCP to two packets. Now, at least the transaction requests will not be fragmented. Transaction messages are still fragmented unfortunately.</li>
-</ul>
-<h1><a class="header" href="#detailed-design" id="detailed-design">Detailed design</a></h1>
-<h2><a class="header" href="#tlv-messages---protocol-version-1" id="tlv-messages---protocol-version-1"><strong>TLV Messages - Protocol Version 1</strong></a></h2>
-<p>The network rewrite introduces a new breaking protocol between nodes which works with type-length-value (TLV) denoted messages. Meaning that each sent message is composed of a header followed by the message itself.</p>
-<table><thead><tr><th>Order</th><th>Name</th><th>Length (byte)</th><th>Desc</th></tr></thead><tbody>
-<tr><td>1</td><td>Header</td><td>3</td><td>Metadata of message</td></tr>
-<tr><td>2</td><td>Message</td><td>Var</td><td>Message itself</td></tr>
-</tbody></table>
-<h4><a class="header" href="#header" id="header">Header</a></h4>
-<p>Each message in the protocol is denoted by a 3 byte header:</p>
-<table><thead><tr><th>Order</th><th>Name</th><th>Length (byte)</th><th>Type</th><th>Desc</th></tr></thead><tbody>
-<tr><td>1</td><td>Type</td><td>1</td><td>byte</td><td>Type of message</td></tr>
-<tr><td>2</td><td>Length</td><td>2</td><td>uint16 (Big Endian)</td><td>Length of message (65 KB max)</td></tr>
-</tbody></table>
-<h4><a class="header" href="#handshake" id="handshake">Handshake</a></h4>
-<p>The handshake message is the first message which must be sent and received to/from a neighbor. It is used to construct the identity of the neighbor. If the advertised server socket port, coordinator address or mwm does not correspond to the receiving node’s configuration, the connection is dropped. It also sends its support for gossip protocol versions as a little-endian byte array. The nodes can use that information to know what message types can be transmitted to the peers.
-Each index of a bit in the byte array corresponds to a supported gossip protocol version. If the bit on that index is turned on, then the corresponding protocol version is supported by the node. The LSB of the first byte has index 1, the LSB of the second byte has index 9, the LSB of the third byte has index 17, and so on.
-For example, <code>[01101110, 01010001]</code> denotes that this node supports protocol versions 2, 3, 4, 6, 7, 9, 13 and 15. Thus, the length of the byte array depends on the number of protocol versions supported. Thanks to the <code>length</code> field given in the header, the peer can parse the array correctly.</p>
-<table><thead><tr><th>Order</th><th>Description</th><th>Type</th><th>Length (bytes)</th></tr></thead><tbody>
-<tr><td>1</td><td>Neighbor's server socket port number, range 1024-65535</td><td>uint16 (Big Endian)</td><td>2</td></tr>
-<tr><td>2</td><td>Timestamp in milliseconds since Unix epoch - when the handshake packet was constructed. The node uses it to calculate the latency to/from the neighbor</td><td>uint64 (Big Endian)</td><td>8</td></tr>
-<tr><td>3</td><td>Neighbor's used coordinator address. Encoded with 5 trits in a byte</td><td>byte array (<code>t5b1</code>)</td><td>49</td></tr>
-<tr><td>4</td><td>Own used minimum weight magnitude</td><td>byte</td><td>1</td></tr>
-<tr><td>5</td><td>Supported protocol versions</td><td>byte array (Little Endian)</td><td>1 - 32</td></tr>
-</tbody></table>
-<h4><a class="header" href="#transaction-gossip" id="transaction-gossip">Transaction Gossip</a></h4>
-<p>Contains the transaction data and a hash of a requested transaction. The data is encoded with 5 trits in a byte (<code>t5b1</code>). If the requested hash corresponds to the hash of the transaction data, the receiving node is instructed to send back a random tip.
-The total size of this message varies between 341-1653 bytes due to signature message fragment compaction.</p>
-<h5><a class="header" href="#signature-message-fragment-compaction" id="signature-message-fragment-compaction">Signature Message Fragment Compaction</a></h5>
-<p>The byte encoded transaction data is truncated by removing all suffix 0 bytes (9 trytes) from the signature message fragment before transmission. This can reduce the size up to 81.7%. Spam transactions, however, can prevent this reduction easily by adding data at the end of the signature message fragment.</p>
-<table><thead><tr><th>Order</th><th>Description</th><th>Type</th><th>Length (bytes)</th></tr></thead><tbody>
-<tr><td>1</td><td>Transaction Data</td><td>byte array (<code>t5b1</code>)</td><td>292 - 1604</td></tr>
-<tr><td>2</td><td>Requested Hash</td><td>byte array (<code>t5b1</code>)</td><td>49</td></tr>
-</tbody></table>
-<h2><a class="header" href="#sting---protocol-version-2" id="sting---protocol-version-2">STING - Protocol Version 2</a></h2>
-<p>STING is an extension to the IOTA protocol. It breaks the transaction gossip into Transaction and Transaction Request messages. Besides that it adds the Milestone Request and Heartbeat messages.</p>
-<h4><a class="header" href="#milestone-request" id="milestone-request">Milestone Request</a></h4>
-<p>Requests a milestones by the index. Expects to receive in response the milestone bundle for the specified index.</p>
-<table><thead><tr><th>Order</th><th>Description</th><th>Type</th><th>Length (bytes)</th></tr></thead><tbody>
-<tr><td>1</td><td>Milestone Index</td><td>uint32 (Big Endian)</td><td>4</td></tr>
-</tbody></table>
-<h4><a class="header" href="#transaction" id="transaction">Transaction</a></h4>
-<p>The transaction trytes with a 5 trits to a byte encoding. Does not expect any message in return. The size remains dynamic to due to signature message compaction.</p>
-<table><thead><tr><th>Order</th><th>Description</th><th>Type</th><th>Length (bytes)</th></tr></thead><tbody>
-<tr><td>1</td><td>Transaction Data</td><td>byte array (<code>t5b1</code>)</td><td>292 - 1604</td></tr>
-</tbody></table>
-<h4><a class="header" href="#heartbeat" id="heartbeat">Heartbeat</a></h4>
-<p>Relays the node's last and first solid milestone indexes. The first one is the milestone where the node pruned at. If no pruning was done on the node it will start on the global snapshot milestone.  This is used to help a syncing node know what data their neighbor has.
-The heartbeat message will be sent to the peers every time the node solidifies on a new milestone or when pruning is done.</p>
-<table><thead><tr><th>Order</th><th>Description</th><th>Type</th><th>Length (bytes)</th></tr></thead><tbody>
-<tr><td>1</td><td>Last solid milestone index</td><td>uint32 (Big Endian)</td><td>4</td></tr>
-<tr><td>2</td><td>First solid milestone index</td><td>unit32 (Big Endian)</td><td>4</td></tr>
-</tbody></table>
-<ul>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><ul>
 <li>Feature name: <code>white-flag</code></li>
 <li>Start date: 2020-03-06</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/5">iotaledger/protocol-rfcs#0005</a></li>
 </ul>
-<h1><a class="header" href="#summary-1" id="summary-1">Summary</a></h1>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>This RFC is part of a set of protocol changes, <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, aiming at improving the
 network before <a href="https://coordicide.iota.org/">Coordicide</a> is complete.</p>
 <p>The feature presented in this RFC, White Flag, allows milestones to confirm conflicting bundles by enforcing
 deterministic ordering of the Tangle and applying only the first bundle(s) that does not violate the ledger state.</p>
 <p>The content of this RFC is based on <a href="https://iota.cafe/t/conflict-white-flag-mitigate-conflict-spamming-by-ignoring-conflicts/233">Conflict white flag: Mitigate conflict spamming by ignoring conflicts</a>.</p>
-<h1><a class="header" href="#motivation-1" id="motivation-1">Motivation</a></h1>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
 <ul>
 <li>Eliminates the <a href="https://iota.cafe/t/conflict-spamming-attack/232">Conflict spamming attack</a>;</li>
 <li>As conflicts are ignored in the balance computation, they do not need to be considered during tip selection of the
@@ -444,7 +342,7 @@ nodes allowing much easier tip selection algorithms leading to increased TPS;</l
 require re-attaching leading to increased CTPS;</li>
 <li>Does not come with added computation complexity by integrating nicely into already existing algorithms;</li>
 </ul>
-<h1><a class="header" href="#detailed-design-1" id="detailed-design-1">Detailed design</a></h1>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
 <p>First, let us define what it means for a bundle A to be:</p>
 <ul>
 <li>referenced (indirectly or directly) by bundle B: A is contained in the past cone of B;</li>
@@ -463,7 +361,7 @@ already been confirmed and all the referenced bundles have been validated. A bun
 syntactically valid and its signatures are valid. In the event that an invalid bundle was encountered in the
 confirmation traversal, a node's expected behaviour would be to completely stop operations - and log the error - as it
 would mean the coordinator confirmed something it should not have.</strong></p>
-<h2><a class="header" href="#deterministically-ordering-the-tangle" id="deterministically-ordering-the-tangle">Deterministically ordering the Tangle</a></h2>
+<h2 id="deterministically-ordering-the-tangle"><a class="header" href="#deterministically-ordering-the-tangle">Deterministically ordering the Tangle</a></h2>
 <p>When a new milestone is broadcasted to the network, nodes will need to order the set of bundles it confirms.</p>
 <p>A subset of the Tangle can be ordered depending on many of its properties (e.g. alphanumeric sort of the bundle hashes);
 however, to compute the ledger state, a graph traversal has to be done so it can be used to order the bundles in a
@@ -477,13 +375,13 @@ the topological ordering generated by a post-order <a href="https://en.wikipedia
 starting from a milestone and by going first through <code>trunk</code> bundle, then <code>branch</code> bundle and finally current bundles.
 Since only a subset of bundles is considered, the stopping condition of this DFS is reaching bundles that are already
 confirmed by another milestone.</p>
-<h2><a class="header" href="#applying-first-bundles-that-does-not-violate-the-ledger-state" id="applying-first-bundles-that-does-not-violate-the-ledger-state">Applying first bundle(s) that does not violate the ledger state</a></h2>
+<h2 id="applying-first-bundles-that-does-not-violate-the-ledger-state"><a class="header" href="#applying-first-bundles-that-does-not-violate-the-ledger-state">Applying first bundle(s) that does not violate the ledger state</a></h2>
 <p>If a conflict is occurring in the set of bundles confirmed by a milestone, nodes have to apply the first - with regards
 to the order previously proposed - of the conflicting bundles to the ledger and ignore all the others.</p>
 <p>Once a bundle is marked as ignored, this is final and cannot be changed by a later milestone.</p>
 <p>Since the ledger state is maintained from one milestone to another, a bundle conflicting with a bundle already confirmed
 by a previous milestone would also obviously be ignored.</p>
-<h2><a class="header" href="#pseudo-code" id="pseudo-code">Pseudo-code</a></h2>
+<h2 id="pseudo-code"><a class="header" href="#pseudo-code">Pseudo-code</a></h2>
 <p>The following algorithm describes the process of updating the ledger state which is usually triggered by the arrival of
 a new milestone confirming many new bundles.</p>
 <p>Pseudo-code means that implementation details such as types, parameters, ..., are not important but that the logic has
@@ -527,7 +425,7 @@ database. They often come from a snapshot file and allow a node to solidify with
 The hash of the genesis transaction is also a solid entry point.</li>
 <li><code>confirmation_index</code> is the index of the milestone that confirmed the bundle.</li>
 </ul>
-<h3><a class="header" href="#example" id="example">Example</a></h3>
+<h3 id="example"><a class="header" href="#example">Example</a></h3>
 <p>In this example, there are 26 bundles labeled from <code>A</code> to <code>Z</code>.
 The set of red bundles <code>{A, B, C, E, F, H}</code> is confirmed by milestone <code>H</code>.
 The set of purple bundles <code>{D, G, J, L, M, N, K, I, O, S, R, V}</code> is confirmed by milestone <code>V</code>.
@@ -538,7 +436,7 @@ The set of blue bundles <code>{Q, U, X, Y, Z, W, T, P}</code> is confirmed by an
 <p><img src="0005-white-flag/img/tangle-conflict.svg" alt="" /></p>
 <p>Here, bundle <code>G</code> and bundle <code>O</code> both confirmed by milestone <code>V</code> are conflicting. Since in the topological order just
 produced, <code>G</code> appears before <code>O</code>, <code>G</code> is applied to the ledger and <code>O</code> is ignored.</p>
-<h1><a class="header" href="#drawbacks" id="drawbacks">Drawbacks</a></h1>
+<h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <ul>
 <li>The ledger state is now only well-defined at milestones, meaning that we have to wait until each milestone is
 issued in order to confirm a spend;</li>
@@ -547,13 +445,13 @@ now be saved as part of the consensus set of the Tangle;</li>
 <li>To prove that a specific (non-milestone) transaction is valid, it is no longer sufficient to just provide the &quot;path&quot;
 to its confirming milestone, but instead all transactions in its past cone.</li>
 </ul>
-<h1><a class="header" href="#rationale-and-alternatives" id="rationale-and-alternatives">Rationale and alternatives</a></h1>
+<h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
 <p>The main alternative to White Flag is what has been done so far i.e. not allowing conflicting bundles confirmation.
 As explained in this RFC, this comes with added complexity when performing a Tip Selection Algorithm because a node has
 to constantly check for ledger inconsistencies.</p>
 <p>As part of Chrysalis and coupled with an adequate Tip Selection Algorithm, White Flag is an improvement of the network
 by allowing a potential increase of TPS/CTPS.</p>
-<h1><a class="header" href="#unresolved-questions" id="unresolved-questions">Unresolved questions</a></h1>
+<h1 id="unresolved-questions"><a class="header" href="#unresolved-questions">Unresolved questions</a></h1>
 <p>A node consumes and produces snapshot files and bases the computation of its ledger state on them. In the current
 network, if one of these files was tampered with and fed to a node, it would eventually lead to an invalid ledger state
 where a bundle confirmed by a milestone would actually be a double spend. This situation would be detected by the node
@@ -562,15 +460,15 @@ milestones but ignored by the node, the fake snapshot then going unnoticed. The 
 more corrupted and the view of the balances completely wrong, errors just accumulating over time. The need for a
 snapshot verification mechanism is then amplified by the implementation of White Flag. This mechanism being out of the
 scope of this RFC, it will be described in another RFC.</p>
-<ul>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><ul>
 <li>Feature name: <code>uniform-random-tip-selection</code></li>
 <li>Start date: 2020-03-09</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/0008">iotaledger/protocol-rfcs#0008</a></li>
 </ul>
-<h1><a class="header" href="#summary-2" id="summary-2">Summary</a></h1>
+<h1 id="summary-1"><a class="header" href="#summary-1">Summary</a></h1>
 <p>Weighted Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase message throughput.
 The algorithm selects tips which are non-lazy to maximize confirmation rate.</p>
-<h1><a class="header" href="#motivation-2" id="motivation-2">Motivation</a></h1>
+<h1 id="motivation-1"><a class="header" href="#motivation-1">Motivation</a></h1>
 <p>Because of the <code>white-flag</code> confirmation algorithm, it is no longer necessary to perform complex
 tip-selection which evaluates ledger mutations while walking. Therefore, a more simple, better 
 performing algorithm can be used to select tips, which in turn increases overall message throughput.</p>
@@ -578,7 +476,7 @@ performing algorithm can be used to select tips, which in turn increases overall
 Non-lazy in this context means that a tip does not attach to a cone of messages which is too far
 in the past. Such a cone is likely to be already confirmed and does not contribute to the
 rate of newly confirmed messages when a milestone is issued.</p>
-<h1><a class="header" href="#detailed-design-2" id="detailed-design-2">Detailed design</a></h1>
+<h1 id="detailed-design-1"><a class="header" href="#detailed-design-1">Detailed design</a></h1>
 <p>Definitions:</p>
 <ul>
 <li><code>Direct Approvers</code> - The set of messages which directly approve a given message.</li>
@@ -601,11 +499,11 @@ Note that the red marked milestone is also a <code>Confirmed Root Message</code>
 relevant in relation to the recent parts of the Tangle. The current <code>BMD</code> for mainnet nodes is 15 milestones, 
 which means that messages of which their <code>OMRSI</code> in relation to the <code>LSMI</code> is more than 15, are &quot;below max depth&quot;.</li>
 </ul>
-<h3><a class="header" href="#omrsi--ymrsi-example" id="omrsi--ymrsi-example">OMRSI / YMRSI example</a></h3>
+<h3 id="omrsi--ymrsi-example"><a class="header" href="#omrsi--ymrsi-example">OMRSI / YMRSI example</a></h3>
 <p>Given the blue PoV message, the <code>OMRSI</code> of it is milestone 1 and <code>YMRSI</code> milestone 2.
 Note that, here again, the milestones are also <code>Confirmed Root Messages</code>.
 <img src="0008-uniform-random-tip-selection/images/otrsi_ytrsi.PNG" alt="sdf" /></p>
-<h3><a class="header" href="#milestone-based-tip-scoring" id="milestone-based-tip-scoring">Milestone based tip scoring</a></h3>
+<h3 id="milestone-based-tip-scoring"><a class="header" href="#milestone-based-tip-scoring">Milestone based tip scoring</a></h3>
 <p>The milestone based scoring defines a tip's score by investigating the tip's relation to
 the cone it approves and previous issued  milestones.</p>
 <p>A tip can have one of 3 score states:</p>
@@ -660,7 +558,7 @@ func score(tip Tip) Score {
     return Score.NON_LAZY
 }
 </code></pre>
-<h3><a class="header" href="#random-tip-selection" id="random-tip-selection">Random Tip-Selection</a></h3>
+<h3 id="random-tip-selection"><a class="header" href="#random-tip-selection">Random Tip-Selection</a></h3>
 <p>A node should keep a set of non-lazy tips (score 2).
 Every time a node is asked to select tips to be approved, it will pick randomly from the set. 
 A node must not execute tip-selection if it is not synchronized.</p>
@@ -668,17 +566,17 @@ A node must not execute tip-selection if it is not synchronized.</p>
 and improves synchronization speed. A tip is removed from the tips set if <code>X</code> amount of direct
 approvers are reached or if a certain amount of time <code>T</code> passed. 
 It is recommended to use <code>X</code> = 2 and <code>T</code> = 3  but the threshold should be configurable.</p>
-<h3><a class="header" href="#purpose-of-semi-lazy-tips" id="purpose-of-semi-lazy-tips">Purpose Of Semi-Lazy Tips</a></h3>
+<h3 id="purpose-of-semi-lazy-tips"><a class="header" href="#purpose-of-semi-lazy-tips">Purpose Of Semi-Lazy Tips</a></h3>
 <p>Semi-Lazy tips are not eligible for tip-selection, but the coordinator node may implement a tip selection algorithm
 that confirms semi-lazy tips. Semi-lazy tips will usually be left behind, but parties interested in having them confirmed
 are incentivized to run spammers that will actively reduce the amount of semi-lazy tips eligible for coordinator's tip selection. 
 Given a coordinator that chooses semi-lazy tips, running such spammers may get those messages confirmed before
 they become lazy.</p>
-<h1><a class="header" href="#drawbacks-1" id="drawbacks-1">Drawbacks</a></h1>
+<h1 id="drawbacks-1"><a class="header" href="#drawbacks-1">Drawbacks</a></h1>
 <p>Depending on when and how often <code>YMRSI</code>/<code>OMRSI</code> values are computed, this tip-selection could still
 have a slow runtime, as one would need to constantly walk down the Tangle to compute those
 values. However, smart caching might resolve this issue. </p>
-<h1><a class="header" href="#rationale-and-alternatives-1" id="rationale-and-alternatives-1">Rationale and alternatives</a></h1>
+<h1 id="rationale-and-alternatives-1"><a class="header" href="#rationale-and-alternatives-1">Rationale and alternatives</a></h1>
 <p>The previous tip-selection was written in accordance to the original IOTA whitepaper, as it also
 functioned as part of the consensus mechanism.
 However, relatively soon it became apparent that the cumulative weight computation was too heavy
@@ -688,22 +586,22 @@ node implementations at all.</p>
 which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide 
 a fast way to get tips to approve with one's own message.
 The only important thing is to disincentive lazy behaviour to be able to maximize confirmation rate.</p>
-<h1><a class="header" href="#unresolved-questions-1" id="unresolved-questions-1">Unresolved questions</a></h1>
-<h4><a class="header" href="#when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction" id="when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction">When to compute the score and <code>YMRSI</code>/<code>OMRSI</code> of a transaction?</a></h4>
+<h1 id="unresolved-questions-1"><a class="header" href="#unresolved-questions-1">Unresolved questions</a></h1>
+<h4 id="when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction"><a class="header" href="#when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction">When to compute the score and <code>YMRSI</code>/<code>OMRSI</code> of a transaction?</a></h4>
 <p>It is not yet clear when or how often the <code>YMRSI</code>/<code>OMRSI</code> values of a transaction should be updated.
 If the values are only computed once after a transaction became solid, the <code>YMRSI</code>/<code>OMRSI</code> might not
 resemble the true values, as subsequent milestones might confirm transactions within the same cone the
 given transaction approved.</p>
 <p>Currently, we suggest recomputing the values every time a new milestone solidifies. 
 Since different tips indirectly reference the same transactions, this computation can be optimized.</p>
-<ul>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><ul>
 <li>Feature name: <code>milestone-merkle-validation</code></li>
 <li>Start date: 2020-05-04</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/12">iotaledger/protocol-rfcs#0012</a></li>
 </ul>
-<h1><a class="header" href="#summary-3" id="summary-3">Summary</a></h1>
+<h1 id="summary-2"><a class="header" href="#summary-2">Summary</a></h1>
 <p>In the IOTA protocol, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC adds extra information to each milestone in the form of a Merkle tree hash, which allows nodes to explicitly validate their local view of the ledger state against the coordinator's. This mechanism further enables a simple cryptographic proof of inclusion for transactions confirmed by the particular milestone.</p>
-<h1><a class="header" href="#motivation-3" id="motivation-3">Motivation</a></h1>
+<h1 id="motivation-2"><a class="header" href="#motivation-2">Motivation</a></h1>
 <p>With the changes proposed in <a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md">RFC-0005 (white flag)</a>, milestones are allowed to reference conflicting transactions. These conflicts are then resolved by traversing the newly confirmed transactions in a global, deterministic order and applying the corresponding ledger state changes in that order. Conflicts or invalid transactions are ignored, but stay in the Tangle.
 This approach has considerable advantages in terms of network security (e.g. protection against <a href="https://iota.cafe/t/conflict-spamming-attack/232">conflict spamming attacks</a>) and network performance. However, a milestone no longer represents the inclusion state of all its referenced transactions, but only marks the order in which transactions are checked against the ledger state and then, if not violating, applied. This has two significant drawbacks:</p>
 <ul>
@@ -712,8 +610,8 @@ This approach has considerable advantages in terms of network security (e.g. pro
 </ul>
 <p>Note that the white flag proposal only changes the behavior of conflicting transactions. Zero value transactions can never conflict and are thus always included in tangle when they are first referenced by a milestone. As such, these transactions do not need to be considered by the RFC and their processing and inclusion proof remain unchanged.</p>
 <p>Where previously the structure of the Tangle alone was sufficient to address those issues, this RFC proposes to add the Merkle tree hash of all the valid (i.e. not ignored) newly confirmed bundles to the signed part of a milestone. This way, each IOTA node can check that the hash matches its local ledger state changes or provide a Merkle audit path for that milestone to prove the inclusion of a particular bundle.</p>
-<h1><a class="header" href="#detailed-design-3" id="detailed-design-3">Detailed design</a></h1>
-<h2><a class="header" href="#creating-a-milestone" id="creating-a-milestone">Creating a Milestone</a></h2>
+<h1 id="detailed-design-2"><a class="header" href="#detailed-design-2">Detailed design</a></h1>
+<h2 id="creating-a-milestone"><a class="header" href="#creating-a-milestone">Creating a Milestone</a></h2>
 <ul>
 <li>Perform tip selection to choose a branch and a trunk for the new milestone.</li>
 <li>Determine the topological order according to <a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md">RFC-0005</a> of the referenced bundles that are not yet confirmed by a previous milestone.</li>
@@ -725,22 +623,22 @@ This approach has considerable advantages in terms of network security (e.g. pro
 <li>Append H<sup>tri</sup> to the <code>signatureMessageFragment</code> field. For any depth d &lt; 26 the field provides sufficient space.</li>
 <li>Sign the head transaction and add its fragmented signature to the milestone bundle's zero value transactions.</li>
 </ul>
-<h2><a class="header" href="#milestone-validation" id="milestone-validation">Milestone validation</a></h2>
+<h2 id="milestone-validation"><a class="header" href="#milestone-validation">Milestone validation</a></h2>
 <ul>
 <li>Verify the signature of the milestone m.</li>
 <li>Construct the ordered list B<sup>tri</sup> of the tail transaction hashes of the not-ignored state-mutating bundles m confirms.</li>
 <li>Encode the hashes B<sup>tri</sup> into their binary representation B and compute H = MTH(B).</li>
 <li>Extract the first 384 trits after the Coordinator's Merkle tree information from the <code>signatureMessageFragment</code> field of the head transaction and verify that this matches the ternary encoded H.</li>
 </ul>
-<h2><a class="header" href="#proof-of-inclusion" id="proof-of-inclusion">Proof of inclusion</a></h2>
+<h2 id="proof-of-inclusion"><a class="header" href="#proof-of-inclusion">Proof of inclusion</a></h2>
 <ul>
 <li>Identify the confirming milestone m of the state-mutating input bundle b.</li>
 <li>Determine the ordered list of the not-ignored bundles m confirms.</li>
 <li>Compute the Merkle audit path of b with respect to the Merkle tree for this ordered list.</li>
 <li>Provide the audit path as well as m as proof of inclusion for b.</li>
 </ul>
-<h2><a class="header" href="#cryptographic-components" id="cryptographic-components">Cryptographic components</a></h2>
-<h3><a class="header" href="#merkle-hash-trees" id="merkle-hash-trees">Merkle hash trees</a></h3>
+<h2 id="cryptographic-components"><a class="header" href="#cryptographic-components">Cryptographic components</a></h2>
+<h3 id="merkle-hash-trees"><a class="header" href="#merkle-hash-trees">Merkle hash trees</a></h3>
 <p>This RFC uses a binary Merkle hash tree for efficient auditing. In general, any cryptographic hashing algorithm can be used for this. However, we propose to use <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-512</a>, as it provides a faster and more secure alternative to the widely used SHA-256/SHA-512. 
 In the following we define the Merkle tree hash (MTH) function that returns the hash of the root node of a Merkle tree:</p>
 <ul>
@@ -763,9 +661,9 @@ MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) ||
 </ul>
 <p>Note that the hash calculations for leaves and nodes differ. This is required to provide second preimage resistance: Without such a prefix, for a given input D an attacker could replace  two (or more) leaves with their corresponding aggregated node hash without changing the final value of MTH(D). This violates the fundamental assumption that, given MTH(D), it should be practically impossible to find a different input D' leading to the same value. Adding a simple prefix mitigates this issue, since now leaf and node hashes are computed differently and can no longer be interchanged.</p>
 <p>Note that we do not require the length of the input to be a power of two. However, its shape is still uniquely determined by the number of leaves.</p>
-<h3><a class="header" href="#merkle-audit-paths" id="merkle-audit-paths">Merkle audit paths</a></h3>
+<h3 id="merkle-audit-paths"><a class="header" href="#merkle-audit-paths">Merkle audit paths</a></h3>
 <p>A Merkle audit path for a leaf in a Merkle hash tree is the shortest list of additional nodes in a Merkle tree required to compute the Merkle tree hash for that tree. At each step towards the root, a node from the audit path is combined with a node computed so far. If the root computed from the audit path matches the Merkle tree hash, then the audit path is proof that the leaf exists in the tree.</p>
-<h2><a class="header" href="#example-1" id="example-1">Example</a></h2>
+<h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
 <p>Merkle tree with 7 leaves:</p>
 <ul>
 <li>input B:
@@ -803,29 +701,29 @@ MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) ||
     │  ┌ tx hash: GMNECTSPSLSPPEITCHBXSN9KZD9OZPVPOET9TVQJDZMFGN9SGPRPMUQARNXUVKMWAFAKLKWBZLWZCTPCP
     └──┴ leaf: 282f3dc49046480e118f697bc90d37f19efb633d6e92cb27e53c4a3c69735e6e66e698b810c20e8e7c4d5b5f0b04946fc779a0c817ee587c01f80e44d3e69f84
 </code></pre>
-<h1><a class="header" href="#drawbacks-2" id="drawbacks-2">Drawbacks</a></h1>
+<h1 id="drawbacks-2"><a class="header" href="#drawbacks-2">Drawbacks</a></h1>
 <ul>
 <li>With this proposal the <code>signatureMessageFragment</code> now consists of two parts: The audit path of the Coordinator's Merkle tree and the 128-tryte Merkle tree hash of the confirmed bundles. This approach limits the depth of the Coordinator's Merkle tree to at most 25 (instead of 27 without the hash). However, a depth of 25 still allows to issue a milestone every 30s for over 30 years or every 10s for 10 years.</li>
 <li>The computation of the Merkle tree hash of D<sub>n</sub> requires 2n-1 evaluations of the underlying hashing algorithm. This makes the milestone creation and validation computationally slightly more expensive.</li>
 </ul>
-<h1><a class="header" href="#rationale-and-alternatives-2" id="rationale-and-alternatives-2">Rationale and alternatives</a></h1>
+<h1 id="rationale-and-alternatives-2"><a class="header" href="#rationale-and-alternatives-2">Rationale and alternatives</a></h1>
 <p>It is a crucial security feature of the IOTA network that nodes are able to validate the issued milestones. As a result, if the Coordinator were to ever send an invalid milestone, such as one that references counterfeit transactions, the rest of the nodes would not accept it. In a pure implementation of <a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md">RFC-0005</a> this feature is lost and must be provided by external mechanisms.
 A Merkle tree hash provides an efficient, secure and well-established method to compress the information about the confirmed transactions in such a way, that they fit in the milestone transaction.</p>
 <p>In this context, it could also be possible to use an unsecured checksum (such as CRCs) of the bundles instead of a Merkle tree hash. However, the small benefit of faster computation times does no justify the potential security risks and attack vectors.</p>
 <p>The described approach is even in some sense backward compatible: As long as only the first d·81 trytes of the <code>signatureMessageFragment</code> are considered, the milestone processing remains unchanged.</p>
-<ul>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><ul>
 <li>Feature name: <code>binary-to-ternary-encoding</code></li>
 <li>Start date: 2020-06-08</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/15">iotaledger/protocol-rfcs#0015</a></li>
 </ul>
-<h1><a class="header" href="#summary-4" id="summary-4">Summary</a></h1>
+<h1 id="summary-3"><a class="header" href="#summary-3">Summary</a></h1>
 <p>In the IOTA protocol, a transaction is represented as ternary data. However, sometimes it is necessary to store binary data (e.g. the digest of a binary hash function) inside of a transaction. This requires the conversion of binary into ternary strings.
 The IOTA client libraries support the opposite conversion that encodes 5 trits as 1 byte (sometimes also referred to as <code>t5b1</code> encoding), which is used for network communication and in storage layers. This RFC describes the corresponding counterpart to encode 1 byte as 6 trits.</p>
-<h1><a class="header" href="#motivation-4" id="motivation-4">Motivation</a></h1>
+<h1 id="motivation-3"><a class="header" href="#motivation-3">Motivation</a></h1>
 <p>A byte is composed of 8 bits that can represent 2<sup>8</sup> = 256 different values. On the other hand, 6 trits can hold 3<sup>6</sup> = 729 values while 5 trits can hold 3<sup>5</sup> = 243 values. Therefore, the most memory-efficient way to encode one byte requires the use of 6 trits. Although there exist many potential encoding schemes to convert binary data into ternary, the proposed version has been designed to directly match the widely used <code>t5b1</code> encoding.</p>
 <p>It is important to note that the <code>b1t6</code> encoding presented in this RFC does not replace the current <code>t5b1</code> encoding (or its corresponding decoding): <code>t5b1</code> is for example used to store trytes in a binary database, while <code>b1t6</code> will be used to attach binary data to an IOTA transaction.</p>
-<h1><a class="header" href="#detailed-design-4" id="detailed-design-4">Detailed design</a></h1>
-<h3><a class="header" href="#bytes-to-trits" id="bytes-to-trits">Bytes to trits</a></h3>
+<h1 id="detailed-design-3"><a class="header" href="#detailed-design-3">Detailed design</a></h1>
+<h3 id="bytes-to-trits"><a class="header" href="#bytes-to-trits">Bytes to trits</a></h3>
 <p>In order to encode a binary string S into ternary, each byte of S is interpreted as a signed (two's complement) 8-bit integer value v. Then, v is encoded as a little-endian 6-trit string in balanced ternary representation. Finally, the resulting groups of trits are concatenated.</p>
 <p>This algorithm can also be described using the following pseudocode:</p>
 <pre><code>T ← []
@@ -835,7 +733,7 @@ foreach byte b in S:
   T ← T || g
 </code></pre>
 <p>Here, the function <code>IntToTrits</code> converts a signed integer value into its corresponding balanced ternary representation in little-endian order of the given length. The functionality of <code>IntToTrits</code> exactly matches the one used to e.g. encode the transaction values as trits in the current IOTA protocol.</p>
-<h3><a class="header" href="#trits-to-bytes" id="trits-to-bytes">Trits to bytes</a></h3>
+<h3 id="trits-to-bytes"><a class="header" href="#trits-to-bytes">Trits to bytes</a></h3>
 <p>Given a trit string T as the result of the previous encoding, T is converted back to its original byte string S by simply reversing the conversion:</p>
 <pre><code>S ← []
 foreach 6-trit group g in T:
@@ -843,7 +741,7 @@ foreach 6-trit group g in T:
   b ← byte(v)
   S ← S || b
 </code></pre>
-<h2><a class="header" href="#examples" id="examples">Examples</a></h2>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
 <li>I
 <ul>
@@ -865,12 +763,12 @@ foreach 6-trit group g in T:
 </ul>
 </li>
 </ul>
-<h1><a class="header" href="#drawbacks-3" id="drawbacks-3">Drawbacks</a></h1>
+<h1 id="drawbacks-3"><a class="header" href="#drawbacks-3">Drawbacks</a></h1>
 <ul>
 <li>Conceptually, one byte can be encoded using log<sub>3</sub>(256) ≈ 5.0474 trits. Thus, encoding 1 byte as 6 trits consumes considerably more memory than the mathematical minimum.</li>
 <li>Depending on the actual implementation the conversion might be malleable: E.g. since <code>byte(-1) = 0xff</code> and <code>byte(255) = 0xff</code>, both <code>Z9</code> (-1) and <code>LI</code>(255) could be decoded as <code>ff</code>. However, <code>LI</code> can never be the result of a valid <code>b1t6</code> encoding. As such, the implementation must reject such invalid inputs.</li>
 </ul>
-<h1><a class="header" href="#rationale-and-alternatives-3" id="rationale-and-alternatives-3">Rationale and alternatives</a></h1>
+<h1 id="rationale-and-alternatives-3"><a class="header" href="#rationale-and-alternatives-3">Rationale and alternatives</a></h1>
 <p>There are several ways to convert binary data into ternary, e.g.</p>
 <ul>
 <li>the conversion used as part of the <a href="https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md">Kerl</a> hash function encoding chunks of 48 bytes as 242 trits,</li>

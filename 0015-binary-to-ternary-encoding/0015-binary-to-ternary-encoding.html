@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0001-protocol-messages/0001-protocol-messages.html">0001-protocol-messages</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html" class="active">0015-binary-to-ternary-encoding</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html" class="active">0015-binary-to-ternary-encoding</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,13 +136,15 @@
                         </a>
                         
                         
+                        
+
                     </div>
                 </div>
 
                 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -168,14 +170,14 @@
 <li>Start date: 2020-06-08</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/15">iotaledger/protocol-rfcs#0015</a></li>
 </ul>
-<h1><a class="header" href="#summary" id="summary">Summary</a></h1>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>In the IOTA protocol, a transaction is represented as ternary data. However, sometimes it is necessary to store binary data (e.g. the digest of a binary hash function) inside of a transaction. This requires the conversion of binary into ternary strings.
 The IOTA client libraries support the opposite conversion that encodes 5 trits as 1 byte (sometimes also referred to as <code>t5b1</code> encoding), which is used for network communication and in storage layers. This RFC describes the corresponding counterpart to encode 1 byte as 6 trits.</p>
-<h1><a class="header" href="#motivation" id="motivation">Motivation</a></h1>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
 <p>A byte is composed of 8 bits that can represent 2<sup>8</sup> = 256 different values. On the other hand, 6 trits can hold 3<sup>6</sup> = 729 values while 5 trits can hold 3<sup>5</sup> = 243 values. Therefore, the most memory-efficient way to encode one byte requires the use of 6 trits. Although there exist many potential encoding schemes to convert binary data into ternary, the proposed version has been designed to directly match the widely used <code>t5b1</code> encoding.</p>
 <p>It is important to note that the <code>b1t6</code> encoding presented in this RFC does not replace the current <code>t5b1</code> encoding (or its corresponding decoding): <code>t5b1</code> is for example used to store trytes in a binary database, while <code>b1t6</code> will be used to attach binary data to an IOTA transaction.</p>
-<h1><a class="header" href="#detailed-design" id="detailed-design">Detailed design</a></h1>
-<h3><a class="header" href="#bytes-to-trits" id="bytes-to-trits">Bytes to trits</a></h3>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
+<h3 id="bytes-to-trits"><a class="header" href="#bytes-to-trits">Bytes to trits</a></h3>
 <p>In order to encode a binary string S into ternary, each byte of S is interpreted as a signed (two's complement) 8-bit integer value v. Then, v is encoded as a little-endian 6-trit string in balanced ternary representation. Finally, the resulting groups of trits are concatenated.</p>
 <p>This algorithm can also be described using the following pseudocode:</p>
 <pre><code>T ← []
@@ -185,7 +187,7 @@ foreach byte b in S:
   T ← T || g
 </code></pre>
 <p>Here, the function <code>IntToTrits</code> converts a signed integer value into its corresponding balanced ternary representation in little-endian order of the given length. The functionality of <code>IntToTrits</code> exactly matches the one used to e.g. encode the transaction values as trits in the current IOTA protocol.</p>
-<h3><a class="header" href="#trits-to-bytes" id="trits-to-bytes">Trits to bytes</a></h3>
+<h3 id="trits-to-bytes"><a class="header" href="#trits-to-bytes">Trits to bytes</a></h3>
 <p>Given a trit string T as the result of the previous encoding, T is converted back to its original byte string S by simply reversing the conversion:</p>
 <pre><code>S ← []
 foreach 6-trit group g in T:
@@ -193,7 +195,7 @@ foreach 6-trit group g in T:
   b ← byte(v)
   S ← S || b
 </code></pre>
-<h2><a class="header" href="#examples" id="examples">Examples</a></h2>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
 <li>I
 <ul>
@@ -215,12 +217,12 @@ foreach 6-trit group g in T:
 </ul>
 </li>
 </ul>
-<h1><a class="header" href="#drawbacks" id="drawbacks">Drawbacks</a></h1>
+<h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <ul>
 <li>Conceptually, one byte can be encoded using log<sub>3</sub>(256) ≈ 5.0474 trits. Thus, encoding 1 byte as 6 trits consumes considerably more memory than the mathematical minimum.</li>
 <li>Depending on the actual implementation the conversion might be malleable: E.g. since <code>byte(-1) = 0xff</code> and <code>byte(255) = 0xff</code>, both <code>Z9</code> (-1) and <code>LI</code>(255) could be decoded as <code>ff</code>. However, <code>LI</code> can never be the result of a valid <code>b1t6</code> encoding. As such, the implementation must reject such invalid inputs.</li>
 </ul>
-<h1><a class="header" href="#rationale-and-alternatives" id="rationale-and-alternatives">Rationale and alternatives</a></h1>
+<h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
 <p>There are several ways to convert binary data into ternary, e.g.</p>
 <ul>
 <li>the conversion used as part of the <a href="https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md">Kerl</a> hash function encoding chunks of 48 bytes as 242 trits,</li>

@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html" class="active">Introduction</a></li><li class="chapter-item expanded "><a href="0001-protocol-messages/0001-protocol-messages.html">0001-protocol-messages</a></li><li class="chapter-item expanded "><a href="0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html" class="active">Introduction</a></li><li class="chapter-item expanded "><a href="0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,13 +136,15 @@
                         </a>
                         
                         
+                        
+
                     </div>
                 </div>
 
                 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -163,7 +165,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#iota-protocol-rfcs" id="iota-protocol-rfcs">IOTA Protocol RFCs</a></h1>
+                        <h1 id="iota-protocol-rfcs"><a class="header" href="#iota-protocol-rfcs">IOTA Protocol RFCs</a></h1>
 <blockquote>
 <p>This process is modelled after the approach taken by the Rust programming
 language, see <a href="https://github.com/rust-lang/rfcs">Rust RFC repository</a> for more information. Also see
@@ -176,7 +178,7 @@ is to organize work between the different developers affiliated with the IOTA
 Foundation, and the wider open source community. We want to vet the ideas early
 on, get and give feedback, and only then start the implementation once the
 biggest questions are taken care of.</p>
-<h2><a class="header" href="#what-is-substantial-and-when-to-follow-this-process" id="what-is-substantial-and-when-to-follow-this-process">What is <em>substantial</em> and when to follow this process</a></h2>
+<h2 id="what-is-substantial-and-when-to-follow-this-process"><a class="header" href="#what-is-substantial-and-when-to-follow-this-process">What is <em>substantial</em> and when to follow this process</a></h2>
 <p>You need to follow this process if you want to propose changes that affect the IOTA protocol. These are changes that would affect any underlying node software.</p>
 <ul>
 <li>Anything that constitutes a breaking change to the protocol that would have to be adopted by each node software operating on the network in order to keep participating in the network.</li>
@@ -186,7 +188,7 @@ biggest questions are taken care of.</p>
 <ul>
 <li>Changes to the individual node software implementations - if that is the case, follow the IRI and Bee RFC processes.</li>
 </ul>
-<h2><a class="header" href="#the-workflow-of-the-rfc-process" id="the-workflow-of-the-rfc-process">The workflow of the RFC process</a></h2>
+<h2 id="the-workflow-of-the-rfc-process"><a class="header" href="#the-workflow-of-the-rfc-process">The workflow of the RFC process</a></h2>
 <p>To make a change to the IOTA protocol, one must first get the RFC
 merged into the RFC repository as a markdown file. At that point the RFC is
 &quot;active&quot; and may be implemented with the goal of eventual inclusion into any node software. </p>
@@ -247,7 +249,7 @@ a decision is reached.</li>
 closed. However, sometimes substantial new arguments or ideas are raised, the
 FCP is canceled, and the RFC goes back into development mode.</li>
 </ul>
-<h2><a class="header" href="#the-rfc-life-cycle" id="the-rfc-life-cycle">The RFC life-cycle</a></h2>
+<h2 id="the-rfc-life-cycle"><a class="header" href="#the-rfc-life-cycle">The RFC life-cycle</a></h2>
 <p>Once an RFC becomes active then authors may implement it and submit the feature
 as a pull request to the repo. Being &quot;active&quot; is not a rubber stamp and in
 particular still does not mean the feature will ultimately be merged. It does
@@ -270,7 +272,7 @@ the document.</p>
 <p>An RFC that makes it through the entire process to implementation is considered
 &quot;implemented&quot; and is moved to the &quot;implemented&quot; folder. An RFC that fails after
 becoming active is &quot;rejected&quot; and moves to the &quot;rejected&quot; folder.</p>
-<h2><a class="header" href="#reviewing-rfcs" id="reviewing-rfcs">Reviewing RFCs</a></h2>
+<h2 id="reviewing-rfcs"><a class="header" href="#reviewing-rfcs">Reviewing RFCs</a></h2>
 <p>While the RFC pull request is up, the sub-team may schedule meetings with the
 author and/or relevant stakeholders to discuss the issues in greater detail,
 and in some cases the topic may be discussed at a sub-team meeting. In either
@@ -281,7 +283,7 @@ will regularly issue decisions. When a decision is made, the RFC pull request
 will either be merged or closed. In either case, if the reasoning is not clear
 from the discussion in thread, the sub-team will add a comment describing the
 rationale for the decision.</p>
-<h2><a class="header" href="#implementing-an-rfc" id="implementing-an-rfc">Implementing an RFC</a></h2>
+<h2 id="implementing-an-rfc"><a class="header" href="#implementing-an-rfc">Implementing an RFC</a></h2>
 <p>Some accepted RFCs represent vital features that need to be implemented right
 away. Other accepted RFCs can represent features that can wait until some
 arbitrary developer feels like doing the work. Every accepted RFC has an
@@ -294,7 +296,7 @@ review after the RFC has been accepted.</p>
 <p>If you are interested in working on the implementation for an &quot;active&quot; RFC, but
 cannot determine if someone else is already working on it, feel free to ask
 (e.g. by leaving a comment on the associated issue).</p>
-<h2><a class="header" href="#rfc-postponement" id="rfc-postponement">RFC postponement</a></h2>
+<h2 id="rfc-postponement"><a class="header" href="#rfc-postponement">RFC postponement</a></h2>
 <p>Some RFC pull requests are tagged with the &quot;postponed&quot; label when they are
 closed (as part of the rejection process). An RFC closed with &quot;postponed&quot; is
 marked as such because we want neither to think about evaluating the proposal
@@ -308,11 +310,11 @@ informal first round of evaluation, namely the round of &quot;do we think we wou
 ever possibly consider making this change, as outlined in the RFC pull request,
 or some semi-obvious variation of it.&quot; (When the answer to the latter question
 is &quot;no&quot;, then the appropriate response is to close the RFC, not postpone it.)</p>
-<h2><a class="header" href="#help-this-is-all-too-informal" id="help-this-is-all-too-informal">Help! This is all too informal</a></h2>
+<h2 id="help-this-is-all-too-informal"><a class="header" href="#help-this-is-all-too-informal">Help! This is all too informal</a></h2>
 <p>The process is intended to be as lightweight as reasonable for the present
 circumstances. As usual, we are trying to let the process be driven by
 consensus and community norms, not impose more structure than necessary.</p>
-<h1><a class="header" href="#contributions-license-copyright" id="contributions-license-copyright">Contributions, license, copyright</a></h1>
+<h1 id="contributions-license-copyright"><a class="header" href="#contributions-license-copyright">Contributions, license, copyright</a></h1>
 <p>This Protocol network library is licensed under Apache License, Version 2.0,
 (<a href="https://github.com/iotaledger/bee-rfcs/blob/master/LICENSE-APACHE">LICENSE-APACHE</a> or http://www.apache.org/licenses/LICENSE-2.0). Any
 contribution intentionally submitted for inclusion in the work by you, as
@@ -326,7 +328,7 @@ additional terms or conditions.</p>
                         
 
                         
-                            <a rel="next" href="0001-protocol-messages/0001-protocol-messages.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="0005-white-flag/0005-white-flag.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -340,7 +342,7 @@ additional terms or conditions.</p>
                 
 
                 
-                    <a rel="next" href="0001-protocol-messages/0001-protocol-messages.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="0005-white-flag/0005-white-flag.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 

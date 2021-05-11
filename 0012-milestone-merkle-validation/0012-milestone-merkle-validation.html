@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0001-protocol-messages/0001-protocol-messages.html">0001-protocol-messages</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html" class="active">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html" class="active">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,13 +136,15 @@
                         </a>
                         
                         
+                        
+
                     </div>
                 </div>
 
                 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -168,9 +170,9 @@
 <li>Start date: 2020-05-04</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/12">iotaledger/protocol-rfcs#0012</a></li>
 </ul>
-<h1><a class="header" href="#summary" id="summary">Summary</a></h1>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>In the IOTA protocol, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC adds extra information to each milestone in the form of a Merkle tree hash, which allows nodes to explicitly validate their local view of the ledger state against the coordinator's. This mechanism further enables a simple cryptographic proof of inclusion for transactions confirmed by the particular milestone.</p>
-<h1><a class="header" href="#motivation" id="motivation">Motivation</a></h1>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
 <p>With the changes proposed in <a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md">RFC-0005 (white flag)</a>, milestones are allowed to reference conflicting transactions. These conflicts are then resolved by traversing the newly confirmed transactions in a global, deterministic order and applying the corresponding ledger state changes in that order. Conflicts or invalid transactions are ignored, but stay in the Tangle.
 This approach has considerable advantages in terms of network security (e.g. protection against <a href="https://iota.cafe/t/conflict-spamming-attack/232">conflict spamming attacks</a>) and network performance. However, a milestone no longer represents the inclusion state of all its referenced transactions, but only marks the order in which transactions are checked against the ledger state and then, if not violating, applied. This has two significant drawbacks:</p>
 <ul>
@@ -179,8 +181,8 @@ This approach has considerable advantages in terms of network security (e.g. pro
 </ul>
 <p>Note that the white flag proposal only changes the behavior of conflicting transactions. Zero value transactions can never conflict and are thus always included in tangle when they are first referenced by a milestone. As such, these transactions do not need to be considered by the RFC and their processing and inclusion proof remain unchanged.</p>
 <p>Where previously the structure of the Tangle alone was sufficient to address those issues, this RFC proposes to add the Merkle tree hash of all the valid (i.e. not ignored) newly confirmed bundles to the signed part of a milestone. This way, each IOTA node can check that the hash matches its local ledger state changes or provide a Merkle audit path for that milestone to prove the inclusion of a particular bundle.</p>
-<h1><a class="header" href="#detailed-design" id="detailed-design">Detailed design</a></h1>
-<h2><a class="header" href="#creating-a-milestone" id="creating-a-milestone">Creating a Milestone</a></h2>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
+<h2 id="creating-a-milestone"><a class="header" href="#creating-a-milestone">Creating a Milestone</a></h2>
 <ul>
 <li>Perform tip selection to choose a branch and a trunk for the new milestone.</li>
 <li>Determine the topological order according to <a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md">RFC-0005</a> of the referenced bundles that are not yet confirmed by a previous milestone.</li>
@@ -192,22 +194,22 @@ This approach has considerable advantages in terms of network security (e.g. pro
 <li>Append H<sup>tri</sup> to the <code>signatureMessageFragment</code> field. For any depth d &lt; 26 the field provides sufficient space.</li>
 <li>Sign the head transaction and add its fragmented signature to the milestone bundle's zero value transactions.</li>
 </ul>
-<h2><a class="header" href="#milestone-validation" id="milestone-validation">Milestone validation</a></h2>
+<h2 id="milestone-validation"><a class="header" href="#milestone-validation">Milestone validation</a></h2>
 <ul>
 <li>Verify the signature of the milestone m.</li>
 <li>Construct the ordered list B<sup>tri</sup> of the tail transaction hashes of the not-ignored state-mutating bundles m confirms.</li>
 <li>Encode the hashes B<sup>tri</sup> into their binary representation B and compute H = MTH(B).</li>
 <li>Extract the first 384 trits after the Coordinator's Merkle tree information from the <code>signatureMessageFragment</code> field of the head transaction and verify that this matches the ternary encoded H.</li>
 </ul>
-<h2><a class="header" href="#proof-of-inclusion" id="proof-of-inclusion">Proof of inclusion</a></h2>
+<h2 id="proof-of-inclusion"><a class="header" href="#proof-of-inclusion">Proof of inclusion</a></h2>
 <ul>
 <li>Identify the confirming milestone m of the state-mutating input bundle b.</li>
 <li>Determine the ordered list of the not-ignored bundles m confirms.</li>
 <li>Compute the Merkle audit path of b with respect to the Merkle tree for this ordered list.</li>
 <li>Provide the audit path as well as m as proof of inclusion for b.</li>
 </ul>
-<h2><a class="header" href="#cryptographic-components" id="cryptographic-components">Cryptographic components</a></h2>
-<h3><a class="header" href="#merkle-hash-trees" id="merkle-hash-trees">Merkle hash trees</a></h3>
+<h2 id="cryptographic-components"><a class="header" href="#cryptographic-components">Cryptographic components</a></h2>
+<h3 id="merkle-hash-trees"><a class="header" href="#merkle-hash-trees">Merkle hash trees</a></h3>
 <p>This RFC uses a binary Merkle hash tree for efficient auditing. In general, any cryptographic hashing algorithm can be used for this. However, we propose to use <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-512</a>, as it provides a faster and more secure alternative to the widely used SHA-256/SHA-512. 
 In the following we define the Merkle tree hash (MTH) function that returns the hash of the root node of a Merkle tree:</p>
 <ul>
@@ -230,9 +232,9 @@ MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) ||
 </ul>
 <p>Note that the hash calculations for leaves and nodes differ. This is required to provide second preimage resistance: Without such a prefix, for a given input D an attacker could replace  two (or more) leaves with their corresponding aggregated node hash without changing the final value of MTH(D). This violates the fundamental assumption that, given MTH(D), it should be practically impossible to find a different input D' leading to the same value. Adding a simple prefix mitigates this issue, since now leaf and node hashes are computed differently and can no longer be interchanged.</p>
 <p>Note that we do not require the length of the input to be a power of two. However, its shape is still uniquely determined by the number of leaves.</p>
-<h3><a class="header" href="#merkle-audit-paths" id="merkle-audit-paths">Merkle audit paths</a></h3>
+<h3 id="merkle-audit-paths"><a class="header" href="#merkle-audit-paths">Merkle audit paths</a></h3>
 <p>A Merkle audit path for a leaf in a Merkle hash tree is the shortest list of additional nodes in a Merkle tree required to compute the Merkle tree hash for that tree. At each step towards the root, a node from the audit path is combined with a node computed so far. If the root computed from the audit path matches the Merkle tree hash, then the audit path is proof that the leaf exists in the tree.</p>
-<h2><a class="header" href="#example" id="example">Example</a></h2>
+<h2 id="example"><a class="header" href="#example">Example</a></h2>
 <p>Merkle tree with 7 leaves:</p>
 <ul>
 <li>input B:
@@ -270,12 +272,12 @@ MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) ||
     │  ┌ tx hash: GMNECTSPSLSPPEITCHBXSN9KZD9OZPVPOET9TVQJDZMFGN9SGPRPMUQARNXUVKMWAFAKLKWBZLWZCTPCP
     └──┴ leaf: 282f3dc49046480e118f697bc90d37f19efb633d6e92cb27e53c4a3c69735e6e66e698b810c20e8e7c4d5b5f0b04946fc779a0c817ee587c01f80e44d3e69f84
 </code></pre>
-<h1><a class="header" href="#drawbacks" id="drawbacks">Drawbacks</a></h1>
+<h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <ul>
 <li>With this proposal the <code>signatureMessageFragment</code> now consists of two parts: The audit path of the Coordinator's Merkle tree and the 128-tryte Merkle tree hash of the confirmed bundles. This approach limits the depth of the Coordinator's Merkle tree to at most 25 (instead of 27 without the hash). However, a depth of 25 still allows to issue a milestone every 30s for over 30 years or every 10s for 10 years.</li>
 <li>The computation of the Merkle tree hash of D<sub>n</sub> requires 2n-1 evaluations of the underlying hashing algorithm. This makes the milestone creation and validation computationally slightly more expensive.</li>
 </ul>
-<h1><a class="header" href="#rationale-and-alternatives" id="rationale-and-alternatives">Rationale and alternatives</a></h1>
+<h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
 <p>It is a crucial security feature of the IOTA network that nodes are able to validate the issued milestones. As a result, if the Coordinator were to ever send an invalid milestone, such as one that references counterfeit transactions, the rest of the nodes would not accept it. In a pure implementation of <a href="https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md">RFC-0005</a> this feature is lost and must be provided by external mechanisms.
 A Merkle tree hash provides an efficient, secure and well-established method to compress the information about the confirmed transactions in such a way, that they fit in the milestone transaction.</p>
 <p>In this context, it could also be possible to use an unsecured checksum (such as CRCs) of the bundles instead of a Merkle tree hash. However, the small benefit of faster computation times does no justify the potential security risks and attack vectors.</p>

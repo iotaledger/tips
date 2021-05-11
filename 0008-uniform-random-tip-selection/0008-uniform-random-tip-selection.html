@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0001-protocol-messages/0001-protocol-messages.html">0001-protocol-messages</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html" class="active">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html" class="active">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,13 +136,15 @@
                         </a>
                         
                         
+                        
+
                     </div>
                 </div>
 
                 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -168,10 +170,10 @@
 <li>Start date: 2020-03-09</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/0008">iotaledger/protocol-rfcs#0008</a></li>
 </ul>
-<h1><a class="header" href="#summary" id="summary">Summary</a></h1>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>Weighted Uniform Random Tip Selection on a subset enables a node to perform fast tip-selection to increase message throughput.
 The algorithm selects tips which are non-lazy to maximize confirmation rate.</p>
-<h1><a class="header" href="#motivation" id="motivation">Motivation</a></h1>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
 <p>Because of the <code>white-flag</code> confirmation algorithm, it is no longer necessary to perform complex
 tip-selection which evaluates ledger mutations while walking. Therefore, a more simple, better 
 performing algorithm can be used to select tips, which in turn increases overall message throughput.</p>
@@ -179,7 +181,7 @@ performing algorithm can be used to select tips, which in turn increases overall
 Non-lazy in this context means that a tip does not attach to a cone of messages which is too far
 in the past. Such a cone is likely to be already confirmed and does not contribute to the
 rate of newly confirmed messages when a milestone is issued.</p>
-<h1><a class="header" href="#detailed-design" id="detailed-design">Detailed design</a></h1>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
 <p>Definitions:</p>
 <ul>
 <li><code>Direct Approvers</code> - The set of messages which directly approve a given message.</li>
@@ -202,11 +204,11 @@ Note that the red marked milestone is also a <code>Confirmed Root Message</code>
 relevant in relation to the recent parts of the Tangle. The current <code>BMD</code> for mainnet nodes is 15 milestones, 
 which means that messages of which their <code>OMRSI</code> in relation to the <code>LSMI</code> is more than 15, are &quot;below max depth&quot;.</li>
 </ul>
-<h3><a class="header" href="#omrsi--ymrsi-example" id="omrsi--ymrsi-example">OMRSI / YMRSI example</a></h3>
+<h3 id="omrsi--ymrsi-example"><a class="header" href="#omrsi--ymrsi-example">OMRSI / YMRSI example</a></h3>
 <p>Given the blue PoV message, the <code>OMRSI</code> of it is milestone 1 and <code>YMRSI</code> milestone 2.
 Note that, here again, the milestones are also <code>Confirmed Root Messages</code>.
 <img src="images/otrsi_ytrsi.PNG" alt="sdf" /></p>
-<h3><a class="header" href="#milestone-based-tip-scoring" id="milestone-based-tip-scoring">Milestone based tip scoring</a></h3>
+<h3 id="milestone-based-tip-scoring"><a class="header" href="#milestone-based-tip-scoring">Milestone based tip scoring</a></h3>
 <p>The milestone based scoring defines a tip's score by investigating the tip's relation to
 the cone it approves and previous issued  milestones.</p>
 <p>A tip can have one of 3 score states:</p>
@@ -261,7 +263,7 @@ func score(tip Tip) Score {
     return Score.NON_LAZY
 }
 </code></pre>
-<h3><a class="header" href="#random-tip-selection" id="random-tip-selection">Random Tip-Selection</a></h3>
+<h3 id="random-tip-selection"><a class="header" href="#random-tip-selection">Random Tip-Selection</a></h3>
 <p>A node should keep a set of non-lazy tips (score 2).
 Every time a node is asked to select tips to be approved, it will pick randomly from the set. 
 A node must not execute tip-selection if it is not synchronized.</p>
@@ -269,17 +271,17 @@ A node must not execute tip-selection if it is not synchronized.</p>
 and improves synchronization speed. A tip is removed from the tips set if <code>X</code> amount of direct
 approvers are reached or if a certain amount of time <code>T</code> passed. 
 It is recommended to use <code>X</code> = 2 and <code>T</code> = 3  but the threshold should be configurable.</p>
-<h3><a class="header" href="#purpose-of-semi-lazy-tips" id="purpose-of-semi-lazy-tips">Purpose Of Semi-Lazy Tips</a></h3>
+<h3 id="purpose-of-semi-lazy-tips"><a class="header" href="#purpose-of-semi-lazy-tips">Purpose Of Semi-Lazy Tips</a></h3>
 <p>Semi-Lazy tips are not eligible for tip-selection, but the coordinator node may implement a tip selection algorithm
 that confirms semi-lazy tips. Semi-lazy tips will usually be left behind, but parties interested in having them confirmed
 are incentivized to run spammers that will actively reduce the amount of semi-lazy tips eligible for coordinator's tip selection. 
 Given a coordinator that chooses semi-lazy tips, running such spammers may get those messages confirmed before
 they become lazy.</p>
-<h1><a class="header" href="#drawbacks" id="drawbacks">Drawbacks</a></h1>
+<h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <p>Depending on when and how often <code>YMRSI</code>/<code>OMRSI</code> values are computed, this tip-selection could still
 have a slow runtime, as one would need to constantly walk down the Tangle to compute those
 values. However, smart caching might resolve this issue. </p>
-<h1><a class="header" href="#rationale-and-alternatives" id="rationale-and-alternatives">Rationale and alternatives</a></h1>
+<h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
 <p>The previous tip-selection was written in accordance to the original IOTA whitepaper, as it also
 functioned as part of the consensus mechanism.
 However, relatively soon it became apparent that the cumulative weight computation was too heavy
@@ -289,8 +291,8 @@ node implementations at all.</p>
 which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide 
 a fast way to get tips to approve with one's own message.
 The only important thing is to disincentive lazy behaviour to be able to maximize confirmation rate.</p>
-<h1><a class="header" href="#unresolved-questions" id="unresolved-questions">Unresolved questions</a></h1>
-<h4><a class="header" href="#when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction" id="when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction">When to compute the score and <code>YMRSI</code>/<code>OMRSI</code> of a transaction?</a></h4>
+<h1 id="unresolved-questions"><a class="header" href="#unresolved-questions">Unresolved questions</a></h1>
+<h4 id="when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction"><a class="header" href="#when-to-compute-the-score-and-ymrsiomrsi-of-a-transaction">When to compute the score and <code>YMRSI</code>/<code>OMRSI</code> of a transaction?</a></h4>
 <p>It is not yet clear when or how often the <code>YMRSI</code>/<code>OMRSI</code> values of a transaction should be updated.
 If the values are only computed once after a transaction became solid, the <code>YMRSI</code>/<code>OMRSI</code> might not
 resemble the true values, as subsequent milestones might confirm transactions within the same cone the
