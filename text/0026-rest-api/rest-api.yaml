@@ -140,7 +140,7 @@ paths:
               Minimal Message with Transaction Payload:
                 $ref: >-
                   #/components/examples/post-transaction-message-request-example-minimal
-          application/octet-steam:
+          application/octet-stream:
             schema:
               type: string
               format: binary
