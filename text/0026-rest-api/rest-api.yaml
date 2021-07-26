@@ -1461,6 +1461,7 @@ components:
               type: 0
               address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
             amount: 1000
+          ledgerIndex: 946704
     get-address-balance-response-example:
       value:
         data:
@@ -1468,6 +1469,7 @@ components:
           address: efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3
           balance: 1338263
           dustAllowed: true
+          ledgerIndex: 946704
     get-address-outputs-response-example:
       value:
         data:
@@ -1484,6 +1486,7 @@ components:
               ee3447d088e3e2c53c5b3e56a38fdc859ca2c4b4161cf256c0462ce4d34731820100
             - >-
               f8bdbfb0f57ade7fbb95d31b11e2dbda9b2a35e9dc0cd3e11cb324e8a6bedc260100
+          ledgerIndex: 946704
 
     get-receipts-response-example:
       value:
@@ -2449,12 +2452,16 @@ components:
               anyOf:
                 - $ref: '#/components/schemas/SigLockedSingleOutput'
                 - $ref: '#/components/schemas/SigLockedDustAllowanceOutput'
+            ledgerIndex:
+              type: integer
+              description: The current ledger index for which the request was made.
           required:
             - messageId
             - transactionId
             - outputIndex
             - isSpent
             - output
+            - ledgerIndex
       required:
         - data
 
@@ -2476,11 +2483,15 @@ components:
             dustAllowed:
               type: boolean
               description: Tells whether the address can receive dust or not.
+            ledgerIndex:
+              type: integer
+              description: The current ledger index for which the request was made.
           required:
             - addressType
             - address
             - balance
             - dustAllowed
+            - ledgerIndex
       required:
         - data
 
@@ -2507,12 +2518,16 @@ components:
               items:
                 type: string
               description: The identifiers of the outputs that use a certain address.
+            ledgerIndex:
+              type: integer
+              description: The current ledger index for which the request was made.
           required:
             - addressType
             - address
             - maxResults
             - count
             - outputIds
+            - ledgerIndex
       required:
         - data
 
