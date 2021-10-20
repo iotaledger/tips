@@ -52,13 +52,13 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
         <td>Network identifier. This field will signify whether this message was meant for mainnet, testnet, or a private net. It also tells what protocol rules apply to the message. It is first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and the protocol version string.</td>
         </tr>
     <tr>
-        <td> Parents' length </td>
+        <td> Parents Count </td>
         <td> uint8</td>
         <td> The number of messages we directly approve. Can be any value between 1-8.</td>
     </tr>
     <tr>
         <td>Parents </td>
-        <td>ByteArray[32 * `parents length`]</td>
+        <td>ByteArray[32 * Parents Count]</td>
         <td>The Message IDs that are referenced.</td>
     </tr>
     <tr>
@@ -110,8 +110,8 @@ A message is considered valid, if the following syntactic rules are met:
 1. The message size must not exceed 32 KiB (32 * 1024 bytes).
 2. When parsing the message is complete, there should not be any trailing bytes left that were not parsed.
 3. If the `payload type` is known to the node.
-4. If the [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) will contain at least the number of trailing 0 trits the node defines as required.
-5. `Parents' length` must be between 1-8.
+4. If the message PoW score (as described in [RFC-0024](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0024-message-pow/0024-message-pow.md)) is not less than the configured threshold.
+5. `Parents Count` must be between 1-8.
 
 
 ### Payloads
@@ -120,8 +120,8 @@ A message may contain a payload. The specification of the payloads is out of sco
 
 | Payload Name                              |   Type Value |
 | ---------------------------------------   | -----------  | 
-|  [Signed Transaction](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md)                       |     0        |
-|  [Milestone Draft](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md)                                |     1        |
+|  [Transaction RFC-0018 (draft)](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md)                       |     0        |
+|  [Milestone RFC-0019 (draft)](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md)                                |     1        |
 |  [Indexation Payload](#indexation-payload)  |     2        |
 
 ### Indexation payload
@@ -152,8 +152,7 @@ Note that `index` field should be 1 to 64 bytes long for the payload to be valid
 ### Serialization Example
 
 Below is a serialized valid message with the indexation payload. The index is the "SPAM" ASCII string and the message is the "Hello Iota"
-ASCII string. The [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md) would have
-  10 trailing zeroes for the given nonce in this example. Bytes are expressed as hexadecimal numbers.
+ASCII string. The message PoW Hash would have 10 trailing zeroes for the given nonce in this example. Bytes are expressed as hexadecimal numbers.
 
 [Version] **`01`** [Parent 1] `F532A53545103276B46876C473846D98648EE418468BCE76DF4868648DD73E5D` [Parent 2] `78D546B46AEC4557872139A48F66BC567687E8413578A14323548732358914A2` [Payload Length]
 *`1100000000000000000000000000000000000000000000000000000000000000`*[Payload Type]**`02`**[Index] *`04`*`5350414D` [Data]*`0A`*`48656C6C6F20496F7461`[Nonce]`5d38333333333333`
@@ -163,7 +162,3 @@ ASCII string. The [Message PoW Hash](https://github.com/Wollac/protocol-rfcs/blo
 Instead of creating a layered approach, we could have simply created a flat `transaction message` that is tailored for mutating the ledger state, and try to fit all the use cases there. For example, with the unsigned data use-case, we could have filled some section of the transaction with the data. Then via a flag in the transaction, we could have instructed to not pass this transaction to the service that attempts to mutate the ledger state.
 
 This approach seems less extensible. It might have made sense if we wanted to build a protocol that is just for ledger mutating transactions, but we want to be able to extend the protocol to do more than that.
-
-# Unresolved questions
-
-- What should be the maximum length of the message?
