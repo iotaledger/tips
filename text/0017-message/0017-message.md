@@ -117,12 +117,11 @@ A message is considered valid, if the following syntactic rules are met:
 ### Payloads
 
 While messages without a payload, i.e. `Payload Length` set to zero, are valid, such messages do not contain any information. As such, messages usually contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `indexation payload` will be specified here as an example:
-
-| Payload Name                              |   Type Value |
-| ---------------------------------------   | -----------  | 
-|  [Transaction RFC-0018 (draft)](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md)                       |     0        |
-|  [Milestone RFC-0019 (draft)](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md)                                |     1        |
-|  [Indexation Payload](#indexation-payload)  |     2        |
+| Payload Name | Type Value | RFC                                                                                                                                                            |
+| ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Transaction  | 0          | [RFC-0018 (draft)](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md) |
+| Milestone    | 1          | [RFC-0019 (draft)](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md)           |
+| Indexation   | 2          | [RFC-0017](#indexation-payload)                                                                                                                                |
 
 ### Indexation payload
 
