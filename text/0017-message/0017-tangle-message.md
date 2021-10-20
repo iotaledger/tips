@@ -132,7 +132,7 @@ The following criteria defines whether the message passes the syntactical valida
   - `Payload Type` must match one of the values described under [Payloads](#Payloads).
   - `Data fields` must be correctly parsable in the context of the `Payload Type`.
   - The payload itself must pass syntactic validation.
-- `Nonce` must be a valid solution of the message PoW as described in [RFC-0024](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0024-message-pow/0024-message-pow.md).
+- `Nonce` must be a valid solution of the message PoW as described in [RFC-0024](https://iotaledger.github.io/protocol-rfcs/0024-message-pow/0024-message-pow.html).
 - There must be no trailing bytes after all message fields have been parsed.
 
 ## Payloads

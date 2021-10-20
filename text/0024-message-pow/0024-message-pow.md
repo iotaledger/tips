@@ -19,7 +19,7 @@ It will be easy to adapt existing hardware and software implementations of the c
 The PoW score is defined as the average number of iterations required to find the number of trailing zero trits in the hash divided by the message size.
 
 The PoW validation is performed in the following way:
- - Compute the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash of the serialized message (as described in [Draft RFC-17](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md)) *excluding* the 8-byte `Nonce` field and convert the hash into its 192-trit `b1t6` encoding. (See [RFC-15](https://iotaledger.github.io/protocol-rfcs/0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html) for a description of the encoding.)
+ - Compute the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash of the serialized message (as described in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html)) *excluding* the 8-byte `Nonce` field and convert the hash into its 192-trit `b1t6` encoding. (See [RFC-0015](https://iotaledger.github.io/protocol-rfcs/0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html) for a description of the encoding.)
  - Take the 8-byte `Nonce` in little-endian representation, convert it into its 48-trit `b1t6` encoding and append it to the hash trits.
  - Add a padding of three zero trits to create a 243-trit string.
  - Compute the Curl-P-81 hash.
