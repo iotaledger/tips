@@ -293,65 +293,62 @@ additional terms or conditions.</p>
 <div style="break-before: page; page-break-before: always;"></div><ul>
 <li>Feature name: <code>white-flag</code></li>
 <li>Start date: 2020-03-06</li>
-<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/5">iotaledger/protocol-rfcs#0005</a></li>
+<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/5">iotaledger/protocol-rfcs#0005</a>, <a href="https://github.com/iotaledger/protocol-rfcs/pull/30">iotaledger/protocol-rfcs#0030</a></li>
 </ul>
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>This RFC is part of a set of protocol changes, <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, aiming at improving the
 network before <a href="https://coordicide.iota.org/">Coordicide</a> is complete.</p>
-<p>The feature presented in this RFC, White Flag, allows milestones to confirm conflicting bundles by enforcing
-deterministic ordering of the Tangle and applying only the first bundle(s) that does not violate the ledger state.</p>
+<p>The feature presented in this RFC, White Flag, allows milestones to confirm conflicting messages by enforcing
+deterministic ordering of the Tangle and applying only the first message(s) that will not violate the ledger state.</p>
 <p>The content of this RFC is based on <a href="https://iota.cafe/t/conflict-white-flag-mitigate-conflict-spamming-by-ignoring-conflicts/233">Conflict white flag: Mitigate conflict spamming by ignoring conflicts</a>.</p>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
 <ul>
 <li>Eliminates the <a href="https://iota.cafe/t/conflict-spamming-attack/232">Conflict spamming attack</a>;</li>
 <li>As conflicts are ignored in the balance computation, they do not need to be considered during tip selection of the
 nodes allowing much easier tip selection algorithms leading to increased TPS;</li>
-<li>By using this approach in combination with an appropriate TSA, during regular use, no honest transaction will ever
+<li>By using this approach in combination with an appropriate TSA, during regular use, no honest message will ever
 require re-attaching leading to increased CTPS;</li>
 <li>Does not come with added computation complexity by integrating nicely into already existing algorithms;</li>
 </ul>
 <h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
-<p>First, let us define what it means for a bundle A to be:</p>
+<p>First, let us define what it means for a message A to be:</p>
 <ul>
-<li>referenced (indirectly or directly) by bundle B: A is contained in the past cone of B;</li>
+<li>referenced (indirectly or directly) by message B: A is contained in the past cone of B;</li>
 <li>confirmed: A is referenced by a milestone;</li>
 <li>applied: A is confirmed and applied to the ledger state;</li>
-<li>ignored: A is confirmed but not applied;</li>
+<li>ignored: A is confirmed but not applied because it is semantically invalid;</li>
 <li>conflicting: A would lead to an invalid ledger state if applied;</li>
 </ul>
-<p>In case of conflicting bundles with White Flag, a node applies only one bundle to the ledger state and ignores all the
-others. For this to work, all the nodes need to be sure they are all applying the same bundle; hence, the need for a
-deterministic ordering of the Tangle.</p>
-<p>First, this RFC proposes a deterministic ordering of the Tangle, then it explains which bundle is selected in case of
-conflicts.</p>
-<p><strong>Note: this RFC is about ledger computation only. For this reason, it assumes that the past cone of a milestone has
-already been confirmed and all the referenced bundles have been validated. A bundle is considered valid if it is
-syntactically valid and its signatures are valid. In the event that an invalid bundle was encountered in the
-confirmation traversal, a node's expected behaviour would be to completely stop operations - and log the error - as it
-would mean the coordinator confirmed something it should not have.</strong></p>
+<p>In case of conflicting messages with White Flag, a node applies only one message to the ledger state and ignores
+all the others. For this to work, all the nodes need to be sure they are all applying the same message; hence, the
+need for a deterministic ordering of the Tangle.</p>
+<p>First, this RFC proposes a deterministic ordering of the Tangle, then it explains which message is selected in case
+of conflicts.</p>
+<p><strong>Note: The past-cone of milestone can only contain syntactically valid messages. If an invalid message is encountered,
+operations must be stopped immediately.</strong></p>
 <h2 id="deterministically-ordering-the-tangle"><a class="header" href="#deterministically-ordering-the-tangle">Deterministically ordering the Tangle</a></h2>
-<p>When a new milestone is broadcasted to the network, nodes will need to order the set of bundles it confirms.</p>
-<p>A subset of the Tangle can be ordered depending on many of its properties (e.g. alphanumeric sort of the bundle hashes);
-however, to compute the ledger state, a graph traversal has to be done so it can be used to order the bundles in a
-deterministic order with no extra overhead.</p>
+<p>When a new milestone is broadcasted to the network, nodes will need to order the set of messages it confirms.</p>
+<p>A subset of the Tangle can be ordered depending on many of its properties (e.g. alphanumeric sort of the message
+hashes); however, to compute the ledger state, a graph traversal has to be done so it can be used to order the messages
+in a deterministic order with no extra overhead.</p>
 <p>This ordering is then defined as a <a href="https://en.wikipedia.org/wiki/Topological_sorting">topological ordering</a> because
-it respects the dependency of bundles, ensuring that the <code>trunk</code> and <code>branch</code> of a bundle are applied before it. Since
-there are multiple valid topological orders for the same graph and in order to avoid conflicting ledger states it is
-required that all nodes apply bundles in the exact same order.</p>
-<p>For this reason, this RFC propose an order that has to be rigorously followed by all node implementations. This order is
-the topological ordering generated by a post-order <a href="https://en.wikipedia.org/wiki/Depth-first_search">Depth-First Search (DFS)</a>
-starting from a milestone and by going first through <code>trunk</code> bundle, then <code>branch</code> bundle and finally current bundles.
-Since only a subset of bundles is considered, the stopping condition of this DFS is reaching bundles that are already
-confirmed by another milestone.</p>
-<h2 id="applying-first-bundles-that-does-not-violate-the-ledger-state"><a class="header" href="#applying-first-bundles-that-does-not-violate-the-ledger-state">Applying first bundle(s) that does not violate the ledger state</a></h2>
-<p>If a conflict is occurring in the set of bundles confirmed by a milestone, nodes have to apply the first - with regards
-to the order previously proposed - of the conflicting bundles to the ledger and ignore all the others.</p>
-<p>Once a bundle is marked as ignored, this is final and cannot be changed by a later milestone.</p>
-<p>Since the ledger state is maintained from one milestone to another, a bundle conflicting with a bundle already confirmed
-by a previous milestone would also obviously be ignored.</p>
+it respects the dependency of messages, ensuring that parents of a message are applied before it.
+Since there are multiple valid topological orders for the same graph and, to avoid conflicting ledger states, it
+is required that all nodes apply messages in the exact same order.</p>
+<p>For this reason, this RFC proposes an order that has to be rigorously followed by all node implementations.
+This order is the topological ordering generated by a post-order <a href="https://en.wikipedia.org/wiki/Depth-first_search">Depth-First Search (DFS)</a>
+starting from a milestone message, going through its parents (in the order they appear in the message) and finally
+analysing the current message. Since only a subset of messages is considered, the stopping condition of this DFS is
+reaching messages that are already confirmed by another milestone.</p>
+<h2 id="applying-first-messages-that-does-not-violate-the-ledger-state"><a class="header" href="#applying-first-messages-that-does-not-violate-the-ledger-state">Applying first message(s) that does not violate the ledger state</a></h2>
+<p>If a conflict is occurring in the set of messages confirmed by a milestone, nodes have to apply the first - with regards
+to the order previously proposed - of the conflicting messages to the ledger and ignore all the others.</p>
+<p>Once a message is marked as ignored, this is final and cannot be changed by a later milestone.</p>
+<p>Since the ledger state is maintained from one milestone to another, a message conflicting with a message already
+confirmed by a previous milestone would also be ignored.</p>
 <h2 id="pseudo-code"><a class="header" href="#pseudo-code">Pseudo-code</a></h2>
 <p>The following algorithm describes the process of updating the ledger state which is usually triggered by the arrival of
-a new milestone confirming many new bundles.</p>
+a new milestone confirming many new messages.</p>
 <p>Pseudo-code means that implementation details such as types, parameters, ..., are not important but that the logic has
 to be followed with care when implementing a node to avoid differences in the ledger state.</p>
 <pre><code>update_ledger_state(ledger, milestone, solid_entry_points) {
@@ -360,49 +357,48 @@ to be followed with care when implementing a node to avoid differences in the le
 
     s.push(milestone)
 
-    while (!s.empty()) {
+    while (!s.is_empty()) {
         curr = s.peek()
+        next = null
 
-        // Only apply if a leaf has been reached or both approvees have been visited or confirmed by another milestone
-        if ((solid_entry_points.contains(curr.trunk) || visited.contains(curr.trunk) || curr.trunk.confirmation_index != milestone.index)
-          &amp;&amp; (solid_entry_points.contains(curr.branch) || visited.contains(curr.branch) || curr.branch.confirmation_index != milestone.index)) {
-            ledger.apply(curr)
-            visited.add(curr)
-            s.pop()
+        // Look for the first eligible parent that was not already visited
+        for parent in curr.parents {
+          if (!solid_entry_points.contains(parent) &amp;&amp; !parent.confirmed &amp;&amp; !visited.contains(parent)) {
+            next = parent
+            break
+          }
         }
-        else if (!solid_entry_points.contains(curr.trunk)
-          &amp;&amp; !visited.contains(curr.trunk)
-          &amp;&amp; curr.trunk.confirmation_index == milestone.index) {
-            s.push(curr.trunk)
+
+        // All parents have been visited, apply and visit the current message
+        if next == null {
+          ledger.apply(curr)
+          visited.add(curr)
+          s.pop()
         }
-        else if (!solid_entry_points.contains(curr.branch)
-          &amp;&amp; !visited.contains(curr.branch)
-          &amp;&amp; curr.branch.confirmation_index == milestone.index) {
-            s.push(curr.branch)
+        // Otherwise, go to the parent
+        else {
+          s.push(next)
         }
     }
 }
 </code></pre>
 <p><strong>Notes</strong>:</p>
 <ul>
-<li>Even though the tangle is a graph made of transactions, for the sake of this pseudo-code it is considered as a graph
-of bundles. For this reason, when the <code>trunk</code> and/or the <code>branch</code> of a bundle are mentioned, they are actually referring
-to the <code>trunk</code> and/or <code>branch</code> of the last transaction of the bundle.</li>
 <li><code>solid_entry_points</code> is a set of hashes that are considered solid even though we do not have them or their past in
-database. They often come from a snapshot file and allow a node to solidify without needing the full tangle history.
-The hash of the genesis transaction is also a solid entry point.</li>
-<li><code>confirmation_index</code> is the index of the milestone that confirmed the bundle.</li>
+a database. They often come from a snapshot file and allow a node to solidify without needing the full tangle history.
+The hash of the genesis message is also a solid entry point.</li>
+<li><code>confirmation_index</code> is the index of the milestone that confirmed the message.</li>
 </ul>
 <h3 id="example"><a class="header" href="#example">Example</a></h3>
-<p>In this example, there are 26 bundles labeled from <code>A</code> to <code>Z</code>.
-The set of red bundles <code>{A, B, C, E, F, H}</code> is confirmed by milestone <code>H</code>.
-The set of purple bundles <code>{D, G, J, L, M, N, K, I, O, S, R, V}</code> is confirmed by milestone <code>V</code>.
-The set of blue bundles <code>{Q, U, X, Y, Z, W, T, P}</code> is confirmed by another milestone.</p>
+<p>In this example, there are 26 messages labeled from <code>A</code> to <code>Z</code>.
+The set of red messages <code>{A, B, C, E, F, H}</code> is confirmed by milestone <code>H</code>.
+The set of purple messages <code>{D, G, J, L, M, N, K, I, O, S, R, V}</code> is confirmed by milestone <code>V</code>.
+The set of blue messages <code>{Q, U, X, Y, Z, W, T, P}</code> is confirmed by another milestone.</p>
 <p><img src="0005-white-flag/img/tangle.svg" alt="" /></p>
 <p>Applying the previously shown algorithm on the purple set produces the topological order
 <code>{D, G, J, L, M, R, I, K, N O, S, V}</code>.</p>
 <p><img src="0005-white-flag/img/tangle-conflict.svg" alt="" /></p>
-<p>Here, bundle <code>G</code> and bundle <code>O</code> both confirmed by milestone <code>V</code> are conflicting. Since in the topological order just
+<p>Here, message <code>G</code> and message <code>O</code>, both confirmed by milestone <code>V</code>, are conflicting. Since in the topological order just
 produced, <code>G</code> appears before <code>O</code>, <code>G</code> is applied to the ledger and <code>O</code> is ignored.</p>
 <h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <ul>
@@ -410,11 +406,11 @@ produced, <code>G</code> appears before <code>O</code>, <code>G</code> is applie
 issued in order to confirm a spend;</li>
 <li>Everything that is seen is now part of the Tangle, including double-spend attempts, meaning that malicious data will
 now be saved as part of the consensus set of the Tangle;</li>
-<li>To prove that a specific (non-milestone) transaction is valid, it is no longer sufficient to just provide the &quot;path&quot;
-to its confirming milestone, but instead all transactions in its past cone.</li>
+<li>To prove that a specific (non-milestone) message is valid, it is no longer sufficient to just provide the &quot;path&quot;
+to its confirming milestone, but instead all messages in its past cone.</li>
 </ul>
 <h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
-<p>The main alternative to White Flag is what has been done so far i.e. not allowing conflicting bundles confirmation.
+<p>The main alternative to White Flag is what has been done so far i.e. not allowing conflicting messages confirmation.
 As explained in this RFC, this comes with added complexity when performing a Tip Selection Algorithm because a node has
 to constantly check for ledger inconsistencies.</p>
 <p>As part of Chrysalis and coupled with an adequate Tip Selection Algorithm, White Flag is an improvement of the network
@@ -422,8 +418,8 @@ by allowing a potential increase of TPS/CTPS.</p>
 <h1 id="unresolved-questions"><a class="header" href="#unresolved-questions">Unresolved questions</a></h1>
 <p>A node consumes and produces snapshot files and bases the computation of its ledger state on them. In the current
 network, if one of these files was tampered with and fed to a node, it would eventually lead to an invalid ledger state
-where a bundle confirmed by a milestone would actually be a double spend. This situation would be detected by the node
-and it would stop its activities as a security measure. However, with White Flag, such bundles would be confirmed by
+where a message confirmed by a milestone would actually be a double spend. This situation would be detected by the node
+and it would stop its activities as a security measure. However, with White Flag, such messages would be confirmed by
 milestones but ignored by the node, the fake snapshot then going unnoticed. The ledger state would then become more and
 more corrupted and the view of the balances completely wrong, errors just accumulating over time. The need for a
 snapshot verification mechanism is then amplified by the implementation of White Flag. This mechanism being out of the
