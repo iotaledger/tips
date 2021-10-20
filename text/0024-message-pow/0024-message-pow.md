@@ -56,7 +56,4 @@ The premise of this proposal is that the PoW should remain Curl-based to cause t
 - Curl can be computed directly on the `b1t6` encoded message (after an appropriate padding has been added). However, performance analysis of existing node implementation suggests that the Curl computations during the PoW could become critical, especially since parallel Curl implementations would be much more difficult to deploy because of the dynamic message lengths.
 - BLAKE2b-256 could be replaced with BLAKE2b-512 or any other binary cryptographic hash function. However, a 256-bit digest fits very nicely into exactly one Curl block and since BLAKE2b-256 is also used for the _message ID_, it is reasonable to also use it for the PoW digest. This reduces the number of required hashing implementations and even allows reusage of intermediate values between the PoW digest and the message ID computation.
 
-# Unresolved questions
-
-- What PoW score threshold should be used to secure the network? The direct equivalent of a minimum weight magnitude (MWM) of 14 together with the current message size per transaction is a PoW score ≥ 4000. However, this parameter depends on many factors, but it can also be modified at a later stage without protocol changes.
-- The PoW score formula 3<sup>#zeros</sup> / size(message) could be replaced with an alternative function to better match the network usage, e.g. in order to penalize longer message more than linearly.
+The PoW score formula 3<sup>#zeros</sup> / size(message) could be replaced with an alternative function to better match the network usage, e.g. in order to penalize longer message more than linearly.
