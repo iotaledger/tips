@@ -73,8 +73,3 @@ Hence, Ed25519-based addresses will result in a Bech32 string of 64 characters.
 - There are several ways to convert the binary serialization into a human-readable format, e.g. Base58 or hexadecimal. The Bech32 format, however, offers the best compromise between compactness and error correction guarantees. A more detailed motivation can be found in [BIP-0173 Motivation](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#motivation).
 - The binary serialization itself must be as compact as possible while still allowing you to distinguish between different address types of the same byte length. As such, the introduction of a version byte offers support for up to 256 different kinds of addresses at only the cost of one single byte.
 - The HRP of the Bech32 string offers a good opportunity to clearly distinguish IOTA addresses from other Bech32 encoded data. Here, any three or four character ASCII strings can be used. However, selecting `iota` as well as `atoi` seems like the most recognizable option.
-
-# Unresolved questions
-
-- A full list of registered human-readable parts for other cryptocurrencies can be found in [SLIP-0173 : Registered human-readable parts for BIP-0173](https://github.com/satoshilabs/slips/blob/master/slip-0173.md). It allows the registration of an additional _Regtest_ HRP. Is this desirable for IOTA?
-- Additional signature schemes or multisig addresses will be described in separate new RFCs.
