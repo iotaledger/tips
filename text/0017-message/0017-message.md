@@ -4,7 +4,7 @@
 
 # Summary
 
-A message is the object nodes gossip around in the network. It always references two other messages that are known as `parents`. It is stored as a vertex on the tangle data structure that the nodes maintain.
+A message is the object nodes gossip around in the network. It always references two other messages that are known as _parents_. It is stored as a vertex on the tangle data structure that the nodes maintain.
 
 The messages contain payloads. Some of them will be core payloads that will be processed by all nodes as part of the core protocol. Some of them will be community payloads that will enable the building of new functionalities on top of the Tangle. Some payloads may have other nested payloads embedded inside.
 So upon parsing, it is done layer by layer.
@@ -35,7 +35,7 @@ The following are data types that we will use when we specify fields in the mess
 
 
 ### Message ID
-The message ID will be the `BLAKE2b-256` hash of the byte contents of the message. It should be used by the nodes to index the messages and by external APIs.
+The message ID will be the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash of the byte contents of the message. It should be used by the nodes to index the messages and by external APIs.
 
 
 ### Message structure
@@ -49,7 +49,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
     <tr>
         <td>NetworkID</td>
         <td>uint64</td>
-        <td>Network identifier. This field will signify whether this message was meant for mainnet, testnet, or a private net. It also tells what protocol rules apply to the message. It is first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network type and the protocol version string.</td>
+        <td>Network identifier. This field will signify whether this message was meant for mainnet, testnet, or a private net. It also tells what protocol rules apply to the message. It is first 8 bytes of the BLAKE2b-256 hash of the concatenation of the network type and the protocol version string.</td>
         </tr>
     <tr>
         <td> Parents Count </td>
@@ -92,7 +92,7 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
                     <tr>
                         <td>Data Fields</td>
                         <td>ANY</td>
-                        <td>A sequence of fields, where the structure depends on <code>payload type</code>.</td>
+                        <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
                     </tr>
                 </table>
             </details>
@@ -109,14 +109,14 @@ A message is considered valid, if the following syntactic rules are met:
 
 1. The message size must not exceed 32 KiB (32 * 1024 bytes).
 2. When parsing the message is complete, there must not be any trailing bytes left that were not parsed.
-3. The optional `payload type` is known to the node.
+3. The optional `Payload Type` is known to the node.
 4. The message PoW score (as described in [RFC-0024](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0024-message-pow/0024-message-pow.md)) is not less than the configured threshold.
 5. The `Parents Count` is between 1 and 8.
 
 
 ### Payloads
 
-While messages without a payload, i.e. `Payload Length` set to zero, are valid, such messages do not contain any information. As such, messages usually contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `indexation payload` will be specified here as an example:
+While messages without a payload, i.e. `Payload Length` set to zero, are valid, such messages do not contain any information. As such, messages usually contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The _indexation payload_ will be specified here as an example:
 | Payload Name | Type Value | RFC                                                                                                                                                            |
 | ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Transaction  | 0          | [RFC-0018 (draft)](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md) |
@@ -134,7 +134,7 @@ Node implementations may provide weak guarantees regarding the completion of ind
 
 Besides the index, the payload will also have a data field.
   A message that has been attached to the Tangle and approved by a milestone has several useful properties: verifying that the content of the data did not change and determining the approximate time it was published by checking the approving milestone. If the payload will be incorporated under
-  the `signed transaction payload`, the content will be signed as well.
+  the signed _transaction payload_, the content will be signed as well.
 
 
 The structure of the payload is simple:
@@ -145,7 +145,7 @@ The structure of the payload is simple:
 | Index            | ByteArray     | The index key of the message |
 | Data             | ByteArray     | Data we are attaching    |
 
-Note that `index` field should be 1 to 64 bytes long for the payload to be valid. The `data` may have a length of 0.
+Note that `Index` field should be 1 to 64 bytes long for the payload to be valid. The `Data` may have a length of 0.
 
 
 ### Serialization Example
@@ -158,6 +158,6 @@ ASCII string. The message PoW Hash would have 10 trailing zeroes for the given n
 
 # Rationale and alternatives
 
-Instead of creating a layered approach, we could have simply created a flat `transaction message` that is tailored for mutating the ledger state, and try to fit all the use cases there. For example, with the unsigned data use-case, we could have filled some section of the transaction with the data. Then via a flag in the transaction, we could have instructed to not pass this transaction to the service that attempts to mutate the ledger state.
+Instead of creating a layered approach, we could have simply created a flat transaction message that is tailored for mutating the ledger state, and try to fit all the use cases there. For example, with the unsigned data use-case, we could have filled some section of the transaction with the data. Then via a flag in the transaction, we could have instructed to not pass this transaction to the service that attempts to mutate the ledger state.
 
 This approach seems less extensible. It might have made sense if we wanted to build a protocol that is just for ledger mutating transactions, but we want to be able to extend the protocol to do more than that.
