@@ -54,17 +54,17 @@ The message ID will be the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) ha
     <tr>
         <td> Parents Count </td>
         <td> uint8</td>
-        <td> The number of messages we directly approve. Can be any value between 1-8.</td>
+        <td> The number of messages that are directly approved.</td>
     </tr>
     <tr>
         <td>Parents </td>
         <td>ByteArray[32 * Parents Count]</td>
-        <td>The Message IDs that are referenced.</td>
+        <td>The IDs of the messages that are directly approved.</td>
     </tr>
     <tr>
         <td>Payload Length</td>
         <td>uint32</td>
-        <td> The length of the Payload. Since its type may be unknown to the node it must be declared in advanced. 0 length means no payload will be attached.</td>
+        <td> The length of the Payload. A length of 0 means no payload will be attached.</td>
     </tr>
     <tr>
         <td colspan="1">
@@ -108,11 +108,10 @@ The message ID will be the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) ha
 A message is considered valid, if the following syntactic rules are met:
 
 1. The message size must not exceed 32 KiB (32 * 1024 bytes).
-2. When parsing the message is complete, there must not be any trailing bytes left that were not parsed.
-3. The optional `Payload Type` is known to the node.
-4. The message PoW score (as described in [RFC-0024](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0024-message-pow/0024-message-pow.md)) is not less than the configured threshold.
-5. The `Parents Count` is between 1 and 8.
-
+2. The `Parents Count` is at least 1 and not larger than 8.
+3. When parsing the message is complete, there must not be any trailing bytes left that were not parsed.
+4. The optional `Payload Type` is known to the node.
+5. The message PoW score (as described in [RFC-0024](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0024-message-pow/0024-message-pow.md)) is not less than the configured threshold.
 
 ### Payloads
 
@@ -145,7 +144,7 @@ The structure of the payload is simple:
 | Index            | ByteArray     | The index key of the message |
 | Data             | ByteArray     | Data we are attaching    |
 
-Note that `Index` field should be 1 to 64 bytes long for the payload to be valid. The `Data` may have a length of 0.
+Note that `Index` field must be at least 1 byte and not longer than 64 bytes for the payload to be valid. The `Data` may have a length of 0.
 
 
 ### Serialization Example
