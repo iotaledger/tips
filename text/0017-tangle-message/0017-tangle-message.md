@@ -175,7 +175,7 @@ Below is the full serialization of a valid message with an indexation payload. T
   - Index Length (2-byte): `0400` (4)
   - Index (4-byte): `494f5441` ("IOTA")
   - Data (15-byte):
-    - Length (4-byte): `0b000000`
+    - Length (4-byte): `0b000000` (11)
     - Data (11-byte): `68656c6c6f20776f726c64` ("hello world")
 - Nonce (8-byte): `ce6d000000000000` (28110)
 
