@@ -6,7 +6,7 @@
 
 A message is the object nodes gossip around in the network. It always references two other messages that are known as `parents`. It is stored as a vertex on the tangle data structure that the nodes maintain.
 
-The messages will contain payloads. Some of them will be core payloads that will be processed by all nodes as part of the core protocol. Some of them will be community payloads that will enable the building of new functionalities on top of the Tangle. Some payloads may have other nested payloads embedded inside.
+The messages contain payloads. Some of them will be core payloads that will be processed by all nodes as part of the core protocol. Some of them will be community payloads that will enable the building of new functionalities on top of the Tangle. Some payloads may have other nested payloads embedded inside.
 So upon parsing, it is done layer by layer.
 
 # Motivation
@@ -108,15 +108,15 @@ The message ID will be the `BLAKE2b-256` hash of the byte contents of the messag
 A message is considered valid, if the following syntactic rules are met:
 
 1. The message size must not exceed 32 KiB (32 * 1024 bytes).
-2. When parsing the message is complete, there should not be any trailing bytes left that were not parsed.
-3. If the `payload type` is known to the node.
-4. If the message PoW score (as described in [RFC-0024](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0024-message-pow/0024-message-pow.md)) is not less than the configured threshold.
-5. `Parents Count` must be between 1-8.
+2. When parsing the message is complete, there must not be any trailing bytes left that were not parsed.
+3. The optional `payload type` is known to the node.
+4. The message PoW score (as described in [RFC-0024](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0024-message-pow/0024-message-pow.md)) is not less than the configured threshold.
+5. The `Parents Count` is between 1 and 8.
 
 
 ### Payloads
 
-A message may contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `indexation payload` will be specified here as an example:
+While messages without a payload, i.e. `Payload Length` set to zero, are valid, such messages do not contain any information. As such, messages usually contain a payload. The specification of the payloads is out of scope of this RFC. Below is a table of the currently specified core payloads with a link to their specifications. The `indexation payload` will be specified here as an example:
 
 | Payload Name                              |   Type Value |
 | ---------------------------------------   | -----------  | 
