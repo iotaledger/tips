@@ -4,7 +4,7 @@
 
 # Summary
 
-A message is the object nodes gossip around in the network. It always references two other messages that are known as _parents_. It is stored as a vertex on the tangle data structure that the nodes maintain.
+A message is the object nodes gossip around in the network. It always references other messages that are known as _parents_.
 
 The messages contain payloads. Some of them will be core payloads that will be processed by all nodes as part of the core protocol. Some of them will be community payloads that will enable the building of new functionalities on top of the Tangle. Some payloads may have other nested payloads embedded inside.
 So upon parsing, it is done layer by layer.
