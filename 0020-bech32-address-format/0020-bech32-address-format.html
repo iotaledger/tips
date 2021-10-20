@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>0015-binary-to-ternary-encoding - The IOTA Protocol RFC Book</title>
+        <title>0020-bech32-address-format - The IOTA Protocol RFC Book</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html" class="active">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html" class="active">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -135,87 +135,95 @@
                 <div id="content" class="content">
                     <main>
                         <ul>
-<li>Feature name: <code>binary-to-ternary-encoding</code></li>
-<li>Start date: 2020-06-08</li>
-<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/15">iotaledger/protocol-rfcs#0015</a></li>
+<li>Feature name: <code>bech32-address-format</code></li>
+<li>Start date: 2020-07-28</li>
+<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/20">iotaledger/protocol-rfcs#0020</a></li>
 </ul>
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
-<p>In the IOTA protocol, a transaction is represented as ternary data. However, sometimes it is necessary to store binary data (e.g. the digest of a binary hash function) inside of a transaction. This requires the conversion of binary into ternary strings.
-The IOTA client libraries support the opposite conversion that encodes 5 trits as 1 byte (sometimes also referred to as <code>t5b1</code> encoding), which is used for network communication and in storage layers. This RFC describes the corresponding counterpart to encode 1 byte as 6 trits.</p>
+<p>This document proposes an extendable address format for the IOTA protocol supporting various signature schemes and address types. It relies on the <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">Bech32</a> format to provide a compact, human-readable encoding with strong error correction guarantees.</p>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
-<p>A byte is composed of 8 bits that can represent 2<sup>8</sup> = 256 different values. On the other hand, 6 trits can hold 3<sup>6</sup> = 729 values while 5 trits can hold 3<sup>5</sup> = 243 values. Therefore, the most memory-efficient way to encode one byte requires the use of 6 trits. Although there exist many potential encoding schemes to convert binary data into ternary, the proposed version has been designed to directly match the widely used <code>t5b1</code> encoding.</p>
-<p>It is important to note that the <code>b1t6</code> encoding presented in this RFC does not replace the current <code>t5b1</code> encoding (or its corresponding decoding): <code>t5b1</code> is for example used to store trytes in a binary database, while <code>b1t6</code> will be used to attach binary data to an IOTA transaction.</p>
+<p>With <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, IOTA uses Ed25519 to generate digital signatures, in which addresses correspond to a BLAKE2b-256 hash. It is necessary to define a new universal and extendable address format capable of encoding different types of addresses.</p>
+<p>The current IOTA protocol relies on Base27 addresses with a truncated Kerl checksum. However, both the character set and the checksum algorithm have limitations: </p>
+<ul>
+<li>Base27 is designed for ternary and is ill-suited for binary data.</li>
+<li>The Kerl hash function also requires ternary input. Further, it is slow and provides no error-detection guarantees.</li>
+<li>It does not support the addition of version or type information to distinguish between different kinds of addresses with the same length.</li>
+</ul>
+<p>All of these points are addressed in the Bech32 format introduced in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>: In addition to the usage of the human-friendly Base32 encoding with an optimized character set, it implements a <a href="https://en.wikipedia.org/wiki/BCH_code">BCH code</a> that <em>guarantees detection</em> of any error affecting at most four characters and has less than a 1 in 10<sup>9</sup> chance of failing to detect more errors.</p>
+<p>This RFC proposes a simple and extendable binary serialization for addresses of different types that is then Bech32 encoded to provide a unique appearance for human-facing applications such as wallets. </p>
 <h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
-<h3 id="bytes-to-trits"><a class="header" href="#bytes-to-trits">Bytes to trits</a></h3>
-<p>In order to encode a binary string S into ternary, each byte of S is interpreted as a signed (two's complement) 8-bit integer value v. Then, v is encoded as a little-endian 6-trit string in balanced ternary representation. Finally, the resulting groups of trits are concatenated.</p>
-<p>This algorithm can also be described using the following pseudocode:</p>
-<pre><code>T ← []
-foreach byte b in S:
-  v ← int8(b)
-  g ← IntToTrits(v, 6)
-  T ← T || g
-</code></pre>
-<p>Here, the function <code>IntToTrits</code> converts a signed integer value into its corresponding balanced ternary representation in little-endian order of the given length. The functionality of <code>IntToTrits</code> exactly matches the one used to e.g. encode the transaction values as trits in the current IOTA protocol.</p>
-<h3 id="trits-to-bytes"><a class="header" href="#trits-to-bytes">Trits to bytes</a></h3>
-<p>Given a trit string T as the result of the previous encoding, T is converted back to its original byte string S by simply reversing the conversion:</p>
-<pre><code>S ← []
-foreach 6-trit group g in T:
-  v ← TritsToInt(g)
-  b ← byte(v)
-  S ← S || b
-</code></pre>
+<h2 id="binary-serialization"><a class="header" href="#binary-serialization">Binary serialization</a></h2>
+<p>The address format uses a simple serialization scheme which consists of two parts:</p>
+<ul>
+<li>The first byte describes the type of the address.</li>
+<li>The remaining bytes contain the type-specific raw address bytes.</li>
+</ul>
+<p>Currently, only one kind of addresses are supported:</p>
+<ul>
+<li>Ed25519, where the address consists of the BLAKE2b-256 hash of the Ed25519 public key.</li>
+</ul>
+<p>They are serialized as follows:</p>
+<table><thead><tr><th>Type</th><th>First byte</th><th>Address bytes</th></tr></thead><tbody>
+<tr><td>Ed25519</td><td><code>0x00</code></td><td>32 bytes: The BLAKE2b-256 hash of the Ed25519 public key.</td></tr>
+</tbody></table>
+<h2 id="bech32-for-human-readable-encoding"><a class="header" href="#bech32-for-human-readable-encoding">Bech32 for human-readable encoding</a></h2>
+<p>The human-readable encoding of the address is Bech32 (as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>). A Bech32 string is at most 90 characters long and consists of: </p>
+<ul>
+<li>The <strong>human-readable part</strong> (HRP), which conveys the IOTA protocol and distinguishes between Mainnet (the IOTA token) and Testnet (testing version):
+<ul>
+<li><code>iota</code> is the human-readable part for Mainnet addresses</li>
+<li><code>atoi</code> is the human-readable part for Testnet addresses</li>
+</ul>
+</li>
+<li>The <strong>separator</strong>, which is always <code>1</code>.</li>
+<li>The <strong>data part</strong>, which consists of the Base32 encoded serialized address and the 6-character checksum.</li>
+</ul>
+<p>Hence, Ed25519-based addresses will result in a Bech32 string of 64 characters.</p>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
-<li>I
+<li><strong>Mainnet</strong>
 <ul>
-<li>binary (hex): <code>00</code></li>
-<li>ternary (trytes): <code>99</code></li>
+<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code>
+<ul>
+<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code> </li>
+<li>serialized (33-byte): <code>00efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
+<li>Bech32 string: <code>iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx</code></li>
 </ul>
 </li>
-<li>II
-<ul>
-<li>binary (hex): <code>0001027e7f8081fdfeff</code></li>
-<li>ternary (trytes):
-<code>99A9B9RESEGVHVX9Y9Z9</code></li>
 </ul>
 </li>
-<li>III
+<li><strong>Testnet</strong>
 <ul>
-<li>binary (hex): <code>9ba06c78552776a596dfe360cc2b5bf644c0f9d343a10e2e71debecd30730d03</code></li>
-<li>ternary (trytes): <code>GWLW9DLDDCLAJDQXBWUZYZODBYPBJCQ9NCQYT9IYMBMWNASBEDTZOYCYUBGDM9C9</code></li>
+<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code>
+<ul>
+<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code> </li>
+<li>serialized (33-byte): <code>00efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
+<li>Bech32 string: <code>atoi1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6x8x4r7t</code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 <h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <ul>
-<li>Conceptually, one byte can be encoded using log<sub>3</sub>(256) ≈ 5.0474 trits. Thus, encoding 1 byte as 6 trits consumes considerably more memory than the mathematical minimum.</li>
-<li>Depending on the actual implementation the conversion might be malleable: E.g. since <code>byte(-1) = 0xff</code> and <code>byte(255) = 0xff</code>, both <code>Z9</code> (-1) and <code>LI</code>(255) could be decoded as <code>ff</code>. However, <code>LI</code> can never be the result of a valid <code>b1t6</code> encoding. As such, the implementation must reject such invalid inputs.</li>
+<li>The new addresses look fundamentally different from the established 81-tryte IOTA addresses. However, since the switch from binary to ternary and Chrysalis in general is a substantial change, this is a very reasonable and desired consequence.</li>
+<li>A four character HRP plus one type byte only leaves a maximum of 48 bytes for the actual address. </li>
 </ul>
 <h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
-<p>There are several ways to convert binary data into ternary, e.g.</p>
 <ul>
-<li>the conversion used as part of the <a href="https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md">Kerl</a> hash function encoding chunks of 48 bytes as 242 trits,</li>
-<li>or by encoding each bit as one trit with the corresponding value.</li>
+<li>There are several ways to convert the binary serialization into a human-readable format, e.g. Base58 or hexadecimal. The Bech32 format, however, offers the best compromise between compactness and error correction guarantees. A more detailed motivation can be found in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#motivation">BIP-0173 Motivation</a>.</li>
+<li>The binary serialization itself must be as compact as possible while still allowing you to distinguish between different address types of the same byte length. As such, the introduction of a version byte offers support for up to 256 different kinds of addresses at only the cost of one single byte.</li>
+<li>The HRP of the Bech32 string offers a good opportunity to clearly distinguish IOTA addresses from other Bech32 encoded data. Here, any three or four character ASCII strings can be used. However, selecting <code>iota</code> as well as <code>atoi</code> seems like the most recognizable option.</li>
 </ul>
-<p>The current client libraries do not provide any functionality to convert an arbitrary amount of bytes into trits. The closest available functionality is the ASCII to trit conversion, which is used for human-readable messages in transactions:</p>
-<pre><code>T ← []
-foreach char c in S:
-  first ← uint8(c) mod 27
-  second ← (uint8(c)-first) / 27
-  T ← T || IntToTrits(first, 3) || IntToTrits(second, 3)
-</code></pre>
-<p>This function can be adapted to encode any general byte string. However, the conversion seems rather arbitrary and the algorithm is computationally more intense than the proposed solution.
-On the other hand, using the algorithm from this RFC also for the conversion of ASCII messages would break backward compatibility, which is also undesirable.</p>
-<p>Each conversion method has different advantages and disadvantages. However, since the <code>t5b1</code> encoding is well-defined and has been used in <a href="https://github.com/iotaledger/iri">IRI</a> for both network communications and storage layers for a long time, choosing the direct counterpart for the opposite conversion represents the most logical solution providing a nice balance between performance and memory-efficiency.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../0020-bech32-address-format/0020-bech32-address-format.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../0024-message-pow/0024-message-pow.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -224,10 +232,10 @@ On the other hand, using the algorithm from this RFC also for the conversion of 
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../0020-bech32-address-format/0020-bech32-address-format.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../0024-message-pow/0024-message-pow.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
