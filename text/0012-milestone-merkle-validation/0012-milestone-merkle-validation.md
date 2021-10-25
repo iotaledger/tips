@@ -8,7 +8,7 @@ In the IOTA protocol, nodes use the milestones issued by the Coordinator to reac
 
 # Motivation
 
-With the changes proposed in [RFC-5 (white flag)](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md), milestones are allowed to reference conflicting transactions. These conflicts are then resolved by traversing the newly confirmed transactions in a global, deterministic order and applying the corresponding ledger state changes in that order. Conflicts or invalid transactions are ignored, but stay in the Tangle.
+With the changes proposed in the IOTA protocol [RFC-0005](https://iotaledger.github.io/protocol-rfcs/0005-white-flag/0005-white-flag.html), milestones are allowed to reference conflicting transactions. These conflicts are then resolved by traversing the newly confirmed transactions in a global, deterministic order and applying the corresponding ledger state changes in that order. Conflicts or invalid transactions are ignored, but stay in the Tangle.
 This approach has considerable advantages in terms of network security (e.g. protection against [conflict spamming attacks](https://iota.cafe/t/conflict-spamming-attack/232)) and network performance. However, a milestone no longer represents the inclusion state of all its referenced transactions, but only marks the order in which transactions are checked against the ledger state and then, if not violating, applied. This has two significant drawbacks:
  - Milestone validation: In the IOTA protocol, each node always compares the milestones issued by the Coordinator against its current ledger state. Discrepancies are reported and force an immediate halt of the node software. However, in the white flag proposal this detection is no longer possible as any milestone can lead to a valid ledger state by ignoring the corresponding violating ledger changes.
  - Proof of inclusion: In the pre-white-flag protocol, the inclusion of transaction t in the Tangle, and thus, the ledger, can be shown by providing an audit path of referencing transactions from t to its confirming milestone. In the white flag proposal this is no longer possible, as such an audit path does not provide any information on whether the transaction has been included or ignored.
@@ -22,10 +22,10 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 ## Creating a Milestone
 
 - Perform tip selection to choose the parents referenced by the milestone.
-- Determine the topological order according to [RFC-5](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) of the referenced messages that are not yet confirmed by a previous milestone.
+- Determine the topological order according to [RFC-0005](https://iotaledger.github.io/protocol-rfcs/0005-white-flag/0005-white-flag.html) of the referenced messages that are not yet confirmed by a previous milestone.
 - Construct the list D consisting of the message IDs of all the not-ignored state-mutating transaction payloads in that particular order. A UTXO transaction is considered state-mutating, if it creates a new output.
 - Compute the 32-byte Merkle tree hash H = MTH(D).
-- Prepare the milestone payload as described in [Draft RFC-19](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md), where the field `Inclusion Merkle Root` is set to H.
+- Prepare the milestone payload as described in [Draft RFC-0019](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md), where the field `Inclusion Merkle Root` is set to H.
 
 ## Milestone validation
 
@@ -110,7 +110,7 @@ root: bf67ce7ba23e8c0951b5abaec4f5524360d2c26d971ff226d3359fa70cdb0beb
 
 # Rationale and alternatives
 
-It is a crucial security feature of the IOTA network that nodes are able to validate the issued milestones. As a result, if the Coordinator were to ever send an invalid milestone, such as one that references counterfeit transactions, the rest of the nodes would not accept it. In a pure implementation of [RFC-5](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md) this feature is lost and must be provided by external mechanisms.
+It is a crucial security feature of the IOTA network that nodes are able to validate the issued milestones. As a result, if the Coordinator were to ever send an invalid milestone, such as one that references counterfeit transactions, the rest of the nodes would not accept it. In a pure implementation of [RFC-0005](https://iotaledger.github.io/protocol-rfcs/0005-white-flag/0005-white-flag.html) this feature is lost and must be provided by external mechanisms.
 A Merkle tree hash provides an efficient, secure and well-established method to compress the information about the confirmed transactions in such a way, that they fit in the milestone transaction.
 
 In this context, it could also be possible to use an unsecured checksum (such as CRCs) of the message IDs instead of a Merkle tree hash. However, the small benefit of faster computation times does no justify the potential security risks and attack vectors.
