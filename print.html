@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="0024-message-pow/0024-message-pow.html">0024-message-pow</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="0017-tangle-message/0017-tangle-message.html">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="0024-message-pow/0024-message-pow.html">0024-message-pow</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -749,13 +749,186 @@ foreach char c in S:
 On the other hand, using the algorithm from this RFC also for the conversion of ASCII messages would break backward compatibility, which is also undesirable.</p>
 <p>Each conversion method has different advantages and disadvantages. However, since the <code>t5b1</code> encoding is well-defined and has been used in <a href="https://github.com/iotaledger/iri">IRI</a> for both network communications and storage layers for a long time, choosing the direct counterpart for the opposite conversion represents the most logical solution providing a nice balance between performance and memory-efficiency.</p>
 <div style="break-before: page; page-break-before: always;"></div><ul>
+<li>Feature name: <code>tangle-message</code></li>
+<li>Start date: 2020-07-28</li>
+<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/0017">iotaledger/protocol-rfcs#0017</a></li>
+</ul>
+<h1 id="summary-4"><a class="header" href="#summary-4">Summary</a></h1>
+<p>The Tangle is the graph data structure behind IOTA. In the current IOTA protocol, the vertices of the Tangle are represented by transactions. This document proposes an abstraction of this idea where the vertices are generalized <em>messages</em>, which then contain the transactions or other structures that are processed by the IOTA protocol. Just as before, each message directly approves other messages, which are known as <em>parents</em>.</p>
+<p>The messages can contain payloads. These are core payloads that will be processed by all nodes as part of the IOTA protocol. Some payloads may have other nested payloads embedded inside. Hence, parsing is done layer by layer.</p>
+<h1 id="motivation-4"><a class="header" href="#motivation-4">Motivation</a></h1>
+<p>To better understand this layered design, consider the Internet Protocol (IP), for example: There is an Ethernet frame that contains an IP payload. This in turn contains a TCP packet that encapsulates an HTTP payload. Each layer has a certain responsibility and once this responsibility is completed, we move on to the next layer.</p>
+<p>The same is true with how messages are parsed. The outer layer of the message enables the mapping of the message to a vertex in the Tangle and allow us to perform some basic validation. The next layer may be a transaction that mutates the ledger state, and one layer further may provide some extra functionality on the transactions to be used by applications.</p>
+<p>By making it possible to add and exchange payloads, an architecture is being created that can easily be extended to accommodate future needs.</p>
+<h1 id="detailed-design-4"><a class="header" href="#detailed-design-4">Detailed design</a></h1>
+<h2 id="data-types"><a class="header" href="#data-types">Data types</a></h2>
+<p>The following are data types that will be used when we specify fields in the message and payloads.</p>
+<table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
+<tr><td>uint8</td><td>An unsigned 8-bit integer encoded in Little Endian.</td></tr>
+<tr><td>uint16</td><td>An unsigned 16-bit integer encoded in Little Endian.</td></tr>
+<tr><td>uint32</td><td>An unsigned 32-bit integer encoded in Little Endian.</td></tr>
+<tr><td>uint64</td><td>An unsigned 64-bit integer encoded in Little Endian.</td></tr>
+<tr><td>ByteArray[N]</td><td>A static size byte array of length N.</td></tr>
+<tr><td>ByteArray</td><td>A dynamically sized byte array. A leading uint32 denotes its length in bytes.</td></tr>
+</tbody></table>
+<h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
+<h3 id="message-id"><a class="header" href="#message-id">Message ID</a></h3>
+<p>The <em>Message ID</em> is the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the entire serialized message.</p>
+<h3 id="serialized-layout"><a class="header" href="#serialized-layout">Serialized Layout</a></h3>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Network ID</td>
+    <td>uint64</td>
+    <td>Network identifier. This field denotes whether the message was meant for mainnet, testnet, or a private net. It also marks what protocol rules apply to the message. Usually, it will be set to the first 8 bytes of the BLAKE2b-256 hash of the concatenation of the network type and the protocol version string.</td>
+  </tr>
+  <tr>
+    <td>Parents Count</td>
+    <td>uint8</td>
+    <td>The number of messages that are directly approved.</td>
+  </tr>
+  <tr>
+    <td valign="top">Parents <code>anyOf</code></td>
+    <td colspan="2">
+      <details>
+        <summary>Parent</summary>
+        <blockquote>
+          References another directly approved message.
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Message ID</td>
+            <td>ByteArray[32]</td>
+            <td>The Message ID of the parent.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Payload Length</td>
+    <td>uint32</td>
+    <td>The length of the following payload in bytes. A length of 0 means no payload will be attached.</td>
+  </tr>
+  <tr>
+    <td valign="top">Payload <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Generic Payload</summary>
+        <blockquote>
+          An outline of a generic payload
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Payload Type</td>
+            <td>uint32</td>
+            <td>
+              The type of the payload. It will instruct the node how to parse the fields that follow.
+            </td>
+          </tr>
+          <tr>
+            <td>Data Fields</td>
+            <td>ANY</td>
+            <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+          </tr>
+        </table>
+      </details>
+  <tr>
+    <td>Nonce</td>
+    <td>uint64</td>
+    <td>The nonce which lets this message fulfill the PoW requirement.</td>
+  </tr>
+</table>
+<h2 id="message-validation"><a class="header" href="#message-validation">Message validation</a></h2>
+<p>The following criteria defines whether the message passes the syntactical validation:</p>
+<ul>
+<li>The total message size must not exceed 32 KiB (32 * 1024 bytes).</li>
+<li>Parents:
+<ul>
+<li><code>Parents Count</code> must be at least 1 and not larger than 8.</li>
+<li><code>Parents</code> must be sorted in lexicographical order.</li>
+<li>Each <code>Message ID</code> must be unique.</li>
+</ul>
+</li>
+<li>Payload (if present):
+<ul>
+<li><code>Payload Type</code> must match one of the values described under <a href="0017-tangle-message/0017-tangle-message.html#Payloads">Payloads</a>.</li>
+<li><code>Data fields</code> must be correctly parsable in the context of the <code>Payload Type</code>.</li>
+<li>The payload itself must pass syntactic validation.</li>
+</ul>
+</li>
+<li><code>Nonce</code> must be a valid solution of the message PoW as described in <a href="https://iotaledger.github.io/protocol-rfcs/0024-message-pow/0024-message-pow.html">RFC-0024</a>.</li>
+<li>There must be no trailing bytes after all message fields have been parsed.</li>
+</ul>
+<h2 id="payloads"><a class="header" href="#payloads">Payloads</a></h2>
+<p>While messages without a payload, i.e. <code>Payload Length</code> set to zero, are valid, such messages do not contain any information. As such, messages usually contain a payload. The detailed specification of each payload type is out of scope of this RFC. The following table lists all currently specified payloads that can be part of a message and links to their specification. The <em>indexation payload</em> will be specified here as an example:</p>
+<table><thead><tr><th>Payload Name</th><th>Type Value</th><th>RFC</th></tr></thead><tbody>
+<tr><td>Transaction</td><td>0</td><td><a href="https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md">RFC-0018 (draft)</a></td></tr>
+<tr><td>Milestone</td><td>1</td><td><a href="https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md">RFC-0019 (draft)</a></td></tr>
+<tr><td>Indexation</td><td>2</td><td><a href="0017-tangle-message/0017-tangle-message.html#Indexation-payload">RFC-0017</a></td></tr>
+</tbody></table>
+<h3 id="indexation-payload"><a class="header" href="#indexation-payload">Indexation payload</a></h3>
+<p>This payload allows the addition of an index to the encapsulating message, as well as some arbitrary data. Nodes will expose an API that allows to query messages by index.</p>
+<p>The structure of the indexation payload is as follows:</p>
+<table><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>Payload Type</td><td>uint32</td><td>Set to <b>value 2</b> to denote an <i>Indexation Payload</i>.</td></tr>
+<tr><td>Index Length</td><td>uint16</td><td>The length of the following index field in bytes.</td></tr>
+<tr><td>Index</td><td>ByteArray[Index Length]</td><td>The index key of the message</td></tr>
+<tr><td>Data</td><td>ByteArray</td><td>Binary data.</td></tr>
+</tbody></table>
+<p>Note that <code>Index</code> field must be at least 1 byte and not longer than 64 bytes for the payload to be valid. The <code>Data</code> may have a length of 0.</p>
+<h2 id="example-2"><a class="header" href="#example-2">Example</a></h2>
+<p>Below is the full serialization of a valid message with an indexation payload. The index is the &quot;IOTA&quot; ASCII string and the data is the &quot;hello world&quot; ASCII string. Bytes are expressed as hexadecimal numbers.</p>
+<ul>
+<li>Network ID (8-byte): <code>0000000000000000</code> (0)</li>
+<li>Parents Count (1-byte): <code>02</code> (2)</li>
+<li>Parents (64-byte):
+<ul>
+<li><code>210fc7bb818639ac48a4c6afa2f1581a8b9525e20fda68927f2b2ff836f73578</code></li>
+<li><code>db0fa54c29f7fd928d92ca43f193dee47f591549f597a811c8fa67ab031ebd9c</code></li>
+</ul>
+</li>
+<li>Payload Length (4-byte): <code>19000000</code> (25)</li>
+<li>Payload (25-byte):
+<ul>
+<li>Payload Type (4-byte): <code>02000000</code> (2)</li>
+<li>Index Length (2-byte): <code>0400</code> (4)</li>
+<li>Index (4-byte): <code>494f5441</code> (&quot;IOTA&quot;)</li>
+<li>Data (15-byte):
+<ul>
+<li>Length (4-byte): <code>0b000000</code> (11)</li>
+<li>Data (11-byte): <code>68656c6c6f20776f726c64</code> (&quot;hello world&quot;)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Nonce (8-byte): <code>ce6d000000000000</code> (28110)</li>
+</ul>
+<h1 id="rationale-and-alternatives-4"><a class="header" href="#rationale-and-alternatives-4">Rationale and alternatives</a></h1>
+<p>Instead of creating a layered approach, we could have simply created a flat transaction message that is tailored to mutate the ledger state, and try to fit all the use cases there. For example, with the indexed data use case, we could have filled some section of the transaction with that particular data. Then, this transaction would not correspond to a ledger mutation but instead only carry data.</p>
+<p>This approach seems less extensible. It might have made sense if we had wanted to build a protocol that is just for ledger mutating transactions, but we want to be able to extend the protocol to do more than that.</p>
+<div style="break-before: page; page-break-before: always;"></div><ul>
 <li>Feature name: <code>bech32-address-format</code></li>
 <li>Start date: 2020-07-28</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/20">iotaledger/protocol-rfcs#0020</a></li>
 </ul>
-<h1 id="summary-4"><a class="header" href="#summary-4">Summary</a></h1>
+<h1 id="summary-5"><a class="header" href="#summary-5">Summary</a></h1>
 <p>This document proposes an extendable address format for the IOTA protocol supporting various signature schemes and address types. It relies on the <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">Bech32</a> format to provide a compact, human-readable encoding with strong error correction guarantees.</p>
-<h1 id="motivation-4"><a class="header" href="#motivation-4">Motivation</a></h1>
+<h1 id="motivation-5"><a class="header" href="#motivation-5">Motivation</a></h1>
 <p>With <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, IOTA uses Ed25519 to generate digital signatures, in which addresses correspond to a BLAKE2b-256 hash. It is necessary to define a new universal and extendable address format capable of encoding different types of addresses.</p>
 <p>The current IOTA protocol relies on Base27 addresses with a truncated Kerl checksum. However, both the character set and the checksum algorithm have limitations: </p>
 <ul>
@@ -765,7 +938,7 @@ On the other hand, using the algorithm from this RFC also for the conversion of 
 </ul>
 <p>All of these points are addressed in the Bech32 format introduced in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>: In addition to the usage of the human-friendly Base32 encoding with an optimized character set, it implements a <a href="https://en.wikipedia.org/wiki/BCH_code">BCH code</a> that <em>guarantees detection</em> of any error affecting at most four characters and has less than a 1 in 10<sup>9</sup> chance of failing to detect more errors.</p>
 <p>This RFC proposes a simple and extendable binary serialization for addresses of different types that is then Bech32 encoded to provide a unique appearance for human-facing applications such as wallets. </p>
-<h1 id="detailed-design-4"><a class="header" href="#detailed-design-4">Detailed design</a></h1>
+<h1 id="detailed-design-5"><a class="header" href="#detailed-design-5">Detailed design</a></h1>
 <h2 id="binary-serialization"><a class="header" href="#binary-serialization">Binary serialization</a></h2>
 <p>The address format uses a simple serialization scheme which consists of two parts:</p>
 <ul>
@@ -823,7 +996,7 @@ On the other hand, using the algorithm from this RFC also for the conversion of 
 <li>The new addresses look fundamentally different from the established 81-tryte IOTA addresses. However, since the switch from binary to ternary and Chrysalis in general is a substantial change, this is a very reasonable and desired consequence.</li>
 <li>A four character HRP plus one type byte only leaves a maximum of 48 bytes for the actual address. </li>
 </ul>
-<h1 id="rationale-and-alternatives-4"><a class="header" href="#rationale-and-alternatives-4">Rationale and alternatives</a></h1>
+<h1 id="rationale-and-alternatives-5"><a class="header" href="#rationale-and-alternatives-5">Rationale and alternatives</a></h1>
 <ul>
 <li>There are several ways to convert the binary serialization into a human-readable format, e.g. Base58 or hexadecimal. The Bech32 format, however, offers the best compromise between compactness and error correction guarantees. A more detailed motivation can be found in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#motivation">BIP-0173 Motivation</a>.</li>
 <li>The binary serialization itself must be as compact as possible while still allowing you to distinguish between different address types of the same byte length. As such, the introduction of a version byte offers support for up to 256 different kinds of addresses at only the cost of one single byte.</li>
@@ -834,18 +1007,18 @@ On the other hand, using the algorithm from this RFC also for the conversion of 
 <li>Start date: 2020-08-25</li>
 <li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/0024">iotaledger/protocol-rfcs#0024</a></li>
 </ul>
-<h1 id="summary-5"><a class="header" href="#summary-5">Summary</a></h1>
+<h1 id="summary-6"><a class="header" href="#summary-6">Summary</a></h1>
 <p>The IOTA protocol uses proof-of-work as a means to rate-limit the network. Currently, the Curl-P-81 trinary hash function is used and is required to provide a hash with the matching number of trailing zero trits to issue a transaction to the Tangle. With <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, it will be possible to issue binary messages of arbitrary size. This RFC presents a proposal to adapt the existing PoW mechanism to these new requirements. It aims to be less disruptive to the current PoW mechanism as possible.</p>
-<h1 id="motivation-5"><a class="header" href="#motivation-5">Motivation</a></h1>
+<h1 id="motivation-6"><a class="header" href="#motivation-6">Motivation</a></h1>
 <p>In the current IOTA Protocol, each transaction has a fixed size of 8019 trits and is hashed using Curl-P-81 to compute its 243-trit transaction hash, where the PoW's difficulty equals the number of trailing zero trits in that hash.<br>
 Unfortunately, the performance of Curl-P-81 is slow, achieving only about 2 MB/s on a single core. This would make the PoW validation a bottleneck, especially for high usage scenarios with larger messages. Thus, this RFC proposes a two-stage approach to speed up the validation process: First, the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash function is used to create a short, fixed length digest of the message. Then, this digest, together with the nonce, is hashed using Curl-P-81. Since the digest only needs to be computed once while iterating over different nonce values, this preserves Curl as the PoW-relevant hash. However, the validation is much faster, as BLAKE2b-256 has a performance of about 1 GB/s and Curl then only needs to be executed for one single 243-trit block of input. Since the input of the final Curl computation is always fixed, parallel Curl variants can be used in this stage to further speed up the validation if necessary.<br>
 Furthermore, it is important to note that the time required to do the PoW depends on the PoW difficulty and not on the message length. As such, to treat messages with different lengths differently, we need to weight the PoW difficulty by the message length.</p>
 <p>It will be easy to adapt existing hardware and software implementations of the current PoW mechanism to work with the proposed design. Only the input and the position of the nonce in the buffer needs to be adapted. This enables existing Curl projects to continue persisting and also the entire PoW landscape should stay almost the same.</p>
-<h1 id="detailed-design-5"><a class="header" href="#detailed-design-5">Detailed design</a></h1>
+<h1 id="detailed-design-6"><a class="header" href="#detailed-design-6">Detailed design</a></h1>
 <p>The PoW score is defined as the average number of iterations required to find the number of trailing zero trits in the hash divided by the message size.</p>
 <p>The PoW validation is performed in the following way:</p>
 <ul>
-<li>Compute the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the serialized message (as described in <a href="https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md">Draft RFC-17</a>) <em>excluding</em> the 8-byte <code>Nonce</code> field and convert the hash into its 192-trit <code>b1t6</code> encoding. (See <a href="https://iotaledger.github.io/protocol-rfcs/0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">RFC-15</a> for a description of the encoding.)</li>
+<li>Compute the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the serialized message (as described in <a href="https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html">RFC-0017</a>) <em>excluding</em> the 8-byte <code>Nonce</code> field and convert the hash into its 192-trit <code>b1t6</code> encoding. (See <a href="https://iotaledger.github.io/protocol-rfcs/0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">RFC-0015</a> for a description of the encoding.)</li>
 <li>Take the 8-byte <code>Nonce</code> in little-endian representation, convert it into its 48-trit <code>b1t6</code> encoding and append it to the hash trits.</li>
 <li>Add a padding of three zero trits to create a 243-trit string.</li>
 <li>Compute the Curl-P-81 hash.</li>
@@ -858,7 +1031,7 @@ pow_hash ← Curl-P-81(b1t6(pow_digest) || b1t6(nonce) || [0, 0, 0])
 pow ← 3**trailing_zeros(pow_hash) / size
 </code></pre>
 <p>where <code>size</code> is the number of bytes of the full serialized message.</p>
-<h2 id="example-2"><a class="header" href="#example-2">Example</a></h2>
+<h2 id="example-3"><a class="header" href="#example-3">Example</a></h2>
 <ul>
 <li>Message including nonce (21-byte): <code>48656c6c6f2c20576f726c64215ee6aaaaaaaaaaaa</code></li>
 <li>PoW digest (32-byte): <code>511bc81dde11180838c562c82bb35f3223f46061ebde4a955c27b3f489cf1e03</code></li>
@@ -873,7 +1046,7 @@ pow ← 3**trailing_zeros(pow_hash) / size
 <li>Curl is a ternary hash function that is applied on binary data. This makes it necessary to introduce an additional encoding step. However, the proposed <code>b1t6</code> encoding is reasonably performant. Additionally, hash functions usually contain an encoding step to write the input into their internal state. In that sense, the <code>b1t6</code> encoding is not much different.</li>
 <li>One additional trailing zero in the PoW hash effectively allows the message size to be tripled. This could potentially incentivize users to add otherwise unnecessary data, when the PoW difficulty stays the same. Using a binary hash function instead of Curl would only slightly improve this situation as the allowed message length remains exponential in the difficulty parameter.</li>
 </ul>
-<h1 id="rationale-and-alternatives-5"><a class="header" href="#rationale-and-alternatives-5">Rationale and alternatives</a></h1>
+<h1 id="rationale-and-alternatives-6"><a class="header" href="#rationale-and-alternatives-6">Rationale and alternatives</a></h1>
 <p>The premise of this proposal is that the PoW should remain Curl-based to cause the least amount of disruption to the protocol and its established projects. Therefore, other hash functions or PoW algorithms have not been considered. However, modifications of the described calculation are possible:</p>
 <ul>
 <li>There are several potential encodings for the nonce: E.g. converting its value directly to balanced ternary (the most compact encoding) or using the <code>b1t8</code> encoding. The chosen <code>b1t6</code> encoding achieves a nice balance between compactness and performance. Since it is possible to fit the PoW digest and the <code>b1t6</code> encoded nonce into one Curl block, the simplicity of having only one encoding (for PoW digest and nonce) was preferred over minimal performance improvements other encodings could bring.</li>
