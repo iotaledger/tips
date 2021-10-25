@@ -25,7 +25,7 @@ Where previously the structure of the Tangle alone was sufficient to address tho
 - Determine the topological order according to [RFC-0005](https://iotaledger.github.io/protocol-rfcs/0005-white-flag/0005-white-flag.html) of the referenced messages that are not yet confirmed by a previous milestone.
 - Construct the list D consisting of the message IDs of all the not-ignored state-mutating transaction payloads in that particular order. A UTXO transaction is considered state-mutating, if it creates a new output.
 - Compute the 32-byte Merkle tree hash H = MTH(D).
-- Prepare the milestone payload as described in [Draft RFC-0019](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md), where the field `Inclusion Merkle Root` is set to H.
+- Prepare the milestone payload as described in [RFC-0019](https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.md), where the field `Inclusion Merkle Root` is set to H.
 
 ## Milestone validation
 
