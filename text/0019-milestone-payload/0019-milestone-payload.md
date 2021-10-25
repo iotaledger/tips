@@ -58,7 +58,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           <tr>
             <td>Timestamp</td>
             <td>uint64</td>
-            <td>The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.</td>
+            <td>The Unix time (seconds since Unix epoch) at which the milestone was issued.</td>
           </tr>
           <tr>
             <td>Parents Count</td>
