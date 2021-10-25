@@ -5,7 +5,7 @@
 
 # Summary
 
-In IOTA, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC proposes a milestone payload for the messages described in [Draft RFC-17](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md). It uses Edwards-curve Digital Signature Algorithm (EdDSA) to authenticate the milestones.
+In IOTA, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC proposes a milestone payload for the messages described in the IOTA protocol [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html). It uses Edwards-curve Digital Signature Algorithm (EdDSA) to authenticate the milestones.
 
 # Motivation
 
@@ -26,7 +26,7 @@ In addition, a key rotation policy can also be enforced by limiting key validity
 
 All values are serialized in little-endian encoding. The serialized form of the milestone is deterministic, meaning the same logical milestone always results in the same serialized byte sequence.
 
-The following table structure describes the entirety of a _Milestone Payload_ in its serialized form ([Data Type Notation](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md#data-types)):
+The following table structure describes the entirety of a _Milestone Payload_ in its serialized form ([RFC-0017, Data types](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#data-types)):
 
 <table>
   <tr>
@@ -62,29 +62,47 @@ The following table structure describes the entirety of a _Milestone Payload_ in
             <td>The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.</td>
           </tr>
           <tr>
-            <td>Parents' Length</td>
+            <td>Parents Count</td>
             <td>uint8</td>
-            <td>The number of messages we directly approve. Can be any value between 1-8.</td>
+            <td>The number of messages that are directly approved.</td>
           </tr>
           <tr>
-            <td>Parents</td>
-            <td>ByteArray[32 * Parents' Length]</td>
-            <td>The Message IDs of the <i>Messages</i> referenced by the milestone.</td>
+            <td valign="top">Parents <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Parent</summary>
+                <blockquote>
+                  References another directly approved message.
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Message ID</td>
+                    <td>ByteArray[32]</td>
+                    <td>The Message ID of the parent.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
           </tr>
           <tr>
             <td>Inclusion Merkle Root</td>
             <td>ByteArray[32]</td>
-            <td>256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone. (<a href="https://github.com/iotaledger/protocol-rfcs/blob/milestone-merkle-validation-chrysalis-pt-2/text/0012-milestone-merkle-validation/0012-milestone-merkle-validation.md">Update RFC-0012</a>)</td>
+            <td>256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
           </tr>
           <tr>
             <td>Next PoW Score</td>
             <td>uint32</td>
-            <td>The new PoW score all messages should adhere to. If 0 then the PoW score should not change. See <a href="https://github.com/Wollac/protocol-rfcs/blob/message-pow/text/0024-message-pow/0024-message-pow.md">RFC-0024</a>.</td>
+            <td>The new PoW score all messages should adhere to. If 0 then the PoW score should not change.</td>
           </tr>
           <tr>
-          <td>Next PoW Score Milestone Index</td>
+            <td>Next PoW Score Milestone Index</td>
             <td>uint32</td>
-            <td>The index of the first milestone that will require a new minimal pow score for applying transactions. This field comes into effect only if the `Next PoW Score` field is non 0.</td>
+            <td>The index of the first milestone that will require a new minimal pow score for applying transactions. This field comes into effect only if the <code>Next PoW Score</code> field is not 0.</td>
           </tr>
           <tr>
             <td>Keys Count</td>
@@ -92,9 +110,24 @@ The following table structure describes the entirety of a _Milestone Payload_ in
             <td>Number of public keys entries.</td>
           </tr>
           <tr>
-            <td>Public Keys</td>
-            <td>ByteArray[32 * Keys Count]</td>
-            <td>An array of public keys to validate the signatures. The keys must be in lexicographical order.</td>
+            <td valign="top">Keys <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Ed25519 Public Key</summary>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Public Key</td>
+                    <td>ByteArray[32]</td>
+                    <td>The public key of the Ed25519 keypair which is used to verify the correspondig signature.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
           </tr>
         </table>
       </details>
@@ -106,9 +139,24 @@ The following table structure describes the entirety of a _Milestone Payload_ in
     <td>Number of signature entries. The number must match the field <code>Keys Count</code>.</td>
   </tr>
   <tr>
-    <td>Signatures</td>
-    <td>Array&lt;ByteArray[64]&gt;</td>
-    <td>An array of signatures signing the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
+    <td valign="top">Signatures <code>anyOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Plain Ed25519 Signature</summary>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Signature</td>
+            <td>ByteArray[64]</td>
+            <td>The Ed25519 signature signing Blake2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
   </tr>
 </table>
 
@@ -119,19 +167,20 @@ The following table structure describes the entirety of a _Milestone Payload_ in
   - The signature provider service will sign the received serialized bytes as-is.
   - The signature provider will serialize the signature bytes and return them to the Coordinator.
 - Fill the `Signatures` field of the milestone payload with the received signature bytes.
-- Generate a *Message* as defined in [RFC-0017 (draft)](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md) using the same `Parents` for the created _Milestone Payload_.
+- Generate a *Message* as defined in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html) using the same `Parents` as in the created _Milestone Payload_.
 
 ## Syntactical validation
 
 - `Parents` of the payload must match `Parents` of the encapsulating _Message_.
 - `Next PoW Score Milestone Index` should be larger than the current milestone index if `Next Pow Score` is different than 0. Else, it should be 0.
-- `Keys Count` must be at least the _Signature Threshold_ and at most the number of _Applicable Public Keys_ for the current milestone index.
-- `Public keys`:
-  - The provided keys must form a subset of the _Applicable Public Keys_ for the current milestone index.
-  - The keys must be unique.
-  - The keys must be in lexicographical order.
-- `Signatures Count` must match the amount of public keys. 
-- All `Signatures` must be valid.
+- Keys:
+  - `Keys Count` must be at least the _Signature Threshold_ and at most the number of _Applicable Public Keys_ for the current milestone index.
+  - `Keys` must be sorted in lexicographical order.
+  - Each `Public Key` must be unique.
+  - `Keys` must form a subset of the _Applicable Public Keys_ for the current milestone index.
+- Signatures:
+  - `Signatures Count` must match `Keys Count`.
+  - `Signature` at index i must be valid with respect to the `Public Key` at the same index.
 - Given the type and length information, the _Milestone Payload_ must consume the entire byte array of the `Payload` field of the _Message_.
 
 # Rationale and alternatives
