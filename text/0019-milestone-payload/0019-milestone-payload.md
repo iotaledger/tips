@@ -151,7 +151,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           <tr>
             <td>Signature</td>
             <td>ByteArray[64]</td>
-            <td>The Ed25519 signature signing Blake2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
+            <td>The Ed25519 signature signing the Blake2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
           </tr>
         </table>
       </details>
