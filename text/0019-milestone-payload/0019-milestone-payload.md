@@ -1,7 +1,6 @@
 + Feature name: `milestone-payload`
 + Start date: 2020-07-28
 + RFC PR: [iotaledger/protocol-rfcs#0019](https://github.com/iotaledger/protocol-rfcs/pull/19)
-+ Author: Angelo Capossele
 
 # Summary
 
@@ -172,7 +171,9 @@ The following table structure describes the entirety of a _Milestone Payload_ in
 ## Syntactical validation
 
 - `Parents` of the payload must match `Parents` of the encapsulating _Message_.
-- `Next PoW Score Milestone Index` should be larger than the current milestone index if `Next Pow Score` is different than 0. Else, it should be 0.
+- PoW score:
+  - If `Next Pow Score` is zero, `Next PoW Score Milestone Index` must also be zero.
+  - Otherwise `Next PoW Score Milestone Index` must be larger than `Index Number`.
 - Keys:
   - `Keys Count` must be at least the _Signature Threshold_ and at most the number of _Applicable Public Keys_ for the current milestone index.
   - `Keys` must be sorted in lexicographical order.
@@ -186,8 +187,5 @@ The following table structure describes the entirety of a _Milestone Payload_ in
 # Rationale and alternatives
 
 - Instead of using EdDSA we could have chosen ECDSA. Both algorithms are well supported and widespread. However, signing with ECDSA requires fresh randomness while EdDSA does not. Especially in the case of milestones where essences are signed many times using the same key, this is a crucial property.
-- Due to the layered design of messages and payloads, it is practically not possible to prevent reattachments of milestone payloads. Hence, this payload has been designed in a way to be independent from the message it is contained in. A milestone should be considered as a virtual marker (referencing `Parents`) rather than an actual message in the Tangle. This concept is compatible with reattachments and supports a cleaner separation of the message layers.
-
-# Unresolved questions
-
-- Forcing matching `Parents` in the _Milestone Payload_ and its _Message_ makes it impossible to reattach the same payload at different positions in the Tangle. While this does not prevent reattachments in general (a different, valid `Nonce`, for example would lead to a new Message ID), this still simplifies milestone processing. However, it violates a clear separation of payload and message. As such, it might still be desirable to slightly complicate the milestone processing by allowing arbitrary `Parents` field. This separates the two layers completely and should not have any impact on the actual milestone properties.
+- Due to the layered design of messages and payloads, it is practically not possible to prevent reattachments of _Milestone Payloads_. Hence, this payload has been designed in a way to be independent from the message it is contained in. A milestone should be considered as a virtual marker (referencing `Parents`) rather than an actual message in the Tangle. This concept is compatible with reattachments and supports a cleaner separation of the message layers.
+- Forcing matching `Parents` in the _Milestone Payload_ and its _Message_ makes it impossible to reattach the same payload at different positions in the Tangle. This does not prevent reattachments in general (a different, valid `Nonce`, for example would lead to a new Message ID) and it violates a strict separation of payload and message. However, it simplifies milestone processing as the position of the _Message_ will be the same as the possition encoded in the _Milestone Payload_. Having this clear structural properties seem to be more desirable than a strict separation of layers.
