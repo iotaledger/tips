@@ -91,7 +91,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           <tr>
             <td>Inclusion Merkle Root</td>
             <td>ByteArray[32]</td>
-            <td>256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
+            <td>The Merkle tree hash (Blake2b-256) of the message IDs of all the not-ignored state-mutating transaction payloads referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
           </tr>
           <tr>
             <td>Next PoW Score</td>
