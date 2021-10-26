@@ -91,7 +91,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           <tr>
             <td>Inclusion Merkle Root</td>
             <td>ByteArray[32]</td>
-            <td>The Merkle tree hash (Blake2b-256) of the message IDs of all the not-ignored state-mutating transaction payloads referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
+            <td>The Merkle tree hash (BLAKE2b-256) of the message IDs of all the not-ignored state-mutating transaction payloads referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
           </tr>
           <tr>
             <td>Next PoW Score</td>
@@ -128,6 +128,40 @@ The following table structure describes the entirety of a _Milestone Payload_ in
               </details>
             </td>
           </tr>
+          <tr>
+            <td>Payload Length</td>
+            <td>uint32</td>
+            <td>The length in bytes of the optional payload.</td>
+          </tr>
+          <tr>
+            <td valign="top">Payload <code>optOneOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Generic Payload</summary>
+                <blockquote>
+                  An outline of a generic payload
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Payload Type</td>
+                    <td>uint32</td>
+                    <td>
+                      The type of the payload. It will instruct the node how to parse the fields that follow.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Fields</td>
+                    <td>ANY</td>
+                    <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+                  </tr>
+                </table>
+              </details>
+          <tr>
         </table>
       </details>
     </td>
@@ -151,7 +185,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
           <tr>
             <td>Signature</td>
             <td>ByteArray[64]</td>
-            <td>The Ed25519 signature signing the Blake2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
+            <td>The Ed25519 signature signing the BLAKE2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
           </tr>
         </table>
       </details>
@@ -179,10 +213,22 @@ The following table structure describes the entirety of a _Milestone Payload_ in
   - `Keys` must be sorted in lexicographical order.
   - Each `Public Key` must be unique.
   - `Keys` must form a subset of the _Applicable Public Keys_ for the current milestone index.
+- Payload (if present):
+  - `Payload Type` must match one of the values described under [Payloads](#payloads).
+  - `Data fields` must be correctly parsable in the context of the `Payload Type`.
+  - The payload itself must pass syntactic validation.
 - Signatures:
   - `Signatures Count` must match `Keys Count`.
   - `Signature` at index i must be valid with respect to the `Public Key` at the same index.
 - Given the type and length information, the _Milestone Payload_ must consume the entire byte array of the `Payload` field of the _Message_.
+
+### Payloads
+
+The  _Milestone Payload_ itself can contain another payload as described in general in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html). The following table lists all the payloads types that can be nested inside a _Milestone Payload_ as well as links to the corresponding specification:
+
+| Payload Name | Type Value | RFC                                                                                                                               |
+| ------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Receipts     | 4          | [RFC-0035 (draft)](https://github.com/luca-moser/protocol-rfcs/blob/rfc/wotsicide/text/0035-wotsicide/0035-wotsicide.md#receipts) |
 
 # Rationale and alternatives
 
