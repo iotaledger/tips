@@ -12,7 +12,7 @@ In the current IOTA protocol, milestones are authenticated using a ternary Merkl
 
 # Detailed design
 
-The _Milestone Essence_, consisting of the actual milestone information (like its index number or position in the tangle), is signed using the Ed25519 signature scheme as described in the IRTF [RFC 8032](https://tools.ietf.org/html/rfc8032). It uses keys of 32 bytes, while the generated signatures are 64 bytes.
+The [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash of the _Milestone Essence_, consisting of the actual milestone information (like its index number or position in the tangle), is signed using the Ed25519 signature scheme as described in the IRTF [RFC 8032](https://tools.ietf.org/html/rfc8032). It uses keys of 32 bytes, while the generated signatures are 64 bytes.
 
 To increase the security of the design, a milestone can (optionally) be independently signed by multiple keys at once. These keys should be operated by detached signature provider services running on independent infrastructure elements. This assist in mitigating the risk of an attacker having access to all the key material necessary for forging milestones. While the Coordinator takes responsibility for forming Milestone Payload Messages, it delegates signing in to these providers through an ad-hoc RPC connector. Mutual authentication should be enforced between the Coordinator and the signature providers: a [client-authenticated TLS handshake](https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake) scheme is advisable. To increase the flexibility of the mechanism, nodes can be configured to require a quorum of valid signatures to consider a milestone as genuine.
 
@@ -175,7 +175,7 @@ The following table structure describes the entirety of a _Milestone Payload_ in
     <td valign="top">Signatures <code>anyOf</code></td>
     <td colspan="2">
       <details open="true">
-        <summary>Plain Ed25519 Signature</summary>
+        <summary>Raw Ed25519 Signature</summary>
         <table>
           <tr>
             <th>Name</th>
