@@ -142,7 +142,7 @@ While messages without a payload, i.e. `Payload Length` set to zero, are valid, 
 | Payload Name | Type Value | RFC                                                                                                                                                            |
 | ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Transaction  | 0          | [RFC-0018 (draft)](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md) |
-| Milestone    | 1          | [RFC-0019 (draft)](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md)           |
+| Milestone    | 1          | [RFC-0019](https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.md)                                                        |
 | Indexation   | 2          | [RFC-0017](#Indexation-payload)                                                                                                                                |
 
 ### Indexation payload
