@@ -1,0 +1,417 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>0019-milestone-payload - The IOTA Protocol RFC Book</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0017-tangle-message/0017-tangle-message.html">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="../0019-milestone-payload/0019-milestone-payload.html" class="active">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The IOTA Protocol RFC Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <ul>
+<li>Feature name: <code>milestone-payload</code></li>
+<li>Start date: 2020-07-28</li>
+<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/19">iotaledger/protocol-rfcs#0019</a></li>
+</ul>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
+<p>In IOTA, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC proposes a milestone payload for the messages described in the IOTA protocol <a href="https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html">RFC-0017</a>. It uses Edwards-curve Digital Signature Algorithm (EdDSA) to authenticate the milestones.</p>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
+<p>In the current IOTA protocol, milestones are authenticated using a ternary Merkle signature scheme. In the Chrysalis update, ternary transactions are replaced with binary messages containing different payload types. In order to address these new requirements, this RFC proposes the use of a dedicated payload type for milestones. It contains the same essential data fields that were previously included in the milestone bundle. Additionally, this document also describes how Ed25519 signatures are used to assure authenticity of the issued milestones. In order to make the management and security of the used private keys easier, simple multisignature features with support for key rotation have been added.</p>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
+<p>The <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the <em>Milestone Essence</em>, consisting of the actual milestone information (like its index number or position in the tangle), is signed using the Ed25519 signature scheme as described in the IRTF <a href="https://tools.ietf.org/html/rfc8032">RFC 8032</a>. It uses keys of 32 bytes, while the generated signatures are 64 bytes.</p>
+<p>To increase the security of the design, a milestone can (optionally) be independently signed by multiple keys at once. These keys should be operated by detached signature provider services running on independent infrastructure elements. This assist in mitigating the risk of an attacker having access to all the key material necessary for forging milestones. While the Coordinator takes responsibility for forming Milestone Payload Messages, it delegates signing in to these providers through an ad-hoc RPC connector. Mutual authentication should be enforced between the Coordinator and the signature providers: a <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake">client-authenticated TLS handshake</a> scheme is advisable. To increase the flexibility of the mechanism, nodes can be configured to require a quorum of valid signatures to consider a milestone as genuine.</p>
+<p>In addition, a key rotation policy can also be enforced by limiting key validity to certain milestone intervals. Accordingly, nodes need to know which public keys are applicable for which milestone index. This can be provided by configuring a list of entries consisting of the following fields:</p>
+<ul>
+<li><em>Index Range</em> providing the interval of milestone indices for which this entry is valid. The interval must not overlap with any other entry.</li>
+<li><em>Applicable Public Keys</em> defining the set of valid public keys.</li>
+<li><em>Signature Threshold</em> specifying the minimum number of valid signatures. Must be at least one and not greater than the number of <em>Applicable Public Keys</em>.</li>
+</ul>
+<h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
+<p>All values are serialized in little-endian encoding. The serialized form of the milestone is deterministic, meaning the same logical milestone always results in the same serialized byte sequence.</p>
+<p>The following table structure describes the entirety of a <em>Milestone Payload</em> in its serialized form (<a href="https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#data-types">RFC-0017, Data types</a>):</p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Payload Type</td>
+    <td>uint32</td>
+    <td>Set to <strong>value 1</strong> to denote a <i>Milestone Payload</i>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Essence <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Milestone Essence</summary>
+        <blockquote>Describes the signed part of a <i>Milestone Payload</i>.</blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Index Number</td>
+            <td>uint32</td>
+            <td>The index number of the milestone.</td>
+          </tr>
+          <tr>
+            <td>Timestamp</td>
+            <td>uint64</td>
+            <td>The Unix time (seconds since Unix epoch) at which the milestone was issued.</td>
+          </tr>
+          <tr>
+            <td>Parents Count</td>
+            <td>uint8</td>
+            <td>The number of messages that are directly approved.</td>
+          </tr>
+          <tr>
+            <td valign="top">Parents <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Parent</summary>
+                <blockquote>
+                  References another directly approved message.
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Message ID</td>
+                    <td>ByteArray[32]</td>
+                    <td>The Message ID of the parent.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Inclusion Merkle Root</td>
+            <td>ByteArray[32]</td>
+            <td>The Merkle tree hash (BLAKE2b-256) of the message IDs of all the not-ignored state-mutating transaction payloads referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
+          </tr>
+          <tr>
+            <td>Next PoW Score</td>
+            <td>uint32</td>
+            <td>The new PoW score all messages should adhere to. If 0 then the PoW score should not change.</td>
+          </tr>
+          <tr>
+            <td>Next PoW Score Milestone Index</td>
+            <td>uint32</td>
+            <td>The index of the first milestone that will require a new minimal pow score for applying transactions. This field comes into effect only if the <code>Next PoW Score</code> field is not 0.</td>
+          </tr>
+          <tr>
+            <td>Keys Count</td>
+            <td>uint8</td>
+            <td>Number of public keys entries.</td>
+          </tr>
+          <tr>
+            <td valign="top">Keys <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Ed25519 Public Key</summary>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Public Key</td>
+                    <td>ByteArray[32]</td>
+                    <td>The public key of the Ed25519 keypair which is used to verify the correspondig signature.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Payload Length</td>
+            <td>uint32</td>
+            <td>The length in bytes of the optional payload.</td>
+          </tr>
+          <tr>
+            <td valign="top">Payload <code>optOneOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Generic Payload</summary>
+                <blockquote>
+                  An outline of a generic payload
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Payload Type</td>
+                    <td>uint32</td>
+                    <td>
+                      The type of the payload. It will instruct the node how to parse the fields that follow.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Fields</td>
+                    <td>ANY</td>
+                    <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+                  </tr>
+                </table>
+              </details>
+          <tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Signatures Count</td>
+    <td>uint8</td>
+    <td>Number of signature entries. The number must match the field <code>Keys Count</code>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Signatures <code>anyOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Raw Ed25519 Signature</summary>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Signature</td>
+            <td>ByteArray[64]</td>
+            <td>The Ed25519 signature signing the BLAKE2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+</table>
+<h2 id="generation"><a class="header" href="#generation">Generation</a></h2>
+<ul>
+<li>Generate a new <em>Milestone Essence</em> corresponding to the Coordinator milestone.</li>
+<li>Transmit the serialized <em>Milestone Essence</em> to the corresponding number of signature service providers.
+<ul>
+<li>The signature provider service will sign the received serialized bytes as-is.</li>
+<li>The signature provider will serialize the signature bytes and return them to the Coordinator.</li>
+</ul>
+</li>
+<li>Fill the <code>Signatures</code> field of the milestone payload with the received signature bytes.</li>
+<li>Generate a <em>Message</em> as defined in <a href="https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html">RFC-0017</a> using the same <code>Parents</code> as in the created <em>Milestone Payload</em>.</li>
+</ul>
+<h2 id="syntactical-validation"><a class="header" href="#syntactical-validation">Syntactical validation</a></h2>
+<ul>
+<li><code>Parents</code> of the payload must match <code>Parents</code> of the encapsulating <em>Message</em>.</li>
+<li>PoW score:
+<ul>
+<li>If <code>Next Pow Score</code> is zero, <code>Next PoW Score Milestone Index</code> must also be zero.</li>
+<li>Otherwise <code>Next PoW Score Milestone Index</code> must be larger than <code>Index Number</code>.</li>
+</ul>
+</li>
+<li>Keys:
+<ul>
+<li><code>Keys Count</code> must be at least the <em>Signature Threshold</em> and at most the number of <em>Applicable Public Keys</em> for the current milestone index.</li>
+<li><code>Keys</code> must be sorted in lexicographical order.</li>
+<li>Each <code>Public Key</code> must be unique.</li>
+<li><code>Keys</code> must form a subset of the <em>Applicable Public Keys</em> for the current milestone index.</li>
+</ul>
+</li>
+<li>Payload (if present):
+<ul>
+<li><code>Payload Type</code> must match one of the values described under <a href="#payloads">Payloads</a>.</li>
+<li><code>Data fields</code> must be correctly parsable in the context of the <code>Payload Type</code>.</li>
+<li>The payload itself must pass syntactic validation.</li>
+</ul>
+</li>
+<li>Signatures:
+<ul>
+<li><code>Signatures Count</code> must match <code>Keys Count</code>.</li>
+<li><code>Signature</code> at index i must be valid with respect to the <code>Public Key</code> at the same index.</li>
+</ul>
+</li>
+<li>Given the type and length information, the <em>Milestone Payload</em> must consume the entire byte array of the <code>Payload</code> field of the <em>Message</em>.</li>
+</ul>
+<h3 id="payloads"><a class="header" href="#payloads">Payloads</a></h3>
+<p>The  <em>Milestone Payload</em> itself can contain another payload as described in general in <a href="https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html">RFC-0017</a>. The following table lists all the payloads types that can be nested inside a <em>Milestone Payload</em> as well as links to the corresponding specification:</p>
+<table><thead><tr><th>Payload Name</th><th>Type Value</th><th>RFC</th></tr></thead><tbody>
+<tr><td>Receipts</td><td>4</td><td><a href="https://github.com/luca-moser/protocol-rfcs/blob/rfc/wotsicide/text/0035-wotsicide/0035-wotsicide.md#receipts">RFC-0035 (draft)</a></td></tr>
+</tbody></table>
+<h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
+<ul>
+<li>Instead of using EdDSA we could have chosen ECDSA. Both algorithms are well supported and widespread. However, signing with ECDSA requires fresh randomness while EdDSA does not. Especially in the case of milestones where essences are signed many times using the same key, this is a crucial property.</li>
+<li>Due to the layered design of messages and payloads, it is practically not possible to prevent reattachments of <em>Milestone Payloads</em>. Hence, this payload has been designed in a way to be independent from the message it is contained in. A milestone should be considered as a virtual marker (referencing <code>Parents</code>) rather than an actual message in the Tangle. This concept is compatible with reattachments and supports a cleaner separation of the message layers.</li>
+<li>Forcing matching <code>Parents</code> in the <em>Milestone Payload</em> and its <em>Message</em> makes it impossible to reattach the same payload at different positions in the Tangle. This does not prevent reattachments in general (a different, valid <code>Nonce</code>, for example would lead to a new Message ID) and it violates a strict separation of payload and message. However, it simplifies milestone processing as the position of the <em>Message</em> will be the same as the possition encoded in the <em>Milestone Payload</em>. Having this clear structural properties seem to be more desirable than a strict separation of layers.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../0017-tangle-message/0017-tangle-message.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../0020-bech32-address-format/0020-bech32-address-format.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../0017-tangle-message/0017-tangle-message.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../0020-bech32-address-format/0020-bech32-address-format.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
