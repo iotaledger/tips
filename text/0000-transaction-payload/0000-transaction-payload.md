@@ -4,7 +4,7 @@
 
 # Summary
 
-This RFC defines a new transaction structure for Chrysalis Phase 2, which replaces the current notion of bundles. Specifically, this RFC describes the transaction payload to be embedded into a [message](https://github.com/iotaledger/protocol-rfcs/pull/17).
+This RFC defines a new transaction structure for Chrysalis Phase 2, which replaces the current notion of bundles. Specifically, this RFC proposes a transaction payload for the messages described in the IOTA protocol [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html).
 
 # Motivation
 
@@ -433,8 +433,7 @@ The <i>SigLockedSingleOutput</i> defines an output (with a certain amount) to a 
 
 ###### SigLockedDustAllowanceOutput
 
-The <i>SigLockedDustAllowanceOutput</i> works the same as a <i>SigLockedSingleOutput</i> but additionally controls the dust allowance on the target address. See [Dust Protection RFC](https://github.com/iotaledger/protocol-rfcs/pull/32) for further information.
-
+The <i>SigLockedDustAllowanceOutput</i> works the same as a <i>SigLockedSingleOutput</i> but additionally controls the dust allowance on the target address. See [Dust Protection RFC-0032 (draft)](https://github.com/iotaledger/protocol-rfcs/pull/32) for further information.
 
 ##### Payload
 
