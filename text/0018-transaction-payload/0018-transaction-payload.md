@@ -53,7 +53,7 @@ A <i>Transaction Payload</i> payload is made up of two parts:
 
 All values are serialized in little-endian encoding. The serialized form of the transaction is deterministic, meaning the same logical transaction always results in the same serialized byte sequence.
 
-A `Blake2b-256` hash of the entire serialized data makes up <i>Transaction Payload</i>'s ID.
+The *Transaction Payload ID* is the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash of the entire serialized payload data.
 
 Following table structure describes the entirety of a <i>Transaction Payload</i>'s serialized form:
 * Data Type Notation, see [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#data-types)
