@@ -91,7 +91,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
         <td>Payload Type</td>
         <td>uint32</td>
         <td>
-        Set to <strong>value 0</strong> to denote a <i>Transaction Payload</i>.
+            Set to <strong>value 0</strong> to denote a <i>Transaction Payload</i>.
         </td>
     </tr>
     <tr>
@@ -100,7 +100,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
             <details open="true">
                 <summary>Transaction Essence</summary>
                 <blockquote>
-                Describes the essence data making up a transaction by defining its inputs and outputs and an optional payload.
+                    Describes the essence data making up a transaction by defining its inputs and outputs and an optional payload.
                 </blockquote>
                 <table>
                     <tr>
@@ -112,21 +112,21 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                         <td>Transaction Type</td>
                         <td>uint8</td>
                         <td>
-                        Set to <strong>value 0</strong> to denote a <i>Transaction Essence</i>.
+                            Set to <strong>value 0</strong> to denote a <i>Transaction Essence</i>.
                         </td>
                     </tr>
-                   <tr>
+                    <tr>
                         <td>Inputs Count</td>
                         <td>uint16</td>
                         <td>The amount of inputs proceeding.</td>
                     </tr>
-                   <tr>
+                    <tr>
                         <td valign="top">Inputs <code>anyOf</code></td>
                         <td colspan="2">
                             <details>
                                 <summary>UTXO Input</summary>
                                 <blockquote>
-                                Describes an input which references an unspent transaction output to consume.
+                                    Describes an input which references an unspent transaction output to consume.
                                 </blockquote>
                                 <table>
                                     <tr>
@@ -155,18 +155,18 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                             </details>
                         </td>
                     </tr>
-                   <tr>
+                    <tr>
                         <td>Outputs Count</td>
                         <td>uint16</td>
                         <td>The amount of outputs proceeding.</td>
                     </tr>
-                   <tr>
+                    <tr>
                         <td valign="top">Outputs <code>anyOf</code></td>
                         <td colspan="2">
                             <details>
                                 <summary>SigLockedSingleOutput</summary>
                                 <blockquote>
-                                Describes a deposit to a single address which is unlocked via a signature.
+                                    Describes a deposit to a single address which is unlocked via a signature.
                                 </blockquote>
                                 <table>
                                     <tr>
@@ -218,7 +218,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                             <details>
                                 <summary>SigLockedDustAllowanceOutput</summary>
                                 <blockquote>
-                                Describes a deposit which as a special property also alters the dust allowance of the target address.
+                                    Describes a deposit which as a special property also alters the dust allowance of the target address.
                                 </blockquote>
                                 <table>
                                     <tr>
@@ -274,14 +274,35 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                         <td>uint32</td>
                         <td>The length in bytes of the optional payload.</td>
                     </tr>
-                   <tr>
+                    <tr>
                         <td valign="top">Payload <code>optOneOf</code></td>
                         <td colspan="2">
                             <details>
-                                <summary>Indexation Payload</summary>
+                                <summary>Generic Payload</summary>
+                                <blockquote>
+                                    An outline of a generic payload
+                                </blockquote>
+                                <table>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Payload Type</td>
+                                        <td>uint32</td>
+                                        <td>
+                                            The type of the payload. It will instruct the node how to parse the fields that follow.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data Fields</td>
+                                        <td>ANY</td>
+                                        <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+                                    </tr>
+                                </table>
                             </details>
-                        </td>
-                    </tr>
+                    <tr>
                 </table>
             </details>
         </td>
@@ -297,7 +318,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
             <details open="true">
                 <summary>Signature Unlock Block</summary>
                 <blockquote>
-                Defines an unlock block containing signature(s) unlocking input(s).
+                    Defines an unlock block containing signature(s) unlocking input(s).
                 </blockquote>
                 <table>
                     <tr>
@@ -315,7 +336,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
                     <tr>
                         <td valign="top">Signature <code>oneOf</code></td>
                         <td colspan="2">
-                             <details>
+                            <details>
                                 <summary>Ed25519 Signature</summary>
                                 <table>
                                     <tr>
@@ -349,7 +370,7 @@ Following table structure describes the entirety of a <i>Transaction Payload</i>
             <details open="true">
                 <summary>Reference Unlock Block</summary>
                 <blockquote>
-                References a previous unlock block in order to substitute the duplication of the same unlock block data for inputs which unlock through the same data.
+                    References a previous unlock block in order to substitute the duplication of the same unlock block data for inputs which unlock through the same data.
                 </blockquote>
                 <table>
                     <tr>
@@ -417,36 +438,25 @@ The <i>SigLockedDustAllowanceOutput</i> works the same as a <i>SigLockedSingleOu
 
 ##### Payload
 
-The payload part of a <i>Transaction Essence</i> can hold an optional payload. This payload does not affect the validity of the <i>Transaction Essence</i>. If the transaction is not syntactically valid, then the payload must also be discarded.
+The  _Transaction Essence_ itself can contain another payload as described in general in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html). This payload does not affect the semantic validity of the <i>Transaction Essence</i>. If the transaction is not syntactically valid, then the payload must also be discarded.
 
-Supported payload types to be embedded into a <i>Transaction Essence</i>:
+The following table lists all the payloads types that can be nested inside a _Transaction Essence_ as well as links to the corresponding specification:
 
-| Name                  | Type Value |
-| --------------------- | ---------- |
-| Indexation Payload    | 2          |
+| Name       | Type Value | RFC                                                                                                                    |
+| ---------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Indexation | 2          | [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#indexation-payload) |
 
 #### Unlock Blocks
 
 The <i>Unlock Blocks</i> part holds the unlock blocks unlocking inputs within an <i>Transaction Essence</i>.
 
 There are different types of <i>Unlock Blocks</i>:
-<table>
-    <tr>
-        <td><b>Name</b></td>
-        <td><b>Value</b></td>
-        <td><b>Description</b></td>
-    </tr>
-    <tr>
-        <td>Signature Unlock Block</td>
-        <td>0</td>
-        <td>An unlock block holding one or more signatures unlocking one or more inputs.</td>
-    </tr>
-<tr>
-        <td>Reference Unlock Block</td>
-        <td>1</td>
-        <td>An unlock block which must reference a previous unlock block which unlocks also the input at the same index as this <i>Reference Unlock Block</i>.</td>
-    </tr>
-</table>
+
+| Name                   | Value | Description                                                                                                                                 |
+| ---------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Signature Unlock Block | 0     | An unlock block holding one or more signatures unlocking one or more inputs.                                                                |
+| Reference Unlock Block | 1     | An unlock block which must reference a previous unlock block which unlocks also the input at the same index as this Reference Unlock Block. |
+
 
 ##### Signature Unlock Block
 
@@ -474,33 +484,37 @@ A <i>Transaction Payload</i> payload has different validation stages, since some
 This validation can commence as soon as the transaction data has been received in its entirety. It validates the structure but not the signatures of the transaction. If the transaction does not pass this stage, it must not be broadcasted further and can be discarded right away.
 
 The following criteria defines whether the transaction passes the syntactical validation:
-* `Transaction Essence Type` value must be 0, denoting an `Transaction Essence`.
-* Inputs:
-  * `Inputs Count` must be 0 < x ≤ 127.
-  * At least one input must be specified.
-  * `Input Type` value must be 0, denoting an `UTXO Input`.
-  * `UTXO Input`:
-    * `Transaction Output Index` must be 0 ≤ x < 127.
-    * Every combination of `Transaction ID` + `Transaction Output Index` must be unique in the inputs set.
-  * Inputs must be in lexicographical order of their serialized form.<sup>1</sup>
-* Outputs:
-  * `Outputs Count` must be 0 < x ≤ 127.
-  * At least one output must be specified.
-  * `Output Type` must denote a `SigLockedSingleOutput` or `SigLockedDustAllowanceOutput`.
-  * `SigLockedSingleOutput`/`SigLockedDustAllowanceOutput`:
-    * `Address Type` must be 0, denoting an `Ed25519` address.
-    * The `Address` must be unique in the set of `SigLockedSingleOutputs`/`SigLockedDustAllowanceOutputs` (two separate sets).
-    * `Amount` must be > 0.
-  * Outputs must be in lexicographical order by their serialized form.<sup>1</sup>
-  * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
-* `Payload Length` must be 0 (to indicate that there's no payload) or be valid for the specified payload type.
-* `Payload Type` must be one of the supported payload types if `Payload Length` is not 0.
-* `Unlock Blocks Count` must match the amount of inputs. Must be 0 < x ≤ 127.
-* `Unlock Block Type` must either be 0 or 1, denoting a `Signature Unlock Block` or `Reference Unlock block`.
-* `Signature Unlock Blocks` must define a `Ed25519 Signature`.
-* A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at the same index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin `Signature Unlock Block`.
-* `Reference Unlock Blocks` must specify a previous `Unlock Block` which is not of type `Reference Unlock Block`. The reference index must therefore be < the index of the `Reference Unlock Block`.
-* Given the type and length of the information, the <i>Transaction Payload</i> must consume the entire byte array for the `Payload Length` field in the <i>Message</i> it defines.
+* Essence:
+  * `Transaction Type` value must be 0, denoting an `Transaction Essence`.
+  * Inputs:
+    * `Inputs Count` must be 0 < x ≤ 127.
+    * At least one input must be specified.
+    * `Input Type` value must be 0, denoting an `UTXO Input`.
+    * `UTXO Input`:
+      * `Transaction Output Index` must be 0 ≤ x < 127.
+      * Every combination of `Transaction ID` + `Transaction Output Index` must be unique in the inputs set.
+    * Inputs must be sorted in lexicographical order of their serialized form.<sup>1</sup>
+  * Outputs:
+    * `Outputs Count` must be 0 < x ≤ 127.
+    * At least one output must be specified.
+    * `Output Type` must denote a `SigLockedSingleOutput` or `SigLockedDustAllowanceOutput`.
+    * `SigLockedSingleOutput`/`SigLockedDustAllowanceOutput`:
+      * `Address Type` must be 0, denoting an `Ed25519` address.
+      * The `Address` must be unique in the set of `SigLockedSingleOutputs`/`SigLockedDustAllowanceOutputs` (two separate sets).
+      * `Amount` must be larger than zero.
+    * Outputs must be sorted in lexicographical order by their serialized form.<sup>1</sup>
+    * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
+  * Payload (if present):
+    * `Payload Type` must match one of the values described under [Payload](#payload).
+    * `Data fields` must be correctly parsable in the context of the `Payload Type`.
+    * The payload itself must pass syntactic validation.
+* Unlock Blocks:
+  * `Unlock Blocks Count` must match `Inputs Count` of the _Transaction Essence_.
+  * `Unlock Type` must either be 0 or 1, denoting a `Signature Unlock Block` or `Reference Unlock block`.
+  * `Signature Unlock Blocks` must define a `Ed25519 Signature`.
+  * A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at the same index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin `Signature Unlock Block`.
+  * `Reference Unlock Blocks` must specify a previous `Unlock Block` which is not of type `Reference Unlock Block`. The reference index must therefore be < the index of the `Reference Unlock Block`.
+* Given the type and length information, the _Transaction Payload_ must consume the entire byte array of the `Payload` field of the encapsulating object.
 
 <sup>1</sup> ensures that serialization of the transaction becomes deterministic, meaning that libraries always produce the same bytes given the logical transaction.
 
@@ -520,6 +534,14 @@ The following criteria defines whether the transaction passes the semantic valid
 If a transaction passes the semantic validation, its referenced UTXOs must be marked as spent and the corresponding new outputs must be booked/specified in the ledger. The booked transaction then also becomes part of the White-Flag Merkle tree inclusion set.
 
 Transactions which do not pass semantic validation are ignored. Their UTXOs are not marked as spent and neither are their outputs booked into the ledger.
+
+### Payloads
+
+The  _Transaction Payload_ itself can contain another payload as described in general in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html). The following table lists all the payloads types that can be nested inside a _Transaction Payload_ as well as links to the corresponding specification:
+
+| Payload Name | Type Value | RFC                                                                                                                    |
+| ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Indexation   | 2          | [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#indexation-payload) |
 
 ## Miscellaneous
 
