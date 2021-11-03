@@ -1,6 +1,8 @@
 + Feature name: `tangle-message`
 + Start date: 2020-07-28
 + RFC PR: [iotaledger/protocol-rfcs#0017](https://github.com/iotaledger/protocol-rfcs/pull/0017)
++ Recent updates:
+  + ([iotaledger/protocol-rfcs#0037](https://github.com/iotaledger/protocol-rfcs/pull/0037)) Fixed internal links
 
 # Summary
 
@@ -129,7 +131,7 @@ The following criteria defines whether the message passes the syntactical valida
   - `Parents` must be sorted in lexicographical order.
   - Each `Message ID` must be unique.
 - Payload (if present):
-  - `Payload Type` must match one of the values described under [Payloads](#Payloads).
+  - `Payload Type` must match one of the values described under [Payloads](#payloads).
   - `Data fields` must be correctly parsable in the context of the `Payload Type`.
   - The payload itself must pass syntactic validation.
 - `Nonce` must be a valid solution of the message PoW as described in [RFC-0024](https://iotaledger.github.io/protocol-rfcs/0024-message-pow/0024-message-pow.html).
@@ -142,8 +144,8 @@ While messages without a payload, i.e. `Payload Length` set to zero, are valid, 
 | Payload Name | Type Value | RFC                                                                                                                                                            |
 | ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Transaction  | 0          | [RFC-0018 (draft)](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md) |
-| Milestone    | 1          | [RFC-0019](https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.md)                                                        |
-| Indexation   | 2          | [RFC-0017](#Indexation-payload)                                                                                                                                |
+| Milestone    | 1          | [RFC-0019](https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.html)                                                        |
+| Indexation   | 2          | [RFC-0017](#indexation-payload)                                                                                                                                |
 
 ### Indexation payload
 
