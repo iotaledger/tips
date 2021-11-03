@@ -571,13 +571,3 @@ Introducing this new transaction structure allows for further extensions in the 
 Other transaction structures have been considered but they would have misused existing transaction fields to accommodate for new features, instead of putting them into a proper descriptive structure. Additionally, those ideas would not have been safe against replay attacks, which deems reusing the old transaction structure, for example for Ed25519 addresses/signatures, as infeasible.
 
 Not switching to the new transaction structure described in this RFC leads to people being open to loss of funds because of WOTS address re-use and not being able to properly extend the protocol further down the line.
-
-# Unresolved questions
-
-- What parts of the design do you expect to resolve through the RFC process
-  before this gets merged?
-- What parts of the design do you expect to resolve through the implementation
-  of this feature before stabilization?
-- What related issues do you consider out of scope for this RFC that could be
-  addressed in the future independently of the solution that comes out of this
-  RFC?
