@@ -468,11 +468,11 @@ A <i>Reference Unlock Block</i> defines an <i>Unlock Block</i> which references 
 Example:
 Consider an <i>Transaction Essence</i> containing <i>UTXO Inputs</i> A, B and C, where A and C are both spending the UTXOs originating from the same Ed25519 address. The <i>Unlock Block</i> part must thereby have following structure:
 
-| Index | Must Contain                                                                                                         |
-| ----- | ---------------------------------------------------------------------------------------------------------------- |
-| 0     | A <i>Signature Unlock Block</i> holding the corresponding Ed25519 signature to unlock A and C.                    |
-| 1     | A <i>Signature Unlock Block</i> which unlocks B.                                                                 |
-| 2     | A <i>Reference Unlock Block</i> which references index 0, since C also gets unlocked by the same signature as A. |
+| Index | Must Contain                                                                                                |
+| ----- | ----------------------------------------------------------------------------------------------------------- |
+| 0     | A _Signature Unlock Block_ holding the corresponding Ed25519 signature to unlock A and C.                   |
+| 1     | A _Signature Unlock Block_ which unlocks B.                                                                 |
+| 2     | A _Reference Unlock Block_ which references index 0, since C also gets unlocked by the same signature as A. |
 
 ## Validation
 
