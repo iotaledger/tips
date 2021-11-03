@@ -534,14 +534,6 @@ If a transaction passes the semantic validation, its referenced UTXOs must be ma
 
 Transactions which do not pass semantic validation are ignored. Their UTXOs are not marked as spent and neither are their outputs booked into the ledger.
 
-### Payloads
-
-The  _Transaction Payload_ itself can contain another payload as described in general in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html). The following table lists all the payloads types that can be nested inside a _Transaction Payload_ as well as links to the corresponding specification:
-
-| Payload Name | Type Value | RFC                                                                                                                    |
-| ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Indexation   | 2          | [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#indexation-payload) |
-
 ## Miscellaneous
 
 ### Absent transaction timestamp
