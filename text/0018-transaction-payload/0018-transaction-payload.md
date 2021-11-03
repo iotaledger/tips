@@ -39,7 +39,7 @@ Within a transaction using UTXOs, inputs and outputs make up the to-be-signed da
 
 The following image depicts the flow of funds using UTXO:
 
-![UTXO flow](https://i.imgur.com/h3uxf6N.png)
+![UTXO flow](img/utxo.png)
 
 The way UTXOs are referenced is further described in the <i>Structure</i> section of this RFC.
 
