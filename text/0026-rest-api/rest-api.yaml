@@ -1990,9 +1990,9 @@ components:
         relation:
           type: string
           enum:
-            - included
-            - conflicting
-            - noTransaction
+            - known
+            - unknown
+            - autopeered
         connected:
           type: boolean
           description: Tells whether the peer is connected or not.
