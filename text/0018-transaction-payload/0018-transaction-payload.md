@@ -56,7 +56,7 @@ All values are serialized in little-endian encoding. The serialized form of the 
 A `Blake2b-256` hash of the entire serialized data makes up <i>Transaction Payload</i>'s ID.
 
 Following table structure describes the entirety of a <i>Transaction Payload</i>'s serialized form:
-* [Data Type Notation](https://github.com/GalRogozinski/protocol-rfcs/blob/message/text/0017-message/0017-message.md#data-types)
+* Data Type Notation, see [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#data-types)
 * <details>
     <summary>Subschema Notation</summary>
     <table>
@@ -519,7 +519,7 @@ The following criteria defines whether the transaction passes the syntactical va
 
 ### Semantic Validation
 
-Semantic validation starts when a message that is part of a confirmation cone of a milestone is processed in the [White-Flag ordering](https://github.com/iotaledger/protocol-rfcs/blob/master/text/0005-white-flag/0005-white-flag.md#deterministically-ordering-the-tangle). Semantics are only validated during White-Flag confirmations to enforce an ordering that can be understood by all the nodes (i.e. milestone cones), no matter the order the transactions are received. Otherwise, if semantic validation would occur as soon as a transaction would be received, it could potentially lead to nodes having different views of the UTXOs available to spend.
+Semantic validation starts when a message that is part of a confirmation cone of a milestone is processed in the [White-Flag ordering](https://iotaledger.github.io/protocol-rfcs/0005-white-flag/0005-white-flag.html#deterministically-ordering-the-tangle). Semantics are only validated during White-Flag confirmations to enforce an ordering that can be understood by all the nodes (i.e. milestone cones), no matter the order the transactions are received. Otherwise, if semantic validation would occur as soon as a transaction would be received, it could potentially lead to nodes having different views of the UTXOs available to spend.
 
 
 Processing transactions in the White-Flag ordering enables users to spend UTXOs which are in the same milestone confirmation cone, if their transaction comes after the funding transaction in the mentioned White-Flag ordering. It is recommended that users spending unconfirmed UTXOs attach their message directly onto the message containing the source transaction.
