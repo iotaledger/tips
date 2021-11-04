@@ -74,16 +74,16 @@ affordable decentralized application platform.
 
 Outputs in the UTXO model are essential, core parts of the protocol. The new output types introduce new validation and
 unlocking mechanisms, therefore the protocol needs to be adapted. The structure of the remaining sections is as follows:
-1. [Introduction to ledger programmability](https://hackmd.io/8KhY7e_1SZuGKa1B3oknXQ?view#Ledger-Programmability)
-2. [Data types, subschemas and protocol constants](https://hackmd.io/8KhY7e_1SZuGKa1B3oknXQ?view#Data-Types)
-3. [Transaction Payload changes compared to Chrysalis Part 2](https://hackmd.io/8KhY7e_1SZuGKa1B3oknXQ?view#Transaction-Payload-Changes)
-4. [New concepts of output design](https://hackmd.io/8KhY7e_1SZuGKa1B3oknXQ?view#New-Concepts)
-    - [Native tokens](https://hackmd.io/8KhY7e_1SZuGKa1B3oknXQ?view#Native-Tokens-in-Outputs)
-    - [Optional output features](https://hackmd.io/8KhY7e_1SZuGKa1B3oknXQ?view#Optional-Output-Features)
-    - [Chain constraint](https://hackmd.io/8KhY7e_1SZuGKa1B3oknXQ?view#Chain-Constraint-in-UTXO)
-6. [Detailed design of new output types](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/ByY-d7smK#Output-Design)
-7. [New unlocking mechanisms](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/BkJXIFgNF#Unlocking-Chain-Script-Locked-Outputs)
-8. [Discussion](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/BkJXIFgNF#Drawbacks)
+1. [Introduction to ledger programmability](#ledger-programmability)
+2. [Data types, subschemas and protocol constants](#data-types)
+3. [Transaction Payload changes compared to Chrysalis Part 2](#transaction-payload-changes)
+4. [New concepts of output design](#new-concepts)
+    - [Native tokens](#native-tokens-in-outputs)
+    - [Optional output features](#optional-output-features)
+    - [Chain constraint](#chain-constraint-in-utxo)
+6. [Detailed design of new output types](#output-design)
+7. [New unlocking mechanisms](#unlocking-chain-script-locked-outputs)
+8. [Discussion](#drawbacks)
 
 ## Ledger Programmability
 
@@ -536,22 +536,22 @@ output can hold addresses of different types.
 ###### ExtendedOutput
 
 An output to a single target address that may carry native tokens and optional feature blocks. Defined in
-[Extended Output section.](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/ByY-d7smK#Extended-Output)
+[Extended Output section.](#extended-output)
 
 ###### AliasOutput
 
 An output that represents an alias account in the ledger. Defined in
-[Alias Output section.](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/ByY-d7smK#Alias-Output)
+[Alias Output section.](#alias-output)
 
 ###### FoundryOutput
 
 An output that represents a token foundry in the ledger. Defined in
-[Foundry Output section.](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/ByY-d7smK#Foundry-Output)
+[Foundry Output section.](#foundry-output)
 
 ###### NFTOutput
 
 An output that represents a non-fungible token in the ledger. Defined in
-[NFT Output section.](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/BkJXIFgNF#NFT-Output)
+[NFT Output section.](#nft-output)
 
 ##### Payload
 
@@ -623,13 +623,13 @@ UTXOs originating from the same Ed25519 address. The <i>Unlock Block</i> part mu
 
 An <i>Alias Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i>
 corresponding to the alias that the input is locked to. Defined in
-[alias unlocking.](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/BkJXIFgNF#Alias-Locking-amp-Unlocking)
+[alias unlocking.](#alias-locking--unlocking)
 
 ##### NFT Unlock Block
 
 An <i>NFT Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i> corresponding
 to the NFT that the input is locked to. Defined in
-[NFT unlocking.](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/BkJXIFgNF#NFT-Locking-amp-Unlocking)
+[NFT unlocking.](#nft-locking--unlocking)
 
 ### Validation
 
@@ -639,8 +639,8 @@ validation.
 
 The different output types and optional output feature blocks add extra constraints to transaction validation rules,
 but since these are specific to the given outputs and features, they are discussed for each
-[output types](https://hackmd.io/@jRxAF1TGRcW9VPGlXyCdTg/ByY-d7smK#Output-Design) and
-[feature blocks types](https://hackmd.io/8KhY7e_1SZuGKa1B3oknXQ?view#Optional-Output-Features).
+[output types](#output-design) and
+[feature blocks types](#optional-output-features).
 
 #### Syntactic Validation
 
@@ -661,7 +661,7 @@ The following criteria defines whether the transaction passes the syntactic vali
     * `Outputs Count` must be 0 < x ≤ `Max Outputs Count`.
     * At least one output must be specified.
     * `Output Type` must denote a `SimpleOutput`, `ExtendedOutput`, `AliasOutput`, `FoundryOutput` or `NFTOutput`.
-    * Output must fulfill the [dust protection requirements.](https://hackmd.io/@muXxer/Hy4AhVQft)
+    * Output must fulfill the [dust protection requirements.](TODO)
     * Output is syntactically valid based on its type.
     * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
 * `Payload Length` must be 0 (to indicate that there's no payload) or be valid for the specified payload type.
@@ -733,7 +733,7 @@ their outputs booked into the ledger.
       protocol version, all dust outputs sitting on an address will be merged into a `SimpleOutput` together with their
       respective <i>SigLockedDustAllowanceOutputs</i> to create the snapshot for the updated protocol. The exact
       migration strategy will be decided later.
-- Introducing new output types [discussed later](https://hackmd.io/Q0_ulHyORFKeynhyEtTfhA#Output-Design).
+- Introducing new output types [discussed later](#output-design).
 - <i>Inputs</i> and <i>Outputs</i> of a transaction become a list instead of a set. Binary duplicate inputs are not
   allowed as they anyway mean double-spends, but binary duplicate outputs are allowed.
 - There can be many outputs created to the same address in the transaction.
@@ -793,7 +793,7 @@ Outputs must have the following fields to define the balance of native tokens th
                         <td>Token ID</td>
                         <td>ByteArray[38]</td>
                         <td>
-                            Identifier of the native token. Derivation defined <a href=https://hackmd.io/Q0_ulHyORFKeynhyEtTfhA#Foundry-Output>here</a>.
+                            Identifier of the native token. Derivation defined <a href=https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-sc-and-tokenization/0038-output-types-for-sc-and-tokenization.md#foundry-output>here</a>.
                         </td>
                     </tr>
                     <tr>
@@ -956,7 +956,7 @@ or an NFT address.
 #### Issuer Block
 
 The issuer block is a special case of the sender block that it is only supported by outputs that implement a UTXO state
-machine with [chain constraint](https://hackmd.io/8KhY7e_1SZuGKa1B3oknXQ?view#Chain-Constraint-in-UTXO) (alias, NFT).
+machine with [chain constraint](#chain-constraint-in-utxo) (alias, NFT).
 Only when the state machine is created (e.g. minted) it is checked during transaction validation that an output
 corresponding to the `Issuer` address is consumed. In every future transition of the state machine, it is instead
 checked that the issuer block is still present and unchanged.
@@ -1338,7 +1338,7 @@ increases the required dust deposit. ISCP is a great example of a higher layer p
 
 #### Indexation Block
 
-An indexation block makes it possible to tag outputs with an index so they can be retrieved through an API not only by
+An indexation block makes it possible to tag outputs with an index, so they can be retrieved through an API not only by
 their address, but also based on the the `Indexation Tag`. **The combination of an <i>Indexation Block</i>, a
 <i>Metadata Block</i> and a <i>Sender Block</i> makes it possible to retrieve data associated to an address and stored
 in outputs that was created by a specific party (`Sender`) for a specific purpose (`Indexation Tag`).**
@@ -1392,7 +1392,7 @@ Previously created transaction outputs are destroyed when they are consumed in a
 The chain constraint makes it possible to **carry the UTXO state machine state encoded in outputs across transactions.**
 When an output with chain constraint is consumed, that transaction has to create a single subsequent output that
 carries the state forward. The **state can be updated according to the transition rules defined for the given type of
-output and its current state**. As a consequence, each such output has a unique successor and together they form a path
+output and its current state**. As a consequence, each such output has a unique successor, and together they form a path
 or *chain* in the graph induced by the UTXO spends. Each chain is identified by its globally unique identifier.
 
 ![](https://i.imgur.com/izQ4DB1.png)
@@ -1988,15 +1988,15 @@ ledger.
     </details>
 </table>
 
-### Additional Transaction Syntactical Validation Rules
+### Additional Transaction Syntactic Validation Rules
 
 - `Amount` field must fulfill the dust protection requirements.
 - `Native Token Count` must not be greater than `Max Native Token Count Per Output`.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `8`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
-- Syntactical validation of all present feature blocks must pass.
+- Syntactic validation of all present feature blocks must pass.
 
-### Additional Transaction Semantical Validation Rules
+### Additional Transaction Semantic Validation Rules
 
 #### Consumed Outputs
 
@@ -2358,15 +2358,15 @@ state as metadata into the UTXO ledger.
     </details>
 </table>
 
-### Additional Transaction Syntactical Validation Rules
+### Additional Transaction Syntactic Validation Rules
 
-#### Output Syntactical Validation
+#### Output Syntactic Validation
 
 - `Amount` field must fulfill the dust protection requirements.
 - `Native Token Count` must not be greater than `Max Native Token Count Per Output`.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `2`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
-- Syntactical validation of all present feature blocks must pass.
+- Syntactic validation of all present feature blocks must pass.
 - When `Alias ID` is zeroed out, `State Index` and `Foundry Counter` must be `0`.
 - `State Metadata Length` must not be greater than `Max Metadata Length`.
 - `State Controller` and `Governance Controller` must be different from the alias address derived from `Alias ID`.
@@ -2623,14 +2623,14 @@ controlled by a specific foundry is the concatenation of `Foundry ID` || `Token 
     </details>
 </table>
 
-### Additional Transaction Syntactical Validation Rules
+### Additional Transaction Syntactic Validation Rules
 
-#### Output Syntactical Validation
+#### Output Syntactic Validation
 
 - `Amount` field must fulfill the dust protection requirements.
 - `Native Tokens Count` must not be greater than `Max Native Token Count Per Output`.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `1`.
-- Syntactical validation of all present feature blocks must pass.
+- Syntactic validation of all present feature blocks must pass.
 - `Token Scheme Type` must match one of the supported schemes. Any other value results in invalid output.
 - `Circulating Supply` must not be greater than `Maximum Supply`.
 - `Maximum Supply` must be larger than zero.
@@ -2655,7 +2655,7 @@ are encoded in inputs and outputs respectively.
 
 - The foundry output must be unlocked like any other output type belonging to an <i>Alias Address</i>, by transitioning
   the alias in the very same transaction. See section
-  [alias unlocking](https://hackmd.io/SDRE4pwwTNe4rbUiywxuRQ?view#Unlocking-Chain-Script-Locked-Outputs) for more
+  [alias unlocking](#unlocking-chain-script-locked-outputs) for more
   details.
 - When the current state of the foundry with `Foundry ID` is empty, it must hold true for `Serial Number` in the next
   state, that:
@@ -3230,15 +3230,15 @@ optional feature blocks so that the output can be sent as a request to smart con
     </details>
 </table>
 
-### Additional Transaction Syntactical Validation Rules
+### Additional Transaction Syntactic Validation Rules
 
-#### Output Syntactical Validation
+#### Output Syntactic Validation
 
 - `Amount` field must fulfill the dust protection requirements.
 - `Native Token Count` must not be greater than `Max Native Token Count Per Output`.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `9`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
-- Syntactical validation of all present feature blocks must pass.
+- Syntactic validation of all present feature blocks must pass.
 - `Immutable Metadata Length` fields can not be greater than `MaxMetadataLength`.
 - `Address` must not be the same as the NFT address derived from `NFT ID`.
 
@@ -3400,7 +3400,7 @@ must hold that i > k. Hence, an <i>NFT Unlock Block</i> can only reference an *U
 The feeless nature of IOTA makes it inherently impossible to implement smart contracts on layer 1. A smart contract
 platform shall not only be capable of executing smart contracts, but also to limit their resource usage and make users
 pay validators for the used resources. IOTA has no concept of validators, neither fees. While it would technically be
-possible to run eUTXO smart contracts on the layer 1 Tangle, it is not possible to properly charge users for executing
+possible to run EUTXO smart contracts on the layer 1 Tangle, it is not possible to properly charge users for executing
 them.
 
 The current design aims to combine the best of both worlds: Scalable and feeless layer 1 and  Turing-complete smart
