@@ -793,7 +793,7 @@ Outputs must have the following fields to define the balance of native tokens th
                         <td>Token ID</td>
                         <td>ByteArray[38]</td>
                         <td>
-                            Identifier of the native token. Derivation defined <a href=https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-sc-and-tokenization/0038-output-types-for-sc-and-tokenization.md#foundry-output>here</a>.
+                            Identifier of the native token. Derivation defined <a href=https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#foundry-output>here</a>.
                         </td>
                     </tr>
                     <tr>
@@ -935,7 +935,9 @@ transaction validation.
     </tr>
 </table>
 
-:::info
+| :information_source:  Good to know about address formats |
+|----------------------------------------------------------|
+
 The <i>Address Type</i> byte of a raw address has an effect on the starting character of the bech32 encoded address,
 which is the recommended address format for user facing applications.
 
@@ -951,7 +953,6 @@ separator in the bech32 address will always be different.
 
 A user can identify by looking at the address wether it is a signature backed address, a smart contract chain account
 or an NFT address.
-:::
 
 #### Issuer Block
 
