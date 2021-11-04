@@ -935,7 +935,7 @@ transaction validation.
     </tr>
 </table>
 
-| :information_source:  Good to know about address formats |
+| :information_source:  Good to know about address format |
 |----------------------------------------------------------|
 
 The <i>Address Type</i> byte of a raw address has an effect on the starting character of the bech32 encoded address,
@@ -945,7 +945,7 @@ A usual bech32 encoded mainnet address starts with `iota1`, and continues with t
 By choosing <i>Address Type</i> as a multiple of 8 for different address types, the first character after the `1`
 separator in the bech32 address will always be different.
 
-| Address | Type Byte | Bech32 Encoded |
+| Address | Type Byte as `uint8` | Bech32 Encoded |
 | ------- | --------- | -------------- |
 | Ed25519 | 0 | iota1**q**... |
 | Alias | 8 | iota1**p**... |
