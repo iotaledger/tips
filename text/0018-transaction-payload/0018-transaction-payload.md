@@ -523,7 +523,7 @@ Transactions that do not pass semantic validation are ignored. Their UTXOs are n
 
 ### Transaction timestamps
 
-Since transaction timestamps -- whether they are signed or not -- do not provide any guarantee of correctness, they have been left out of the _Transaction Payload_. Applications relying on some notion of time for transactions can use the local solidification time or the global timestamp of the confirming milestone ([RFC-0019](https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.html)).
+Since transaction timestamps – whether they are signed or not – do not provide any guarantee of correctness, they have been left out of the _Transaction Payload_. Applications relying on some notion of time for transactions can use the local solidification time or the global timestamp of the confirming milestone ([RFC-0019](https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.html)).
 
 ### Address reuse
 
