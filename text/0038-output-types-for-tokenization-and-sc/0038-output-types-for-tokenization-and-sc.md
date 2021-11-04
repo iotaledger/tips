@@ -1,6 +1,6 @@
-# (1/3) RFC #XX: Output Types for Tokenization and Smart Contracts
+# RFC #38: Output Types for Tokenization and Smart Contracts
 
-- Feature name: `output_types_for_sc_and_tokenization`
+- Feature name: `output_types_for_tokenization_and_sc`
 - Start date: 2021-11-04
 - RFC PR:
 
