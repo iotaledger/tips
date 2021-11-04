@@ -429,7 +429,7 @@ The <i>SigLockedDustAllowanceOutput</i> works in the same way as a <i>SigLockedS
 
 ##### Payload
 
-The  _Transaction Essence_ itself can contain another payload as described in general in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html). If the transaction is not [semantically valid](#semantic-validation), then the payload must also be discarded.
+The  _Transaction Essence_ itself can contain another payload as described in general in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html). The [semantic validity](#semantic-validation) of the encapsulating _Transaction Payload_ does not have any impact on the payload.
 
 The following table lists all the payload types that can be nested inside a _Transaction Essence_ as well as links to the corresponding specification:
 
