@@ -661,7 +661,7 @@ The following criteria defines whether the transaction passes the syntactic vali
     * `Outputs Count` must be 0 < x ≤ `Max Outputs Count`.
     * At least one output must be specified.
     * `Output Type` must denote a `SimpleOutput`, `ExtendedOutput`, `AliasOutput`, `FoundryOutput` or `NFTOutput`.
-    * Output must fulfill the [dust protection requirements.](TODO)
+    * Output must fulfill the [dust protection requirements.](https://github.com/iotaledger/protocol-rfcs/pull/39)
     * Output is syntactically valid based on its type.
     * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
 * `Payload Length` must be 0 (to indicate that there's no payload) or be valid for the specified payload type.
