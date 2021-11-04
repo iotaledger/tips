@@ -2,7 +2,7 @@
 
 - Feature name: `output_types_for_tokenization_and_sc`
 - Start date: 2021-11-04
-- RFC PR:
+- RFC PR: [iotaledger/protocol-rfcs#0038](https://github.com/iotaledger/protocol-rfcs/pull/38)
 
 # Summary
 
