@@ -1,0 +1,1305 @@
+# Dust protection
+
++ Feature name: dust-protection-based-on-byte-costs
++ Start date: 2021-11-04
++ RFC PR: [iotaledger/protocol-rfcs#0039](https://github.com/iotaledger/protocol-rfcs/pull/39)
+
+## Summary
+
+The current `dust protection` in `chrysalis-pt2` is only an intermediate solution to prevent attacks or misbehaviour that could bloat the ledger database. The design has several drawbacks, e.g. it does not scale, relies on a total ordering of the tangle and it is rather complicated to use from a user point of view.
+
+This document describes a new `dust protection` concept, which solves the mentioned drawbacks and creates a monetary incentive to keep the ledger state small. It focuses on the underlying problem, the increase in database size, instead of artificially limiting the number of UTXOs. This is achieved by enforcing a minimum IOTA coin deposit in every output based on the actually used disc space of the output itself.
+
+## Motivation
+
+In a distributed ledger network, every participant, a so called node, needs to keep track of the current ledger state. Since `chrysalis-pt2`, the IOTA ledger state is based on the UTXO model, where every node keeps track of all the currently unspent outputs. Without a `dust protection`, even outputs containing only one single IOTA coin are valid and therefore stored in the database.
+
+Misusage by honest users or intentionally bad behavior by malicious actors can lead to growing database and snapshot sizes and increasing computational costs (database lookups, balance calculations). Due to these increasing hardware requirements, the entry barrier to participate in the network becomes unaffordable and less nodes would operate the network.
+
+Especially in a fee-less system like IOTA, this is a serious issue, since an attacker can create a lot of damage with low effort. Other DLTs do not face this problem yet today, because such an attack would be much more expensive due to the high transaction fees.
+
+Solving the DLT scalability dilemma ultimatively leads to lower transaction costs. Therefore other DLT projects will also run into the same dust obstacle in the end. IOTA solves this problem with the `dust protection`.
+
+## Requirements
+
+- The maximum possible ledger database size must be limited to a reasonable and manageable size.
+- The `dust protection` must not depend on a global shared state of the ledger, so that transaction validation can happen in parallel.
+- The `dust protection` should work for outputs with arbitrary data and size.
+- The ledger database size should be fairly allocated to users based on the cryptograhically proven scarce resource, IOTA coins.
+
+## Detailed Design
+
+The current `dust protection` solution in `chrysalis-pt2` does not satisfy the mentioned requirements for the following reasons:
+
+- The enforced maximum limit of disc space is ~6.5 TB.
+- The dust allowance mechanism depends on total amount of funds in `DustAllowanceOutput` per address, which is a global shared state.
+- It is designed for one fixed output size.
+
+Therefore a new transaction validation rule is introduced which replaces the former `dust protection` solution completely.
+
+Messages including payloads, even transaction payloads, are considered to be pruned by the nodes, but unspent transaction outputs must be kept until they are spent. Therefore the `dust protection` is based on the unspent outputs only.
+
+**Every output created by a transaction needs to have at least a minimum amount of IOTA coins deposited in the output itself, otherwise the output is syntactically invalid.**
+
+min_deposit_of_output = v_byte_cost × v_byte<br>
+v_byte = ∑(weight<sub>n</sub> × field_byte_size<sub>n</sub>) + offset
+
+<!--
+$$
+min\_deposit\_of\_output = v\_byte\_cost × v\_byte \\
+v\_byte =\displaystyle\sum_{i=1}^{n} (weight_n×field\_byte\_size_n) + offset \\
+$$
+-->
+
+where:
+- v_byte_cost: costs in IOTA coins per virtual byte
+- weight<sub>n</sub>: factor that takes computational and storage costs into account
+- field_byte_size<sub>n</sub>: byte size of the field of the output
+- offset: additional v_bytes that are caused by additional data that has to be stored in the database but is not part of the output itself
+
+Starting with the tokenization and smart contracts mainnet upgrade, new [output types](https://github.com/iotaledger/protocol-rfcs/pull/38) are introduced that contain mandatory and optional fields with variable length. Each of these fields result in different computational and storage costs, which will be considered by `weight_n`. The size of the field itself is expressed with `field_n_byte_size`. `offset` is used to take the overhead of the specific output itself into account. 
+
+The `v_byte_cost` is a protocol value, which has to be defined based on resonable calculations and estimates.
+
+**In simple words, the more data you write to the global ledger database, the more IOTA you need to deposit in the output.**
+This is not a fee, because the deposited coins can be reclaimed by consuming the output in a new transaction.
+
+### Advantages
+
+The proposed solution has several advantages over the former solution.
+
+First of all, the database size is limited to an absolute maximum size (ignoring the influence of `weight_n`), because if `v_byte_cost` and the total supply of IOTA coins stay constant, also the maximum amount of `v_bytes` that can ever be written to the database remains constant.
+
+Total ordering of the tangle is not necessary because there is no shared global ledger state for transaction validation anymore. The node can determine if the transaction is valid and the dust protection rules are fulfilled, just by looking at the transaction itself. Therefore this solution is also suitable for IOTA 2.0.
+
+By introducing a certain cost for every byte stored in the ledger, it is possible to store arbitrary data in the outputs, as long as enough IOTA coins are deposited in the output itself to keep the information retained. This enables permanent storage of data in a distributed and decentralized way, without the need of a permanode.
+
+Users have an economic incentive to clean up the database. By consuming old unused outputs, users can reclaim their deposited IOTA coins.
+
+### Drawbacks
+
+This solution prevents seamless microtransactions, which are a unique selling point for IOTA, because the issuer of the transaction always needs to deposit `min_deposit_of_output` IOTA coins in the output created by the transaction. This minimum deposit will have a higher value than the microtransaction itself, which basically makes microtransactions impossible. Two different solutions to circumvent this obstacle are introduced [here](#Microtransactions).
+
+### How does it affect other parts of the protocol?
+
+The `dust protection` only affects "value-transactions", since messages with indexation payload, formerly known as "data-transactions", are not stored in the ledger state and are therefore pruned after some time. Milestone payloads are also not affected. All output types like e.g. smart contract requests are affected by the `dust protection`, and must comply with the `min_deposit_of_output` criteria. Therefore these requests could get quite expensive for the user, but the same mechanism introduced for [Microtransactions on Layer 1](#Microtransactions-on-Layer-1) can be utilized for smart contract requests as well.
+
+### Byte cost calculations
+
+To limit the maximum database size, the total IOTA supply needs to be divided by the target database size in bytes to get the worst case scenario regarding the byte costs.
+
+Since this would be way too expensive and would not represent the real distribution of funds on the UTXOs, the zipf distribution fitting of the current ledger state could be utilized. Unfortunately these zipf fittings will not match the future distribution of the funds for several reasons:
+
+- There is already another `dust protection` in place, which distorts the fittings.
+- The fitting was made for mana simulations and took only the richest 100 addresses into account because the zipf distribution is an empirical law that holds only true for the top range of the funds distribution.
+- With new use cases enabled by the new dust protection (e.g. tokenization, storing arbitrary data in the ledger), the distribution will dramatically change.
+- Fittings for other DLT projects do not match because there are transaction fees in place, which decrease the amount of dust outputs in the distribution.
+
+Another possibility would be to estimate how much percentage of the database will be used for outputs with minimum required deposit in the future. Since a fund sparsity percentage of more than 20% would already be bad for other upcoming protocol features like the mana calculation, we could take this value for our calculation instead of the worst case.
+
+### Weights for different outputs
+
+The different output types mentioned in the [Output Types RFC](https://github.com/iotaledger/protocol-rfcs/pull/38) contain several mandatory and optional fields. Every field itself creates individual computational and storage requirements for the node, which is considered by having different weights for every field.
+
+##### Field types
+
+The following table describes different field types in an output:
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Weight</th>
+        <th>Reasoning</th>
+    </tr>
+    <tr>
+        <td><code>key</code></td>
+        <td>Creates a key lookup in the database.</td>
+        <td>10.0</td>
+        <td>Keys need to be stored in the LSM tree of the key-value database engine and need to be merged and leveled, which is computational-, memory- and read/write IO-wise a heavy task.</td>
+    </tr>
+    <tr>
+        <td><code>data</code></td>
+        <td>Plain binary data on disk.</td>
+        <td>1.0</td>
+        <td>Data is stored as the value in the key-value database, and therefore only consumes disc space.</td>
+    </tr>
+</table>
+
+| :warning:  Protocol parameters are not set yet |
+| ---------------------------------------------- |
+
+Protocol parameters presented in this document are design parameters that will change in the future based on simulation results, benchmarking and security assumptions. The reader should not take these values as definitive.
+
+An example of such parameter for example is the `weight` assigned to different output field types.
+
+#### Outputs
+
+The following tables show the different outputs including the possible fields and their specific weight.
+   
+<details>
+    <summary>Simple Output</summary>
+    <blockquote>
+            Describes a simple output that can only hold IOTAs. For backwards compatibility reasons, this is the same as a SigLockedSingleOutput.
+    </blockquote>
+</details>
+
+<table>
+  <tr>
+    <td><b>Name</b></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Offset</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>OutputID</td>
+                <td><code>key</code></td>
+                <td>34</td>
+                <td>34</td>
+                <td>-</td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td>Fields</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Output Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td><code>data</code></td>
+                <td>8</td>
+                <td>8</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>-</td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+      <td>v_byte Minimum</td>
+      <td>580</td>
+  </tr>
+  <tr>
+      <td>v_byte Maximum</td>
+      <td>712</td>
+  </tr>
+</table>
+
+![](https://i.imgur.com/xvrI6fx.jpg)
+
+<details>
+    <summary>Extended Output</summary>
+    <blockquote>
+            Describes an extended output with optional features.
+    </blockquote>
+</details>
+
+<table>
+  <tr>
+    <td><b>Name</b></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Offset</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>OutputID</td>
+                <td><code>key</code></td>
+                <td>34</td>
+                <td>34</td>
+                <td>-</td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td>Fields</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Output Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>            
+            <tr>
+                <td>Amount</td>
+                <td><code>data</code></td>
+                <td>8</td>
+                <td>8</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Native Tokens Count</td>
+                <td><code>data</code></td>
+                <td>2</td>
+                <td>2</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Native Tokens</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>26112</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>-</td>
+            </tr>
+        </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Feature Blocks</td>
+    <td colspan="2">
+      <details>
+        <summary>Sender Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Sender</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>If used in combination with the indexation block, the weight of this field doubles.</td>
+            </tr>
+        </table>
+      </details>        
+      <details>
+        <summary>Return Amount Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Return Amount</td>
+                <td><code>data</code></td>
+                <td>8</td>
+                <td>8</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>        
+      <details>
+        <summary>Timelock Milestone Index Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Milestone Index</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>        
+      <details>
+        <summary>Timelock Unix Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Unix Time</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>        
+      <details>
+        <summary>Expiration Milestone Index Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Milestone Index</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>
+      <details>
+        <summary>Expiration Unix Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Unix Time</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>        
+      <details>
+        <summary>Indexation Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Indexation Data Length</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Indexation Data</td>
+                <td><code>key+data</code></td>
+                <td>64</td>
+                <td>64</td>
+                <td>If used in combination with the sender block, the weight  of this field doubles.</td>
+            </tr>            
+        </table>
+      </details>        
+      <details>
+        <summary>Metadata Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Metadata Data Length</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Metadata Data</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>unbound</td>
+                <td>32484 bytes maximum length at 32768 message size and 1 input</td>
+            </tr>   
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+      <td>v_byte Minimum</td>
+      <td>582</td>
+  </tr>
+  <tr>
+      <td>v_byte Maximum</td>
+      <td>35240</td>
+  </tr>
+</table>
+
+![](https://i.imgur.com/Kw0h59A.jpg)
+
+![](https://i.imgur.com/S2tVN44.jpg)
+
+
+<details>
+    <summary>Alias Output</summary>
+    <blockquote>
+            Describes an alias account in the ledger that can be controlled by the state and governance controllers.
+    </blockquote>
+</details>
+
+<table>
+  <tr>
+    <td><b>Name</b></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Offset</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>OutputID</td>
+                <td><code>key</code></td>
+                <td>34</td>
+                <td>34</td>
+                <td>-</td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td>Fields</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Output Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>            
+            <tr>
+                <td>Amount</td>
+                <td><code>data</code></td>
+                <td>8</td>
+                <td>8</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Native Tokens Count</td>
+                <td><code>data</code></td>
+                <td>2</td>
+                <td>2</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Native Tokens</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>26112</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Alias ID</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>21</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>State Controller</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Governance Controller</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>State Index</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>State Metadata Length</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>State Metadata</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>unbound</td>
+                <td>32418 bytes maximum length at 32768 message size and 1 input</td>
+            </tr>
+            <tr>
+                <td>Foundry Counter</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+        </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Feature Blocks</td>
+    <td colspan="2">
+      <details>
+        <summary>Metadata Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Metadata Data Length</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Metadata Data</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>unbound</td>
+                <td>32418 bytes maximum length at 32768 message size and 1 input</td>
+            </tr>   
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+      <td>v_byte Minimum</td>
+      <td>636</td>
+  </tr>
+  <tr>
+      <td>v_byte Maximum</td>
+      <td>33083</td>
+  </tr>
+</table>
+
+![](https://i.imgur.com/eRdf8ab.jpg)
+
+![](https://i.imgur.com/eqPdb0S.jpg)
+
+
+<details>
+    <summary>Foundry Output</summary>
+    <blockquote>
+            Describes a foundry output that is controlled by an alias.
+    </blockquote>
+</details>
+
+<table>
+  <tr>
+    <td><b>Name</b></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Offset</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>OutputID</td>
+                <td><code>key</code></td>
+                <td>34</td>
+                <td>34</td>
+                <td>-</td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td>Fields</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Output Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>            
+            <tr>
+                <td>Amount</td>
+                <td><code>data</code></td>
+                <td>8</td>
+                <td>8</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Native Tokens Count</td>
+                <td><code>data</code></td>
+                <td>2</td>
+                <td>2</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Native Tokens</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>26112</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>21</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Serial Number</td>
+                <td><code>key+data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Token Tag</td>
+                <td><code>data</code></td>
+                <td>12</td>
+                <td>12</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Circulating Supply</td>
+                <td><code>data</code></td>
+                <td>64</td>
+                <td>64</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Maximum Supply</td>
+                <td><code>data</code></td>
+                <td>64</td>
+                <td>64</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Token Scheme</td>
+                <td><code>key+data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+        </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Feature Blocks</td>
+    <td colspan="2">
+      <details>
+        <summary>Metadata Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Metadata Data Length</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Metadata Data</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>unbound</td>
+                <td>32351 bytes maximum length at 32768 message size and 1 input</td>
+            </tr>   
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+      <td>v_byte Minimum</td>
+      <td>777</td>
+  </tr>
+  <tr>
+      <td>v_byte Maximum</td>
+      <td>33133</td>
+  </tr>
+</table>
+
+![](https://i.imgur.com/ewa9YA6.jpg)
+
+![](https://i.imgur.com/QjLMHzr.jpg)
+
+<details>
+    <summary>NFT Output</summary>
+    <blockquote>
+            Describes an NFT output, a globally unique token with metadata attached.
+    </blockquote>
+</details>
+
+<table>
+  <tr>
+    <td><b>Name</b></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Offset</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>OutputID</td>
+                <td><code>key</code></td>
+                <td>34</td>
+                <td>34</td>
+                <td>-</td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td>Fields</td>
+    <td>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Output Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>            
+            <tr>
+                <td>Amount</td>
+                <td><code>data</code></td>
+                <td>8</td>
+                <td>8</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Native Tokens Count</td>
+                <td><code>data</code></td>
+                <td>2</td>
+                <td>2</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Native Tokens</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>26112</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>NFT ID</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>21</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Immutable Metadata Length</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Immutable Metadata</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>tbd</td>
+                <td>-</td>
+            </tr>
+        </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Feature Blocks</td>
+    <td colspan="2">
+      <details>
+        <summary>Sender Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Sender</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>If used in combination with the indexation block, the weight of this field doubles.</td>
+            </tr>
+        </table>
+      </details>      
+      <details>
+        <summary>Issuer Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Issuer</td>
+                <td><code>data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>
+      <details>
+        <summary>Return Amount Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Return Amount</td>
+                <td><code>data</code></td>
+                <td>8</td>
+                <td>8</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>        
+      <details>
+        <summary>Timelock Milestone Index Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Milestone Index</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>        
+      <details>
+        <summary>Timelock Unix Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Unix Time</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>        
+      <details>
+        <summary>Expiration Milestone Index Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Milestone Index</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>
+      <details>
+        <summary>Expiration Unix Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Unix Time</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>        
+      <details>
+        <summary>Indexation Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Indexation Data Length</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Indexation Data</td>
+                <td><code>key+data</code></td>
+                <td>64</td>
+                <td>64</td>
+                <td>If used in combination with the sender block, the weight  of this field doubles.</td>
+            </tr>            
+        </table>
+      </details>        
+      <details>
+        <summary>Metadata Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Metadata Data Length</td>
+                <td><code>data</code></td>
+                <td>4</td>
+                <td>4</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Metadata Data</td>
+                <td><code>data</code></td>
+                <td>0</td>
+                <td>unbound</td>
+                <td>32459 bytes maximum length at 32768 message size and 1 input</td>
+            </tr>   
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+      <td>v_byte Minimum</td>
+      <td>817</td>
+  </tr>
+  <tr>
+      <td>v_byte Maximum</td>
+      <td>35450</td>
+  </tr>
+</table>
+
+![](https://i.imgur.com/81pnwKl.jpg)
+
+![](https://i.imgur.com/DoiY7XO.jpg)
+
+### Microtransactions
+
+#### Microtransactions on Layer 1
+
+To enable microtransactions on Layer 1 and still satisfy the `min_deposit_of_output` requirement, a new mechanism called `conditional sending` is introduced with the new [Output Types](https://github.com/iotaledger/protocol-rfcs/pull/38).
+
+![Microtransactions on Layer 1](https://i.imgur.com/juPL8Zv.png)
+
+The preceding picture shows the process of the `conditional sending` mechanism. Alice uses the `ExtendedOutput` to send a microtransaction of 1 IOTA to Bob's `Address`. To fulfill the `min_deposit_of_output` requirement, the `Amount` is increased by `min_deposit_of_output` IOTA, which is 1 MIOTA in the above example. To prevent Bob from accessing these additional funds called the `dust deposit`, Alice adds the optional `Return Amount Block` and the optional `Sender Block` to the `ExtendedOutput`. Now Bob can only consume the newly created output, if the unlocking transaction deposits the specified `Return Amount` IOTA coins, in this case 1 MIOTA, to the `Sender` address defined by Alice. By consuming another UTXO and adding its amount to the received 1 IOTA, Bob takes care to create a valid output according to the dust protection rules.
+
+To prevent Bob from blocking access to the `dust deposit` forever, Alice specifies the additional `Expiration Blocks` in the `ExtendedOutput`. If Bob does not consume the output before the time window defined by Alice expires, Alice regains total control over the output.
+
+This means that there is no risk for Alice to loose the `dust deposit`, because either Bob needs to return the specified `Return Amount`, or the ownership of the created output switches back to Alice after the specified time-window has expired.
+
+This mechanism can also be used to transfer native tokens or on-chain requests to ISCP chains without losing control over the required `dust deposit`.
+
+#### Microtransactions on Layer 2
+
+Another solution is to outsource microtransactions to Layer 2 applications like smart contracts. In Layer 2 there are no restrictions regarding the minimum balance of an output.
+
+![Microtransactions on Layer 2](https://i.imgur.com/bkSe2h2.png)
+
+In this example, Alice sends funds to a smart contract chain on Layer 1 with an output that covers at least `min_deposit_of_output`. From this point on, Alice can send any number of off-chain requests to the smart contract chain,  causing the smart contract to send microtransactions from Alice' on-chain account to Bob's on-chain account. Bob can now request his on-chain account balances to be withdrawn to his Layer 1 address. The last step can also be combined with the former introduced `conditional sending` mechanism, in case Bob wants to withdraw less than `min_deposit_of_output` IOTA coins or native assets.
+
+| :information_source: Potential additional mechanisms for microtransactions are currently being discussed. |
+| --------------------------------------------------------------------------------------------------------- |
+
+### Migration from old to new dust protection
+
+All `SigLockedSingleOutput` below 1 MIOTA and `SigLockedDustAllowanceOutput`  of an address could be collected and migrated to a single new `SimpleOutput` with the smallest `UTXO-ID` (byte-wise) of all these collected outputs as the new identifier.
+
+This could probably be done in the form of a global snapshot and would represent a hard-fork.
+
+Another solution is to convert all `SigLockedDustAllowanceOutput` into `SimpleOutputs` and leave the `SigLockedSingleOutput` below 1 MIOTA untouched.
+
+### Unresolved questions
+
+- What are reasonable weights for the different output fields?
+- What is a reasonable target database size?
+- What is a reasonable `v_byte_cost`?
+- Should it be possible to alter the `v_byte_cost` protocol value by announcing a change in a milestone payload in a coordinator based network? How would that be done in IOTA 2.0?
+- How should the migration from old to new dust protection be done?
