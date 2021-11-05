@@ -286,7 +286,7 @@ The following tables show the different outputs including the possible fields an
                 <td>Native Tokens</td>
                 <td><code>data</code></td>
                 <td>0</td>
-                <td>26112</td>
+                <td>17920</td>
                 <td>-</td>
             </tr>
             <tr>
@@ -611,7 +611,7 @@ The following tables show the different outputs including the possible fields an
                 <td>Native Tokens</td>
                 <td><code>data</code></td>
                 <td>0</td>
-                <td>26112</td>
+                <td>17920</td>
                 <td>-</td>
             </tr>
             <tr>
@@ -789,7 +789,7 @@ The following tables show the different outputs including the possible fields an
                 <td>Native Tokens</td>
                 <td><code>data</code></td>
                 <td>0</td>
-                <td>26112</td>
+                <td>17920</td>
                 <td>-</td>
             </tr>
             <tr>
@@ -816,15 +816,15 @@ The following tables show the different outputs including the possible fields an
             <tr>
                 <td>Circulating Supply</td>
                 <td><code>data</code></td>
-                <td>64</td>
-                <td>64</td>
+                <td>32</td>
+                <td>32</td>
                 <td>-</td>
             </tr>
             <tr>
                 <td>Maximum Supply</td>
                 <td><code>data</code></td>
-                <td>64</td>
-                <td>64</td>
+                <td>32</td>
+                <td>32</td>
                 <td>-</td>
             </tr>
             <tr>
@@ -878,7 +878,7 @@ The following tables show the different outputs including the possible fields an
   </tr>
   <tr>
       <td>v_byte Minimum</td>
-      <td>777</td>
+      <td>713</td>
   </tr>
   <tr>
       <td>v_byte Maximum</td>
@@ -886,7 +886,7 @@ The following tables show the different outputs including the possible fields an
   </tr>
 </table>
 
-![](https://i.imgur.com/ewa9YA6.jpg)
+![](https://i.imgur.com/Vf3tTom.jpg)
 
 ![](https://i.imgur.com/QjLMHzr.jpg)
 
@@ -959,7 +959,7 @@ The following tables show the different outputs including the possible fields an
                 <td>Native Tokens</td>
                 <td><code>data</code></td>
                 <td>0</td>
-                <td>26112</td>
+                <td>17920</td>
                 <td>-</td>
             </tr>
             <tr>
