@@ -1569,7 +1569,7 @@ ledger.
                 <td>Output Type</td>
                 <td>uint8</td>
                 <td>
-                    Set to <strong>value 1</strong> to denote an <i>Extended Output</i>.
+                    Set to <strong>value 3</strong> to denote an <i>Extended Output</i>.
                 </td>
             </tr>
             <tr>
@@ -2032,7 +2032,7 @@ state as metadata into the UTXO ledger.
                 <td>Output Type</td>
                 <td>uint8</td>
                 <td>
-                    Set to <strong>value 2</strong> to denote a <i>Alias Output</i>.
+                    Set to <strong>value 4</strong> to denote a <i>Alias Output</i>.
                 </td>
             </tr>
             <tr>
@@ -2466,7 +2466,7 @@ controlled by a specific foundry is the concatenation of `Foundry ID` || `Token 
                 <td>Output Type</td>
                 <td>uint8</td>
                 <td>
-                    Set to <strong>value 3</strong> to denote a <i>Foundry Output</i>.
+                    Set to <strong>value 5</strong> to denote a <i>Foundry Output</i>.
                 </td>
             </tr>
             <tr>
@@ -2727,7 +2727,7 @@ optional feature blocks so that the output can be sent as a request to smart con
                 <td>Output Type</td>
                 <td>uint8</td>
                 <td>
-                    Set to <strong>value 4</strong> to denote a <i>NFT Output</i>.
+                    Set to <strong>value 6</strong> to denote a <i>NFT Output</i>.
                 </td>
             </tr>
             <tr>
