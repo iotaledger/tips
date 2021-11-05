@@ -692,7 +692,6 @@ nodes (i.e. milestone cones), no matter the order the transactions are received.
 would occur as soon as a transaction would be received, it could potentially lead to nodes having different views of
 the UTXOs available to spend.
 
-
 Processing transactions in the White-Flag ordering enables users to spend UTXOs which are in the same milestone
 confirmation cone, if their transaction comes after the funding transaction in the mentioned White-Flag ordering. It is
 recommended that users spending unconfirmed UTXOs attach their message directly onto the message containing the source
@@ -716,7 +715,6 @@ The following criteria defines whether the transaction passes the semantic valid
 8. The address type of the referenced UTXO (input) must match that of the corresponding <i>Unlock Block</i>.
 9. The <i>Signature Unlock Blocks</i> are valid, i.e. the signatures prove ownership over the addresses of the
    referenced UTXOs.
-
 
 If a transaction passes the semantic validation, its referenced UTXOs must be marked as spent and the corresponding new
 outputs must be booked/specified in the ledger. The booked transaction then also becomes part of the White-Flag Merkle
@@ -816,7 +814,6 @@ Outputs must have the following fields to define the balance of native tokens th
 - When the transaction is imbalanced, the foundry outputs controlling outstanding native token balances must be present
   in the transaction. The validation of the foundry output(s) determines if the outstanding balances are valid.
 
-
 ### Optional Output Features
 
 The programmability of outputs opens the door for implementing new features for the base protocol. While some outputs
@@ -840,7 +837,7 @@ transaction validation.
 
 ##### Additional semantic transaction validation rule:
 - The <i>Sender Block</i>, and hence the output and transaction that contain it, is valid, if and only if an output
-- with the corresponding address is consumed and unlocked in the transaction.
+  with the corresponding address is consumed and unlocked in the transaction.
 
 <details>
 <summary>Sender Block</summary>
@@ -964,8 +961,8 @@ checked that the issuer block is still present and unchanged.
 
 ##### Additional semantic transaction validation rule:
 - When an <i>Issuer Block</i> is present in an output representing the initial state of an UTXO state machine, the
-- transaction that contains this output is valid, if and only if an output with the corresponding address is consumed
-- and unlocked in the transaction.
+  transaction that contains this output is valid, if and only if an output with the corresponding address is consumed
+  and unlocked in the transaction.
 
 The main use case is proving authenticity of NFTs. Whenever an NFT is minted as an NFT output, the creator (issuer) can
 fill the `Issuer Block` with their address that they have to unlock in the transaction. Issuers then can publicly
