@@ -141,11 +141,11 @@ The following criteria defines whether the message passes the syntactical valida
 
 While messages without a payload, i.e. `Payload Length` set to zero, are valid, such messages do not contain any information. As such, messages usually contain a payload. The detailed specification of each payload type is out of scope of this RFC. The following table lists all currently specified payloads that can be part of a message and links to their specification. The _indexation payload_ will be specified here as an example:
 
-| Payload Name | Type Value | RFC                                                                                                                                                            |
-| ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Transaction  | 0          | [RFC-0018 (draft)](https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md) |
-| Milestone    | 1          | [RFC-0019](https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.html)                                                        |
-| Indexation   | 2          | [RFC-0017](#indexation-payload)                                                                                                                                |
+| Payload Name | Type Value | RFC                                                                                                           |
+| ------------ | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| Transaction  | 0          | [RFC-0018](https://iotaledger.github.io/protocol-rfcs/0018-transaction-payload/0018-transaction-payload.html) |
+| Milestone    | 1          | [RFC-0019](https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.html)     |
+| Indexation   | 2          | [RFC-0017](#indexation-payload)                                                                               |
 
 ### Indexation payload
 
