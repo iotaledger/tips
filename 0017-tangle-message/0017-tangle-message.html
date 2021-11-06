@@ -4,7 +4,10 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>0017-tangle-message - The IOTA Protocol RFC Book</title>
+
+
         <!-- Custom HTML head -->
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,15 +19,18 @@
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
         <link rel="stylesheet" href="../css/print.css" media="print">
+
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="../fonts/fonts.css">
+
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
         <link rel="stylesheet" href="../tomorrow-night.css">
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -75,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0017-tangle-message/0017-tangle-message.html" class="active">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="../0019-milestone-payload/0019-milestone-payload.html">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0017-tangle-message/0017-tangle-message.html" class="active">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="../0018-transaction-payload/0018-transaction-payload.html">0018-transaction-payload</a></li><li class="chapter-item expanded "><a href="../0019-milestone-payload/0019-milestone-payload.html">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -110,6 +116,7 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+
                     </div>
                 </div>
 
@@ -123,6 +130,7 @@
                         </ul>
                     </div>
                 </div>
+
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -268,7 +276,7 @@
 <h2 id="payloads"><a class="header" href="#payloads">Payloads</a></h2>
 <p>While messages without a payload, i.e. <code>Payload Length</code> set to zero, are valid, such messages do not contain any information. As such, messages usually contain a payload. The detailed specification of each payload type is out of scope of this RFC. The following table lists all currently specified payloads that can be part of a message and links to their specification. The <em>indexation payload</em> will be specified here as an example:</p>
 <table><thead><tr><th>Payload Name</th><th>Type Value</th><th>RFC</th></tr></thead><tbody>
-<tr><td>Transaction</td><td>0</td><td><a href="https://github.com/luca-moser/protocol-rfcs/blob/signed-tx-payload/text/0000-signed-transaction-payload/0000-signed-transaction-payload.md">RFC-0018 (draft)</a></td></tr>
+<tr><td>Transaction</td><td>0</td><td><a href="https://iotaledger.github.io/protocol-rfcs/0018-transaction-payload/0018-transaction-payload.html">RFC-0018</a></td></tr>
 <tr><td>Milestone</td><td>1</td><td><a href="https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.html">RFC-0019</a></td></tr>
 <tr><td>Indexation</td><td>2</td><td><a href="#indexation-payload">RFC-0017</a></td></tr>
 </tbody></table>
@@ -320,9 +328,11 @@
                             <a rel="prev" href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../0019-milestone-payload/0019-milestone-payload.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+
+                            <a rel="next" href="../0018-transaction-payload/0018-transaction-payload.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
+
                         <div style="clear: both"></div>
                     </nav>
                 </div>
@@ -332,23 +342,32 @@
                     <a rel="prev" href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../0019-milestone-payload/0019-milestone-payload.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+
+                    <a rel="next" href="../0018-transaction-payload/0018-transaction-payload.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
+
+
+
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
+
+
         <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
         <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+
+
     </body>
 </html>

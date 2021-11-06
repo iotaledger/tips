@@ -1,0 +1,714 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>0018-transaction-payload - The IOTA Protocol RFC Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0017-tangle-message/0017-tangle-message.html">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="../0018-transaction-payload/0018-transaction-payload.html" class="active">0018-transaction-payload</a></li><li class="chapter-item expanded "><a href="../0019-milestone-payload/0019-milestone-payload.html">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The IOTA Protocol RFC Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <ul>
+<li>Feature name: <code>transaction-payload</code></li>
+<li>Start date: 2020-07-10</li>
+<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/18">iotaledger/protocol-rfcs#18</a></li>
+</ul>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
+<p>In the current IOTA protocol, transactions are grouped into so-called bundles to assure that they can only be confirmed as one unit. This RFC proposes a new UTXO-based transaction structure containing all the inputs and outputs of a transfer. Specifically, this RFC defines a transaction payload for the <em>messages</em> described in the IOTA protocol <a href="https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html">RFC-0017</a>.</p>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
+<p>Currently, the vertices of the Tangle are represented by transactions, where each transaction defines either an input or output. A grouping of those input/output transaction vertices makes up a bundle which transfers the given values as an atomic unit (the entire bundle is applied or none of it). An applied bundle consumes the input transactions' funds and creates the corresponding deposits into the output transactions' target addresses. Furthermore, additional meta transactions can be part of the bundle to carry parts of the signature which do not fit into a single input transaction.</p>
+<p>The bundle concept has proven to be very challenging in practice because of the following issues:</p>
+<ul>
+<li>Since the data making up the bundle is split across multiple vertices, it complicates the validation of the entire transfer. Instead of being able to immediately tell whether a bundle is valid or not, a node implementation must first collect all parts of the bundle before any actual validation can happen. This increases the complexity of the node implementation.</li>
+<li>Reattaching the tail transaction of a bundle causes the entire transfer to be reapplied.</li>
+<li>Due to the split across multiple transaction vertices and having to do PoW for each of them, a bundle might already be lazy in terms of where it attaches, reducing its chances to be confirmed.</li>
+</ul>
+<p>To fix the problems mentioned above and to create a more flexible transaction structure, the goal is to achieve a self-contained transaction structure defining the data of the entire transfer as a payload to be embedded into a message.</p>
+<p>The new transaction structure should fulfil the following criteria:</p>
+<ul>
+<li>Support for Ed25519 (and thus reusable addresses).</li>
+<li>Support for adding new types of signature schemes, addresses, inputs, and outputs as part of protocol upgrades.</li>
+<li>Self-contained, as in being able to validate the transaction immediately after receiving it.</li>
+<li>Enable unspent transaction outputs (UTXO) as inputs instead of an account based model.</li>
+</ul>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
+<h2 id="utxo"><a class="header" href="#utxo">UTXO</a></h2>
+<p>The <em>unspent transaction output</em> (UTXO) model defines a ledger state where balances are not directly associated to addresses but to the outputs of transactions. In this model, transactions reference outputs of previous transactions as inputs, which are consumed (removed) to create new outputs. A transaction must consume all the funds of the referenced inputs.</p>
+<p>Using a UTXO based model provides several benefits:</p>
+<ul>
+<li>Parallel validation of transactions.</li>
+<li>Easier double-spend detection, since conflicting transactions would reference the same UTXO.</li>
+<li>Replay-protection which is important when having reusable addresses. Replaying the same transaction would manifest itself as already being applied or existent and thus not have any impact.</li>
+<li>Technically seen, balances are no longer associated to addresses which raises the level of abstraction and thus enables other types of outputs with particular unlock criteria.</li>
+</ul>
+<p>Within a transaction using UTXOs, inputs and outputs make up the to-be-signed data of the transaction. The section unlocking the inputs is called the <em>unlock block</em>. An unlock block may contain a signature proving ownership of a given input's address and/or other unlock criteria.</p>
+<p>The following image depicts the flow of funds using UTXO:</p>
+<p><img src="img/utxo.png" alt="UTXO flow" /></p>
+<h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
+<h3 id="serialized-layout"><a class="header" href="#serialized-layout">Serialized layout</a></h3>
+<p>A <em>Transaction Payload</em> is made up of two parts:</p>
+<ol>
+<li>The <em>Transaction Essence</em> part which contains the inputs, outputs and an optional embedded payload.</li>
+<li>The <em>Unlock Blocks</em> which unlock the inputs of the <em>Transaction Essence</em>. When an unlock block contains a signature, it signs the entire <em>Transaction Essence</em> part.</li>
+</ol>
+<p>All values are serialized in little-endian encoding. The serialized form of the transaction is deterministic, meaning the same logical transaction always results in the same serialized byte sequence.</p>
+<p>The <em>Transaction ID</em> is the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the entire serialized payload data including signatures.</p>
+<p>The following table structure describes the entirety of a <em>Transaction Payload</em> in its serialized form:</p>
+<ul>
+<li>Data Type Notation, see <a href="https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#data-types">RFC-0017</a></li>
+<li><details>
+  <summary>Subschema Notation</summary>
+  <table>
+      <tr>
+          <th>Name</th>
+          <th>Description</th>
+      </tr>
+      <tr>
+          <td><code>oneOf</code></td>
+          <td>One of the listed subschemas.</td>
+      </tr>
+      <tr>
+          <td><code>optOneOf</code></td>
+          <td>Optionally one of the listed subschemas.</td>
+      </tr>
+      <tr>
+          <td><code>anyOf</code></td>
+          <td>Any (one or more) of the listed subschemas.</td>
+      </tr>
+  </table>
+</li>
+</ul>
+</details>
+<p></p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Payload Type</td>
+    <td>uint32</td>
+    <td>
+      Set to <strong>value 0</strong> to denote a <i>Transaction Payload</i>.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Essence <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Transaction Essence</summary>
+        <blockquote>
+          Describes the essence data making up a transaction by defining its inputs, outputs and an optional payload.
+        </blockquote>
+        <table>
+          <tr>
+            <td><b>Name</b></td>
+            <td><b>Type</b></td>
+            <td><b>Description</b></td>
+          </tr>
+          <tr>
+            <td>Transaction Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 0</strong> to denote a <i>Transaction Essence</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>Inputs Count</td>
+            <td>uint16</td>
+            <td>The number of input entries.</td>
+          </tr>
+          <tr>
+            <td valign="top">Inputs <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>UTXO Input</summary>
+                <blockquote>
+                  Describes an input which references an unspent transaction output to consume.
+                </blockquote>
+                <table>
+                  <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                  </tr>
+                  <tr>
+                    <td>Input Type</td>
+                    <td>uint8</td>
+                    <td>
+                      Set to <strong>value 0</strong> to denote an <i>UTXO Input</i>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Transaction ID</td>
+                    <td>ByteArray[32]</td>
+                    <td>The BLAKE2b-256 hash of the transaction payload containing the referenced output.</td>
+                  </tr>
+                  <tr>
+                    <td>Transaction Output Index</td>
+                    <td>uint16</td>
+                    <td>The output index of the referenced output.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Outputs Count</td>
+            <td>uint16</td>
+            <td>The number of output entries.</td>
+          </tr>
+          <tr>
+            <td valign="top">Outputs <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>SigLockedSingleOutput</summary>
+                <blockquote>
+                  Describes a deposit to a single address which is unlocked via a signature.
+                </blockquote>
+                <table>
+                  <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                  </tr>
+                  <tr>
+                    <td>Output Type</td>
+                    <td>uint8</td>
+                    <td>
+                      Set to <strong>value 0</strong> to denote a <i>SigLockedSingleOutput</i>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td valign="top">Address <code>oneOf</code></td>
+                    <td colspan="2">
+                      <details>
+                        <summary>Ed25519 Address</summary>
+                        <table>
+                          <tr>
+                            <td><b>Name</b></td>
+                            <td><b>Type</b></td>
+                            <td><b>Description</b></td>
+                          </tr>
+                          <tr>
+                            <td>Address Type</td>
+                            <td>uint8</td>
+                            <td>
+                              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Address</td>
+                            <td>ByteArray[32]</td>
+                            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
+                          </tr>
+                        </table>
+                      </details>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of tokens to deposit.</td>
+                  </tr>
+                </table>
+              </details>
+              <details>
+                <summary>SigLockedDustAllowanceOutput</summary>
+                <blockquote>
+                  Describes a deposit which as a special property also alters the dust allowance of the target address.
+                </blockquote>
+                <table>
+                  <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                  </tr>
+                  <tr>
+                    <td>Output Type</td>
+                    <td>uint8</td>
+                    <td>
+                      Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td valign="top">Address <code>oneOf</code></td>
+                    <td colspan="2">
+                      <details>
+                        <summary>Ed25519 Address</summary>
+                        <table>
+                          <tr>
+                            <td><b>Name</b></td>
+                            <td><b>Type</b></td>
+                            <td><b>Description</b></td>
+                          </tr>
+                          <tr>
+                            <td>Address Type</td>
+                            <td>uint8</td>
+                            <td>
+                              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Address</td>
+                            <td>ByteArray[32]</td>
+                            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
+                          </tr>
+                        </table>
+                      </details>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of tokens to deposit.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Payload Length</td>
+            <td>uint32</td>
+            <td>The length in bytes of the optional payload.</td>
+          </tr>
+          <tr>
+            <td valign="top">Payload <code>optOneOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Generic Payload</summary>
+                <blockquote>
+                  An outline of a generic payload.
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Payload Type</td>
+                    <td>uint32</td>
+                    <td>
+                      The type of the payload. It will instruct the node how to parse the fields that follow.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Fields</td>
+                    <td>ANY</td>
+                    <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+                  </tr>
+                </table>
+              </details>
+          <tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Unlock Blocks Count</td>
+    <td>uint16</td>
+     <td>The number of unlock block entries. It must match the field <code>Inputs Count</code>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Unlock Blocks <code>anyOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Signature Unlock Block</summary>
+        <blockquote>
+          Defines an unlock block containing a signature.
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Unlock Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 0</strong> to denote a <i>Signature Unlock Block</i>.
+            </td>
+          </tr>
+          <tr>
+            <td valign="top">Signature <code>oneOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Ed25519 Signature</summary>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Signature Type</td>
+                    <td>uint8</td>
+                    <td>
+                      Set to <strong>value 0</strong> to denote an <i>Ed25519 Signature</i>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Public key</td>
+                    <td>ByteArray[32]</td>
+                    <td>The Ed25519 public key of the signature.</td>
+                  </tr>
+                  <tr>
+                    <td>Signature</td>
+                    <td>ByteArray[64]</td>
+                    <td>The Ed25519 signature signing the Blake2b-256 hash of the serialized <i>Transaction Essence</i>.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+        </table>
+      </details>
+      <details open="true">
+        <summary>Reference Unlock Block</summary>
+        <blockquote>
+          References a previous unlock block, where the same unlock block can be used for multiple inputs.
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Unlock Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 1</strong> to denote a <i>Reference Unlock Block</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>Reference</td>
+            <td>uint16</td>
+            <td>Represents the index of a previous unlock block.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+</table>
+<h3 id="transaction-parts"><a class="header" href="#transaction-parts">Transaction parts</a></h3>
+<p>In general, all parts of a <i>Transaction Payload</i> begin with a byte describing the type of the given part. This improves the flexibility to introduce new types/versions of the given part in the future.</p>
+<h4 id="transaction-essence-data"><a class="header" href="#transaction-essence-data">Transaction Essence data</a></h4>
+<p>The <i>Transaction Essence</i> of a <i>Transaction Payload</i> carries the inputs, outputs, and an optional payload. The <i>Transaction Essence</i> is an explicit type and therefore starts with its own <i>Transaction Essence Type</i> byte which is of value 0.</p>
+<h5 id="inputs"><a class="header" href="#inputs">Inputs</a></h5>
+<p>The <i>Inputs</i> part holds the inputs to consume in order to fund the outputs of the <i>Transaction Payload</i>. Currently, there is only one type of input, the <i>UTXO Input</i>. In the future, more types of inputs may be specified as part of protocol upgrades.</p>
+<p>Each input must be accompanied by a corresponding <i>Unlock Block</i> at the same index in the <i>Unlock Blocks</i> part of the <i>Transaction Payload</i>.</p>
+<h6 id="utxo-input"><a class="header" href="#utxo-input">UTXO Input</a></h6>
+<p>A <i>UTXO Input</i> is an input which references an unspent output of a previous transaction. This UTXO is uniquely defined by the <em>Transaction ID</em> of that transaction together with corresponding output index. Each <i>UTXO Input</i> must be accompanied by an <i>Unlock Block</i> that is allowed to unlock the output the <i>UTXO Input</i> is referencing.</p>
+<p>Example:
+If the input references an output to an Ed25519 address, then the corresponding unlock block must be of type <i>Signature Unlock Block</i> holding an Ed25519 signature.</p>
+<h5 id="outputs"><a class="header" href="#outputs">Outputs</a></h5>
+<p>The <i>Outputs</i> part holds the outputs that are created by this <i>Transaction Payload</i>. The following output types are supported:</p>
+<h6 id="siglockedsingleoutput"><a class="header" href="#siglockedsingleoutput">SigLockedSingleOutput</a></h6>
+<p>The <i>SigLockedSingleOutput</i> defines an output (with a certain amount) to a single target address which is unlocked via a signature proving ownership over the given address. This output supports addresses of different types.</p>
+<h6 id="siglockeddustallowanceoutput"><a class="header" href="#siglockeddustallowanceoutput">SigLockedDustAllowanceOutput</a></h6>
+<p>The <i>SigLockedDustAllowanceOutput</i> works in the same way as a <i>SigLockedSingleOutput</i> but additionally controls the dust allowance on the target address. See <a href="https://github.com/iotaledger/protocol-rfcs/pull/32">Dust Protection RFC-0032 (draft)</a> for further information.</p>
+<h5 id="payload"><a class="header" href="#payload">Payload</a></h5>
+<p>The  <em>Transaction Essence</em> itself can contain another payload as described in general in <a href="https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html">RFC-0017</a>. The <a href="#semantic-validation">semantic validity</a> of the encapsulating <em>Transaction Payload</em> does not have any impact on the payload.</p>
+<p>The following table lists all the payload types that can be nested inside a <em>Transaction Essence</em> as well as links to the corresponding specification:</p>
+<table><thead><tr><th>Name</th><th>Type Value</th><th>RFC</th></tr></thead><tbody>
+<tr><td>Indexation</td><td>2</td><td><a href="https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#indexation-payload">RFC-0017</a></td></tr>
+</tbody></table>
+<h4 id="unlock-blocks"><a class="header" href="#unlock-blocks">Unlock Blocks</a></h4>
+<p>The <i>Unlock Blocks</i> part holds the unlock blocks unlocking inputs within a <i>Transaction Essence</i>. The following types of unlock blocks are supported:</p>
+<h5 id="signature-unlock-block"><a class="header" href="#signature-unlock-block">Signature Unlock Block</a></h5>
+<p>A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds a signature signing the BLAKE2b-256 hash of the <i>Transaction Essence</i> (including the optional payload).</p>
+<h5 id="reference-unlock-block"><a class="header" href="#reference-unlock-block">Reference Unlock block</a></h5>
+<p>A <i>Reference Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i> (which must not be another <i>Reference Unlock Block</i>). It <strong>must</strong> be used if multiple inputs can be unlocked via the same <i>Unlock Block</i>.</p>
+<p>Example:
+Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and 2, where 0 and 2 are both spending outputs belonging to the same Ed25519 address A and 1 is spending from a different address B. This results in the following structure of the <i>Unlock Blocks</i> part:</p>
+<table><thead><tr><th>Index</th><th>Unlock Block</th></tr></thead><tbody>
+<tr><td>0</td><td>A <em>Signature Unlock Block</em> holding the Ed25519 signature for address A.</td></tr>
+<tr><td>1</td><td>A <em>Signature Unlock Block</em> holding the Ed25519 signature for address B.</td></tr>
+<tr><td>2</td><td>A <em>Reference Unlock Block</em> which references 0, as both require the same signature for A.</td></tr>
+</tbody></table>
+<h2 id="validation"><a class="header" href="#validation">Validation</a></h2>
+<p>A <i>Transaction Payload</i> has different validation stages, since some validation steps can only be executed when certain information has (or has not) been received. We therefore distinguish between syntactic and semantic validation:</p>
+<h3 id="syntactic-validation"><a class="header" href="#syntactic-validation">Syntactic validation</a></h3>
+<p>Syntactic validation is checked as soon as the transaction data has been received in its entirety. It validates the structure but not the signatures of the transaction. If the transaction does not pass this stage, it must not be broadcasted further and can be discarded right away.</p>
+<p>The following criteria defines whether a payload passes the syntactical validation:</p>
+<ul>
+<li>Essence:
+<ul>
+<li><code>Transaction Type</code> value must denote a <em>Transaction Essence</em>.</li>
+<li>Inputs:
+<ul>
+<li><code>Inputs Count</code> must be 0 &lt; x ≤ 127.</li>
+<li>For each input the following must be true:
+<ul>
+<li><code>Input Type</code> must denote a <em>UTXO Input</em>.</li>
+<li><code>Transaction Output Index</code> must be 0 ≤ x &lt; 127.</li>
+</ul>
+</li>
+<li><code>Inputs</code> must be sorted in lexicographical order of their serialized form.<sup>1</sup></li>
+<li>Each pair of <code>Transaction ID</code> and <code>Transaction Output Index</code> must be unique in the inputs set.</li>
+</ul>
+</li>
+<li>Outputs:
+<ul>
+<li><code>Outputs Count</code> must be 0 &lt; x ≤ 127.</li>
+<li>For each input the following must be true:
+<ul>
+<li><code>Output Type</code> must denote a <em>SigLockedSingleOutput</em> or a <em>SigLockedDustAllowanceOutput</em>.</li>
+<li><code>Address Type</code> must denote an <em>Ed25519 Address</em>.</li>
+<li><code>Amount</code> must be larger than zero.</li>
+</ul>
+</li>
+<li><code>Outputs</code> must be sorted in lexicographical order of their serialized form.<sup>1</sup></li>
+<li>Each <code>Address</code> must be unique per output type. For example, a <em>SigLockedSingleOutput</em> and a <em>SigLockedDustAllowanceOutput</em> can have the same address, but not two <em>SigLockedSingleOutputs</em>.</li>
+<li>The sum of all <code>Amount</code> fields must not exceed the total IOTA supply of 2,779,530,283,277,761.</li>
+</ul>
+</li>
+<li>Payload (if present):
+<ul>
+<li><code>Payload Type</code> must match one of the values described under <a href="#payload">Payload</a>.</li>
+<li><code>Data fields</code> must be correctly parsable in the context of the <code>Payload Type</code>.</li>
+<li>The payload itself must pass syntactic validation.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Unlock Blocks:
+<ul>
+<li><code>Unlock Blocks Count</code> must match <code>Inputs Count</code> of the <em>Transaction Essence</em>.</li>
+<li>Each <code>Unlock Type</code> must denote a <em>Signature Unlock Block</em> or a <em>Reference Unlock Block</em>.</li>
+<li>Each <em>Signature Unlock Block</em> must contain an <em>Ed25519 Signature</em>.</li>
+<li>Each <em>Signature Unlock Block</em> must be unique.</li>
+<li>A <em>Reference Unlock Block</em> at index i must have <code>Reference</code> &lt; i and the unlock block at index <code>Reference</code> must be a <em>Signature Unlock Block</em>.</li>
+</ul>
+</li>
+<li>Given the type and length information, the <em>Transaction Payload</em> must consume the entire byte array of the <code>Payload</code> field of the encapsulating object.</li>
+</ul>
+<p><sup>1</sup> ensures that serialization of the transaction becomes deterministic, meaning that libraries always produce the same bytes given the logical transaction.</p>
+<h3 id="semantic-validation"><a class="header" href="#semantic-validation">Semantic validation</a></h3>
+<p>The Semantic validation of a <em>Transaction Payload</em> is performed when its encapsulating message is confirmed by a milestone. The semantic validity of transactions depends on the order in which they are processed. Thus, it is necessary that all the nodes in the network perform the checks in the same order, no matter the order in which the transactions are received. This is assured by using the White-Flag ordering as described in <a href="https://iotaledger.github.io/protocol-rfcs/0005-white-flag/0005-white-flag.html#deterministically-ordering-the-tangle">RFC-005</a>.</p>
+<p>Processing transactions according to the White-Flag ordering enables users to spend UTXOs which are created in the same milestone confirmation cone, as long as the spending transaction comes after the funding transaction in the aforementioned White-Flag order. In this case, it is recommended that users include the <em>Message ID</em> of the funding transaction as a parent of the message containing the spending transaction.</p>
+<p>The following criteria defines whether a payload passes the semantic validation:</p>
+<ul>
+<li>Each input must reference a valid UTXO, i.e. the output referenced by the input's <code>Transaction ID</code> and <code>Transaction Output Index</code> is known (booked) and unspent.</li>
+<li>The transaction must spend the entire balance, i.e. the sum of the <code>Amount</code> fields of all the UTXOs referenced by inputs must match the sum of the <code>Amount</code> fields of all outputs.</li>
+<li>Each unlock block must be valid with respect to the UTXO referenced by the input of the same index:
+<ul>
+<li>If it is a <em>Signature Unlock Block</em>:
+<ul>
+<li>The <code>Signature Type</code> must match the <code>Address Type</code> of the UTXO, </li>
+<li>the BLAKE2b-256 hash of <code>Public Key</code> must match the <code>Address</code> of the UTXO and</li>
+<li>the <code>Signature</code> field must contain a valid signature for <code>Public Key</code>.</li>
+</ul>
+</li>
+<li>If it is a <em>Reference Unlock Block</em>, the referenced <em>Signature Unlock Block</em> must be valid with respect to the UTXO.</li>
+</ul>
+</li>
+</ul>
+<p>If a <em>Transaction Payload</em> passes the semantic validation, its referenced UTXOs must be marked as spent and its new outputs must be created/booked in the ledger. The <em>Message ID</em> of the message encapsulating the processed payload then also becomes part of the input for the White-Flag Merkle tree hash of the confirming milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</p>
+<p>Transactions that do not pass semantic validation are ignored. Their UTXOs are not marked as spent and their outputs are not booked in the ledger.</p>
+<h2 id="miscellaneous"><a class="header" href="#miscellaneous">Miscellaneous</a></h2>
+<h3 id="transaction-timestamps"><a class="header" href="#transaction-timestamps">Transaction timestamps</a></h3>
+<p>Since transaction timestamps – whether they are signed or not – do not provide any guarantee of correctness, they have been left out of the <em>Transaction Payload</em>. Applications relying on some notion of time for transactions can use the local solidification time or the global timestamp of the confirming milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0019-milestone-payload/0019-milestone-payload.html">RFC-0019</a>).</p>
+<h3 id="address-reuse"><a class="header" href="#address-reuse">Address reuse</a></h3>
+<p>While, in contrast to Winternitz one-time signatures (W-OTS), producing multiple Ed25519 signatures for the same private key and address does not decrease its security, it still drastically reduces the privacy of users. It is thus considered best practice that applications and services create a new address per deposit to circumvent these privacy issues.</p>
+<p>In essence, Ed25519 support allows for smaller transaction sizes and to safely spend funds which were sent to an already used deposit address. Ed25519 addresses are not meant to be used like email addresses. See this <a href="https://en.bitcoin.it/wiki/Address_reuse">Bitcoin wiki article</a> for further information.</p>
+<h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
+<ul>
+<li>The new transaction format is the core data type within the IOTA ecosystem. Changing it means that all projects need to accommodate it, including wallets, web services, client libraries and applications using IOTA in general. It is not possible to keep these changes backwards compatible, meaning that all nodes must upgrade to further participate in the network.</li>
+<li>Additionally, local snapshots can no longer be represented by a list of addresses and their balances, since the ledger is now made up of the UTXOs on which the actual funds reside. Therefore, local snapshot file schemes have to be adjusted to incorporate the transaction hashes, output indices, and then the destination addresses including the balances.</li>
+</ul>
+<h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
+<ul>
+<li>Introducing this new transaction structure allows for extensions in the future, to accommodate new requirements. With the support for Ed25519 addresses/signatures, transaction size is drastically reduced and allows for safe re-signing in case of address reuse. Due to the switch to a complete binary transaction, the transaction size is reduced even further, saving network bandwidth and processing time.</li>
+<li>Other transaction structures have been considered but they would have misused existing transaction fields to accommodate for new features, instead of putting them into a proper descriptive structure. Additionally, those ideas would not have been safe against replay attacks, which deems reusing the old transaction structure, for example for Ed25519 addresses/signatures, as infeasible.</li>
+<li>Not switching to the new transaction structure described in this RFC would have led to more people losing funds because of W-OTS address reuse and it would prevent extending the IOTA protocol further down the line.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../0017-tangle-message/0017-tangle-message.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../0019-milestone-payload/0019-milestone-payload.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../0017-tangle-message/0017-tangle-message.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../0019-milestone-payload/0019-milestone-payload.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
