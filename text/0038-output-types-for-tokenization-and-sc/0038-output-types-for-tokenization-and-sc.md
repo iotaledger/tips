@@ -201,7 +201,7 @@ have been modified compared to
 A <i>Transaction Payload</i> is made up of two parts:
 1. The <i>Transaction Essence</i> part which contains the inputs, outputs and an optional embedded payload.
 2. The <i>Unlock Blocks</i> which unlock the <i>Transaction Essence</i>'s inputs. In case the unlock block contains a
-3. signature, it signs the Blake2b-256 hash of the serialized <i>Transaction Essence</i> part.
+ signature, it signs the Blake2b-256 hash of the serialized <i>Transaction Essence</i> part.
 
 All values are serialized in little-endian encoding. In contrast to the current IOTA protocol inputs and outputs are
 encoded as lists, which means that they can contain duplicates and may not be sorted.
