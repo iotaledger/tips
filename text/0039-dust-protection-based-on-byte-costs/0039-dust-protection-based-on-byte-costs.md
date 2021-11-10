@@ -671,6 +671,32 @@ The following tables show the different outputs including the possible fields an
     <td valign="top">Feature Blocks</td>
     <td colspan="2">
       <details>
+        <summary>Issuer Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Issuer</td>
+                <td><code>data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>-</td>
+            </tr>
+        </table>
+      </details>
+      <details>
         <summary>Metadata Block</summary>
         <table>
             <tr>
