@@ -296,6 +296,13 @@ The following tables show the different outputs including the possible fields an
                 <td>17920</td>
                 <td>-</td>
             </tr>
+            <tr>
+                <td>Blocks Count</td>
+                <td><code>data</code></td>
+                <td>2</td>
+                <td>2</td>
+                <td>-</td>
+            </tr>
         </tr>
         </table>
     </td>
@@ -663,6 +670,13 @@ The following tables show the different outputs including the possible fields an
                 <td>4</td>
                 <td>-</td>
             </tr>
+            <tr>
+                <td>Blocks Count</td>
+                <td><code>data</code></td>
+                <td>2</td>
+                <td>2</td>
+                <td>-</td>
+            </tr>
         </tr>
         </table>
     </td>
@@ -860,6 +874,13 @@ The following tables show the different outputs including the possible fields an
                 <td>1</td>
                 <td>-</td>
             </tr>
+            <tr>
+                <td>Blocks Count</td>
+                <td><code>data</code></td>
+                <td>2</td>
+                <td>2</td>
+                <td>-</td>
+            </tr>
         </tr>
         </table>
     </td>
@@ -1014,6 +1035,13 @@ The following tables show the different outputs including the possible fields an
                 <td><code>data</code></td>
                 <td>0</td>
                 <td>tbd</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Blocks Count</td>
+                <td><code>data</code></td>
+                <td>2</td>
+                <td>2</td>
                 <td>-</td>
             </tr>
         </tr>
