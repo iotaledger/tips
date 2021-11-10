@@ -519,7 +519,7 @@ The following tables show the different outputs including the possible fields an
             <tr>
                 <td>Metadata Data</td>
                 <td><code>data</code></td>
-                <td>0</td>
+                <td>1</td>
                 <td>unbound</td>
                 <td>32484 bytes maximum length at 32768 message size and 1 input</td>
             </tr>   
@@ -697,7 +697,7 @@ The following tables show the different outputs including the possible fields an
             <tr>
                 <td>Metadata Data</td>
                 <td><code>data</code></td>
-                <td>0</td>
+                <td>1</td>
                 <td>unbound</td>
                 <td>32418 bytes maximum length at 32768 message size and 1 input</td>
             </tr>   
@@ -868,7 +868,7 @@ The following tables show the different outputs including the possible fields an
             <tr>
                 <td>Metadata Data</td>
                 <td><code>data</code></td>
-                <td>0</td>
+                <td>1</td>
                 <td>unbound</td>
                 <td>32351 bytes maximum length at 32768 message size and 1 input</td>
             </tr>   
@@ -1239,7 +1239,7 @@ The following tables show the different outputs including the possible fields an
             <tr>
                 <td>Metadata Data</td>
                 <td><code>data</code></td>
-                <td>0</td>
+                <td>1</td>
                 <td>unbound</td>
                 <td>32459 bytes maximum length at 32768 message size and 1 input</td>
             </tr>   
