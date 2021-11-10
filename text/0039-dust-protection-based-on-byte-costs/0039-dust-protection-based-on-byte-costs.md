@@ -189,17 +189,17 @@ The following tables show the different outputs including the possible fields an
                 <td>-</td>
             </tr>
             <tr>
-                <td>Amount</td>
-                <td><code>data</code></td>
-                <td>8</td>
-                <td>8</td>
-                <td>-</td>
-            </tr>
-            <tr>
                 <td>Address</td>
                 <td><code>key+data</code></td>
                 <td>21</td>
                 <td>33</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td><code>data</code></td>
+                <td>8</td>
+                <td>8</td>
                 <td>-</td>
             </tr>
         </table>
@@ -267,7 +267,14 @@ The following tables show the different outputs including the possible fields an
                 <td>1</td>
                 <td>1</td>
                 <td>-</td>
-            </tr>            
+            </tr>   
+            <tr>
+                <td>Address</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>-</td>
+            </tr>         
             <tr>
                 <td>Amount</td>
                 <td><code>data</code></td>
@@ -287,13 +294,6 @@ The following tables show the different outputs including the possible fields an
                 <td><code>data</code></td>
                 <td>0</td>
                 <td>17920</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>Address</td>
-                <td><code>key+data</code></td>
-                <td>21</td>
-                <td>33</td>
                 <td>-</td>
             </tr>
         </tr>
@@ -458,40 +458,7 @@ The following tables show the different outputs including the possible fields an
                 <td>-</td>
             </tr>
         </table>
-      </details>        
-      <details>
-        <summary>Indexation Block</summary>
-        <table>
-            <tr>
-                <td><b>Field</b></td>
-                <td><b>Field type</b></td>
-                <td><b>Length Minimum</b></td>
-                <td><b>Length Maximum</b></td>
-                <td><b>Remarks</b></td>
-            </tr>
-            <tr>
-                <td>Block Type</td>
-                <td><code>data</code></td>
-                <td>1</td>
-                <td>1</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>Indexation Data Length</td>
-                <td><code>data</code></td>
-                <td>1</td>
-                <td>1</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>Indexation Data</td>
-                <td><code>key+data</code></td>
-                <td>64</td>
-                <td>64</td>
-                <td>If used in combination with the sender block, the weight  of this field doubles.</td>
-            </tr>            
-        </table>
-      </details>        
+      </details>
       <details>
         <summary>Metadata Block</summary>
         <table>
@@ -523,6 +490,39 @@ The following tables show the different outputs including the possible fields an
                 <td>unbound</td>
                 <td>32484 bytes maximum length at 32768 message size and 1 input</td>
             </tr>   
+        </table>
+      </details>
+      <details>
+        <summary>Indexation Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Indexation Data Length</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Indexation Data</td>
+                <td><code>key+data</code></td>
+                <td>64</td>
+                <td>64</td>
+                <td>If used in combination with the sender block, the weight  of this field doubles.</td>
+            </tr>            
         </table>
       </details>
     </td>
@@ -770,7 +770,14 @@ The following tables show the different outputs including the possible fields an
                 <td>1</td>
                 <td>1</td>
                 <td>-</td>
-            </tr>            
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>21</td>
+                <td>-</td>
+            </tr>
             <tr>
                 <td>Amount</td>
                 <td><code>data</code></td>
@@ -790,13 +797,6 @@ The following tables show the different outputs including the possible fields an
                 <td><code>data</code></td>
                 <td>0</td>
                 <td>17920</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>Address</td>
-                <td><code>key+data</code></td>
-                <td>21</td>
-                <td>21</td>
                 <td>-</td>
             </tr>
             <tr>
@@ -940,7 +940,14 @@ The following tables show the different outputs including the possible fields an
                 <td>1</td>
                 <td>1</td>
                 <td>-</td>
-            </tr>            
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><code>key+data</code></td>
+                <td>21</td>
+                <td>33</td>
+                <td>-</td>
+            </tr>      
             <tr>
                 <td>Amount</td>
                 <td><code>data</code></td>
@@ -960,13 +967,6 @@ The following tables show the different outputs including the possible fields an
                 <td><code>data</code></td>
                 <td>0</td>
                 <td>17920</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>Address</td>
-                <td><code>key+data</code></td>
-                <td>21</td>
-                <td>33</td>
                 <td>-</td>
             </tr>
             <tr>
@@ -1022,7 +1022,7 @@ The following tables show the different outputs including the possible fields an
                 <td>If used in combination with the indexation block, the weight of this field doubles.</td>
             </tr>
         </table>
-      </details>      
+      </details>
       <details>
         <summary>Issuer Block</summary>
         <table>
@@ -1178,40 +1178,7 @@ The following tables show the different outputs including the possible fields an
                 <td>-</td>
             </tr>
         </table>
-      </details>        
-      <details>
-        <summary>Indexation Block</summary>
-        <table>
-            <tr>
-                <td><b>Field</b></td>
-                <td><b>Field type</b></td>
-                <td><b>Length Minimum</b></td>
-                <td><b>Length Maximum</b></td>
-                <td><b>Remarks</b></td>
-            </tr>
-            <tr>
-                <td>Block Type</td>
-                <td><code>data</code></td>
-                <td>1</td>
-                <td>1</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>Indexation Data Length</td>
-                <td><code>data</code></td>
-                <td>1</td>
-                <td>1</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>Indexation Data</td>
-                <td><code>key+data</code></td>
-                <td>64</td>
-                <td>64</td>
-                <td>If used in combination with the sender block, the weight  of this field doubles.</td>
-            </tr>            
-        </table>
-      </details>        
+      </details>
       <details>
         <summary>Metadata Block</summary>
         <table>
@@ -1245,6 +1212,39 @@ The following tables show the different outputs including the possible fields an
             </tr>   
         </table>
       </details>
+      <details>
+        <summary>Indexation Block</summary>
+        <table>
+            <tr>
+                <td><b>Field</b></td>
+                <td><b>Field type</b></td>
+                <td><b>Length Minimum</b></td>
+                <td><b>Length Maximum</b></td>
+                <td><b>Remarks</b></td>
+            </tr>
+            <tr>
+                <td>Block Type</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Indexation Data Length</td>
+                <td><code>data</code></td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Indexation Data</td>
+                <td><code>key+data</code></td>
+                <td>64</td>
+                <td>64</td>
+                <td>If used in combination with the sender block, the weight  of this field doubles.</td>
+            </tr>            
+        </table>
+      </details>        
     </td>
   </tr>
   <tr>
