@@ -357,7 +357,7 @@ understand their context:
             <details>
                 <summary>Signature Unlock Block</summary>
                 <blockquote>
-                Defines an unlock block containing signature(s) unlocking input(s).
+                Defines an unlock block containing a signature unlocking input(s).
                 </blockquote>
                 <table>
                     <tr>
@@ -579,7 +579,7 @@ There are different types of <i>Unlock Blocks</i>:
     <tr>
         <td>Signature Unlock Block</td>
         <td>0</td>
-        <td>An unlock block holding one or more signatures unlocking one or more inputs.</td>
+        <td>An unlock block holding a signature unlocking one or more inputs.</td>
     </tr>
     <tr>
         <td>Reference Unlock Block</td>
@@ -600,7 +600,7 @@ There are different types of <i>Unlock Blocks</i>:
 
 ##### Signature Unlock Block
 
-A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one or more signatures signing the
+A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds one signature signing the
 Blake2b-256 hash of the <i>Transaction Essence</i> (including the optional payload).
 
 ##### Reference Unlock Block
@@ -948,7 +948,7 @@ separator in the bech32 address will always be different.
 | Alias | 8 | iota1**p**... |
 | NFT | 16 | iota1**z**... |
 
-A user can identify by looking at the address wether it is a signature backed address, a smart contract chain account
+A user can identify by looking at the address whether it is a signature backed address, a smart contract chain account
 or an NFT address.
 
 #### Issuer Block
