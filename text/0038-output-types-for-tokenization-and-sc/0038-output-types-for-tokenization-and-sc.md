@@ -1128,8 +1128,8 @@ The notion of time in the Tangle is introduced via milestones. Each milestone
 [carries the current milestone index and the unix timestamp](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md#structure) corresponding to that index. Whenever a new milestone appears, nodes perform the white-flag ordering and transaction validation on its past cone. The timestamp and milestone index of the confirming milestone provide the time as an input parameter to transaction validation.
 
 An output that contains a <i>Timelock Block</i> can not be unlocked before the specified timelock has expired. The
-timelock is expired when the timestamp and/or milestone index of the confirming milestone is past the timestamp and/or
-milestone defined in the <i>Timelock Block</i>.
+timelock is expired when the timestamp and/or milestone index of the confirming milestone is equal or past the
+timestamp and/or milestone defined in the <i>Timelock Block</i>.
 
 The timelock can be specified as a unix timestamp or as a milestone index. When specified in both ways, both conditions
 have to pass in order for the unlock to be valid.
@@ -1140,9 +1140,9 @@ time in both clocks must satisfy both conditions (AND relation).
 
 ##### Additional semantic transaction validation rules:
 - An output that has <i>Timelock Milestone Index Block</i> specified must only be consumed and unlocked in a
-  transaction, if the confirming milestone index is > than the `Milestone Index` specified in the block.
+  transaction, if the confirming milestone index is ≥ than the `Milestone Index` specified in the block.
 - An output that has <i>Timelock Unix Block</i> specified must only be consumed and unlocked in a transaction, if the
-  timestamp of the confirming milestone is past the `Unix Time` specified in the block.
+  timestamp of the confirming milestone is equal or past the `Unix Time` specified in the block.
 - An output that has both <i>Timelock Milestone Index Block</i> and  <i>Timelock Unix Block</i> specified must only be
   consumed and unlocked in a transaction if both blocks validate.
 
