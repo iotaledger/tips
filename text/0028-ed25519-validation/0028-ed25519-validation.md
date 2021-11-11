@@ -72,8 +72,3 @@ While the malleability of S poses serious issues and thus, must be prevented, th
 Unfortunately, the Ed25519 `ref10` reference implementation as well as other implementations accept non-canonical points. As such, rejecting those inputs now would introduce a breaking change. While this might be acceptable for the IOTA protocol itself, since no Ed25519 signatures have been added to the ledger prior to this RFC, other consensus-critical applications require this backward compatibility with previously accepted signatures. Due to these considerations, the criterion was included in ZIP-215 to allow a seamless transition for existing consensus-critical contexts. This RFC aims to rather follow the existing ZIP-215 specification for compatibility and maintainability than to create a new standard.
 
 Using the cofactor-less validation poses a similar breaking change since signatures accepted by implementations using the cofactor validation would then be rejected. More importantly, however, in order to be able to use the much faster batch verification, the cofactor version is required. 
-
-# Unresolved questions
-
-- Are there issues resulting from the malleability introduced by non-canonical encodings of specially prepared public keys? 
-- Accepting non-canonical encodings of R allows 3rd party malleability of signatures, which is something that was previously explicitly prevented. Even though this should not effect honest signatures, is that really acceptable? 
