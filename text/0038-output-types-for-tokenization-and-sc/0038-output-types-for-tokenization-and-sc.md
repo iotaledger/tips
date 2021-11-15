@@ -182,7 +182,7 @@ The following table describes subschema notations:
 | ------ | ---- | ----- | ----------- |
 | Minimum Dust Deposit | uint64 | TBD | Amount of IOTA coins that need to be present in a `SimpleOutput` not to be considered dust. |
 | Max Native Token Count Per Output | uint16 | 256 | Maximum possible number of different native tokens that can reside in one output. |
-| Max Indexation Tag Length | uint16 | 64 | Maximum possible length in bytes of an `Indexation Tag`. |
+| Max Indexation Tag Length | uint8 | 64 | Maximum possible length in bytes of an `Indexation Tag`. |
 | Max Metadata Length | uint32 | TBD | Maximum possible length in bytes of a `Metadata` field. |
 | Max Inputs Count | uint16 | 127 | Maximum possible count of inputs consumed in a transaction. |
 | Max Outputs Count | uint16 | 127 | Maximum possible count of outputs created in a transaction. |
@@ -1370,7 +1370,7 @@ entries in nodes' databases.
     </tr>
     <tr>
         <td>Indexation Tag Length</td>
-        <td>uint32</td>
+        <td>uint8</td>
         <td>
             Length of the following indexation tag field in bytes.
         </td>
@@ -1968,7 +1968,7 @@ ledger.
                             </tr>
                             <tr>
                                 <td>Indexation Tag Length</td>
-                                <td>uint32</td>
+                                <td>uint8</td>
                                 <td>
                                     Length of the following indexation tag field in bytes.
                                 </td>
@@ -3210,7 +3210,7 @@ optional feature blocks so that the output can be sent as a request to smart con
                             </tr>
                             <tr>
                                 <td>Indexation Tag Length</td>
-                                <td>uint32</td>
+                                <td>uint8</td>
                                 <td>
                                     Length of the following indexation tag field in bytes.
                                 </td>
