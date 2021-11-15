@@ -3255,6 +3255,15 @@ optional feature blocks so that the output can be sent as a request to smart con
   `Immutable Data` fields are not allowed to change.
 - When a consumed NFT output has an `Issuer Block` and a corresponding NFT output on the output side, `Issuer Block` is
   not allowed to change.
+- When a consumed NFT output has no corresponding NFT output on the output side, the NFT it is being burned. Funds
+  and assets inside the burned NFT output must be redistributed to other outputs in the burning transaction.
+
+| :bangbang:  Careful with NFT burning :bangbang: |
+|-----------------------------------------------------|
+
+_Other outputs in the ledger that are locked to the address of the NFT can only be unlocked by including the NFT itself
+in the transaction. If the NFT is burned, such funds are locked forever. It is strongly advised to always check and
+sweep what the NFT owns in the ledger before burning it._
 
 #### Created Outputs
 - When `Issuer Block` is present in an output and explicit `NFT ID` is zeroed out, an input with `Address` field that
