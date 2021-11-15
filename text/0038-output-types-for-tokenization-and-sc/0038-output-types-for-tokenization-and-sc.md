@@ -1684,7 +1684,7 @@ ledger.
             </tr>
             <tr>
                 <td>Blocks Count</td>
-                <td>uint16</td>
+                <td>uint8</td>
                 <td>The number of feature blocks following.</td>
             </tr>
             <tr>
@@ -2199,7 +2199,7 @@ state as metadata into the UTXO ledger.
             </tr>
             <tr>
                 <td>Blocks Count</td>
-                <td>uint16</td>
+                <td>uint8</td>
                 <td>The number of feature blocks following.</td>
             </tr>
             <tr>
@@ -2577,7 +2577,7 @@ controlled by a specific foundry is the concatenation of `Foundry ID` || `Token 
             </tr>
             <tr>
                 <td>Blocks Count</td>
-                <td>uint16</td>
+                <td>uint8</td>
                 <td>The number of feature blocks following.</td>
             </tr>
             <tr>
@@ -2857,7 +2857,7 @@ optional feature blocks so that the output can be sent as a request to smart con
             </tr>
             <tr>
                 <td>Blocks Count</td>
-                <td>uint16</td>
+                <td>uint8</td>
                 <td>The number of feature blocks following.</td>
             </tr>
             <tr>
