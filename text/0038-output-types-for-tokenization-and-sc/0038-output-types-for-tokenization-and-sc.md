@@ -1065,32 +1065,32 @@ Whenever a chain account mints an NFT on layer 1 on behalf of some user, the `Is
 chain's address, since user does not sign the layer 1 transaction. As a consequence, artist would have to mint NFTs
 themselves on layer 1 and then deposit it to chains if they want to place their own address in the `Issuer` field.
 
-#### Return Amount Block
+#### Dust Deposit Return Block
 
 This block is always used in combination with the <i>Sender Block</i> to achieve conditional sending. An output that
-has both `Sender` and `Return Amount` specified can only be consumed in a transaction that deposits `Return Amount`
-IOTA coins into `Sender` address. When several of such outputs are consumed, their return amounts per `Sender`
-addresses are summed up and the output side must deposit this total sum per `Sender` address.
+has both <i>Sender Block</i> and <i>Dust Deposit Return Block</i>  specified can only be consumed in a transaction that
+deposits `Return Amount` IOTA coins into `Sender` address. When several of such outputs are consumed, their return
+amounts per `Sender` addresses are summed up and the output side must deposit this total sum per `Sender` address.
 
 ##### Additional syntactic transaction validation rule:
 
-- An output that has <i>Return Amount Block</i> specified must have the <i>Sender Block</i> specified too.
+- An output that has <i>Dust Deposit Return Block</i> specified must have the <i>Sender Block</i> specified too.
 - `Return Amount` must be ≥ than `Minimum Dust Deposit`.
-- `Return Amount` in a <i>Return Amount Block</i> must be ≤ than the required dust deposit of the output.
+- `Return Amount` in a <i>Dust Deposit Return Block</i> must be ≤ than the required dust deposit of the output.
 
 ##### Additional semantic transaction validation rule:
 
-- An output that has <i>Return Amount Block</i> specified must only be consumed and unlocked in a transaction that
+- An output that has <i>Dust Deposit Return Block</i> specified must only be consumed and unlocked in a transaction that
   deposits `Return Amount` IOTA coins to `Sender` address via an output that has no additional spending constraints.
   (<i>SimpleOutput</i> or <i>ExtendedOutput</i> without feature blocks)
-- When several outputs with <i>Return Amount Block</i> and the same `Sender` are consumed, their return amounts per
-  `Sender` addresses are summed up and the output side of the transaction must deposit this total sum per `Sender`
+- When several outputs with <i>Dust Deposit Return Block</i> and the same `Sender` are consumed, their return amounts
+  per `Sender` addresses are summed up and the output side of the transaction must deposit this total sum per `Sender`
   address.
 
 <details>
-<summary>Return Amount Block</summary>
+<summary>Dust Deposit Return Block</summary>
 <blockquote>
-        Defines the amount of IOTAs that have to be returned to <i>Sender</i>.
+        Defines the amount of IOTAs used as dust deposit that have to be returned to <i>Sender</i>.
 </blockquote>
 </details>
 
@@ -1104,7 +1104,7 @@ addresses are summed up and the output side must deposit this total sum per `Sen
         <td>Block Type</td>
         <td>uint8</td>
         <td>
-            Set to <strong>value 2</strong> to denote a <i>Return Amount Block</i>.
+            Set to <strong>value 2</strong> to denote a <i>Dust Deposit Return Block</i>.
         </td>
     </tr>
     <tr>
@@ -1125,7 +1125,10 @@ agree to the transfer by consuming the output, or the sender regains total contr
 #### Timelock Blocks
 
 The notion of time in the Tangle is introduced via milestones. Each milestone
-[carries the current milestone index and the unix timestamp](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md#structure) corresponding to that index. Whenever a new milestone appears, nodes perform the white-flag ordering and transaction validation on its past cone. The timestamp and milestone index of the confirming milestone provide the time as an input parameter to transaction validation.
+[carries the current milestone index and the unix timestamp](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md#structure)
+corresponding to that index. Whenever a new milestone appears, nodes perform the white-flag ordering and transaction
+validation on its past cone. The timestamp and milestone index of the confirming milestone provide the time as an input
+parameter to transaction validation.
 
 An output that contains a <i>Timelock Block</i> can not be unlocked before the specified timelock has expired. The
 timelock is expired when the timestamp and/or milestone index of the confirming milestone is equal or past the
@@ -1436,7 +1439,7 @@ Every <i>SigLockedSingleOutput</i> is a valid <i>SimpleOutput</i>, but not the o
 also supports <i>Alias Address</i> and <i>NFT Address</i>.
 
 Next to the use case of holding only IOTA coins, simple outputs are also a vehicle for conditional sending
-(<i>Return Amount Block</i>). A return amount specified within such a block must be sent back to `Sender` via a
+(<i>Dust Deposit Return Block</i>). A return amount specified within such a block must be sent back to `Sender` via a
 <i>Simple Output</i> or an <i>Extended Output</i> without optional feature blocks, since these have the lowest minimum
 dust requirements among all outputs and no additional spending conditions can be defined on them.
 
@@ -1782,7 +1785,7 @@ ledger.
                         </table>
                     </details>
                     <details>
-                        <summary>Return Amount Block</summary>
+                        <summary>Dust Deposit Return Block</summary>
                         <blockquote>
                             Defines the amount of IOTAs that have to be returned to <i>Sender</i>.
                         </blockquote>
@@ -1796,7 +1799,7 @@ ledger.
                                 <td>Block Type</td>
                                 <td>uint8</td>
                                 <td>
-                                    Set to <strong>value 2</strong> to denote a <i>Return Amount Block</i>.
+                                    Set to <strong>value 2</strong> to denote a <i>Dust Deposit Return Block</i>.
                                 </td>
                             </tr>
                             <tr>
@@ -3024,7 +3027,7 @@ optional feature blocks so that the output can be sent as a request to smart con
                         </table>
                     </details>
                     <details>
-                        <summary>Return Amount Block</summary>
+                        <summary>Dust Deposit Return Block</summary>
                         <blockquote>
                             Defines the amount of IOTAs that have to be returned to <i>Sender</i>.
                         </blockquote>
@@ -3038,7 +3041,7 @@ optional feature blocks so that the output can be sent as a request to smart con
                                 <td>Block Type</td>
                                 <td>uint8</td>
                                 <td>
-                                    Set to <strong>value 2</strong> to denote a <i>Return Amount Block</i>.
+                                    Set to <strong>value 2</strong> to denote a <i>Dust Deposit Return Block</i>.
                                 </td>
                             </tr>
                             <tr>
