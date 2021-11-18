@@ -1,6 +1,8 @@
 + Feature name: `transaction-payload`
 + Start date: 2020-07-10
 + RFC PR: [iotaledger/protocol-rfcs#18](https://github.com/iotaledger/protocol-rfcs/pull/18)
++ Recent updates:
+    + () Update Payload Layout and Validation for [New Output Types](https://github.com/iotaledger/protocol-rfcs/pull/38)
 
 # Summary
 
@@ -43,17 +45,20 @@ The following image depicts the flow of funds using UTXO:
 
 ## Structure
 
-### Serialized layout
+### Serialized Layout
 
-A _Transaction Payload_ is made up of two parts:
-1. The _Transaction Essence_ part which contains the inputs, outputs and an optional embedded payload.
-2. The _Unlock Blocks_ which unlock the inputs of the _Transaction Essence_. When an unlock block contains a signature, it signs the entire _Transaction Essence_ part.
+A <i>Transaction Payload</i> is made up of two parts:
+1. The <i>Transaction Essence</i> part which contains the inputs, outputs and an optional embedded payload.
+2. The <i>Unlock Blocks</i> which unlock the <i>Transaction Essence</i>'s inputs. In case the unlock block contains a
+   signature, it signs the Blake2b-256 hash of the serialized <i>Transaction Essence</i> part.
 
-All values are serialized in little-endian encoding. The serialized form of the transaction is deterministic, meaning the same logical transaction always results in the same serialized byte sequence.
+All values are serialized in little-endian encoding. In contrast to the [current IOTA protocol](https://github.com/iotaledger/protocol-rfcs/pull/18)
+inputs and outputs are encoded as lists, which means that they can contain duplicates and may not be sorted.
 
-The *Transaction ID* is the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash of the entire serialized payload data including signatures.
+A [Blake2b-256](https://tools.ietf.org/html/rfc7693) hash of the entire serialized data makes up
+<i>Transaction Payload</i>'s ID.
 
-The following table structure describes the entirety of a _Transaction Payload_ in its serialized form:
+Following table structure describes the entirety of a <i>Transaction Payload</i>'s serialized form.
 * Data Type Notation, see [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#data-types)
 * <details>
     <summary>Subschema Notation</summary>
@@ -75,7 +80,9 @@ The following table structure describes the entirety of a _Transaction Payload_ 
             <td>Any (one or more) of the listed subschemas.</td>
         </tr>
     </table>
-</details>
+  </details>
+* New output types and unlock blocks are discussed in detail in [RFC-38](https://github.com/iotaledger/protocol-rfcs/pull/38),
+  but they are mentioned in the payload structure to help the reader understand their context.
 
 <p></p>
 
@@ -162,108 +169,35 @@ The following table structure describes the entirety of a _Transaction Payload_ 
             <td valign="top">Outputs <code>anyOf</code></td>
             <td colspan="2">
               <details>
-                <summary>SigLockedSingleOutput</summary>
+                <summary>SimpleOutput</summary>
                 <blockquote>
                   Describes a deposit to a single address which is unlocked via a signature.
                 </blockquote>
-                <table>
-                  <tr>
-                    <td><b>Name</b></td>
-                    <td><b>Type</b></td>
-                    <td><b>Description</b></td>
-                  </tr>
-                  <tr>
-                    <td>Output Type</td>
-                    <td>uint8</td>
-                    <td>
-                      Set to <strong>value 0</strong> to denote a <i>SigLockedSingleOutput</i>.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td valign="top">Address <code>oneOf</code></td>
-                    <td colspan="2">
-                      <details>
-                        <summary>Ed25519 Address</summary>
-                        <table>
-                          <tr>
-                            <td><b>Name</b></td>
-                            <td><b>Type</b></td>
-                            <td><b>Description</b></td>
-                          </tr>
-                          <tr>
-                            <td>Address Type</td>
-                            <td>uint8</td>
-                            <td>
-                              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Address</td>
-                            <td>ByteArray[32]</td>
-                            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
-                          </tr>
-                        </table>
-                      </details>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Amount</td>
-                    <td>uint64</td>
-                    <td>The amount of tokens to deposit.</td>
-                  </tr>
-                </table>
               </details>
               <details>
-                <summary>SigLockedDustAllowanceOutput</summary>
+                <summary>ExtendedOutput</summary>
                 <blockquote>
-                  Describes a deposit which as a special property also alters the dust allowance of the target address.
+                  Describes a deposit to a single address. The output might contain optional feature
+                  blocks and native tokens.
                 </blockquote>
-                <table>
-                  <tr>
-                    <td><b>Name</b></td>
-                    <td><b>Type</b></td>
-                    <td><b>Description</b></td>
-                  </tr>
-                  <tr>
-                    <td>Output Type</td>
-                    <td>uint8</td>
-                    <td>
-                      Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td valign="top">Address <code>oneOf</code></td>
-                    <td colspan="2">
-                      <details>
-                        <summary>Ed25519 Address</summary>
-                        <table>
-                          <tr>
-                            <td><b>Name</b></td>
-                            <td><b>Type</b></td>
-                            <td><b>Description</b></td>
-                          </tr>
-                          <tr>
-                            <td>Address Type</td>
-                            <td>uint8</td>
-                            <td>
-                              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Address</td>
-                            <td>ByteArray[32]</td>
-                            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
-                          </tr>
-                        </table>
-                      </details>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Amount</td>
-                    <td>uint64</td>
-                    <td>The amount of tokens to deposit.</td>
-                  </tr>
-                </table>
+              </details>
+              <details>
+                <summary>AliasOutput</summary>
+                <blockquote>
+                  Describes an alias account in the ledger.
+                </blockquote>
+              </details>
+              <details>
+                <summary>FoundryOutput</summary>
+                <blockquote>
+                  Describes a foundry that controls supply of native tokens.
+                </blockquote>
+              </details>
+              <details>
+                <summary>NFTOutput</summary>
+                <blockquote>
+                  Describes a unique, non-fungible token deposit to a single address.
+                </blockquote>
               </details>
             </td>
           </tr>
@@ -308,15 +242,15 @@ The following table structure describes the entirety of a _Transaction Payload_ 
   <tr>
     <td>Unlock Blocks Count</td>
     <td>uint16</td>
-     <td>The number of unlock block entries. It must match the field <code>Inputs Count</code>.</td>
+    <td>The number of unlock block entries. It must match the field <code>Inputs Count</code>.</td>
   </tr>
   <tr>
     <td valign="top">Unlock Blocks <code>anyOf</code></td>
     <td colspan="2">
-      <details open="true">
+      <details>
         <summary>Signature Unlock Block</summary>
         <blockquote>
-          Defines an unlock block containing a signature.
+          Defines an unlock block containing a signature unlocking input(s).
         </blockquote>
         <table>
           <tr>
@@ -365,7 +299,7 @@ The following table structure describes the entirety of a _Transaction Payload_ 
           </tr>
         </table>
       </details>
-      <details open="true">
+      <details>
         <summary>Reference Unlock Block</summary>
         <blockquote>
           References a previous unlock block, where the same unlock block can be used for multiple inputs.
@@ -390,48 +324,136 @@ The following table structure describes the entirety of a _Transaction Payload_ 
           </tr>
         </table>
       </details>
+      <details>
+        <summary>Alias Unlock Block</summary>
+        <blockquote>
+          Points to the unlock block of a consumed alias output.
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Unlock Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 2</strong> to denote an <i>Alias Unlock Block</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>Alias Reference Unlock Index</td>
+            <td>uint16</td>
+            <td>Index of input and unlock block corresponding to an alias output.</td>
+          </tr>
+        </table>
+      </details>
+      <details>
+        <summary>NFT Unlock Block</summary>
+        <blockquote>
+          Points to the unlock block of a consumed NFT output.
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Unlock Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 3</strong> to denote a <i>NFT Unlock Block</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>NFT Reference Unlock Index</td>
+            <td>uint16</td>
+            <td>Index of input and unlock block corresponding to an NFT output.</td>
+          </tr>
+        </table>
+      </details>
     </td>
   </tr>
 </table>
 
-### Transaction parts
+### Transaction Parts
 
-In general, all parts of a <i>Transaction Payload</i> begin with a byte describing the type of the given part. This improves the flexibility to introduce new types/versions of the given part in the future.
+In general, all parts of a <i>Transaction Payload</i> begin with a byte describing the type of the given part to keep
+the flexibility to introduce new types/versions of the given part in the future.
 
-#### Transaction Essence data
+#### Transaction Essence Data
 
-The <i>Transaction Essence</i> of a <i>Transaction Payload</i> carries the inputs, outputs, and an optional payload. The <i>Transaction Essence</i> is an explicit type and therefore starts with its own <i>Transaction Essence Type</i> byte which is of value 0.
+The <i>Transaction Essence</i> of a <i>Transaction Payload</i> carries the inputs, outputs, and an optional payload.
+The <i>Transaction Essence</i> is an explicit type and therefore starts with its own <i>Transaction Essence Type</i>
+byte which is of value 0.
 
 ##### Inputs
 
-The <i>Inputs</i> part holds the inputs to consume in order to fund the outputs of the <i>Transaction Payload</i>. Currently, there is only one type of input, the <i>UTXO Input</i>. In the future, more types of inputs may be specified as part of protocol upgrades.
+The <i>Inputs</i> part holds the inputs to consume, respectively, to fund the outputs of the
+<i>Transaction Essence</i>. There is only one type of input as of now, the <i>UTXO Input</i>. In the future, more types
+of inputs may be specified as part of protocol upgrades.
 
-Each input must be accompanied by a corresponding <i>Unlock Block</i> at the same index in the <i>Unlock Blocks</i> part of the <i>Transaction Payload</i>.
+Each input must be accompanied by a corresponding <i>Unlock Block</i> at the same index in the <i>Unlock Blocks</i>
+part of the <i>Transaction Payload</i>.
+
+If multiple inputs can be unlocked through the same <i>Unlock Block</i>, then the given <i>Unlock Block</i> only needs
+to be specified at the index of the first input which gets unlocked by it.
+
+Subsequent inputs which are unlocked through the same data must have a <i>Reference Unlock Block</i>,
+<i>Alias Unlock Block</i> or <i>NFT Unlock Block</i> depending on the unlock mechanism, pointing to the index of a
+previous <i>Unlock Block</i>. This ensures that no duplicate data needs to occur in the same transaction.
 
 ###### UTXO Input
 
-A <i>UTXO Input</i> is an input which references an unspent output of a previous transaction. This UTXO is uniquely defined by the _Transaction ID_ of that transaction together with corresponding output index. Each <i>UTXO Input</i> must be accompanied by an <i>Unlock Block</i> that is allowed to unlock the output the <i>UTXO Input</i> is referencing.
+A <i>UTXO Input</i> is an input which references an unspent output of a previous transaction. This UTXO is uniquely
+defined by the _Transaction ID_ of that transaction together with corresponding output index. Each <i>UTXO Input</i>
+must be accompanied by an <i>Unlock Block</i> that is allowed to unlock the output the <i>UTXO Input</i> is referencing.
 
 Example:
-If the input references an output to an Ed25519 address, then the corresponding unlock block must be of type <i>Signature Unlock Block</i> holding an Ed25519 signature.
+If the input references an output to an Ed25519 address, then the corresponding unlock block must be of type
+<i>Signature Unlock Block</i> holding an Ed25519 signature.
 
 ##### Outputs
 
-The <i>Outputs</i> part holds the outputs that are created by this <i>Transaction Payload</i>. The following output types are supported:
+The <i>Outputs</i> part holds the outputs that are created by this <i>Transaction Payload</i>. The following output
+types are supported:
 
-###### SigLockedSingleOutput
+###### SimpleOutput
 
-The <i>SigLockedSingleOutput</i> defines an output (with a certain amount) to a single target address which is unlocked via a signature proving ownership over the given address. This output supports addresses of different types.
+Formerly known as <i>SigLockedSingleOutput</i>, the <i>SimpleOutput</i> defines an output (with a certain amount) to a
+single target address which is unlocked via a signature proving ownership over the given address. This output supports
+addresses of different types.
 
-###### SigLockedDustAllowanceOutput
+###### ExtendedOutput
 
-The <i>SigLockedDustAllowanceOutput</i> works in the same way as a <i>SigLockedSingleOutput</i> but additionally controls the dust allowance on the target address. See [Dust Protection RFC-0032 (draft)](https://github.com/iotaledger/protocol-rfcs/pull/32) for further information.
+An output to a single target address that may carry native tokens and optional feature blocks. Defined in
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#extended-output)
+
+###### AliasOutput
+
+An output that represents an alias account in the ledger. Defined in
+[RFC-0038](#https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#alias-output)
+
+###### FoundryOutput
+
+An output that represents a token foundry in the ledger. Defined in
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#foundry-output)
+
+###### NFTOutput
+
+An output that represents a non-fungible token in the ledger. Defined in
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#nft-output)
 
 ##### Payload
 
-The  _Transaction Essence_ itself can contain another payload as described in general in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html). The [semantic validity](#semantic-validation) of the encapsulating _Transaction Payload_ does not have any impact on the payload.
+The  _Transaction Essence_ itself can contain another payload as described in general in [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html).
+The [semantic validity](#semantic-validation) of the encapsulating _Transaction Payload_ does not have any impact on
+the payload.
 
-The following table lists all the payload types that can be nested inside a _Transaction Essence_ as well as links to the corresponding specification:
+The following table lists all the payload types that can be nested inside a _Transaction Essence_ as well as links to
+the corresponding specification:
 
 | Name       | Type Value | RFC                                                                                                                    |
 | ---------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -439,18 +461,52 @@ The following table lists all the payload types that can be nested inside a _Tra
 
 #### Unlock Blocks
 
-The <i>Unlock Blocks</i> part holds the unlock blocks unlocking inputs within a <i>Transaction Essence</i>. The following types of unlock blocks are supported:
+The <i>Unlock Blocks</i> part holds the unlock blocks unlocking inputs within a <i>Transaction Essence</i>. The
+following types of unlock blocks are supported:
+
+<table>
+    <tr>
+        <td><b>Name</b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Signature Unlock Block</td>
+        <td>0</td>
+        <td>An unlock block holding a signature unlocking one or more inputs.</td>
+    </tr>
+    <tr>
+        <td>Reference Unlock Block</td>
+        <td>1</td>
+        <td>An unlock block which must reference a previous unlock block which unlocks also the input at the same index as this <i>Reference Unlock Block</i>.</td>
+    </tr>
+    <tr>
+        <td>Alias Unlock Block</td>
+        <td>2</td>
+        <td>An unlock block which must reference a previous unlock block which unlocks the alias that the input is locked to.</td>
+    </tr>
+    <tr>
+        <td>NFT Unlock Block</td>
+        <td>3</td>
+        <td>An unlock block which must reference a previous unlock block which unlocks the NFT that the input is locked to.</td>
+    </tr>
+</table>
 
 ##### Signature Unlock Block
 
-A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds a signature signing the BLAKE2b-256 hash of the <i>Transaction Essence</i> (including the optional payload).
+A <i>Signature Unlock Block</i> defines an <i>Unlock Block</i> which holds a signature signing the BLAKE2b-256 hash of
+the <i>Transaction Essence</i> (including the optional payload).
 
-##### Reference Unlock block
+##### Reference Unlock Block
 
-A <i>Reference Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i> (which must not be another <i>Reference Unlock Block</i>). It **must** be used if multiple inputs can be unlocked via the same <i>Unlock Block</i>.
+A <i>Reference Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i> (which
+must not be another <i>Reference Unlock Block</i>). It **must** be used if multiple inputs can be unlocked via the same
+<i>Unlock Block</i>.
 
 Example:
-Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and 2, where 0 and 2 are both spending outputs belonging to the same Ed25519 address A and 1 is spending from a different address B. This results in the following structure of the <i>Unlock Blocks</i> part:
+Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and 2, where 0 and 2 are both spending
+outputs belonging to the same Ed25519 address A and 1 is spending from a different address B. This results in the
+following structure of the <i>Unlock Blocks</i> part:
 
 | Index | Unlock Block                                                                             |
 | ----- | ---------------------------------------------------------------------------------------- |
@@ -458,66 +514,119 @@ Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and
 | 1     | A _Signature Unlock Block_ holding the Ed25519 signature for address B.                  |
 | 2     | A _Reference Unlock Block_ which references 0, as both require the same signature for A. |
 
-## Validation
+##### Alias Unlock Block
 
-A <i>Transaction Payload</i> has different validation stages, since some validation steps can only be executed when certain information has (or has not) been received. We therefore distinguish between syntactic and semantic validation:
+An <i>Alias Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i>
+corresponding to the alias that the input is locked to. Defined in
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#alias-locking--unlocking)
 
-### Syntactic validation
+##### NFT Unlock Block
 
-Syntactic validation is checked as soon as the transaction data has been received in its entirety. It validates the structure but not the signatures of the transaction. If the transaction does not pass this stage, it must not be broadcasted further and can be discarded right away.
+An <i>NFT Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i> corresponding
+to the NFT that the input is locked to. Defined in
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#nft-locking--unlocking)
 
-The following criteria defines whether a payload passes the syntactical validation:
-* Essence:
-  * `Transaction Type` value must denote a _Transaction Essence_.
-  * Inputs:
-    * `Inputs Count` must be 0 < x ≤ 127.
-    * For each input the following must be true:
-      * `Input Type` must denote a _UTXO Input_.
-      * `Transaction Output Index` must be 0 ≤ x < 127.
-    * `Inputs` must be sorted in lexicographical order of their serialized form.<sup>1</sup>
-    * Each pair of `Transaction ID` and `Transaction Output Index` must be unique in the inputs set.
-  * Outputs:
-    * `Outputs Count` must be 0 < x ≤ 127.
-    * For each input the following must be true:
-      * `Output Type` must denote a _SigLockedSingleOutput_ or a _SigLockedDustAllowanceOutput_.
-      * `Address Type` must denote an _Ed25519 Address_.
-      * `Amount` must be larger than zero.
-    * `Outputs` must be sorted in lexicographical order of their serialized form.<sup>1</sup>
-    * Each `Address` must be unique per output type. For example, a _SigLockedSingleOutput_ and a _SigLockedDustAllowanceOutput_ can have the same address, but not two _SigLockedSingleOutputs_.
-    * The sum of all `Amount` fields must not exceed the total IOTA supply of 2,779,530,283,277,761.
-  * Payload (if present):
-    * `Payload Type` must match one of the values described under [Payload](#payload).
-    * `Data fields` must be correctly parsable in the context of the `Payload Type`.
-    * The payload itself must pass syntactic validation.
-* Unlock Blocks:
-  * `Unlock Blocks Count` must match `Inputs Count` of the _Transaction Essence_.
-  * Each `Unlock Type` must denote a _Signature Unlock Block_ or a _Reference Unlock Block_.
-  * Each _Signature Unlock Block_ must contain an _Ed25519 Signature_.
-  * Each _Signature Unlock Block_ must be unique.
-  * A _Reference Unlock Block_ at index i must have `Reference` < i and the unlock block at index `Reference` must be a _Signature Unlock Block_.
-* Given the type and length information, the _Transaction Payload_ must consume the entire byte array of the `Payload` field of the encapsulating object.
+### Validation
 
-<sup>1</sup> ensures that serialization of the transaction becomes deterministic, meaning that libraries always produce the same bytes given the logical transaction.
+A <i>Transaction Payload</i> has different validation stages, since some validation steps can only be executed at the
+point when certain information has (or has not) been received. We therefore distinguish between syntactic and semantic
+validation.
 
-### Semantic validation
+The different output types and optional output feature blocks introduced by [RFC-0038](https://github.com/iotaledger/protocol-rfcs/pull/38)
+add extra constraints to transaction validation rules, but since these are specific to the given outputs and features,
+they are discussed for each [output types](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#output-design)
+and [feature block types](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#optional-output-features)
+separately.
 
-The Semantic validation of a _Transaction Payload_ is performed when its encapsulating message is confirmed by a milestone. The semantic validity of transactions depends on the order in which they are processed. Thus, it is necessary that all the nodes in the network perform the checks in the same order, no matter the order in which the transactions are received. This is assured by using the White-Flag ordering as described in [RFC-005](https://iotaledger.github.io/protocol-rfcs/0005-white-flag/0005-white-flag.html#deterministically-ordering-the-tangle).
+#### Syntactic Validation
 
-Processing transactions according to the White-Flag ordering enables users to spend UTXOs which are created in the same milestone confirmation cone, as long as the spending transaction comes after the funding transaction in the aforementioned White-Flag order. In this case, it is recommended that users include the _Message ID_ of the funding transaction as a parent of the message containing the spending transaction.
+Syntactic validation is checked as soon as the transaction data has been received in its entirety. It validates the
+structure but not the signatures of the transaction. If the transaction does not pass this stage, it must not be
+broadcast further and can be discarded right away.
 
-The following criteria defines whether a payload passes the semantic validation:
-* Each input must reference a valid UTXO, i.e. the output referenced by the input's `Transaction ID` and `Transaction Output Index` is known (booked) and unspent.
-* The transaction must spend the entire balance, i.e. the sum of the `Amount` fields of all the UTXOs referenced by inputs must match the sum of the `Amount` fields of all outputs.
-* Each unlock block must be valid with respect to the UTXO referenced by the input of the same index:
-  * If it is a _Signature Unlock Block_:
-    * The `Signature Type` must match the `Address Type` of the UTXO, 
-    * the BLAKE2b-256 hash of `Public Key` must match the `Address` of the UTXO and
-    * the `Signature` field must contain a valid signature for `Public Key`.
-  * If it is a _Reference Unlock Block_, the referenced _Signature Unlock Block_ must be valid with respect to the UTXO.
+The following criteria defines whether the transaction passes the syntactic validation:
+* `Transaction Essence Type` value must be 0, denoting an `Transaction Essence`.
+* Inputs:
+    * `Inputs Count` must be 0 < x ≤ `Max Inputs Count`.
+    * At least one input must be specified.
+    * `Input Type` value must be 0, denoting an `UTXO Input`.
+    * `UTXO Input`:
+        * `Transaction Output Index` must be 0 ≤ x < `Max Outputs Count`.
+        * Every combination of `Transaction ID` + `Transaction Output Index` must be unique in the list of inputs.
+* Outputs:
+    * `Outputs Count` must be 0 < x ≤ `Max Outputs Count`.
+    * At least one output must be specified.
+    * `Output Type` must denote a `SimpleOutput`, `ExtendedOutput`, `AliasOutput`, `FoundryOutput` or `NFTOutput`.
+    * Output must fulfill the [dust protection requirements.](https://github.com/iotaledger/protocol-rfcs/pull/39)
+    * Output is syntactically valid based on its type.
+    * Accumulated output balance must not exceed the total supply of tokens `2'779'530'283'277'761`.
+* `Payload Length` must be 0 (to indicate that there's no payload) or be valid for the specified payload type.
+* `Payload Type` must be one of the supported payload types if `Payload Length` is not 0.
+* `Unlock Blocks Count` must match the amount of inputs. Must be 0 < x ≤ `Max Inputs Count`.
+* `Unlock Block Type` must either be 0, 1, 2 or 3, denoting a `Signature Unlock Block`, a `Reference Unlock block`, an
+  `Alias Unlock Block` or an `NFT Unlock Block`.
+* `Signature Unlock Blocks` must define a `Ed25519 Signature`.
+* A `Signature Unlock Block` unlocking multiple inputs must only appear once (be unique) and be positioned at the same
+  index of the first input it unlocks. All other inputs unlocked by the same `Signature Unlock Block` must have a
+  companion `Reference Unlock Block` at the same index as the corresponding input which points to the origin
+  `Signature Unlock Block`.
+* `Reference Unlock Blocks` must specify a previous `Unlock Block` which is not of type `Reference Unlock Block`. The
+  referenced index must therefore be < the index of the `Reference Unlock Block`.
+* `Alias Unlock Blocks` must specify a previous `Unlock Block` which unlocks the alias the input is locked to. The
+  referenced index must be < the index of the `Alias Unlock Block`.
+* `NFT Unlock Blocks` must specify a previous `Unlock Block` which unlocks the NFT the input is locked to. The
+  reference index must be < the index of the `NFT Unlock Block`.
+* Given the type and length of the information, the <i>Transaction Payload</i> must consume the entire byte array for
+  the `Payload Length` field in the <i>Message</i> it defines.
 
-If a _Transaction Payload_ passes the semantic validation, its referenced UTXOs must be marked as spent and its new outputs must be created/booked in the ledger. The _Message ID_ of the message encapsulating the processed payload then also becomes part of the input for the White-Flag Merkle tree hash of the confirming milestone ([RFC-0012](https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html)).
+#### Semantic Validation
 
-Transactions that do not pass semantic validation are ignored. Their UTXOs are not marked as spent and their outputs are not booked in the ledger.
+The Semantic validation of a _Transaction Payload_ is performed when its encapsulating message is confirmed by a
+milestone. The semantic validity of transactions depends on the order in which they are processed. Thus, it is necessary
+that all the nodes in the network perform the checks in the same order, no matter the order in which the transactions
+are received. This is assured by using the White-Flag ordering as described in [RFC-005](https://iotaledger.github.io/protocol-rfcs/0005-white-flag/0005-white-flag.html#deterministically-ordering-the-tangle).
+
+Processing transactions according to the White-Flag ordering enables users to spend UTXOs which are created in the same
+milestone confirmation cone, as long as the spending transaction comes after the funding transaction in the
+aforementioned White-Flag order. In this case, it is recommended that users include the _Message ID_ of the funding
+transaction as a parent of the message containing the spending transaction.
+
+The following criteria defines whether the transaction passes the semantic validation:
+1. Each input must reference a valid UTXO, i.e. the output referenced by the input's `Transaction ID` and
+   `Transaction Output Index` is known (booked) and unspent.
+2. The transaction must spend the entire balance, i.e. the sum of the `Amount` fields of all the UTXOs referenced by
+   inputs must match the sum of the `Amount` fields of all outputs.
+3. The transaction is balanced in terms of native tokens, meaning the amount of native tokens present in inputs equals
+   to that of outputs. Otherwise, the foundry outputs controlling outstanding native token balances must be present in
+   the transaction. The validation of the foundry output(s) determines if the outstanding balances are valid.
+4. The UTXOs the transaction references must be unlocked based on the transaction context, that is the
+   <i>Transaction Payload</i> plus the list of consumed UTXOs. (output syntactic unlock validation in transaction
+   context)
+5. The UTXOs the transaction references must be unlocked with respect to the
+   [milestone index and Unix timestamp of the confirming milestone](https://github.com/jakubcech/protocol-rfcs/blob/jakubcech-milestonepayload/text/0019-milestone-payload/0019-milestone-payload.md#structure). (output semantic unlock validation in transaction context)
+6. The outputs of the transaction must pass additional validation rules defined by the present
+   [output feature blocks](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#optional-output-features).
+7. The sum of all `Native Token Counts` in the transaction plus `Outputs Count` is ≤
+   `Max Native Token Count Per Output`.
+8. Each unlock block must be valid with respect to the UTXO referenced by the input of the same index:
+    * If it is a _Signature Unlock Block_:
+      * The `Signature Type` must match the `Address Type` of the address unlocking the UTXO,
+      * the BLAKE2b-256 hash of `Public Key` must match the unlocking `Address` of the UTXO and
+      * the `Signature` field must contain a valid signature for `Public Key`.
+    * If it is a _Reference Unlock Block_, the referenced _Signature Unlock Block_ must be valid with respect to the UTXO.
+    * If it is an _Alias Unlock Block_:
+      * The address unlocking the UTXO must be an _Alias Address_.
+      * The referenced _Unlock Block_ unlocks the alias defined by the unlocking address of the UTXO.
+   * If it is an _NFT Unlock Block_:
+     * The address unlocking the UTXO must be a _NFT Address_.
+     * The referenced _Unlock Block_ unlocks the NFT defined by the unlocking address of the UTXO.
+
+If a _Transaction Payload_ passes the semantic validation, its referenced UTXOs must be marked as spent and its new
+outputs must be created/booked in the ledger. The _Message ID_ of the message encapsulating the processed payload then
+also becomes part of the input for the White-Flag Merkle tree hash of the confirming milestone ([RFC-0012](https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html)).
+
+Transactions that do not pass semantic validation are ignored. Their UTXOs are not marked as spent and their outputs
+are not booked in the ledger.
 
 ## Miscellaneous
 
