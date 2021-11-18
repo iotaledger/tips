@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="0017-tangle-message/0017-tangle-message.html">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="0018-transaction-payload/0018-transaction-payload.html">0018-transaction-payload</a></li><li class="chapter-item expanded "><a href="0019-milestone-payload/0019-milestone-payload.html">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="0024-message-pow/0024-message-pow.html">0024-message-pow</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="0017-tangle-message/0017-tangle-message.html">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="0018-transaction-payload/0018-transaction-payload.html">0018-transaction-payload</a></li><li class="chapter-item expanded "><a href="0019-milestone-payload/0019-milestone-payload.html">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="0024-message-pow/0024-message-pow.html">0024-message-pow</a></li><li class="chapter-item expanded "><a href="0032-dust-protection/0032-dust-protection.html">0032-dust-protection</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -1820,6 +1820,106 @@ pow ← 3**trailing_zeros(pow_hash) / size
 <li>BLAKE2b-256 could be replaced with BLAKE2b-512 or any other binary cryptographic hash function. However, a 256-bit digest fits very nicely into exactly one Curl block and since BLAKE2b-256 is also used for the <em>message ID</em>, it is reasonable to also use it for the PoW digest. This reduces the number of required hashing implementations and even allows reusage of intermediate values between the PoW digest and the message ID computation.</li>
 </ul>
 <p>The PoW score formula 3<sup>#zeros</sup> / size(message) could be replaced with an alternative function to better match the network usage, e.g. in order to penalize longer message more than linearly.</p>
+<div style="break-before: page; page-break-before: always;"></div><ul>
+<li>Feature name: <code>dust-protection</code></li>
+<li>Start date: 2020-12-07</li>
+<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/0032">iotaledger/protocol-rfcs#0032</a></li>
+</ul>
+<h1 id="summary-9"><a class="header" href="#summary-9">Summary</a></h1>
+<p>In the UTXO model, each node in the network needs to keep track of all the currently unspent outputs. When the number of outputs gets too large, this can cause performance and memory issues.
+This RFC proposes a new protocol rule regarding the processing of outputs that transfer a very small amount of IOTA, so-called dust outputs: Dust outputs are only allowed when they are backed up by a certain deposit on the receiving address. This limits the amount of dust outputs, thus making it expensive to proliferate dust. Since a receiver must make a deposit, the protocol makes receiving dust an opt-in feature.</p>
+<h1 id="motivation-9"><a class="header" href="#motivation-9">Motivation</a></h1>
+<p>An attacker, or even honest users, can proliferate the UTXO ledger with outputs holding a tiny amount of IOTA coins. This can cause the ledger to grow to a prohibitively large size. </p>
+<p>In order to protect nodes from such attacks, one possible solution is to make accumulating dust outputs expensive. Since IOTA does not have any fees that might limit the feasibility of issuing many dust transactions, deposits pose a valid alternative to achieve a similar effect.</p>
+<p>When an address is supposed to receive micro transactions, it must have an unspent output of a special type as a deposit. This deposit cannot be consumed by any transaction as long as the dust outputs remain unspent.</p>
+<p>An additional benefit of this rule is that it makes a mass of privacy violating <a href="https://en.bitcoin.it/wiki/Privacy#Forced_address_reuse">forced address reuse attacks</a> more expensive to carry out.</p>
+<h1 id="detailed-design-9"><a class="header" href="#detailed-design-9">Detailed design</a></h1>
+<h3 id="definitions"><a class="header" href="#definitions">Definitions</a></h3>
+<p><em>Dust output</em>: A transaction output that has an amount smaller than 1 Mi</p>
+<p><em>SigLockedDustAllowanceOutput</em>: A new output type for deposits that enables an address to receive dust outputs. It can be consumed as an input like a regular <code>SigLockedSingleOutput</code>.</p>
+<table>
+  <tr>
+    <td><b>Name</b></td>
+    <td><b>Type</b></td>
+    <td><b>Description</b></td>
+  </tr>
+  <tr>
+    <td>Output Type</td>
+    <td>uint8</td>
+    <td>
+      Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Address <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Ed25519 Address</summary>
+        <table>
+          <tr>
+            <td><b>Name</b></td>
+            <td><b>Type</b></td>
+            <td><b>Description</b></td>
+          </tr>
+          <tr>
+            <td>Address Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>ByteArray[32]</td>
+            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Amount</td>
+    <td>uint64</td>
+    <td>The amount of tokens to deposit with this <i>SigLockedDustAllowanceOutput</i> output.</td>
+  </tr>
+</table>
+<h3 id="validation-1"><a class="header" href="#validation-1">Validation</a></h3>
+<p>Let A be the address that should hold the dust outputs' balances. Let S be the sum of all the amounts of all unspent <code>SigLockedDustAllowanceOutputs</code> on A. Then, the maximum number of allowed dust outputs on A is S divided by 100,000 and rounded down, i.e. 10 outputs for each 1 Mi deposited.
+However, regardless of S, the number of dust outputs must never exceed 100 per address.</p>
+<p>The amount of a <code>SigLockedDustAllowanceOutput</code> must be at least 1 Mi. Apart from this, <code>SigLockedDustAllowanceOutputs</code> are processed identical to <code>SigLockedSingleOutput</code>. The transaction validation as defined in the IOTA protocol <a href="https://iotaledger.github.io/protocol-rfcs/0018-transaction-payload/0018-transaction-payload.html">RFC-0018</a>, however, needs to be adapted.</p>
+<p><em>Syntactical validation</em> for <code>SigLockedDustAllowanceOutput</code>:</p>
+<ul>
+<li>The <code>Address</code> must be unique in the set of <code>SigLockedDustAllowanceOutputs</code> in one transaction T. However, there can be one <code>SigLockedSingleOutput</code> and one <code>SigLockedDustAllowanceOutputs</code> T.</li>
+<li>The <code>Amount</code> must be ≥ 1,000,000.</li>
+</ul>
+<p>The <em>semantic validation</em> remains unchanged and are checked for both <code>SigLockedSingleOutputs</code> and <code>SigLockedDustAllowanceOutput</code>, but this RFC introduces one additional criterion:</p>
+<p>A transaction T</p>
+<ul>
+<li>consuming a <code>SigLockedDustAllowanceOutput</code> on address A <strong>or</strong></li>
+<li>creating a dust output with address A,</li>
+</ul>
+<p>is only semantically valid, if, after T is booked, the number of confirmed unspent dust outputs on A does not exceed the allowed threshold of min(S / 100000, 100).</p>
+<h1 id="drawbacks-7"><a class="header" href="#drawbacks-7">Drawbacks</a></h1>
+<ul>
+<li>There can no longer be addresses holding less than 1 Mi.</li>
+<li>The actual validity of dust transaction can only be checked during semantic validation.</li>
+<li>A service receiving micropayments may fail receiving them, if it did not consolidate dust outputs or raised the deposit for the receiving address.</li>
+<li>An attacker can send microtransactions to an address with a <code>SigLockedDustAllowanceOutput</code> in order to fill the allowed threshold and block honest senders of microtransactions. The owner of the address can mitigate this by simply consolidating the attacker's dust and collecting it for profit.</li>
+</ul>
+<h1 id="rationale-and-alternatives-9"><a class="header" href="#rationale-and-alternatives-9">Rationale and alternatives</a></h1>
+<p>The rationale for creating a special <code>SigLockedDustAllowanceOutput</code> rather than rely on the default <code>SigLockedSingleOutputs</code> is to prevent attackers from polluting arbitrary addresses that happen to hold
+a large amount of funds with dust.</p>
+<p>One may note that an attacker can deposit a dust allowance on 3rd party address outside his control and pollute that address with dust.
+From a security perspective this is better than an attacker depositing a dust allowance on addresses under his control.
+This is because the receiving party might later choose to consolidate the dust outputs and hence relief UTXO memory consumption.
+The receiving party is also unlikely to be displeased from obtaining more funds, small as they may be.</p>
+<p>There are potential alternatives to introducing dust allowance deposits:</p>
+<ul>
+<li><em>Burning dust</em>: Allow dust outputs to exists only for a limited amount of time in the ledger. After this, they are removed completely and the associated funds are invalidated.</li>
+<li><em>Sweeping dust into Merkle trees</em>: Instead of burning dust outputs after some time, they are instead compressed into a Merkle tree and only the tree root is kept. In order to spend one of these compressed outputs, the corresponding Merkle audit path needs to be supplied in addition to a regular signature.</li>
+</ul>
+<p>The first option can cause issues, when dust outputs were burned before users could consolidate them. Also, changing the supply can be controversial.</p>
+<p>The second option is much more complicated as it introduces a completely new unlock mechanisms and requires the nodes to store the Merkle tree roots indefinitely.</p>
 
                     </main>
 

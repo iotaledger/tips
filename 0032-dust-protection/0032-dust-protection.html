@@ -1,0 +1,289 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>0032-dust-protection - The IOTA Protocol RFC Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0017-tangle-message/0017-tangle-message.html">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="../0018-transaction-payload/0018-transaction-payload.html">0018-transaction-payload</a></li><li class="chapter-item expanded "><a href="../0019-milestone-payload/0019-milestone-payload.html">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li><li class="chapter-item expanded "><a href="../0032-dust-protection/0032-dust-protection.html" class="active">0032-dust-protection</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The IOTA Protocol RFC Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <ul>
+<li>Feature name: <code>dust-protection</code></li>
+<li>Start date: 2020-12-07</li>
+<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/0032">iotaledger/protocol-rfcs#0032</a></li>
+</ul>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
+<p>In the UTXO model, each node in the network needs to keep track of all the currently unspent outputs. When the number of outputs gets too large, this can cause performance and memory issues.
+This RFC proposes a new protocol rule regarding the processing of outputs that transfer a very small amount of IOTA, so-called dust outputs: Dust outputs are only allowed when they are backed up by a certain deposit on the receiving address. This limits the amount of dust outputs, thus making it expensive to proliferate dust. Since a receiver must make a deposit, the protocol makes receiving dust an opt-in feature.</p>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
+<p>An attacker, or even honest users, can proliferate the UTXO ledger with outputs holding a tiny amount of IOTA coins. This can cause the ledger to grow to a prohibitively large size. </p>
+<p>In order to protect nodes from such attacks, one possible solution is to make accumulating dust outputs expensive. Since IOTA does not have any fees that might limit the feasibility of issuing many dust transactions, deposits pose a valid alternative to achieve a similar effect.</p>
+<p>When an address is supposed to receive micro transactions, it must have an unspent output of a special type as a deposit. This deposit cannot be consumed by any transaction as long as the dust outputs remain unspent.</p>
+<p>An additional benefit of this rule is that it makes a mass of privacy violating <a href="https://en.bitcoin.it/wiki/Privacy#Forced_address_reuse">forced address reuse attacks</a> more expensive to carry out.</p>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
+<h3 id="definitions"><a class="header" href="#definitions">Definitions</a></h3>
+<p><em>Dust output</em>: A transaction output that has an amount smaller than 1 Mi</p>
+<p><em>SigLockedDustAllowanceOutput</em>: A new output type for deposits that enables an address to receive dust outputs. It can be consumed as an input like a regular <code>SigLockedSingleOutput</code>.</p>
+<table>
+  <tr>
+    <td><b>Name</b></td>
+    <td><b>Type</b></td>
+    <td><b>Description</b></td>
+  </tr>
+  <tr>
+    <td>Output Type</td>
+    <td>uint8</td>
+    <td>
+      Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Address <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Ed25519 Address</summary>
+        <table>
+          <tr>
+            <td><b>Name</b></td>
+            <td><b>Type</b></td>
+            <td><b>Description</b></td>
+          </tr>
+          <tr>
+            <td>Address Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>ByteArray[32]</td>
+            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Amount</td>
+    <td>uint64</td>
+    <td>The amount of tokens to deposit with this <i>SigLockedDustAllowanceOutput</i> output.</td>
+  </tr>
+</table>
+<h3 id="validation"><a class="header" href="#validation">Validation</a></h3>
+<p>Let A be the address that should hold the dust outputs' balances. Let S be the sum of all the amounts of all unspent <code>SigLockedDustAllowanceOutputs</code> on A. Then, the maximum number of allowed dust outputs on A is S divided by 100,000 and rounded down, i.e. 10 outputs for each 1 Mi deposited.
+However, regardless of S, the number of dust outputs must never exceed 100 per address.</p>
+<p>The amount of a <code>SigLockedDustAllowanceOutput</code> must be at least 1 Mi. Apart from this, <code>SigLockedDustAllowanceOutputs</code> are processed identical to <code>SigLockedSingleOutput</code>. The transaction validation as defined in the IOTA protocol <a href="https://iotaledger.github.io/protocol-rfcs/0018-transaction-payload/0018-transaction-payload.html">RFC-0018</a>, however, needs to be adapted.</p>
+<p><em>Syntactical validation</em> for <code>SigLockedDustAllowanceOutput</code>:</p>
+<ul>
+<li>The <code>Address</code> must be unique in the set of <code>SigLockedDustAllowanceOutputs</code> in one transaction T. However, there can be one <code>SigLockedSingleOutput</code> and one <code>SigLockedDustAllowanceOutputs</code> T.</li>
+<li>The <code>Amount</code> must be ≥ 1,000,000.</li>
+</ul>
+<p>The <em>semantic validation</em> remains unchanged and are checked for both <code>SigLockedSingleOutputs</code> and <code>SigLockedDustAllowanceOutput</code>, but this RFC introduces one additional criterion:</p>
+<p>A transaction T</p>
+<ul>
+<li>consuming a <code>SigLockedDustAllowanceOutput</code> on address A <strong>or</strong></li>
+<li>creating a dust output with address A,</li>
+</ul>
+<p>is only semantically valid, if, after T is booked, the number of confirmed unspent dust outputs on A does not exceed the allowed threshold of min(S / 100000, 100).</p>
+<h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
+<ul>
+<li>There can no longer be addresses holding less than 1 Mi.</li>
+<li>The actual validity of dust transaction can only be checked during semantic validation.</li>
+<li>A service receiving micropayments may fail receiving them, if it did not consolidate dust outputs or raised the deposit for the receiving address.</li>
+<li>An attacker can send microtransactions to an address with a <code>SigLockedDustAllowanceOutput</code> in order to fill the allowed threshold and block honest senders of microtransactions. The owner of the address can mitigate this by simply consolidating the attacker's dust and collecting it for profit.</li>
+</ul>
+<h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
+<p>The rationale for creating a special <code>SigLockedDustAllowanceOutput</code> rather than rely on the default <code>SigLockedSingleOutputs</code> is to prevent attackers from polluting arbitrary addresses that happen to hold
+a large amount of funds with dust.</p>
+<p>One may note that an attacker can deposit a dust allowance on 3rd party address outside his control and pollute that address with dust.
+From a security perspective this is better than an attacker depositing a dust allowance on addresses under his control.
+This is because the receiving party might later choose to consolidate the dust outputs and hence relief UTXO memory consumption.
+The receiving party is also unlikely to be displeased from obtaining more funds, small as they may be.</p>
+<p>There are potential alternatives to introducing dust allowance deposits:</p>
+<ul>
+<li><em>Burning dust</em>: Allow dust outputs to exists only for a limited amount of time in the ledger. After this, they are removed completely and the associated funds are invalidated.</li>
+<li><em>Sweeping dust into Merkle trees</em>: Instead of burning dust outputs after some time, they are instead compressed into a Merkle tree and only the tree root is kept. In order to spend one of these compressed outputs, the corresponding Merkle audit path needs to be supplied in addition to a regular signature.</li>
+</ul>
+<p>The first option can cause issues, when dust outputs were burned before users could consolidate them. Also, changing the supply can be controversial.</p>
+<p>The second option is much more complicated as it introduces a completely new unlock mechanisms and requires the nodes to store the Merkle tree roots indefinitely.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../0024-message-pow/0024-message-pow.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../0024-message-pow/0024-message-pow.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
