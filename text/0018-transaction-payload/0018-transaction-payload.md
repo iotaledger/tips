@@ -2,7 +2,7 @@
 + Start date: 2020-07-10
 + RFC PR: [iotaledger/protocol-rfcs#18](https://github.com/iotaledger/protocol-rfcs/pull/18)
 + Recent updates:
-    + () Update Payload Layout and Validation for [New Output Types](https://github.com/iotaledger/protocol-rfcs/pull/38)
+    + [iotaledger/protocol-rfcs#0040](https://github.com/iotaledger/protocol-rfcs/pull/40) Update Payload Layout and Validation for [New Output Types](https://github.com/iotaledger/protocol-rfcs/pull/38)
 
 # Summary
 
@@ -429,22 +429,22 @@ addresses of different types.
 ###### ExtendedOutput
 
 An output to a single target address that may carry native tokens and optional feature blocks. Defined in
-[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#extended-output)
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#extended-output).
 
 ###### AliasOutput
 
 An output that represents an alias account in the ledger. Defined in
-[RFC-0038](#https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#alias-output)
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#alias-output).
 
 ###### FoundryOutput
 
 An output that represents a token foundry in the ledger. Defined in
-[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#foundry-output)
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#foundry-output).
 
 ###### NFTOutput
 
 An output that represents a non-fungible token in the ledger. Defined in
-[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#nft-output)
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#nft-output).
 
 ##### Payload
 
@@ -518,13 +518,13 @@ following structure of the <i>Unlock Blocks</i> part:
 
 An <i>Alias Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i>
 corresponding to the alias that the input is locked to. Defined in
-[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#alias-locking--unlocking)
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#alias-locking--unlocking).
 
 ##### NFT Unlock Block
 
 An <i>NFT Unlock Block</i> defines an <i>Unlock Block</i> which references a previous <i>Unlock Block</i> corresponding
 to the NFT that the input is locked to. Defined in
-[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#nft-locking--unlocking)
+[RFC-0038](https://github.com/lzpap/protocol-rfcs/blob/master/text/0038-output-types-for-tokenization-and-sc/0038-output-types-for-tokenization-and-sc.md#nft-locking--unlocking).
 
 ### Validation
 
