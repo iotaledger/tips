@@ -53,31 +53,7 @@ All values are serialized in little-endian encoding. The serialized form of the 
 
 The *Transaction ID* is the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash of the entire serialized payload data including signatures.
 
-The following table structure describes the entirety of a _Transaction Payload_ in its serialized form:
-* Data Type Notation, see [RFC-0017](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#data-types)
-* <details>
-    <summary>Subschema Notation</summary>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td><code>oneOf</code></td>
-            <td>One of the listed subschemas.</td>
-        </tr>
-        <tr>
-            <td><code>optOneOf</code></td>
-            <td>Optionally one of the listed subschemas.</td>
-        </tr>
-        <tr>
-            <td><code>anyOf</code></td>
-            <td>Any (one or more) of the listed subschemas.</td>
-        </tr>
-    </table>
-</details>
-
-<p></p>
+The following table describes the entirety of a _Transaction Payload_ in its serialized form following the notation from [RFC-0041](https://iotaledger.github.io/protocol-rfcs/0041-serialization-primitives/0041-serialization-primitives.html):
 
 <table>
   <tr>

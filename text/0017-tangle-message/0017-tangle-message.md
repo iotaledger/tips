@@ -20,26 +20,15 @@ By making it possible to add and exchange payloads, an architecture is being cre
 
 # Detailed design
 
-## Data types
-
-The following are data types that will be used when we specify fields in the message and payloads.
-
-| Name         | Description                                                                   |
-| ------------ | ----------------------------------------------------------------------------- |
-| uint8        | An unsigned 8-bit integer encoded in Little Endian.                           |
-| uint16       | An unsigned 16-bit integer encoded in Little Endian.                          |
-| uint32       | An unsigned 32-bit integer encoded in Little Endian.                          |
-| uint64       | An unsigned 64-bit integer encoded in Little Endian.                          |
-| ByteArray[N] | A static size byte array of length N.                                         |
-| ByteArray    | A dynamically sized byte array. A leading uint32 denotes its length in bytes. |
-
 ## Structure
 
 ### Message ID
 
 The *Message ID* is the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash of the entire serialized message.
 
-### Serialized Layout
+### Serialized layout
+
+The following table describes the serialization of a _Message_ following the notation from [RFC-0041](https://iotaledger.github.io/protocol-rfcs/0041-serialization-primitives/0041-serialization-primitives.html):
 
 <table>
   <tr>

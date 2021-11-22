@@ -23,9 +23,7 @@ In addition, a key rotation policy can also be enforced by limiting key validity
 
 ## Structure
 
-All values are serialized in little-endian encoding. The serialized form of the milestone is deterministic, meaning the same logical milestone always results in the same serialized byte sequence.
-
-The following table structure describes the entirety of a _Milestone Payload_ in its serialized form ([RFC-0017, Data types](https://iotaledger.github.io/protocol-rfcs/0017-tangle-message/0017-tangle-message.html#data-types)):
+The following table describes the entirety of a _Milestone Payload_ in its serialized form following the notation from [RFC-0041](https://iotaledger.github.io/protocol-rfcs/0041-serialization-primitives/0041-serialization-primitives.html):
 
 <table>
   <tr>
