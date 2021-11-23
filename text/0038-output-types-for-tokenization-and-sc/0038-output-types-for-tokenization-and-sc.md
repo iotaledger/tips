@@ -1818,28 +1818,6 @@ state as metadata into the UTXO ledger.
                                         </table>
                                     </details>
                                     <details>
-                                        <summary>BLS Address</summary>
-                                        <table>
-                                            <tr>
-                                                <td><b>Name</b></td>
-                                                <td><b>Type</b></td>
-                                                <td><b>Description</b></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Address Type</td>
-                                                <td>uint8</td>
-                                                <td>
-                                                    Set to <strong>value 1</strong> to denote a <i>BLS Address</i>.
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Address</td>
-                                                <td>ByteArray[32]</td>
-                                                <td>The raw bytes of the BLS address which is a BLAKE2b-256 hash of the BLS public key.</td>
-                                            </tr>
-                                        </table>
-                                    </details>
-                                    <details>
                                         <summary>Alias Address</summary>
                                         <table>
                                             <tr>
