@@ -1212,28 +1212,6 @@ ledger.
                                         </table>
                                     </details>
                                     <details>
-                                        <summary>BLS Address</summary>
-                                        <table>
-                                            <tr>
-                                                <td><b>Name</b></td>
-                                                <td><b>Type</b></td>
-                                                <td><b>Description</b></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Address Type</td>
-                                                <td>uint8</td>
-                                                <td>
-                                                    Set to <strong>value 1</strong> to denote a <i>BLS Address</i>.
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Address</td>
-                                                <td>ByteArray[32]</td>
-                                                <td>The raw bytes of the BLS address which is a BLAKE2b-256 hash of the BLS public key.</td>
-                                            </tr>
-                                        </table>
-                                    </details>
-                                    <details>
                                         <summary>Alias Address</summary>
                                         <table>
                                             <tr>
@@ -1252,6 +1230,28 @@ ledger.
                                                 <td>Address</td>
                                                 <td>ByteArray[20]</td>
                                                 <td>The raw bytes of the alias address which is a BLAKE2b-160 hash of the outputID that created it.</td>
+                                            </tr>
+                                        </table>
+                                    </details>
+                                    <details>
+                                        <summary>NFT Address</summary>
+                                        <table>
+                                            <tr>
+                                                <td><b>Name</b></td>
+                                                <td><b>Type</b></td>
+                                                <td><b>Description</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address Type</td>
+                                                <td>uint8</td>
+                                                <td>
+                                                    Set to <strong>value 16</strong> to denote an <i>NFT Address</i>.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address</td>
+                                                <td>ByteArray[20]</td>
+                                                <td>The raw bytes of the nft address which is a BLAKE2b-160 hash of the outputID that created it.</td>
                                             </tr>
                                         </table>
                                     </details>
@@ -1684,6 +1684,97 @@ state as metadata into the UTXO ledger.
                 <td valign="top">Blocks <code>atMostOneOfEach</code></td>
                 <td colspan="2">
                     <details>
+                        <summary>Sender Block</summary>
+                        <blockquote>
+                            Identifies the validated sender of the output.
+                        </blockquote>
+                        <table>
+                            <tr>
+                                <td><b>Name</b></td>
+                                <td><b>Type</b></td>
+                                <td><b>Description</b></td>
+                            </tr>
+                            <tr>
+                                <td>Block Type</td>
+                                <td>uint8</td>
+                                <td>
+                                    Set to <strong>value 0</strong> to denote a <i>Sender Block</i>.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">Sender <code>oneOf</code></td>
+                                <td colspan="2">
+                                    <details>
+                                        <summary>Ed25519 Address</summary>
+                                        <table>
+                                            <tr>
+                                                <td><b>Name</b></td>
+                                                <td><b>Type</b></td>
+                                                <td><b>Description</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address Type</td>
+                                                <td>uint8</td>
+                                                <td>
+                                                    Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address</td>
+                                                <td>ByteArray[32]</td>
+                                                <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                            </tr>
+                                        </table>
+                                    </details>
+                                    <details>
+                                        <summary>Alias Address</summary>
+                                        <table>
+                                            <tr>
+                                                <td><b>Name</b></td>
+                                                <td><b>Type</b></td>
+                                                <td><b>Description</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address Type</td>
+                                                <td>uint8</td>
+                                                <td>
+                                                    Set to <strong>value 8</strong> to denote an <i>Alias Address</i>.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address</td>
+                                                <td>ByteArray[20]</td>
+                                                <td>The raw bytes of the alias address which is a BLAKE2b-160 hash of the outputID that created it.</td>
+                                            </tr>
+                                        </table>
+                                    </details>
+                                    <details>
+                                        <summary>NFT Address</summary>
+                                        <table>
+                                            <tr>
+                                                <td><b>Name</b></td>
+                                                <td><b>Type</b></td>
+                                                <td><b>Description</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address Type</td>
+                                                <td>uint8</td>
+                                                <td>
+                                                    Set to <strong>value 16</strong> to denote an <i>NFT Address</i>.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address</td>
+                                                <td>ByteArray[20]</td>
+                                                <td>The raw bytes of the nft address which is a BLAKE2b-160 hash of the outputID that created it.</td>
+                                            </tr>
+                                        </table>
+                                    </details>
+                                </td>
+                            </tr>
+                        </table>
+                    </details>
+                    <details>
                         <summary>Issuer Block</summary>
                         <blockquote>
                             Identifies the validated issuer of the alias output.
@@ -1840,7 +1931,7 @@ state as metadata into the UTXO ledger.
 
 - `Amount` field must fulfill the dust protection requirements.
 - `Native Token Count` must not be greater than `Max Native Token Count Per Output`.
-- It must hold true that `0` ≤ `Blocks Count` ≤ `2`.
+- It must hold true that `0` ≤ `Blocks Count` ≤ `3`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
 - Syntactic validation of all present feature blocks must pass.
 - When `Alias ID` is zeroed out, `State Index` and `Foundry Counter` must be `0`.
@@ -2403,6 +2494,28 @@ optional feature blocks so that the output can be sent as a request to smart con
                                                 <td>Address</td>
                                                 <td>ByteArray[20]</td>
                                                 <td>The raw bytes of the alias address which is a BLAKE2b-160 hash of the outputID that created it.</td>
+                                            </tr>
+                                        </table>
+                                    </details>
+                                    <details>
+                                        <summary>NFT Address</summary>
+                                        <table>
+                                            <tr>
+                                                <td><b>Name</b></td>
+                                                <td><b>Type</b></td>
+                                                <td><b>Description</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address Type</td>
+                                                <td>uint8</td>
+                                                <td>
+                                                    Set to <strong>value 16</strong> to denote an <i>NFT Address</i>.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address</td>
+                                                <td>ByteArray[20]</td>
+                                                <td>The raw bytes of the nft address which is a BLAKE2b-160 hash of the outputID that created it.</td>
                                             </tr>
                                         </table>
                                     </details>
