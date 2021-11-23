@@ -4,7 +4,7 @@
 
 # Summary
 
-The IOTA protocol uses Ed25519 signatures to assure the authenticity of transactions in Chrysalis. However, although Ed25519 is standardized in [RFC 8032](https://tools.ietf.org/html/rfc8032), it does not define strict validation criteria. As a result, compatible implementations do not need to agree on whether a particular signature is valid or not. While this might be acceptable for classical message signing, it is unacceptable in the context of consensus critical applications like IOTA.
+The IOTA protocol uses Ed25519 signatures to assure the authenticity of transactions in Chrysalis. However, although Ed25519 is standardized in [IETF RFC 8032](https://tools.ietf.org/html/rfc8032), it does not define strict validation criteria. As a result, compatible implementations do not need to agree on whether a particular signature is valid or not. While this might be acceptable for classical message signing, it is unacceptable in the context of consensus critical applications like IOTA.
 
 This RFC proposes to adopt [ZIP-215](https://zips.z.cash/zip-0215) to explicitly define validation criteria. This mainly involves the following sections of the Ed25519 spec:
 - decoding of elliptic curve points as described in [Section 5.1.3](https://tools.ietf.org/html/rfc8032#section-5.1.3)
@@ -34,13 +34,11 @@ In the following, we will explain each of these in more detail.
 
 ## Decoding
 
-The Curve25519 is defined over the finite field of order p=2<sup>255</sup>−19. A curve point (x,y) is encoded into its compressed 32-byte representation, namely by the 255-bit encoding of the field element y followed by a single sign bit that is 1 for negative x and 0 otherwise. This approach provides a unique encoding for each valid point. However, there are two classes of edge cases representing non-canonical encodings of valid points:
+The Curve25519 is defined over the finite field of order p=2<sup>255</sup>−19. A curve point (x,y) is encoded into its compressed 32-byte representation, namely by the 255-bit encoding of the field element y followed by a single sign bit that is 1 for negative x (see [RFC 8032, Section 3.1](https://datatracker.ietf.org/doc/html/rfc8032#section-3.1)) and 0 otherwise. This approach provides a unique encoding for each valid point. However, there are two classes of edge cases representing non-canonical encodings of valid points:
 - encoding a y-coordinate as y + p
 - encoding a curve point (0,y) with the sign bit set to 1
 
-In contrast to the Section [Decoding](https://tools.ietf.org/html/rfc8032#section-5.1.3) of RFC 8032, it is _not_ required that the encodings of A and R are canonical. As long as the corresponding (x,y) is a valid curve point, any of such edge cases will be accepted.
-
-It is worth noting that due to allowing different encodings of the same point, one cannot check point equality by doing byte per byte comparisons.
+In contrast to RFC 8032, it is _not_ required that the encodings of A and R are canonical. As long as the corresponding (x,y) is a valid curve point, any of such edge cases will be accepted.<br> In this context, it is also required that during validation the actual provided encodings of A and R must be used as input to the hash function H instead of their canoncial – and potentially different – representation. This prevents malleability of A and R even for these edge cases.
 
 ## Validation 
 
@@ -48,9 +46,11 @@ The RFC 8032 mentions two alternative verification equations:
 1. [8][S]B = [8]R + [8][k]A'
 2. [S]B = R + [k]A'
 
-Each honestly generated signature following RFC 8032 satisfies the second, cofactor-less equation and thus, also the first equation. However, the opposite is not true: There are solutions only satisfying the first but not the latter.<br> This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations. 
+Each honestly generated signature following RFC 8032 satisfies the second, cofactorless equation and thus, also the first equation. However, the opposite is not true: There are solutions only satisfying the first but not the latter.<br> This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations. 
 
-In order to be consistent with batched verification, the group equation [8][S]B = [8]R + [8][k]A' _must_ be used for validations instead of [S]B = R + [k]A'.
+Ed25519 also supports batch signature verification, which allows verifying several signatures in a single step, much faster than verifying signatures one-by-one. Correspondingly, there are also two alternative verification equations for the batch verification: cofactored and cofactorless. However, only cofactored verifications, single and batch, are compatible with each other. All other combinations are inconsistent and can lead to false positives or false negatives (see [Chalkias et al. 2020](https://eprint.iacr.org/2020/1244), Section 3.2).
+
+Thus, in order to allow batch signature verification and its faster performance in IOTA nodes, the cofactored version _must_ be used for validation, i.e. the group equation [8][S]B = [8]R + [8][k]A' for the single verification.
 
 ## Malleability
 
@@ -63,12 +63,12 @@ It is not possible for an external party to mutate R and still pass verification
 # Drawbacks
 
 - Allowing non-canonical encodings is a direct contradiction of RFC 8032 and rather unintuitive. Furthermore, it introduces alternative encodings for a handful of points on the curve. Even though such points will, for all practical purposes, never occur in honest signatures, it still theoretically introduces an external party malleability vector.
-- The cofactor validation is computationally slightly more expensive than the cofactor-less version since it requires a multiplication by 8.
+- The cofactored validation is computationally slightly more expensive than the cofactorless version since it requires a multiplication by 8.
 
 # Rationale and alternatives
 
-While the malleability of S poses serious issues and thus, must be prevented, the other two validation criteria, namely non-canonical encodings as well as the cofactor-less validation equation, could be relaxed without introducing attack vectors.
+In the IOTA protocol, the _Transaction ID_ corresponds to the hash over the entire transaction including the actual signature bytes. Therefore, it is absolutely crucial that (valid) signatures are not malleable by a public attacker, i.e. that the used Ed25519 variant is strongly-unforgeable. Allowing non-canonical point encodings does not introduce the same attack vector. As such, both options would lead to valid Ed25519 variants.
 
 Unfortunately, the Ed25519 `ref10` reference implementation as well as other implementations accept non-canonical points. As such, rejecting those inputs now would introduce a breaking change. While this might be acceptable for the IOTA protocol itself, since no Ed25519 signatures have been added to the ledger prior to this RFC, other consensus-critical applications require this backward compatibility with previously accepted signatures. Due to these considerations, the criterion was included in ZIP-215 to allow a seamless transition for existing consensus-critical contexts. This RFC aims to rather follow the existing ZIP-215 specification for compatibility and maintainability than to create a new standard.
 
-Using the cofactor-less validation poses a similar breaking change since signatures accepted by implementations using the cofactor validation would then be rejected. More importantly, however, in order to be able to use the much faster batch verification, the cofactor version is required. 
+Using the cofactorless validation poses a similar breaking change since signatures accepted by implementations using the cofactored validation would then be rejected. More importantly, however, in order to be able to use the much faster batch verification, the cofactored version is required. 
