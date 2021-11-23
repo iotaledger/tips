@@ -871,7 +871,7 @@ carries the state forward. The **state can be updated according to the transitio
 output and its current state**. As a consequence, each such output has a unique successor, and together they form a path
 or *chain* in the graph induced by the UTXO spends. Each chain is identified by its globally unique identifier.
 
-![](https://i.imgur.com/izQ4DB1.png)
+![](https://i.imgur.com/lLY22rd.png)
 
 Alias outputs, foundry outputs and NFT outputs all use this chain constraint concept and define their own unique
 identifiers.
