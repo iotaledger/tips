@@ -1,4 +1,4 @@
-+ Feature name:`ed25519-validation`
++ Feature name: `ed25519-validation`
 + Start date: 2020-10-30
 + RFC PR: [iotaledger/protocol-rfcs#0028](https://github.com/iotaledger/protocol-rfcs/pull/28)
 
@@ -38,7 +38,7 @@ The Curve25519 is defined over the finite field of order p=2<sup>255</sup>−19.
 - encoding a y-coordinate as y + p
 - encoding a curve point (0,y) with the sign bit set to 1
 
-In contrast to RFC 8032, it is _not_ required that the encodings of A and R are canonical. As long as the corresponding (x,y) is a valid curve point, any of such edge cases will be accepted.<br> In this context, it is also required that during validation the actual provided encodings of A and R must be used as input to the hash function H instead of their canoncial – and potentially different – representation. This prevents malleability of A and R even for these edge cases.
+In contrast to RFC 8032, it is _not_ required that the encodings of A and R are canonical. As long as the corresponding (x,y) is a valid curve point, any of such edge cases will be accepted.
 
 ## Validation 
 
@@ -46,11 +46,15 @@ The RFC 8032 mentions two alternative verification equations:
 1. [8][S]B = [8]R + [8][k]A'
 2. [S]B = R + [k]A'
 
-Each honestly generated signature following RFC 8032 satisfies the second, cofactorless equation and thus, also the first equation. However, the opposite is not true: There are solutions only satisfying the first but not the latter.<br> This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations. 
+Each honestly generated signature following RFC 8032 satisfies the second, cofactorless equation and thus, also the first equation. However, the opposite is not true: There are solutions only satisfying the first but not the latter. This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations. 
 
-Ed25519 also supports batch signature verification, which allows verifying several signatures in a single step, much faster than verifying signatures one-by-one. Correspondingly, there are also two alternative verification equations for the batch verification: cofactored and cofactorless. However, only cofactored verifications, single and batch, are compatible with each other. All other combinations are inconsistent and can lead to false positives or false negatives (see [Chalkias et al. 2020](https://eprint.iacr.org/2020/1244), Section 3.2).
 
-Thus, in order to allow batch signature verification and its faster performance in IOTA nodes, the cofactored version _must_ be used for validation, i.e. the group equation [8][S]B = [8]R + [8][k]A' for the single verification.
+Ed25519 also supports batch signature verification, which allows verifying several signatures in a single step, much faster than verifying signatures one-by-one. Without going into detail, there are also two alternative verification equations for the batch verification:
+[8][∑z<sub>i</sub>s<sub>i</sub>] B = [8]∑[z<sub>i</sub>]R<sub>i</sub> + [8]∑[z<sub>i</sub>h<sub>i</sub>]A<sub>i</sub> and its corresponding cofactorless version. However, only cofactored verifications, single and batch, are compatible with each other. All other combinations are inconsistent and can lead to false positives or false negatives (see [Chalkias et al. 2020](https://eprint.iacr.org/2020/1244), Section 3.2).<br> Thus, in order to allow batch signature verification and its faster performance in IOTA nodes, the cofactored version _must_ be used for validation, i.e. the group equation [8][S]B = [8]R + [8][k]A' for the single verification.
+
+Since non-canonical encodings of A and R are allowed, it is crucial to also specify which representation must be used as input for the hash functions:
+- The actual provided encodings of A and R must be used inside the hash function H instead of their canonical – and potentially different – representation.
+- During transaction validation, when the public key A is checked against the output's address, the provided encoding must be used for the BLAKE2b-256 hash instead of its canonical representation.
 
 ## Malleability
 
