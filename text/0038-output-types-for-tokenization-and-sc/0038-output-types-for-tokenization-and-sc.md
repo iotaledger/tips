@@ -140,7 +140,7 @@ Data types and subschemas used throughout this RFC are defined in [draft RFC-004
 | Name   | Type | Value | Description |
 | ------ | ---- | ----- | ----------- |
 | Minimum Dust Deposit | uint64 | TBD | Minimum amount of IOTA coins that need to be present in the smallest possible output in order not to be considered dust. |
-| Max Native Token Count Per Output | uint16 | 256 | Maximum possible number of different native tokens that can reside in one output. |
+| Max Native Token Count | uint16 | 256 | Maximum possible number of different native tokens that can reside in one output. |
 | Max Indexation Tag Length | uint8 | 64 | Maximum possible length in bytes of an `Indexation Tag`. |
 | Max Metadata Length | uint32 | TBD | Maximum possible length in bytes of a `Metadata` field. |
 | Max Inputs Count | uint16 | 127 | Maximum possible count of inputs consumed in a transaction. |
@@ -237,6 +237,10 @@ Outputs must have the following fields to define the balance of native tokens th
         </td>
     </tr>
 </table>
+
+#### Additional syntactic output validation rules:
+
+- `Native Tokens` must be lexicographically sorted based on `Token ID`.
 
 #### Additional semantic transaction validation rules:
 
@@ -1317,7 +1321,8 @@ is deprecated with the modification of the [Transaction Payload RFC](https://git
 ### Additional Transaction Syntactic Validation Rules
 
 - `Amount` field must fulfill the dust protection requirements.
-- `Native Token Count` must not be greater than `Max Native Token Count Per Output`.
+- `Native Token Count` must not be greater than `Max Native Token Count`.
+- `Native Tokens` must be lexicographically sorted based on `Token ID`.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `8`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
 - Syntactic validation of all present feature blocks must pass.
@@ -1758,7 +1763,8 @@ state as metadata into the UTXO ledger.
 #### Output Syntactic Validation
 
 - `Amount` field must fulfill the dust protection requirements.
-- `Native Token Count` must not be greater than `Max Native Token Count Per Output`.
+- `Native Token Count` must not be greater than `Max Native Token Count`.
+- `Native Tokens` must be lexicographically sorted based on `Token ID`.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `3`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
 - Syntactic validation of all present feature blocks must pass.
@@ -1915,7 +1921,7 @@ controlled by a specific foundry is the concatenation of `Foundry ID` || `Token 
                                 <td><b>Description</b></td>
                             </tr>
                             <tr>
-                                <td>TokenID</td>
+                                <td>Token ID</td>
                                 <td>ByteArray[38]</td>
                                 <td>
                                     Identifier of the native tokens.
@@ -2023,7 +2029,8 @@ controlled by a specific foundry is the concatenation of `Foundry ID` || `Token 
 #### Output Syntactic Validation
 
 - `Amount` field must fulfill the dust protection requirements.
-- `Native Tokens Count` must not be greater than `Max Native Token Count Per Output`.
+- `Native Tokens Count` must not be greater than `Max Native Token Count`.
+- `Native Tokens` must be lexicographically sorted based on `Token ID`.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `1`.
 - Syntactic validation of all present feature blocks must pass.
 - `Token Scheme Type` must match one of the supported schemes. Any other value results in invalid output.
@@ -2652,7 +2659,8 @@ optional feature blocks so that the output can be sent as a request to smart con
 #### Output Syntactic Validation
 
 - `Amount` field must fulfill the dust protection requirements.
-- `Native Token Count` must not be greater than `Max Native Token Count Per Output`.
+- `Native Token Count` must not be greater than `Max Native Token Count`.
+- `Native Tokens` must be lexicographically sorted based on `Token ID`.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `9`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
 - Syntactic validation of all present feature blocks must pass.
