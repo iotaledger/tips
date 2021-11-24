@@ -75,7 +75,7 @@ affordable decentralized application platform.
 Outputs in the UTXO model are essential, core parts of the protocol. The new output types introduce new validation and
 unlocking mechanisms, therefore the protocol needs to be adapted. The structure of the remaining sections is as follows:
 1. [Introduction to ledger programmability](#ledger-programmability)
-2. [Data types, subschemas and protocol constants](#data-types)
+2. [Data types, subschemas and protocol constants](#data-types--subschema-notation)
 3. [Transaction Payload changes compared to Chrysalis Part 2](#transaction-payload-changes)
 4. [New concepts of output design](#new-concepts)
     - [Native tokens](#native-tokens-in-outputs)
