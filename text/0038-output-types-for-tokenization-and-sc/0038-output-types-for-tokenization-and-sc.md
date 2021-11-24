@@ -709,6 +709,9 @@ by their senders. Not to mention the possibility to time requests by specifying 
   transaction that has a confirming milestone timestamp earlier than the `Unix Time` defined in the block.
 - An output that has <i>Expiration Unix Block</i> set must only be consumed and unlocked by the `Sender` address in a
   transaction that has a confirming milestone timestamp same or later than the `Unix Time` defined in the block.
+- Semantic validation of an output that has either <i>Expiration Milestone Index Block</i> or
+  <i>Expiration Unix Block</i> set and is unlocked by the `Sender` address must ignore:
+  - [Semantic validation of <i>Dust Deposit Return Block</i>](#dust-deposit-return-block) if present.
 
 <details>
 <summary>Expiration Milestone Index Block</summary>
