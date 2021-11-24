@@ -180,7 +180,7 @@ The following table describes subschema notations:
 
 | Name   | Type | Value | Description |
 | ------ | ---- | ----- | ----------- |
-| Minimum Dust Deposit | uint64 | TBD | Amount of IOTA coins that need to be present in a `SimpleOutput` not to be considered dust. |
+| Minimum Dust Deposit | uint64 | TBD | Minimum amount of IOTA coins that need to be present in the smallest possible output in order not to be considered dust. |
 | Max Native Token Count Per Output | uint16 | 256 | Maximum possible number of different native tokens that can reside in one output. |
 | Max Indexation Tag Length | uint8 | 64 | Maximum possible length in bytes of an `Indexation Tag`. |
 | Max Metadata Length | uint32 | TBD | Maximum possible length in bytes of a `Metadata` field. |
@@ -202,9 +202,9 @@ output validation in this RFC.
 - Deprecating <i>SigLockedSingleOutput</i> and <i>SigLockedDustAllowanceOutput</i>.
     - The new dust protection mechanism does not need a distinct output type, therefore
       <i>SigLockedDustAllowanceOutput</i> will be deprecated. One alternative is that during migration to the new
-      protocol version, all dust outputs sitting on an address will be merged into a `SimpleOutput` together with their
-      respective <i>SigLockedDustAllowanceOutputs</i> to create the snapshot for the updated protocol. The exact
-      migration strategy will be decided later.
+      protocol version, all dust outputs sitting on an address will be merged into an <i>ExtendedOutput</i> together
+      with their respective <i>SigLockedDustAllowanceOutputs</i> to create the snapshot for the updated protocol.
+      The exact migration strategy will be decided later.
 - Adding new [output types](#output-design) to _Transaction Payload_.
 - Adding new [unlock block types](#unlocking-chain-script-locked-outputs) to _Transaction Payload_.
 - <i>Inputs</i> and <i>Outputs</i> of a transaction become a list instead of a set. Binary duplicate inputs are not
@@ -224,9 +224,6 @@ Outputs are records in the UTXO ledger that track ownership of funds. Thus, each
 funds it holds. With the addition of the Native Tokenization Framework, outputs may also carry user defined native
 tokens, that is, tokens that are not IOTA coins but were minted by foundries and are tracked in the very same ledger.
 Therefore, **every output must be able to hold not only IOTA coins, but also native tokens**.
-
-The only exception to this rule is the <i>SimpleOutput</i> (formerly known as <i>SigLockedSingleOutput</i>), which is
-kept for backwards compatibility.
 
 Dust protection applies to all outputs, therefore it is not possible for outputs to hold only native tokens, the dust
 requirements must be covered via IOTA coins.
@@ -557,7 +554,7 @@ amounts per `Sender` addresses are summed up and the output side must deposit th
 
 - An output that has <i>Dust Deposit Return Block</i> specified must only be consumed and unlocked in a transaction that
   deposits `Return Amount` IOTA coins to `Sender` address via an output that has no additional spending constraints.
-  (<i>SimpleOutput</i> or <i>ExtendedOutput</i> without feature blocks)
+  (<i>ExtendedOutput</i> without feature blocks)
 - When several outputs with <i>Dust Deposit Return Block</i> and the same `Sender` are consumed, their return amounts
   per `Sender` addresses are summed up and the output side of the transaction must deposit this total sum per `Sender`
   address.
@@ -907,124 +904,10 @@ Each new output type may add its own validation rules which become part of the t
 output is placed inside a transaction. Optional feature blocks described previously also add constraints to transaction
 validation when they are placed in outputs.
 
-## SimpleOutput
-
-The <i>SigLockedSingleOutput</i> introduced in Chrysalis Pt2 is kept for backwards compatibility but renamed to
-<i>SimpleOutput</i>, although its simple feature, holding IOTA coins is supported by an <i>Extended Output</i>.
-
-Every <i>SigLockedSingleOutput</i> is a valid <i>SimpleOutput</i>, but not the other way around.
-<i>SigLockedSingleOutput</i> only supports <i>Ed25519 Address</i> in the `Address` field, while <i>SimpleOutput</i>
-also supports <i>Alias Address</i> and <i>NFT Address</i>.
-
-Next to the use case of holding only IOTA coins, simple outputs are also a vehicle for conditional sending
-(<i>Dust Deposit Return Block</i>). A return amount specified within such a block must be sent back to `Sender` via a
-<i>Simple Output</i> or an <i>Extended Output</i> without optional feature blocks, since these have the lowest minimum
-dust requirements among all outputs and no additional spending conditions can be defined on them.
-
-<table>
-    <details>
-        <summary>Simple Output</summary>
-        <blockquote>
-            Describes a simple output that can only hold IOTAs. For backwards compatibility reasons, this is the same as a SigLockedSingleOutput.
-        </blockquote>
-        <table>
-            <tr>
-                <td><b>Name</b></td>
-                <td><b>Type</b></td>
-                <td><b>Description</b></td>
-            </tr>
-            <tr>
-                <td>Output Type</td>
-                <td>uint8</td>
-                <td>
-                    Set to <strong>value 0</strong> to denote an <i>Simple Output</i>.
-                </td>
-            </tr>
-            <tr>
-                <td valign="top">Address <code>oneOf</code></td>
-                <td colspan="2">
-                    <details>
-                        <summary>Ed25519 Address</summary>
-                        <table>
-                            <tr>
-                                <td><b>Name</b></td>
-                                <td><b>Type</b></td>
-                                <td><b>Description</b></td>
-                            </tr>
-                            <tr>
-                                <td>Address Type</td>
-                                <td>uint8</td>
-                                <td>
-                                    Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Address</td>
-                                <td>ByteArray[32]</td>
-                                <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-                            </tr>
-                        </table>
-                    </details>
-                    <details>
-                        <summary>Alias Address</summary>
-                        <table>
-                            <tr>
-                                <td><b>Name</b></td>
-                                <td><b>Type</b></td>
-                                <td><b>Description</b></td>
-                            </tr>
-                            <tr>
-                                <td>Address Type</td>
-                                <td>uint8</td>
-                                <td>
-                                    Set to <strong>value 8</strong> to denote an <i>Alias Address</i>.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Address</td>
-                                <td>ByteArray[20]</td>
-                                <td>The raw bytes of the alias address which is a BLAKE2b-160 hash of the outputID that created it.</td>
-                            </tr>
-                        </table>
-                    </details>
-                    <details>
-                        <summary>NFT Address</summary>
-                        <table>
-                            <tr>
-                                <td><b>Name</b></td>
-                                <td><b>Type</b></td>
-                                <td><b>Description</b></td>
-                            </tr>
-                            <tr>
-                                <td>Address Type</td>
-                                <td>uint8</td>
-                                <td>
-                                    Set to <strong>value 16</strong> to denote an <i>NFT Address</i>.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Address</td>
-                                <td>ByteArray[20]</td>
-                                <td>The raw bytes of the nft address which is a BLAKE2b-160 hash of the outputID that created it.</td>
-                            </tr>
-                        </table>
-                    </details>
-                </td>
-            </tr>
-            <tr>
-                <td>Amount</td>
-                <td>uint64</td>
-                <td>The amount of IOTA coins to held by the output.</td>
-            </tr>
-        </table>
-    </details>
-</table>
-
 ## Extended Output
 
-<i>ExtendedOutput</i> is basically a <i>SimpleOutput</i> that can hold native tokens and might have optional feature
-blocks. The combination of several feature blocks provide the base functionality for the output to be used as an
-on-ledger smart contract request:
+<i>ExtendedOutput</i> can hold native tokens and might have optional feature blocks. The combination of several feature
+blocks provide the base functionality for the output to be used as an on-ledger smart contract request:
 - Verified `Sender`,
 - Attached `Metadata` that can encode the request payload for layer 2,
 - `Return Amount` to get back the dust deposit,
@@ -1033,6 +916,11 @@ on-ledger smart contract request:
 
 Besides, the <i>Indexation Block</i> feature is a tool to store arbitrary, indexed data with verified origin in the
 ledger.
+
+Note, that an <i>ExtendedOutput</i> in its simplest possible form without feature blocks or native tokens is
+functionally equivalent to a <i>SigLockedSingleOutput</i>: it has an address and an IOTA balance. Therefore,
+aforementioned output type, that was [introduced for Chrysalis Part 2](https://github.com/iotaledger/protocol-rfcs/pull/18)
+is deprecated with the modification of the [Transaction Payload RFC](https://github.com/iotaledger/protocol-rfcs/pull/40).
 
 <table>
     <details>
@@ -2864,7 +2752,7 @@ corresponding output that defines the address.**
 
 A transaction may consume a (non-alias) output that belongs to an <i>Alias Address</i> by also consuming (and thus
 unlocking) the alias output with the matching `Alias ID`. This serves the exact same purpose as providing a signature
-to unlock a <i>SimpleOutput</i>.
+to unlock an output locked under a private key backed address, such as <i>Ed25519Addresses</i>.
 
 On protocol level, alias unlocking is done using a new unlock block type, called **Alias Unlock Block**.
 
