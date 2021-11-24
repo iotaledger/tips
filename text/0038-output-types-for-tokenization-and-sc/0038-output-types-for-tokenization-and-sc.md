@@ -131,50 +131,9 @@ Below, several new output types are discussed that implement their own configura
 UTXO state machines in which the state of the machine is encoded as data inside the output. The state transition rules
 are defined by the output type and by the parameters chosen upon deployment.
 
-## Data Types
+## Data Types & Subschema Notation
 
-All data types and their definitions that may be used throughout this document:
-
-| Name   | Description   |
-| ------ | ------------- |
-| uint8  | An unsigned 8 bits integer encoded in Little Endian. |
-| uint16  | An unsigned 16 bits integer encoded in Little Endian. |
-| uint32  | An unsigned 32 bits integer encoded in Little Endian. |
-| uint64  | An unsigned 64 bits integer encoded in Little Endian. |
-| uint256  | An unsigned 256 bits integer encoded in Little Endian. |
-| ByteArray[N] | A static size byte array of size N.   |
-| ByteArray | A dynamically sized byte array. Prepended with uint32 byte length. |
-
-## Subschema Notation
-
-The following table describes subschema notations:
-
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><code>oneOf</code></td>
-        <td>One of the listed subschemas.</td>
-    </tr>
-    <tr>
-        <td><code>optOneOf</code></td>
-        <td>Optionally one of the listed subschemas.</td>
-    </tr>
-    <tr>
-        <td><code>anyOf</code></td>
-        <td>Any (one or more) of the listed subschemas.</td>
-    </tr>
-    <tr>
-        <td><code>optAnyOf</code></td>
-        <td>Optionally any (one or more) of the listed subschemas.</td>
-    </tr>
-    <tr>
-        <td><code>atMostOneOfEach</code></td>
-        <td>At most one of each of the listed subschemas.</td>
-    </tr>
-</table>
+Data types and subschemas used throughout this RFC are defined in [draft RFC-0041](https://github.com/iotaledger/protocol-rfcs/pull/41).
 
 ## Global Protocol Parameters
 
