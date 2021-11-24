@@ -2759,6 +2759,19 @@ address of `Alias A` introduces a circular dependency and is not well-defined. B
 ordered as described above, a transaction consuming `Alias A` as well as `Alias B` can never be valid as there would
 always need to be one *Alias Unlock Block* referencing a greater index.
 
+#### Alias Unlock Block Syntactic Validation
+
+ - It must hold that 0 ≤ `Alias Reference Unlock Index` ≤ `Max Inputs Count`.
+
+#### Alias Unlock Block Semantic Validation
+
+ - The address of the input being unlocked must be an <i>Alias Address</i>.
+ - The index `i` of the <i>Alias Unlock Block</i> is the index of the input in the transaction that it unlocks.
+   `Alias Reference Unlock Index` must be < `i`.
+ - `Alias Reference Unlock Index` defines a previous input of the transaction and its unlock block. This input must
+   be an <i>Alias Output</i> with `Alias ID` that refers to the <i>Alias Address</i> being unlocked.
+ - The referenced <i>Alias Output</i> must be unlocked for state transition.
+
 ### NFT Locking & Unlocking
 
 `NFT ID` field is functionally equivalent to `Alias ID` of an alias output. It is generated the same way, but it can
@@ -2806,6 +2819,17 @@ output with the same `NFT ID` as the `Address` field of the to-be unlocked outpu
 If the i-th *Unlock Block* of a transaction is an *NFT Unlock Block* and has `NFT Reference Unlock Index` set to k, it
 must hold that i > k. Hence, an <i>NFT Unlock Block</i> can only reference an *Unlock Block* at a smaller index.
 
+#### NFT Unlock Block Syntactic Validation
+
+- It must hold that 0 ≤ `NFT Reference Unlock Index` ≤ `Max Inputs Count`.
+
+#### NFT Unlock Block Semantic Validation
+
+ - The address of the input being unlocked must be an <i>NFT Address</i>.
+ - The index `i` of the <i>NFT Unlock Block</i> is the index of the input in the transaction that it unlocks.
+   `NFT Reference Unlock Index` must be < `i`.
+ - `NFT Reference Unlock Index` defines a previous input of the transaction and its unlock block. This input must
+   be an <i>NFT Output</i> with `NFT ID` that refers to the <i>NFT Address</i> being unlocked.
 
 # Drawbacks
 - New output types increase transaction validation complexity, however it is still bounded.
