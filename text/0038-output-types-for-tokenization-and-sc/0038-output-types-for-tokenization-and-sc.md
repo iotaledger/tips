@@ -817,7 +817,7 @@ increases the required dust deposit. ISCP is a great example of a higher layer p
 An indexation block makes it possible to tag outputs with an index, so they can be retrieved through an API not only by
 their address, but also based on the the `Indexation Tag`. **The combination of an <i>Indexation Block</i>, a
 <i>Metadata Block</i> and a <i>Sender Block</i> makes it possible to retrieve data associated to an address and stored
-in outputs that was created by a specific party (`Sender`) for a specific purpose (`Indexation Tag`).**
+in outputs that were created by a specific party (`Sender`) for a specific purpose (`Indexation Tag`).**
 
 Storing indexed data in outputs however incurs greater dust deposit for such outputs, because they create look-up
 entries in nodes' databases.
@@ -829,7 +829,7 @@ entries in nodes' databases.
 <details>
 <summary>Indexation Block</summary>
 <blockquote>
-    Defines an indexation tag to which the <i>Metadata Block</i> will be indexed. Creates an indexation lookup in nodes.
+    Defines an indexation tag to which the output will be indexed. Creates an indexation lookup in nodes.
 </blockquote>
 </details>
 
@@ -1429,7 +1429,7 @@ ledger.
                     <details>
                         <summary>Indexation Block</summary>
                         <blockquote>
-                            Defines an indexation tag to which the <i>Metadata Block</i> will be indexed. Creates an indexation lookup in nodes.
+                            Defines an indexation tag to which the output will be indexed. Creates an indexation lookup in nodes.
                         </blockquote>
                         <table>
                             <tr>
@@ -2762,7 +2762,7 @@ optional feature blocks so that the output can be sent as a request to smart con
                     <details>
                         <summary>Indexation Block</summary>
                         <blockquote>
-                            Defines an indexation tag to which the <i>Metadata Block</i> will be indexed. Creates an indexation lookup in nodes.
+                            Defines an indexation tag to which the output will be indexed. Creates an indexation lookup in nodes.
                         </blockquote>
                         <table>
                             <tr>
