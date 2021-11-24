@@ -20,7 +20,7 @@ This lack of consistent validation behavior is especially critical for IOTA as t
 
 Furthermore, it is important to note that the holder of the secret key can produce more than one valid distinct signature. Such transactions with the same essence but different signatures are considered as double spends by the consensus protocol and handled accordingly. While this does not pose a problem for the core protocol, it may be a problem for 2nd layer solutions, similar to how [transaction malleability in bitcoin presented an issue for the lightning network](https://en.bitcoinwiki.org/wiki/Transaction_Malleability#How_Does_Transaction_Malleability_Affect_The_Lightning_Network.3F).
 
-# Detailed Design
+# Detailed design
 
 In order to have consistent validation of Ed25519 signatures for all edge cases and throughout different implementations, this RFC proposes explicit validation criteria. These three criteria **must** be checked to evaluate whether a signature is valid.
 
@@ -59,6 +59,11 @@ The non-negative integer S is encoded into 32 bytes as part of the signature. Ho
 Analogous to RFC 8032, the encoding of S _must_ represent an integer less than L.
 
 It is not possible for an external party to mutate R and still pass verification. The owner of the secret key, however, can create many different signatures for the same content: While Ed25519 defines a deterministic method of calculating the integer scalar r from the private key and the message, it is impossible to tell during signature verification if the point R = [r]B was created properly or any other scalar has been used.<br> As a result, there is a practically countless amount of different valid signatures corresponding to a certain message and public key.
+
+## Test vectors
+
+The test vectors are taken directly from [Chalkias et al. 2020](https://eprint.iacr.org/2020/1244). Here, `pub_key` corresponds to the encoding of A and `address` to the matching 33-byte _Ed25519 Address_ as described in the IOTA protocol [RFC-0018](https://iotaledger.github.io/protocol-rfcs/0018-transaction-payload/0018-transaction-payload.html#serialized-layout). The key `valid` denotes whether the corresponding item represents a valid `signature` for the provided `address` and `message` or not.
+- [JSON tests](0028-test.json)
 
 # Drawbacks
 
