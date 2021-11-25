@@ -51,9 +51,9 @@ Each honestly generated signature following RFC 8032 satisfies the second, cofac
 
 Ed25519 also supports batch signature verification, which allows verifying several signatures in a single step, much faster than verifying signatures one-by-one. Without going into detail, there are also two alternative verification equations for the batch verification:<br> [8][∑zᵢsᵢ] B = [8]∑[zᵢ]Rᵢ + [8]∑[zᵢhᵢ]Aᵢ and its corresponding cofactorless version. However, only cofactored verifications, single and batch, are compatible with each other. All other combinations are inconsistent and can lead to false positives or false negatives (see [Chalkias et al. 2020](https://eprint.iacr.org/2020/1244), Section 3.2).<br> Thus, in order to allow batch signature verification and its faster performance in IOTA nodes, the cofactored version _must_ be used for validation, i.e. the group equation [8][S]B = [8]R + [8][k]A' for the single verification.
 
-Since non-canonical encodings of A and R are allowed, it is crucial to also specify which representation must be used as input for the hash functions:
-- The actual provided encodings of A and R must be used inside the hash function H instead of their canonical – and potentially different – representation.
-- During transaction validation, when the public key A is checked against the output's address, the provided encoding must be used for the BLAKE2b-256 hash instead of its canonical representation.
+Since non-canonical encodings of A and R are allowed, it is crucial to also specify which representation must be used for the hash functions:
+- The provided binary encodings of A and R must be used as input to the hash function H instead of their canonical – and potentially different – representation.
+- During transaction validation, when the public key A is checked against the output's address, the provided binary encoding must be used for the BLAKE2b-256 hash instead of its canonical representation.
 
 ## Malleability
 
