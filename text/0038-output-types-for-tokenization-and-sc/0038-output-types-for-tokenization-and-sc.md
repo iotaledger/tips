@@ -241,6 +241,8 @@ Outputs must have the following fields to define the balance of native tokens th
 #### Additional syntactic output validation rules:
 
 - `Native Tokens` must be lexicographically sorted based on `Token ID`.
+- Each <i>Native Token</i> must be unique in the set of `Native Tokens` based on its `Token ID`. No duplicates are
+  allowed.
 
 #### Additional semantic transaction validation rules:
 
@@ -1323,6 +1325,8 @@ is deprecated with the modification of the [Transaction Payload RFC](https://git
 - `Amount` field must fulfill the dust protection requirements.
 - `Native Token Count` must not be greater than `Max Native Token Count`.
 - `Native Tokens` must be lexicographically sorted based on `Token ID`.
+- Each <i>Native Token</i> must be unique in the set of `Native Tokens` based on its `Token ID`. No duplicates are
+  allowed.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `8`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
 - Syntactic validation of all present feature blocks must pass.
@@ -1765,6 +1769,8 @@ state as metadata into the UTXO ledger.
 - `Amount` field must fulfill the dust protection requirements.
 - `Native Token Count` must not be greater than `Max Native Token Count`.
 - `Native Tokens` must be lexicographically sorted based on `Token ID`.
+- Each <i>Native Token</i> must be unique in the set of `Native Tokens` based on its `Token ID`. No duplicates are
+  allowed.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `3`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
 - Syntactic validation of all present feature blocks must pass.
@@ -2031,6 +2037,8 @@ controlled by a specific foundry is the concatenation of `Foundry ID` || `Token 
 - `Amount` field must fulfill the dust protection requirements.
 - `Native Tokens Count` must not be greater than `Max Native Token Count`.
 - `Native Tokens` must be lexicographically sorted based on `Token ID`.
+- Each <i>Native Token</i> must be unique in the set of `Native Tokens` based on its `Token ID`. No duplicates are
+  allowed.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `1`.
 - Syntactic validation of all present feature blocks must pass.
 - `Token Scheme Type` must match one of the supported schemes. Any other value results in invalid output.
@@ -2661,6 +2669,8 @@ optional feature blocks so that the output can be sent as a request to smart con
 - `Amount` field must fulfill the dust protection requirements.
 - `Native Token Count` must not be greater than `Max Native Token Count`.
 - `Native Tokens` must be lexicographically sorted based on `Token ID`.
+- Each <i>Native Token</i> must be unique in the set of `Native Tokens` based on its `Token ID`. No duplicates are
+  allowed.
 - It must hold true that `0` ≤ `Blocks Count` ≤ `9`.
 - <i>Blocks</i> must be sorted in ascending order based on their `Block Type`.
 - Syntactic validation of all present feature blocks must pass.
