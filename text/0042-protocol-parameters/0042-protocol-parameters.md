@@ -1,0 +1,46 @@
++ Feature name: `protocol-parameters`
++ Start date: 2021-11-29
++ RFC PR: [iotaledger/protocol-rfcs#0042](https://github.com/iotaledger/protocol-rfcs/pull/0042)
+
+# Summary
+
+This RFC describes the global protocol parameters for the IOTA protocol.
+
+# Motivation
+
+Various other protocol RFCs rely on certain constants that need to be defined for an actual implementations of nodes or other applications using the protocol. This RFC serves as a single document to provide these parameters. It also serves as a historic record of protocol parameter changes.
+
+# Detailed design
+
+| Name                      | Value               | Description                                                                                |
+| ------------------------- | ------------------- | ------------------------------------------------------------------------------------------ |
+| Network ID                | "chrysalis-mainnet" | Identifier string of the network. Its hash it used for the `Network ID` field in messages. |
+| Max Message Length        | 32768               | Maximum length of a message in bytes. Limits Tangle storage size and communication costs.  |
+| Max Parents Count         | 8                   | Maximum number of parents of a message.                                                    |
+| Min PoW Score             | 4000.0              | Minimum PoW score for messages to pass syntactic validation.                               |
+|                           |                     |                                                                                            |
+| Max IOTA Supply           | 2779530283277761    | Total amount of IOTA coins in circulation.                                                 |
+| Max Inputs Count          | 127                 | Maximum number of inputs in a transaction payload.                                         |
+| Max Outputs Count         | 127                 | Maximum number of outputs in a transaction payload.                                        |
+| Max Native Token Count    | 256                 | Maximum number of different native tokens that can be referenced in one transaction.       |
+|                           |                     |                                                                                            |
+| Max Indexation Tag Length | 64                  | Maximum length of an `Indexation Tag` field in bytes.                                      |
+| Max Metadata Length       | 1024                | Maximum length of a `Metadata` field in bytes.                                             |
+|                           |                     |                                                                                            |
+| VByte Cost                | TBD                 | Minimum amount of IOTA that need to be deposited per vbyte of an output.                   |
+
+# Rationale for parameter choices
+
+## Proof-of-work
+
+The `Min PoW Score` has been chosen to roughly match the difficulty of a data transaction in the legacy IOTA protocol:
+- The payload length (`signatureMessageFragment`) of a legacy transaction is 2187 trytes or 1100 - 1300 bytes depending on the encoding.
+- With a minimum weight magnitude (trailing zero trits) of 14, this corresponds to a PoW score of about 4000.
+
+## Transaction and message limits
+
+The message parameter `Max Message Length` and `Max Parent Count`, as well as the transaction parameters `Max Inputs Count`, `Max Outputs Count`, `Max Native Token Count`, `Max Indexation Tag Length` and `Max Metadata Length` govern the message and transaction validity. Their values have been chosen to ensure functionality of the protocol within constrained resource restrictions. Furthermore, choosing more conservatives values here is preferable as increasing such limits can always been done preserving backward compatibility.
+
+## Dust protection
+
+The `VByte Cost` is the core parameter of the dust protection. The reasoning behind its value is explained in [draft RFC-0039](https://github.com/iotaledger/protocol-rfcs/pull/39).
