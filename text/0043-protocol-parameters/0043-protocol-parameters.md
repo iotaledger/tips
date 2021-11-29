@@ -1,6 +1,6 @@
 + Feature name: `protocol-parameters`
 + Start date: 2021-11-29
-+ RFC PR: [iotaledger/protocol-rfcs#0042](https://github.com/iotaledger/protocol-rfcs/pull/0042)
++ RFC PR: [iotaledger/protocol-rfcs#0043](https://github.com/iotaledger/protocol-rfcs/pull/0043)
 
 # Summary
 
