@@ -121,20 +121,20 @@ The *Message ID* is the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash 
 </table>
 
 
-## Message validation
+## Syntactical validation
 
 The following criteria defines whether the message passes the syntactical validation:
 
-- The total message size must not exceed 32 KiB (32 * 1024 bytes).
+- The total length of the serialized message must not exceed `Max Message Length`.
 - Parents:
-  - `Parents Count` must be at least 1 and not larger than 8.
+  - `Parents Count` must be at least 1 and not larger than `Max Parents Count`.
   - `Parents` must be sorted in lexicographical order.
   - Each `Message ID` must be unique.
 - Payload (if present):
   - `Payload Type` must match one of the values described under [Payloads](#payloads).
   - `Data fields` must be correctly parsable in the context of the `Payload Type`.
   - The payload itself must pass syntactic validation.
-- `Nonce` must be a valid solution of the message PoW as described in [RFC-0024](https://iotaledger.github.io/protocol-rfcs/0024-message-pow/0024-message-pow.html).
+- `Nonce` must be a valid solution of the message PoW as described in [RFC-0024](https://iotaledger.github.io/protocol-rfcs/0024-message-pow/0024-message-pow.html). The resulting PoW score must be larger or equal `Min PoW Score`.
 - There must be no trailing bytes after all message fields have been parsed.
 
 ## Payloads
