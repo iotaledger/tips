@@ -50,7 +50,7 @@ The *Message ID* is the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash 
   <tr>
     <td>Network ID</td>
     <td>uint64</td>
-    <td>Network identifier. This field denotes whether the message was meant for mainnet, testnet, or a private net. It also marks what protocol rules apply to the message. Usually, it will be set to the first 8 bytes of the BLAKE2b-256 hash of the concatenation of the network type and the protocol version string.</td>
+    <td>Network identifier. This field denotes whether the message was meant for mainnet, testnet, or a private net. It also marks what protocol rules apply to the message. Usually, it will be set to the first 8 bytes of the BLAKE2b-256 hash of the <code>Network String</code>.</td>
   </tr>
   <tr>
     <td>Parents Count</td>
@@ -126,6 +126,7 @@ The *Message ID* is the [BLAKE2b-256](https://tools.ietf.org/html/rfc7693) hash 
 The following criteria defines whether the message passes the syntactical validation:
 
 - The total length of the serialized message must not exceed `Max Message Length`.
+- `Network ID` must match the first 8 bytes of the BLAKE2b-256 hash of the `Network String` parameter.
 - Parents:
   - `Parents Count` must be at least 1 and not larger than `Max Parents Count`.
   - `Parents` must be sorted in lexicographical order.

@@ -14,7 +14,7 @@ Various other protocol RFCs rely on certain constants that need to be defined fo
 
 | Name                      | Value               | Description                                                                                |
 | ------------------------- | ------------------- | ------------------------------------------------------------------------------------------ |
-| Network ID                | "chrysalis-mainnet" | Identifier string of the network. Its hash it used for the `Network ID` field in messages. |
+| Network String            | "chrysalis-mainnet" | Identifier string of the network. Its hash it used for the `Network ID` field in messages. |
 | Max Message Length        | 32768               | Maximum length of a message in bytes. Limits Tangle storage size and communication costs.  |
 | Max Parents Count         | 8                   | Maximum number of parents of a message.                                                    |
 | Min PoW Score             | 4000.0              | Minimum PoW score for messages to pass syntactic validation.                               |
