@@ -623,7 +623,7 @@ The following tables show the different outputs including the possible fields an
             </tr>
             <tr>
                 <td>Issuer</td>
-                <td><code>data</code></td>
+                <td><code>key+data</code></td>
                 <td>21</td>
                 <td>33</td>
                 <td>-</td>
@@ -1016,7 +1016,7 @@ The following tables show the different outputs including the possible fields an
             </tr>
             <tr>
                 <td>Issuer</td>
-                <td><code>data</code></td>
+                <td><code>key+data</code></td>
                 <td>21</td>
                 <td>33</td>
                 <td>-</td>
