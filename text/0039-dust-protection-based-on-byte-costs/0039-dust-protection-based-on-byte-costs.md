@@ -136,86 +136,6 @@ An example of such parameter for example is the `weight` assigned to different o
 #### Outputs
 
 The following tables show the different outputs including the possible fields and their specific weight.
-   
-<details>
-    <summary>Simple Output</summary>
-    <blockquote>
-            Describes a simple output that can only hold IOTAs. For backwards compatibility reasons, this is the same as a SigLockedSingleOutput.
-    </blockquote>
-</details>
-
-<table>
-  <tr>
-    <td><b>Name</b></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Offset</td>
-    <td>
-        <table>
-            <tr>
-                <td><b>Field</b></td>
-                <td><b>Field type</b></td>
-                <td><b>Length Minimum</b></td>
-                <td><b>Length Maximum</b></td>
-                <td><b>Remarks</b></td>
-            </tr>
-            <tr>
-                <td>OutputID</td>
-                <td><code>key</code></td>
-                <td>34</td>
-                <td>34</td>
-                <td>-</td>
-            </tr>
-        </table>
-    </td>
-  </tr>
-  <tr>
-    <td>Fields</td>
-    <td>
-        <table>
-            <tr>
-                <td><b>Field</b></td>
-                <td><b>Field type</b></td>
-                <td><b>Length Minimum</b></td>
-                <td><b>Length Maximum</b></td>
-                <td><b>Remarks</b></td>
-            </tr>
-            <tr>
-                <td>Output Type</td>
-                <td><code>data</code></td>
-                <td>1</td>
-                <td>1</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>Address</td>
-                <td><code>key+data</code></td>
-                <td>21</td>
-                <td>33</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>Amount</td>
-                <td><code>data</code></td>
-                <td>8</td>
-                <td>8</td>
-                <td>-</td>
-            </tr>
-        </table>
-    </td>
-  </tr>
-  <tr>
-      <td>v_byte Minimum</td>
-      <td>580</td>
-  </tr>
-  <tr>
-      <td>v_byte Maximum</td>
-      <td>712</td>
-  </tr>
-</table>
-
-![](https://i.imgur.com/xvrI6fx.jpg)
 
 <details>
     <summary>Extended Output</summary>
@@ -1344,11 +1264,11 @@ In this example, Alice sends funds to a smart contract chain on Layer 1 with an 
 
 ### Migration from old to new dust protection
 
-All `SigLockedSingleOutput` below 1 MIOTA and `SigLockedDustAllowanceOutput`  of an address could be collected and migrated to a single new `SimpleOutput` with the smallest `UTXO-ID` (byte-wise) of all these collected outputs as the new identifier.
+All `SigLockedSingleOutput` below 1 MIOTA and `SigLockedDustAllowanceOutput`  of an address could be collected and migrated to a single new `ExtendedOutput` with the smallest `UTXO-ID` (byte-wise) of all these collected outputs as the new identifier.
 
 This could probably be done in the form of a global snapshot and would represent a hard-fork.
 
-Another solution is to convert all `SigLockedDustAllowanceOutput` into `SimpleOutputs` and leave the `SigLockedSingleOutput` below 1 MIOTA untouched.
+Another solution is to convert all `SigLockedDustAllowanceOutput` into `ExtendedOutputs` and leave the `SigLockedSingleOutput` below 1 MIOTA untouched.
 
 ### Unresolved questions
 
