@@ -140,7 +140,7 @@ Data types and subschemas used throughout this RFC are defined in [draft RFC-004
 | Name   | Type | Value | Description |
 | ------ | ---- | ----- | ----------- |
 | Minimum Dust Deposit | uint64 | TBD | Minimum amount of IOTA coins that need to be present in the smallest possible output in order not to be considered dust. |
-| Max Native Token Count | uint16 | 256 | Maximum possible number of different native tokens that can reside in one output. |
+| Max Native Tokens Count | uint16 | 256 | Maximum possible number of different native tokens that can reside in one output. |
 | Max Indexation Tag Length | uint8 | 64 | Maximum possible length in bytes of an `Indexation Tag`. |
 | Max Metadata Length | uint32 | TBD | Maximum possible length in bytes of a `Metadata` field. |
 | Max Inputs Count | uint16 | 127 | Maximum possible count of inputs consumed in a transaction. |
@@ -983,7 +983,7 @@ is deprecated with the modification of the [Transaction Payload RFC](https://git
                 <td>The amount of IOTA coins to held by the output.</td>
             </tr>
             <tr>
-                <td>Native Token Count</td>
+                <td>Native Tokens Count</td>
                 <td>uint16</td>
                 <td>The number of native tokens held by the output.</td>
             </tr>
@@ -1323,7 +1323,7 @@ is deprecated with the modification of the [Transaction Payload RFC](https://git
 ### Additional Transaction Syntactic Validation Rules
 
 - `Amount` field must fulfill the dust protection requirements.
-- `Native Token Count` must not be greater than `Max Native Token Count`.
+- `Native Tokens Count` must not be greater than `Max Native Tokens Count`.
 - `Native Tokens` must be lexicographically sorted based on `Token ID`.
 - Each <i>Native Token</i> must be unique in the set of `Native Tokens` based on its `Token ID`. No duplicates are
   allowed.
@@ -1378,7 +1378,7 @@ state as metadata into the UTXO ledger.
                 <td>The amount of IOTA tokens held by the output.</td>
             </tr>
                         <tr>
-                <td>Native Token Count</td>
+                <td>Native Tokens Count</td>
                 <td>uint16</td>
                 <td>The number of native tokens held by the output.</td>
             </tr>
@@ -1767,7 +1767,7 @@ state as metadata into the UTXO ledger.
 #### Output Syntactic Validation
 
 - `Amount` field must fulfill the dust protection requirements.
-- `Native Token Count` must not be greater than `Max Native Token Count`.
+- `Native Tokens Count` must not be greater than `Max Native Tokens Count`.
 - `Native Tokens` must be lexicographically sorted based on `Token ID`.
 - Each <i>Native Token</i> must be unique in the set of `Native Tokens` based on its `Token ID`. No duplicates are
   allowed.
@@ -2035,7 +2035,7 @@ controlled by a specific foundry is the concatenation of `Foundry ID` || `Token 
 #### Output Syntactic Validation
 
 - `Amount` field must fulfill the dust protection requirements.
-- `Native Tokens Count` must not be greater than `Max Native Token Count`.
+- `Native Tokens Count` must not be greater than `Max Native Tokens Count`.
 - `Native Tokens` must be lexicographically sorted based on `Token ID`.
 - Each <i>Native Token</i> must be unique in the set of `Native Tokens` based on its `Token ID`. No duplicates are
   allowed.
@@ -2667,7 +2667,7 @@ optional feature blocks so that the output can be sent as a request to smart con
 #### Output Syntactic Validation
 
 - `Amount` field must fulfill the dust protection requirements.
-- `Native Token Count` must not be greater than `Max Native Token Count`.
+- `Native Tokens Count` must not be greater than `Max Native Tokens Count`.
 - `Native Tokens` must be lexicographically sorted based on `Token ID`.
 - Each <i>Native Token</i> must be unique in the set of `Native Tokens` based on its `Token ID`. No duplicates are
   allowed.
