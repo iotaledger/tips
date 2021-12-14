@@ -1801,7 +1801,7 @@ and `governance transition`.
     - The `State Index` must be incremented by 1.
     - The unlock block must correspond to the `State Controller`.
     - State transition can only change the following fields in the next state: `IOTA Amount`, `Native Tokens`,
-      `State Index`, `State Metadata Length`, `State Metadata` and `Foundry Counter`.
+      `State Index`, `State Metadata Length`, `State Metadata`, `Foundry Counter` and `Sender Block`.
     - `Foundry Counter` field must increase by the number of foundry outputs created in the transaction that map to
       `Alias ID`. The `Serial Number` fields of the created foundries must be the set of natural numbers that cover the
        open-ended interval between the previous and next values of the `Foundry Counter` field in the alias output.
@@ -1816,7 +1816,7 @@ and `governance transition`.
       empty state.
     - The unlock block must correspond to the `Governance Controller`.
     - Governance transition must only change the following fields: `State Controller`, `Governance Controller`,
-      `Metadata Block`.
+      `Metadata Block`, `Sender Block`.
     - The `Metadata Block` is optional, the governor can put additional info about the chain here, for example chain
       name, fee structure, supported VMs, list of access nodes, etc., anything that helps clients to fetch info (i.e.
       account balances) about the layer 2 network.
