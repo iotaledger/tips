@@ -21,7 +21,7 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 
 | # | Title | Description | Type | Layer | Status |
 | --- | --- | ----------- | ---- | ----- | ------ |
-| 1 | [TIP Process](tips/TIP-0001/tip-0001.md)| Purpose and guidelines of the contribution framework | Process | - | Draft |
+| 1 | [TIP Process](tips/TIP-0001/tip-0001.md)| Purpose and guidelines of the contribution framework | Process | - | Active |
 
 ## Need help?
 
