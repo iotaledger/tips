@@ -22,6 +22,7 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 | # | Title | Description | Type | Layer | Status |
 | --- | --- | ----------- | ---- | ----- | ------ |
 | 1 | [TIP Process](tips/TIP-0001/tip-0001.md)| Purpose and guidelines of the contribution framework | Process | - | Active |
+| 2 | [White Flag Ordering](tips/TIP-0002/tip-0002.md)| Mitigate conflict spamming by ignoring conflicts | Standards | Core | Active |
 
 ## Need help?
 
