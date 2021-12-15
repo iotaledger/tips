@@ -30,6 +30,7 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 | 7 | [Transaction Payload](tips/TIP-0007/tip-0007.md)| UTXO-based transaction structure | Standards | Core | Active |
 | 8 | [Milestone Payload](tips/TIP-0008/tip-0008.md)| Coordinator issued milestone structure with Ed25519 authentication | Standards | Core | Active |
 | 9 | [Local Snapshot File Format](tips/TIP-0009/tip-0009.md)| File format to export/import ledger state | Standards | Interface | Active |
+| 10 | [Mnemonic Ternary Seed](tips/TIP-0010/tip-0010.md)| Represent ternary seed as a mnemonic sentence | Standards | IRC | Obsolete |
 
 ## Need help?
 
