@@ -27,6 +27,7 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 | 4 | [Milestone Merkle Validation](tips/TIP-0004/tip-0004.md)| Add Merkle tree hash to milestone for local ledger state verification | Standards | Core | Active |
 | 5 | [Binary To Ternary Encoding](tips/TIP-0005/tip-0005.md)| Define the conversion between binary and ternary data | Standards | Core | Active |
 | 6 | [Tangle Message](tips/TIP-0006/tip-0006.md)| Generalization of the Tangle transaction concept | Standards | Core | Active |
+| 7 | [Transaction Payload](tips/TIP-0007/tip-0007.md)| UTXO-based transaction structure | Standards | Core | Active |
 
 ## Need help?
 
