@@ -32,6 +32,7 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 | 9 | [Local Snapshot File Format](tips/TIP-0009/tip-0009.md)| File format to export/import ledger state | Standards | Interface | Active |
 | 10 | [Mnemonic Ternary Seed](tips/TIP-0010/tip-0010.md)| Represent ternary seed as a mnemonic sentence | Standards | IRC | Obsolete |
 | 11 | [Bech32 Address Format](tips/TIP-0011/tip-0011.md)| Extendable address format supporting various signature schemes and address types | Standards | Interface | Active |
+| 11 | [Message PoW](tips/TIP-0012/tip-0012.md)| Define message proof-of-work as a means to rate-limit the network | Standards | Core | Active |
 
 ## Need help?
 
