@@ -1,5 +1,0 @@
-[book]
-title = "The IOTA Protocol RFC Book"
-
-[output.html]
-no-section-label = true
