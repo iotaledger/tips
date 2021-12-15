@@ -37,6 +37,7 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 | 14 | [Ed25519 Validation](tips/TIP-0014/tip-0014.md)| Adopt [ZIP-215](https://zips.z.cash/zip-0215) to explicitly define Ed25519 validation criteria | Standards | Core | Draft |
 | 15 | [Dust Protection](tips/TIP-0015/tip-0015.md)| Prevent bloating the ledger size with to dust outputs | Standards | Core | Active |
 | 16 | [Event API](tips/TIP-0016/tip-0016.md)| Node event API definitions in AsyncAPI Specification | Standards | Interface | Active |
+| 17 | [Wotsicide](tips/TIP-0017/tip-0017.md)| Define migration from legacy WOTS addresses to post-Chrysalis Phase 2 network | Standards | Core | Active |
 
 ## Need help?
 
