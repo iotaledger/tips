@@ -34,6 +34,7 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 | 11 | [Bech32 Address Format](tips/TIP-0011/tip-0011.md)| Extendable address format supporting various signature schemes and address types | Standards | Interface | Active |
 | 12 | [Message PoW](tips/TIP-0012/tip-0012.md)| Define message proof-of-work as a means to rate-limit the network | Standards | Core | Active |
 | 13 | [REST API](tips/TIP-0013/tip-0013.md)| Node REST API routes and objects in OpenAPI Specification | Standards | Interface | Active |
+| 14 | [Ed25519 Validation](tips/TIP-0014/tip-0014.md)| Adopt [ZIP-215](https://zips.z.cash/zip-0215) to explicitly define Ed25519 validation criteria | Standards | Core | Draft |
 
 ## Need help?
 
