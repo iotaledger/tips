@@ -24,6 +24,7 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 | 1 | [TIP Process](tips/TIP-0001/tip-0001.md)| Purpose and guidelines of the contribution framework | Process | - | Active |
 | 2 | [White Flag Ordering](tips/TIP-0002/tip-0002.md)| Mitigate conflict spamming by ignoring conflicts | Standards | Core | Active |
 | 3 | [Uniform Random Tip Selection](tips/TIP-0003/tip-0003.md)| Perform fast tip-selection to increase message throughput | Standards | Core | Active |
+| 4 | [Milestone Merkle Validation](tips/TIP-0004/tip-0004.md)| Add Merkle tree hash to milestone for local ledger state verification | Standards | Core | Active |
 
 ## Need help?
 
