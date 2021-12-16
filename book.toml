@@ -1,5 +1,5 @@
 [book]
-title = "The IOTA Protocol RFC Book"
+title = "The Tangle Improvement Proposal (TIP) Book"
 
 [output.html]
 no-section-label = true

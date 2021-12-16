@@ -6,17 +6,28 @@
 set -e
 
 rm -rf src
-cp -r text src
+mkdir src
+cp -r tips src
 
 printf '[Introduction](introduction.md)\n\n' > src/SUMMARY.md
 
+# create summary, extract tip titles and numbers
 find ./src ! -type d -name '*.md' ! -path ./src ! -path ./src/SUMMARY.md -print0 \
   | sed -e 's/.\/src\///g' \
   | sort -z \
   | while read -r -d '' file;
 do
-    printf -- '- [%s](%s)\n' "$(basename "$file" ".md")" "$file"
+    tipNum=$(sed 's/-0*/-/' <<< $(basename "$file" ".md"))
+    printf -- '- [%s%s](%s)\n' ${tipNum^^} "$(sed -n 's/^title:\(.*\)$/\1/p' < $file)" "$file"
 done >> src/SUMMARY.md
+
+# remove "---" from tip header and replace it h <pre> and </pre>
+find ./src ! -type d -name '*.md' ! -path ./src ! -path ./src/SUMMARY.md -print0 \
+  | sort -z \
+  | while read -r -d '' file;
+do
+    ./format-tip-header.sh $file
+done
 
 ln -frs README.md src/introduction.md
 
