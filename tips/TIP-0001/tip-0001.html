@@ -1,0 +1,381 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TIP-1 TIP Process - The Tangle Improvement Proposal (TIP) Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html" class="active">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <pre>
+tip: 1
+title: TIP Process
+description: Purpose and guidelines of the contribution framework
+author: Levente Pap (@lzpap) <levente.pap@iota.org>
+discussions-to: https://github.com/iotaledger/tips/discussions
+status: Active
+type: Process
+created: 2021-12-15
+</pre>
+<h2 id="abstract"><a class="header" href="#abstract">Abstract</a></h2>
+<p>A Tangle Improvement Proposal (TIP) is a design document providing information to the IOTA community, or describing a new feature for IOTA or its processes or environment. The TIP should provide a concise technical specification of the feature and a rationale for the feature.</p>
+<p>TIPs are the primary mechanism for proposing new features and standards to the IOTA protocol and related applications, furthermore for collecting input from the wider community and documenting the design decisions that go into the IOTA technology.</p>
+<p>TIPs are maintained as text files inside the repository, therefore the history and evolution of protocol features are transparent and well documented.</p>
+<p>This TIP defines the TIP Process itself to establish a common way of working.</p>
+<h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
+<p>The motivation of this TIP is to create a public platform to discuss improvement ideas related to the IOTA technology and define an easy-to-follow process of contributing to their development and implementation.</p>
+<h2 id="specification"><a class="header" href="#specification">Specification</a></h2>
+<h3 id="tip-types"><a class="header" href="#tip-types">TIP Types</a></h3>
+<p>There are 3 types of TIPs:</p>
+<ul>
+<li>A <strong>Standards Track TIP</strong> describes any change that affects most or all IOTA node implementations, such as a change to the network protocol, a change in transaction validity rules, or any change or addition that affects the interoperability of applications using IOTA. Standards Track TIPs consist of two parts, a design document and a reference implementation. Standards Track TIPs can be broken down into layers:</li>
+<li><strong>Core</strong>: includes improvements requiring a consensus fork (e.g. new transaction validation rules, change in protocol message layouts), as well as any change that concerns the protocol specification.</li>
+<li><strong>Networking</strong>: includes improvements around the networking layer of the network, e.g. gossip protocol or autopeering.</li>
+<li><strong>Interface</strong>: includes improvements around the client APIs of base layer nodes as well as around the interface definitions of IOTA Smart Contracts (ISC), such as contract schemas or ISC node APIs.</li>
+<li><strong>IRC</strong>: includes improvements around application-level standards and conventions such as contract standards, token standards or metadata format standards.</li>
+<li>An <strong>Informational TIP</strong> describes an IOTA design issue, or provides general guidelines or information to the IOTA community, but does not propose a new feature. Informational TIPs do not necessarily represent an IOTA community consensus or recommendation, so users and implementors are free to ignore Informational TIPs or follow their advice.</li>
+<li>A <strong>Process TIP</strong> describes a process surrounding IOTA, or proposes a change to (or an event in) a process. Process TIPs are like Standards Track TIPs but apply to areas other than the IOTA protocol itself. They may propose an implementation, but not to IOTA's codebase; they often require community consensus; unlike Informational TIPs, they are more than recommendations, and users are typically not free to ignore them. Examples include procedures, guidelines, changes to the decision-making process, and changes to the tools or environment used in IOTA development.</li>
+</ul>
+<p>It is highly recommended that a TIP outlines a single key proposal, idea or feature; the narrower the scope of the TIP is, the easier it becomes to reach consensus on the proposed feature and incorporate it into the protocol. Several TIPs can form a bundle of changes when linked to each other.</p>
+<h3 id="tip-format-and-structure"><a class="header" href="#tip-format-and-structure">TIP Format and Structure</a></h3>
+<p>TIPs must adhere to the format and structure requirements that are outlined in this document. A TIP is written in <a href="https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">Markdown</a> format and should have the following parts (optional parts are marked with a *):</p>
+<table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
+<tr><td>Preamble</td><td><a href="https://www.ietf.org/rfc/rfc822.txt">RFC 822</a> style headers containing metadata about the TIP, including the TIP number, a short descriptive title (limited to a maximum of 44 characters), a description (limited to a maximum of 140 characters), and the author details. Irrespective of the category, the title and description should not include TIP number. <a href="#tip-header-preamble">See below</a> for details.</td></tr>
+<tr><td>Abstract</td><td>A short summary of the technical issue being addressed by the TIP.</td></tr>
+<tr><td>Motivation</td><td>A motivation section is critical for TIPs that want to change the IOTA protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the TIP solves. TIP submissions without sufficient motivation may be rejected outright.</td></tr>
+<tr><td>Specification</td><td>The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current IOTA platforms.</td></tr>
+<tr><td>Rationale</td><td>The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work, e.g. how the feature is supported in other languages. The rationale may also provide evidence of consensus within the community, and should discuss important objections or concerns raised during discussion.</td></tr>
+<tr><td>Backwards Compatibility*</td><td>All TIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their severity. The TIP must explain how the author proposes to deal with these incompatibilities. TIP submissions without a sufficient backwards compatibility treatise may be rejected outright.</td></tr>
+<tr><td>Test Cases*</td><td>Test cases for an implementation are mandatory for TIPs that are affecting consensus changes. Tests should either be inlined in the TIP as data or placed in the TIP folder.</td></tr>
+<tr><td>Reference Implementation*</td><td>An optional section that contains a reference/example implementation that people can use to assist in understanding or implementing this specification.</td></tr>
+<tr><td>Copyright</td><td>All TIPs must be in the public domain. See the bottom of this TIP for an example copyright waiver.</td></tr>
+</tbody></table>
+<h3 id="tip-template"><a class="header" href="#tip-template">TIP Template</a></h3>
+<p>The template to follow for new TIPs is located in the <a href="../../tip-template.html">repository</a>.</p>
+<h3 id="tip-process"><a class="header" href="#tip-process">TIP Process</a></h3>
+<p>Parties involved in the process are:</p>
+<ul>
+<li><em>TIP author</em>: you, the champion who proposes a new TIP. It is the responsibility of the <em>TIP author</em> to drive the progression of the TIP to <code>Active</code> status. This includes initiating public discussion and implementing the proposal as well.</li>
+<li><em>TIP editor</em>: they deal with administering the TIP process and ensure process requirements are fulfilled.</li>
+<li><em>Technical Committee</em>: technical experts of IOTA who evaluate new TIPs, provide feedback and ensure that only sound and secure features are added to the protocol.</li>
+</ul>
+<h4 id="tip-statuses"><a class="header" href="#tip-statuses">TIP Statuses</a></h4>
+<p>The status of the TIP describes its current stage in the TIP process.</p>
+<table><thead><tr><th>Status</th><th>Description</th></tr></thead><tbody>
+<tr><td>Idea</td><td>An idea for an improvement to the IOTA technology. Not yet tracked as an official TIP.</td></tr>
+<tr><td>Draft</td><td>The idea has been formally accepted in the repository, and is being worked on by its authors.</td></tr>
+<tr><td>Proposed</td><td>The TIP has a working implementation and has clear plans on how to progress to <code>Active</code> status.</td></tr>
+<tr><td>Active</td><td>The TIP is deployed to the main network or some TIP specific addoption criteria has been met.</td></tr>
+<tr><td>Deferred</td><td>The <em>TIP author(s)</em> are not working on the TIP currently, but plan to continue in the future. TIP is on hold.</td></tr>
+<tr><td>Rejected</td><td>The TIP is rejected.</td></tr>
+<tr><td>Withdrawn</td><td>The TIP has been withdrawn by the <em>TIP author(s)</em>.</td></tr>
+<tr><td>Replaced</td><td>The TIP is replaced by a newer TIP. Must point to the new TIP in the header.</td></tr>
+<tr><td>Obsolete</td><td>The TIP is rendered obsolete by some future change.</td></tr>
+</tbody></table>
+<h4 id="tip-workflow"><a class="header" href="#tip-workflow">TIP Workflow</a></h4>
+<p><em>How are new proposal get added to the protocol?</em></p>
+<ol>
+<li>
+<p>All TIPs begin life as an <code>Idea</code> proposed in the public <a href="https://github.com/iotaledger/tips/discussions">IOTA discussion forum, that is the GitHub Discussion page of the TIP repository</a>. A public, open discussion should predate any formal TIP submission. If you want to propel your proposal to acceptance, you should make sure to build consensus and support in the community around your proposed changes already in the idea stage.</p>
+</li>
+<li>
+<p>Once the idea has been vetted, your next task is to submit a <code>Draft</code> TIP to the TIP repository as a pull request. Do not assign a TIP number yet to the draft, but make sure that the proposal is technically sound and follows the format and style guides of the TIP Process. Create a subfolder under <code>tips</code> folder with the title of the draft (<code>tips/title_of_draft/</code>) and put all assets in this folder.</p>
+</li>
+<li>
+<p>A <em>TIP editor</em> reviews your PR and assigns a TIP number to the draft.</p>
+</li>
+<li>
+<p>The <em>Technical Committee</em> as well as the broader public evaluate the draft proposal and might ask for modifications or clarifications. The proposal can only be merged into the repository as a draft if it represents a net improvement and does not complicate the protocol unduly.</p>
+</li>
+<li>
+<p>The TIP is merged into the repo with <code>Draft</code> status by <em>TIP editor/author</em>.</p>
+</li>
+<li>
+<p>When a working implementation is presented and there are clear plans on how to progress the TIP to completion, the <em>TIP author</em> submits a subsequent PR that links its implementation to the TIP and progresses it to <code>Proposed</code> stage. The TIP is ready to be deployed on testnet.</p>
+</li>
+<li>
+<p>When a <code>Proposed</code> TIP is deemed to have met all appropriate criteria and its implementation has been demonstrated to work reliably in testnet environment, it is ready to be moved to the main network. Upon deployment, the TIP status must change to <code>Active</code>.</p>
+</li>
+</ol>
+<p><em>How can a TIP transition from one status to another?</em></p>
+<p><img src="./process.svg" alt="image" /></p>
+<p>A <code>Draft</code> TIP might be moved to <code>Deferred</code> status by the <em>TIP author(s)</em> when they are no longer working on the proposal, but plan to continue it in the future.</p>
+<p>A <code>Draft</code> TIP might be moved to <code>Withdrawn</code> status by the <em>TIP author(s)</em>.</p>
+<p>A <code>Draft</code> TIP might be moved to <code>Rejected</code> status by <em>TIP editor(s)</em> or <em>Technical Committee</em> if it does not meet the appropriate TIP criterias, or no relevant progress has been demonstrated on the TIP for at least 3 years.</p>
+<p>A <code>Draft</code> TIP might be moved to <code>Proposed</code> status by TIP author(s) if it is considered complete, has a working implementation and clear plans on how to progress it to <code>Active</code> status.</p>
+<p>A <code>Proposed</code> TIP might be moved to <code>Active</code> status if a TIP specific adoption criteria has been met. For Core TIPs this means deployment on the main network.</p>
+<p>A <code>Proposed</code> TIP might be moved to <code>Rejected</code> status by <em>TIP editor(s)</em> or <em>Technical Committee</em> if its implementation puts unduly burden and complexity on the protocol, or other significant problems are discovered during testing.</p>
+<p>An <code>Active</code> TIP might be moved to <code>Replaced</code> status by a newer TIP. The replaced TIP must point to the TIP that replaces it.</p>
+<p>An <code>Active</code> TIP might be moved to <code>Obsolete</code> status when the feature is deprecated.</p>
+<p><em>How to champion the TIP Process as a TIP author?</em></p>
+<ul>
+<li>Browse the <a href="https://github.com/iotaledger/tips/discussions">idea discussion forum</a> before posting a new TIP idea. Someone else might already have proposed your idea, or a similar one. Take inspiration from previous ideas and discussions.</li>
+<li>It is your responsibility as a <em>TIP author</em> to build community consensus around your idea. Involve as many people in the discussion as you can. Use social media platforms, Discord or Reddit to raise awareness of your idea.</li>
+<li>Submit a draft TIP as a PR to the TIP repository. Put extra care into following TIP guidelines and formats. TIPs must contain a link to previous discussions on the topic, otherwise your submissions might be rejected. TIPs that do not present convincing motivation, demonstrate lack of understanding of the design's impact, or are disingenuous about the drawbacks or alternatives tend to be poorly-received.</li>
+<li>Your draft TIP gets a TIP number assigned by a <em>TIP editor</em> and receives review and feedback from the larger community as well as from the <em>Technical Committee</em>. Be prepared to revise your draft based on this input.</li>
+<li>TIPs that have broad support are much more likely to make progress than those that don't receive any comments. Feel free to reach out to the <em>TIP editors</em> in particular to get help to identify stakeholders and obstacles.</li>
+<li>Submitted draft TIPs rarely go through the process unchanged, especially as alternatives and drawbacks are shown. You can make edits, big and small, to the draft TIP to clarify or change the design, but make changes as new commits to the pull request, and leave a comment on the pull request explaining your changes. Specifically, do not squash or rebase commits after they are visible on the pull request.</li>
+<li>When your draft TIP PR gets enough approvals from <em>TIP editors</em> and <em>Technical Committee</em> members, it can be merged into the repository, however, your job is far from complete! To move the draft into the next status (proposed), you have to demonstrate a working implementation of your TIP. For Core TIPs, seek help from protocol developers and/or client teams to coordinate the feature implementation. For IRCs for example you need to provide their implementation yourself.</li>
+<li>You also need to present a clear plan on how the TIP will be moved to the <code>Active</code> status, by for example agreeing on a TIP deployment strategy with the <em>Technical Committee</em> or core developers.</li>
+<li>To move your <code>Draft</code> TIP to the <code>Proposed</code> phase, submit a subsequent PR that links its implementation and devises its route to become <code>Active</code>. The latter might be an additional document in the TIP's folder, a link to a public discussion or a short description or comment on the PR itself.</li>
+<li>To move your <code>Proposed</code> TIP to <code>Active</code> status you need to demonstrate that it has met its specific adoption criteria. For Core TIPs, this means that majority of network nodes support it. For other TIPs, especially for IRCs, adoption might mean that the standard is publicly available, well documented and there are applications building on it.</li>
+</ul>
+<h3 id="tip-header-preamble"><a class="header" href="#tip-header-preamble">TIP Header Preamble</a></h3>
+<p>Each TIPs must have an RFC 822 style header preamble preceded and followed by three hyphens (---). The headers must appear in the following order. Headers marked with &quot;*&quot; are optional and are described below. All other headers are required.</p>
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>tip</code></td><td>TIP number, or &quot;?&quot; before being assigned (assigned by <em>TIP editor</em>)</td></tr>
+<tr><td><code>title</code></td><td>Few words describing the TIP, maximum 44 characters</td></tr>
+<tr><td><code>description*</code></td><td>One full short sentence</td></tr>
+<tr><td><code>author</code></td><td>A comma separated list of the author's or authors' name + GitHub username (in parenthesis), or name and email (in angle brackets). Example, FirstName LastName (@GitHubUsername), FirstName LastName <a href="mailto:foo@bar.com">foo@bar.com</a>, FirstName (@GitHubUsername) and GitHubUsername (@GitHubUsername)</td></tr>
+<tr><td><code>discussions-to*</code></td><td>The url pointing to the official discussion thread</td></tr>
+<tr><td><code>status</code></td><td>Current status of the TIP. One of: <code>Draft</code>, <code>Proposed</code>, <code>Active</code>, <code>Deferred</code>, <code>Rejected</code>, <code>Withdrawn</code>, <code>Obsolete</code> or <code>Replaced</code></td></tr>
+<tr><td><code>type</code></td><td>TIP type, one of: <code>Standards Track</code>, <code>Process</code> or <code>Informational</code></td></tr>
+<tr><td><code>layer*</code></td><td>Only for Standards Track, defines layer: <code>Core</code>, <code>Networking</code>, <code>Interface</code> or <code>IRC</code></td></tr>
+<tr><td><code>created</code></td><td>Date created on, in ISO 8601 (yyyy-mm-dd) format</td></tr>
+<tr><td><code>requires*</code></td><td>Link dependent TIPs by number</td></tr>
+<tr><td><code>replaces*</code></td><td>Older TIP being replaced by this TIP</td></tr>
+<tr><td><code>superseded-by*</code></td><td>Newer TIP replaces this TIP</td></tr>
+<tr><td><code>withdrawal-reason*</code></td><td>A sentence explaining why the TIP was withdrawn. (Optional field, only needed when status is <code>Withdrawn</code>)</td></tr>
+<tr><td><code>rejection-reason*</code></td><td>A sentence explaining why the TIP was rejected. (Optional field, only needed when status is <code>Rejected</code>)</td></tr>
+</tbody></table>
+<h3 id="linking-tips"><a class="header" href="#linking-tips">Linking TIPs</a></h3>
+<p>References to other TIPs should follow the format TIP-N where N is the TIP number you are referring to. Each TIP that is referenced in an TIP MUST be accompanied by a relative markdown link the first time it is referenced, and MAY be accompanied by a link on subsequent references. The link MUST always be done via relative paths so that the links work in this GitHub repository or forks of this repository. For example, you would link to this TIP with <code>[TIP-1](../TIP-0001/tip-0001.md)</code>.</p>
+<h3 id="auxiliary-files"><a class="header" href="#auxiliary-files">Auxiliary Files</a></h3>
+<p>Images, diagrams and auxiliary files should be included in the subdirectory of the TIP. When linking to an image in the TIP, use relative links such as <code>[TIP Process Diagram](../TIP-0001/process.png)</code>.</p>
+<h3 id="transferring-tip-ownership"><a class="header" href="#transferring-tip-ownership">Transferring TIP Ownership</a></h3>
+<p>It occasionally becomes necessary to transfer ownership of TIPs to a new champion. In general, we'd like to retain the original author as a co-author of the transferred TIP, but that's really up to the original author. A good reason to transfer ownership is because the original author no longer has the time or interest in updating it or following through with the TIP process, or has fallen off the face of the 'net (i.e. is unreachable or isn't responding to email). A bad reason to transfer ownership is because you don't agree with the direction of the TIP. We try to build consensus around a TIP, but if that's not possible, you can always submit a competing TIP.</p>
+<p>If you are interested in assuming ownership of a TIP, send a message asking to take over, addressed to both the original author and the <em>TIP editors</em>. If the original author doesn't respond to the email in a timely manner, the <em>TIP editors</em> will make a unilateral decision (it's not like such decisions can't be reversed :)).</p>
+<h3 id="tip-editors"><a class="header" href="#tip-editors">TIP Editors</a></h3>
+<p>The current TIP editors are:</p>
+<ul>
+<li>Kumar Anirudha (@anistark, kumar.anirudha@iota.org)</li>
+<li>Levente Pap (@lzpap, levente.pap@iota.org)</li>
+</ul>
+<h3 id="tip-editor-responsibilities"><a class="header" href="#tip-editor-responsibilities">TIP Editor Responsibilities</a></h3>
+<p>TIP editors' essential role is to assist and guard the process of contributing to the IOTA ecosystem, provide help and directions to community members as well as to external contributors. If you have a question regarding the TIP process, reach out to them, they will point you to the right direction.</p>
+<p>They ensure that only quality contributions are added as TIPs, provide support for TIP authors, furthermore monitor that the TIP process is fair, objective and well documented.</p>
+<p>For each new TIP that comes in, an editor does the following:</p>
+<ul>
+<li>Read the TIP to check if it is ready: sound and complete. The ideas must make technical sense, even if they don't seem likely to get to <code>Active</code> status.</li>
+<li>The title should accurately describe the content.</li>
+<li>Check the TIP for language (spelling, grammar, sentence structure, etc.), markup (GitHub flavored Markdown), code style.</li>
+</ul>
+<p>If the TIP isn't ready, the editor will send it back to the author for revision, with specific instructions.</p>
+<p>Once the TIP is ready to be merged as a draft, the ditor will:</p>
+<ul>
+<li>Assign a TIP number that does not conflict with other TIP numbers. It might be the PR number, but might also be selected as the next unused TIP number in line.</li>
+<li>Merge the corresponding pull request.</li>
+<li>Send a message back to the TIP author with the next step.</li>
+</ul>
+<p>The editors don't pass judgment on TIPs. We merely do the administrative &amp; editorial part.</p>
+<h3 id="technical-committee"><a class="header" href="#technical-committee">Technical Committee</a></h3>
+<p>The <em>Technical Committee</em> consists of several core contributors of the IOTA ecosystem and core developers. Their job is to evaluate technical details of TIPs, judge their technical feasibility and safeguard the evolution of the protocol. Core improvement ideas must be carefully thought through and their benefits must outweigh their drawbacks.</p>
+<p>In order for a draft TIP to be accepted into the repo, it must be signed-off by the <em>Technical Committee</em>. It is also the committee that gives the green light for drafts to become proposed or active.</p>
+<h2 id="rationale"><a class="header" href="#rationale">Rationale</a></h2>
+<p>The TIP process is intended to replace the formerly adopted RFC process to achieve:</p>
+<ul>
+<li>Simpler workflow and less rigid process structure,</li>
+<li>Broader platform for ideation and early phase improvement discussions,</li>
+<li>A layered protocol specification approach that can describe not only core components, but also higher layer protocols and application-level conventions.</li>
+</ul>
+<p>In order not to reinvent the wheel, the TIP Process draws heavily on the <a href="https://github.com/bitcoin/bips/blob/master/bip-0002.mediawiki">BIP</a> and <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1.md">EIP</a> processes.</p>
+<h2 id="backwards-compatibility"><a class="header" href="#backwards-compatibility">Backwards Compatibility</a></h2>
+<ul>
+<li>The current <code>iotaledger/protocol-rfcs</code> repository will be renamed to <code>iotaledger/tips</code>.</li>
+<li>Merged RFCs will receive a TIP number and header with <code>Active</code> status.</li>
+<li>PRs in the repo will be mapped as <code>Draft</code> TIPs, either modifications to existing TIPs or new ones.</li>
+<li>The GitHub Discussion page of the repository will be restructured to accommodate TIP idea discussions.</li>
+</ul>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li><a href="https://github.com/bitcoin/bips/blob/master/bip-0001.mediawiki">BIP-1</a> and<a href="https://github.com/bitcoin/bips/blob/master/bip-0002.mediawiki"> BIP-2</a>, Bitcoin Improvement Proposal Purpose and Guidelines</li>
+<li><a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1.md">EIP-1</a>, Ethereum Improvement Proposal Purpose and Guidelines</li>
+<li><a href="https://github.com/cardano-foundation/CIPs/tree/master/CIP-0001">CIP-1</a>, Cardano Improvement Proposal Process</li>
+</ul>
+<h2 id="copyright"><a class="header" href="#copyright">Copyright</a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../tips/TIP-0002/tip-0002.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../tips/TIP-0002/tip-0002.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

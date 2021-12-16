@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>0020-bech32-address-format - The IOTA Protocol RFC Book</title>
+        <title>TIP-11 Bech32 Address Format - The Tangle Improvement Proposal (TIP) Book</title>
 
 
         <!-- Custom HTML head -->
@@ -13,21 +13,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="../favicon.svg">
-        <link rel="shortcut icon" href="../favicon.png">
-        <link rel="stylesheet" href="../css/variables.css">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/chrome.css">
-        <link rel="stylesheet" href="../css/print.css" media="print">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../fonts/fonts.css">
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -35,7 +35,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
-            var path_to_root = "../";
+            var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0017-tangle-message/0017-tangle-message.html">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="../0018-transaction-payload/0018-transaction-payload.html">0018-transaction-payload</a></li><li class="chapter-item expanded "><a href="../0019-milestone-payload/0019-milestone-payload.html">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html" class="active">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li><li class="chapter-item expanded "><a href="../0032-dust-protection/0032-dust-protection.html">0032-dust-protection</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html" class="active">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -110,10 +110,10 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">The IOTA Protocol RFC Book</h1>
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
 
                     <div class="right-buttons">
-                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -142,23 +142,29 @@
 
                 <div id="content" class="content">
                     <main>
-                        <ul>
-<li>Feature name: <code>bech32-address-format</code></li>
-<li>Start date: 2020-07-28</li>
-<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/20">iotaledger/protocol-rfcs#0020</a></li>
-</ul>
+                        <pre>
+tip: 11
+title: Bech32 Address Format
+description: Extendable address format supporting various signature schemes and address types
+author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/20
+status: Active
+type: Standards
+layer: Interface
+created: 2020-07-28
+</pre>
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>This document proposes an extendable address format for the IOTA protocol supporting various signature schemes and address types. It relies on the <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">Bech32</a> format to provide a compact, human-readable encoding with strong error correction guarantees.</p>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
 <p>With <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, IOTA uses Ed25519 to generate digital signatures, in which addresses correspond to a BLAKE2b-256 hash. It is necessary to define a new universal and extendable address format capable of encoding different types of addresses.</p>
-<p>The current IOTA protocol relies on Base27 addresses with a truncated Kerl checksum. However, both the character set and the checksum algorithm have limitations: </p>
+<p>The current IOTA protocol relies on Base27 addresses with a truncated Kerl checksum. However, both the character set and the checksum algorithm have limitations:</p>
 <ul>
 <li>Base27 is designed for ternary and is ill-suited for binary data.</li>
 <li>The Kerl hash function also requires ternary input. Further, it is slow and provides no error-detection guarantees.</li>
 <li>It does not support the addition of version or type information to distinguish between different kinds of addresses with the same length.</li>
 </ul>
 <p>All of these points are addressed in the Bech32 format introduced in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>: In addition to the usage of the human-friendly Base32 encoding with an optimized character set, it implements a <a href="https://en.wikipedia.org/wiki/BCH_code">BCH code</a> that <em>guarantees detection</em> of any error affecting at most four characters and has less than a 1 in 10<sup>9</sup> chance of failing to detect more errors.</p>
-<p>This RFC proposes a simple and extendable binary serialization for addresses of different types that is then Bech32 encoded to provide a unique appearance for human-facing applications such as wallets. </p>
+<p>This RFC proposes a simple and extendable binary serialization for addresses of different types that is then Bech32 encoded to provide a unique appearance for human-facing applications such as wallets.</p>
 <h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
 <h2 id="binary-serialization"><a class="header" href="#binary-serialization">Binary serialization</a></h2>
 <p>The address format uses a simple serialization scheme which consists of two parts:</p>
@@ -175,47 +181,32 @@
 <tr><td>Ed25519</td><td><code>0x00</code></td><td>32 bytes: The BLAKE2b-256 hash of the Ed25519 public key.</td></tr>
 </tbody></table>
 <h2 id="bech32-for-human-readable-encoding"><a class="header" href="#bech32-for-human-readable-encoding">Bech32 for human-readable encoding</a></h2>
-<p>The human-readable encoding of the address is Bech32 (as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>). A Bech32 string is at most 90 characters long and consists of: </p>
+<p>The human-readable encoding of the address is Bech32 (as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>). A Bech32 string is at most 90 characters long and consists of:</p>
 <ul>
-<li>The <strong>human-readable part</strong> (HRP), which conveys the IOTA protocol and distinguishes between Mainnet (the IOTA token) and Testnet (testing version):
-<ul>
+<li>The <strong>human-readable part</strong> (HRP), which conveys the IOTA protocol and distinguishes between Mainnet (the IOTA token) and Testnet (testing version):</li>
 <li><code>iota</code> is the human-readable part for Mainnet addresses</li>
 <li><code>atoi</code> is the human-readable part for Testnet addresses</li>
-</ul>
-</li>
 <li>The <strong>separator</strong>, which is always <code>1</code>.</li>
 <li>The <strong>data part</strong>, which consists of the Base32 encoded serialized address and the 6-character checksum.</li>
 </ul>
 <p>Hence, Ed25519-based addresses will result in a Bech32 string of 64 characters.</p>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
-<li><strong>Mainnet</strong>
-<ul>
-<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code>
-<ul>
-<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code> </li>
+<li><strong>Mainnet</strong></li>
+<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code></li>
+<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
 <li>serialized (33-byte): <code>00efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
 <li>Bech32 string: <code>iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>Testnet</strong>
-<ul>
-<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code>
-<ul>
-<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code> </li>
+<li><strong>Testnet</strong></li>
+<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code></li>
+<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
 <li>serialized (33-byte): <code>00efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
 <li>Bech32 string: <code>atoi1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6x8x4r7t</code></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 <h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <ul>
 <li>The new addresses look fundamentally different from the established 81-tryte IOTA addresses. However, since the switch from binary to ternary and Chrysalis in general is a substantial change, this is a very reasonable and desired consequence.</li>
-<li>A four character HRP plus one type byte only leaves a maximum of 48 bytes for the actual address. </li>
+<li>A four character HRP plus one type byte only leaves a maximum of 48 bytes for the actual address.</li>
 </ul>
 <h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
 <ul>
@@ -223,16 +214,24 @@
 <li>The binary serialization itself must be as compact as possible while still allowing you to distinguish between different address types of the same byte length. As such, the introduction of a version byte offers support for up to 256 different kinds of addresses at only the cost of one single byte.</li>
 <li>The HRP of the Bech32 string offers a good opportunity to clearly distinguish IOTA addresses from other Bech32 encoded data. Here, any three or four character ASCII strings can be used. However, selecting <code>iota</code> as well as <code>atoi</code> seems like the most recognizable option.</li>
 </ul>
+<h1 id="reference-implementation"><a class="header" href="#reference-implementation">Reference implementation</a></h1>
+<p>Example Go implementation in <a href="https://github.com/Wollac/iota-crypto-demo">wollac/iota-crypto-demo</a>:</p>
+<ul>
+<li>Bech32 encoding: <a href="https://github.com/Wollac/iota-crypto-demo/tree/master/pkg/bech32">pkg/bech32</a></li>
+<li>Example: <a href="https://github.com/Wollac/iota-crypto-demo/tree/master/examples/bech32">examples/bech32</a></li>
+</ul>
+<h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../0019-milestone-payload/0019-milestone-payload.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../tips/TIP-0010/tip-0010.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../0024-message-pow/0024-message-pow.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../tips/TIP-0012/tip-0012.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -242,11 +241,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../0019-milestone-payload/0019-milestone-payload.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../tips/TIP-0010/tip-0010.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../0024-message-pow/0024-message-pow.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../tips/TIP-0012/tip-0012.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -261,13 +260,13 @@
         </script>
 
 
-        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
 
-        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
 

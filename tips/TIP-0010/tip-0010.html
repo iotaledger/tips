@@ -1,0 +1,262 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TIP-10 Mnemonic Ternary Seed - The Tangle Improvement Proposal (TIP) Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html" class="active">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <pre>
+tip: 10
+title: Mnemonic Ternary Seed
+description: Represent ternary seed as a mnemonic sentence
+author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/10
+status: Obsolete
+type: Standards
+layer: IRC
+created: 2020-03-11
+</pre>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
+<p>The IOTA protocol uses a 81-tryte seed to derive all the private keys for one account. This RFC describes a method to represent that seed as a mnemonic sentence - a group of easily comprehensible words.</p>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
+<p>The used seed is a 384-bit or 243-trit random string. There are several ways to represent this in a human-readable form, but a mnemonic sentence is superior to raw binary or ternary strings. These sentences can easily be written down or they can even be recorded over a phone.
+Furthermore, having raw strings tempts the user to copy and paste the seed due to convenience over security. This practice opens new attack vectors such as theft or manipulation of the string in the clipboard.</p>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
+<p>The <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-0039</a> specification exactly describes an implementation for its use case and how to uniquely represent binary entropy using mnemonic words. However, it is only defined for binary input of 128 - 256 bits. The section(s) below describe the canonical extension of BIP-0039 for longer inputs of 81 trytes or 384 bits.</p>
+<p>The 243-trit (81-tryte) seed is used as input for the <a href="https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md">Kerl</a> hash function to derive the private keys. Therefore, it is first converted to a 384-bit string to be absorbed by <a href="https://keccak.team/keccak.html">Keccak-384</a>. As the set of all possible 243-trit strings is larger than the set of 384-bit strings, the most significant trit is fixed to zero before converting. This means that the 243rd of the seed is ignored and does not have any impact on the following key derivation and does not need to be considered for the encoding.</p>
+<h3 id="generating-the-mnemonic-from-seed"><a class="header" href="#generating-the-mnemonic-from-seed">Generating the mnemonic from seed</a></h3>
+<ul>
+<li>Interpret the IOTA seed as a little-endian 243-trit balanced ternary integer; assure that its most significant trit is 0 and encode the number as a 384-bit signed integer in big-endian two's complement representation. <a href="https://github.com/iotaledger/kerl/blob/master/IOTA-Kerl-spec.md#trits---bytes-encoding">This exact conversion</a> is also used as part of the current Kerl hash function.</li>
+<li>Compute the <a href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf">SHA-256</a> hash of the resulting bit string and use its first 384/32=12 bits as the checksum.</li>
+<li>The 12-bit checksum is appended to the end of the initial result, making it a 396-bit string.</li>
+<li>These concatenated bits are split into 36 groups of 11 bits, each encoding a number from 0-2047, corresponding to an index into the wordlist.</li>
+<li>Finally, convert these numbers into words from any one of the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md">BIP-0039 wordlists</a> and use the joined words as a mnemonic sentence.</li>
+</ul>
+<h3 id="generating-the-seed-from-mnemonic"><a class="header" href="#generating-the-seed-from-mnemonic">Generating the seed from mnemonic</a></h3>
+<ul>
+<li>Convert the 36-word mnemonic sentence into its corresponding 396-bit string by taking the 11-bit wordlist index for each word and concatenating all the bits.</li>
+<li>Split the resulting bit string into 384-bit entropy and 12-bit checksum.</li>
+<li>Verify that the checksum corresponds to the first bits of the SHA-256 hash of the entropy.</li>
+<li>Convert the 384-bit entropy, interpreted as a signed integer in big-endian two's complement representation, back to a little-endian 243-trit balanced ternary integer. (The most significant trit will always be zero.) This corresponds to the usual 243-trit or 81-tryte IOTA seed.</li>
+</ul>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<ul>
+<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt">English word list</a>:</li>
+<li>IOTA seed (81-tryte): <code>TLEV9HDTGZOXIIGA9DZG9VAKAIUZKNIMAFUGGARTWPOGDLLVUFZZVAABXRMFPWJAYWBBHOERV9EZBAOJD</code></li>
+<li>mnemonic (36-word): <code>forget small borrow baby wing law monkey fiber jealous canyon melt all order lift now fish mind index neither discover divert fit curtain raw wealth arrow frozen plug catalog public winner emerge pulse mixture cry arch</code></li>
+<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/japanese.txt">Japanese word list</a>:</li>
+<li>IOTA seed (81-tryte): <code>KMQDKKLGGTPUBRJXYWLMQOIA9WIEWUAAJPASYPVAWOTYYH9JESDKPLVZIWITHDIUMLFEWQUQ9LHAV9GHC</code></li>
+<li>mnemonic (36-word): <code>げどく　まもる　してい　ていへん　つめたい　ちつじょ　だいたい　てうち　まいにち　さゆう　よそく　がはく　ねらう　いちおう　くみあわせ　ふいうち　せつでん　きせい　すべて　きひん　しかい　さぎょう　うけたまわる　つとめる　おんしゃ　きかい　なやむ　たいせつ　うんこう　むすめ　いってい　ふめつ　そとづら　つくね　おいこす　ききて</code></li>
+</ul>
+<h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
+<ul>
+<li>This RFC describes a way to represent computer-generated randomness in a human-readable transcription. It is in no way meant to process user created sentences into a binary key. This technique is also sometimes called a &quot;brain wallet&quot; and must not be confused with these mnemonics.</li>
+<li>The mnemonics only encode 384 bits of entropy which only covers 242 trits. The 243rd trit will <em>not</em> be encoded and always padded with 0. This is fine, when Kerl is used to derive the private keys, since the Kerl hash function only works on the first 242 trits itself. However, other - currently not used - key derivation functions relying on the full 243-trit entropy are <em>not</em> compatible with this RFC.</li>
+</ul>
+<h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
+<ul>
+<li>BIP-0039 provides an industry standard to present computer generated, secure entropy in a way that can be &quot;processed&quot; by humans in a much less error-prone way. The word lists are chosen in a way to reduce ambiguity, as such, typos can either be autocorrected or corrected with the help of a dictionary. This is in contrast to a raw ternary (or binary) representation, where typos automatically lead to a completely new seed, changing and breaking all successive private keys.</li>
+<li>Thanks to the integrated 12-bit checksum, it is even possible to detect whether one or more words have been exchanged completely.</li>
+<li>Presenting the user with a tryte or hex string will lead to situations in which the seed is copied into a text file, while human-readable words encourage the user to copy them on a piece of paper.</li>
+</ul>
+<h1 id="unresolved-questions"><a class="header" href="#unresolved-questions">Unresolved questions</a></h1>
+<ul>
+<li>This RFC does not cover usability aspects of entering mnemonics. Forcing the user to enter a mnemonic sentence and then discarding the input, due to one easily correctable typo in one word, would almost be as frustrating as typing a tryte string. Therefore, this must be combined with different usability improvements, e.g. only allowing entering characters that lead to valid words or fixing the word as soon as it can be unambiguously identified.</li>
+<li>The BIP-0039 specification includes several word lists for different languages. Should these word lists be allowed or is it sufficient to only use the English list?</li>
+<li>The BIP-0039 specification only considers entropy between 128 and 256 bits, while this RFC extends it in an analogue way for 384 bits. Is it also relevant for certain use cases to extend this for 512 bits (or even longer)?</li>
+</ul>
+<h1 id="reference-implementation"><a class="header" href="#reference-implementation">Reference implementation</a></h1>
+<p>Example Go implementation in <a href="https://github.com/Wollac/iota-crypto-demo">wollac/iota-crypto-demo</a>:</p>
+<ul>
+<li>Conversion from mnemonic to seed: <a href="https://github.com/Wollac/iota-crypto-demo/blob/master/pkg/bip39/bip39.go">pkg/bip39/bip39.go</a></li>
+<li>Example: <a href="https://github.com/Wollac/iota-crypto-demo/tree/master/examples/mnemseed">examples/mnemseed</a></li>
+</ul>
+<h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../tips/TIP-0009/tip-0009.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../tips/TIP-0011/tip-0011.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../tips/TIP-0009/tip-0009.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../tips/TIP-0011/tip-0011.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

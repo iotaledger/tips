@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>0032-dust-protection - The IOTA Protocol RFC Book</title>
+        <title>TIP-15 Dust Protection - The Tangle Improvement Proposal (TIP) Book</title>
 
 
         <!-- Custom HTML head -->
@@ -13,21 +13,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="../favicon.svg">
-        <link rel="shortcut icon" href="../favicon.png">
-        <link rel="stylesheet" href="../css/variables.css">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/chrome.css">
-        <link rel="stylesheet" href="../css/print.css" media="print">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../fonts/fonts.css">
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -35,7 +35,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
-            var path_to_root = "../";
+            var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0017-tangle-message/0017-tangle-message.html">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="../0018-transaction-payload/0018-transaction-payload.html">0018-transaction-payload</a></li><li class="chapter-item expanded "><a href="../0019-milestone-payload/0019-milestone-payload.html">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li><li class="chapter-item expanded "><a href="../0032-dust-protection/0032-dust-protection.html" class="active">0032-dust-protection</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html" class="active">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -110,10 +110,10 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">The IOTA Protocol RFC Book</h1>
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
 
                     <div class="right-buttons">
-                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -142,16 +142,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <ul>
-<li>Feature name: <code>dust-protection</code></li>
-<li>Start date: 2020-12-07</li>
-<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/0032">iotaledger/protocol-rfcs#0032</a></li>
-</ul>
+                        <pre>
+tip: 15
+title: Dust Protection
+description: Prevent bloating the ledger size with to dust outputs
+author: Gal Rogozinski (@GalRogozinski) <gal.rogozinski@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/32
+status: Active
+type: Standards
+layer: Core
+created: 2020-12-07
+</pre>
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>In the UTXO model, each node in the network needs to keep track of all the currently unspent outputs. When the number of outputs gets too large, this can cause performance and memory issues.
 This RFC proposes a new protocol rule regarding the processing of outputs that transfer a very small amount of IOTA, so-called dust outputs: Dust outputs are only allowed when they are backed up by a certain deposit on the receiving address. This limits the amount of dust outputs, thus making it expensive to proliferate dust. Since a receiver must make a deposit, the protocol makes receiving dust an opt-in feature.</p>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
-<p>An attacker, or even honest users, can proliferate the UTXO ledger with outputs holding a tiny amount of IOTA coins. This can cause the ledger to grow to a prohibitively large size. </p>
+<p>An attacker, or even honest users, can proliferate the UTXO ledger with outputs holding a tiny amount of IOTA coins. This can cause the ledger to grow to a prohibitively large size.</p>
 <p>In order to protect nodes from such attacks, one possible solution is to make accumulating dust outputs expensive. Since IOTA does not have any fees that might limit the feasibility of issuing many dust transactions, deposits pose a valid alternative to achieve a similar effect.</p>
 <p>When an address is supposed to receive micro transactions, it must have an unspent output of a special type as a deposit. This deposit cannot be consumed by any transaction as long as the dust outputs remain unspent.</p>
 <p>An additional benefit of this rule is that it makes a mass of privacy violating <a href="https://en.bitcoin.it/wiki/Privacy#Forced_address_reuse">forced address reuse attacks</a> more expensive to carry out.</p>
@@ -160,55 +166,55 @@ This RFC proposes a new protocol rule regarding the processing of outputs that t
 <p><em>Dust output</em>: A transaction output that has an amount smaller than 1 Mi</p>
 <p><em>SigLockedDustAllowanceOutput</em>: A new output type for deposits that enables an address to receive dust outputs. It can be consumed as an input like a regular <code>SigLockedSingleOutput</code>.</p>
 <table>
-  <tr>
-    <td><b>Name</b></td>
-    <td><b>Type</b></td>
-    <td><b>Description</b></td>
-  </tr>
-  <tr>
-    <td>Output Type</td>
-    <td>uint8</td>
-    <td>
-      Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
-    </td>
-  </tr>
-  <tr>
-    <td valign="top">Address <code>oneOf</code></td>
-    <td colspan="2">
-      <details open="true">
-        <summary>Ed25519 Address</summary>
-        <table>
-          <tr>
-            <td><b>Name</b></td>
-            <td><b>Type</b></td>
-            <td><b>Description</b></td>
-          </tr>
-          <tr>
-            <td>Address Type</td>
-            <td>uint8</td>
-            <td>
-              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-            </td>
-          </tr>
-          <tr>
-            <td>Address</td>
-            <td>ByteArray[32]</td>
-            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
-          </tr>
-        </table>
-      </details>
-    </td>
-  </tr>
-  <tr>
-    <td>Amount</td>
-    <td>uint64</td>
-    <td>The amount of tokens to deposit with this <i>SigLockedDustAllowanceOutput</i> output.</td>
-  </tr>
+<tr>
+<td><b>Name</b></td>
+<td><b>Type</b></td>
+<td><b>Description</b></td>
+</tr>
+<tr>
+<td>Output Type</td>
+<td>uint8</td>
+<td>
+Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
+</td>
+</tr>
+<tr>
+<td valign="top">Address <code>oneOf</code></td>
+<td colspan="2">
+<details open="true">
+<summary>Ed25519 Address</summary>
+<table>
+<tr>
+<td><b>Name</b></td>
+<td><b>Type</b></td>
+<td><b>Description</b></td>
+</tr>
+<tr>
+<td>Address Type</td>
+<td>uint8</td>
+<td>
+Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+</td>
+</tr>
+<tr>
+<td>Address</td>
+<td>ByteArray[32]</td>
+<td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
+</tr>
+</table>
+</details>
+</td>
+</tr>
+<tr>
+<td>Amount</td>
+<td>uint64</td>
+<td>The amount of tokens to deposit with this <i>SigLockedDustAllowanceOutput</i> output.</td>
+</tr>
 </table>
 <h3 id="validation"><a class="header" href="#validation">Validation</a></h3>
 <p>Let A be the address that should hold the dust outputs' balances. Let S be the sum of all the amounts of all unspent <code>SigLockedDustAllowanceOutputs</code> on A. Then, the maximum number of allowed dust outputs on A is S divided by 100,000 and rounded down, i.e. 10 outputs for each 1 Mi deposited.
 However, regardless of S, the number of dust outputs must never exceed 100 per address.</p>
-<p>The amount of a <code>SigLockedDustAllowanceOutput</code> must be at least 1 Mi. Apart from this, <code>SigLockedDustAllowanceOutputs</code> are processed identical to <code>SigLockedSingleOutput</code>. The transaction validation as defined in the IOTA protocol <a href="https://iotaledger.github.io/protocol-rfcs/0018-transaction-payload/0018-transaction-payload.html">RFC-0018</a>, however, needs to be adapted.</p>
+<p>The amount of a <code>SigLockedDustAllowanceOutput</code> must be at least 1 Mi. Apart from this, <code>SigLockedDustAllowanceOutputs</code> are processed identical to <code>SigLockedSingleOutput</code>. The transaction validation as defined in the IOTA protocol <a href="../TIP-0007/tip-0007.html">TIP-7</a>, however, needs to be adapted.</p>
 <p><em>Syntactical validation</em> for <code>SigLockedDustAllowanceOutput</code>:</p>
 <ul>
 <li>The <code>Address</code> must be unique in the set of <code>SigLockedDustAllowanceOutputs</code> in one transaction T. However, there can be one <code>SigLockedSingleOutput</code> and one <code>SigLockedDustAllowanceOutputs</code> T.</li>
@@ -217,7 +223,7 @@ However, regardless of S, the number of dust outputs must never exceed 100 per a
 <p>The <em>semantic validation</em> remains unchanged and are checked for both <code>SigLockedSingleOutputs</code> and <code>SigLockedDustAllowanceOutput</code>, but this RFC introduces one additional criterion:</p>
 <p>A transaction T</p>
 <ul>
-<li>consuming a <code>SigLockedDustAllowanceOutput</code> on address A <strong>or</strong></li>
+<li>consuming a <code>SigLockedDustAllowanceOutput</code> on address A format-tip-header.sh</li>
 <li>creating a dust output with address A,</li>
 </ul>
 <p>is only semantically valid, if, after T is booked, the number of confirmed unspent dust outputs on A does not exceed the allowed threshold of min(S / 100000, 100).</p>
@@ -242,15 +248,19 @@ The receiving party is also unlikely to be displeased from obtaining more funds,
 </ul>
 <p>The first option can cause issues, when dust outputs were burned before users could consolidate them. Also, changing the supply can be controversial.</p>
 <p>The second option is much more complicated as it introduces a completely new unlock mechanisms and requires the nodes to store the Merkle tree roots indefinitely.</p>
+<h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../0024-message-pow/0024-message-pow.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../tips/TIP-0014/tip-0014.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next" href="../../tips/TIP-0016/tip-0016.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -258,10 +268,13 @@ The receiving party is also unlikely to be displeased from obtaining more funds,
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../0024-message-pow/0024-message-pow.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../tips/TIP-0014/tip-0014.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next" href="../../tips/TIP-0016/tip-0016.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -274,13 +287,13 @@ The receiving party is also unlikely to be displeased from obtaining more funds,
         </script>
 
 
-        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
 
-        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
 

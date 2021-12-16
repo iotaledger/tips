@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>0005-white-flag - The IOTA Protocol RFC Book</title>
+        <title>TIP-2 White Flag Ordering - The Tangle Improvement Proposal (TIP) Book</title>
 
 
         <!-- Custom HTML head -->
@@ -13,21 +13,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="../favicon.svg">
-        <link rel="shortcut icon" href="../favicon.png">
-        <link rel="stylesheet" href="../css/variables.css">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/chrome.css">
-        <link rel="stylesheet" href="../css/print.css" media="print">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../fonts/fonts.css">
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -35,7 +35,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
-            var path_to_root = "../";
+            var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../0005-white-flag/0005-white-flag.html" class="active">0005-white-flag</a></li><li class="chapter-item expanded "><a href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html">0008-uniform-random-tip-selection</a></li><li class="chapter-item expanded "><a href="../0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">0012-milestone-merkle-validation</a></li><li class="chapter-item expanded "><a href="../0015-binary-to-ternary-encoding/0015-binary-to-ternary-encoding.html">0015-binary-to-ternary-encoding</a></li><li class="chapter-item expanded "><a href="../0017-tangle-message/0017-tangle-message.html">0017-tangle-message</a></li><li class="chapter-item expanded "><a href="../0018-transaction-payload/0018-transaction-payload.html">0018-transaction-payload</a></li><li class="chapter-item expanded "><a href="../0019-milestone-payload/0019-milestone-payload.html">0019-milestone-payload</a></li><li class="chapter-item expanded "><a href="../0020-bech32-address-format/0020-bech32-address-format.html">0020-bech32-address-format</a></li><li class="chapter-item expanded "><a href="../0024-message-pow/0024-message-pow.html">0024-message-pow</a></li><li class="chapter-item expanded "><a href="../0032-dust-protection/0032-dust-protection.html">0032-dust-protection</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html" class="active">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -110,10 +110,10 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">The IOTA Protocol RFC Book</h1>
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
 
                     <div class="right-buttons">
-                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -142,11 +142,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <ul>
-<li>Feature name: <code>white-flag</code></li>
-<li>Start date: 2020-03-06</li>
-<li>RFC PR: <a href="https://github.com/iotaledger/protocol-rfcs/pull/5">iotaledger/protocol-rfcs#0005</a>, <a href="https://github.com/iotaledger/protocol-rfcs/pull/30">iotaledger/protocol-rfcs#0030</a></li>
-</ul>
+                        <pre>
+tip: 2
+title: White Flag Ordering
+description: Mitigate conflict spamming by ignoring conflicts
+author: Thibault Martinez (@thibault-martinez) <thibault@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/5, https://github.com/iotaledger/tips/pull/30
+status: Active
+type: Standards
+layer: Core
+created: 2020-03-06
+</pre>
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>This RFC is part of a set of protocol changes, <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, aiming at improving the
 network before <a href="https://coordicide.iota.org/">Coordicide</a> is complete.</p>
@@ -204,34 +210,34 @@ a new milestone confirming many new messages.</p>
 <p>Pseudo-code means that implementation details such as types, parameters, ..., are not important but that the logic has
 to be followed with care when implementing a node to avoid differences in the ledger state.</p>
 <pre><code>update_ledger_state(ledger, milestone, solid_entry_points) {
-    s = new Stack()
-    visited = new Set()
+s = new Stack()
+visited = new Set()
 
-    s.push(milestone)
+s.push(milestone)
 
-    while (!s.is_empty()) {
-        curr = s.peek()
-        next = null
+while (!s.is_empty()) {
+curr = s.peek()
+next = null
 
-        // Look for the first eligible parent that was not already visited
-        for parent in curr.parents {
-          if (!solid_entry_points.contains(parent) &amp;&amp; !parent.confirmed &amp;&amp; !visited.contains(parent)) {
-            next = parent
-            break
-          }
-        }
+// Look for the first eligible parent that was not already visited
+for parent in curr.parents {
+if (!solid_entry_points.contains(parent) &amp;&amp; !parent.confirmed &amp;&amp; !visited.contains(parent)) {
+next = parent
+break
+}
+}
 
-        // All parents have been visited, apply and visit the current message
-        if next == null {
-          ledger.apply(curr)
-          visited.add(curr)
-          s.pop()
-        }
-        // Otherwise, go to the parent
-        else {
-          s.push(next)
-        }
-    }
+// All parents have been visited, apply and visit the current message
+if next == null {
+ledger.apply(curr)
+visited.add(curr)
+s.pop()
+}
+// Otherwise, go to the parent
+else {
+s.push(next)
+}
+}
 }
 </code></pre>
 <p><strong>Notes</strong>:</p>
@@ -246,10 +252,10 @@ The hash of the genesis message is also a solid entry point.</li>
 The set of red messages <code>{A, B, C, E, F, H}</code> is confirmed by milestone <code>H</code>.
 The set of purple messages <code>{D, G, J, L, M, N, K, I, O, S, R, V}</code> is confirmed by milestone <code>V</code>.
 The set of blue messages <code>{Q, U, X, Y, Z, W, T, P}</code> is confirmed by another milestone.</p>
-<p><img src="img/tangle.svg" alt="" /></p>
+<p><img src="tangle.svg" alt="" /></p>
 <p>Applying the previously shown algorithm on the purple set produces the topological order
 <code>{D, G, J, L, M, R, I, K, N O, S, V}</code>.</p>
-<p><img src="img/tangle-conflict.svg" alt="" /></p>
+<p><img src="tangle-conflict.svg" alt="" /></p>
 <p>Here, message <code>G</code> and message <code>O</code>, both confirmed by milestone <code>V</code>, are conflicting. Since in the topological order just
 produced, <code>G</code> appears before <code>O</code>, <code>G</code> is applied to the ledger and <code>O</code> is ignored.</p>
 <h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
@@ -276,16 +282,18 @@ milestones but ignored by the node, the fake snapshot then going unnoticed. The 
 more corrupted and the view of the balances completely wrong, errors just accumulating over time. The need for a
 snapshot verification mechanism is then amplified by the implementation of White Flag. This mechanism being out of the
 scope of this RFC, it will be described in another RFC.</p>
+<h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../tips/TIP-0001/tip-0001.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../tips/TIP-0003/tip-0003.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -295,11 +303,11 @@ scope of this RFC, it will be described in another RFC.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../tips/TIP-0001/tip-0001.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../0008-uniform-random-tip-selection/0008-uniform-random-tip-selection.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../tips/TIP-0003/tip-0003.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -314,13 +322,13 @@ scope of this RFC, it will be described in another RFC.</p>
         </script>
 
 
-        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
 
-        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
 
