@@ -154,9 +154,9 @@ layer: IRC
 created: 2020-03-11
 </pre>
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
-<p>The IOTA protocol uses a 81-tryte seed to derive all the private keys for one account. This RFC describes a method to represent that seed as a mnemonic sentence - a group of easily comprehensible words.</p>
+<p>The IOTA protocol uses a 81-tryte seed to derive all the private keys for one account. This RFC describes a method to represent that seed as a mnemonic sentence - a group of easily comprehensible words. </p>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
-<p>The used seed is a 384-bit or 243-trit random string. There are several ways to represent this in a human-readable form, but a mnemonic sentence is superior to raw binary or ternary strings. These sentences can easily be written down or they can even be recorded over a phone.
+<p>The used seed is a 384-bit or 243-trit random string. There are several ways to represent this in a human-readable form, but a mnemonic sentence is superior to raw binary or ternary strings. These sentences can easily be written down or they can even be recorded  over a phone.
 Furthermore, having raw strings tempts the user to copy and paste the seed due to convenience over security. This practice opens new attack vectors such as theft or manipulation of the string in the clipboard.</p>
 <h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
 <p>The <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-0039</a> specification exactly describes an implementation for its use case and how to uniquely represent binary entropy using mnemonic words. However, it is only defined for binary input of 128 - 256 bits. The section(s) below describe the canonical extension of BIP-0039 for longer inputs of 81 trytes or 384 bits.</p>
@@ -178,16 +178,22 @@ Furthermore, having raw strings tempts the user to copy and paste the seed due t
 </ul>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
-<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt">English word list</a>:</li>
+<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt">English word list</a>:
+<ul>
 <li>IOTA seed (81-tryte): <code>TLEV9HDTGZOXIIGA9DZG9VAKAIUZKNIMAFUGGARTWPOGDLLVUFZZVAABXRMFPWJAYWBBHOERV9EZBAOJD</code></li>
 <li>mnemonic (36-word): <code>forget small borrow baby wing law monkey fiber jealous canyon melt all order lift now fish mind index neither discover divert fit curtain raw wealth arrow frozen plug catalog public winner emerge pulse mixture cry arch</code></li>
-<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/japanese.txt">Japanese word list</a>:</li>
+</ul>
+</li>
+<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/japanese.txt">Japanese word list</a>:
+<ul>
 <li>IOTA seed (81-tryte): <code>KMQDKKLGGTPUBRJXYWLMQOIA9WIEWUAAJPASYPVAWOTYYH9JESDKPLVZIWITHDIUMLFEWQUQ9LHAV9GHC</code></li>
 <li>mnemonic (36-word): <code>げどく　まもる　してい　ていへん　つめたい　ちつじょ　だいたい　てうち　まいにち　さゆう　よそく　がはく　ねらう　いちおう　くみあわせ　ふいうち　せつでん　きせい　すべて　きひん　しかい　さぎょう　うけたまわる　つとめる　おんしゃ　きかい　なやむ　たいせつ　うんこう　むすめ　いってい　ふめつ　そとづら　つくね　おいこす　ききて</code></li>
 </ul>
+</li>
+</ul>
 <h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <ul>
-<li>This RFC describes a way to represent computer-generated randomness in a human-readable transcription. It is in no way meant to process user created sentences into a binary key. This technique is also sometimes called a &quot;brain wallet&quot; and must not be confused with these mnemonics.</li>
+<li>This RFC describes a way to represent computer-generated randomness in a human-readable transcription. It is in no way meant to process user created sentences into a binary key. This technique is also sometimes called a &quot;brain wallet&quot; and must not be confused with these mnemonics. </li>
 <li>The mnemonics only encode 384 bits of entropy which only covers 242 trits. The 243rd trit will <em>not</em> be encoded and always padded with 0. This is fine, when Kerl is used to derive the private keys, since the Kerl hash function only works on the first 242 trits itself. However, other - currently not used - key derivation functions relying on the full 243-trit entropy are <em>not</em> compatible with this RFC.</li>
 </ul>
 <h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
@@ -199,7 +205,7 @@ Furthermore, having raw strings tempts the user to copy and paste the seed due t
 <h1 id="unresolved-questions"><a class="header" href="#unresolved-questions">Unresolved questions</a></h1>
 <ul>
 <li>This RFC does not cover usability aspects of entering mnemonics. Forcing the user to enter a mnemonic sentence and then discarding the input, due to one easily correctable typo in one word, would almost be as frustrating as typing a tryte string. Therefore, this must be combined with different usability improvements, e.g. only allowing entering characters that lead to valid words or fixing the word as soon as it can be unambiguously identified.</li>
-<li>The BIP-0039 specification includes several word lists for different languages. Should these word lists be allowed or is it sufficient to only use the English list?</li>
+<li>The BIP-0039 specification includes several word lists for different languages. Should these word lists be allowed or is it sufficient to only use the English list? </li>
 <li>The BIP-0039 specification only considers entropy between 128 and 256 bits, while this RFC extends it in an analogue way for 384 bits. Is it also relevant for certain use cases to extend this for 512 bits (or even longer)?</li>
 </ul>
 <h1 id="reference-implementation"><a class="header" href="#reference-implementation">Reference implementation</a></h1>

@@ -145,7 +145,7 @@
                         <pre>
 tip: 9
 title: Local Snapshot File Format
-description: File format to export/import ledger state
+description: File format to export/import ledger state 
 author: Luca Moser (@luca-moser) <luca.moser@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/25
 status: Active
@@ -157,14 +157,18 @@ created: 2020-08-25
 <p>This RFC defines a file format for local snapshots which is compatible with Chrysalis Phase 2.</p>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
 <p>Nodes create local snapshots to produce ledger representations at a point in time of a given milestone to be able to:</p>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Start up from a recent milestone instead of having to synchronize from the genesis transaction.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Delete old transaction data below a given milestone.</p>
+<ul>
+<li>Start up from a recent milestone instead of having to synchronize from the genesis transaction.</li>
+<li>Delete old transaction data below a given milestone.</li>
+</ul>
 <p>Current node implementations use a <a href="https://github.com/iotaledger/iri-ls-sa-merger/tree/351020d3b5e342b6e9a41f2868575ab7ff8c251c#generating-an-export-file-from-a-localsnapshots-db">local snapshot file format</a> which only works with account based ledgers. For Chrysalis Phase 2, this file format has to be assimilated to support a
 UTXO based ledger.</p>
 <h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
 <p>Since a UTXO based ledger is much larger in size, this RFC proposes two formats for snapshot files:</p>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp A <code>full</code> format which represents a complete ledger state.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp A <code>delta</code> format which only contains diffs (created and consumed outputs) of milestones from a given milestone index onwards.</p>
+<ul>
+<li>A <code>full</code> format which represents a complete ledger state.</li>
+<li>A <code>delta</code> format which only contains diffs (created and consumed outputs) of milestones from a given milestone index onwards.</li>
+</ul>
 <p>This separation allows nodes to swiftly create new delta snapshot files, which then can be distributed with a companion full snapshot file to reconstruct a recent state.</p>
 <p>Unlike the current format, these new formats do not include spent addresses since this information is no longer held by nodes.</p>
 <h3 id="formats"><a class="header" href="#formats">Formats</a></h3>
@@ -184,354 +188,358 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
 <h5 id="output"><a class="header" href="#output">Output</a></h5>
 <p>Defines an output.</p>
 <table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Message Hash</td>
-<td>Array<byte>[32]</td>
-<td>The hash of the message in which the transaction was contained which generated this output.</td>
-</tr>
-<tr>
-<td>Transaction hash</td>
-<td>Array<byte>[32]</td>
-<td>The hash of the transaction which generated this output.</td>
-</tr>
-<tr>
-<td>Output index</td>
-<td>uint16</td>
-<td>The index of this output within the transaction.</td>
-</tr>
-<tr>
-<td valign="top">Output <code>oneOf</code></td>
-<td colspan="2">
-<details>
-<summary>SigLockedSingleDeposit</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>byte</td>
-<td>Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.</td>
-</tr>
-<tr>
-<td valign="top">Address <code>oneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Ed25519 Address</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Address Type</td>
-<td>byte/varint</td>
-<td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
-</tr>
-<tr>
-<td>Address</td>
-<td>ByteArray[32]</td>
-<td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of tokens this output deposits.</td>
-</tr>
-</table>
-</details>
-<details>
-<summary>SigLockedDustAllowanceDeposit</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>byte</td>
-<td>Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceDeposit</i>.</td>
-</tr>
-<tr>
-<td valign="top">Address <code>oneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Ed25519 Address</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Address Type</td>
-<td>byte/varint</td>
-<td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
-</tr>
-<tr>
-<td>Address</td>
-<td>ByteArray[32]</td>
-<td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of tokens this output deposits.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Message Hash</td>
+        <td>Array<byte>[32]</td>
+        <td>The hash of the message in which the transaction was contained which generated this output.</td>
+    </tr>
+    <tr>
+        <td>Transaction hash</td>
+        <td>Array<byte>[32]</td>
+        <td>The hash of the transaction which generated this output.</td>
+    </tr>
+    <tr>
+        <td>Output index</td>
+        <td>uint16</td>
+        <td>The index of this output within the transaction.</td>
+    </tr>
+    <tr>
+        <td valign="top">Output <code>oneOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>SigLockedSingleDeposit</summary>
+                <table>
+                    <tr>
+                        <td><b>Name<b></td>
+                        <td><b>Type</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    <tr>
+                        <td>Output Type</td>
+                        <td>byte</td>
+                        <td>Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.</td>
+                    </tr>
+                    <tr>
+                        <td valign="top">Address <code>oneOf</code></td>
+                        <td colspan="2">
+                            <details>
+                                <summary>Ed25519 Address</summary>
+                                <table>
+                                    <tr>
+                                        <td><b>Name<b></td>
+                                        <td><b>Type</b></td>
+                                        <td><b>Description</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Type</td>
+                                        <td>byte/varint</td>
+                                        <td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>ByteArray[32]</td>
+                                        <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                    </tr>
+                                </table>
+                            </details>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Amount</td>
+                        <td>uint64</td>
+                        <td>The amount of tokens this output deposits.</td>
+                    </tr>
+                </table>
+            </details>
+            <details>                                 
+                <summary>SigLockedDustAllowanceDeposit</summary>
+                <table>
+                    <tr>
+                        <td><b>Name<b></td>
+                        <td><b>Type</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    <tr>
+                        <td>Output Type</td>
+                        <td>byte</td>
+                        <td>Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceDeposit</i>.</td>
+                    </tr>
+                    <tr>
+                        <td valign="top">Address <code>oneOf</code></td>
+                        <td colspan="2">
+                            <details>
+                                <summary>Ed25519 Address</summary>
+                                <table>
+                                    <tr>
+                                        <td><b>Name<b></td>
+                                        <td><b>Type</b></td>
+                                        <td><b>Description</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Type</td>
+                                        <td>byte/varint</td>
+                                        <td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>ByteArray[32]</td>
+                                        <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                    </tr>
+                                </table>
+                            </details>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Amount</td>
+                        <td>uint64</td>
+                        <td>The amount of tokens this output deposits.</td>
+                    </tr>
+                </table>
+            </details>
+        </td>
+    </tr>
 </table>
 <h5 id="milestone-diff"><a class="header" href="#milestone-diff">Milestone Diff</a></h5>
 <p>Defines the diff a milestone produced by listing the created/consumed outputs and the milestone payload itself.</p>
 <table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Milestone Payload length</td>
-<td>uint32</td>
-<td>Denotes the length of the milestone payload.</td>
-</tr>
-<tr>
-<td>Milestone Payload</td>
-<td>Array<byte>[Milestone Payload length]</td>
-<td>The milestone payload in its serialized binary form.</td>
-</tr>
-<tr>
-<td>
-Treasury Input
-<blockquote>
-only included if milestone contains a receipt
-</blockquote>
-</td>
-<td colspan="2">
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Treasury Input Milestone Hash</td>
-<td>Array<byte>[32]</td>
-<td>The hash of the milestone this input references.</td>
-</tr>
-<tr>
-<td>Treasury Input Amount</td>
-<td>uint64</td>
-<td>The amount of this treasury input.</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>Created Outputs Count</td>
-<td>uint64</td>
-<td>The amount of outputs generated with this milestone diff.</td>
-</tr>
-<tr>
-<td valign="top">Created Outputs <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Output</summary>
-</details>
-</td>
-</tr>
-<tr>
-<td>Consumed Outputs Count</td>
-<td>uint64</td>
-<td>The amount of outputs consumed with this milestone diff.</td>
-</tr>
-<tr>
-<td valign="top">Consumed Outputs <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Output</summary>
-</details>
-</td>
-</tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Milestone Payload length</td>
+        <td>uint32</td>
+        <td>Denotes the length of the milestone payload.</td>
+    </tr>
+    <tr>
+        <td>Milestone Payload</td>
+        <td>Array<byte>[Milestone Payload length]</td>
+        <td>The milestone payload in its serialized binary form.</td>
+    </tr>
+    <tr>
+        <td>
+        Treasury Input
+        <blockquote>
+        only included if milestone contains a receipt
+        </blockquote>
+        </td>
+        <td colspan="2">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Treasury Input Milestone Hash</td>
+                    <td>Array<byte>[32]</td>
+                    <td>The hash of the milestone this input references.</td>
+                </tr>
+                <tr>
+                    <td>Treasury Input Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of this treasury input.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>Created Outputs Count</td>
+        <td>uint64</td>
+        <td>The amount of outputs generated with this milestone diff.</td>
+    </tr>
+    <tr>
+        <td valign="top">Created Outputs <code>anyOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td>Consumed Outputs Count</td>
+        <td>uint64</td>
+        <td>The amount of outputs consumed with this milestone diff.</td>
+    </tr>
+    <tr>
+        <td valign="top">Consumed Outputs <code>anyOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
 </table>
 <h5 id="full-snapshot-file-format"><a class="header" href="#full-snapshot-file-format">Full snapshot file format</a></h5>
 <p>Defines what a full snapshot file contains.</p>
 <table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Version</td>
-<td>byte</td>
-<td>Denotes the version of this file format.</td>
-</tr>
-<tr>
-<td>Type</td>
-<td>byte</td>
-<td>Denotes the type of this file format. <b>Value 0</b> denotes a full snapshot.</td>
-</tr>
-<tr>
-<td>Timestamp</td>
-<td>uint64</td>
-<td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
-</tr>
-<tr>
-<td>Network ID</td>
-<td>uint64</td>
-<td>The ID of the network to which this snapshot is compatible.</td>
-</tr>
-<tr>
-<td>SEPs milestone index</td>
-<td>uint64</td>
-<td>The milestone index for which the SEPs were generated for.</td>
-</tr>
-<tr>
-<td>Ledger milestone index</td>
-<td>uint64</td>
-<td>The milestone index of which the UTXOs within the snapshot are from.</td>
-</tr>
-<tr>
-<td>SEPs count</td>
-<td>uint64</td>
-<td>The amount of SEPs contained within this snapshot.</td>
-</tr>
-<tr>
-<td>Outputs count</td>
-<td>uint64</td>
-<td>The amount of UTXOs contained within this snapshot.</td>
-</tr>
-<tr>
-<td>Milestone diffs count</td>
-<td>uint64</td>
-<td>The amount of milestone diffs contained within this snapshot.</td>
-</tr>
-<tr>
-<td>Treasury Output Milestone Hash</td>
-<td>Array<byte>[32]</td>
-<td>The milestone hash of the milestone which generated the treasury output.</td>
-</tr>
-<tr>
-<td>Treasury Output Amount</td>
-<td>uint64</td>
-<td>The amount of funds residing on the treasury output.</td>
-</tr>
-<tr>
-<td valign="top">SEPs</td>
-<td colspan="2">
-<details>
-<summary>SEP Array<byte>[32]</summary>
-</details>
-</td>
-</tr>
-<tr>
-<td valign="top">Outputs</td>
-<td colspan="2">
-<details>
-<summary>Output</summary>
-</details>
-</td>
-</tr>
-<tr>
-<td valign="top">Milestone Diffs</td>
-<td colspan="2">
-<details>
-<summary>Milestone Diff</summary>
-</details>
-</td>
-</tr>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Version</td>
+        <td>byte</td>
+        <td>Denotes the version of this file format.</td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>byte</td>
+        <td>Denotes the type of this file format. <b>Value 0</b> denotes a full snapshot.</td>
+    </tr>
+    <tr>
+        <td>Timestamp</td>
+        <td>uint64</td>
+        <td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
+    </tr>
+    <tr>
+        <td>Network ID</td>
+        <td>uint64</td>
+        <td>The ID of the network to which this snapshot is compatible.</td>
+    </tr>
+    <tr>
+        <td>SEPs milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index for which the SEPs were generated for.</td>
+    </tr>
+    <tr>
+        <td>Ledger milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index of which the UTXOs within the snapshot are from.</td>
+    </tr>
+    <tr>
+        <td>SEPs count</td>
+        <td>uint64</td>
+        <td>The amount of SEPs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Outputs count</td>
+        <td>uint64</td>
+        <td>The amount of UTXOs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Milestone diffs count</td>
+        <td>uint64</td>
+        <td>The amount of milestone diffs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Treasury Output Milestone Hash</td>
+        <td>Array<byte>[32]</td>
+        <td>The milestone hash of the milestone which generated the treasury output.</td>
+    </tr>
+    <tr>
+        <td>Treasury Output Amount</td>
+        <td>uint64</td>
+        <td>The amount of funds residing on the treasury output.</td>
+    </tr>
+    <tr>
+        <td valign="top">SEPs</td>
+        <td colspan="2">
+            <details>
+                <summary>SEP Array<byte>[32]</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Outputs</td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Milestone Diffs</td>
+        <td colspan="2">
+            <details>
+                <summary>Milestone Diff</summary>
+            </details>
+        </td>
+    </tr>
 </table>
 <h5 id="delta-snapshot-file-format"><a class="header" href="#delta-snapshot-file-format">Delta snapshot file format</a></h5>
 <p>Defines what a delta snapshot contains.</p>
 <table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Version</td>
-<td>byte</td>
-<td>Denotes the version of this file format.</td>
-</tr>
-<tr>
-<td>Type</td>
-<td>byte</td>
-<td>Denotes the type of this file format. <b>Value 1</b> denotes a delta snapshot.</td>
-</tr>
-<tr>
-<td>Timestamp</td>
-<td>uint64</td>
-<td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
-</tr>
-<tr>
-<td>Network ID</td>
-<td>uint64</td>
-<td>The ID of the network to which this snapshot is compatible.</td>
-</tr>
-<tr>
-<td>SEPs milestone index</td>
-<td>uint64</td>
-<td>The milestone index for which the SEPs were generated for.</td>
-</tr>
-<tr>
-<td>Ledger milestone index</td>
-<td>uint64</td>
-<td>The milestone index up on which this delta snapshot builts up from.</td>
-</tr>
-<tr>
-<td>SEPs count</td>
-<td>uint64</td>
-<td>The amount of SEPs contained within this snapshot.</td>
-</tr>
-<tr>
-<td>Milestone diffs count</td>
-<td>uint64</td>
-<td>The amount of milestone diffs contained within this snapshot.</td>
-</tr>
-<tr>
-<td valign="top">SEPs</td>
-<td colspan="2">
-<details>
-<summary>SEP Array<byte>[32]</summary>
-</details>
-</td>
-</tr>
-<tr>
-<td valign="top">Milestone Diffs</td>
-<td colspan="2">
-<details>
-<summary>Milestone Diff</summary>
-</details>
-</td>
-</tr>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Version</td>
+        <td>byte</td>
+        <td>Denotes the version of this file format.</td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>byte</td>
+        <td>Denotes the type of this file format. <b>Value 1</b> denotes a delta snapshot.</td>
+    </tr>
+    <tr>
+        <td>Timestamp</td>
+        <td>uint64</td>
+        <td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
+    </tr>
+    <tr>
+        <td>Network ID</td>
+        <td>uint64</td>
+        <td>The ID of the network to which this snapshot is compatible.</td>
+    </tr>
+    <tr>
+        <td>SEPs milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index for which the SEPs were generated for.</td>
+    </tr>
+    <tr>
+        <td>Ledger milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index up on which this delta snapshot builts up from.</td>
+    </tr>
+    <tr>
+        <td>SEPs count</td>
+        <td>uint64</td>
+        <td>The amount of SEPs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Milestone diffs count</td>
+        <td>uint64</td>
+        <td>The amount of milestone diffs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td valign="top">SEPs</td>
+        <td colspan="2">
+            <details>
+                <summary>SEP Array<byte>[32]</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Milestone Diffs</td>
+        <td colspan="2">
+            <details>
+                <summary>Milestone Diff</summary>
+            </details>
+        </td>
+    </tr>
 </table>
 <h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <p>Nodes need to support this new format.</p>
 <h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp In conjunction with a companion full snapshot, a tool or node can &quot;truncate&quot; the data from a delta snapshot back to a single full snapshot. In that case, the <code>ledger_milestone_index</code> and <code>seps_milestone_index</code> would be the same. In the example above, given the full and delta snapshots, one could produce a new full snapshot for milestone 1350.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Since snapshots may include millions of UTXOs, code generating such files needs to stream data directly onto disk instead of keeping the entire representation in memory. In order to facilitate this, the count denotations for SEPs, UTXOs and diffs are at the beginning of the file. This allows code generating snapshot files to only have to seek back once after the actual count of elements is known.</p>
+<ul>
+<li>In conjunction with a companion full snapshot, a tool or node can &quot;truncate&quot; the data from a delta snapshot back to a single full snapshot. In that case, the <code>ledger_milestone_index</code> and <code>seps_milestone_index</code> would be the same. In the example above, given the full and delta snapshots, one could produce a new full snapshot for milestone 1350.</li>
+<li>Since snapshots may include millions of UTXOs, code generating such files needs to stream data directly onto disk instead of keeping the entire representation in memory. In order to facilitate this, the count denotations for SEPs, UTXOs and diffs are at the beginning of the file. This allows code generating snapshot files to only have to seek back once after the actual count of elements is known.</li>
+</ul>
 <h1 id="unresolved-questions"><a class="header" href="#unresolved-questions">Unresolved questions</a></h1>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Is all the information to startup a node from the local snapshot available with the described format?</p>
+<ul>
+<li>Is all the information to startup a node from the local snapshot available with the described format?</li>
+</ul>
 <h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
 
                     </main>

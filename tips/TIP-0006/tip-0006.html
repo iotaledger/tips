@@ -154,8 +154,11 @@ layer: Core
 created: 2020-07-28
 </pre>
 <ul>
-<li>Changelog:</li>
+<li>Changelog:
+<ul>
 <li>(<a href="https://github.com/iotaledger/tips/pull/0037">iotaledger/tips#0037</a>) Fixed internal links</li>
+</ul>
+</li>
 </ul>
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>The Tangle is the graph data structure behind IOTA. In the current IOTA protocol, the vertices of the Tangle are represented by transactions. This document proposes an abstraction of this idea where the vertices are generalized <em>messages</em>, which then contain the transactions or other structures that are processed by the IOTA protocol. Just as before, each message directly approves other messages, which are known as <em>parents</em>.</p>
@@ -180,95 +183,101 @@ created: 2020-07-28
 <p>The <em>Message ID</em> is the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the entire serialized message.</p>
 <h3 id="serialized-layout"><a class="header" href="#serialized-layout">Serialized Layout</a></h3>
 <table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Network ID</td>
-<td>uint64</td>
-<td>Network identifier. This field denotes whether the message was meant for mainnet, testnet, or a private net. It also marks what protocol rules apply to the message. Usually, it will be set to the first 8 bytes of the BLAKE2b-256 hash of the concatenation of the network type and the protocol version string.</td>
-</tr>
-<tr>
-<td>Parents Count</td>
-<td>uint8</td>
-<td>The number of messages that are directly approved.</td>
-</tr>
-<tr>
-<td valign="top">Parents <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Parent</summary>
-<blockquote>
-References another directly approved message.
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Message ID</td>
-<td>ByteArray[32]</td>
-<td>The Message ID of the parent.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Payload Length</td>
-<td>uint32</td>
-<td>The length of the following payload in bytes. A length of 0 means no payload will be attached.</td>
-</tr>
-<tr>
-<td valign="top">Payload <code>oneOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Generic Payload</summary>
-<blockquote>
-An outline of a generic payload
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>
-The type of the payload. It will instruct the node how to parse the fields that follow.
-</td>
-</tr>
-<tr>
-<td>Data Fields</td>
-<td>ANY</td>
-<td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
-</tr>
-</table>
-</details>
-<tr>
-<td>Nonce</td>
-<td>uint64</td>
-<td>The nonce which lets this message fulfill the PoW requirement.</td>
-</tr>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Network ID</td>
+    <td>uint64</td>
+    <td>Network identifier. This field denotes whether the message was meant for mainnet, testnet, or a private net. It also marks what protocol rules apply to the message. Usually, it will be set to the first 8 bytes of the BLAKE2b-256 hash of the concatenation of the network type and the protocol version string.</td>
+  </tr>
+  <tr>
+    <td>Parents Count</td>
+    <td>uint8</td>
+    <td>The number of messages that are directly approved.</td>
+  </tr>
+  <tr>
+    <td valign="top">Parents <code>anyOf</code></td>
+    <td colspan="2">
+      <details>
+        <summary>Parent</summary>
+        <blockquote>
+          References another directly approved message.
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Message ID</td>
+            <td>ByteArray[32]</td>
+            <td>The Message ID of the parent.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Payload Length</td>
+    <td>uint32</td>
+    <td>The length of the following payload in bytes. A length of 0 means no payload will be attached.</td>
+  </tr>
+  <tr>
+    <td valign="top">Payload <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Generic Payload</summary>
+        <blockquote>
+          An outline of a generic payload
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Payload Type</td>
+            <td>uint32</td>
+            <td>
+              The type of the payload. It will instruct the node how to parse the fields that follow.
+            </td>
+          </tr>
+          <tr>
+            <td>Data Fields</td>
+            <td>ANY</td>
+            <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+          </tr>
+        </table>
+      </details>
+  <tr>
+    <td>Nonce</td>
+    <td>uint64</td>
+    <td>The nonce which lets this message fulfill the PoW requirement.</td>
+  </tr>
 </table>
 <h2 id="message-validation"><a class="header" href="#message-validation">Message validation</a></h2>
 <p>The following criteria defines whether the message passes the syntactical validation:</p>
 <ul>
-<li>The total message size must not exceed 32 KiB (32 LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp 1024 bytes).</li>
-<li>Parents:</li>
+<li>The total message size must not exceed 32 KiB (32 * 1024 bytes).</li>
+<li>Parents:
+<ul>
 <li><code>Parents Count</code> must be at least 1 and not larger than 8.</li>
 <li><code>Parents</code> must be sorted in lexicographical order.</li>
 <li>Each <code>Message ID</code> must be unique.</li>
-<li>Payload (if present):</li>
+</ul>
+</li>
+<li>Payload (if present):
+<ul>
 <li><code>Payload Type</code> must match one of the values described under <a href="#payloads">Payloads</a>.</li>
 <li><code>Data fields</code> must be correctly parsable in the context of the <code>Payload Type</code>.</li>
 <li>The payload itself must pass syntactic validation.</li>
+</ul>
+</li>
 <li><code>Nonce</code> must be a valid solution of the message PoW as described in <a href="../TIP-0012/tip-0012.html">TIP-12</a>.</li>
 <li>There must be no trailing bytes after all message fields have been parsed.</li>
 </ul>
@@ -294,17 +303,26 @@ The type of the payload. It will instruct the node how to parse the fields that 
 <ul>
 <li>Network ID (8-byte): <code>0000000000000000</code> (0)</li>
 <li>Parents Count (1-byte): <code>02</code> (2)</li>
-<li>Parents (64-byte):</li>
+<li>Parents (64-byte):
+<ul>
 <li><code>210fc7bb818639ac48a4c6afa2f1581a8b9525e20fda68927f2b2ff836f73578</code></li>
 <li><code>db0fa54c29f7fd928d92ca43f193dee47f591549f597a811c8fa67ab031ebd9c</code></li>
+</ul>
+</li>
 <li>Payload Length (4-byte): <code>19000000</code> (25)</li>
-<li>Payload (25-byte):</li>
+<li>Payload (25-byte):
+<ul>
 <li>Payload Type (4-byte): <code>02000000</code> (2)</li>
 <li>Index Length (2-byte): <code>0400</code> (4)</li>
 <li>Index (4-byte): <code>494f5441</code> (&quot;IOTA&quot;)</li>
-<li>Data (15-byte):</li>
+<li>Data (15-byte):
+<ul>
 <li>Length (4-byte): <code>0b000000</code> (11)</li>
 <li>Data (11-byte): <code>68656c6c6f20776f726c64</code> (&quot;hello world&quot;)</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Nonce (8-byte): <code>ce6d000000000000</code> (28110)</li>
 </ul>
 <h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>

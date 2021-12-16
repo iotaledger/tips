@@ -170,201 +170,216 @@ created: 2020-07-28
 <p>All values are serialized in little-endian encoding. The serialized form of the milestone is deterministic, meaning the same logical milestone always results in the same serialized byte sequence.</p>
 <p>The following table structure describes the entirety of a <em>Milestone Payload</em> in its serialized form (<a href="../TIP-0006/tip-0006.html#data-types">TIP-6 Data Types</a>):</p>
 <table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>Set to <strong>value 1</strong> to denote a <i>Milestone Payload</i>.</td>
-</tr>
-<tr>
-<td valign="top">Essence <code>oneOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Milestone Essence</summary>
-<blockquote>Describes the signed part of a <i>Milestone Payload</i>.</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Index Number</td>
-<td>uint32</td>
-<td>The index number of the milestone.</td>
-</tr>
-<tr>
-<td>Timestamp</td>
-<td>uint64</td>
-<td>The Unix time (seconds since Unix epoch) at which the milestone was issued.</td>
-</tr>
-<tr>
-<td>Parents Count</td>
-<td>uint8</td>
-<td>The number of messages that are directly approved.</td>
-</tr>
-<tr>
-<td valign="top">Parents <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Parent</summary>
-<blockquote>
-References another directly approved message.
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Message ID</td>
-<td>ByteArray[32]</td>
-<td>The Message ID of the parent.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Inclusion Merkle Root</td>
-<td>ByteArray[32]</td>
-<td>The Merkle tree hash (BLAKE2b-256) of the message IDs of all the not-ignored state-mutating transaction payloads referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
-</tr>
-<tr>
-<td>Next PoW Score</td>
-<td>uint32</td>
-<td>The new PoW score all messages should adhere to. If 0 then the PoW score should not change.</td>
-</tr>
-<tr>
-<td>Next PoW Score Milestone Index</td>
-<td>uint32</td>
-<td>The index of the first milestone that will require a new minimal pow score for applying transactions. This field comes into effect only if the <code>Next PoW Score</code> field is not 0.</td>
-</tr>
-<tr>
-<td>Keys Count</td>
-<td>uint8</td>
-<td>Number of public keys entries.</td>
-</tr>
-<tr>
-<td valign="top">Keys <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Ed25519 Public Key</summary>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Public Key</td>
-<td>ByteArray[32]</td>
-<td>The public key of the Ed25519 keypair which is used to verify the correspondig signature.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Payload Length</td>
-<td>uint32</td>
-<td>The length in bytes of the optional payload.</td>
-</tr>
-<tr>
-<td valign="top">Payload <code>optOneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Generic Payload</summary>
-<blockquote>
-An outline of a generic payload
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>
-The type of the payload. It will instruct the node how to parse the fields that follow.
-</td>
-</tr>
-<tr>
-<td>Data Fields</td>
-<td>ANY</td>
-<td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
-</tr>
-</table>
-</details>
-<tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Signatures Count</td>
-<td>uint8</td>
-<td>Number of signature entries. The number must match the field <code>Keys Count</code>.</td>
-</tr>
-<tr>
-<td valign="top">Signatures <code>anyOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Raw Ed25519 Signature</summary>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Signature</td>
-<td>ByteArray[64]</td>
-<td>The Ed25519 signature signing the BLAKE2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Payload Type</td>
+    <td>uint32</td>
+    <td>Set to <strong>value 1</strong> to denote a <i>Milestone Payload</i>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Essence <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Milestone Essence</summary>
+        <blockquote>Describes the signed part of a <i>Milestone Payload</i>.</blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Index Number</td>
+            <td>uint32</td>
+            <td>The index number of the milestone.</td>
+          </tr>
+          <tr>
+            <td>Timestamp</td>
+            <td>uint64</td>
+            <td>The Unix time (seconds since Unix epoch) at which the milestone was issued.</td>
+          </tr>
+          <tr>
+            <td>Parents Count</td>
+            <td>uint8</td>
+            <td>The number of messages that are directly approved.</td>
+          </tr>
+          <tr>
+            <td valign="top">Parents <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Parent</summary>
+                <blockquote>
+                  References another directly approved message.
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Message ID</td>
+                    <td>ByteArray[32]</td>
+                    <td>The Message ID of the parent.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Inclusion Merkle Root</td>
+            <td>ByteArray[32]</td>
+            <td>The Merkle tree hash (BLAKE2b-256) of the message IDs of all the not-ignored state-mutating transaction payloads referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
+          </tr>
+          <tr>
+            <td>Next PoW Score</td>
+            <td>uint32</td>
+            <td>The new PoW score all messages should adhere to. If 0 then the PoW score should not change.</td>
+          </tr>
+          <tr>
+            <td>Next PoW Score Milestone Index</td>
+            <td>uint32</td>
+            <td>The index of the first milestone that will require a new minimal pow score for applying transactions. This field comes into effect only if the <code>Next PoW Score</code> field is not 0.</td>
+          </tr>
+          <tr>
+            <td>Keys Count</td>
+            <td>uint8</td>
+            <td>Number of public keys entries.</td>
+          </tr>
+          <tr>
+            <td valign="top">Keys <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Ed25519 Public Key</summary>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Public Key</td>
+                    <td>ByteArray[32]</td>
+                    <td>The public key of the Ed25519 keypair which is used to verify the correspondig signature.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Payload Length</td>
+            <td>uint32</td>
+            <td>The length in bytes of the optional payload.</td>
+          </tr>
+          <tr>
+            <td valign="top">Payload <code>optOneOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Generic Payload</summary>
+                <blockquote>
+                  An outline of a generic payload
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Payload Type</td>
+                    <td>uint32</td>
+                    <td>
+                      The type of the payload. It will instruct the node how to parse the fields that follow.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Fields</td>
+                    <td>ANY</td>
+                    <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+                  </tr>
+                </table>
+              </details>
+          <tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Signatures Count</td>
+    <td>uint8</td>
+    <td>Number of signature entries. The number must match the field <code>Keys Count</code>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Signatures <code>anyOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Raw Ed25519 Signature</summary>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Signature</td>
+            <td>ByteArray[64]</td>
+            <td>The Ed25519 signature signing the BLAKE2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
 </table>
 <h2 id="generation"><a class="header" href="#generation">Generation</a></h2>
 <ul>
 <li>Generate a new <em>Milestone Essence</em> corresponding to the Coordinator milestone.</li>
-<li>Transmit the serialized <em>Milestone Essence</em> to the corresponding number of signature service providers.</li>
+<li>Transmit the serialized <em>Milestone Essence</em> to the corresponding number of signature service providers.
+<ul>
 <li>The signature provider service will sign the received serialized bytes as-is.</li>
 <li>The signature provider will serialize the signature bytes and return them to the Coordinator.</li>
+</ul>
+</li>
 <li>Fill the <code>Signatures</code> field of the milestone payload with the received signature bytes.</li>
 <li>Generate a <em>Message</em> as defined in <a href="../TIP-0006/tip-0006.html">TIP-6</a> using the same <code>Parents</code> as in the created <em>Milestone Payload</em>.</li>
 </ul>
 <h2 id="syntactical-validation"><a class="header" href="#syntactical-validation">Syntactical validation</a></h2>
 <ul>
 <li><code>Parents</code> of the payload must match <code>Parents</code> of the encapsulating <em>Message</em>.</li>
-<li>PoW score:</li>
+<li>PoW score:
+<ul>
 <li>If <code>Next Pow Score</code> is zero, <code>Next PoW Score Milestone Index</code> must also be zero.</li>
 <li>Otherwise <code>Next PoW Score Milestone Index</code> must be larger than <code>Index Number</code>.</li>
-<li>Keys:</li>
+</ul>
+</li>
+<li>Keys:
+<ul>
 <li><code>Keys Count</code> must be at least the <em>Signature Threshold</em> and at most the number of <em>Applicable Public Keys</em> for the current milestone index.</li>
 <li><code>Keys</code> must be sorted in lexicographical order.</li>
 <li>Each <code>Public Key</code> must be unique.</li>
 <li><code>Keys</code> must form a subset of the <em>Applicable Public Keys</em> for the current milestone index.</li>
-<li>Payload (if present):</li>
+</ul>
+</li>
+<li>Payload (if present):
+<ul>
 <li><code>Payload Type</code> must match one of the values described under <a href="#payloads">Payloads</a>.</li>
 <li><code>Data fields</code> must be correctly parsable in the context of the <code>Payload Type</code>.</li>
 <li>The payload itself must pass syntactic validation.</li>
-<li>Signatures:</li>
+</ul>
+</li>
+<li>Signatures:
+<ul>
 <li><code>Signatures Count</code> must match <code>Keys Count</code>.</li>
 <li><code>Signature</code> at index i must be valid with respect to the <code>Public Key</code> at the same index.</li>
+</ul>
+</li>
 <li>Given the type and length information, the <em>Milestone Payload</em> must consume the entire byte array of the <code>Payload</code> field of the <em>Message</em>.</li>
 </ul>
 <h3 id="payloads"><a class="header" href="#payloads">Payloads</a></h3>
-<p>The <em>Milestone Payload</em> itself can contain another payload as described in general in <a href="../TIP-0006/tip-0006.html">TIP-6</a>. The following table lists all the payloads types that can be nested inside a <em>Milestone Payload</em> as well as links to the corresponding specification:</p>
+<p>The  <em>Milestone Payload</em> itself can contain another payload as described in general in <a href="../TIP-0006/tip-0006.html">TIP-6</a>. The following table lists all the payloads types that can be nested inside a <em>Milestone Payload</em> as well as links to the corresponding specification:</p>
 <table><thead><tr><th>Payload Name</th><th>Type Value</th><th>TIP</th></tr></thead><tbody>
 <tr><td>Receipts</td><td>4</td><td><a href="../TIP-0015/tip-0015.html#receipts">TIP-15</a></td></tr>
 </tbody></table>

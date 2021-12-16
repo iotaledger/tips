@@ -158,104 +158,112 @@ created: 2020-03-09
 The algorithm selects tips which are non-lazy to maximize confirmation rate.</p>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
 <p>Because of the <code>white-flag</code> confirmation algorithm, it is no longer necessary to perform complex
-tip-selection which evaluates ledger mutations while walking. Therefore, a more simple, better
+tip-selection which evaluates ledger mutations while walking. Therefore, a more simple, better 
 performing algorithm can be used to select tips, which in turn increases overall message throughput.</p>
 <p>To maximize confirmation rate however, the algorithm needs to return tips which are <code>non-lazy</code>.
 Non-lazy in this context means that a tip does not attach to a cone of messages which is too far
 in the past. Such a cone is likely to be already confirmed and does not contribute to the
 rate of newly confirmed messages when a milestone is issued.</p>
 <h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
-<p>Definitions:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Direct Approvers</code> - The set of messages which directly approve a given message.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Approvee</code> - The directly approved message of a given message.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Solid Message</code> - A message that its past cone is known to the node.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Valid Message</code>- A message which is syntactically valid.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Tip</code> - A valid solid message that doesn't have approvers. Its past cone contains only valid messages.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Score</code> - An integer assigned to a <code>tip</code>. The tip selection algorithm uses it to determine how to select tips.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Confirmed Root Message</code> - The set of first seen messages which are confirmed by a previous milestone
-when we walk the past cone of a given message. The walk stops on a confirmed message.
+<p>Definitions:</p>
+<ul>
+<li><code>Direct Approvers</code> - The set of messages which directly approve a given message.</li>
+<li><code>Approvee</code> - The directly approved message of a given message.</li>
+<li><code>Solid Message</code> - A message that its past cone is known to the node.</li>
+<li><code>Valid Message</code>- A message which is syntactically valid.</li>
+<li><code>Tip</code> - A valid solid message that doesn't have approvers. Its past cone contains only valid messages.</li>
+<li><code>Score</code> - An integer assigned to a <code>tip</code>. The tip selection algorithm uses it to determine how to select tips.</li>
+<li><code>Confirmed Root Message</code> - The set of first seen messages which are confirmed by a previous milestone 
+when we walk the past cone of a given message. The walk stops on a confirmed message.<br />
 Note that the red marked milestone is also a <code>Confirmed Root Message</code>.
-<img src="cnf_tx_roots.PNG" alt="sdf" />
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Message Snapshot Index (MSI)</code> defines the index of the milestone which confirmed a given message.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Oldest Message Root Snapshot Index (OMRSI)</code> defines the lowest milestone index of a set of
-<code>Confirmed Root Messages</code> of a given messages.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Youngest Message Root Snapshot Index (YMRSI)</code> defines the highest milestone index of a set of
-<code>Confirmed Root Messages</code> of a given message.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Latest Solid Milestone Index (LSMI)</code> the index of the latest solid milestone.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Below Max Depth (BMD)</code> defines a threshold value up on which it is decided on whether a message is not
-relevant in relation to the recent parts of the Tangle. The current <code>BMD</code> for mainnet nodes is 15 milestones,
-which means that messages of which their <code>OMRSI</code> in relation to the <code>LSMI</code> is more than 15, are &quot;below max depth&quot;.</p>
+<img src="cnf_tx_roots.PNG" alt="sdf" /></li>
+<li><code>Message Snapshot Index (MSI)</code> defines the index of the milestone which confirmed a given message.</li>
+<li><code>Oldest Message Root Snapshot Index (OMRSI)</code> defines the lowest milestone index of a set of
+<code>Confirmed Root Messages</code> of a given messages.</li>
+<li><code>Youngest Message Root Snapshot Index (YMRSI)</code> defines the highest milestone index of a set of
+<code>Confirmed Root Messages</code> of a given message.</li>
+<li><code>Latest Solid Milestone Index (LSMI)</code> the index of the latest solid milestone.</li>
+<li><code>Below Max Depth (BMD)</code> defines a threshold value up on which it is decided on whether a message is not
+relevant in relation to the recent parts of the Tangle. The current <code>BMD</code> for mainnet nodes is 15 milestones, 
+which means that messages of which their <code>OMRSI</code> in relation to the <code>LSMI</code> is more than 15, are &quot;below max depth&quot;.</li>
+</ul>
 <h3 id="omrsi--ymrsi-example"><a class="header" href="#omrsi--ymrsi-example">OMRSI / YMRSI example</a></h3>
 <p>Given the blue PoV message, the <code>OMRSI</code> of it is milestone 1 and <code>YMRSI</code> milestone 2.
 Note that, here again, the milestones are also <code>Confirmed Root Messages</code>.
 <img src="otrsi_ytrsi.PNG" alt="sdf" /></p>
 <h3 id="milestone-based-tip-scoring"><a class="header" href="#milestone-based-tip-scoring">Milestone based tip scoring</a></h3>
 <p>The milestone based scoring defines a tip's score by investigating the tip's relation to
-the cone it approves and previous issued milestones.</p>
-<p>A tip can have one of 3 score states:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>0</code>: The tip is lazy and should not be selected.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>1</code>: The tip is somewhat lazy.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>2</code>: The tip is a non-lazy tip.</p>
-<p>Definitions:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>C1</code>: Max allowed delta value for the <code>YMRSI</code> of a given message in relation to the current <code>LSMI</code>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>C2</code>: Max allowed delta value between <code>OMRSI</code> of a given message in relation to the current <code>LSMI</code>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>M</code>: Max allowed delta value between <code>OMRSI</code> of the given message in relation to the current <code>LSMI</code>.
-<code>M</code> is the <code>below max depth (BMD)</code> parameter.</p>
-<p>Recommended defaults:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>C1</code> = 8 milestones
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>C2</code> = 13 milestones
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>M</code> = 15 milestones</p>
+the cone it approves and previous issued  milestones.</p>
+<p>A tip can have one of 3 score states:</p>
+<ul>
+<li><code>0</code>: The tip is lazy and should not be selected.</li>
+<li><code>1</code>: The tip is somewhat lazy.</li>
+<li><code>2</code>: The tip is a non-lazy tip.</li>
+</ul>
+<p>Definitions:</p>
+<ul>
+<li><code>C1</code>: Max allowed delta value for the <code>YMRSI</code> of a given message in relation to the current <code>LSMI</code>.</li>
+<li><code>C2</code>: Max allowed delta value between <code>OMRSI</code> of a given message in relation to the current <code>LSMI</code>. </li>
+<li><code>M</code>: Max allowed delta value between <code>OMRSI</code> of the given message in relation to the current <code>LSMI</code>.
+<code>M</code> is the <code>below max depth (BMD)</code> parameter.</li>
+</ul>
+<p>Recommended defaults:</p>
+<ul>
+<li><code>C1</code> = 8 milestones</li>
+<li><code>C2</code> = 13 milestones</li>
+<li><code>M</code> = 15 milestones</li>
+</ul>
 <p>Scoring Algorithm (pseudo code):</p>
 <pre><code>
 enum Score (
-LAZY = 0
-SEMI_LAZY = 1
-NON_LAZY = 2
+    LAZY = 0
+    SEMI_LAZY = 1
+    NON_LAZY = 2
 )
 
 const (
-C1 = 8
-C2 = 13
-M = 15
+    C1 = 8
+    C2 = 13
+    M = 15
 )
 
 func score(tip Tip) Score {
+    
+    // if the LSMI to YMRSI delta is over C1, then the tip is lazy
+    if (LSMI - YMRSI(tip) &gt; C1) {
+        return Score.LAZY
+    }
+    
+    // if the OMRSI to LSMI delta is over M/below-max-depth, then the tip is lazy
+    if (LSMI - OMRSI(tip) &gt; M) {
+        return Score.LAZY
+    }
+    
+    if (LSMI - OMRSI(tip) &gt; C2) {
+        return Score.SEMI_LAZY
+    }
 
-// if the LSMI to YMRSI delta is over C1, then the tip is lazy
-if (LSMI - YMRSI(tip) &gt; C1) {
-return Score.LAZY
-}
-
-// if the OMRSI to LSMI delta is over M/below-max-depth, then the tip is lazy
-if (LSMI - OMRSI(tip) &gt; M) {
-return Score.LAZY
-}
-
-if (LSMI - OMRSI(tip) &gt; C2) {
-return Score.SEMI_LAZY
-}
-
-return Score.NON_LAZY
+    return Score.NON_LAZY
 }
 </code></pre>
 <h3 id="random-tip-selection"><a class="header" href="#random-tip-selection">Random Tip-Selection</a></h3>
 <p>A node should keep a set of non-lazy tips (score 2).
-Every time a node is asked to select tips to be approved, it will pick randomly from the set.
+Every time a node is asked to select tips to be approved, it will pick randomly from the set. 
 A node must not execute tip-selection if it is not synchronized.</p>
-<p>A tip should not be removed from the tips set immediately after it was selected in <code>select()</code>, to make it possible for it to be re-selected, which in turn makes the Tangle wider
+<p>A tip should not be removed from the tips set immediately after it was selected in <code>select()</code>,  to make it possible for it to be re-selected, which in turn makes the Tangle wider
 and improves synchronization speed. A tip is removed from the tips set if <code>X</code> amount of direct
-approvers are reached or if a certain amount of time <code>T</code> passed.
-It is recommended to use <code>X</code> = 2 and <code>T</code> = 3 but the threshold should be configurable.</p>
+approvers are reached or if a certain amount of time <code>T</code> passed. 
+It is recommended to use <code>X</code> = 2 and <code>T</code> = 3  but the threshold should be configurable.</p>
 <h3 id="purpose-of-semi-lazy-tips"><a class="header" href="#purpose-of-semi-lazy-tips">Purpose Of Semi-Lazy Tips</a></h3>
 <p>Semi-Lazy tips are not eligible for tip-selection, but the coordinator node may implement a tip selection algorithm
 that confirms semi-lazy tips. Semi-lazy tips will usually be left behind, but parties interested in having them confirmed
-are incentivized to run spammers that will actively reduce the amount of semi-lazy tips eligible for coordinator's tip selection.
+are incentivized to run spammers that will actively reduce the amount of semi-lazy tips eligible for coordinator's tip selection. 
 Given a coordinator that chooses semi-lazy tips, running such spammers may get those messages confirmed before
 they become lazy.</p>
 <h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <p>Depending on when and how often <code>YMRSI</code>/<code>OMRSI</code> values are computed, this tip-selection could still
 have a slow runtime, as one would need to constantly walk down the Tangle to compute those
-values. However, smart caching might resolve this issue.</p>
+values. However, smart caching might resolve this issue. </p>
 <h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
 <p>The previous tip-selection was written in accordance to the original IOTA whitepaper, as it also
 functioned as part of the consensus mechanism.
@@ -263,7 +271,7 @@ However, relatively soon it became apparent that the cumulative weight computati
 for an actual high throughput scenario and, as such, the CW calculation is currently not used within
 node implementations at all.</p>
 <p>Because confirmations with the <a href="../TIP-0002/tip-0002.html">white-flag</a> approach no longer approve cones only with state mutations,
-which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide
+which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide 
 a fast way to get tips to approve with one's own message.
 The only important thing is to disincentive lazy behaviour to be able to maximize confirmation rate.</p>
 <h1 id="unresolved-questions"><a class="header" href="#unresolved-questions">Unresolved questions</a></h1>
@@ -272,7 +280,7 @@ The only important thing is to disincentive lazy behaviour to be able to maximiz
 If the values are only computed once after a transaction became solid, the <code>YMRSI</code>/<code>OMRSI</code> might not
 resemble the true values, as subsequent milestones might confirm transactions within the same cone the
 given transaction approved.</p>
-<p>Currently, we suggest recomputing the values every time a new milestone solidifies.
+<p>Currently, we suggest recomputing the values every time a new milestone solidifies. 
 Since different tips indirectly reference the same transactions, this computation can be optimized.</p>
 <h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
 

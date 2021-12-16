@@ -145,7 +145,7 @@
                         <pre>
 tip: 1
 title: TIP Process
-description: Purpose and guidelines of the contribution framework
+description:  Purpose and guidelines of the contribution framework
 author: Levente Pap (@lzpap) <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/discussions
 status: Active
@@ -163,11 +163,14 @@ created: 2021-12-15
 <h3 id="tip-types"><a class="header" href="#tip-types">TIP Types</a></h3>
 <p>There are 3 types of TIPs:</p>
 <ul>
-<li>A <strong>Standards Track TIP</strong> describes any change that affects most or all IOTA node implementations, such as a change to the network protocol, a change in transaction validity rules, or any change or addition that affects the interoperability of applications using IOTA. Standards Track TIPs consist of two parts, a design document and a reference implementation. Standards Track TIPs can be broken down into layers:</li>
+<li>A <strong>Standards Track TIP</strong> describes any change that affects most or all IOTA node implementations, such as a change to the network protocol, a change in transaction validity rules, or any change or addition that affects the interoperability of applications using IOTA. Standards Track TIPs consist of two parts, a design document and a reference implementation. Standards Track TIPs can be broken down into layers:
+<ul>
 <li><strong>Core</strong>: includes improvements requiring a consensus fork (e.g. new transaction validation rules, change in protocol message layouts), as well as any change that concerns the protocol specification.</li>
 <li><strong>Networking</strong>: includes improvements around the networking layer of the network, e.g. gossip protocol or autopeering.</li>
 <li><strong>Interface</strong>: includes improvements around the client APIs of base layer nodes as well as around the interface definitions of IOTA Smart Contracts (ISC), such as contract schemas or ISC node APIs.</li>
 <li><strong>IRC</strong>: includes improvements around application-level standards and conventions such as contract standards, token standards or metadata format standards.</li>
+</ul>
+</li>
 <li>An <strong>Informational TIP</strong> describes an IOTA design issue, or provides general guidelines or information to the IOTA community, but does not propose a new feature. Informational TIPs do not necessarily represent an IOTA community consensus or recommendation, so users and implementors are free to ignore Informational TIPs or follow their advice.</li>
 <li>A <strong>Process TIP</strong> describes a process surrounding IOTA, or proposes a change to (or an event in) a process. Process TIPs are like Standards Track TIPs but apply to areas other than the IOTA protocol itself. They may propose an implementation, but not to IOTA's codebase; they often require community consensus; unlike Informational TIPs, they are more than recommendations, and users are typically not free to ignore them. Examples include procedures, guidelines, changes to the decision-making process, and changes to the tools or environment used in IOTA development.</li>
 </ul>
@@ -226,7 +229,7 @@ created: 2021-12-15
 <p>The TIP is merged into the repo with <code>Draft</code> status by <em>TIP editor/author</em>.</p>
 </li>
 <li>
-<p>When a working implementation is presented and there are clear plans on how to progress the TIP to completion, the <em>TIP author</em> submits a subsequent PR that links its implementation to the TIP and progresses it to <code>Proposed</code> stage. The TIP is ready to be deployed on testnet.</p>
+<p>When a working implementation is presented and there are clear plans on how to progress the TIP to  completion, the <em>TIP author</em> submits a subsequent PR that links its implementation to the TIP and progresses it to <code>Proposed</code> stage. The TIP is ready to be deployed on testnet.</p>
 </li>
 <li>
 <p>When a <code>Proposed</code> TIP is deemed to have met all appropriate criteria and its implementation has been demonstrated to work reliably in testnet environment, it is ready to be moved to the main network. Upon deployment, the TIP status must change to <code>Active</code>.</p>
@@ -276,7 +279,7 @@ created: 2021-12-15
 <h3 id="linking-tips"><a class="header" href="#linking-tips">Linking TIPs</a></h3>
 <p>References to other TIPs should follow the format TIP-N where N is the TIP number you are referring to. Each TIP that is referenced in an TIP MUST be accompanied by a relative markdown link the first time it is referenced, and MAY be accompanied by a link on subsequent references. The link MUST always be done via relative paths so that the links work in this GitHub repository or forks of this repository. For example, you would link to this TIP with <code>[TIP-1](../TIP-0001/tip-0001.md)</code>.</p>
 <h3 id="auxiliary-files"><a class="header" href="#auxiliary-files">Auxiliary Files</a></h3>
-<p>Images, diagrams and auxiliary files should be included in the subdirectory of the TIP. When linking to an image in the TIP, use relative links such as <code>[TIP Process Diagram](../TIP-0001/process.png)</code>.</p>
+<p>Images, diagrams and auxiliary files should be included in the subdirectory of the TIP.  When linking to an image in the TIP, use relative links such as <code>[TIP Process Diagram](../TIP-0001/process.png)</code>.</p>
 <h3 id="transferring-tip-ownership"><a class="header" href="#transferring-tip-ownership">Transferring TIP Ownership</a></h3>
 <p>It occasionally becomes necessary to transfer ownership of TIPs to a new champion. In general, we'd like to retain the original author as a co-author of the transferred TIP, but that's really up to the original author. A good reason to transfer ownership is because the original author no longer has the time or interest in updating it or following through with the TIP process, or has fallen off the face of the 'net (i.e. is unreachable or isn't responding to email). A bad reason to transfer ownership is because you don't agree with the direction of the TIP. We try to build consensus around a TIP, but if that's not possible, you can always submit a competing TIP.</p>
 <p>If you are interested in assuming ownership of a TIP, send a message asking to take over, addressed to both the original author and the <em>TIP editors</em>. If the original author doesn't respond to the email in a timely manner, the <em>TIP editors</em> will make a unilateral decision (it's not like such decisions can't be reversed :)).</p>

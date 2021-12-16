@@ -156,18 +156,22 @@ created: 2021-01-13
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>This RFC defines the migration process of funds residing on WOTS addresses in the current legacy network to the post-Chrysalis Phase 2 network.</p>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
-<p>The IOTA protocol wants to move away from WOTS as it created a number of security, protocol and UX issues:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp WOTS signatures are big and make up a disproportional amount of data of a transaction.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp It is only safe to spend from an address <strong>once</strong>. Spending multiple times from the same address reveals random parts of the private key, making any subsequent transfers (other than the first) susceptible to thefts.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp As a prevention mechanism to stop users from spending multiple times from the same address, nodes have to keep an ever growing list of those addresses.</p>
+<p>The IOTA protocol wants to move away from WOTS as it created a number of security, protocol and UX issues:</p>
+<ul>
+<li>WOTS signatures are big and make up a disproportional amount of data of a transaction.</li>
+<li>It is only safe to spend from an address <strong>once</strong>. Spending multiple times from the same address reveals random parts of the private key, making any subsequent transfers (other than the first) susceptible to thefts.</li>
+<li>As a prevention mechanism to stop users from spending multiple times from the same address, nodes have to keep an ever growing list of those addresses.</li>
+</ul>
 <p>In the beginning of the new Chrysalis Phase 2 network, only Ed25519 addresses are supported. The protocol will no longer support WOTS addresses. Therefore, there needs to be a migration process from WOTS addresses to Ed25519 address in the new network.</p>
 <p>To make the migration as smooth as possible, the specified mechanism allows for users to migrate their funds at any time with only a small delay until they're available on the new network.</p>
 <p>This RFC outlines the detailed architecture of how users will be able to migrate their funds and specifies the underlying components and their purposes.</p>
 <h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed Design</a></h1>
-<p>On a high-level the migration process works as follows:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Users create migration bundles in the legacy network which target their Ed25519 address in the new network.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The Coordinator then mints those migrated funds in receipts which are placed within milestones on the new network.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Nodes in the new network evaluate receipts and book the corresponding funds by creating new UTXOs in the ledger.</p>
+<p>On a high-level the migration process works as follows:</p>
+<ul>
+<li>Users create migration bundles in the legacy network which target their Ed25519 address in the new network.</li>
+<li>The Coordinator then mints those migrated funds in receipts which are placed within milestones on the new network.</li>
+<li>Nodes in the new network evaluate receipts and book the corresponding funds by creating new UTXOs in the ledger.</li>
+</ul>
 <h2 id="migration-timeline"><a class="header" href="#migration-timeline">Migration timeline</a></h2>
 <ol>
 <li>Users issue migration bundles which effectively burn their funds. During this period, normal value bundles and zero-value transactions are allowed to become part of a milestone cone.</li>
@@ -189,30 +193,30 @@ LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting
 <p>The node will only use tail transactions of migration or milestone bundles for the tip-pool. This means that past cones referenced by a milestone will only include such bundles.</p>
 <p>The legacy node software is updated with an additional HTTP API command called <code>getWhiteFlagConfirmation</code> which given request data in the following form:</p>
 <pre><code class="language-json">{
-&quot;command&quot;: &quot;getWhiteFlagConfirmation&quot;,
-&quot;milestoneIndex&quot;: 1434593
+    &quot;command&quot;: &quot;getWhiteFlagConfirmation&quot;,
+    &quot;milestoneIndex&quot;: 1434593
 }
 </code></pre>
 <p>returns data for the given milestone white-flag confirmation:</p>
 <pre><code class="language-json">{
-&quot;milestoneBundle&quot;: [
-&quot;SDGKWKJAG...&quot;,
-&quot;WNGHJWIFA...&quot;,
-&quot;DSIEWSDIG...&quot;
-],
-&quot;includedBundles&quot;: [
-[
-&quot;SKRGI9DFS...&quot;,
-&quot;NBJSKRJGW...&quot;,
-&quot;ITRUQORTZ...&quot;
-],
-[
-&quot;OTIDFJKSD...&quot;,
-&quot;BNSUGRWER...&quot;,
-&quot;OPRGJSDFJ...&quot;
-],
-...
-]
+    &quot;milestoneBundle&quot;: [
+        &quot;SDGKWKJAG...&quot;,
+        &quot;WNGHJWIFA...&quot;,
+        &quot;DSIEWSDIG...&quot;
+    ],
+    &quot;includedBundles&quot;: [
+        [
+            &quot;SKRGI9DFS...&quot;,
+            &quot;NBJSKRJGW...&quot;,
+            &quot;ITRUQORTZ...&quot;
+        ],
+        [
+            &quot;OTIDFJKSD...&quot;,
+            &quot;BNSUGRWER...&quot;,
+            &quot;OPRGJSDFJ...&quot;
+        ],
+        ...
+    ]
 }
 </code></pre>
 <p>where <code>milestoneBundle</code> contains the milestone bundle trytes and <code>includedBundles</code> is an array of tryte arrays of included bundles in the same DFS order as the white-flag confirmation. Trytes within a bundle &quot;array&quot; are sorted from <code>currentIndex</code> = 0 ascending to the <code>lastIndex</code>.</p>
@@ -221,121 +225,123 @@ LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting
 <p>The Coordinator will only include migration bundles (respectively the tails of those bundles) in its inclusion Merkle proof. Nodes which do not run with the updated code will crash once the updated confirmation is in place.</p>
 <h3 id="preventing-non-migration-bundles"><a class="header" href="#preventing-non-migration-bundles">Preventing non-migration bundles</a></h3>
 <p>As an additional measure to prevent users from submitting never confirming non-migration bundles (which would lead to key-reuse), nodes will no longer accept non-migration bundles in the HTTP API.</p>
-<p>HTTP API level checks:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The user must submit an entire migration bundle. No more single zero-value transactions, value-spam bundles etc. are allowed.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Input transactions are spending the entirety of the funds residing on the corresponding address. There must be more than 0 tokens on the given address.</p>
+<p>HTTP API level checks:</p>
+<ul>
+<li>The user must submit an entire migration bundle. No more single zero-value transactions, value-spam bundles etc. are allowed.</li>
+<li>Input transactions are spending the entirety of the funds residing on the corresponding address. There must be more than 0 tokens on the given address.</li>
+</ul>
 <p>Wallet software must be updated to no longer support non-migration bundles.</p>
 <p>There are no restrictions put in place on the gossip level, as it is too complex to prevent non-migration transactions to be filtered out, however, these transactions will never become part of a milestone cone.</p>
 <h2 id="treasury-transaction"><a class="header" href="#treasury-transaction">Treasury Transaction</a></h2>
 <p>A <code>TreasuryTransaction</code> is a payload which contains a reference to the current <code>TreasuryOutput</code> (in form of a <code>TreasuryInput</code> object) and an output <code>TreasuryOutput</code> which deposits the remainder.</p>
 <p>Serialized form:</p>
 <table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Type</td>
-<td>uint32</td>
-<td>
-Set to <strong>value 4</strong> to denote a <i>TreasuryTransaction</i>.
-</td>
-</tr>
-<tr>
-<td>Input</td>
-<td colspan="2">
-<summary>TreasuryInput</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Input Type</td>
-<td>byte</td>
-<td>
-Set to <strong>value 1</strong> to denote an <i>TreasuryInput</i>.
-</td>
-</tr>
-<tr>
-<td>Milestone Hash</td>
-<td>Array<byte>[32]></td>
-<td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>Output</td>
-<td colspan="2">
-<summary>TreasuryOutput</summary>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>byte</td>
-<td>
-Set to <strong>value 2</strong> to denote an <i>TreasuryOutput</i>.
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of funds residing in the treasury.</td>
-</tr>
-</table>
-</td>
-</tr>
+    <tr>
+        <td><b>Name</b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>uint32</td>
+        <td>
+            Set to <strong>value 4</strong> to denote a <i>TreasuryTransaction</i>.
+        </td>
+    </tr>
+    <tr>
+        <td>Input</td>
+        <td colspan="2">
+            <summary>TreasuryInput</summary>
+            <table>
+                <tr>
+                    <td><b>Name<b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                </tr>
+                <tr>
+                    <td>Input Type</td>
+                    <td>byte</td>
+                    <td>
+                        Set to <strong>value 1</strong> to denote an <i>TreasuryInput</i>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Milestone Hash</td>
+                    <td>Array<byte>[32]></td>
+                    <td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>Output</td>
+        <td colspan="2">
+            <summary>TreasuryOutput</summary>
+            <table>
+                <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                </tr>
+                <tr>
+                    <td>Output Type</td>
+                    <td>byte</td>
+                    <td>
+                        Set to <strong>value 2</strong> to denote an <i>TreasuryOutput</i>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of funds residing in the treasury.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 <h3 id="treasury-input"><a class="header" href="#treasury-input">Treasury Input</a></h3>
 <p>The <code>TreasuryInput</code> is equivalent to a normal <code>UTXOInput</code> but instead of referencing a transaction, it references a milestone. This input can only be used within <code>TreasuryTransaction</code> payloads.</p>
 <p>Serialized form:</p>
 <table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Input Type</td>
-<td>byte</td>
-<td>
-Set to <strong>value 1</strong> to denote an <i>TreasuryInput</i>.
-</td>
-</tr>
-<tr>
-<td>Milestone Hash</td>
-<td>Array<byte>[32]></td>
-<td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
-</tr>
+    <tr>
+        <td><b>Name</b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Input Type</td>
+        <td>byte</td>
+        <td>
+            Set to <strong>value 1</strong> to denote an <i>TreasuryInput</i>.
+        </td>
+    </tr>
+    <tr>
+        <td>Milestone Hash</td>
+        <td>Array<byte>[32]></td>
+        <td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
+    </tr>
 </table>
 <h3 id="treasury-output"><a class="header" href="#treasury-output">Treasury Output</a></h3>
 <p>The <code>TreasuryOutput</code> is a special output type which represents the treasury of the network, respectively the non yet migrated funds. At any given moment in time, there is only one <code>TreasuryOutput</code>.</p>
 <p>Serialized form:</p>
 <table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>byte</td>
-<td>
-Set to <strong>value 2</strong> to denote an <i>TreasuryInput</i>.
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of funds residing in the treasury.</td>
-</tr>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Output Type</td>
+        <td>byte</td>
+        <td>
+            Set to <strong>value 2</strong> to denote an <i>TreasuryInput</i>.
+        </td>
+    </tr>
+    <tr>
+        <td>Amount</td>
+        <td>uint64</td>
+        <td>The amount of funds residing in the treasury.</td>
+    </tr>
 </table>
 <p>The <code>TreasuryOutput</code> can not be referenced or spent by transactions, it can only be referenced by receipts.</p>
 <p>The <code>TreasuryOutput</code> can be queried from the HTTP API and needs to be included within snapshots in order to keep the total supply intact.</p>
@@ -345,111 +351,115 @@ Set to <strong>value 2</strong> to denote an <i>TreasuryInput</i>.
 <p>Receipts are listings of funds for which nodes must generate UTXOs in the form of <code>SigLockedSingleOutput</code>s targeting the given address. Receipts are embedded within milestone payloads and therefore signed by the Coordinator. A milestone may contain up to one receipt as a payload. The Coordinator chooses whether to embed a receipt payload or not.</p>
 <p>Serialized form:</p>
 <table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>Set to <strong>value 3</strong> to denote a <i>Receipt</i>.</td>
-</tr>
-<tr>
-<td>Migrated At</td>
-<td>uint32</td>
-<td>The index of the legacy milestone in which the listed funds were migrated at.</td>
-</tr>
-<tr>
-<td>Final</td>
-<td>bool</td>
-<td>Flags whether this receipt is the last receipt for the given <i>Migrated At</i> index.</td>
-</tr>
-<tr>
-<td>Funds Count</td>
-<td>uint16</td>
-<td>Denotes how many migrated fund entries are within the receipt.</td>
-</tr>
-<tr>
-<td>Funds</td>
-<td colspan="2">
-<details open="true">
-<summary>Migrated Funds Entry</summary>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Tail Transaction Hash</td>
-<td>Array<byte>[49]</td>
-<td>
-The tail transaction hash of the bundle in which these funds were migrated.
-</td>
-</tr>
-<tr>
-<td valign="top">Address <code>oneOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Ed25519 Address</summary>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Address Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-</td>
-</tr>
-<tr>
-<td>Address</td>
-<td>Array&lt;byte&gt;[32]</td>
-<td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount which was migrated</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Payload Length</td>
-<td>uint32</td>
-<td>The length in bytes of the payload.</td>
-</tr>
-<tr>
-<td valign="top">Payload</td>
-<td colspan="2">
-<details>
-<summary>TreasuryTransaction Payload</summary>
-</details>
-</td>
-</tr>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Payload Type</td>
+        <td>uint32</td>
+        <td>Set to <strong>value 3</strong> to denote a <i>Receipt</i>.</td>
+    </tr>
+    <tr>
+        <td>Migrated At</td>
+        <td>uint32</td>
+        <td>The index of the legacy milestone in which the listed funds were migrated at.</td>
+    </tr>
+    <tr>
+        <td>Final</td>
+        <td>bool</td>
+        <td>Flags whether this receipt is the last receipt for the given <i>Migrated At</i> index.</td>
+    </tr>
+    <tr>
+        <td>Funds Count</td>
+        <td>uint16</td>
+        <td>Denotes how many migrated fund entries are within the receipt.</td>
+    </tr>
+    <tr>
+        <td>Funds</td>
+        <td colspan="2">
+        <details open="true">
+            <summary>Migrated Funds Entry</summary>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Tail Transaction Hash</td>
+                    <td>Array<byte>[49]</td>
+                    <td>
+                    The tail transaction hash of the bundle in which these funds were migrated.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Address <code>oneOf</code></td>
+                    <td colspan="2">
+                        <details open="true">
+                            <summary>Ed25519 Address</summary>
+                            <table>
+                                <tr>
+                                    <td><b>Name</b></td>
+                                    <td><b>Type</b></td>
+                                    <td><b>Description</b></td>
+                                </tr>
+                                <tr>
+                                    <td>Address Type</td>
+                                    <td>uint8</td>
+                                    <td>
+                                        Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td>Array&lt;byte&gt;[32]</td>
+                                    <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                </tr>
+                            </table>
+                        </details>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Amount</td>
+                    <td>uint64</td>
+                    <td>The amount which was migrated</td>
+                </tr>
+            </table>
+        </details>
+        </td>
+    </tr>
+    <tr>
+        <td>Payload Length</td>
+        <td>uint32</td>
+        <td>The length in bytes of the payload.</td>
+    </tr>
+    <tr>
+        <td valign="top">Payload</td>
+        <td colspan="2">
+            <details>
+                <summary>TreasuryTransaction Payload</summary>
+            </details>
+        </td>
+    </tr>
 </table>
 <h3 id="validation"><a class="header" href="#validation">Validation</a></h3>
 <h4 id="syntactical"><a class="header" href="#syntactical">Syntactical</a></h4>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>funds_array_count</code> can be max 127 and must be &gt; 0.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>funds</code> array must be in lexical sort order (by their serialized form).
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp any <code>tail_transaction_hash</code> must be unique over the entire receipt.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>deposit</code> must be ≥ 1'000'000 IOTA tokens.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>payload_length</code> can not be zero.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>treasury_transaction</code> must be a <code>Treasury Transaction</code> payload.</p>
+<ul>
+<li><code>funds_array_count</code> can be max 127 and must be &gt; 0.</li>
+<li><code>funds</code> array must be in lexical sort order (by their serialized form).</li>
+<li>any <code>tail_transaction_hash</code> must be unique over the entire receipt.</li>
+<li><code>deposit</code> must be ≥ 1'000'000 IOTA tokens.</li>
+<li><code>payload_length</code> can not be zero.</li>
+<li><code>treasury_transaction</code> must be a <code>Treasury Transaction</code> payload.</li>
+</ul>
 <h4 id="semantic"><a class="header" href="#semantic">Semantic</a></h4>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>migrated_at</code> can not decrease between subsequent receipts.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp There must not be any subsequent receipts with the same <code>migrated_at</code> index after the one with the <code>final</code> flag set to true.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The amount field of the previous <code>TreasuryOutput</code> minus the sum of all the newly migrated funds must equal the amount of the new <code>TreasuryOutput</code> within the <code>TreasuryTransaction</code> payload.</p>
+<ul>
+<li><code>migrated_at</code> can not decrease between subsequent receipts.</li>
+<li>There must not be any subsequent receipts with the same <code>migrated_at</code> index after the one with the <code>final</code> flag set to true.</li>
+<li>The amount field of the previous <code>TreasuryOutput</code> minus the sum of all the newly migrated funds must equal the amount of the new <code>TreasuryOutput</code> within the <code>TreasuryTransaction</code> payload.</li>
+</ul>
 <h4 id="legitimacy-of-migrated-funds"><a class="header" href="#legitimacy-of-migrated-funds">Legitimacy of migrated funds</a></h4>
 <p>While the syntactical and semantic validation ensures that the receipt's integrity is correct, it doesn't actually tell whether the given funds were really migrated in the legacy network.</p>
 <p>In order validate this criteria, the node software performs following operation:</p>
@@ -465,16 +475,20 @@ LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting
 <p>If one wants to audit the UTXO path of an input, it means that milestones need to be kept forever as they're needed to recognize that a certain output was generated by it. However, this can be offloaded to a 2nd level service.</p>
 <p>All the generated <code>SigLockedSingleOutput</code>s from the migrated funds are then booked into the ledger and the new <code>TreasuryOutput</code> is persisted as a UTXO using the milestone hash of the receipt which included the <code>Treasury Transaction</code> payload.</p>
 <h2 id="transparency"><a class="header" href="#transparency">Transparency</a></h2>
-<p>For transparency reasons, the IF offers software which renders a dashboard showing details throughout the entire migration process:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp A list of outstanding funds residing on migration addresses to be migrated with the milestone index at which they were created.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Migrated funds.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Generated receipts.</p>
+<p>For transparency reasons, the IF offers software which renders a dashboard showing details throughout the entire migration process:</p>
+<ul>
+<li>A list of outstanding funds residing on migration addresses to be migrated with the milestone index at which they were created.</li>
+<li>Migrated funds.</li>
+<li>Generated receipts.</li>
+</ul>
 <h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
 <p>At current legacy network ledger size of 261446 entries (addresses with ≥ 1'000'000 tokens), it would take min. ~2058 receipts to migrate all funds. While theoretically the max message size allows for more entries to be within one receipt, it is limited by the fact that the index of the migrated address within the receipt is used to generate the <code>output_index</code> of the generated <code>SigLockedSingleDeposit</code> (further explained below).</p>
 <p>Assuming the best case scenario in which all 261446 entries were sent to migration addresses in the legacy network, these funds could therefore be migrated into the new network within ~5.7h (at a 10 second milestone interval). Of course, in practice users will migrate over time and the receipt mechanism will need to be in place as long as the new network runs.</p>
 <p>If looked at the receipt validation from a higher-level, it becomes quite apparent that this is analogous to previous global snapshots where users would post comments on a PR on GitHub saying that they computed the same ledger state, just that it is more granular and automatic while still leveraging the same source of truth: the ledger state/database of nodes.</p>
 <h2 id="caveats"><a class="header" href="#caveats">Caveats</a></h2>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The local snapshot file format needs to also include the to be applied receipts and supply information.</p>
+<ul>
+<li>The local snapshot file format needs to also include the to be applied receipts and supply information.</li>
+</ul>
 <h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
 <p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 

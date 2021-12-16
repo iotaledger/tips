@@ -183,7 +183,7 @@
 <div style="break-before: page; page-break-before: always;"></div><pre>
 tip: 1
 title: TIP Process
-description: Purpose and guidelines of the contribution framework
+description:  Purpose and guidelines of the contribution framework
 author: Levente Pap (@lzpap) <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/discussions
 status: Active
@@ -201,11 +201,14 @@ created: 2021-12-15
 <h3 id="tip-types"><a class="header" href="#tip-types">TIP Types</a></h3>
 <p>There are 3 types of TIPs:</p>
 <ul>
-<li>A <strong>Standards Track TIP</strong> describes any change that affects most or all IOTA node implementations, such as a change to the network protocol, a change in transaction validity rules, or any change or addition that affects the interoperability of applications using IOTA. Standards Track TIPs consist of two parts, a design document and a reference implementation. Standards Track TIPs can be broken down into layers:</li>
+<li>A <strong>Standards Track TIP</strong> describes any change that affects most or all IOTA node implementations, such as a change to the network protocol, a change in transaction validity rules, or any change or addition that affects the interoperability of applications using IOTA. Standards Track TIPs consist of two parts, a design document and a reference implementation. Standards Track TIPs can be broken down into layers:
+<ul>
 <li><strong>Core</strong>: includes improvements requiring a consensus fork (e.g. new transaction validation rules, change in protocol message layouts), as well as any change that concerns the protocol specification.</li>
 <li><strong>Networking</strong>: includes improvements around the networking layer of the network, e.g. gossip protocol or autopeering.</li>
 <li><strong>Interface</strong>: includes improvements around the client APIs of base layer nodes as well as around the interface definitions of IOTA Smart Contracts (ISC), such as contract schemas or ISC node APIs.</li>
 <li><strong>IRC</strong>: includes improvements around application-level standards and conventions such as contract standards, token standards or metadata format standards.</li>
+</ul>
+</li>
 <li>An <strong>Informational TIP</strong> describes an IOTA design issue, or provides general guidelines or information to the IOTA community, but does not propose a new feature. Informational TIPs do not necessarily represent an IOTA community consensus or recommendation, so users and implementors are free to ignore Informational TIPs or follow their advice.</li>
 <li>A <strong>Process TIP</strong> describes a process surrounding IOTA, or proposes a change to (or an event in) a process. Process TIPs are like Standards Track TIPs but apply to areas other than the IOTA protocol itself. They may propose an implementation, but not to IOTA's codebase; they often require community consensus; unlike Informational TIPs, they are more than recommendations, and users are typically not free to ignore them. Examples include procedures, guidelines, changes to the decision-making process, and changes to the tools or environment used in IOTA development.</li>
 </ul>
@@ -264,7 +267,7 @@ created: 2021-12-15
 <p>The TIP is merged into the repo with <code>Draft</code> status by <em>TIP editor/author</em>.</p>
 </li>
 <li>
-<p>When a working implementation is presented and there are clear plans on how to progress the TIP to completion, the <em>TIP author</em> submits a subsequent PR that links its implementation to the TIP and progresses it to <code>Proposed</code> stage. The TIP is ready to be deployed on testnet.</p>
+<p>When a working implementation is presented and there are clear plans on how to progress the TIP to  completion, the <em>TIP author</em> submits a subsequent PR that links its implementation to the TIP and progresses it to <code>Proposed</code> stage. The TIP is ready to be deployed on testnet.</p>
 </li>
 <li>
 <p>When a <code>Proposed</code> TIP is deemed to have met all appropriate criteria and its implementation has been demonstrated to work reliably in testnet environment, it is ready to be moved to the main network. Upon deployment, the TIP status must change to <code>Active</code>.</p>
@@ -314,7 +317,7 @@ created: 2021-12-15
 <h3 id="linking-tips"><a class="header" href="#linking-tips">Linking TIPs</a></h3>
 <p>References to other TIPs should follow the format TIP-N where N is the TIP number you are referring to. Each TIP that is referenced in an TIP MUST be accompanied by a relative markdown link the first time it is referenced, and MAY be accompanied by a link on subsequent references. The link MUST always be done via relative paths so that the links work in this GitHub repository or forks of this repository. For example, you would link to this TIP with <code>[TIP-1](../TIP-0001/tip-0001.md)</code>.</p>
 <h3 id="auxiliary-files"><a class="header" href="#auxiliary-files">Auxiliary Files</a></h3>
-<p>Images, diagrams and auxiliary files should be included in the subdirectory of the TIP. When linking to an image in the TIP, use relative links such as <code>[TIP Process Diagram](../TIP-0001/process.png)</code>.</p>
+<p>Images, diagrams and auxiliary files should be included in the subdirectory of the TIP.  When linking to an image in the TIP, use relative links such as <code>[TIP Process Diagram](../TIP-0001/process.png)</code>.</p>
 <h3 id="transferring-tip-ownership"><a class="header" href="#transferring-tip-ownership">Transferring TIP Ownership</a></h3>
 <p>It occasionally becomes necessary to transfer ownership of TIPs to a new champion. In general, we'd like to retain the original author as a co-author of the transferred TIP, but that's really up to the original author. A good reason to transfer ownership is because the original author no longer has the time or interest in updating it or following through with the TIP process, or has fallen off the face of the 'net (i.e. is unreachable or isn't responding to email). A bad reason to transfer ownership is because you don't agree with the direction of the TIP. We try to build consensus around a TIP, but if that's not possible, you can always submit a competing TIP.</p>
 <p>If you are interested in assuming ownership of a TIP, send a message asking to take over, addressed to both the original author and the <em>TIP editors</em>. If the original author doesn't respond to the email in a timely manner, the <em>TIP editors</em> will make a unilateral decision (it's not like such decisions can't be reversed :)).</p>
@@ -434,34 +437,34 @@ a new milestone confirming many new messages.</p>
 <p>Pseudo-code means that implementation details such as types, parameters, ..., are not important but that the logic has
 to be followed with care when implementing a node to avoid differences in the ledger state.</p>
 <pre><code>update_ledger_state(ledger, milestone, solid_entry_points) {
-s = new Stack()
-visited = new Set()
+    s = new Stack()
+    visited = new Set()
 
-s.push(milestone)
+    s.push(milestone)
 
-while (!s.is_empty()) {
-curr = s.peek()
-next = null
+    while (!s.is_empty()) {
+        curr = s.peek()
+        next = null
 
-// Look for the first eligible parent that was not already visited
-for parent in curr.parents {
-if (!solid_entry_points.contains(parent) &amp;&amp; !parent.confirmed &amp;&amp; !visited.contains(parent)) {
-next = parent
-break
-}
-}
+        // Look for the first eligible parent that was not already visited
+        for parent in curr.parents {
+          if (!solid_entry_points.contains(parent) &amp;&amp; !parent.confirmed &amp;&amp; !visited.contains(parent)) {
+            next = parent
+            break
+          }
+        }
 
-// All parents have been visited, apply and visit the current message
-if next == null {
-ledger.apply(curr)
-visited.add(curr)
-s.pop()
-}
-// Otherwise, go to the parent
-else {
-s.push(next)
-}
-}
+        // All parents have been visited, apply and visit the current message
+        if next == null {
+          ledger.apply(curr)
+          visited.add(curr)
+          s.pop()
+        }
+        // Otherwise, go to the parent
+        else {
+          s.push(next)
+        }
+    }
 }
 </code></pre>
 <p><strong>Notes</strong>:</p>
@@ -524,104 +527,112 @@ created: 2020-03-09
 The algorithm selects tips which are non-lazy to maximize confirmation rate.</p>
 <h1 id="motivation-2"><a class="header" href="#motivation-2">Motivation</a></h1>
 <p>Because of the <code>white-flag</code> confirmation algorithm, it is no longer necessary to perform complex
-tip-selection which evaluates ledger mutations while walking. Therefore, a more simple, better
+tip-selection which evaluates ledger mutations while walking. Therefore, a more simple, better 
 performing algorithm can be used to select tips, which in turn increases overall message throughput.</p>
 <p>To maximize confirmation rate however, the algorithm needs to return tips which are <code>non-lazy</code>.
 Non-lazy in this context means that a tip does not attach to a cone of messages which is too far
 in the past. Such a cone is likely to be already confirmed and does not contribute to the
 rate of newly confirmed messages when a milestone is issued.</p>
 <h1 id="detailed-design-1"><a class="header" href="#detailed-design-1">Detailed design</a></h1>
-<p>Definitions:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Direct Approvers</code> - The set of messages which directly approve a given message.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Approvee</code> - The directly approved message of a given message.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Solid Message</code> - A message that its past cone is known to the node.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Valid Message</code>- A message which is syntactically valid.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Tip</code> - A valid solid message that doesn't have approvers. Its past cone contains only valid messages.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Score</code> - An integer assigned to a <code>tip</code>. The tip selection algorithm uses it to determine how to select tips.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Confirmed Root Message</code> - The set of first seen messages which are confirmed by a previous milestone
-when we walk the past cone of a given message. The walk stops on a confirmed message.
+<p>Definitions:</p>
+<ul>
+<li><code>Direct Approvers</code> - The set of messages which directly approve a given message.</li>
+<li><code>Approvee</code> - The directly approved message of a given message.</li>
+<li><code>Solid Message</code> - A message that its past cone is known to the node.</li>
+<li><code>Valid Message</code>- A message which is syntactically valid.</li>
+<li><code>Tip</code> - A valid solid message that doesn't have approvers. Its past cone contains only valid messages.</li>
+<li><code>Score</code> - An integer assigned to a <code>tip</code>. The tip selection algorithm uses it to determine how to select tips.</li>
+<li><code>Confirmed Root Message</code> - The set of first seen messages which are confirmed by a previous milestone 
+when we walk the past cone of a given message. The walk stops on a confirmed message.<br />
 Note that the red marked milestone is also a <code>Confirmed Root Message</code>.
-<img src="tips/TIP-0003/cnf_tx_roots.PNG" alt="sdf" />
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Message Snapshot Index (MSI)</code> defines the index of the milestone which confirmed a given message.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Oldest Message Root Snapshot Index (OMRSI)</code> defines the lowest milestone index of a set of
-<code>Confirmed Root Messages</code> of a given messages.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Youngest Message Root Snapshot Index (YMRSI)</code> defines the highest milestone index of a set of
-<code>Confirmed Root Messages</code> of a given message.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Latest Solid Milestone Index (LSMI)</code> the index of the latest solid milestone.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Below Max Depth (BMD)</code> defines a threshold value up on which it is decided on whether a message is not
-relevant in relation to the recent parts of the Tangle. The current <code>BMD</code> for mainnet nodes is 15 milestones,
-which means that messages of which their <code>OMRSI</code> in relation to the <code>LSMI</code> is more than 15, are &quot;below max depth&quot;.</p>
+<img src="tips/TIP-0003/cnf_tx_roots.PNG" alt="sdf" /></li>
+<li><code>Message Snapshot Index (MSI)</code> defines the index of the milestone which confirmed a given message.</li>
+<li><code>Oldest Message Root Snapshot Index (OMRSI)</code> defines the lowest milestone index of a set of
+<code>Confirmed Root Messages</code> of a given messages.</li>
+<li><code>Youngest Message Root Snapshot Index (YMRSI)</code> defines the highest milestone index of a set of
+<code>Confirmed Root Messages</code> of a given message.</li>
+<li><code>Latest Solid Milestone Index (LSMI)</code> the index of the latest solid milestone.</li>
+<li><code>Below Max Depth (BMD)</code> defines a threshold value up on which it is decided on whether a message is not
+relevant in relation to the recent parts of the Tangle. The current <code>BMD</code> for mainnet nodes is 15 milestones, 
+which means that messages of which their <code>OMRSI</code> in relation to the <code>LSMI</code> is more than 15, are &quot;below max depth&quot;.</li>
+</ul>
 <h3 id="omrsi--ymrsi-example"><a class="header" href="#omrsi--ymrsi-example">OMRSI / YMRSI example</a></h3>
 <p>Given the blue PoV message, the <code>OMRSI</code> of it is milestone 1 and <code>YMRSI</code> milestone 2.
 Note that, here again, the milestones are also <code>Confirmed Root Messages</code>.
 <img src="tips/TIP-0003/otrsi_ytrsi.PNG" alt="sdf" /></p>
 <h3 id="milestone-based-tip-scoring"><a class="header" href="#milestone-based-tip-scoring">Milestone based tip scoring</a></h3>
 <p>The milestone based scoring defines a tip's score by investigating the tip's relation to
-the cone it approves and previous issued milestones.</p>
-<p>A tip can have one of 3 score states:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>0</code>: The tip is lazy and should not be selected.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>1</code>: The tip is somewhat lazy.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>2</code>: The tip is a non-lazy tip.</p>
-<p>Definitions:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>C1</code>: Max allowed delta value for the <code>YMRSI</code> of a given message in relation to the current <code>LSMI</code>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>C2</code>: Max allowed delta value between <code>OMRSI</code> of a given message in relation to the current <code>LSMI</code>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>M</code>: Max allowed delta value between <code>OMRSI</code> of the given message in relation to the current <code>LSMI</code>.
-<code>M</code> is the <code>below max depth (BMD)</code> parameter.</p>
-<p>Recommended defaults:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>C1</code> = 8 milestones
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>C2</code> = 13 milestones
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>M</code> = 15 milestones</p>
+the cone it approves and previous issued  milestones.</p>
+<p>A tip can have one of 3 score states:</p>
+<ul>
+<li><code>0</code>: The tip is lazy and should not be selected.</li>
+<li><code>1</code>: The tip is somewhat lazy.</li>
+<li><code>2</code>: The tip is a non-lazy tip.</li>
+</ul>
+<p>Definitions:</p>
+<ul>
+<li><code>C1</code>: Max allowed delta value for the <code>YMRSI</code> of a given message in relation to the current <code>LSMI</code>.</li>
+<li><code>C2</code>: Max allowed delta value between <code>OMRSI</code> of a given message in relation to the current <code>LSMI</code>. </li>
+<li><code>M</code>: Max allowed delta value between <code>OMRSI</code> of the given message in relation to the current <code>LSMI</code>.
+<code>M</code> is the <code>below max depth (BMD)</code> parameter.</li>
+</ul>
+<p>Recommended defaults:</p>
+<ul>
+<li><code>C1</code> = 8 milestones</li>
+<li><code>C2</code> = 13 milestones</li>
+<li><code>M</code> = 15 milestones</li>
+</ul>
 <p>Scoring Algorithm (pseudo code):</p>
 <pre><code>
 enum Score (
-LAZY = 0
-SEMI_LAZY = 1
-NON_LAZY = 2
+    LAZY = 0
+    SEMI_LAZY = 1
+    NON_LAZY = 2
 )
 
 const (
-C1 = 8
-C2 = 13
-M = 15
+    C1 = 8
+    C2 = 13
+    M = 15
 )
 
 func score(tip Tip) Score {
+    
+    // if the LSMI to YMRSI delta is over C1, then the tip is lazy
+    if (LSMI - YMRSI(tip) &gt; C1) {
+        return Score.LAZY
+    }
+    
+    // if the OMRSI to LSMI delta is over M/below-max-depth, then the tip is lazy
+    if (LSMI - OMRSI(tip) &gt; M) {
+        return Score.LAZY
+    }
+    
+    if (LSMI - OMRSI(tip) &gt; C2) {
+        return Score.SEMI_LAZY
+    }
 
-// if the LSMI to YMRSI delta is over C1, then the tip is lazy
-if (LSMI - YMRSI(tip) &gt; C1) {
-return Score.LAZY
-}
-
-// if the OMRSI to LSMI delta is over M/below-max-depth, then the tip is lazy
-if (LSMI - OMRSI(tip) &gt; M) {
-return Score.LAZY
-}
-
-if (LSMI - OMRSI(tip) &gt; C2) {
-return Score.SEMI_LAZY
-}
-
-return Score.NON_LAZY
+    return Score.NON_LAZY
 }
 </code></pre>
 <h3 id="random-tip-selection"><a class="header" href="#random-tip-selection">Random Tip-Selection</a></h3>
 <p>A node should keep a set of non-lazy tips (score 2).
-Every time a node is asked to select tips to be approved, it will pick randomly from the set.
+Every time a node is asked to select tips to be approved, it will pick randomly from the set. 
 A node must not execute tip-selection if it is not synchronized.</p>
-<p>A tip should not be removed from the tips set immediately after it was selected in <code>select()</code>, to make it possible for it to be re-selected, which in turn makes the Tangle wider
+<p>A tip should not be removed from the tips set immediately after it was selected in <code>select()</code>,  to make it possible for it to be re-selected, which in turn makes the Tangle wider
 and improves synchronization speed. A tip is removed from the tips set if <code>X</code> amount of direct
-approvers are reached or if a certain amount of time <code>T</code> passed.
-It is recommended to use <code>X</code> = 2 and <code>T</code> = 3 but the threshold should be configurable.</p>
+approvers are reached or if a certain amount of time <code>T</code> passed. 
+It is recommended to use <code>X</code> = 2 and <code>T</code> = 3  but the threshold should be configurable.</p>
 <h3 id="purpose-of-semi-lazy-tips"><a class="header" href="#purpose-of-semi-lazy-tips">Purpose Of Semi-Lazy Tips</a></h3>
 <p>Semi-Lazy tips are not eligible for tip-selection, but the coordinator node may implement a tip selection algorithm
 that confirms semi-lazy tips. Semi-lazy tips will usually be left behind, but parties interested in having them confirmed
-are incentivized to run spammers that will actively reduce the amount of semi-lazy tips eligible for coordinator's tip selection.
+are incentivized to run spammers that will actively reduce the amount of semi-lazy tips eligible for coordinator's tip selection. 
 Given a coordinator that chooses semi-lazy tips, running such spammers may get those messages confirmed before
 they become lazy.</p>
 <h1 id="drawbacks-1"><a class="header" href="#drawbacks-1">Drawbacks</a></h1>
 <p>Depending on when and how often <code>YMRSI</code>/<code>OMRSI</code> values are computed, this tip-selection could still
 have a slow runtime, as one would need to constantly walk down the Tangle to compute those
-values. However, smart caching might resolve this issue.</p>
+values. However, smart caching might resolve this issue. </p>
 <h1 id="rationale-and-alternatives-1"><a class="header" href="#rationale-and-alternatives-1">Rationale and alternatives</a></h1>
 <p>The previous tip-selection was written in accordance to the original IOTA whitepaper, as it also
 functioned as part of the consensus mechanism.
@@ -629,7 +640,7 @@ However, relatively soon it became apparent that the cumulative weight computati
 for an actual high throughput scenario and, as such, the CW calculation is currently not used within
 node implementations at all.</p>
 <p>Because confirmations with the <a href="tips/TIP-0003/../TIP-0002/tip-0002.html">white-flag</a> approach no longer approve cones only with state mutations,
-which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide
+which are consistent with a previous ledger state, it makes sense to alter the tip-selection to provide 
 a fast way to get tips to approve with one's own message.
 The only important thing is to disincentive lazy behaviour to be able to maximize confirmation rate.</p>
 <h1 id="unresolved-questions-1"><a class="header" href="#unresolved-questions-1">Unresolved questions</a></h1>
@@ -638,7 +649,7 @@ The only important thing is to disincentive lazy behaviour to be able to maximiz
 If the values are only computed once after a transaction became solid, the <code>YMRSI</code>/<code>OMRSI</code> might not
 resemble the true values, as subsequent milestones might confirm transactions within the same cone the
 given transaction approved.</p>
-<p>Currently, we suggest recomputing the values every time a new milestone solidifies.
+<p>Currently, we suggest recomputing the values every time a new milestone solidifies. 
 Since different tips indirectly reference the same transactions, this computation can be optimized.</p>
 <h1 id="copyright-2"><a class="header" href="#copyright-2">Copyright</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><pre>
@@ -675,7 +686,7 @@ This approach has considerable advantages in terms of network security (e.g. pro
 <h2 id="milestone-validation"><a class="header" href="#milestone-validation">Milestone validation</a></h2>
 <ul>
 <li>Verify the signature of the milestone m.</li>
-<li>Construct the ordered list D of the message IDs of all the not-ignored state-mutating transaction payloads m confirms.</li>
+<li>Construct the ordered list D of the message IDs  of all the not-ignored state-mutating transaction payloads m confirms.</li>
 <li>Compute H = MTH(D).</li>
 <li>Verify that the field <code>Inclusion Merkle Root</code> in m matches H.</li>
 </ul>
@@ -688,7 +699,7 @@ This approach has considerable advantages in terms of network security (e.g. pro
 </ul>
 <h2 id="cryptographic-components"><a class="header" href="#cryptographic-components">Cryptographic components</a></h2>
 <h3 id="merkle-hash-trees"><a class="header" href="#merkle-hash-trees">Merkle hash trees</a></h3>
-<p>This RFC uses a binary Merkle hash tree for efficient auditing. In general, any cryptographic hashing algorithm can be used for this. However, we propose to use <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a>, as it provides a faster and more secure alternative to the widely used SHA-256.
+<p>This RFC uses a binary Merkle hash tree for efficient auditing. In general, any cryptographic hashing algorithm can be used for this. However, we propose to use <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a>, as it provides a faster and more secure alternative to the widely used SHA-256. 
 In the following we define the Merkle tree hash (MTH) function that returns the hash of the root node of a Merkle tree:</p>
 <ul>
 <li>The input is a list of binary data entries; these entries will be hashed to form the leaves of the tree.</li>
@@ -700,20 +711,22 @@ In the following we define the Merkle tree hash (MTH) function that returns the 
 MTH({}) = BLAKE2().</li>
 <li>If D has the length 1, the hash (also known as a leaf hash) is:<br>
 MTH({d<sub>1</sub>}) = BLAKE2( 0x00 || d<sub>1</sub> ).</li>
-<li>Otherwise, for D<sub>n</sub> with n &gt; 1:</li>
+<li>Otherwise, for D<sub>n</sub> with n &gt; 1:
+<ul>
 <li>Let k be the largest power of two less than n, i.e. k &lt; n ≤ 2k.</li>
 <li>The Merkle tree hash can be defined recursively:<br>
 MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) || MTH({d<sub>k+1</sub>, ..., d<sub>n</sub>}) ).</li>
 </ul>
-<p>Note that the hash calculations for leaves and nodes differ. This is required to provide second preimage resistance: Without such a prefix, for a given input D an attacker could replace two (or more) leaves with their corresponding aggregated node hash without changing the final value of MTH(D). This violates the fundamental assumption that, given MTH(D), it should be practically impossible to find a different input D' leading to the same value. Adding a simple prefix mitigates this issue, since now leaf and node hashes are computed differently and can no longer be interchanged.</p>
+</li>
+</ul>
+<p>Note that the hash calculations for leaves and nodes differ. This is required to provide second preimage resistance: Without such a prefix, for a given input D an attacker could replace  two (or more) leaves with their corresponding aggregated node hash without changing the final value of MTH(D). This violates the fundamental assumption that, given MTH(D), it should be practically impossible to find a different input D' leading to the same value. Adding a simple prefix mitigates this issue, since now leaf and node hashes are computed differently and can no longer be interchanged.</p>
 <p>Note that we do not require the length of the input to be a power of two. However, its shape is still uniquely determined by the number of leaves.</p>
 <h3 id="merkle-audit-paths"><a class="header" href="#merkle-audit-paths">Merkle audit paths</a></h3>
 <p>A Merkle audit path for a leaf in a Merkle hash tree is the shortest list of additional nodes in a Merkle tree required to compute the Merkle tree hash for that tree. At each step towards the root, a node from the audit path is combined with a node computed so far. If the root computed from the audit path matches the Merkle tree hash, then the audit path is proof that the leaf exists in the tree.</p>
 <h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
 <p>Merkle tree with 7 leaves:</p>
 <ul>
-<li>input D:</li>
-</ul>
+<li>input D:
 <ol>
 <li>52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649</li>
 <li>81855ad8681d0d86d1e91e00167939cb6694d2c422acd208a0072939487f6999</li>
@@ -723,29 +736,29 @@ MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) ||
 <li>0bf5059875921e668a5bdf2c7fc4844592d2572bcd0668d2d6c52f5054e2d083</li>
 <li>6bf84c7174cb7476364cc3dbd968b0f7172ed85794bb358b0c3b525da1786f9f</li>
 </ol>
-<ul>
+</li>
 <li>Merkle tree hash H = MTH(D) (32-byte): bf67ce7ba23e8c0951b5abaec4f5524360d2c26d971ff226d3359fa70cdb0beb</li>
 </ul>
 <pre><code>root: bf67ce7ba23e8c0951b5abaec4f5524360d2c26d971ff226d3359fa70cdb0beb
-├─ node: 03bcbb3cf4314eab2f5ae68c767ff0a5fec4573c865728231f71d596fd867b56
-│ ├─ node: ae4505f4cfae93586e23958ca88d35d2f34d43def49786b6d0d4224b819f4cda
-│ │ │ ┌ msg id: 52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649
-│ │ ├──┴ leaf: 3d1399c64ff0ae6a074afa4cd2ce4eab8d5c499c1da6afdd1d84b7447cc00544
-│ │ │ ┌ msg id: 81855ad8681d0d86d1e91e00167939cb6694d2c422acd208a0072939487f6999
-│ │ └──┴ leaf: 83b0b255014e9a3656f0004a3f17943a20b715ef9c3e7cb85a6b2abac15e00d0
-│ └─ node: 54d51291aca22ce5b04cd3e6584fa3026ebe86ef86f0a6dfb47ab843801d4b38
-│ │ ┌ msg id: eb9d18a44784045d87f3c67cf22746e995af5a25367951baa2ff6cd471c483f1
-│ ├──┴ leaf: ad4bc0a34b27f37810f2ff3a8177ecc98402f8f59a06270f9d285fdf764e45fe
-│ │ ┌ msg id: 5fb90badb37c5821b6d95526a41a9504680b4e7c8b763a1b1d49d4955c848621
-│ └──┴ leaf: ffb3a7c6bea8f9fdcfb26f4701ad6e912a6076e1a40663607dbe110ebfc9a571
-└─ node: ce22d5bc728023e7ab6a9eb8f58baf62b9565fc8baeef4b377daa6709dbe598c
-├─ node: e14c8af1258005cd0dbed88f0c5885c6988f319bb8f24272a7495592b873c169
-│ │ ┌ msg id: 6325253fec738dd7a9e28bf921119c160f0702448615bbda08313f6a8eb668d2
-│ ├──┴ leaf: 1c062628a7a147cc6a4defa655ce6c4ae5b838b4b4cd81b12e8924b5b4b5cca6
-│ │ ┌ msg id: 0bf5059875921e668a5bdf2c7fc4844592d2572bcd0668d2d6c52f5054e2d083
-│ └──┴ leaf: 2ef4e2ad06b8c8ae1fd4b28b5ed166829533fbfff1f6c14218358537da277fa3
-│ ┌ msg id: 6bf84c7174cb7476364cc3dbd968b0f7172ed85794bb358b0c3b525da1786f9f
-└──┴ leaf: 7ec774ebc33ed4ca298e8a1cf1f569e36c6784467d63b055efd7612abe2858a4
+ ├─ node: 03bcbb3cf4314eab2f5ae68c767ff0a5fec4573c865728231f71d596fd867b56
+ │  ├─ node: ae4505f4cfae93586e23958ca88d35d2f34d43def49786b6d0d4224b819f4cda
+ │  │  │  ┌ msg id: 52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649
+ │  │  ├──┴ leaf: 3d1399c64ff0ae6a074afa4cd2ce4eab8d5c499c1da6afdd1d84b7447cc00544
+ │  │  │  ┌ msg id: 81855ad8681d0d86d1e91e00167939cb6694d2c422acd208a0072939487f6999
+ │  │  └──┴ leaf: 83b0b255014e9a3656f0004a3f17943a20b715ef9c3e7cb85a6b2abac15e00d0
+ │  └─ node: 54d51291aca22ce5b04cd3e6584fa3026ebe86ef86f0a6dfb47ab843801d4b38
+ │     │  ┌ msg id: eb9d18a44784045d87f3c67cf22746e995af5a25367951baa2ff6cd471c483f1
+ │     ├──┴ leaf: ad4bc0a34b27f37810f2ff3a8177ecc98402f8f59a06270f9d285fdf764e45fe
+ │     │  ┌ msg id: 5fb90badb37c5821b6d95526a41a9504680b4e7c8b763a1b1d49d4955c848621
+ │     └──┴ leaf: ffb3a7c6bea8f9fdcfb26f4701ad6e912a6076e1a40663607dbe110ebfc9a571
+ └─ node: ce22d5bc728023e7ab6a9eb8f58baf62b9565fc8baeef4b377daa6709dbe598c
+    ├─ node: e14c8af1258005cd0dbed88f0c5885c6988f319bb8f24272a7495592b873c169
+    │  │  ┌ msg id: 6325253fec738dd7a9e28bf921119c160f0702448615bbda08313f6a8eb668d2
+    │  ├──┴ leaf: 1c062628a7a147cc6a4defa655ce6c4ae5b838b4b4cd81b12e8924b5b4b5cca6
+    │  │  ┌ msg id: 0bf5059875921e668a5bdf2c7fc4844592d2572bcd0668d2d6c52f5054e2d083
+    │  └──┴ leaf: 2ef4e2ad06b8c8ae1fd4b28b5ed166829533fbfff1f6c14218358537da277fa3
+    │  ┌ msg id: 6bf84c7174cb7476364cc3dbd968b0f7172ed85794bb358b0c3b525da1786f9f
+    └──┴ leaf: 7ec774ebc33ed4ca298e8a1cf1f569e36c6784467d63b055efd7612abe2858a4
 </code></pre>
 <h1 id="drawbacks-2"><a class="header" href="#drawbacks-2">Drawbacks</a></h1>
 <ul>
@@ -785,31 +798,40 @@ The IOTA client libraries support the opposite conversion that encodes 5 trits a
 <p>This algorithm can also be described using the following pseudocode:</p>
 <pre><code>T ← []
 foreach byte b in S:
-v ← int8(b)
-g ← IntToTrits(v, 6)
-T ← T || g
+  v ← int8(b)
+  g ← IntToTrits(v, 6)
+  T ← T || g
 </code></pre>
 <p>Here, the function <code>IntToTrits</code> converts a signed integer value into its corresponding balanced ternary representation in little-endian order of the given length. The functionality of <code>IntToTrits</code> exactly matches the one used to e.g. encode the transaction values as trits in the current IOTA protocol.</p>
 <h3 id="trits-to-bytes"><a class="header" href="#trits-to-bytes">Trits to bytes</a></h3>
 <p>Given a trit string T as the result of the previous encoding, T is converted back to its original byte string S by simply reversing the conversion:</p>
 <pre><code>S ← []
 foreach 6-trit group g in T:
-v ← TritsToInt(g)
-b ← byte(v)
-S ← S || b
+  v ← TritsToInt(g)
+  b ← byte(v)
+  S ← S || b
 </code></pre>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
-<li>I</li>
+<li>I
+<ul>
 <li>binary (hex): <code>00</code></li>
 <li>ternary (trytes): <code>99</code></li>
-<li>II</li>
+</ul>
+</li>
+<li>II
+<ul>
 <li>binary (hex): <code>0001027e7f8081fdfeff</code></li>
 <li>ternary (trytes):
 <code>99A9B9RESEGVHVX9Y9Z9</code></li>
-<li>III</li>
+</ul>
+</li>
+<li>III
+<ul>
 <li>binary (hex): <code>9ba06c78552776a596dfe360cc2b5bf644c0f9d343a10e2e71debecd30730d03</code></li>
 <li>ternary (trytes): <code>GWLW9DLDDCLAJDQXBWUZYZODBYPBJCQ9NCQYT9IYMBMWNASBEDTZOYCYUBGDM9C9</code></li>
+</ul>
+</li>
 </ul>
 <h1 id="drawbacks-3"><a class="header" href="#drawbacks-3">Drawbacks</a></h1>
 <ul>
@@ -825,9 +847,9 @@ S ← S || b
 <p>The current client libraries do not provide any functionality to convert an arbitrary amount of bytes into trits. The closest available functionality is the ASCII to trit conversion, which is used for human-readable messages in transactions:</p>
 <pre><code>T ← []
 foreach char c in S:
-first ← uint8(c) mod 27
-second ← (uint8(c)-first) / 27
-T ← T || IntToTrits(first, 3) || IntToTrits(second, 3)
+  first ← uint8(c) mod 27
+  second ← (uint8(c)-first) / 27
+  T ← T || IntToTrits(first, 3) || IntToTrits(second, 3)
 </code></pre>
 <p>This function can be adapted to encode any general byte string. However, the conversion seems rather arbitrary and the algorithm is computationally more intense than the proposed solution.
 On the other hand, using the algorithm from this RFC also for the conversion of ASCII messages would break backward compatibility, which is also undesirable.</p>
@@ -851,8 +873,11 @@ layer: Core
 created: 2020-07-28
 </pre>
 <ul>
-<li>Changelog:</li>
+<li>Changelog:
+<ul>
 <li>(<a href="https://github.com/iotaledger/tips/pull/0037">iotaledger/tips#0037</a>) Fixed internal links</li>
+</ul>
+</li>
 </ul>
 <h1 id="summary-4"><a class="header" href="#summary-4">Summary</a></h1>
 <p>The Tangle is the graph data structure behind IOTA. In the current IOTA protocol, the vertices of the Tangle are represented by transactions. This document proposes an abstraction of this idea where the vertices are generalized <em>messages</em>, which then contain the transactions or other structures that are processed by the IOTA protocol. Just as before, each message directly approves other messages, which are known as <em>parents</em>.</p>
@@ -877,95 +902,101 @@ created: 2020-07-28
 <p>The <em>Message ID</em> is the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the entire serialized message.</p>
 <h3 id="serialized-layout"><a class="header" href="#serialized-layout">Serialized Layout</a></h3>
 <table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Network ID</td>
-<td>uint64</td>
-<td>Network identifier. This field denotes whether the message was meant for mainnet, testnet, or a private net. It also marks what protocol rules apply to the message. Usually, it will be set to the first 8 bytes of the BLAKE2b-256 hash of the concatenation of the network type and the protocol version string.</td>
-</tr>
-<tr>
-<td>Parents Count</td>
-<td>uint8</td>
-<td>The number of messages that are directly approved.</td>
-</tr>
-<tr>
-<td valign="top">Parents <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Parent</summary>
-<blockquote>
-References another directly approved message.
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Message ID</td>
-<td>ByteArray[32]</td>
-<td>The Message ID of the parent.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Payload Length</td>
-<td>uint32</td>
-<td>The length of the following payload in bytes. A length of 0 means no payload will be attached.</td>
-</tr>
-<tr>
-<td valign="top">Payload <code>oneOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Generic Payload</summary>
-<blockquote>
-An outline of a generic payload
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>
-The type of the payload. It will instruct the node how to parse the fields that follow.
-</td>
-</tr>
-<tr>
-<td>Data Fields</td>
-<td>ANY</td>
-<td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
-</tr>
-</table>
-</details>
-<tr>
-<td>Nonce</td>
-<td>uint64</td>
-<td>The nonce which lets this message fulfill the PoW requirement.</td>
-</tr>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Network ID</td>
+    <td>uint64</td>
+    <td>Network identifier. This field denotes whether the message was meant for mainnet, testnet, or a private net. It also marks what protocol rules apply to the message. Usually, it will be set to the first 8 bytes of the BLAKE2b-256 hash of the concatenation of the network type and the protocol version string.</td>
+  </tr>
+  <tr>
+    <td>Parents Count</td>
+    <td>uint8</td>
+    <td>The number of messages that are directly approved.</td>
+  </tr>
+  <tr>
+    <td valign="top">Parents <code>anyOf</code></td>
+    <td colspan="2">
+      <details>
+        <summary>Parent</summary>
+        <blockquote>
+          References another directly approved message.
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Message ID</td>
+            <td>ByteArray[32]</td>
+            <td>The Message ID of the parent.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Payload Length</td>
+    <td>uint32</td>
+    <td>The length of the following payload in bytes. A length of 0 means no payload will be attached.</td>
+  </tr>
+  <tr>
+    <td valign="top">Payload <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Generic Payload</summary>
+        <blockquote>
+          An outline of a generic payload
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Payload Type</td>
+            <td>uint32</td>
+            <td>
+              The type of the payload. It will instruct the node how to parse the fields that follow.
+            </td>
+          </tr>
+          <tr>
+            <td>Data Fields</td>
+            <td>ANY</td>
+            <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+          </tr>
+        </table>
+      </details>
+  <tr>
+    <td>Nonce</td>
+    <td>uint64</td>
+    <td>The nonce which lets this message fulfill the PoW requirement.</td>
+  </tr>
 </table>
 <h2 id="message-validation"><a class="header" href="#message-validation">Message validation</a></h2>
 <p>The following criteria defines whether the message passes the syntactical validation:</p>
 <ul>
-<li>The total message size must not exceed 32 KiB (32 LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp 1024 bytes).</li>
-<li>Parents:</li>
+<li>The total message size must not exceed 32 KiB (32 * 1024 bytes).</li>
+<li>Parents:
+<ul>
 <li><code>Parents Count</code> must be at least 1 and not larger than 8.</li>
 <li><code>Parents</code> must be sorted in lexicographical order.</li>
 <li>Each <code>Message ID</code> must be unique.</li>
-<li>Payload (if present):</li>
+</ul>
+</li>
+<li>Payload (if present):
+<ul>
 <li><code>Payload Type</code> must match one of the values described under <a href="tips/TIP-0006/tip-0006.html#payloads">Payloads</a>.</li>
 <li><code>Data fields</code> must be correctly parsable in the context of the <code>Payload Type</code>.</li>
 <li>The payload itself must pass syntactic validation.</li>
+</ul>
+</li>
 <li><code>Nonce</code> must be a valid solution of the message PoW as described in <a href="tips/TIP-0006/../TIP-0012/tip-0012.html">TIP-12</a>.</li>
 <li>There must be no trailing bytes after all message fields have been parsed.</li>
 </ul>
@@ -991,17 +1022,26 @@ The type of the payload. It will instruct the node how to parse the fields that 
 <ul>
 <li>Network ID (8-byte): <code>0000000000000000</code> (0)</li>
 <li>Parents Count (1-byte): <code>02</code> (2)</li>
-<li>Parents (64-byte):</li>
+<li>Parents (64-byte):
+<ul>
 <li><code>210fc7bb818639ac48a4c6afa2f1581a8b9525e20fda68927f2b2ff836f73578</code></li>
 <li><code>db0fa54c29f7fd928d92ca43f193dee47f591549f597a811c8fa67ab031ebd9c</code></li>
+</ul>
+</li>
 <li>Payload Length (4-byte): <code>19000000</code> (25)</li>
-<li>Payload (25-byte):</li>
+<li>Payload (25-byte):
+<ul>
 <li>Payload Type (4-byte): <code>02000000</code> (2)</li>
 <li>Index Length (2-byte): <code>0400</code> (4)</li>
 <li>Index (4-byte): <code>494f5441</code> (&quot;IOTA&quot;)</li>
-<li>Data (15-byte):</li>
+<li>Data (15-byte):
+<ul>
 <li>Length (4-byte): <code>0b000000</code> (11)</li>
 <li>Data (11-byte): <code>68656c6c6f20776f726c64</code> (&quot;hello world&quot;)</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Nonce (8-byte): <code>ce6d000000000000</code> (28110)</li>
 </ul>
 <h1 id="rationale-and-alternatives-4"><a class="header" href="#rationale-and-alternatives-4">Rationale and alternatives</a></h1>
@@ -1023,24 +1063,30 @@ created: 2020-07-10
 <p>In the current IOTA protocol, transactions are grouped into so-called bundles to assure that they can only be confirmed as one unit. This TIP proposes a new UTXO-based transaction structure containing all the inputs and outputs of a transfer. Specifically, this TIP defines a transaction payload for the <em>messages</em> described in the IOTA protocol <a href="tips/TIP-0007/../TIP-0006/tip-0006.html">TIP-6</a>.</p>
 <h1 id="motivation-6"><a class="header" href="#motivation-6">Motivation</a></h1>
 <p>Currently, the vertices of the Tangle are represented by transactions, where each transaction defines either an input or output. A grouping of those input/output transaction vertices makes up a bundle which transfers the given values as an atomic unit (the entire bundle is applied or none of it). An applied bundle consumes the input transactions' funds and creates the corresponding deposits into the output transactions' target addresses. Furthermore, additional meta transactions can be part of the bundle to carry parts of the signature which do not fit into a single input transaction.</p>
-<p>The bundle concept has proven to be very challenging in practice because of the following issues:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Since the data making up the bundle is split across multiple vertices, it complicates the validation of the entire transfer. Instead of being able to immediately tell whether a bundle is valid or not, a node implementation must first collect all parts of the bundle before any actual validation can happen. This increases the complexity of the node implementation.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Reattaching the tail transaction of a bundle causes the entire transfer to be reapplied.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Due to the split across multiple transaction vertices and having to do PoW for each of them, a bundle might already be lazy in terms of where it attaches, reducing its chances to be confirmed.</p>
+<p>The bundle concept has proven to be very challenging in practice because of the following issues:</p>
+<ul>
+<li>Since the data making up the bundle is split across multiple vertices, it complicates the validation of the entire transfer. Instead of being able to immediately tell whether a bundle is valid or not, a node implementation must first collect all parts of the bundle before any actual validation can happen. This increases the complexity of the node implementation.</li>
+<li>Reattaching the tail transaction of a bundle causes the entire transfer to be reapplied.</li>
+<li>Due to the split across multiple transaction vertices and having to do PoW for each of them, a bundle might already be lazy in terms of where it attaches, reducing its chances to be confirmed.</li>
+</ul>
 <p>To fix the problems mentioned above and to create a more flexible transaction structure, the goal is to achieve a self-contained transaction structure defining the data of the entire transfer as a payload to be embedded into a message.</p>
-<p>The new transaction structure should fulfil the following criteria:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Support for Ed25519 (and thus reusable addresses).
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Support for adding new types of signature schemes, addresses, inputs, and outputs as part of protocol upgrades.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Self-contained, as in being able to validate the transaction immediately after receiving it.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Enable unspent transaction outputs (UTXO) as inputs instead of an account based model.</p>
+<p>The new transaction structure should fulfil the following criteria:</p>
+<ul>
+<li>Support for Ed25519 (and thus reusable addresses).</li>
+<li>Support for adding new types of signature schemes, addresses, inputs, and outputs as part of protocol upgrades.</li>
+<li>Self-contained, as in being able to validate the transaction immediately after receiving it.</li>
+<li>Enable unspent transaction outputs (UTXO) as inputs instead of an account based model.</li>
+</ul>
 <h1 id="detailed-design-5"><a class="header" href="#detailed-design-5">Detailed design</a></h1>
 <h2 id="utxo"><a class="header" href="#utxo">UTXO</a></h2>
 <p>The <em>unspent transaction output</em> (UTXO) model defines a ledger state where balances are not directly associated to addresses but to the outputs of transactions. In this model, transactions reference outputs of previous transactions as inputs, which are consumed (removed) to create new outputs. A transaction must consume all the funds of the referenced inputs.</p>
-<p>Using a UTXO based model provides several benefits:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Parallel validation of transactions.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Easier double-spend detection, since conflicting transactions would reference the same UTXO.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Replay-protection which is important when having reusable addresses. Replaying the same transaction would manifest itself as already being applied or existent and thus not have any impact.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Technically seen, balances are no longer associated to addresses which raises the level of abstraction and thus enables other types of outputs with particular unlock criteria.</p>
+<p>Using a UTXO based model provides several benefits:</p>
+<ul>
+<li>Parallel validation of transactions.</li>
+<li>Easier double-spend detection, since conflicting transactions would reference the same UTXO.</li>
+<li>Replay-protection which is important when having reusable addresses. Replaying the same transaction would manifest itself as already being applied or existent and thus not have any impact.</li>
+<li>Technically seen, balances are no longer associated to addresses which raises the level of abstraction and thus enables other types of outputs with particular unlock criteria.</li>
+</ul>
 <p>Within a transaction using UTXOs, inputs and outputs make up the to-be-signed data of the transaction. The section unlocking the inputs is called the <em>unlock block</em>. An unlock block may contain a signature proving ownership of a given input's address and/or other unlock criteria.</p>
 <p>The following image depicts the flow of funds using UTXO:</p>
 <p><img src="tips/TIP-0007/utxo.png" alt="UTXO flow" /></p>
@@ -1053,343 +1099,346 @@ LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting
 </ol>
 <p>All values are serialized in little-endian encoding. The serialized form of the transaction is deterministic, meaning the same logical transaction always results in the same serialized byte sequence.</p>
 <p>The <em>Transaction ID</em> is the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the entire serialized payload data including signatures.</p>
-<p>The following table structure describes the entirety of a <em>Transaction Payload</em> in its serialized form:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Data Type Notation, see <a href="tips/TIP-0007/../TIP-0006/tip-0006.html#data-types">TIP-6</a>
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <details></p>
-<summary>Subschema Notation</summary>
-<table>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-<tr>
-<td><code>oneOf</code></td>
-<td>One of the listed subschemas.</td>
-</tr>
-<tr>
-<td><code>optOneOf</code></td>
-<td>Optionally one of the listed subschemas.</td>
-</tr>
-<tr>
-<td><code>anyOf</code></td>
-<td>Any (one or more) of the listed subschemas.</td>
-</tr>
-</table>
+<p>The following table structure describes the entirety of a <em>Transaction Payload</em> in its serialized form:</p>
+<ul>
+<li>Data Type Notation, see <a href="tips/TIP-0007/../TIP-0006/tip-0006.html#data-types">TIP-6</a></li>
+<li><details>
+  <summary>Subschema Notation</summary>
+  <table>
+      <tr>
+          <th>Name</th>
+          <th>Description</th>
+      </tr>
+      <tr>
+          <td><code>oneOf</code></td>
+          <td>One of the listed subschemas.</td>
+      </tr>
+      <tr>
+          <td><code>optOneOf</code></td>
+          <td>Optionally one of the listed subschemas.</td>
+      </tr>
+      <tr>
+          <td><code>anyOf</code></td>
+          <td>Any (one or more) of the listed subschemas.</td>
+      </tr>
+  </table>
+</li>
+</ul>
 </details>
 <p></p>
 <table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>
-Set to <strong>value 0</strong> to denote a <i>Transaction Payload</i>.
-</td>
-</tr>
-<tr>
-<td valign="top">Essence <code>oneOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Transaction Essence</summary>
-<blockquote>
-Describes the essence data making up a transaction by defining its inputs, outputs and an optional payload.
-</blockquote>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Transaction Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote a <i>Transaction Essence</i>.
-</td>
-</tr>
-<tr>
-<td>Inputs Count</td>
-<td>uint16</td>
-<td>The number of input entries.</td>
-</tr>
-<tr>
-<td valign="top">Inputs <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>UTXO Input</summary>
-<blockquote>
-Describes an input which references an unspent transaction output to consume.
-</blockquote>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Input Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote an <i>UTXO Input</i>.
-</td>
-</tr>
-<tr>
-<td>Transaction ID</td>
-<td>ByteArray[32]</td>
-<td>The BLAKE2b-256 hash of the transaction payload containing the referenced output.</td>
-</tr>
-<tr>
-<td>Transaction Output Index</td>
-<td>uint16</td>
-<td>The output index of the referenced output.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Outputs Count</td>
-<td>uint16</td>
-<td>The number of output entries.</td>
-</tr>
-<tr>
-<td valign="top">Outputs <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>SigLockedSingleOutput</summary>
-<blockquote>
-Describes a deposit to a single address which is unlocked via a signature.
-</blockquote>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote a <i>SigLockedSingleOutput</i>.
-</td>
-</tr>
-<tr>
-<td valign="top">Address <code>oneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Ed25519 Address</summary>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Address Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-</td>
-</tr>
-<tr>
-<td>Address</td>
-<td>ByteArray[32]</td>
-<td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of tokens to deposit.</td>
-</tr>
-</table>
-</details>
-<details>
-<summary>SigLockedDustAllowanceOutput</summary>
-<blockquote>
-Describes a deposit which as a special property also alters the dust allowance of the target address.
-</blockquote>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
-</td>
-</tr>
-<tr>
-<td valign="top">Address <code>oneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Ed25519 Address</summary>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Address Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-</td>
-</tr>
-<tr>
-<td>Address</td>
-<td>ByteArray[32]</td>
-<td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of tokens to deposit.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Payload Length</td>
-<td>uint32</td>
-<td>The length in bytes of the optional payload.</td>
-</tr>
-<tr>
-<td valign="top">Payload <code>optOneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Generic Payload</summary>
-<blockquote>
-An outline of a generic payload.
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>
-The type of the payload. It will instruct the node how to parse the fields that follow.
-</td>
-</tr>
-<tr>
-<td>Data Fields</td>
-<td>ANY</td>
-<td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
-</tr>
-</table>
-</details>
-<tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Unlock Blocks Count</td>
-<td>uint16</td>
-<td>The number of unlock block entries. It must match the field <code>Inputs Count</code>.</td>
-</tr>
-<tr>
-<td valign="top">Unlock Blocks <code>anyOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Signature Unlock Block</summary>
-<blockquote>
-Defines an unlock block containing a signature.
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Unlock Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote a <i>Signature Unlock Block</i>.
-</td>
-</tr>
-<tr>
-<td valign="top">Signature <code>oneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Ed25519 Signature</summary>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Signature Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote an <i>Ed25519 Signature</i>.
-</td>
-</tr>
-<tr>
-<td>Public key</td>
-<td>ByteArray[32]</td>
-<td>The Ed25519 public key of the signature.</td>
-</tr>
-<tr>
-<td>Signature</td>
-<td>ByteArray[64]</td>
-<td>The Ed25519 signature signing the Blake2b-256 hash of the serialized <i>Transaction Essence</i>.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-</table>
-</details>
-<details open="true">
-<summary>Reference Unlock Block</summary>
-<blockquote>
-References a previous unlock block, where the same unlock block can be used for multiple inputs.
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Unlock Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 1</strong> to denote a <i>Reference Unlock Block</i>.
-</td>
-</tr>
-<tr>
-<td>Reference</td>
-<td>uint16</td>
-<td>Represents the index of a previous unlock block.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Payload Type</td>
+    <td>uint32</td>
+    <td>
+      Set to <strong>value 0</strong> to denote a <i>Transaction Payload</i>.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Essence <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Transaction Essence</summary>
+        <blockquote>
+          Describes the essence data making up a transaction by defining its inputs, outputs and an optional payload.
+        </blockquote>
+        <table>
+          <tr>
+            <td><b>Name</b></td>
+            <td><b>Type</b></td>
+            <td><b>Description</b></td>
+          </tr>
+          <tr>
+            <td>Transaction Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 0</strong> to denote a <i>Transaction Essence</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>Inputs Count</td>
+            <td>uint16</td>
+            <td>The number of input entries.</td>
+          </tr>
+          <tr>
+            <td valign="top">Inputs <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>UTXO Input</summary>
+                <blockquote>
+                  Describes an input which references an unspent transaction output to consume.
+                </blockquote>
+                <table>
+                  <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                  </tr>
+                  <tr>
+                    <td>Input Type</td>
+                    <td>uint8</td>
+                    <td>
+                      Set to <strong>value 0</strong> to denote an <i>UTXO Input</i>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Transaction ID</td>
+                    <td>ByteArray[32]</td>
+                    <td>The BLAKE2b-256 hash of the transaction payload containing the referenced output.</td>
+                  </tr>
+                  <tr>
+                    <td>Transaction Output Index</td>
+                    <td>uint16</td>
+                    <td>The output index of the referenced output.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Outputs Count</td>
+            <td>uint16</td>
+            <td>The number of output entries.</td>
+          </tr>
+          <tr>
+            <td valign="top">Outputs <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>SigLockedSingleOutput</summary>
+                <blockquote>
+                  Describes a deposit to a single address which is unlocked via a signature.
+                </blockquote>
+                <table>
+                  <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                  </tr>
+                  <tr>
+                    <td>Output Type</td>
+                    <td>uint8</td>
+                    <td>
+                      Set to <strong>value 0</strong> to denote a <i>SigLockedSingleOutput</i>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td valign="top">Address <code>oneOf</code></td>
+                    <td colspan="2">
+                      <details>
+                        <summary>Ed25519 Address</summary>
+                        <table>
+                          <tr>
+                            <td><b>Name</b></td>
+                            <td><b>Type</b></td>
+                            <td><b>Description</b></td>
+                          </tr>
+                          <tr>
+                            <td>Address Type</td>
+                            <td>uint8</td>
+                            <td>
+                              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Address</td>
+                            <td>ByteArray[32]</td>
+                            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
+                          </tr>
+                        </table>
+                      </details>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of tokens to deposit.</td>
+                  </tr>
+                </table>
+              </details>
+              <details>
+                <summary>SigLockedDustAllowanceOutput</summary>
+                <blockquote>
+                  Describes a deposit which as a special property also alters the dust allowance of the target address.
+                </blockquote>
+                <table>
+                  <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                  </tr>
+                  <tr>
+                    <td>Output Type</td>
+                    <td>uint8</td>
+                    <td>
+                      Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td valign="top">Address <code>oneOf</code></td>
+                    <td colspan="2">
+                      <details>
+                        <summary>Ed25519 Address</summary>
+                        <table>
+                          <tr>
+                            <td><b>Name</b></td>
+                            <td><b>Type</b></td>
+                            <td><b>Description</b></td>
+                          </tr>
+                          <tr>
+                            <td>Address Type</td>
+                            <td>uint8</td>
+                            <td>
+                              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Address</td>
+                            <td>ByteArray[32]</td>
+                            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
+                          </tr>
+                        </table>
+                      </details>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of tokens to deposit.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Payload Length</td>
+            <td>uint32</td>
+            <td>The length in bytes of the optional payload.</td>
+          </tr>
+          <tr>
+            <td valign="top">Payload <code>optOneOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Generic Payload</summary>
+                <blockquote>
+                  An outline of a generic payload.
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Payload Type</td>
+                    <td>uint32</td>
+                    <td>
+                      The type of the payload. It will instruct the node how to parse the fields that follow.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Fields</td>
+                    <td>ANY</td>
+                    <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+                  </tr>
+                </table>
+              </details>
+          <tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Unlock Blocks Count</td>
+    <td>uint16</td>
+     <td>The number of unlock block entries. It must match the field <code>Inputs Count</code>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Unlock Blocks <code>anyOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Signature Unlock Block</summary>
+        <blockquote>
+          Defines an unlock block containing a signature.
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Unlock Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 0</strong> to denote a <i>Signature Unlock Block</i>.
+            </td>
+          </tr>
+          <tr>
+            <td valign="top">Signature <code>oneOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Ed25519 Signature</summary>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Signature Type</td>
+                    <td>uint8</td>
+                    <td>
+                      Set to <strong>value 0</strong> to denote an <i>Ed25519 Signature</i>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Public key</td>
+                    <td>ByteArray[32]</td>
+                    <td>The Ed25519 public key of the signature.</td>
+                  </tr>
+                  <tr>
+                    <td>Signature</td>
+                    <td>ByteArray[64]</td>
+                    <td>The Ed25519 signature signing the Blake2b-256 hash of the serialized <i>Transaction Essence</i>.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+        </table>
+      </details>
+      <details open="true">
+        <summary>Reference Unlock Block</summary>
+        <blockquote>
+          References a previous unlock block, where the same unlock block can be used for multiple inputs.
+        </blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Unlock Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 1</strong> to denote a <i>Reference Unlock Block</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>Reference</td>
+            <td>uint16</td>
+            <td>Represents the index of a previous unlock block.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
 </table>
 <h3 id="transaction-parts"><a class="header" href="#transaction-parts">Transaction parts</a></h3>
 <p>In general, all parts of a <i>Transaction Payload</i> begin with a byte describing the type of the given part. This improves the flexibility to introduce new types/versions of the given part in the future.</p>
@@ -1409,7 +1458,7 @@ If the input references an output to an Ed25519 address, then the corresponding 
 <h6 id="siglockeddustallowanceoutput"><a class="header" href="#siglockeddustallowanceoutput">SigLockedDustAllowanceOutput</a></h6>
 <p>The <i>SigLockedDustAllowanceOutput</i> works in the same way as a <i>SigLockedSingleOutput</i> but additionally controls the dust allowance on the target address. See <a href="tips/TIP-0007/../TIP-0014/tip-0014.html">TIP-14</a> for further information.</p>
 <h5 id="payload"><a class="header" href="#payload">Payload</a></h5>
-<p>The <em>Transaction Essence</em> itself can contain another payload as described in general in <a href="tips/TIP-0007/../TIP-0006/tip-0006.html">TIP-6</a>. The <a href="tips/TIP-0007/tip-0007.html#semantic-validation">semantic validity</a> of the encapsulating <em>Transaction Payload</em> does not have any impact on the payload.</p>
+<p>The  <em>Transaction Essence</em> itself can contain another payload as described in general in  <a href="tips/TIP-0007/../TIP-0006/tip-0006.html">TIP-6</a>. The <a href="tips/TIP-0007/tip-0007.html#semantic-validation">semantic validity</a> of the encapsulating <em>Transaction Payload</em> does not have any impact on the payload.</p>
 <p>The following table lists all the payload types that can be nested inside a <em>Transaction Essence</em> as well as links to the corresponding specification:</p>
 <table><thead><tr><th>Name</th><th>Type Value</th><th>TIP</th></tr></thead><tbody>
 <tr><td>Indexation</td><td>2</td><td><a href="tips/TIP-0007/../TIP-0006/tip-0006.html#indexation-payload">TIP-6</a></td></tr>
@@ -1431,49 +1480,80 @@ Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and
 <p>A <i>Transaction Payload</i> has different validation stages, since some validation steps can only be executed when certain information has (or has not) been received. We therefore distinguish between syntactic and semantic validation:</p>
 <h3 id="syntactic-validation"><a class="header" href="#syntactic-validation">Syntactic validation</a></h3>
 <p>Syntactic validation is checked as soon as the transaction data has been received in its entirety. It validates the structure but not the signatures of the transaction. If the transaction does not pass this stage, it must not be broadcasted further and can be discarded right away.</p>
-<p>The following criteria defines whether a payload passes the syntactical validation:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Essence:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Transaction Type</code> value must denote a <em>Transaction Essence</em>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Inputs:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Inputs Count</code> must be 0 &lt; x ≤ 127.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp For each input the following must be true:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Input Type</code> must denote a <em>UTXO Input</em>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Transaction Output Index</code> must be 0 ≤ x &lt; 127.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Inputs</code> must be sorted in lexicographical order of their serialized form.<sup>1</sup>
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Each pair of <code>Transaction ID</code> and <code>Transaction Output Index</code> must be unique in the inputs set.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Outputs:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Outputs Count</code> must be 0 &lt; x ≤ 127.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp For each input the following must be true:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Output Type</code> must denote a <em>SigLockedSingleOutput</em> or a <em>SigLockedDustAllowanceOutput</em>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Address Type</code> must denote an <em>Ed25519 Address</em>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Amount</code> must be larger than zero.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Outputs</code> must be sorted in lexicographical order of their serialized form.<sup>1</sup>
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Each <code>Address</code> must be unique per output type. For example, a <em>SigLockedSingleOutput</em> and a <em>SigLockedDustAllowanceOutput</em> can have the same address, but not two <em>SigLockedSingleOutputs</em>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The sum of all <code>Amount</code> fields must not exceed the total IOTA supply of 2,779,530,283,277,761.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Payload (if present):
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Payload Type</code> must match one of the values described under <a href="tips/TIP-0007/tip-0007.html#payload">Payload</a>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Data fields</code> must be correctly parsable in the context of the <code>Payload Type</code>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The payload itself must pass syntactic validation.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Unlock Blocks:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>Unlock Blocks Count</code> must match <code>Inputs Count</code> of the <em>Transaction Essence</em>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Each <code>Unlock Type</code> must denote a <em>Signature Unlock Block</em> or a <em>Reference Unlock Block</em>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Each <em>Signature Unlock Block</em> must contain an <em>Ed25519 Signature</em>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Each <em>Signature Unlock Block</em> must be unique.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp A <em>Reference Unlock Block</em> at index i must have <code>Reference</code> &lt; i and the unlock block at index <code>Reference</code> must be a <em>Signature Unlock Block</em>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Given the type and length information, the <em>Transaction Payload</em> must consume the entire byte array of the <code>Payload</code> field of the encapsulating object.</p>
+<p>The following criteria defines whether a payload passes the syntactical validation:</p>
+<ul>
+<li>Essence:
+<ul>
+<li><code>Transaction Type</code> value must denote a <em>Transaction Essence</em>.</li>
+<li>Inputs:
+<ul>
+<li><code>Inputs Count</code> must be 0 &lt; x ≤ 127.</li>
+<li>For each input the following must be true:
+<ul>
+<li><code>Input Type</code> must denote a <em>UTXO Input</em>.</li>
+<li><code>Transaction Output Index</code> must be 0 ≤ x &lt; 127.</li>
+</ul>
+</li>
+<li><code>Inputs</code> must be sorted in lexicographical order of their serialized form.<sup>1</sup></li>
+<li>Each pair of <code>Transaction ID</code> and <code>Transaction Output Index</code> must be unique in the inputs set.</li>
+</ul>
+</li>
+<li>Outputs:
+<ul>
+<li><code>Outputs Count</code> must be 0 &lt; x ≤ 127.</li>
+<li>For each input the following must be true:
+<ul>
+<li><code>Output Type</code> must denote a <em>SigLockedSingleOutput</em> or a <em>SigLockedDustAllowanceOutput</em>.</li>
+<li><code>Address Type</code> must denote an <em>Ed25519 Address</em>.</li>
+<li><code>Amount</code> must be larger than zero.</li>
+</ul>
+</li>
+<li><code>Outputs</code> must be sorted in lexicographical order of their serialized form.<sup>1</sup></li>
+<li>Each <code>Address</code> must be unique per output type. For example, a <em>SigLockedSingleOutput</em> and a <em>SigLockedDustAllowanceOutput</em> can have the same address, but not two <em>SigLockedSingleOutputs</em>.</li>
+<li>The sum of all <code>Amount</code> fields must not exceed the total IOTA supply of 2,779,530,283,277,761.</li>
+</ul>
+</li>
+<li>Payload (if present):
+<ul>
+<li><code>Payload Type</code> must match one of the values described under <a href="tips/TIP-0007/tip-0007.html#payload">Payload</a>.</li>
+<li><code>Data fields</code> must be correctly parsable in the context of the <code>Payload Type</code>.</li>
+<li>The payload itself must pass syntactic validation.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Unlock Blocks:
+<ul>
+<li><code>Unlock Blocks Count</code> must match <code>Inputs Count</code> of the <em>Transaction Essence</em>.</li>
+<li>Each <code>Unlock Type</code> must denote a <em>Signature Unlock Block</em> or a <em>Reference Unlock Block</em>.</li>
+<li>Each <em>Signature Unlock Block</em> must contain an <em>Ed25519 Signature</em>.</li>
+<li>Each <em>Signature Unlock Block</em> must be unique.</li>
+<li>A <em>Reference Unlock Block</em> at index i must have <code>Reference</code> &lt; i and the unlock block at index <code>Reference</code> must be a <em>Signature Unlock Block</em>.</li>
+</ul>
+</li>
+<li>Given the type and length information, the <em>Transaction Payload</em> must consume the entire byte array of the <code>Payload</code> field of the encapsulating object.</li>
+</ul>
 <p><sup>1</sup> ensures that serialization of the transaction becomes deterministic, meaning that libraries always produce the same bytes given the logical transaction.</p>
 <h3 id="semantic-validation"><a class="header" href="#semantic-validation">Semantic validation</a></h3>
-<p>The Semantic validation of a <em>Transaction Payload</em> is performed when its encapsulating message is confirmed by a milestone. The semantic validity of transactions depends on the order in which they are processed. Thus, it is necessary that all the nodes in the network perform the checks in the same order, no matter the order in which the transactions are received. This is assured by using the White-Flag ordering as described in <a href="tips/TIP-0007/../TIP-0002/tip-0002.html#deterministically-ordering-the-tangle">TIP-2</a>.</p>
+<p>The Semantic validation of a <em>Transaction Payload</em> is performed when its encapsulating message is confirmed by a milestone. The semantic validity of transactions depends on the order in which they are processed. Thus, it is necessary that all the nodes in the network perform the checks in the same order, no matter the order in which the transactions are received. This is assured by using the White-Flag ordering as described in  <a href="tips/TIP-0007/../TIP-0002/tip-0002.html#deterministically-ordering-the-tangle">TIP-2</a>.</p>
 <p>Processing transactions according to the White-Flag ordering enables users to spend UTXOs which are created in the same milestone confirmation cone, as long as the spending transaction comes after the funding transaction in the aforementioned White-Flag order. In this case, it is recommended that users include the <em>Message ID</em> of the funding transaction as a parent of the message containing the spending transaction.</p>
-<p>The following criteria defines whether a payload passes the semantic validation:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Each input must reference a valid UTXO, i.e. the output referenced by the input's <code>Transaction ID</code> and <code>Transaction Output Index</code> is known (booked) and unspent.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The transaction must spend the entire balance, i.e. the sum of the <code>Amount</code> fields of all the UTXOs referenced by inputs must match the sum of the <code>Amount</code> fields of all outputs.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Each unlock block must be valid with respect to the UTXO referenced by the input of the same index:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp If it is a <em>Signature Unlock Block</em>:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The <code>Signature Type</code> must match the <code>Address Type</code> of the UTXO,
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp the BLAKE2b-256 hash of <code>Public Key</code> must match the <code>Address</code> of the UTXO and
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp the <code>Signature</code> field must contain a valid signature for <code>Public Key</code>.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp If it is a <em>Reference Unlock Block</em>, the referenced <em>Signature Unlock Block</em> must be valid with respect to the UTXO.</p>
+<p>The following criteria defines whether a payload passes the semantic validation:</p>
+<ul>
+<li>Each input must reference a valid UTXO, i.e. the output referenced by the input's <code>Transaction ID</code> and <code>Transaction Output Index</code> is known (booked) and unspent.</li>
+<li>The transaction must spend the entire balance, i.e. the sum of the <code>Amount</code> fields of all the UTXOs referenced by inputs must match the sum of the <code>Amount</code> fields of all outputs.</li>
+<li>Each unlock block must be valid with respect to the UTXO referenced by the input of the same index:
+<ul>
+<li>If it is a <em>Signature Unlock Block</em>:
+<ul>
+<li>The <code>Signature Type</code> must match the <code>Address Type</code> of the UTXO, </li>
+<li>the BLAKE2b-256 hash of <code>Public Key</code> must match the <code>Address</code> of the UTXO and</li>
+<li>the <code>Signature</code> field must contain a valid signature for <code>Public Key</code>.</li>
+</ul>
+</li>
+<li>If it is a <em>Reference Unlock Block</em>, the referenced <em>Signature Unlock Block</em> must be valid with respect to the UTXO.</li>
+</ul>
+</li>
+</ul>
 <p>If a <em>Transaction Payload</em> passes the semantic validation, its referenced UTXOs must be marked as spent and its new outputs must be created/booked in the ledger. The <em>Message ID</em> of the message encapsulating the processed payload then also becomes part of the input for the White-Flag Merkle tree hash of the confirming milestone (<a href="tips/TIP-0007/../TIP-0004/tip-0004.html">TIP-4</a>).</p>
 <p>Transactions that do not pass semantic validation are ignored. Their UTXOs are not marked as spent and their outputs are not booked in the ledger.</p>
 <h2 id="miscellaneous"><a class="header" href="#miscellaneous">Miscellaneous</a></h2>
@@ -1483,12 +1563,16 @@ LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting
 <p>While, in contrast to Winternitz one-time signatures (W-OTS), producing multiple Ed25519 signatures for the same private key and address does not decrease its security, it still drastically reduces the privacy of users. It is thus considered best practice that applications and services create a new address per deposit to circumvent these privacy issues.</p>
 <p>In essence, Ed25519 support allows for smaller transaction sizes and to safely spend funds which were sent to an already used deposit address. Ed25519 addresses are not meant to be used like email addresses. See this <a href="https://en.bitcoin.it/wiki/Address_reuse">Bitcoin wiki article</a> for further information.</p>
 <h1 id="drawbacks-4"><a class="header" href="#drawbacks-4">Drawbacks</a></h1>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The new transaction format is the core data type within the IOTA ecosystem. Changing it means that all projects need to accommodate it, including wallets, web services, client libraries and applications using IOTA in general. It is not possible to keep these changes backwards compatible, meaning that all nodes must upgrade to further participate in the network.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Additionally, local snapshots can no longer be represented by a list of addresses and their balances, since the ledger is now made up of the UTXOs on which the actual funds reside. Therefore, local snapshot file schemes have to be adjusted to incorporate the transaction hashes, output indices, and then the destination addresses including the balances.</p>
+<ul>
+<li>The new transaction format is the core data type within the IOTA ecosystem. Changing it means that all projects need to accommodate it, including wallets, web services, client libraries and applications using IOTA in general. It is not possible to keep these changes backwards compatible, meaning that all nodes must upgrade to further participate in the network.</li>
+<li>Additionally, local snapshots can no longer be represented by a list of addresses and their balances, since the ledger is now made up of the UTXOs on which the actual funds reside. Therefore, local snapshot file schemes have to be adjusted to incorporate the transaction hashes, output indices, and then the destination addresses including the balances.</li>
+</ul>
 <h1 id="rationale-and-alternatives-5"><a class="header" href="#rationale-and-alternatives-5">Rationale and alternatives</a></h1>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Introducing this new transaction structure allows for extensions in the future, to accommodate new requirements. With the support for Ed25519 addresses/signatures, transaction size is drastically reduced and allows for safe re-signing in case of address reuse. Due to the switch to a complete binary transaction, the transaction size is reduced even further, saving network bandwidth and processing time.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Other transaction structures have been considered but they would have misused existing transaction fields to accommodate for new features, instead of putting them into a proper descriptive structure. Additionally, those ideas would not have been safe against replay attacks, which deems reusing the old transaction structure, for example for Ed25519 addresses/signatures, as infeasible.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Not switching to the new transaction structure described in this RFC would have led to more people losing funds because of W-OTS address reuse and it would prevent extending the IOTA protocol further down the line.</p>
+<ul>
+<li>Introducing this new transaction structure allows for extensions in the future, to accommodate new requirements. With the support for Ed25519 addresses/signatures, transaction size is drastically reduced and allows for safe re-signing in case of address reuse. Due to the switch to a complete binary transaction, the transaction size is reduced even further, saving network bandwidth and processing time.</li>
+<li>Other transaction structures have been considered but they would have misused existing transaction fields to accommodate for new features, instead of putting them into a proper descriptive structure. Additionally, those ideas would not have been safe against replay attacks, which deems reusing the old transaction structure, for example for Ed25519 addresses/signatures, as infeasible.</li>
+<li>Not switching to the new transaction structure described in this RFC would have led to more people losing funds because of W-OTS address reuse and it would prevent extending the IOTA protocol further down the line.</li>
+</ul>
 <h1 id="copyright-6"><a class="header" href="#copyright-6">Copyright</a></h1>
 <p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><pre>
@@ -1519,201 +1603,216 @@ created: 2020-07-28
 <p>All values are serialized in little-endian encoding. The serialized form of the milestone is deterministic, meaning the same logical milestone always results in the same serialized byte sequence.</p>
 <p>The following table structure describes the entirety of a <em>Milestone Payload</em> in its serialized form (<a href="tips/TIP-0008/../TIP-0006/tip-0006.html#data-types">TIP-6 Data Types</a>):</p>
 <table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>Set to <strong>value 1</strong> to denote a <i>Milestone Payload</i>.</td>
-</tr>
-<tr>
-<td valign="top">Essence <code>oneOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Milestone Essence</summary>
-<blockquote>Describes the signed part of a <i>Milestone Payload</i>.</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Index Number</td>
-<td>uint32</td>
-<td>The index number of the milestone.</td>
-</tr>
-<tr>
-<td>Timestamp</td>
-<td>uint64</td>
-<td>The Unix time (seconds since Unix epoch) at which the milestone was issued.</td>
-</tr>
-<tr>
-<td>Parents Count</td>
-<td>uint8</td>
-<td>The number of messages that are directly approved.</td>
-</tr>
-<tr>
-<td valign="top">Parents <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Parent</summary>
-<blockquote>
-References another directly approved message.
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Message ID</td>
-<td>ByteArray[32]</td>
-<td>The Message ID of the parent.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Inclusion Merkle Root</td>
-<td>ByteArray[32]</td>
-<td>The Merkle tree hash (BLAKE2b-256) of the message IDs of all the not-ignored state-mutating transaction payloads referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
-</tr>
-<tr>
-<td>Next PoW Score</td>
-<td>uint32</td>
-<td>The new PoW score all messages should adhere to. If 0 then the PoW score should not change.</td>
-</tr>
-<tr>
-<td>Next PoW Score Milestone Index</td>
-<td>uint32</td>
-<td>The index of the first milestone that will require a new minimal pow score for applying transactions. This field comes into effect only if the <code>Next PoW Score</code> field is not 0.</td>
-</tr>
-<tr>
-<td>Keys Count</td>
-<td>uint8</td>
-<td>Number of public keys entries.</td>
-</tr>
-<tr>
-<td valign="top">Keys <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Ed25519 Public Key</summary>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Public Key</td>
-<td>ByteArray[32]</td>
-<td>The public key of the Ed25519 keypair which is used to verify the correspondig signature.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Payload Length</td>
-<td>uint32</td>
-<td>The length in bytes of the optional payload.</td>
-</tr>
-<tr>
-<td valign="top">Payload <code>optOneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Generic Payload</summary>
-<blockquote>
-An outline of a generic payload
-</blockquote>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>
-The type of the payload. It will instruct the node how to parse the fields that follow.
-</td>
-</tr>
-<tr>
-<td>Data Fields</td>
-<td>ANY</td>
-<td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
-</tr>
-</table>
-</details>
-<tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Signatures Count</td>
-<td>uint8</td>
-<td>Number of signature entries. The number must match the field <code>Keys Count</code>.</td>
-</tr>
-<tr>
-<td valign="top">Signatures <code>anyOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Raw Ed25519 Signature</summary>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Signature</td>
-<td>ByteArray[64]</td>
-<td>The Ed25519 signature signing the BLAKE2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Payload Type</td>
+    <td>uint32</td>
+    <td>Set to <strong>value 1</strong> to denote a <i>Milestone Payload</i>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Essence <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Milestone Essence</summary>
+        <blockquote>Describes the signed part of a <i>Milestone Payload</i>.</blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Index Number</td>
+            <td>uint32</td>
+            <td>The index number of the milestone.</td>
+          </tr>
+          <tr>
+            <td>Timestamp</td>
+            <td>uint64</td>
+            <td>The Unix time (seconds since Unix epoch) at which the milestone was issued.</td>
+          </tr>
+          <tr>
+            <td>Parents Count</td>
+            <td>uint8</td>
+            <td>The number of messages that are directly approved.</td>
+          </tr>
+          <tr>
+            <td valign="top">Parents <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Parent</summary>
+                <blockquote>
+                  References another directly approved message.
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Message ID</td>
+                    <td>ByteArray[32]</td>
+                    <td>The Message ID of the parent.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Inclusion Merkle Root</td>
+            <td>ByteArray[32]</td>
+            <td>The Merkle tree hash (BLAKE2b-256) of the message IDs of all the not-ignored state-mutating transaction payloads referenced by the milestone (<a href="https://iotaledger.github.io/protocol-rfcs/0012-milestone-merkle-validation/0012-milestone-merkle-validation.html">RFC-0012</a>).</td>
+          </tr>
+          <tr>
+            <td>Next PoW Score</td>
+            <td>uint32</td>
+            <td>The new PoW score all messages should adhere to. If 0 then the PoW score should not change.</td>
+          </tr>
+          <tr>
+            <td>Next PoW Score Milestone Index</td>
+            <td>uint32</td>
+            <td>The index of the first milestone that will require a new minimal pow score for applying transactions. This field comes into effect only if the <code>Next PoW Score</code> field is not 0.</td>
+          </tr>
+          <tr>
+            <td>Keys Count</td>
+            <td>uint8</td>
+            <td>Number of public keys entries.</td>
+          </tr>
+          <tr>
+            <td valign="top">Keys <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Ed25519 Public Key</summary>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Public Key</td>
+                    <td>ByteArray[32]</td>
+                    <td>The public key of the Ed25519 keypair which is used to verify the correspondig signature.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Payload Length</td>
+            <td>uint32</td>
+            <td>The length in bytes of the optional payload.</td>
+          </tr>
+          <tr>
+            <td valign="top">Payload <code>optOneOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Generic Payload</summary>
+                <blockquote>
+                  An outline of a generic payload
+                </blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Payload Type</td>
+                    <td>uint32</td>
+                    <td>
+                      The type of the payload. It will instruct the node how to parse the fields that follow.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Fields</td>
+                    <td>ANY</td>
+                    <td>A sequence of fields, where the structure depends on <code>Payload Type</code>.</td>
+                  </tr>
+                </table>
+              </details>
+          <tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Signatures Count</td>
+    <td>uint8</td>
+    <td>Number of signature entries. The number must match the field <code>Keys Count</code>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Signatures <code>anyOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Raw Ed25519 Signature</summary>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Signature</td>
+            <td>ByteArray[64]</td>
+            <td>The Ed25519 signature signing the BLAKE2b-256 hash of the serialized <i>Milestone Essence</i>. The signatures must be in the same order as the specified public keys.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
 </table>
 <h2 id="generation"><a class="header" href="#generation">Generation</a></h2>
 <ul>
 <li>Generate a new <em>Milestone Essence</em> corresponding to the Coordinator milestone.</li>
-<li>Transmit the serialized <em>Milestone Essence</em> to the corresponding number of signature service providers.</li>
+<li>Transmit the serialized <em>Milestone Essence</em> to the corresponding number of signature service providers.
+<ul>
 <li>The signature provider service will sign the received serialized bytes as-is.</li>
 <li>The signature provider will serialize the signature bytes and return them to the Coordinator.</li>
+</ul>
+</li>
 <li>Fill the <code>Signatures</code> field of the milestone payload with the received signature bytes.</li>
 <li>Generate a <em>Message</em> as defined in <a href="tips/TIP-0008/../TIP-0006/tip-0006.html">TIP-6</a> using the same <code>Parents</code> as in the created <em>Milestone Payload</em>.</li>
 </ul>
 <h2 id="syntactical-validation"><a class="header" href="#syntactical-validation">Syntactical validation</a></h2>
 <ul>
 <li><code>Parents</code> of the payload must match <code>Parents</code> of the encapsulating <em>Message</em>.</li>
-<li>PoW score:</li>
+<li>PoW score:
+<ul>
 <li>If <code>Next Pow Score</code> is zero, <code>Next PoW Score Milestone Index</code> must also be zero.</li>
 <li>Otherwise <code>Next PoW Score Milestone Index</code> must be larger than <code>Index Number</code>.</li>
-<li>Keys:</li>
+</ul>
+</li>
+<li>Keys:
+<ul>
 <li><code>Keys Count</code> must be at least the <em>Signature Threshold</em> and at most the number of <em>Applicable Public Keys</em> for the current milestone index.</li>
 <li><code>Keys</code> must be sorted in lexicographical order.</li>
 <li>Each <code>Public Key</code> must be unique.</li>
 <li><code>Keys</code> must form a subset of the <em>Applicable Public Keys</em> for the current milestone index.</li>
-<li>Payload (if present):</li>
+</ul>
+</li>
+<li>Payload (if present):
+<ul>
 <li><code>Payload Type</code> must match one of the values described under <a href="tips/TIP-0008/tip-0008.html#payloads">Payloads</a>.</li>
 <li><code>Data fields</code> must be correctly parsable in the context of the <code>Payload Type</code>.</li>
 <li>The payload itself must pass syntactic validation.</li>
-<li>Signatures:</li>
+</ul>
+</li>
+<li>Signatures:
+<ul>
 <li><code>Signatures Count</code> must match <code>Keys Count</code>.</li>
 <li><code>Signature</code> at index i must be valid with respect to the <code>Public Key</code> at the same index.</li>
+</ul>
+</li>
 <li>Given the type and length information, the <em>Milestone Payload</em> must consume the entire byte array of the <code>Payload</code> field of the <em>Message</em>.</li>
 </ul>
 <h3 id="payloads-1"><a class="header" href="#payloads-1">Payloads</a></h3>
-<p>The <em>Milestone Payload</em> itself can contain another payload as described in general in <a href="tips/TIP-0008/../TIP-0006/tip-0006.html">TIP-6</a>. The following table lists all the payloads types that can be nested inside a <em>Milestone Payload</em> as well as links to the corresponding specification:</p>
+<p>The  <em>Milestone Payload</em> itself can contain another payload as described in general in <a href="tips/TIP-0008/../TIP-0006/tip-0006.html">TIP-6</a>. The following table lists all the payloads types that can be nested inside a <em>Milestone Payload</em> as well as links to the corresponding specification:</p>
 <table><thead><tr><th>Payload Name</th><th>Type Value</th><th>TIP</th></tr></thead><tbody>
 <tr><td>Receipts</td><td>4</td><td><a href="tips/TIP-0008/../TIP-0015/tip-0015.html#receipts">TIP-15</a></td></tr>
 </tbody></table>
@@ -1728,7 +1827,7 @@ The type of the payload. It will instruct the node how to parse the fields that 
 <div style="break-before: page; page-break-before: always;"></div><pre>
 tip: 9
 title: Local Snapshot File Format
-description: File format to export/import ledger state
+description: File format to export/import ledger state 
 author: Luca Moser (@luca-moser) <luca.moser@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/25
 status: Active
@@ -1740,14 +1839,18 @@ created: 2020-08-25
 <p>This RFC defines a file format for local snapshots which is compatible with Chrysalis Phase 2.</p>
 <h1 id="motivation-8"><a class="header" href="#motivation-8">Motivation</a></h1>
 <p>Nodes create local snapshots to produce ledger representations at a point in time of a given milestone to be able to:</p>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Start up from a recent milestone instead of having to synchronize from the genesis transaction.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Delete old transaction data below a given milestone.</p>
+<ul>
+<li>Start up from a recent milestone instead of having to synchronize from the genesis transaction.</li>
+<li>Delete old transaction data below a given milestone.</li>
+</ul>
 <p>Current node implementations use a <a href="https://github.com/iotaledger/iri-ls-sa-merger/tree/351020d3b5e342b6e9a41f2868575ab7ff8c251c#generating-an-export-file-from-a-localsnapshots-db">local snapshot file format</a> which only works with account based ledgers. For Chrysalis Phase 2, this file format has to be assimilated to support a
 UTXO based ledger.</p>
 <h1 id="detailed-design-7"><a class="header" href="#detailed-design-7">Detailed design</a></h1>
 <p>Since a UTXO based ledger is much larger in size, this RFC proposes two formats for snapshot files:</p>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp A <code>full</code> format which represents a complete ledger state.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp A <code>delta</code> format which only contains diffs (created and consumed outputs) of milestones from a given milestone index onwards.</p>
+<ul>
+<li>A <code>full</code> format which represents a complete ledger state.</li>
+<li>A <code>delta</code> format which only contains diffs (created and consumed outputs) of milestones from a given milestone index onwards.</li>
+</ul>
 <p>This separation allows nodes to swiftly create new delta snapshot files, which then can be distributed with a companion full snapshot file to reconstruct a recent state.</p>
 <p>Unlike the current format, these new formats do not include spent addresses since this information is no longer held by nodes.</p>
 <h3 id="formats"><a class="header" href="#formats">Formats</a></h3>
@@ -1767,354 +1870,358 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
 <h5 id="output"><a class="header" href="#output">Output</a></h5>
 <p>Defines an output.</p>
 <table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Message Hash</td>
-<td>Array<byte>[32]</td>
-<td>The hash of the message in which the transaction was contained which generated this output.</td>
-</tr>
-<tr>
-<td>Transaction hash</td>
-<td>Array<byte>[32]</td>
-<td>The hash of the transaction which generated this output.</td>
-</tr>
-<tr>
-<td>Output index</td>
-<td>uint16</td>
-<td>The index of this output within the transaction.</td>
-</tr>
-<tr>
-<td valign="top">Output <code>oneOf</code></td>
-<td colspan="2">
-<details>
-<summary>SigLockedSingleDeposit</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>byte</td>
-<td>Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.</td>
-</tr>
-<tr>
-<td valign="top">Address <code>oneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Ed25519 Address</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Address Type</td>
-<td>byte/varint</td>
-<td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
-</tr>
-<tr>
-<td>Address</td>
-<td>ByteArray[32]</td>
-<td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of tokens this output deposits.</td>
-</tr>
-</table>
-</details>
-<details>
-<summary>SigLockedDustAllowanceDeposit</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>byte</td>
-<td>Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceDeposit</i>.</td>
-</tr>
-<tr>
-<td valign="top">Address <code>oneOf</code></td>
-<td colspan="2">
-<details>
-<summary>Ed25519 Address</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Address Type</td>
-<td>byte/varint</td>
-<td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
-</tr>
-<tr>
-<td>Address</td>
-<td>ByteArray[32]</td>
-<td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of tokens this output deposits.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Message Hash</td>
+        <td>Array<byte>[32]</td>
+        <td>The hash of the message in which the transaction was contained which generated this output.</td>
+    </tr>
+    <tr>
+        <td>Transaction hash</td>
+        <td>Array<byte>[32]</td>
+        <td>The hash of the transaction which generated this output.</td>
+    </tr>
+    <tr>
+        <td>Output index</td>
+        <td>uint16</td>
+        <td>The index of this output within the transaction.</td>
+    </tr>
+    <tr>
+        <td valign="top">Output <code>oneOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>SigLockedSingleDeposit</summary>
+                <table>
+                    <tr>
+                        <td><b>Name<b></td>
+                        <td><b>Type</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    <tr>
+                        <td>Output Type</td>
+                        <td>byte</td>
+                        <td>Set to <strong>value 0</strong> to denote a <i>SigLockedSingleDeposit</i>.</td>
+                    </tr>
+                    <tr>
+                        <td valign="top">Address <code>oneOf</code></td>
+                        <td colspan="2">
+                            <details>
+                                <summary>Ed25519 Address</summary>
+                                <table>
+                                    <tr>
+                                        <td><b>Name<b></td>
+                                        <td><b>Type</b></td>
+                                        <td><b>Description</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Type</td>
+                                        <td>byte/varint</td>
+                                        <td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>ByteArray[32]</td>
+                                        <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                    </tr>
+                                </table>
+                            </details>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Amount</td>
+                        <td>uint64</td>
+                        <td>The amount of tokens this output deposits.</td>
+                    </tr>
+                </table>
+            </details>
+            <details>                                 
+                <summary>SigLockedDustAllowanceDeposit</summary>
+                <table>
+                    <tr>
+                        <td><b>Name<b></td>
+                        <td><b>Type</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    <tr>
+                        <td>Output Type</td>
+                        <td>byte</td>
+                        <td>Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceDeposit</i>.</td>
+                    </tr>
+                    <tr>
+                        <td valign="top">Address <code>oneOf</code></td>
+                        <td colspan="2">
+                            <details>
+                                <summary>Ed25519 Address</summary>
+                                <table>
+                                    <tr>
+                                        <td><b>Name<b></td>
+                                        <td><b>Type</b></td>
+                                        <td><b>Description</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Type</td>
+                                        <td>byte/varint</td>
+                                        <td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>ByteArray[32]</td>
+                                        <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                    </tr>
+                                </table>
+                            </details>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Amount</td>
+                        <td>uint64</td>
+                        <td>The amount of tokens this output deposits.</td>
+                    </tr>
+                </table>
+            </details>
+        </td>
+    </tr>
 </table>
 <h5 id="milestone-diff"><a class="header" href="#milestone-diff">Milestone Diff</a></h5>
 <p>Defines the diff a milestone produced by listing the created/consumed outputs and the milestone payload itself.</p>
 <table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Milestone Payload length</td>
-<td>uint32</td>
-<td>Denotes the length of the milestone payload.</td>
-</tr>
-<tr>
-<td>Milestone Payload</td>
-<td>Array<byte>[Milestone Payload length]</td>
-<td>The milestone payload in its serialized binary form.</td>
-</tr>
-<tr>
-<td>
-Treasury Input
-<blockquote>
-only included if milestone contains a receipt
-</blockquote>
-</td>
-<td colspan="2">
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Treasury Input Milestone Hash</td>
-<td>Array<byte>[32]</td>
-<td>The hash of the milestone this input references.</td>
-</tr>
-<tr>
-<td>Treasury Input Amount</td>
-<td>uint64</td>
-<td>The amount of this treasury input.</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>Created Outputs Count</td>
-<td>uint64</td>
-<td>The amount of outputs generated with this milestone diff.</td>
-</tr>
-<tr>
-<td valign="top">Created Outputs <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Output</summary>
-</details>
-</td>
-</tr>
-<tr>
-<td>Consumed Outputs Count</td>
-<td>uint64</td>
-<td>The amount of outputs consumed with this milestone diff.</td>
-</tr>
-<tr>
-<td valign="top">Consumed Outputs <code>anyOf</code></td>
-<td colspan="2">
-<details>
-<summary>Output</summary>
-</details>
-</td>
-</tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Milestone Payload length</td>
+        <td>uint32</td>
+        <td>Denotes the length of the milestone payload.</td>
+    </tr>
+    <tr>
+        <td>Milestone Payload</td>
+        <td>Array<byte>[Milestone Payload length]</td>
+        <td>The milestone payload in its serialized binary form.</td>
+    </tr>
+    <tr>
+        <td>
+        Treasury Input
+        <blockquote>
+        only included if milestone contains a receipt
+        </blockquote>
+        </td>
+        <td colspan="2">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Treasury Input Milestone Hash</td>
+                    <td>Array<byte>[32]</td>
+                    <td>The hash of the milestone this input references.</td>
+                </tr>
+                <tr>
+                    <td>Treasury Input Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of this treasury input.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>Created Outputs Count</td>
+        <td>uint64</td>
+        <td>The amount of outputs generated with this milestone diff.</td>
+    </tr>
+    <tr>
+        <td valign="top">Created Outputs <code>anyOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td>Consumed Outputs Count</td>
+        <td>uint64</td>
+        <td>The amount of outputs consumed with this milestone diff.</td>
+    </tr>
+    <tr>
+        <td valign="top">Consumed Outputs <code>anyOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
 </table>
 <h5 id="full-snapshot-file-format"><a class="header" href="#full-snapshot-file-format">Full snapshot file format</a></h5>
 <p>Defines what a full snapshot file contains.</p>
 <table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Version</td>
-<td>byte</td>
-<td>Denotes the version of this file format.</td>
-</tr>
-<tr>
-<td>Type</td>
-<td>byte</td>
-<td>Denotes the type of this file format. <b>Value 0</b> denotes a full snapshot.</td>
-</tr>
-<tr>
-<td>Timestamp</td>
-<td>uint64</td>
-<td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
-</tr>
-<tr>
-<td>Network ID</td>
-<td>uint64</td>
-<td>The ID of the network to which this snapshot is compatible.</td>
-</tr>
-<tr>
-<td>SEPs milestone index</td>
-<td>uint64</td>
-<td>The milestone index for which the SEPs were generated for.</td>
-</tr>
-<tr>
-<td>Ledger milestone index</td>
-<td>uint64</td>
-<td>The milestone index of which the UTXOs within the snapshot are from.</td>
-</tr>
-<tr>
-<td>SEPs count</td>
-<td>uint64</td>
-<td>The amount of SEPs contained within this snapshot.</td>
-</tr>
-<tr>
-<td>Outputs count</td>
-<td>uint64</td>
-<td>The amount of UTXOs contained within this snapshot.</td>
-</tr>
-<tr>
-<td>Milestone diffs count</td>
-<td>uint64</td>
-<td>The amount of milestone diffs contained within this snapshot.</td>
-</tr>
-<tr>
-<td>Treasury Output Milestone Hash</td>
-<td>Array<byte>[32]</td>
-<td>The milestone hash of the milestone which generated the treasury output.</td>
-</tr>
-<tr>
-<td>Treasury Output Amount</td>
-<td>uint64</td>
-<td>The amount of funds residing on the treasury output.</td>
-</tr>
-<tr>
-<td valign="top">SEPs</td>
-<td colspan="2">
-<details>
-<summary>SEP Array<byte>[32]</summary>
-</details>
-</td>
-</tr>
-<tr>
-<td valign="top">Outputs</td>
-<td colspan="2">
-<details>
-<summary>Output</summary>
-</details>
-</td>
-</tr>
-<tr>
-<td valign="top">Milestone Diffs</td>
-<td colspan="2">
-<details>
-<summary>Milestone Diff</summary>
-</details>
-</td>
-</tr>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Version</td>
+        <td>byte</td>
+        <td>Denotes the version of this file format.</td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>byte</td>
+        <td>Denotes the type of this file format. <b>Value 0</b> denotes a full snapshot.</td>
+    </tr>
+    <tr>
+        <td>Timestamp</td>
+        <td>uint64</td>
+        <td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
+    </tr>
+    <tr>
+        <td>Network ID</td>
+        <td>uint64</td>
+        <td>The ID of the network to which this snapshot is compatible.</td>
+    </tr>
+    <tr>
+        <td>SEPs milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index for which the SEPs were generated for.</td>
+    </tr>
+    <tr>
+        <td>Ledger milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index of which the UTXOs within the snapshot are from.</td>
+    </tr>
+    <tr>
+        <td>SEPs count</td>
+        <td>uint64</td>
+        <td>The amount of SEPs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Outputs count</td>
+        <td>uint64</td>
+        <td>The amount of UTXOs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Milestone diffs count</td>
+        <td>uint64</td>
+        <td>The amount of milestone diffs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Treasury Output Milestone Hash</td>
+        <td>Array<byte>[32]</td>
+        <td>The milestone hash of the milestone which generated the treasury output.</td>
+    </tr>
+    <tr>
+        <td>Treasury Output Amount</td>
+        <td>uint64</td>
+        <td>The amount of funds residing on the treasury output.</td>
+    </tr>
+    <tr>
+        <td valign="top">SEPs</td>
+        <td colspan="2">
+            <details>
+                <summary>SEP Array<byte>[32]</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Outputs</td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Milestone Diffs</td>
+        <td colspan="2">
+            <details>
+                <summary>Milestone Diff</summary>
+            </details>
+        </td>
+    </tr>
 </table>
 <h5 id="delta-snapshot-file-format"><a class="header" href="#delta-snapshot-file-format">Delta snapshot file format</a></h5>
 <p>Defines what a delta snapshot contains.</p>
 <table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Version</td>
-<td>byte</td>
-<td>Denotes the version of this file format.</td>
-</tr>
-<tr>
-<td>Type</td>
-<td>byte</td>
-<td>Denotes the type of this file format. <b>Value 1</b> denotes a delta snapshot.</td>
-</tr>
-<tr>
-<td>Timestamp</td>
-<td>uint64</td>
-<td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
-</tr>
-<tr>
-<td>Network ID</td>
-<td>uint64</td>
-<td>The ID of the network to which this snapshot is compatible.</td>
-</tr>
-<tr>
-<td>SEPs milestone index</td>
-<td>uint64</td>
-<td>The milestone index for which the SEPs were generated for.</td>
-</tr>
-<tr>
-<td>Ledger milestone index</td>
-<td>uint64</td>
-<td>The milestone index up on which this delta snapshot builts up from.</td>
-</tr>
-<tr>
-<td>SEPs count</td>
-<td>uint64</td>
-<td>The amount of SEPs contained within this snapshot.</td>
-</tr>
-<tr>
-<td>Milestone diffs count</td>
-<td>uint64</td>
-<td>The amount of milestone diffs contained within this snapshot.</td>
-</tr>
-<tr>
-<td valign="top">SEPs</td>
-<td colspan="2">
-<details>
-<summary>SEP Array<byte>[32]</summary>
-</details>
-</td>
-</tr>
-<tr>
-<td valign="top">Milestone Diffs</td>
-<td colspan="2">
-<details>
-<summary>Milestone Diff</summary>
-</details>
-</td>
-</tr>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Version</td>
+        <td>byte</td>
+        <td>Denotes the version of this file format.</td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>byte</td>
+        <td>Denotes the type of this file format. <b>Value 1</b> denotes a delta snapshot.</td>
+    </tr>
+    <tr>
+        <td>Timestamp</td>
+        <td>uint64</td>
+        <td>The UNIX timestamp in seconds of when this snapshot was produced.</td>
+    </tr>
+    <tr>
+        <td>Network ID</td>
+        <td>uint64</td>
+        <td>The ID of the network to which this snapshot is compatible.</td>
+    </tr>
+    <tr>
+        <td>SEPs milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index for which the SEPs were generated for.</td>
+    </tr>
+    <tr>
+        <td>Ledger milestone index</td>
+        <td>uint64</td>
+        <td>The milestone index up on which this delta snapshot builts up from.</td>
+    </tr>
+    <tr>
+        <td>SEPs count</td>
+        <td>uint64</td>
+        <td>The amount of SEPs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Milestone diffs count</td>
+        <td>uint64</td>
+        <td>The amount of milestone diffs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td valign="top">SEPs</td>
+        <td colspan="2">
+            <details>
+                <summary>SEP Array<byte>[32]</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Milestone Diffs</td>
+        <td colspan="2">
+            <details>
+                <summary>Milestone Diff</summary>
+            </details>
+        </td>
+    </tr>
 </table>
 <h1 id="drawbacks-5"><a class="header" href="#drawbacks-5">Drawbacks</a></h1>
 <p>Nodes need to support this new format.</p>
 <h1 id="rationale-and-alternatives-7"><a class="header" href="#rationale-and-alternatives-7">Rationale and alternatives</a></h1>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp In conjunction with a companion full snapshot, a tool or node can &quot;truncate&quot; the data from a delta snapshot back to a single full snapshot. In that case, the <code>ledger_milestone_index</code> and <code>seps_milestone_index</code> would be the same. In the example above, given the full and delta snapshots, one could produce a new full snapshot for milestone 1350.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Since snapshots may include millions of UTXOs, code generating such files needs to stream data directly onto disk instead of keeping the entire representation in memory. In order to facilitate this, the count denotations for SEPs, UTXOs and diffs are at the beginning of the file. This allows code generating snapshot files to only have to seek back once after the actual count of elements is known.</p>
+<ul>
+<li>In conjunction with a companion full snapshot, a tool or node can &quot;truncate&quot; the data from a delta snapshot back to a single full snapshot. In that case, the <code>ledger_milestone_index</code> and <code>seps_milestone_index</code> would be the same. In the example above, given the full and delta snapshots, one could produce a new full snapshot for milestone 1350.</li>
+<li>Since snapshots may include millions of UTXOs, code generating such files needs to stream data directly onto disk instead of keeping the entire representation in memory. In order to facilitate this, the count denotations for SEPs, UTXOs and diffs are at the beginning of the file. This allows code generating snapshot files to only have to seek back once after the actual count of elements is known.</li>
+</ul>
 <h1 id="unresolved-questions-2"><a class="header" href="#unresolved-questions-2">Unresolved questions</a></h1>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Is all the information to startup a node from the local snapshot available with the described format?</p>
+<ul>
+<li>Is all the information to startup a node from the local snapshot available with the described format?</li>
+</ul>
 <h1 id="copyright-8"><a class="header" href="#copyright-8">Copyright</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><pre>
 tip: 10
@@ -2128,9 +2235,9 @@ layer: IRC
 created: 2020-03-11
 </pre>
 <h1 id="summary-8"><a class="header" href="#summary-8">Summary</a></h1>
-<p>The IOTA protocol uses a 81-tryte seed to derive all the private keys for one account. This RFC describes a method to represent that seed as a mnemonic sentence - a group of easily comprehensible words.</p>
+<p>The IOTA protocol uses a 81-tryte seed to derive all the private keys for one account. This RFC describes a method to represent that seed as a mnemonic sentence - a group of easily comprehensible words. </p>
 <h1 id="motivation-9"><a class="header" href="#motivation-9">Motivation</a></h1>
-<p>The used seed is a 384-bit or 243-trit random string. There are several ways to represent this in a human-readable form, but a mnemonic sentence is superior to raw binary or ternary strings. These sentences can easily be written down or they can even be recorded over a phone.
+<p>The used seed is a 384-bit or 243-trit random string. There are several ways to represent this in a human-readable form, but a mnemonic sentence is superior to raw binary or ternary strings. These sentences can easily be written down or they can even be recorded  over a phone.
 Furthermore, having raw strings tempts the user to copy and paste the seed due to convenience over security. This practice opens new attack vectors such as theft or manipulation of the string in the clipboard.</p>
 <h1 id="detailed-design-8"><a class="header" href="#detailed-design-8">Detailed design</a></h1>
 <p>The <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-0039</a> specification exactly describes an implementation for its use case and how to uniquely represent binary entropy using mnemonic words. However, it is only defined for binary input of 128 - 256 bits. The section(s) below describe the canonical extension of BIP-0039 for longer inputs of 81 trytes or 384 bits.</p>
@@ -2152,16 +2259,22 @@ Furthermore, having raw strings tempts the user to copy and paste the seed due t
 </ul>
 <h2 id="examples-1"><a class="header" href="#examples-1">Examples</a></h2>
 <ul>
-<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt">English word list</a>:</li>
+<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt">English word list</a>:
+<ul>
 <li>IOTA seed (81-tryte): <code>TLEV9HDTGZOXIIGA9DZG9VAKAIUZKNIMAFUGGARTWPOGDLLVUFZZVAABXRMFPWJAYWBBHOERV9EZBAOJD</code></li>
 <li>mnemonic (36-word): <code>forget small borrow baby wing law monkey fiber jealous canyon melt all order lift now fish mind index neither discover divert fit curtain raw wealth arrow frozen plug catalog public winner emerge pulse mixture cry arch</code></li>
-<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/japanese.txt">Japanese word list</a>:</li>
+</ul>
+</li>
+<li>Using the <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/japanese.txt">Japanese word list</a>:
+<ul>
 <li>IOTA seed (81-tryte): <code>KMQDKKLGGTPUBRJXYWLMQOIA9WIEWUAAJPASYPVAWOTYYH9JESDKPLVZIWITHDIUMLFEWQUQ9LHAV9GHC</code></li>
 <li>mnemonic (36-word): <code>げどく　まもる　してい　ていへん　つめたい　ちつじょ　だいたい　てうち　まいにち　さゆう　よそく　がはく　ねらう　いちおう　くみあわせ　ふいうち　せつでん　きせい　すべて　きひん　しかい　さぎょう　うけたまわる　つとめる　おんしゃ　きかい　なやむ　たいせつ　うんこう　むすめ　いってい　ふめつ　そとづら　つくね　おいこす　ききて</code></li>
 </ul>
+</li>
+</ul>
 <h1 id="drawbacks-6"><a class="header" href="#drawbacks-6">Drawbacks</a></h1>
 <ul>
-<li>This RFC describes a way to represent computer-generated randomness in a human-readable transcription. It is in no way meant to process user created sentences into a binary key. This technique is also sometimes called a &quot;brain wallet&quot; and must not be confused with these mnemonics.</li>
+<li>This RFC describes a way to represent computer-generated randomness in a human-readable transcription. It is in no way meant to process user created sentences into a binary key. This technique is also sometimes called a &quot;brain wallet&quot; and must not be confused with these mnemonics. </li>
 <li>The mnemonics only encode 384 bits of entropy which only covers 242 trits. The 243rd trit will <em>not</em> be encoded and always padded with 0. This is fine, when Kerl is used to derive the private keys, since the Kerl hash function only works on the first 242 trits itself. However, other - currently not used - key derivation functions relying on the full 243-trit entropy are <em>not</em> compatible with this RFC.</li>
 </ul>
 <h1 id="rationale-and-alternatives-8"><a class="header" href="#rationale-and-alternatives-8">Rationale and alternatives</a></h1>
@@ -2173,7 +2286,7 @@ Furthermore, having raw strings tempts the user to copy and paste the seed due t
 <h1 id="unresolved-questions-3"><a class="header" href="#unresolved-questions-3">Unresolved questions</a></h1>
 <ul>
 <li>This RFC does not cover usability aspects of entering mnemonics. Forcing the user to enter a mnemonic sentence and then discarding the input, due to one easily correctable typo in one word, would almost be as frustrating as typing a tryte string. Therefore, this must be combined with different usability improvements, e.g. only allowing entering characters that lead to valid words or fixing the word as soon as it can be unambiguously identified.</li>
-<li>The BIP-0039 specification includes several word lists for different languages. Should these word lists be allowed or is it sufficient to only use the English list?</li>
+<li>The BIP-0039 specification includes several word lists for different languages. Should these word lists be allowed or is it sufficient to only use the English list? </li>
 <li>The BIP-0039 specification only considers entropy between 128 and 256 bits, while this RFC extends it in an analogue way for 384 bits. Is it also relevant for certain use cases to extend this for 512 bits (or even longer)?</li>
 </ul>
 <h1 id="reference-implementation-2"><a class="header" href="#reference-implementation-2">Reference implementation</a></h1>
@@ -2198,14 +2311,14 @@ created: 2020-07-28
 <p>This document proposes an extendable address format for the IOTA protocol supporting various signature schemes and address types. It relies on the <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">Bech32</a> format to provide a compact, human-readable encoding with strong error correction guarantees.</p>
 <h1 id="motivation-10"><a class="header" href="#motivation-10">Motivation</a></h1>
 <p>With <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, IOTA uses Ed25519 to generate digital signatures, in which addresses correspond to a BLAKE2b-256 hash. It is necessary to define a new universal and extendable address format capable of encoding different types of addresses.</p>
-<p>The current IOTA protocol relies on Base27 addresses with a truncated Kerl checksum. However, both the character set and the checksum algorithm have limitations:</p>
+<p>The current IOTA protocol relies on Base27 addresses with a truncated Kerl checksum. However, both the character set and the checksum algorithm have limitations: </p>
 <ul>
 <li>Base27 is designed for ternary and is ill-suited for binary data.</li>
 <li>The Kerl hash function also requires ternary input. Further, it is slow and provides no error-detection guarantees.</li>
 <li>It does not support the addition of version or type information to distinguish between different kinds of addresses with the same length.</li>
 </ul>
 <p>All of these points are addressed in the Bech32 format introduced in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>: In addition to the usage of the human-friendly Base32 encoding with an optimized character set, it implements a <a href="https://en.wikipedia.org/wiki/BCH_code">BCH code</a> that <em>guarantees detection</em> of any error affecting at most four characters and has less than a 1 in 10<sup>9</sup> chance of failing to detect more errors.</p>
-<p>This RFC proposes a simple and extendable binary serialization for addresses of different types that is then Bech32 encoded to provide a unique appearance for human-facing applications such as wallets.</p>
+<p>This RFC proposes a simple and extendable binary serialization for addresses of different types that is then Bech32 encoded to provide a unique appearance for human-facing applications such as wallets. </p>
 <h1 id="detailed-design-9"><a class="header" href="#detailed-design-9">Detailed design</a></h1>
 <h2 id="binary-serialization"><a class="header" href="#binary-serialization">Binary serialization</a></h2>
 <p>The address format uses a simple serialization scheme which consists of two parts:</p>
@@ -2222,32 +2335,47 @@ created: 2020-07-28
 <tr><td>Ed25519</td><td><code>0x00</code></td><td>32 bytes: The BLAKE2b-256 hash of the Ed25519 public key.</td></tr>
 </tbody></table>
 <h2 id="bech32-for-human-readable-encoding"><a class="header" href="#bech32-for-human-readable-encoding">Bech32 for human-readable encoding</a></h2>
-<p>The human-readable encoding of the address is Bech32 (as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>). A Bech32 string is at most 90 characters long and consists of:</p>
+<p>The human-readable encoding of the address is Bech32 (as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>). A Bech32 string is at most 90 characters long and consists of: </p>
 <ul>
-<li>The <strong>human-readable part</strong> (HRP), which conveys the IOTA protocol and distinguishes between Mainnet (the IOTA token) and Testnet (testing version):</li>
+<li>The <strong>human-readable part</strong> (HRP), which conveys the IOTA protocol and distinguishes between Mainnet (the IOTA token) and Testnet (testing version):
+<ul>
 <li><code>iota</code> is the human-readable part for Mainnet addresses</li>
 <li><code>atoi</code> is the human-readable part for Testnet addresses</li>
+</ul>
+</li>
 <li>The <strong>separator</strong>, which is always <code>1</code>.</li>
 <li>The <strong>data part</strong>, which consists of the Base32 encoded serialized address and the 6-character checksum.</li>
 </ul>
 <p>Hence, Ed25519-based addresses will result in a Bech32 string of 64 characters.</p>
 <h2 id="examples-2"><a class="header" href="#examples-2">Examples</a></h2>
 <ul>
-<li><strong>Mainnet</strong></li>
-<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code></li>
-<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
+<li><strong>Mainnet</strong>
+<ul>
+<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code>
+<ul>
+<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code> </li>
 <li>serialized (33-byte): <code>00efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
 <li>Bech32 string: <code>iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx</code></li>
-<li><strong>Testnet</strong></li>
-<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code></li>
-<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Testnet</strong>
+<ul>
+<li>Ed25519 compressed public key (32-byte): <code>6f1581709bb7b1ef030d210db18e3b0ba1c776fba65d8cdaad05415142d189f8</code>
+<ul>
+<li>BLAKE2b-256 hash (32-byte): <code>efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code> </li>
 <li>serialized (33-byte): <code>00efdc112efe262b304bcf379b26c31bad029f616ee3ec4aa6345a366e4c9e43a3</code></li>
 <li>Bech32 string: <code>atoi1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6x8x4r7t</code></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h1 id="drawbacks-7"><a class="header" href="#drawbacks-7">Drawbacks</a></h1>
 <ul>
 <li>The new addresses look fundamentally different from the established 81-tryte IOTA addresses. However, since the switch from binary to ternary and Chrysalis in general is a substantial change, this is a very reasonable and desired consequence.</li>
-<li>A four character HRP plus one type byte only leaves a maximum of 48 bytes for the actual address.</li>
+<li>A four character HRP plus one type byte only leaves a maximum of 48 bytes for the actual address. </li>
 </ul>
 <h1 id="rationale-and-alternatives-9"><a class="header" href="#rationale-and-alternatives-9">Rationale and alternatives</a></h1>
 <ul>
@@ -2364,10 +2492,10 @@ created: 2020-10-30
 <li>validation itself as described in <a href="https://tools.ietf.org/html/rfc8032#section-5.1.7">Section 5.1.7</a></li>
 </ul>
 <h1 id="motivation-12"><a class="header" href="#motivation-12">Motivation</a></h1>
-<p>Based on <a href="https://hdevalence.ca/blog/2020-10-04-its-25519am">research done by Henry de Valence</a> we know that:</p>
+<p>Based on <a href="https://hdevalence.ca/blog/2020-10-04-its-25519am">research done by Henry de Valence</a> we know that: </p>
 <ol>
 <li>Not all implementations follow the decoding rules defined in RFC 8032, but instead accept non-canonically encoded inputs.</li>
-<li>The Ed25519 RFC provides two alternative verification equations, whereas one is stronger than the other. Different implementations use different equations and therefore validation results vary even across implementations that follow the RFC 8032.</li>
+<li>The Ed25519 RFC provides two alternative verification equations, whereas one is stronger than the other. Different implementations use different equations and therefore validation results vary even across implementations that follow the RFC 8032. </li>
 </ol>
 <p>This lack of consistent validation behavior is especially critical for IOTA as they can cause a breach of consensus across node implementations! For example, one node implementation may consider a particular transaction valid and mutate the ledger state accordingly, while a different implementation may discard the same transaction due to invalidity. This would result in a network fork and could only be resolved outside of the protocol. Therefore, an explicit and unambiguous definition of validation criteria, such as ZIP-215, is necessary.</p>
 <p>Furthermore, it is important to note that the holder of the secret key can produce more than one valid distinct signature. Such transactions with the same essence but different signatures are considered as double spends by the consensus protocol and handled accordingly. While this does not pose a problem for the core protocol, it may be a problem for 2nd layer solutions, similar to how <a href="https://en.bitcoinwiki.org/wiki/Transaction_Malleability#How_Does_Transaction_Malleability_Affect_The_Lightning_Network.3F">transaction malleability in bitcoin presented an issue for the lightning network</a>.</p>
@@ -2393,7 +2521,7 @@ created: 2020-10-30
 <li>[8][S]B = [8]R + [8][k]A'</li>
 <li>[S]B = R + [k]A'</li>
 </ol>
-<p>Each honestly generated signature following RFC 8032 satisfies the second, cofactorless equation and thus, also the first equation. However, the opposite is not true: There are solutions only satisfying the first but not the latter. This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations.</p>
+<p>Each honestly generated signature following RFC 8032 satisfies the second, cofactorless equation and thus, also the first equation. However, the opposite is not true: There are solutions only satisfying the first but not the latter. This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations. </p>
 <p>Ed25519 also supports batch signature verification, which allows verifying several signatures in a single step, much faster than verifying signatures one-by-one. Without going into detail, there are also two alternative verification equations for the batch verification:<br> [8][∑zᵢsᵢ] B = [8]∑[zᵢ]Rᵢ + [8]∑[zᵢhᵢ]Aᵢ and its corresponding cofactorless version. However, only cofactored verifications, single and batch, are compatible with each other. All other combinations are inconsistent and can lead to false positives or false negatives (see <a href="https://eprint.iacr.org/2020/1244">Chalkias et al. 2020</a>, Section 3.2).<br> Thus, in order to allow batch signature verification and its faster performance in IOTA nodes, the cofactored version <em>must</em> be used for validation, i.e. the group equation [8][S]B = [8]R + [8][k]A' for the single verification.</p>
 <p>Since non-canonical encodings of A and R are allowed, it is crucial to also specify which representation must be used for the hash functions:</p>
 <ul>
@@ -2417,13 +2545,13 @@ created: 2020-10-30
 <h1 id="rationale-and-alternatives-11"><a class="header" href="#rationale-and-alternatives-11">Rationale and alternatives</a></h1>
 <p>In the IOTA protocol, the <em>Transaction ID</em> corresponds to the hash over the entire transaction including the actual signature bytes. Therefore, it is absolutely crucial that (valid) signatures are not malleable by a public attacker, i.e. that the used Ed25519 variant is strongly-unforgeable. Allowing non-canonical point encodings does not introduce the same attack vector. As such, both options would lead to valid Ed25519 variants.</p>
 <p>Unfortunately, the Ed25519 <code>ref10</code> reference implementation as well as other implementations accept non-canonical points. As such, rejecting those inputs now would introduce a breaking change. While this might be acceptable for the IOTA protocol itself, since no Ed25519 signatures have been added to the ledger prior to this RFC, other consensus-critical applications require this backward compatibility with previously accepted signatures. Due to these considerations, the criterion was included in ZIP-215 to allow a seamless transition for existing consensus-critical contexts. This RFC aims to rather follow the existing ZIP-215 specification for compatibility and maintainability than to create a new standard.</p>
-<p>Using the cofactorless validation poses a similar breaking change since signatures accepted by implementations using the cofactored validation would then be rejected. More importantly, however, in order to be able to use the much faster batch verification, the cofactored version is required.</p>
+<p>Using the cofactorless validation poses a similar breaking change since signatures accepted by implementations using the cofactored validation would then be rejected. More importantly, however, in order to be able to use the much faster batch verification, the cofactored version is required. </p>
 <h1 id="copyright-13"><a class="header" href="#copyright-13">Copyright</a></h1>
 <p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><pre>
 tip: 15
 title: Dust Protection
-description: Prevent bloating the ledger size with to dust outputs
+description:  Prevent bloating the ledger size with to dust outputs
 author: Gal Rogozinski (@GalRogozinski) <gal.rogozinski@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/32
 status: Active
@@ -2435,7 +2563,7 @@ created: 2020-12-07
 <p>In the UTXO model, each node in the network needs to keep track of all the currently unspent outputs. When the number of outputs gets too large, this can cause performance and memory issues.
 This RFC proposes a new protocol rule regarding the processing of outputs that transfer a very small amount of IOTA, so-called dust outputs: Dust outputs are only allowed when they are backed up by a certain deposit on the receiving address. This limits the amount of dust outputs, thus making it expensive to proliferate dust. Since a receiver must make a deposit, the protocol makes receiving dust an opt-in feature.</p>
 <h1 id="motivation-13"><a class="header" href="#motivation-13">Motivation</a></h1>
-<p>An attacker, or even honest users, can proliferate the UTXO ledger with outputs holding a tiny amount of IOTA coins. This can cause the ledger to grow to a prohibitively large size.</p>
+<p>An attacker, or even honest users, can proliferate the UTXO ledger with outputs holding a tiny amount of IOTA coins. This can cause the ledger to grow to a prohibitively large size. </p>
 <p>In order to protect nodes from such attacks, one possible solution is to make accumulating dust outputs expensive. Since IOTA does not have any fees that might limit the feasibility of issuing many dust transactions, deposits pose a valid alternative to achieve a similar effect.</p>
 <p>When an address is supposed to receive micro transactions, it must have an unspent output of a special type as a deposit. This deposit cannot be consumed by any transaction as long as the dust outputs remain unspent.</p>
 <p>An additional benefit of this rule is that it makes a mass of privacy violating <a href="https://en.bitcoin.it/wiki/Privacy#Forced_address_reuse">forced address reuse attacks</a> more expensive to carry out.</p>
@@ -2444,50 +2572,50 @@ This RFC proposes a new protocol rule regarding the processing of outputs that t
 <p><em>Dust output</em>: A transaction output that has an amount smaller than 1 Mi</p>
 <p><em>SigLockedDustAllowanceOutput</em>: A new output type for deposits that enables an address to receive dust outputs. It can be consumed as an input like a regular <code>SigLockedSingleOutput</code>.</p>
 <table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
-</td>
-</tr>
-<tr>
-<td valign="top">Address <code>oneOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Ed25519 Address</summary>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Address Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-</td>
-</tr>
-<tr>
-<td>Address</td>
-<td>ByteArray[32]</td>
-<td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of tokens to deposit with this <i>SigLockedDustAllowanceOutput</i> output.</td>
-</tr>
+  <tr>
+    <td><b>Name</b></td>
+    <td><b>Type</b></td>
+    <td><b>Description</b></td>
+  </tr>
+  <tr>
+    <td>Output Type</td>
+    <td>uint8</td>
+    <td>
+      Set to <strong>value 1</strong> to denote a <i>SigLockedDustAllowanceOutput</i>.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Address <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Ed25519 Address</summary>
+        <table>
+          <tr>
+            <td><b>Name</b></td>
+            <td><b>Type</b></td>
+            <td><b>Description</b></td>
+          </tr>
+          <tr>
+            <td>Address Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>ByteArray[32]</td>
+            <td>The raw bytes of the Ed25519 address which is the BLAKE2b-256 hash of the public key.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Amount</td>
+    <td>uint64</td>
+    <td>The amount of tokens to deposit with this <i>SigLockedDustAllowanceOutput</i> output.</td>
+  </tr>
 </table>
 <h3 id="validation-2"><a class="header" href="#validation-2">Validation</a></h3>
 <p>Let A be the address that should hold the dust outputs' balances. Let S be the sum of all the amounts of all unspent <code>SigLockedDustAllowanceOutputs</code> on A. Then, the maximum number of allowed dust outputs on A is S divided by 100,000 and rounded down, i.e. 10 outputs for each 1 Mi deposited.
@@ -2501,7 +2629,7 @@ However, regardless of S, the number of dust outputs must never exceed 100 per a
 <p>The <em>semantic validation</em> remains unchanged and are checked for both <code>SigLockedSingleOutputs</code> and <code>SigLockedDustAllowanceOutput</code>, but this RFC introduces one additional criterion:</p>
 <p>A transaction T</p>
 <ul>
-<li>consuming a <code>SigLockedDustAllowanceOutput</code> on address A format-tip-header.sh</li>
+<li>consuming a <code>SigLockedDustAllowanceOutput</code> on address A <strong>or</strong></li>
 <li>creating a dust output with address A,</li>
 </ul>
 <p>is only semantically valid, if, after T is booked, the number of confirmed unspent dust outputs on A does not exceed the allowed threshold of min(S / 100000, 100).</p>
@@ -2558,18 +2686,22 @@ created: 2021-01-13
 <h1 id="summary-15"><a class="header" href="#summary-15">Summary</a></h1>
 <p>This RFC defines the migration process of funds residing on WOTS addresses in the current legacy network to the post-Chrysalis Phase 2 network.</p>
 <h1 id="motivation-14"><a class="header" href="#motivation-14">Motivation</a></h1>
-<p>The IOTA protocol wants to move away from WOTS as it created a number of security, protocol and UX issues:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp WOTS signatures are big and make up a disproportional amount of data of a transaction.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp It is only safe to spend from an address <strong>once</strong>. Spending multiple times from the same address reveals random parts of the private key, making any subsequent transfers (other than the first) susceptible to thefts.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp As a prevention mechanism to stop users from spending multiple times from the same address, nodes have to keep an ever growing list of those addresses.</p>
+<p>The IOTA protocol wants to move away from WOTS as it created a number of security, protocol and UX issues:</p>
+<ul>
+<li>WOTS signatures are big and make up a disproportional amount of data of a transaction.</li>
+<li>It is only safe to spend from an address <strong>once</strong>. Spending multiple times from the same address reveals random parts of the private key, making any subsequent transfers (other than the first) susceptible to thefts.</li>
+<li>As a prevention mechanism to stop users from spending multiple times from the same address, nodes have to keep an ever growing list of those addresses.</li>
+</ul>
 <p>In the beginning of the new Chrysalis Phase 2 network, only Ed25519 addresses are supported. The protocol will no longer support WOTS addresses. Therefore, there needs to be a migration process from WOTS addresses to Ed25519 address in the new network.</p>
 <p>To make the migration as smooth as possible, the specified mechanism allows for users to migrate their funds at any time with only a small delay until they're available on the new network.</p>
 <p>This RFC outlines the detailed architecture of how users will be able to migrate their funds and specifies the underlying components and their purposes.</p>
 <h1 id="detailed-design-13"><a class="header" href="#detailed-design-13">Detailed Design</a></h1>
-<p>On a high-level the migration process works as follows:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Users create migration bundles in the legacy network which target their Ed25519 address in the new network.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The Coordinator then mints those migrated funds in receipts which are placed within milestones on the new network.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Nodes in the new network evaluate receipts and book the corresponding funds by creating new UTXOs in the ledger.</p>
+<p>On a high-level the migration process works as follows:</p>
+<ul>
+<li>Users create migration bundles in the legacy network which target their Ed25519 address in the new network.</li>
+<li>The Coordinator then mints those migrated funds in receipts which are placed within milestones on the new network.</li>
+<li>Nodes in the new network evaluate receipts and book the corresponding funds by creating new UTXOs in the ledger.</li>
+</ul>
 <h2 id="migration-timeline"><a class="header" href="#migration-timeline">Migration timeline</a></h2>
 <ol>
 <li>Users issue migration bundles which effectively burn their funds. During this period, normal value bundles and zero-value transactions are allowed to become part of a milestone cone.</li>
@@ -2591,30 +2723,30 @@ LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting
 <p>The node will only use tail transactions of migration or milestone bundles for the tip-pool. This means that past cones referenced by a milestone will only include such bundles.</p>
 <p>The legacy node software is updated with an additional HTTP API command called <code>getWhiteFlagConfirmation</code> which given request data in the following form:</p>
 <pre><code class="language-json">{
-&quot;command&quot;: &quot;getWhiteFlagConfirmation&quot;,
-&quot;milestoneIndex&quot;: 1434593
+    &quot;command&quot;: &quot;getWhiteFlagConfirmation&quot;,
+    &quot;milestoneIndex&quot;: 1434593
 }
 </code></pre>
 <p>returns data for the given milestone white-flag confirmation:</p>
 <pre><code class="language-json">{
-&quot;milestoneBundle&quot;: [
-&quot;SDGKWKJAG...&quot;,
-&quot;WNGHJWIFA...&quot;,
-&quot;DSIEWSDIG...&quot;
-],
-&quot;includedBundles&quot;: [
-[
-&quot;SKRGI9DFS...&quot;,
-&quot;NBJSKRJGW...&quot;,
-&quot;ITRUQORTZ...&quot;
-],
-[
-&quot;OTIDFJKSD...&quot;,
-&quot;BNSUGRWER...&quot;,
-&quot;OPRGJSDFJ...&quot;
-],
-...
-]
+    &quot;milestoneBundle&quot;: [
+        &quot;SDGKWKJAG...&quot;,
+        &quot;WNGHJWIFA...&quot;,
+        &quot;DSIEWSDIG...&quot;
+    ],
+    &quot;includedBundles&quot;: [
+        [
+            &quot;SKRGI9DFS...&quot;,
+            &quot;NBJSKRJGW...&quot;,
+            &quot;ITRUQORTZ...&quot;
+        ],
+        [
+            &quot;OTIDFJKSD...&quot;,
+            &quot;BNSUGRWER...&quot;,
+            &quot;OPRGJSDFJ...&quot;
+        ],
+        ...
+    ]
 }
 </code></pre>
 <p>where <code>milestoneBundle</code> contains the milestone bundle trytes and <code>includedBundles</code> is an array of tryte arrays of included bundles in the same DFS order as the white-flag confirmation. Trytes within a bundle &quot;array&quot; are sorted from <code>currentIndex</code> = 0 ascending to the <code>lastIndex</code>.</p>
@@ -2623,121 +2755,123 @@ LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting
 <p>The Coordinator will only include migration bundles (respectively the tails of those bundles) in its inclusion Merkle proof. Nodes which do not run with the updated code will crash once the updated confirmation is in place.</p>
 <h3 id="preventing-non-migration-bundles"><a class="header" href="#preventing-non-migration-bundles">Preventing non-migration bundles</a></h3>
 <p>As an additional measure to prevent users from submitting never confirming non-migration bundles (which would lead to key-reuse), nodes will no longer accept non-migration bundles in the HTTP API.</p>
-<p>HTTP API level checks:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The user must submit an entire migration bundle. No more single zero-value transactions, value-spam bundles etc. are allowed.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Input transactions are spending the entirety of the funds residing on the corresponding address. There must be more than 0 tokens on the given address.</p>
+<p>HTTP API level checks:</p>
+<ul>
+<li>The user must submit an entire migration bundle. No more single zero-value transactions, value-spam bundles etc. are allowed.</li>
+<li>Input transactions are spending the entirety of the funds residing on the corresponding address. There must be more than 0 tokens on the given address.</li>
+</ul>
 <p>Wallet software must be updated to no longer support non-migration bundles.</p>
 <p>There are no restrictions put in place on the gossip level, as it is too complex to prevent non-migration transactions to be filtered out, however, these transactions will never become part of a milestone cone.</p>
 <h2 id="treasury-transaction"><a class="header" href="#treasury-transaction">Treasury Transaction</a></h2>
 <p>A <code>TreasuryTransaction</code> is a payload which contains a reference to the current <code>TreasuryOutput</code> (in form of a <code>TreasuryInput</code> object) and an output <code>TreasuryOutput</code> which deposits the remainder.</p>
 <p>Serialized form:</p>
 <table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Type</td>
-<td>uint32</td>
-<td>
-Set to <strong>value 4</strong> to denote a <i>TreasuryTransaction</i>.
-</td>
-</tr>
-<tr>
-<td>Input</td>
-<td colspan="2">
-<summary>TreasuryInput</summary>
-<table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Input Type</td>
-<td>byte</td>
-<td>
-Set to <strong>value 1</strong> to denote an <i>TreasuryInput</i>.
-</td>
-</tr>
-<tr>
-<td>Milestone Hash</td>
-<td>Array<byte>[32]></td>
-<td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>Output</td>
-<td colspan="2">
-<summary>TreasuryOutput</summary>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>byte</td>
-<td>
-Set to <strong>value 2</strong> to denote an <i>TreasuryOutput</i>.
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of funds residing in the treasury.</td>
-</tr>
-</table>
-</td>
-</tr>
+    <tr>
+        <td><b>Name</b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>uint32</td>
+        <td>
+            Set to <strong>value 4</strong> to denote a <i>TreasuryTransaction</i>.
+        </td>
+    </tr>
+    <tr>
+        <td>Input</td>
+        <td colspan="2">
+            <summary>TreasuryInput</summary>
+            <table>
+                <tr>
+                    <td><b>Name<b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                </tr>
+                <tr>
+                    <td>Input Type</td>
+                    <td>byte</td>
+                    <td>
+                        Set to <strong>value 1</strong> to denote an <i>TreasuryInput</i>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Milestone Hash</td>
+                    <td>Array<byte>[32]></td>
+                    <td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>Output</td>
+        <td colspan="2">
+            <summary>TreasuryOutput</summary>
+            <table>
+                <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                </tr>
+                <tr>
+                    <td>Output Type</td>
+                    <td>byte</td>
+                    <td>
+                        Set to <strong>value 2</strong> to denote an <i>TreasuryOutput</i>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of funds residing in the treasury.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 <h3 id="treasury-input"><a class="header" href="#treasury-input">Treasury Input</a></h3>
 <p>The <code>TreasuryInput</code> is equivalent to a normal <code>UTXOInput</code> but instead of referencing a transaction, it references a milestone. This input can only be used within <code>TreasuryTransaction</code> payloads.</p>
 <p>Serialized form:</p>
 <table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Input Type</td>
-<td>byte</td>
-<td>
-Set to <strong>value 1</strong> to denote an <i>TreasuryInput</i>.
-</td>
-</tr>
-<tr>
-<td>Milestone Hash</td>
-<td>Array<byte>[32]></td>
-<td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
-</tr>
+    <tr>
+        <td><b>Name</b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Input Type</td>
+        <td>byte</td>
+        <td>
+            Set to <strong>value 1</strong> to denote an <i>TreasuryInput</i>.
+        </td>
+    </tr>
+    <tr>
+        <td>Milestone Hash</td>
+        <td>Array<byte>[32]></td>
+        <td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
+    </tr>
 </table>
 <h3 id="treasury-output"><a class="header" href="#treasury-output">Treasury Output</a></h3>
 <p>The <code>TreasuryOutput</code> is a special output type which represents the treasury of the network, respectively the non yet migrated funds. At any given moment in time, there is only one <code>TreasuryOutput</code>.</p>
 <p>Serialized form:</p>
 <table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Output Type</td>
-<td>byte</td>
-<td>
-Set to <strong>value 2</strong> to denote an <i>TreasuryInput</i>.
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount of funds residing in the treasury.</td>
-</tr>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Output Type</td>
+        <td>byte</td>
+        <td>
+            Set to <strong>value 2</strong> to denote an <i>TreasuryInput</i>.
+        </td>
+    </tr>
+    <tr>
+        <td>Amount</td>
+        <td>uint64</td>
+        <td>The amount of funds residing in the treasury.</td>
+    </tr>
 </table>
 <p>The <code>TreasuryOutput</code> can not be referenced or spent by transactions, it can only be referenced by receipts.</p>
 <p>The <code>TreasuryOutput</code> can be queried from the HTTP API and needs to be included within snapshots in order to keep the total supply intact.</p>
@@ -2747,111 +2881,115 @@ Set to <strong>value 2</strong> to denote an <i>TreasuryInput</i>.
 <p>Receipts are listings of funds for which nodes must generate UTXOs in the form of <code>SigLockedSingleOutput</code>s targeting the given address. Receipts are embedded within milestone payloads and therefore signed by the Coordinator. A milestone may contain up to one receipt as a payload. The Coordinator chooses whether to embed a receipt payload or not.</p>
 <p>Serialized form:</p>
 <table>
-<tr>
-<td><b>Name<b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Payload Type</td>
-<td>uint32</td>
-<td>Set to <strong>value 3</strong> to denote a <i>Receipt</i>.</td>
-</tr>
-<tr>
-<td>Migrated At</td>
-<td>uint32</td>
-<td>The index of the legacy milestone in which the listed funds were migrated at.</td>
-</tr>
-<tr>
-<td>Final</td>
-<td>bool</td>
-<td>Flags whether this receipt is the last receipt for the given <i>Migrated At</i> index.</td>
-</tr>
-<tr>
-<td>Funds Count</td>
-<td>uint16</td>
-<td>Denotes how many migrated fund entries are within the receipt.</td>
-</tr>
-<tr>
-<td>Funds</td>
-<td colspan="2">
-<details open="true">
-<summary>Migrated Funds Entry</summary>
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>Tail Transaction Hash</td>
-<td>Array<byte>[49]</td>
-<td>
-The tail transaction hash of the bundle in which these funds were migrated.
-</td>
-</tr>
-<tr>
-<td valign="top">Address <code>oneOf</code></td>
-<td colspan="2">
-<details open="true">
-<summary>Ed25519 Address</summary>
-<table>
-<tr>
-<td><b>Name</b></td>
-<td><b>Type</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>Address Type</td>
-<td>uint8</td>
-<td>
-Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
-</td>
-</tr>
-<tr>
-<td>Address</td>
-<td>Array&lt;byte&gt;[32]</td>
-<td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Amount</td>
-<td>uint64</td>
-<td>The amount which was migrated</td>
-</tr>
-</table>
-</details>
-</td>
-</tr>
-<tr>
-<td>Payload Length</td>
-<td>uint32</td>
-<td>The length in bytes of the payload.</td>
-</tr>
-<tr>
-<td valign="top">Payload</td>
-<td colspan="2">
-<details>
-<summary>TreasuryTransaction Payload</summary>
-</details>
-</td>
-</tr>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Payload Type</td>
+        <td>uint32</td>
+        <td>Set to <strong>value 3</strong> to denote a <i>Receipt</i>.</td>
+    </tr>
+    <tr>
+        <td>Migrated At</td>
+        <td>uint32</td>
+        <td>The index of the legacy milestone in which the listed funds were migrated at.</td>
+    </tr>
+    <tr>
+        <td>Final</td>
+        <td>bool</td>
+        <td>Flags whether this receipt is the last receipt for the given <i>Migrated At</i> index.</td>
+    </tr>
+    <tr>
+        <td>Funds Count</td>
+        <td>uint16</td>
+        <td>Denotes how many migrated fund entries are within the receipt.</td>
+    </tr>
+    <tr>
+        <td>Funds</td>
+        <td colspan="2">
+        <details open="true">
+            <summary>Migrated Funds Entry</summary>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Tail Transaction Hash</td>
+                    <td>Array<byte>[49]</td>
+                    <td>
+                    The tail transaction hash of the bundle in which these funds were migrated.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Address <code>oneOf</code></td>
+                    <td colspan="2">
+                        <details open="true">
+                            <summary>Ed25519 Address</summary>
+                            <table>
+                                <tr>
+                                    <td><b>Name</b></td>
+                                    <td><b>Type</b></td>
+                                    <td><b>Description</b></td>
+                                </tr>
+                                <tr>
+                                    <td>Address Type</td>
+                                    <td>uint8</td>
+                                    <td>
+                                        Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td>Array&lt;byte&gt;[32]</td>
+                                    <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                                </tr>
+                            </table>
+                        </details>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Amount</td>
+                    <td>uint64</td>
+                    <td>The amount which was migrated</td>
+                </tr>
+            </table>
+        </details>
+        </td>
+    </tr>
+    <tr>
+        <td>Payload Length</td>
+        <td>uint32</td>
+        <td>The length in bytes of the payload.</td>
+    </tr>
+    <tr>
+        <td valign="top">Payload</td>
+        <td colspan="2">
+            <details>
+                <summary>TreasuryTransaction Payload</summary>
+            </details>
+        </td>
+    </tr>
 </table>
 <h3 id="validation-3"><a class="header" href="#validation-3">Validation</a></h3>
 <h4 id="syntactical"><a class="header" href="#syntactical">Syntactical</a></h4>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>funds_array_count</code> can be max 127 and must be &gt; 0.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>funds</code> array must be in lexical sort order (by their serialized form).
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp any <code>tail_transaction_hash</code> must be unique over the entire receipt.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>deposit</code> must be ≥ 1'000'000 IOTA tokens.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>payload_length</code> can not be zero.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>treasury_transaction</code> must be a <code>Treasury Transaction</code> payload.</p>
+<ul>
+<li><code>funds_array_count</code> can be max 127 and must be &gt; 0.</li>
+<li><code>funds</code> array must be in lexical sort order (by their serialized form).</li>
+<li>any <code>tail_transaction_hash</code> must be unique over the entire receipt.</li>
+<li><code>deposit</code> must be ≥ 1'000'000 IOTA tokens.</li>
+<li><code>payload_length</code> can not be zero.</li>
+<li><code>treasury_transaction</code> must be a <code>Treasury Transaction</code> payload.</li>
+</ul>
 <h4 id="semantic"><a class="header" href="#semantic">Semantic</a></h4>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp <code>migrated_at</code> can not decrease between subsequent receipts.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp There must not be any subsequent receipts with the same <code>migrated_at</code> index after the one with the <code>final</code> flag set to true.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The amount field of the previous <code>TreasuryOutput</code> minus the sum of all the newly migrated funds must equal the amount of the new <code>TreasuryOutput</code> within the <code>TreasuryTransaction</code> payload.</p>
+<ul>
+<li><code>migrated_at</code> can not decrease between subsequent receipts.</li>
+<li>There must not be any subsequent receipts with the same <code>migrated_at</code> index after the one with the <code>final</code> flag set to true.</li>
+<li>The amount field of the previous <code>TreasuryOutput</code> minus the sum of all the newly migrated funds must equal the amount of the new <code>TreasuryOutput</code> within the <code>TreasuryTransaction</code> payload.</li>
+</ul>
 <h4 id="legitimacy-of-migrated-funds"><a class="header" href="#legitimacy-of-migrated-funds">Legitimacy of migrated funds</a></h4>
 <p>While the syntactical and semantic validation ensures that the receipt's integrity is correct, it doesn't actually tell whether the given funds were really migrated in the legacy network.</p>
 <p>In order validate this criteria, the node software performs following operation:</p>
@@ -2867,16 +3005,20 @@ LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting
 <p>If one wants to audit the UTXO path of an input, it means that milestones need to be kept forever as they're needed to recognize that a certain output was generated by it. However, this can be offloaded to a 2nd level service.</p>
 <p>All the generated <code>SigLockedSingleOutput</code>s from the migrated funds are then booked into the ledger and the new <code>TreasuryOutput</code> is persisted as a UTXO using the milestone hash of the receipt which included the <code>Treasury Transaction</code> payload.</p>
 <h2 id="transparency"><a class="header" href="#transparency">Transparency</a></h2>
-<p>For transparency reasons, the IF offers software which renders a dashboard showing details throughout the entire migration process:
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp A list of outstanding funds residing on migration addresses to be migrated with the milestone index at which they were created.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Migrated funds.
-LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp Generated receipts.</p>
+<p>For transparency reasons, the IF offers software which renders a dashboard showing details throughout the entire migration process:</p>
+<ul>
+<li>A list of outstanding funds residing on migration addresses to be migrated with the milestone index at which they were created.</li>
+<li>Migrated funds.</li>
+<li>Generated receipts.</li>
+</ul>
 <h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
 <p>At current legacy network ledger size of 261446 entries (addresses with ≥ 1'000'000 tokens), it would take min. ~2058 receipts to migrate all funds. While theoretically the max message size allows for more entries to be within one receipt, it is limited by the fact that the index of the migrated address within the receipt is used to generate the <code>output_index</code> of the generated <code>SigLockedSingleDeposit</code> (further explained below).</p>
 <p>Assuming the best case scenario in which all 261446 entries were sent to migration addresses in the legacy network, these funds could therefore be migrated into the new network within ~5.7h (at a 10 second milestone interval). Of course, in practice users will migrate over time and the receipt mechanism will need to be in place as long as the new network runs.</p>
 <p>If looked at the receipt validation from a higher-level, it becomes quite apparent that this is analogous to previous global snapshots where users would post comments on a PR on GitHub saying that they computed the same ledger state, just that it is more granular and automatic while still leveraging the same source of truth: the ledger state/database of nodes.</p>
 <h2 id="caveats"><a class="header" href="#caveats">Caveats</a></h2>
-<p>LICENSE-APACHE README.md book.toml format-tip-header.sh generate-book.sh meeting-minutes src tip-template.md tips tmp The local snapshot file format needs to also include the to be applied receipts and supply information.</p>
+<ul>
+<li>The local snapshot file format needs to also include the to be applied receipts and supply information.</li>
+</ul>
 <h1 id="copyright-16"><a class="header" href="#copyright-16">Copyright</a></h1>
 <p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 

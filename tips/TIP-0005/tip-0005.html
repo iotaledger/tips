@@ -165,31 +165,40 @@ The IOTA client libraries support the opposite conversion that encodes 5 trits a
 <p>This algorithm can also be described using the following pseudocode:</p>
 <pre><code>T ← []
 foreach byte b in S:
-v ← int8(b)
-g ← IntToTrits(v, 6)
-T ← T || g
+  v ← int8(b)
+  g ← IntToTrits(v, 6)
+  T ← T || g
 </code></pre>
 <p>Here, the function <code>IntToTrits</code> converts a signed integer value into its corresponding balanced ternary representation in little-endian order of the given length. The functionality of <code>IntToTrits</code> exactly matches the one used to e.g. encode the transaction values as trits in the current IOTA protocol.</p>
 <h3 id="trits-to-bytes"><a class="header" href="#trits-to-bytes">Trits to bytes</a></h3>
 <p>Given a trit string T as the result of the previous encoding, T is converted back to its original byte string S by simply reversing the conversion:</p>
 <pre><code>S ← []
 foreach 6-trit group g in T:
-v ← TritsToInt(g)
-b ← byte(v)
-S ← S || b
+  v ← TritsToInt(g)
+  b ← byte(v)
+  S ← S || b
 </code></pre>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
-<li>I</li>
+<li>I
+<ul>
 <li>binary (hex): <code>00</code></li>
 <li>ternary (trytes): <code>99</code></li>
-<li>II</li>
+</ul>
+</li>
+<li>II
+<ul>
 <li>binary (hex): <code>0001027e7f8081fdfeff</code></li>
 <li>ternary (trytes):
 <code>99A9B9RESEGVHVX9Y9Z9</code></li>
-<li>III</li>
+</ul>
+</li>
+<li>III
+<ul>
 <li>binary (hex): <code>9ba06c78552776a596dfe360cc2b5bf644c0f9d343a10e2e71debecd30730d03</code></li>
 <li>ternary (trytes): <code>GWLW9DLDDCLAJDQXBWUZYZODBYPBJCQ9NCQYT9IYMBMWNASBEDTZOYCYUBGDM9C9</code></li>
+</ul>
+</li>
 </ul>
 <h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
 <ul>
@@ -205,9 +214,9 @@ S ← S || b
 <p>The current client libraries do not provide any functionality to convert an arbitrary amount of bytes into trits. The closest available functionality is the ASCII to trit conversion, which is used for human-readable messages in transactions:</p>
 <pre><code>T ← []
 foreach char c in S:
-first ← uint8(c) mod 27
-second ← (uint8(c)-first) / 27
-T ← T || IntToTrits(first, 3) || IntToTrits(second, 3)
+  first ← uint8(c) mod 27
+  second ← (uint8(c)-first) / 27
+  T ← T || IntToTrits(first, 3) || IntToTrits(second, 3)
 </code></pre>
 <p>This function can be adapted to encode any general byte string. However, the conversion seems rather arbitrary and the algorithm is computationally more intense than the proposed solution.
 On the other hand, using the algorithm from this RFC also for the conversion of ASCII messages would break backward compatibility, which is also undesirable.</p>

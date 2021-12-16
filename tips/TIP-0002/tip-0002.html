@@ -210,34 +210,34 @@ a new milestone confirming many new messages.</p>
 <p>Pseudo-code means that implementation details such as types, parameters, ..., are not important but that the logic has
 to be followed with care when implementing a node to avoid differences in the ledger state.</p>
 <pre><code>update_ledger_state(ledger, milestone, solid_entry_points) {
-s = new Stack()
-visited = new Set()
+    s = new Stack()
+    visited = new Set()
 
-s.push(milestone)
+    s.push(milestone)
 
-while (!s.is_empty()) {
-curr = s.peek()
-next = null
+    while (!s.is_empty()) {
+        curr = s.peek()
+        next = null
 
-// Look for the first eligible parent that was not already visited
-for parent in curr.parents {
-if (!solid_entry_points.contains(parent) &amp;&amp; !parent.confirmed &amp;&amp; !visited.contains(parent)) {
-next = parent
-break
-}
-}
+        // Look for the first eligible parent that was not already visited
+        for parent in curr.parents {
+          if (!solid_entry_points.contains(parent) &amp;&amp; !parent.confirmed &amp;&amp; !visited.contains(parent)) {
+            next = parent
+            break
+          }
+        }
 
-// All parents have been visited, apply and visit the current message
-if next == null {
-ledger.apply(curr)
-visited.add(curr)
-s.pop()
-}
-// Otherwise, go to the parent
-else {
-s.push(next)
-}
-}
+        // All parents have been visited, apply and visit the current message
+        if next == null {
+          ledger.apply(curr)
+          visited.add(curr)
+          s.pop()
+        }
+        // Otherwise, go to the parent
+        else {
+          s.push(next)
+        }
+    }
 }
 </code></pre>
 <p><strong>Notes</strong>:</p>
