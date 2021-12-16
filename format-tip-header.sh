@@ -10,7 +10,7 @@ do
         ((C++))
         line="</pre>"
     fi
-  echo $line >> tmp
+  echo "$line" >> tmp
 done < "$1"
 
 mv tmp $1
