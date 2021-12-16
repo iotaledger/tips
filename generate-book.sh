@@ -26,7 +26,7 @@ find ./src ! -type d -name '*.md' ! -path ./src ! -path ./src/SUMMARY.md -print0
   | sort -z \
   | while read -r -d '' file;
 do
-    ./format_tip_header.sh $file
+    ./format-tip-header.sh $file
 done
 
 ln -frs README.md src/introduction.md
