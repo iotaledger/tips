@@ -1,0 +1,5 @@
+[book]
+title = "The Tangle Improvement Proposal (TIP) Book"
+
+[output.html]
+no-section-label = true
