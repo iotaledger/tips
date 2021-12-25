@@ -1,6 +1,6 @@
 # Dust protection
 
-+ Feature name: dust-protection-based-on-byte-costs
++ Feature name: `dust-protection-based-on-byte-costs`
 + Start date: 2021-11-04
 + RFC PR: [iotaledger/protocol-rfcs#0039](https://github.com/iotaledger/protocol-rfcs/pull/39)
 
@@ -219,8 +219,8 @@ The following tables show the different outputs including the possible fields an
             <tr>
                 <td>Blocks Count</td>
                 <td><code>data</code></td>
-                <td>2</td>
-                <td>2</td>
+                <td>1</td>
+                <td>1</td>
                 <td>-</td>
             </tr>
         </tr>
@@ -593,8 +593,8 @@ The following tables show the different outputs including the possible fields an
             <tr>
                 <td>Blocks Count</td>
                 <td><code>data</code></td>
-                <td>2</td>
-                <td>2</td>
+                <td>1</td>
+                <td>1</td>
                 <td>-</td>
             </tr>
         </tr>
@@ -797,8 +797,8 @@ The following tables show the different outputs including the possible fields an
             <tr>
                 <td>Blocks Count</td>
                 <td><code>data</code></td>
-                <td>2</td>
-                <td>2</td>
+                <td>1</td>
+                <td>1</td>
                 <td>-</td>
             </tr>
         </tr>
@@ -960,8 +960,8 @@ The following tables show the different outputs including the possible fields an
             <tr>
                 <td>Blocks Count</td>
                 <td><code>data</code></td>
-                <td>2</td>
-                <td>2</td>
+                <td>1</td>
+                <td>1</td>
                 <td>-</td>
             </tr>
         </tr>
