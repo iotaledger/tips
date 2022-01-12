@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -89,7 +89,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -155,10 +155,7 @@ created: 2020-07-28
 </pre>
 <ul>
 <li>Changelog:
-<ul>
-<li>(<a href="https://github.com/iotaledger/tips/pull/0037">iotaledger/tips#0037</a>) Fixed internal links</li>
-</ul>
-</li>
++ (<a href="https://github.com/iotaledger/tips/pull/0037">iotaledger/tips#0037</a>) Fixed internal links</li>
 </ul>
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>The Tangle is the graph data structure behind IOTA. In the current IOTA protocol, the vertices of the Tangle are represented by transactions. This document proposes an abstraction of this idea where the vertices are generalized <em>messages</em>, which then contain the transactions or other structures that are processed by the IOTA protocol. Just as before, each message directly approves other messages, which are known as <em>parents</em>.</p>
@@ -329,6 +326,7 @@ created: 2020-07-28
 <p>Instead of creating a layered approach, we could have simply created a flat transaction message that is tailored to mutate the ledger state, and try to fit all the use cases there. For example, with the indexed data use case, we could have filled some section of the transaction with that particular data. Then, this transaction would not correspond to a ledger mutation but instead only carry data.</p>
 <p>This approach seems less extensible. It might have made sense if we had wanted to build a protocol that is just for ledger mutating transactions, but we want to be able to extend the protocol to do more than that.</p>
 <h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 
                     </main>
 
