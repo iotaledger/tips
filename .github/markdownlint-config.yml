@@ -1,0 +1,4 @@
+default: false # excludes all rules by default
+
+# Files should end with a single newline character <https://github.com/DavidAnson/markdownlint/blob/master/doc/Rules.md#md047>
+MD047: true

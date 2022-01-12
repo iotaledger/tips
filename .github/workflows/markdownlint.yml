@@ -1,0 +1,18 @@
+name: Markdown Lint
+
+on:
+  pull_request:
+    branches: [ main ]
+
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Markdown Linting
+        uses: avto-dev/markdown-lint@v1.5.0
+        with:
+          config: './.github/markdownlint-config.yml'
+          args: './tips/**/*.md'
