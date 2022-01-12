@@ -203,7 +203,7 @@ created: 2021-12-15
 <tr><td>Idea</td><td>An idea for an improvement to the IOTA technology. Not yet tracked as an official TIP.</td></tr>
 <tr><td>Draft</td><td>The idea has been formally accepted in the repository, and is being worked on by its authors.</td></tr>
 <tr><td>Proposed</td><td>The TIP has a working implementation and has clear plans on how to progress to <code>Active</code> status.</td></tr>
-<tr><td>Active</td><td>The TIP is deployed to the main network or some TIP specific addoption criteria has been met.</td></tr>
+<tr><td>Active</td><td>The TIP is deployed to the main network or some TIP specific adoption criteria has been met.</td></tr>
 <tr><td>Deferred</td><td>The <em>TIP author(s)</em> are not working on the TIP currently, but plan to continue in the future. TIP is on hold.</td></tr>
 <tr><td>Rejected</td><td>The TIP is rejected.</td></tr>
 <tr><td>Withdrawn</td><td>The TIP has been withdrawn by the <em>TIP author(s)</em>.</td></tr>
@@ -217,7 +217,7 @@ created: 2021-12-15
 <p>All TIPs begin life as an <code>Idea</code> proposed in the public <a href="https://github.com/iotaledger/tips/discussions">IOTA discussion forum, that is the GitHub Discussion page of the TIP repository</a>. A public, open discussion should predate any formal TIP submission. If you want to propel your proposal to acceptance, you should make sure to build consensus and support in the community around your proposed changes already in the idea stage.</p>
 </li>
 <li>
-<p>Once the idea has been vetted, your next task is to submit a <code>Draft</code> TIP to the TIP repository as a pull request. Do not assign a TIP number yet to the draft, but make sure that the proposal is technically sound and follows the format and style guides of the TIP Process. Create a subfolder under <code>tips</code> folder with the title of the draft (<code>tips/title_of_draft/</code>) and put all assets in this folder.</p>
+<p>Once the idea has been vetted, your next task is to submit a <code>Draft</code> TIP to the TIP repository as a pull request. Do not assign a TIP number yet to the draft, but make sure that the proposal is technically sound and follows the format and style guides of the TIP Process. Create a sub-folder under <code>tips</code> folder with the title of the draft (<code>tips/title_of_draft/</code>) and put all assets in this folder.</p>
 </li>
 <li>
 <p>A <em>TIP editor</em> reviews your PR and assigns a TIP number to the draft.</p>
@@ -239,7 +239,7 @@ created: 2021-12-15
 <p><img src="./process.svg" alt="image" /></p>
 <p>A <code>Draft</code> TIP might be moved to <code>Deferred</code> status by the <em>TIP author(s)</em> when they are no longer working on the proposal, but plan to continue it in the future.</p>
 <p>A <code>Draft</code> TIP might be moved to <code>Withdrawn</code> status by the <em>TIP author(s)</em>.</p>
-<p>A <code>Draft</code> TIP might be moved to <code>Rejected</code> status by <em>TIP editor(s)</em> or <em>Technical Committee</em> if it does not meet the appropriate TIP criterias, or no relevant progress has been demonstrated on the TIP for at least 3 years.</p>
+<p>A <code>Draft</code> TIP might be moved to <code>Rejected</code> status by <em>TIP editor(s)</em> or <em>Technical Committee</em> if it does not meet the appropriate TIP criteria, or no relevant progress has been demonstrated on the TIP for at least 3 years.</p>
 <p>A <code>Draft</code> TIP might be moved to <code>Proposed</code> status by TIP author(s) if it is considered complete, has a working implementation and clear plans on how to progress it to <code>Active</code> status.</p>
 <p>A <code>Proposed</code> TIP might be moved to <code>Active</code> status if a TIP specific adoption criteria has been met. For Core TIPs this means deployment on the main network.</p>
 <p>A <code>Proposed</code> TIP might be moved to <code>Rejected</code> status by <em>TIP editor(s)</em> or <em>Technical Committee</em> if its implementation puts unduly burden and complexity on the protocol, or other significant problems are discovered during testing.</p>
@@ -277,7 +277,7 @@ created: 2021-12-15
 <tr><td><code>rejection-reason*</code></td><td>A sentence explaining why the TIP was rejected. (Optional field, only needed when status is <code>Rejected</code>)</td></tr>
 </tbody></table>
 <h3 id="linking-tips"><a class="header" href="#linking-tips">Linking TIPs</a></h3>
-<p>References to other TIPs should follow the format TIP-N where N is the TIP number you are referring to. Each TIP that is referenced in an TIP MUST be accompanied by a relative markdown link the first time it is referenced, and MAY be accompanied by a link on subsequent references. The link MUST always be done via relative paths so that the links work in this GitHub repository or forks of this repository. For example, you would link to this TIP with <code>[TIP-1](../TIP-0001/tip-0001.md)</code>.</p>
+<p>References to other TIPs should follow the format TIP-N where N is the TIP number you are referring to. Each TIP that is referenced in an TIP MUST be accompanied by a relative Markdown link the first time it is referenced, and MAY be accompanied by a link on subsequent references. The link MUST always be done via relative paths so that the links work in this GitHub repository or forks of this repository. For example, you would link to this TIP with <code>[TIP-1](../TIP-0001/tip-0001.md)</code>.</p>
 <h3 id="auxiliary-files"><a class="header" href="#auxiliary-files">Auxiliary Files</a></h3>
 <p>Images, diagrams and auxiliary files should be included in the subdirectory of the TIP.  When linking to an image in the TIP, use relative links such as <code>[TIP Process Diagram](../TIP-0001/process.png)</code>.</p>
 <h3 id="transferring-tip-ownership"><a class="header" href="#transferring-tip-ownership">Transferring TIP Ownership</a></h3>
@@ -299,7 +299,7 @@ created: 2021-12-15
 <li>Check the TIP for language (spelling, grammar, sentence structure, etc.), markup (GitHub flavored Markdown), code style.</li>
 </ul>
 <p>If the TIP isn't ready, the editor will send it back to the author for revision, with specific instructions.</p>
-<p>Once the TIP is ready to be merged as a draft, the ditor will:</p>
+<p>Once the TIP is ready to be merged as a draft, the editor will:</p>
 <ul>
 <li>Assign a TIP number that does not conflict with other TIP numbers. It might be the PR number, but might also be selected as the next unused TIP number in line.</li>
 <li>Merge the corresponding pull request.</li>
