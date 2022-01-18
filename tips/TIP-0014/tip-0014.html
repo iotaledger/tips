@@ -148,7 +148,7 @@ title: Ed25519 Validation
 description: Adopt https://zips.z.cash/zip-0215 to explicitly define Ed25519 validation criteria
 author: Gal Rogozinski (@GalRogozinski) <gal.rogozinski@iota.org>, Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/28
-status: Draft
+status: Active
 type: Standards
 layer: Core
 created: 2020-10-30
@@ -161,10 +161,10 @@ created: 2020-10-30
 <li>validation itself as described in <a href="https://tools.ietf.org/html/rfc8032#section-5.1.7">Section 5.1.7</a></li>
 </ul>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
-<p>Based on <a href="https://hdevalence.ca/blog/2020-10-04-its-25519am">research done by Henry de Valence</a> we know that: </p>
+<p>Based on <a href="https://eprint.iacr.org/2020/1244">Chalkias et al. 2020</a> we know that: </p>
 <ol>
 <li>Not all implementations follow the decoding rules defined in RFC 8032, but instead accept non-canonically encoded inputs.</li>
-<li>The Ed25519 RFC provides two alternative verification equations, whereas one is stronger than the other. Different implementations use different equations and therefore validation results vary even across implementations that follow the RFC 8032. </li>
+<li>The RFC 8032 provides two alternative verification equations, whereas one is stronger than the other. Different implementations use different equations and therefore validation results vary even across implementations that follow the RFC 8032. </li>
 </ol>
 <p>This lack of consistent validation behavior is especially critical for IOTA as they can cause a breach of consensus across node implementations! For example, one node implementation may consider a particular transaction valid and mutate the ledger state accordingly, while a different implementation may discard the same transaction due to invalidity. This would result in a network fork and could only be resolved outside of the protocol. Therefore, an explicit and unambiguous definition of validation criteria, such as ZIP-215, is necessary.</p>
 <p>Furthermore, it is important to note that the holder of the secret key can produce more than one valid distinct signature. Such transactions with the same essence but different signatures are considered as double spends by the consensus protocol and handled accordingly. While this does not pose a problem for the core protocol, it may be a problem for 2nd layer solutions, similar to how <a href="https://en.bitcoinwiki.org/wiki/Transaction_Malleability#How_Does_Transaction_Malleability_Affect_The_Lightning_Network.3F">transaction malleability in bitcoin presented an issue for the lightning network</a>.</p>
@@ -178,7 +178,7 @@ created: 2020-10-30
 </ol>
 <p>In the following, we will explain each of these in more detail.</p>
 <h2 id="decoding"><a class="header" href="#decoding">Decoding</a></h2>
-<p>The Curve25519 is defined over the finite field of order p=2<sup>255</sup>−19. A curve point (x,y) is encoded into its compressed 32-byte representation, namely by the 255-bit encoding of the field element y followed by a single sign bit that is 1 for negative x (see <a href="https://datatracker.ietf.org/doc/html/rfc8032#section-3.1">RFC 8032, Section 3.1</a>) and 0 otherwise. This approach provides a unique encoding for each valid point. However, there are two classes of edge cases representing non-canonical encodings of valid points:</p>
+<p>The Curve25519 is defined over the finite field of order p=2<sup>255</sup>−19. A curve point (x,y) is encoded into its compressed 32-byte representation, namely by the 255-bit encoding of the field element y followed by a single sign bit that is 1 for negative x (see <a href="https://tools.ietf.org/html/rfc8032#section-3.1">RFC 8032, Section 3.1</a>) and 0 otherwise. This approach provides a unique encoding for each valid point. However, there are two classes of edge cases representing non-canonical encodings of valid points:</p>
 <ul>
 <li>encoding a y-coordinate as y + p</li>
 <li>encoding a curve point (0,y) with the sign bit set to 1</li>
@@ -190,8 +190,8 @@ created: 2020-10-30
 <li>[8][S]B = [8]R + [8][k]A'</li>
 <li>[S]B = R + [k]A'</li>
 </ol>
-<p>Each honestly generated signature following RFC 8032 satisfies the second, cofactorless equation and thus, also the first equation. However, the opposite is not true: There are solutions only satisfying the first but not the latter. This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations. </p>
-<p>Ed25519 also supports batch signature verification, which allows verifying several signatures in a single step, much faster than verifying signatures one-by-one. Without going into detail, there are also two alternative verification equations for the batch verification:<br> [8][∑zᵢsᵢ] B = [8]∑[zᵢ]Rᵢ + [8]∑[zᵢhᵢ]Aᵢ and its corresponding cofactorless version. However, only cofactored verifications, single and batch, are compatible with each other. All other combinations are inconsistent and can lead to false positives or false negatives (see <a href="https://eprint.iacr.org/2020/1244">Chalkias et al. 2020</a>, Section 3.2).<br> Thus, in order to allow batch signature verification and its faster performance in IOTA nodes, the cofactored version <em>must</em> be used for validation, i.e. the group equation [8][S]B = [8]R + [8][k]A' for the single verification.</p>
+<p>Each honestly generated signature following RFC 8032 satisfies the second, cofactorless equation and thus, also the first equation. However, the opposite is not true. This is due to the fact that dishonestly generated nonce R and public key A' might have order other than L. Testing whether a point has order L is costly. The first, cofactored equation accepts more nonces and public keys including dishonestly generated ones but lets us skip costly order checks. This has the impact that each secret key has not one but eight corresponding public keys. However all those public keys correspond to different addresses.<br> There are solutions only satisfying the first equation but not the latter. This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations.</p>
+<p>Ed25519 also supports batch signature verification, which allows verifying several signatures in a single step, much faster than verifying signatures one-by-one. Without going into detail, there are also two alternative verification equations for the batch verification:<br> [8][∑zᵢsᵢ] B = [8]∑[zᵢ]Rᵢ + [8]∑[zᵢhᵢ]Aᵢ and its corresponding cofactorless version. However, only cofactored verifications, single and batch, are compatible with each other. All other combinations are inconsistent and can lead to false positives or false negatives (see <a href="https://eprint.iacr.org/2020/1244">Chalkias et al. 2020</a>, Section 3.2) for certain edge-cases introduced by an attacker.<br> Thus, in order to allow batch signature verification and its faster performance in IOTA nodes, the cofactored version <em>must</em> be used for validation, i.e. the group equation [8][S]B = [8]R + [8][k]A' for the single verification.</p>
 <p>Since non-canonical encodings of A and R are allowed, it is crucial to also specify which representation must be used for the hash functions:</p>
 <ul>
 <li>The provided binary encodings of A and R must be used as input to the hash function H instead of their canonical – and potentially different – representation.</li>
@@ -201,8 +201,9 @@ created: 2020-10-30
 <p>The non-negative integer S is encoded into 32 bytes as part of the signature. However, a third party could replace S with S' = S + n·L for any natural n with S' &lt; 2<sup>256</sup> and the modified signature R || S' would still pass verification. Requiring a value less than L resolves this malleability issue. Unfortunately, this check is not present in all common Ed25519 implementations.</p>
 <p>Analogous to RFC 8032, the encoding of S <em>must</em> represent an integer less than L.</p>
 <p>It is not possible for an external party to mutate R and still pass verification. The owner of the secret key, however, can create many different signatures for the same content: While Ed25519 defines a deterministic method of calculating the integer scalar r from the private key and the message, it is impossible to tell during signature verification if the point R = [r]B was created properly or any other scalar has been used.<br> As a result, there is a practically countless amount of different valid signatures corresponding to a certain message and public key.</p>
+<p>We allow users to have a zero-scalar secret key and consider eight corresponding public keys valid. However, users should not use it as it is equivalent to publishing one's secret key. This also has the impact that any valid signature produced with a zero-scalar secret key will authenticate any message thus making it &quot;super&quot;-malleable.</p>
 <h2 id="test-vectors"><a class="header" href="#test-vectors">Test vectors</a></h2>
-<p>The test vectors are taken directly from <a href="https://eprint.iacr.org/2020/1244">Chalkias et al. 2020</a>. Here, <code>pub_key</code> corresponds to the encoding of A and <code>address</code> to the matching 33-byte <em>Ed25519 Address</em> as described in the IOTA protocol <a href="../TIP-0007/tip-0007.html#serialized-layout">TIP-7</a>. The key <code>valid</code> denotes whether the corresponding item represents a valid <code>signature</code> for the provided <code>address</code> and <code>message</code> or not.</p>
+<p>The test vectors are taken directly from <a href="https://eprint.iacr.org/2020/1244">Chalkias et al. 2020</a>. Here, <code>pub_key</code> corresponds to the encoding of A and <code>address</code> is a 33-byte <em>Ed25519 Address</em> as described in <a href="../TIP-0007/tip-0007.html#serialized-layout">TIP-7</a>. The address is computed by hashing A. As mentioned in the paper, for test case #10 the key A is reduced before hashing, while in the others it is not. The key <code>valid</code> denotes whether the corresponding item represents a valid <code>signature</code> for the provided <code>address</code> and <code>message</code> or not.</p>
 <ul>
 <li><a href="test.json">JSON tests</a></li>
 </ul>
