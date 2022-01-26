@@ -128,12 +128,10 @@ paths:
             schema:
               $ref: '#/components/schemas/SubmitMessageRequest'
             examples:
-              Full message with Indexation Payload:
-                $ref: >-
-                  #/components/examples/post-indexation-message-request-example-full
-              Minimal Message with Indexation Payload:
-                $ref: >-
-                  #/components/examples/post-indexation-message-request-example-minimal
+              Full message with Tagged Data Payload:
+                $ref: "#/components/examples/post-tagged-data-message-request-example-full"
+              Minimal Message with Tagged Data Payload:
+                $ref: "#/components/examples/post-tagged-data-message-request-example-minimal"
               Full message with Transaction Payload:
                 $ref: >-
                   #/components/examples/post-transaction-message-request-example-full
@@ -214,9 +212,9 @@ paths:
                 Milestone Payload:
                   $ref: >-
                     #/components/examples/get-message-by-id-milestone-response-example
-                Indexation Payload:
+                Tagged Data Payload:
                   $ref: >-
-                    #/components/examples/get-message-by-id-indexation-response-example
+                    #/components/examples/get-message-by-id-tagged-data-response-example
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -964,7 +962,7 @@ components:
           referencedByMilestoneIndex: 15465
           ledgerInclusionState: conflicting
           conflictReason: 1
-    post-indexation-message-request-example-full:
+    post-tagged-data-message-request-example-full:
       value:
         networkId: '9466822412763346725'
         parentMessageIds:
@@ -973,15 +971,15 @@ components:
           - a6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d
           - fd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7
         payload:
-          type: 2
-          index: 68656c6c6f20776f726c64
+          type: 5
+          tag: 68656c6c6f20776f726c64
           data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
         nonce: '2102864'
-    post-indexation-message-request-example-minimal:
+    post-tagged-data-message-request-example-minimal:
       value:
         payload:
-          type: 2
-          index: 68656c6c6f20776f726c64
+          type: 5
+          tag: 68656c6c6f20776f726c64
           data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
 
     post-transaction-message-request-example-minimal:
@@ -1001,11 +999,13 @@ components:
                 transactionId: c138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e
                 transactionOutputIndex: 0
             outputs:
-              - type: 0
-                address:
-                  type: 0
-                  address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+              - type: 3
                 amount: 50000000
+                unlockConditions:
+                  - type: 0
+                    address:
+                      type: 0
+                      address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
             payload:
           unlockBlocks:
             - type: 0
@@ -1041,11 +1041,13 @@ components:
                 transactionId: c138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e
                 transactionOutputIndex: 0
             outputs:
-              - type: 0
-                address:
-                  type: 0
-                  address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+              - type: 3
                 amount: 50000000
+                unlockConditions:
+                  - type: 0
+                    address:
+                      type: 0
+                      address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
             payload:
           unlockBlocks:
             - type: 0
@@ -1091,11 +1093,13 @@ components:
                   transactionId: c138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e
                   transactionOutputIndex: 0
               outputs:
-                - type: 0
-                  address:
-                    type: 0
-                    address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                - type: 3
                   amount: 50000000
+                  unlockConditions:
+                    - type: 0
+                      address:
+                        type: 0
+                        address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
               payload:
             unlockBlocks:
               - type: 0
@@ -1143,7 +1147,7 @@ components:
               - 4bdfa2684bed01ce3a9a630b0688e868c290b8524c679daa79cb9d9f0f2aa5c57cf00a0fc694d1fed3696053ffa9bba6154ccb1564532cd49f807ba77de9a70c
           nonce: '1229782938247321090'
 
-    get-message-by-id-indexation-response-example:
+    get-message-by-id-tagged-data-response-example:
       value:
         data:
           networkId: '9466822412763346725'
@@ -1153,8 +1157,8 @@ components:
             - a6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d
             - fd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7
           payload:
-            type: 2
-            index: 68656c6c6f20776f726c64
+            type: 5
+            tag: 68656c6c6f20776f726c64
             data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
           nonce: '2102864'
     get-messages-by-id-response-example-children:
@@ -2033,7 +2037,7 @@ components:
           description: The optional data to attach. This may have a length of 0.
       required:
         - type
-        - index
+        - tag
         - data
 
     TreasuryTransactionPayload:
