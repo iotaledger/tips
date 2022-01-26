@@ -2372,7 +2372,7 @@ components:
           oneOf:
             - $ref: '#/components/schemas/TransactionPayload'
             - $ref: '#/components/schemas/MilestonePayload'
-            - $ref: '#/components/schemas/IndexationPayload'
+            - $ref: '#/components/schemas/TaggedDataPayload'
             - $ref: '#/components/schemas/TreasuryTransactionPayload'
             - $ref: '#/components/schemas/ReceiptPayload'
         nonce:
