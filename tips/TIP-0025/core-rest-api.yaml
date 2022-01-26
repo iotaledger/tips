@@ -2497,26 +2497,40 @@ components:
             isSpent:
               type: boolean
               description: Tells if the output is spent or not.
+            milestoneIndexSpent:
+              type: integer
+              description: The milestone index at which this output was spent.
+              nullable: true
+            milestoneTimesttampSpent:
+              type: integer
+              description: The milestone timestamp this output was spent.
+              nullable: true
+            transactionIdSpent:
+              type: string
+              description: The transaction this output was spent with.
+              nullable: true
+            milestoneIndexBooked:
+              type: integer
+              description: The milestone index at which the output was booked.
+            milestoneTimestampBooked:
+              type: integer
+              description: The milestone unix timestamp at which the output was booked.
+            ledgerIndex:
+              type: integer
+              description: The current ledger index for which the request was made.
             output:
               anyOf:
                 - $ref: '#/components/schemas/ExtendedOutput'
                 - $ref: '#/components/schemas/AliasOutput'
                 - $ref: '#/components/schemas/FoundryOutput'
                 - $ref: '#/components/schemas/NFTOutput'
-            milestoneIndexBooked:
-              type: integer
-              description: The milestone index at which the output was booked.
-            mielstoneTimestampBooked:
-              type: integer
-              description: The milestone unix timestamp at which the output was booked.
-            ledgerIndex:
-              type: integer
-              description: The current ledger index for which the request was made.
           required:
             - messageId
             - transactionId
             - outputIndex
             - isSpent
+            - milestoneIndexBooked
+            - milestoneTimestampBooked
             - output
             - ledgerIndex
       required:
