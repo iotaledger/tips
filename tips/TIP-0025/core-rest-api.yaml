@@ -424,8 +424,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/OutputResponse'
               examples:
-                default:
-                  $ref: '#/components/examples/get-outputs-by-id-response-example'
+                unspent:
+                  $ref: '#/components/examples/get-outputs-by-id-response-unspent-example'
+                spent:
+                  $ref: '#/components/examples/get-outputs-by-id-response-spent-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -1169,13 +1171,16 @@ components:
           maxResults: 1000
           count: 0
           childrenMessageIds: []
-    get-outputs-by-id-response-example:
+    get-outputs-by-id-response-unspent-example:
       value:
         data:
           messageId: 9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0
           transactionId: 1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298
           outputIndex: 1
           isSpent: false
+          milestoneIndexBooked: 1234567
+          milestoneTimestampBooked: 1643207146
+          ledgerIndex: 946704
           output:
             type: 3
             amount: 1000
@@ -1184,9 +1189,27 @@ components:
                 address:
                   type: 0
                   address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
+    get-outputs-by-id-response-spent-example:
+      value:
+        data:
+          messageId: 9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0
+          transactionId: 1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298
+          outputIndex: 1
+          isSpent: true
+          milestoneIndexSpent: 1234570
+          milestoneTimestampSpent: 1643207176
+          transactionIdSpent: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
           milestoneIndexBooked: 1234567
           milestoneTimestampBooked: 1643207146
           ledgerIndex: 946704
+          output:
+            type: 3
+            amount: 1000
+            unlockConditions:
+              - type: 0
+                address:
+                  type: 0
+                  address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
     get-address-balance-response-example:
       value:
         data:
