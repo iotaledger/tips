@@ -901,6 +901,8 @@ components:
           pruningIndex: 0
           features:
             - PoW
+          plugins:
+            - indexer/v1
 
     get-tips-response-example:
       value:
@@ -2346,6 +2348,11 @@ components:
               type: array
               items:
                 type: string
+            plugins:
+              description: The plugins this node exposes. For example, a node could run the indexer application and provide an indexer api.
+              type: array
+              items:
+                type: string
           required:
             - name
             - version
@@ -2361,6 +2368,7 @@ components:
             - confirmedMilestoneIndex
             - pruningIndex
             - features
+            - plugins
       required:
         - data
 
