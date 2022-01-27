@@ -1,0 +1,586 @@
+openapi: 3.0.3
+info:
+  title: IOTA UTXO Indexer REST API
+  description: This document specifies the REST API for IOTA UTXO indexers.
+  contact:
+    email: contact@iota.org
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.0
+externalDocs:
+  description: Find out more about IOTA
+  url: 'https://iota.org'
+servers:
+  - url: 'http://127.0.0.1:14265'
+tags:
+  - name: outputs
+    description: Query Extended Outputs.
+  - name: aliases
+    description: Query Alias Outputs.
+  - name: foundries
+    description: Query Foundry Outputs.
+  - name: nfts
+    description: Query NFT Outputs.
+paths:
+  /api/plugins/indexer/v1/outputs:
+    get:
+      tags:
+        - outputs
+      summary: Returns extended outputs filtered based on parameters.
+      description: Returns extended outputs filtered based on parameters.
+      parameters:
+        - in: query
+          name: address
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Hex-encoded address that should be searched for.
+        - in: query
+          name: requiresDustReturn
+          schema:
+            type: boolean
+          example: true
+          description: Filters outputs based on the presence of dust return unlock condition.
+        - in: query
+          name: timelock-params
+          schema:
+            type: string
+          example: TODO
+          description: TODO - update placeholder when indexer is ready
+        - in: query
+          name: expiration-params
+          schema:
+            type: string
+          example: TODO
+          description: TODO - update placeholder when indexer is ready
+        - in: query
+          name: sender
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Filters outputs based on the presence of validated Sender.
+        - in: query
+          name: tag
+          schema:
+            type: string
+          example: 4ec7f23
+          description: Filters outputs based on matching Tag Block.
+        - in: query
+          name: offset
+          schema:
+            type: string
+          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
+          description: Starts the search from the offset (outputID).
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutputsResponse'
+              examples:
+                Query results in 3 outputs:
+                  $ref: >-
+                    #/components/examples/get-outputs-response-three-example
+                No matching outputIds found:
+                  $ref: >-
+                    #/components/examples/get-outputs-empty-response-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  /api/plugins/indexer/v1/aliases:
+    get:
+      tags:
+        - aliases
+      summary: Returns alias outputs filtered based on parameters.
+      description: Returns alias outputs filtered based on parameters.
+      parameters:
+        - in: query
+          name: stateController
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Filter outputs based on hex-encoded state controller address.
+        - in: query
+          name: governor
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Filter outputs based on hex-encoded governor (governance controller) address.
+        - in: query
+          name: issuer
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Filters outputs based on hex-encoded issuer address.
+        - in: query
+          name: sender
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Filters outputs based on hex-encoded sender address.
+        - in: query
+          name: offset
+          schema:
+            type: string
+          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
+          description: Starts the search from the offset (outputID).
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutputsResponse'
+              examples:
+                Query results in 3 outputs:
+                  $ref: >-
+                    #/components/examples/get-outputs-response-three-example
+                No matching outputIds found:
+                  $ref: >-
+                    #/components/examples/get-outputs-empty-response-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  /api/plugins/indexer/v1/aliases/{aliasId}:
+    get:
+      tags:
+        - aliases
+      summary: Returns the outputId of the current unspent alias output for aliasId.
+      description: Returns the outputId of the current unspent alias output for aliasId.
+      parameters:
+        - in: query
+          name: aliasId
+          schema:
+            type: string
+          example: b098c0ee963575a8d505c299a99ce9c32cd4ecb3
+          description: Unique identifier of the alias.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutputsResponse'
+              examples:
+                Query results in single output:
+                  $ref: >-
+                    #/components/examples/get-outputs-response-single-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  /api/plugins/indexer/v1/foundries:
+    get:
+      tags:
+        - foundries
+      summary: Returns foundry outputs filtered based on parameters.
+      description: Returns foundry outputs filtered based on parameters.
+      parameters:
+        - in: query
+          name: address
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Filter foundry outputs based on hex-encoded address of the controlling alias.
+        - in: query
+          name: offset
+          schema:
+            type: string
+          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
+          description: Starts the search from the offset (outputID).
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutputsResponse'
+              examples:
+                Query results in 3 outputs:
+                  $ref: >-
+                    #/components/examples/get-outputs-response-three-example
+                No matching outputIds found:
+                  $ref: >-
+                    #/components/examples/get-outputs-empty-response-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  /api/plugins/indexer/v1/foundries/{foundryId}:
+    get:
+      tags:
+        - foundries
+      summary: Returns the outputId of the current unspent foundry output for foundryId.
+      description: Returns the outputId of the current unspent foundry output for foundryId.
+      parameters:
+        - in: query
+          name: foundryId
+          schema:
+            type: string
+          example: b098c0ee963575a8d505c299a99ce9c32cd4ecb3
+          description: Unique identifier of the foundry.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutputsResponse'
+              examples:
+                Query results in single outout:
+                  $ref: >-
+                    #/components/examples/get-outputs-response-single-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  /api/plugins/indexer/v1/nfts:
+    get:
+      tags:
+        - nfts
+      summary: Returns nft outputs filtered based on parameters.
+      description: Returns nft outputs filtered based on parameters.
+      parameters:
+        - in: query
+          name: address
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Hex-encoded address that should be searched for.
+        - in: query
+          name: requiresDustReturn
+          schema:
+            type: boolean
+          example: true
+          description: Filters outputs based on the presence of dust return unlock condition.
+        - in: query
+          name: timelock-params
+          schema:
+            type: string
+          example: TODO
+          description: TODO - update placeholder when indexer is ready
+        - in: query
+          name: expiration-params
+          schema:
+            type: string
+          example: TODO
+          description: TODO - update placeholder when indexer is ready
+        - in: query
+          name: sender
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Filters outputs based on the presence of validated Sender.
+        - in: query
+          name: issuer
+          schema:
+            type: string
+          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          description: Filters outputs based on the presence of validated Issuer.
+        - in: query
+          name: tag
+          schema:
+            type: string
+          example: 4ec7f23
+          description: Filters outputs based on matching Tag Block.
+        - in: query
+          name: offset
+          schema:
+            type: string
+          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
+          description: Starts the search from the offset (outputID).
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutputsResponse'
+              examples:
+                Query results in 3 outputs:
+                  $ref: >-
+                    #/components/examples/get-outputs-response-three-example
+                No matching outputIds found:
+                  $ref: >-
+                    #/components/examples/get-outputs-empty-response-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  /api/plugins/indexer/v1/nfts/{nftId}:
+    get:
+      tags:
+        - nfts
+      summary: Returns the outputId of the current unspent nft output for nftId.
+      description: Returns the outputId of the current nft output for nftId.
+      parameters:
+        - in: query
+          name: nftId
+          schema:
+            type: string
+          example: 4d09c5ef6a61766beb0b5655fdf0b379bac8a813
+          description: Unique identifier of the nft.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutputsResponse'
+              examples:
+                Query results in single outout:
+                  $ref: >-
+                    #/components/examples/get-outputs-response-single-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+components:
+  examples:
+    get-outputs-response-three-example:
+      value:
+        data:
+          ledgerIndex: 101
+          limit: 1000
+          count: 3
+          outputIds:
+            - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
+            - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790100
+            - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
+    get-outputs-response-single-example:
+      value:
+        data:
+          ledgerIndex: 101
+          limit: 1000
+          count: 1
+          outputIds:
+            - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
+    get-outputs-empty-response-example:
+      value:
+        data:
+          ledgerIndex: 101
+          limit: 1000
+          count: 0
+          outputIds:
+            -
+
+
+  schemas:
+    ErrorResponse:
+      description: The error format.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The application error code.
+            message:
+              type: string
+              description: The error reason.
+          required:
+            - code
+            - message
+      required:
+        - error
+
+    ForbiddenResponse:
+      description: Indicates that this endpoint is not available for public use.
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        error:
+          code: 403
+          message: not available for public use
+
+    ServiceUnavailableResponse:
+      description: Indicates that the service is unavailable.
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        error:
+          code: 503
+          message: service unavailable
+
+    BadRequestResponse:
+      description: Indicates that the request was bad.
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        error:
+          code: 400
+          message: invalid data provided
+
+    NotFoundResponse:
+      description: Indicates that the data was not found.
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        error:
+          code: 404
+          message: could not find data
+
+    InternalErrorResponse:
+      description: Indicates that the server encountered an unexpected condition, which prevented it from fulfilling the request by the client.
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        error:
+          code: 500
+          message: internal server error
+
+    OutputsResponse:
+      description: Returns a list of OutputIds.
+      properties:
+        data:
+          type: object
+          properties:
+            ledgerIndex:
+              type: integer
+              description: The current ledger index for which the request was made.
+            limit:
+              type: integer
+              description: The maximum count of results that are returned by the node.
+            offset:
+              type: integer
+              description: The offset to use for getting the next results.
+              nullable: true
+            count:
+              type: integer
+              description: The actual count of results that are returned.
+            outputIds:
+              type: array
+              description: The output IDs (transaction hash + output index) of the outputs satisfying the query.
+          required:
+            - ledgerIndex
+            - limit
+            - count
+            - outputIds
+      required:
+        - data
