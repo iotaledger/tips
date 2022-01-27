@@ -182,7 +182,7 @@ paths:
       summary: Returns the outputId of the current unspent alias output for aliasId.
       description: Returns the outputId of the current unspent alias output for aliasId.
       parameters:
-        - in: query
+        - in: path
           name: aliasId
           schema:
             type: string
@@ -283,7 +283,7 @@ paths:
       summary: Returns the outputId of the current unspent foundry output for foundryId.
       description: Returns the outputId of the current unspent foundry output for foundryId.
       parameters:
-        - in: query
+        - in: path
           name: foundryId
           schema:
             type: string
@@ -420,7 +420,7 @@ paths:
       summary: Returns the outputId of the current unspent nft output for nftId.
       description: Returns the outputId of the current nft output for nftId.
       parameters:
-        - in: query
+        - in: path
           name: nftId
           schema:
             type: string
