@@ -37,23 +37,85 @@ paths:
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           description: Bech32-encoded address that should be searched for.
         - in: query
-          name: requiresDustReturn
+          name: hasDustReturnCondition
           schema:
             type: boolean
           example: true
           description: Filters outputs based on the presence of dust return unlock condition.
         - in: query
-          name: timelock-params
+          name: dustReturnAddress
           schema:
             type: string
-          example: TODO
-          description: TODO - update placeholder when indexer is ready
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Filter outputs based on the presence of a specific return address in the dust deposit return
+            unlock condition.
         - in: query
-          name: expiration-params
+          name: hasTimelockCondition
+          schema:
+            type: boolean
+          example: true
+          description: Filters outputs based on the presence of timelock unlock condition.
+        - in: query
+          name: timelockedBefore
+          schema:
+            type: integer
+          example: 1643383242
+          description: Return outputs that are timelocked before a certain Unix timestamp.
+        - in: query
+          name: timelockedAfter
+          schema:
+            type: integer
+          example: 1643383242
+          description: Return outputs that are timelocked after a certain Unix timestamp.
+        - in: query
+          name: timelockedBeforeMilestone
+          schema:
+            type: integer
+          example: 1000
+          description: Return outputs that are timelocked before a certain milestone index.
+        - in: query
+          name: timelockedAfterMilestone
+          schema:
+            type: integer
+          example: 1000
+          description: Return outputs that are timelocked after a certain milestone index.
+        - in: query
+          name: hasExpirationCondition
+          schema:
+            type: boolean
+          example: true
+          description: Filters outputs based on the presence of expiration unlock condition.
+        - in: query
+          name: expiresBefore
+          schema:
+            type: integer
+          example: 1643383242
+          description: Return outputs that expire before a certain Unix timestamp.
+        - in: query
+          name: expiresAfter
+          schema:
+            type: integer
+          example: 1643383242
+          description: Return outputs that expire after a certain Unix timestamp.
+        - in: query
+          name: expiresBeforeMilestone
+          schema:
+            type: integer
+          example: 1000
+          description: Return outputs that expire before a certain milestone index.
+        - in: query
+          name: expiresAfterMilestone
+          schema:
+            type: integer
+          example: 1000
+          description: Return outputs that expire after a certain milestone index.
+        - in: query
+          name: expirationReturnAddress
           schema:
             type: string
-          example: TODO
-          description: TODO - update placeholder when indexer is ready
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Filter outputs based on the presence of a specific return address in the expiration unlock
+            condition.
         - in: query
           name: sender
           schema:
@@ -66,6 +128,18 @@ paths:
             type: string
           example: 4ec7f23
           description: Filters outputs based on matching Tag Block.
+        - in: query
+          name: createdBefore
+          schema:
+            type: integer
+          example: 1643383242
+          description: Return outputs that were created before a certain Unix timestamp.
+        - in: query
+          name: createdAfter
+          schema:
+            type: integer
+          example: 1643383242
+          description: Return outputs that were created after a certain Unix timestamp.
         - in: query
           name: offset
           schema:
