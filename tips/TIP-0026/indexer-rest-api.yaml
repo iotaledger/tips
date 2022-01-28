@@ -362,14 +362,14 @@ paths:
           name: sender
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Filters outputs based on the presence of validated Sender.
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Filters outputs based on the presence of validated Sender (bech32-encoded).
         - in: query
           name: issuer
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Filters outputs based on the presence of validated Issuer.
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Filters outputs based on the presence of validated Issuer (bech32-encoded).
         - in: query
           name: tag
           schema:
