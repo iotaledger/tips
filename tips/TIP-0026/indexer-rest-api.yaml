@@ -34,8 +34,8 @@ paths:
           name: address
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Hex-encoded address that should be searched for.
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Bech32-encoded address that should be searched for.
         - in: query
           name: requiresDustReturn
           schema:
@@ -58,8 +58,8 @@ paths:
           name: sender
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Filters outputs based on the presence of validated Sender.
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Filters outputs based on the presence of validated Sender (bech32 encoded).
         - in: query
           name: tag
           schema:
@@ -116,26 +116,26 @@ paths:
           name: stateController
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Filter outputs based on hex-encoded state controller address.
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Filter outputs based on bech32-encoded state controller address.
         - in: query
           name: governor
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Filter outputs based on hex-encoded governor (governance controller) address.
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Filter outputs based on bech32-encoded governor (governance controller) address.
         - in: query
           name: issuer
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Filters outputs based on hex-encoded issuer address.
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Filters outputs based on bech32-encoded issuer address.
         - in: query
           name: sender
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Filters outputs based on hex-encoded sender address.
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Filters outputs based on bech32-encoded sender address.
         - in: query
           name: offset
           schema:
@@ -188,6 +188,7 @@ paths:
             type: string
           example: b098c0ee963575a8d505c299a99ce9c32cd4ecb3
           description: Unique identifier of the alias.
+          required: true
       responses:
         '200':
           description: "Successful operation."
@@ -235,8 +236,8 @@ paths:
           name: address
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Filter foundry outputs based on hex-encoded address of the controlling alias.
+          example: iota1ppk6m4x7m2t6k5pvgs0yd2nqelfaz09ueyyv6fwn
+          description: Filter foundry outputs based on bech32-encoded address of the controlling alias.
         - in: query
           name: offset
           schema:
@@ -289,6 +290,7 @@ paths:
             type: string
           example: b098c0ee963575a8d505c299a99ce9c32cd4ecb3
           description: Unique identifier of the foundry.
+          required: true
       responses:
         '200':
           description: "Successful operation."
@@ -336,8 +338,8 @@ paths:
           name: address
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          description: Hex-encoded address that should be searched for.
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: Bech32-encoded address that should be searched for.
         - in: query
           name: requiresDustReturn
           schema:
@@ -426,6 +428,7 @@ paths:
             type: string
           example: 4d09c5ef6a61766beb0b5655fdf0b379bac8a813
           description: Unique identifier of the nft.
+          required: true
       responses:
         '200':
           description: "Successful operation."
