@@ -17,7 +17,19 @@ Do you have an idea how to improve the IOTA technology stack?
 
 You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/tip-0001.md).
 
-## List of TIPs
+## Pending TIPs
+
+The following TIPs are currently being discussed and are awaiting further contribution:
+
+| # | Title | Description | Type | Layer | Status |
+| --- | --- | ----------- | ---- | ----- | ------ |
+| 18 | [Multi-Asset Ledger and ISC Support](https://github.com/iotaledger/tips/pull/38)| Transform IOTA into a multi-asset ledger that supports running IOTA Smart Contracts | Standards | Core | Draft |
+| 19 | [Dust Protection Based on Byte Costs](https://github.com/iotaledger/tips/pull/39)| Prevent bloating the ledger size with dust outputs | Standards | Core | Draft |
+| 20 | [Transaction Payload with New Output Types](https://github.com/iotaledger/tips/pull/40)| UTXO-based transaction structure with TIP-18 | Standards | Core | Draft |
+| 21 | [Serialization Primitives](https://github.com/iotaledger/tips/pull/41)| Introduce primitives to describe the binary serialization of objects | Standards | Core | Draft |
+| 22 | [Protocol Parameters](https://github.com/iotaledger/tips/pull/43)| Describes the global protocol parameters for the IOTA protocol | Standards | Core | Draft |
+
+## Accepted TIPs (as of 2022-01-16)
 
 | # | Title | Description | Type | Layer | Status |
 | --- | --- | ----------- | ---- | ----- | ------ |
@@ -34,7 +46,7 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 | 11 | [Bech32 Address Format](tips/TIP-0011/tip-0011.md)| Extendable address format supporting various signature schemes and address types | Standards | Interface | Active |
 | 12 | [Message PoW](tips/TIP-0012/tip-0012.md)| Define message proof-of-work as a means to rate-limit the network | Standards | Core | Active |
 | 13 | [REST API](tips/TIP-0013/tip-0013.md)| Node REST API routes and objects in OpenAPI Specification | Standards | Interface | Active |
-| 14 | [Ed25519 Validation](tips/TIP-0014/tip-0014.md)| Adopt [ZIP-215](https://zips.z.cash/zip-0215) to explicitly define Ed25519 validation criteria | Standards | Core | Draft |
+| 14 | [Ed25519 Validation](tips/TIP-0014/tip-0014.md)| Adopt [ZIP-215](https://zips.z.cash/zip-0215) to explicitly define Ed25519 validation criteria | Standards | Core | Active |
 | 15 | [Dust Protection](tips/TIP-0015/tip-0015.md)| Prevent bloating the ledger size with to dust outputs | Standards | Core | Active |
 | 16 | [Event API](tips/TIP-0016/tip-0016.md)| Node event API definitions in AsyncAPI Specification | Standards | Interface | Active |
 | 17 | [Wotsicide](tips/TIP-0017/tip-0017.md)| Define migration from legacy WOTS addresses to post-Chrysalis Phase 2 network | Standards | Core | Active |

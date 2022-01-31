@@ -1,9 +1,9 @@
-name: Protocol RFC Book
+name: TIP Book
 
 on:
     push:
         branches:
-            - master
+            - main
 
 jobs:
     deploy:
