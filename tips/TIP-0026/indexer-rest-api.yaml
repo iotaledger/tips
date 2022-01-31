@@ -747,7 +747,7 @@ components:
               type: array
               description: The output IDs (transaction hash + output index) of the outputs satisfying the query.
               items:
-                - type: string
+                type: string
           required:
             - ledgerIndex
             - limit
