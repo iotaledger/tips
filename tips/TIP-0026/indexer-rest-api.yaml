@@ -741,7 +741,7 @@ components:
           type: integer
           description: The current ledger index for which the request was made.
         cursor:
-          type: integer
+          type: string
           description: The cursor to use for getting the next page of results.
           nullable: true
         items:
