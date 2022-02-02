@@ -160,6 +160,9 @@ paths:
                 No matching outputIds found:
                   $ref: >-
                     #/components/examples/get-outputs-empty-response-example
+                Paging - more items found than it can fit on single page:
+                  $ref: >-
+                    #/components/examples/get-outputs-pagesize2-response-example
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -242,6 +245,9 @@ paths:
                 No matching outputIds found:
                   $ref: >-
                     #/components/examples/get-outputs-empty-response-example
+                Paging - more items found than it can fit on single page:
+                  $ref: >-
+                    #/components/examples/get-outputs-pagesize2-response-example
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -356,6 +362,9 @@ paths:
                 No matching outputIds found:
                   $ref: >-
                     #/components/examples/get-outputs-empty-response-example
+                Paging - more items found than it can fit on single page:
+                  $ref: >-
+                    #/components/examples/get-outputs-pagesize2-response-example
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -562,6 +571,9 @@ paths:
                 No matching outputIds found:
                   $ref: >-
                     #/components/examples/get-outputs-empty-response-example
+                Paging - more items found than it can fit on single page:
+                  $ref: >-
+                    #/components/examples/get-outputs-pagesize2-response-example
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -634,30 +646,28 @@ components:
   examples:
     get-outputs-response-three-example:
       value:
-        data:
-          ledgerIndex: 101
-          limit: 1000
-          count: 3
-          outputIds:
-            - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
-            - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790100
-            - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
+        ledgerIndex: 101
+        items:
+          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
+          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790100
+          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
     get-outputs-response-single-example:
       value:
-        data:
-          ledgerIndex: 101
-          limit: 1000
-          count: 1
-          outputIds:
-            - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
+        ledgerIndex: 101
+        items:
+          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
     get-outputs-empty-response-example:
       value:
-        data:
-          ledgerIndex: 101
-          limit: 1000
-          count: 0
-          outputIds:
-            -
+        ledgerIndex: 101
+        items:
+          -
+    get-outputs-pagesize2-response-example:
+      value:
+        ledgerIndex: 101
+        cursor: 61fa44a14d35ce14b9d0e7ee6ac9af70c0af156be269f69348be6d6f83c80a3a8a44ce440000.2
+        items:
+          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
+          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790100
 
 
   schemas:
@@ -727,31 +737,18 @@ components:
     OutputsResponse:
       description: Returns a list of OutputIds.
       properties:
-        data:
-          type: object
-          properties:
-            ledgerIndex:
-              type: integer
-              description: The current ledger index for which the request was made.
-            limit:
-              type: integer
-              description: The maximum count of results that are returned by the node.
-            offset:
-              type: integer
-              description: The offset to use for getting the next results.
-              nullable: true
-            count:
-              type: integer
-              description: The actual count of results that are returned.
-            outputIds:
-              type: array
-              description: The output IDs (transaction hash + output index) of the outputs satisfying the query.
-              items:
-                type: string
-          required:
-            - ledgerIndex
-            - limit
-            - count
-            - outputIds
+        ledgerIndex:
+          type: integer
+          description: The current ledger index for which the request was made.
+        cursor:
+          type: integer
+          description: The cursor to use for getting the next page of results.
+          nullable: true
+        items:
+          type: array
+          description: The output IDs (transaction hash + output index) of the outputs satisfying the query.
+          items:
+            type: string
       required:
-        - data
+          - ledgerIndex
+          - items
