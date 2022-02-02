@@ -141,11 +141,11 @@ paths:
           example: 1643383242
           description: Return outputs that were created after a certain Unix timestamp.
         - in: query
-          name: offset
+          name: cursor
           schema:
             type: string
-          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
-          description: Starts the search from the offset (outputID).
+          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200.10
+          description: Starts the search from the cursor (<confirmationMS><outputId>.<pageSize>).
       responses:
         '200':
           description: "Successful operation."
@@ -226,11 +226,11 @@ paths:
           example: 1643383242
           description: Return outputs that were created after a certain Unix timestamp.
         - in: query
-          name: offset
+          name: cursor
           schema:
             type: string
-          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
-          description: Starts the search from the offset (outputID).
+          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200.10
+          description: Starts the search from the cursor (<confirmationMS><outputId>.<pageSize>).
       responses:
         '200':
           description: "Successful operation."
@@ -343,11 +343,11 @@ paths:
           example: 1643383242
           description: Return outputs that were created after a certain Unix timestamp.
         - in: query
-          name: offset
+          name: cursor
           schema:
             type: string
-          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
-          description: Starts the search from the offset (outputID).
+          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200.10
+          description: Starts the search from the cursor (<confirmationMS><outputId>.<pageSize>).
       responses:
         '200':
           description: "Successful operation."
@@ -552,11 +552,11 @@ paths:
           example: 1643383242
           description: Return outputs that were created after a certain Unix timestamp.
         - in: query
-          name: offset
+          name: cursor
           schema:
             type: string
-          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
-          description: Starts the search from the offset (outputID).
+          example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200.10
+          description: Starts the search from the cursor (<confirmationMS><outputId>.<pageSize>).
       responses:
         '200':
           description: "Successful operation."
