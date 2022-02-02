@@ -141,6 +141,12 @@ paths:
           example: 1643383242
           description: Return outputs that were created after a certain Unix timestamp.
         - in: query
+          name: pageSize
+          schema:
+            type: integer
+          example: 10
+          description: The maximum amount of items returned in one call. If there are more items, a cursor to the next page is returned too.
+        - in: query
           name: cursor
           schema:
             type: string
@@ -225,6 +231,12 @@ paths:
             type: integer
           example: 1643383242
           description: Return outputs that were created after a certain Unix timestamp.
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          example: 10
+          description: The maximum amount of items returned in one call. If there are more items, a cursor to the next page is returned too.
         - in: query
           name: cursor
           schema:
@@ -342,6 +354,12 @@ paths:
             type: integer
           example: 1643383242
           description: Return outputs that were created after a certain Unix timestamp.
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          example: 10
+          description: The maximum amount of items returned in one call. If there are more items, a cursor to the next page is returned too.
         - in: query
           name: cursor
           schema:
@@ -551,6 +569,12 @@ paths:
             type: integer
           example: 1643383242
           description: Return outputs that were created after a certain Unix timestamp.
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          example: 10
+          description: The maximum amount of items returned in one call. If there are more items, a cursor to the next page is returned too.
         - in: query
           name: cursor
           schema:
