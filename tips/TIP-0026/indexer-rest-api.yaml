@@ -15,7 +15,7 @@ servers:
   - url: 'http://127.0.0.1:14265'
 tags:
   - name: outputs
-    description: Query Extended Outputs.
+    description: Query Basic Outputs.
   - name: aliases
     description: Query Alias Outputs.
   - name: foundries
@@ -27,8 +27,8 @@ paths:
     get:
       tags:
         - outputs
-      summary: Returns extended outputs filtered based on parameters.
-      description: Returns extended outputs filtered based on parameters.
+      summary: Returns basic outputs filtered based on parameters.
+      description: Returns basic outputs filtered based on parameters.
       parameters:
         - in: query
           name: address
