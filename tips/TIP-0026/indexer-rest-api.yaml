@@ -164,6 +164,7 @@ paths:
             type: integer
           example: 10
           description: The maximum amount of items returned in one call. If there are more items, a cursor to the next page is returned too.
+            The parameter is ignored when pageSize is defined via the cursor parameter.
         - in: query
           name: cursor
           schema:
@@ -273,6 +274,7 @@ paths:
             type: integer
           example: 10
           description: The maximum amount of items returned in one call. If there are more items, a cursor to the next page is returned too.
+            The parameter is ignored when pageSize is defined via the cursor parameter.
         - in: query
           name: cursor
           schema:
@@ -414,6 +416,7 @@ paths:
             type: integer
           example: 10
           description: The maximum amount of items returned in one call. If there are more items, a cursor to the next page is returned too.
+            The parameter is ignored when pageSize is defined via the cursor parameter.
         - in: query
           name: cursor
           schema:
@@ -647,6 +650,7 @@ paths:
             type: integer
           example: 10
           description: The maximum amount of items returned in one call. If there are more items, a cursor to the next page is returned too.
+            The parameter is ignored when pageSize is defined via the cursor parameter.
         - in: query
           name: cursor
           schema:
