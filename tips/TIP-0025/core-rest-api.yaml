@@ -986,7 +986,7 @@ components:
           type: 0
           essence:
             type: 0
-            networkId: 9466822412763346725
+            networkId: "1337133713371337"
             inputsCommitment: 0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
             inputs:
               - type: 0
@@ -1031,7 +1031,7 @@ components:
           type: 0
           essence:
             type: 0
-            networkId: 9466822412763346725
+            networkId: "1337133713371337"
             inputsCommitment: 0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
             inputs:
               - type: 0
@@ -1085,7 +1085,7 @@ components:
           type: 0
           essence:
             type: 0
-            networkId: 9466822412763346725
+            networkId: "1337133713371337"
             inputsCommitment: 0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
             inputs:
               - type: 0
@@ -1256,7 +1256,7 @@ components:
           type: 0
           essence:
             type: 0
-            networkId: 9466822412763346725
+            networkId: "1337133713371337"
             inputsCommitment: 0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
             inputs:
               - type: 0
