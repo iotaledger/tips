@@ -1005,7 +1005,7 @@ components:
                   - type: 0
                     address:
                       type: 0
-                      address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                      pubKeyHash: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
             payload:
           unlockBlocks:
             - type: 0
@@ -1050,7 +1050,7 @@ components:
                   - type: 0
                     address:
                       type: 0
-                      address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                      pubKeyHash: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
             payload:
           unlockBlocks:
             - type: 0
@@ -1104,7 +1104,7 @@ components:
                   - type: 0
                     address:
                       type: 0
-                      address: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                      pubKeyHash: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
             payload:
           unlockBlocks:
             - type: 0
@@ -1197,7 +1197,7 @@ components:
             - type: 0
               address:
                 type: 0
-                address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
+                pubKeyHash: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
 
     get-outputs-by-id-response-spent-example:
       value:
@@ -1218,7 +1218,7 @@ components:
             - type: 0
               address:
                 type: 0
-                address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
+                pubKeyHash: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
 
     get-receipts-response-example:
       value:
@@ -1229,7 +1229,7 @@ components:
               - tailTransactionHash: e0ce1933a900d02e0a43e2ba4e922d1a706a36a117ce1eb9ad0a74d39ee722c41b00cd227232efd76f5997e91bf8000000
                 address:
                   type: 0
-                  address: 5eec99d6ee4ba21aa536c3364bbf2b587cb98a7f2565b75d948b10083e2143f8
+                  pubKeyHash: 5eec99d6ee4ba21aa536c3364bbf2b587cb98a7f2565b75d948b10083e2143f8
                 deposit: 1702000000
             transaction:
               input:
@@ -1266,7 +1266,7 @@ components:
               - type: 0
                 address:
                   type: 0
-                  address: a18996d96163405e3c0eb13fa3459a07f68a89e8cf7cc239c89e7192344daa5b
+                  pubKeyHash: a18996d96163405e3c0eb13fa3459a07f68a89e8cf7cc239c89e7192344daa5b
                 amount: 1000000
             payload:
               type: 2
@@ -1743,12 +1743,12 @@ components:
         type:
           type: integer
           description: Set to value 0 to denote an Ed25519 Address.
-        address:
+        pubKeyHash:
           type: string
           description: The hex-encoded BLAKE2b-256 hash of the Ed25519 public key.
       required:
         - type
-        - address
+        - pubKeyHash
 
     AliasAddress:
       description: Address of an alias account.
@@ -1756,12 +1756,12 @@ components:
         type:
           type: integer
           description: Set to value 8 to denote an Alias Address.
-        address:
+        aliasId:
           type: string
           description: The hex-encoded BLAKE2b-160 hash of the outputId that created the alias.
       required:
         - type
-        - address
+        - aliasId
 
     NFTAddress:
       description: Address of an NFT account.
@@ -1769,12 +1769,12 @@ components:
         type:
           type: integer
           description: Set to value 16 to denote an NFT Address.
-        address:
+        nftId:
           type: string
           description: The hex-encoded BLAKE2b-160 hash of the outputId that created the NFT.
       required:
         - type
-        - address
+        - nftId
 
     AddressUnlockCondition:
       description: Can be unlocked by unlocking the address.
