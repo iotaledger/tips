@@ -37,17 +37,35 @@ paths:
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           description: Bech32-encoded address that should be searched for.
         - in: query
-          name: hasDustReturnCondition
+          name: hasNativeTokens
           schema:
             type: boolean
           example: true
-          description: Filters outputs based on the presence of dust return unlock condition.
+          description: Filters outputs based on the presence of native tokens.
         - in: query
-          name: dustReturnAddress
+          name: minNativeTokenCount
+          schema:
+            type: integer
+          example: 2
+          description: Filters outputs that have at least a certain number of distinct native tokens.
+        - in: query
+          name: maxNativeTokenCount
+          schema:
+            type: integer
+          example: 5
+          description: Filters outputs that have at most a certain number of distinct native tokens.
+        - in: query
+          name: hasStorageReturnCondition
+          schema:
+            type: boolean
+          example: true
+          description: Filters outputs based on the presence of storage deposit return unlock condition.
+        - in: query
+          name: storageReturnAddress
           schema:
             type: string
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
-          description: Filter outputs based on the presence of a specific return address in the dust deposit return
+          description: Filter outputs based on the presence of a specific return address in the storage deposit return
             unlock condition.
         - in: query
           name: hasTimelockCondition
@@ -220,6 +238,24 @@ paths:
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           description: Filters outputs based on bech32-encoded sender address.
         - in: query
+          name: hasNativeTokens
+          schema:
+            type: boolean
+          example: true
+          description: Filters outputs based on the presence of native tokens.
+        - in: query
+          name: minNativeTokenCount
+          schema:
+            type: integer
+          example: 2
+          description: Filters outputs that have at least a certain number of distinct native tokens.
+        - in: query
+          name: maxNativeTokenCount
+          schema:
+            type: integer
+          example: 5
+          description: Filters outputs that have at most a certain number of distinct native tokens.
+        - in: query
           name: createdBefore
           schema:
             type: integer
@@ -342,6 +378,24 @@ paths:
             type: string
           example: iota1ppk6m4x7m2t6k5pvgs0yd2nqelfaz09ueyyv6fwn
           description: Filter foundry outputs based on bech32-encoded address of the controlling alias.
+        - in: query
+          name: hasNativeTokens
+          schema:
+            type: boolean
+          example: true
+          description: Filters outputs based on the presence of native tokens.
+        - in: query
+          name: minNativeTokenCount
+          schema:
+            type: integer
+          example: 2
+          description: Filters outputs that have at least a certain number of distinct native tokens.
+        - in: query
+          name: maxNativeTokenCount
+          schema:
+            type: integer
+          example: 5
+          description: Filters outputs that have at most a certain number of distinct native tokens.
         - in: query
           name: createdBefore
           schema:
@@ -466,17 +520,35 @@ paths:
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           description: Bech32-encoded address that should be searched for.
         - in: query
-          name: hasDustReturnCondition
+          name: hasNativeTokens
           schema:
             type: boolean
           example: true
-          description: Filters outputs based on the presence of dust return unlock condition.
+          description: Filters outputs based on the presence of native tokens.
         - in: query
-          name: dustReturnAddress
+          name: minNativeTokenCount
+          schema:
+            type: integer
+          example: 2
+          description: Filters outputs that have at least a certain number of distinct native tokens.
+        - in: query
+          name: maxNativeTokenCount
+          schema:
+            type: integer
+          example: 5
+          description: Filters outputs that have at most a certain number of distinct native tokens.
+        - in: query
+          name: hasStorageReturnCondition
+          schema:
+            type: boolean
+          example: true
+          description: Filters outputs based on the presence of storage deposit return unlock condition.
+        - in: query
+          name: storageReturnAddress
           schema:
             type: string
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
-          description: Filter outputs based on the presence of a specific return address in the dust deposit return
+          description: Filter outputs based on the presence of a specific return address in the storage deposit return
             unlock condition.
         - in: query
           name: hasTimelockCondition
