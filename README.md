@@ -21,35 +21,39 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 
 The following TIPs are currently being discussed and are awaiting further contribution:
 
-| # | Title | Description | Type | Layer | Status |
-| --- | --- | ----------- | ---- | ----- | ------ |
-| 18 | [Multi-Asset Ledger and ISC Support](https://github.com/iotaledger/tips/pull/38)| Transform IOTA into a multi-asset ledger that supports running IOTA Smart Contracts | Standards | Core | Draft |
-| 19 | [Dust Protection Based on Byte Costs](https://github.com/iotaledger/tips/pull/39)| Prevent bloating the ledger size with dust outputs | Standards | Core | Draft |
-| 20 | [Transaction Payload with New Output Types](https://github.com/iotaledger/tips/pull/40)| UTXO-based transaction structure with TIP-18 | Standards | Core | Draft |
-| 21 | [Serialization Primitives](https://github.com/iotaledger/tips/pull/41)| Introduce primitives to describe the binary serialization of objects | Standards | Core | Draft |
-| 22 | [Protocol Parameters](https://github.com/iotaledger/tips/pull/43)| Describes the global protocol parameters for the IOTA protocol | Standards | Core | Draft |
+| #   | Title                                                                                   | Description                                                                                                                | Type      | Layer     | Status |
+|-----|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|-----------|-----------|--------|
+| 18  | [Multi-Asset Ledger and ISC Support](https://github.com/iotaledger/tips/pull/38)        | Transform IOTA into a multi-asset ledger that supports running IOTA Smart Contracts                                        | Standards | Core      | Draft  |
+| 19  | [Dust Protection Based on Byte Costs](https://github.com/iotaledger/tips/pull/39)       | Prevent bloating the ledger size with dust outputs                                                                         | Standards | Core      | Draft  |
+| 20  | [Transaction Payload with New Output Types](https://github.com/iotaledger/tips/pull/40) | UTXO-based transaction structure with TIP-18                                                                               | Standards | Core      | Draft  |
+| 21  | [Serialization Primitives](https://github.com/iotaledger/tips/pull/41)                  | Introduce primitives to describe the binary serialization of objects                                                       | Standards | Core      | Draft  |
+| 22  | [Protocol Parameters](https://github.com/iotaledger/tips/pull/43)                       | Describes the global protocol parameters for the IOTA protocol                                                             | Standards | Core      | Draft  |
+| 23  | [Tagged Data Payload](https://github.com/iotaledger/tips/pull/54)                       | Payload for arbitrary data                                                                                                 | Standards | Core      | Draft  |
+ | 24  | [Tangle Message](https://github.com/iotaledger/tips/pull/55)                            | A new version of TIP-6 that removes the Indexation Payload and instead adds the Tagged Data Payload as a supported payload | Standards | Core      | Draft  |
+ | 25  | [Core REST API](https://github.com/iotaledger/tips/pull/57)                             | Node Core REST API routes and objects in OpenAPI Specification                                                             | Standards | Interface | Draft  |
+ | 26  | [UTXO Indexer REST API](https://github.com/iotaledger/tips/pull/62)                     | UTXO Indexer REST API routes and objects in OpenAPI Specification                                                          | Standards | Interface | Draft  |
 
 ## Accepted TIPs (as of 2022-01-16)
 
-| # | Title | Description | Type | Layer | Status |
-| --- | --- | ----------- | ---- | ----- | ------ |
-| 1 | [TIP Process](tips/TIP-0001/tip-0001.md)| Purpose and guidelines of the contribution framework | Process | - | Active |
-| 2 | [White Flag Ordering](tips/TIP-0002/tip-0002.md)| Mitigate conflict spamming by ignoring conflicts | Standards | Core | Active |
-| 3 | [Uniform Random Tip Selection](tips/TIP-0003/tip-0003.md)| Perform fast tip-selection to increase message throughput | Standards | Core | Active |
-| 4 | [Milestone Merkle Validation](tips/TIP-0004/tip-0004.md)| Add Merkle tree hash to milestone for local ledger state verification | Standards | Core | Active |
-| 5 | [Binary To Ternary Encoding](tips/TIP-0005/tip-0005.md)| Define the conversion between binary and ternary data | Standards | Core | Active |
-| 6 | [Tangle Message](tips/TIP-0006/tip-0006.md)| Generalization of the Tangle transaction concept | Standards | Core | Active |
-| 7 | [Transaction Payload](tips/TIP-0007/tip-0007.md)| UTXO-based transaction structure | Standards | Core | Active |
-| 8 | [Milestone Payload](tips/TIP-0008/tip-0008.md)| Coordinator issued milestone structure with Ed25519 authentication | Standards | Core | Active |
-| 9 | [Local Snapshot File Format](tips/TIP-0009/tip-0009.md)| File format to export/import ledger state | Standards | Interface | Active |
-| 10 | [Mnemonic Ternary Seed](tips/TIP-0010/tip-0010.md)| Represent ternary seed as a mnemonic sentence | Standards | IRC | Obsolete |
-| 11 | [Bech32 Address Format](tips/TIP-0011/tip-0011.md)| Extendable address format supporting various signature schemes and address types | Standards | Interface | Active |
-| 12 | [Message PoW](tips/TIP-0012/tip-0012.md)| Define message proof-of-work as a means to rate-limit the network | Standards | Core | Active |
-| 13 | [REST API](tips/TIP-0013/tip-0013.md)| Node REST API routes and objects in OpenAPI Specification | Standards | Interface | Active |
-| 14 | [Ed25519 Validation](tips/TIP-0014/tip-0014.md)| Adopt [ZIP-215](https://zips.z.cash/zip-0215) to explicitly define Ed25519 validation criteria | Standards | Core | Draft |
-| 15 | [Dust Protection](tips/TIP-0015/tip-0015.md)| Prevent bloating the ledger size with to dust outputs | Standards | Core | Active |
-| 16 | [Event API](tips/TIP-0016/tip-0016.md)| Node event API definitions in AsyncAPI Specification | Standards | Interface | Active |
-| 17 | [Wotsicide](tips/TIP-0017/tip-0017.md)| Define migration from legacy WOTS addresses to post-Chrysalis Phase 2 network | Standards | Core | Active |
+| #   | Title                                                     | Description                                                                                    | Type      | Layer     | Status   |
+|-----|-----------------------------------------------------------|------------------------------------------------------------------------------------------------|-----------|-----------|----------|
+| 1   | [TIP Process](tips/TIP-0001/tip-0001.md)                  | Purpose and guidelines of the contribution framework                                           | Process   | -         | Active   |
+| 2   | [White Flag Ordering](tips/TIP-0002/tip-0002.md)          | Mitigate conflict spamming by ignoring conflicts                                               | Standards | Core      | Active   |
+| 3   | [Uniform Random Tip Selection](tips/TIP-0003/tip-0003.md) | Perform fast tip-selection to increase message throughput                                      | Standards | Core      | Active   |
+| 4   | [Milestone Merkle Validation](tips/TIP-0004/tip-0004.md)  | Add Merkle tree hash to milestone for local ledger state verification                          | Standards | Core      | Active   |
+| 5   | [Binary To Ternary Encoding](tips/TIP-0005/tip-0005.md)   | Define the conversion between binary and ternary data                                          | Standards | Core      | Active   |
+| 6   | [Tangle Message](tips/TIP-0006/tip-0006.md)               | Generalization of the Tangle transaction concept                                               | Standards | Core      | Active   |
+| 7   | [Transaction Payload](tips/TIP-0007/tip-0007.md)          | UTXO-based transaction structure                                                               | Standards | Core      | Active   |
+| 8   | [Milestone Payload](tips/TIP-0008/tip-0008.md)            | Coordinator issued milestone structure with Ed25519 authentication                             | Standards | Core      | Active   |
+| 9   | [Local Snapshot File Format](tips/TIP-0009/tip-0009.md)   | File format to export/import ledger state                                                      | Standards | Interface | Active   |
+| 10  | [Mnemonic Ternary Seed](tips/TIP-0010/tip-0010.md)        | Represent ternary seed as a mnemonic sentence                                                  | Standards | IRC       | Obsolete |
+| 11  | [Bech32 Address Format](tips/TIP-0011/tip-0011.md)        | Extendable address format supporting various signature schemes and address types               | Standards | Interface | Active   |
+| 12  | [Message PoW](tips/TIP-0012/tip-0012.md)                  | Define message proof-of-work as a means to rate-limit the network                              | Standards | Core      | Active   |
+| 13  | [REST API](tips/TIP-0013/tip-0013.md)                     | Node REST API routes and objects in OpenAPI Specification                                      | Standards | Interface | Active   |
+| 14  | [Ed25519 Validation](tips/TIP-0014/tip-0014.md)           | Adopt [ZIP-215](https://zips.z.cash/zip-0215) to explicitly define Ed25519 validation criteria | Standards | Core      | Active   |
+| 15  | [Dust Protection](tips/TIP-0015/tip-0015.md)              | Prevent bloating the ledger size with to dust outputs                                          | Standards | Core      | Active   |
+| 16  | [Event API](tips/TIP-0016/tip-0016.md)                    | Node event API definitions in AsyncAPI Specification                                           | Standards | Interface | Active   |
+| 17  | [Wotsicide](tips/TIP-0017/tip-0017.md)                    | Define migration from legacy WOTS addresses to post-Chrysalis Phase 2 network                  | Standards | Core      | Active   |
 
 ## Need help?
 
