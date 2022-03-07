@@ -144,7 +144,7 @@ paths:
           name: tag
           schema:
             type: string
-          example: 4ec7f23
+          example: "0x4ec7f23"
           description: Filters outputs based on matching Tag Block.
         - in: query
           name: createdBefore
@@ -328,7 +328,7 @@ paths:
           name: aliasId
           schema:
             type: string
-          example: b098c0ee963575a8d505c299a99ce9c32cd4ecb3
+          example: "0xb098c0ee963575a8d505c299a99ce9c32cd4ecb3"
           description: Unique identifier of the alias.
           required: true
       responses:
@@ -470,7 +470,7 @@ paths:
           name: foundryId
           schema:
             type: string
-          example: b098c0ee963575a8d505c299a99ce9c32cd4ecb3
+          example: "0xb098c0ee963575a8d505c299a99ce9c32cd4ecb3"
           description: Unique identifier of the foundry.
           required: true
       responses:
@@ -630,7 +630,7 @@ paths:
           name: tag
           schema:
             type: string
-          example: 4ec7f23
+          example: "0x4ec7f23"
           description: Filters outputs based on matching Tag Block.
         - in: query
           name: createdBefore
@@ -704,7 +704,7 @@ paths:
           name: nftId
           schema:
             type: string
-          example: 4d09c5ef6a61766beb0b5655fdf0b379bac8a813
+          example: "0x4d09c5ef6a61766beb0b5655fdf0b379bac8a813"
           description: Unique identifier of the nft.
           required: true
       responses:
@@ -748,14 +748,14 @@ components:
       value:
         ledgerIndex: 101
         items:
-          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
-          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790100
-          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200
+          - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000"
+          - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790100"
+          - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200"
     get-outputs-response-single-example:
       value:
         ledgerIndex: 101
         items:
-          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
+          - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000"
     get-outputs-empty-response-example:
       value:
         ledgerIndex: 101
@@ -766,8 +766,8 @@ components:
         ledgerIndex: 101
         cursor: 61fa44a14d35ce14b9d0e7ee6ac9af70c0af156be269f69348be6d6f83c80a3a8a44ce440000.2
         items:
-          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000
-          - 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790100
+          - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790000"
+          - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790100"
 
 
   schemas:
@@ -846,7 +846,7 @@ components:
           nullable: true
         items:
           type: array
-          description: The output IDs (transaction hash + output index) of the outputs satisfying the query.
+          description: The output IDs (transaction hash + output index) of the outputs satisfying the query. Hex-encoded with 0x prefix.
           items:
             type: string
       required:
