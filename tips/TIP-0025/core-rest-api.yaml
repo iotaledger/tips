@@ -191,7 +191,7 @@ paths:
           name: messageId
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
           description: Identifier of the message.
       responses:
@@ -250,7 +250,7 @@ paths:
           name: messageId
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
           description: Identifier of the message.
       responses:
@@ -315,7 +315,7 @@ paths:
           name: messageId
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
           description: Identifier of the message.
       responses:
@@ -363,7 +363,7 @@ paths:
           name: messageId
           schema:
             type: string
-          example: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
           description: Identifier of the message.
       responses:
@@ -413,7 +413,8 @@ paths:
           required: true
           description: >-
             Identifier of the output encoded in hex. An output is identified by
-            the concatenation of `transactionId+outputIndex`.
+            the concatenation of `transactionId+outputIndex`. Hex-encoded with 0x prefix.
+          example: "0xfa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a20100"
       responses:
         '200':
           description: "Successful operation."
@@ -597,7 +598,7 @@ paths:
           name: transactionId
           schema:
             type: string
-          example: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
+          example: "0xaf7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef"
           required: true
           description: Identifier of the transaction to look up.
       responses:
@@ -898,7 +899,7 @@ components:
         protocol:
           networkName: iota-testnet
           bech32HRP: atoi
-          minPoWScore: 4000
+          minPoWScore: 1000
           rentStructure:
             vByteCost: 500
             vByteFactorData: 1
@@ -911,49 +912,49 @@ components:
     get-tips-response-example:
       value:
         tipMessageIds:
-          - f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
-          - 78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2
+          - "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          - "0x78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
 
     post-messages-response-example:
       value:
-        messageId: a4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727
+        messageId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
 
     get-message-by-id-response-example-new:
       value:
-        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        messageId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
         parentMessageIds:
-          - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          - d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
+          - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: false
         shouldPromote: true
         shouldReattach: false
 
     get-message-by-id-response-example-solid:
       value:
-        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        messageId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
         parentMessageIds:
-          - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          - d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
+          - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
         shouldPromote: false
         shouldReattach: false
 
     get-message-by-id-response-example-included:
       value:
-        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        messageId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
         parentMessageIds:
-          - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          - d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
+          - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
         referencedByMilestoneIndex: 15465
         ledgerInclusionState: included
 
     get-message-by-id-response-example-conflicting:
       value:
-        messageId: f532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d
+        messageId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
         parentMessageIds:
-          - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
-          - d97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510
+          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
+          - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
         referencedByMilestoneIndex: 15465
         ledgerInclusionState: conflicting
@@ -963,56 +964,56 @@ components:
       value:
         protocolVersion: 1
         parentMessageIds:
-          - 222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9
-          - a22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6
-          - a6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d
-          - fd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7
+          - "0x222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9"
+          - "0xa22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6"
+          - "0xa6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d"
+          - "0xfd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7"
         payload:
           type: 5
-          tag: 68656c6c6f20776f726c64
-          data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
-        nonce: '2102864'
+          tag: "0x68656c6c6f20776f726c64"
+          data: "0x5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573"
+        nonce: "2102864"
 
     post-tagged-data-message-request-example-minimal:
       value:
         payload:
           type: 5
-          tag: 68656c6c6f20776f726c64
-          data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
+          tag: "0x68656c6c6f20776f726c64"
+          data: "0x5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573"
 
     post-transaction-message-request-example-minimal:
       value:
         payload:
-          type: 0
+          type: 6
           essence:
-            type: 0
+            type: 1
             networkId: "1337133713371337"
-            inputsCommitment: 0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+            inputsCommitment: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
             inputs:
               - type: 0
-                transactionId: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+                transactionId: "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
                 transactionOutputIndex: 0
               - type: 0
-                transactionId: 309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036
+                transactionId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
                 transactionOutputIndex: 0
               - type: 0
-                transactionId: c138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e
+                transactionId: "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
                 transactionOutputIndex: 0
             outputs:
               - type: 3
-                amount: 50000000
+                amount: "50000000"
                 unlockConditions:
                   - type: 0
                     address:
                       type: 0
-                      pubKeyHash: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                      pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
             payload:
           unlockBlocks:
             - type: 0
               signature:
                 type: 0
-                publicKey: 40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092
-                signature: ed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703
+                publicKey: "0x40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092"
+                signature: "0xed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703"
             - type: 1
               reference: 0
             - type: 1
@@ -1023,41 +1024,41 @@ components:
       value:
         protocolVersion: 1
         parentMessageIds:
-          - 6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca
-          - 97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481
-          - c107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d
-          - ea19397d2670f904c4d8c8616ef7a0724321512f1c09f8eb2aeb0cc4299e2441
+          - "0x6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca"
+          - "0x97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481"
+          - "0xc107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d"
+          - "0xea19397d2670f904c4d8c8616ef7a0724321512f1c09f8eb2aeb0cc4299e2441"
         payload:
-          type: 0
+          type: 6
           essence:
-            type: 0
+            type: 1
             networkId: "1337133713371337"
-            inputsCommitment: 0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+            inputsCommitment: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
             inputs:
               - type: 0
-                transactionId: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+                transactionId: "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
                 transactionOutputIndex: 0
               - type: 0
-                transactionId: 309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036
+                transactionId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
                 transactionOutputIndex: 0
               - type: 0
-                transactionId: c138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e
+                transactionId: "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
                 transactionOutputIndex: 0
             outputs:
               - type: 3
-                amount: 50000000
+                amount: "50000000"
                 unlockConditions:
                   - type: 0
                     address:
                       type: 0
-                      pubKeyHash: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                      pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
             payload:
           unlockBlocks:
             - type: 0
               signature:
                 type: 0
-                publicKey: 40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092
-                signature: ed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703
+                publicKey: "0x40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092"
+                signature: "0xed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703"
             - type: 1
               reference: 0
             - type: 1
@@ -1068,8 +1069,8 @@ components:
       value:
         protocolVersion: 1
         parentMessageIds:
-          - c0b728d4c292860b57747c7bfbd989ccc40be8c76229022644c05e1352bf1ea3
-          - e8db39681478cf9826bd2f31d045f16f5e1f478c5abc3030419da7911df9e288
+          - "0xc0b728d4c292860b57747c7bfbd989ccc40be8c76229022644c05e1352bf1ea3"
+          - "0xe8db39681478cf9826bd2f31d045f16f5e1f478c5abc3030419da7911df9e288"
         payload: null
         nonce: '1481'
 
@@ -1077,41 +1078,41 @@ components:
       value:
         protocolVersion: 1
         parentMessageIds:
-          - 6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca
-          - 97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481
-          - c107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d
-          - ea19397d2670f904c4d8c8616ef7a0724321512f1c09f8eb2aeb0cc4299e2441
+          - "0x6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca"
+          - "0x97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481"
+          - "0xc107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d"
+          - "0xea19397d2670f904c4d8c8616ef7a0724321512f1c09f8eb2aeb0cc4299e2441"
         payload:
-          type: 0
+          type: 6
           essence:
-            type: 0
+            type: 1
             networkId: "1337133713371337"
-            inputsCommitment: 0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+            inputsCommitment: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
             inputs:
               - type: 0
-                transactionId: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+                transactionId: "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
                 transactionOutputIndex: 0
               - type: 0
-                transactionId: 309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036
+                transactionId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
                 transactionOutputIndex: 0
               - type: 0
-                transactionId: c138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e
+                transactionId: "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
                 transactionOutputIndex: 0
             outputs:
               - type: 3
-                amount: 50000000
+                amount: "50000000"
                 unlockConditions:
                   - type: 0
                     address:
                       type: 0
-                      pubKeyHash: d49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3
+                      pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
             payload:
           unlockBlocks:
             - type: 0
               signature:
                 type: 0
-                publicKey: 40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092
-                signature: ed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703
+                publicKey: "0x40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092"
+                signature: "0xed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703"
             - type: 1
               reference: 0
             - type: 1
@@ -1122,69 +1123,69 @@ components:
       value:
         protocolVersion: 1
         parentMessageIds:
-          - 23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b
-          - 242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7
-          - 2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1
-          - 438a14a651b8872896b4e57c92041e8962ca7d78cc38c774534020feefeff31a
-          - 73c90398fb548a4410b49264e182e58a91baeecaa949cbfc1d01a9066cbd9935
-          - b9adfdc1effd3242b5c1d7b6df43d4b53e58943e820ced89c7dd39b8b52fcef0
+          - "0x23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b"
+          - "0x242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7"
+          - "0x2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1"
+          - "0x438a14a651b8872896b4e57c92041e8962ca7d78cc38c774534020feefeff31a"
+          - "0x73c90398fb548a4410b49264e182e58a91baeecaa949cbfc1d01a9066cbd9935"
+          - "0xb9adfdc1effd3242b5c1d7b6df43d4b53e58943e820ced89c7dd39b8b52fcef0"
         payload:
           type: 1
           index: 16241
           timestamp: 1617959712
           parentMessageIds:
-            - 23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b
-            - 242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7
-            - 2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1
-            - 438a14a651b8872896b4e57c92041e8962ca7d78cc38c774534020feefeff31a
-            - 73c90398fb548a4410b49264e182e58a91baeecaa949cbfc1d01a9066cbd9935
-            - b9adfdc1effd3242b5c1d7b6df43d4b53e58943e820ced89c7dd39b8b52fcef0
-          inclusionMerkleProof: 0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8
+            - "0x23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b"
+            - "0x242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7"
+            - "0x2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1"
+            - "0x438a14a651b8872896b4e57c92041e8962ca7d78cc38c774534020feefeff31a"
+            - "0x73c90398fb548a4410b49264e182e58a91baeecaa949cbfc1d01a9066cbd9935"
+            - "0xb9adfdc1effd3242b5c1d7b6df43d4b53e58943e820ced89c7dd39b8b52fcef0"
+          inclusionMerkleProof: "0x0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8"
           nextPoWScore: 0
           nextPoWScoreMilestoneIndex: 0
           publicKeys:
-            - 7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a
-            - e468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6
+            - "0x7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a"
+            - "0xe468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6"
           receipt:
           signatures:
-            - a642e96f71094f8523790131481e0fbfdc8265caa8e4b08793628b286065c317a5595d56edb5e918b24d4ee749768a2b5ae6010e751bf31f0d8145a390b82c00
-            - 4bdfa2684bed01ce3a9a630b0688e868c290b8524c679daa79cb9d9f0f2aa5c57cf00a0fc694d1fed3696053ffa9bba6154ccb1564532cd49f807ba77de9a70c
+            - "0xa642e96f71094f8523790131481e0fbfdc8265caa8e4b08793628b286065c317a5595d56edb5e918b24d4ee749768a2b5ae6010e751bf31f0d8145a390b82c00"
+            - "0x4bdfa2684bed01ce3a9a630b0688e868c290b8524c679daa79cb9d9f0f2aa5c57cf00a0fc694d1fed3696053ffa9bba6154ccb1564532cd49f807ba77de9a70c"
         nonce: '1229782938247321090'
 
     get-message-by-id-tagged-data-response-example:
       value:
         protocolVersion: 1
         parentMessageIds:
-          - 222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9
-          - a22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6
-          - a6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d
-          - fd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7
+          - "0x222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9"
+          - "0xa22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6"
+          - "0xa6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d"
+          - "0xfd31d9c926b5d97ae016535d66baee511dfa3b713b61d8eba2ae5c9929e38ca7"
         payload:
           type: 5
-          tag: 68656c6c6f20776f726c64
-          data: 5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573
+          tag: "0x68656c6c6f20776f726c64"
+          data: "0x5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573"
         nonce: '2102864'
 
     get-messages-by-id-response-example-children:
       value:
-        messageId: ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c
+        messageId: "0xed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c"
         maxResults: 1000
         count: 2
         childrenMessageIds:
-          - 1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d
-          - 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+          - "0x1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d"
+          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
 
     get-messages-by-id-response-example-nochildren:
       value:
-        messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        messageId: "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
         maxResults: 1000
         count: 0
         childrenMessageIds: [ ]
 
     get-outputs-by-id-response-unspent-example:
       value:
-        messageId: 9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0
-        transactionId: 1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298
+        messageId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
+        transactionId: "0x1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298"
         outputIndex: 1
         isSpent: false
         milestoneIndexBooked: 1234567
@@ -1192,33 +1193,33 @@ components:
         ledgerIndex: 946704
         output:
           type: 3
-          amount: 1000
+          amount: "1000"
           unlockConditions:
             - type: 0
               address:
                 type: 0
-                pubKeyHash: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
+                pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
 
     get-outputs-by-id-response-spent-example:
       value:
-        messageId: 9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0
-        transactionId: 1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298
+        messageId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
+        transactionId: "0xfa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a2"
         outputIndex: 1
         isSpent: true
         milestoneIndexSpent: 1234570
         milestoneTimestampSpent: 1643207176
-        transactionIdSpent: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
+        transactionIdSpent: "0xaf7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef"
         milestoneIndexBooked: 1234567
         milestoneTimestampBooked: 1643207146
         ledgerIndex: 946704
         output:
           type: 3
-          amount: 1000
+          amount: "1000"
           unlockConditions:
             - type: 0
               address:
                 type: 0
-                pubKeyHash: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
+                pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
 
     get-receipts-response-example:
       value:
@@ -1226,79 +1227,75 @@ components:
           - migratedAt: 1000
             final: false
             funds:
-              - tailTransactionHash: e0ce1933a900d02e0a43e2ba4e922d1a706a36a117ce1eb9ad0a74d39ee722c41b00cd227232efd76f5997e91bf8000000
+              - tailTransactionHash: "0xe0ce1933a900d02e0a43e2ba4e922d1a706a36a117ce1eb9ad0a74d39ee722c41b00cd227232efd76f5997e91bf8000000"
                 address:
                   type: 0
-                  pubKeyHash: 5eec99d6ee4ba21aa536c3364bbf2b587cb98a7f2565b75d948b10083e2143f8
-                deposit: 1702000000
+                  pubKeyHash: "0x5eec99d6ee4ba21aa536c3364bbf2b587cb98a7f2565b75d948b10083e2143f8"
+                deposit: "1702000000"
             transaction:
               input:
                 type: 1
-                milestoneId: 733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d
+                milestoneId: "0x733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d"
               output:
                 type: 2
-                amount: 1702000000
+                amount: "1702000000"
 
     get-treasury-response-example:
       value:
-        milestoneId: 733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d
-        amount: 133713371337
+        milestoneId: "0x733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d"
+        amount: "133713371337"
 
     get-included-message-of-transaction-example:
       value:
         protocolVersion: 1
         parentMessageIds:
-          - 174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d6
-          - 5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c
-          - 7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695
-          - de9e9d780ba7ebeebc38da16cb53b2a8991d38eee94bcdc3f3ef99aa8c345652
+          - "0x174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d6"
+          - "0x5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c"
+          - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
+          - "0xde9e9d780ba7ebeebc38da16cb53b2a8991d38eee94bcdc3f3ef99aa8c345652"
         payload:
-          type: 0
+          type: 6
           essence:
-            type: 0
+            type: 1
             networkId: "1337133713371337"
-            inputsCommitment: 0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79
+            inputsCommitment: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
             inputs:
               - type: 0
-                transactionId: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
+                transactionId: "0xaf7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef"
                 transactionOutputIndex: 0
             outputs:
               - type: 0
                 address:
                   type: 0
-                  pubKeyHash: a18996d96163405e3c0eb13fa3459a07f68a89e8cf7cc239c89e7192344daa5b
-                amount: 1000000
+                  pubKeyHash: "0xa18996d96163405e3c0eb13fa3459a07f68a89e8cf7cc239c89e7192344daa5b"
+                amount: "1000000"
             payload:
               type: 2
-              index: 454f59
-              data: ''
+              index: "0x454f59"
+              data: ""
           unlockBlocks:
             - type: 0
               signature:
                 type: 0
-                publicKey: ee26ac07834c603c22130fced361ca58552b0dbfc63e4b73ba24b3b59d9f4050
-                signature: '0492a353f96883c472e2686a640e77eda30be8fcc417aa9fc1c15eae854661e0253287be6ea68f649f19ca590de0a6c57fb88635ef0e013310e0be2b83609503'
+                publicKey: "0xee26ac07834c603c22130fced361ca58552b0dbfc63e4b73ba24b3b59d9f4050"
+                signature: "0x0492a353f96883c472e2686a640e77eda30be8fcc417aa9fc1c15eae854661e0253287be6ea68f649f19ca590de0a6c57fb88635ef0e013310e0be2b83609503"
         nonce: '17293822569102719312'
 
     get-milestone-by-index-response-example:
       value:
         index: 15465
-        messageId: 7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006
+        messageId: "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
         timestamp: 1602227215
 
     get-utxo-changes-response-example:
       value:
         index: 15465
         createdOutputs:
-          - >-
-            1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a52980100
-          - >-
-            ee3447d088e3e2c53c5b3e56a38fdc859ca2c4b4161cf256c0462ce4d34731820100
-          - >-
-            f8bdbfb0f57ade7fbb95d31b11e2dbda9b2a35e9dc0cd3e11cb324e8a6bedc260100
+          - "0x1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a52980100"
+          - "0xee3447d088e3e2c53c5b3e56a38fdc859ca2c4b4161cf256c0462ce4d34731820100"
+          - "0xf8bdbfb0f57ade7fbb95d31b11e2dbda9b2a35e9dc0cd3e11cb324e8a6bedc260100"
         consumedOutputs:
-          - >-
-            3d36ec4afb2d634b9313f84606b98b69675a3ef6f44dcdecb18c30945b57221e0100
+          - "0x3d36ec4afb2d634b9313f84606b98b69675a3ef6f44dcdecb18c30945b57221e0100"
 
     get-peers-response-example:
       value:
@@ -1425,7 +1422,7 @@ components:
           description: Protocol version identifier. It also tells which protocol rules apply to the message.
         parentMessageIds:
           type: array
-          description: The identifiers of the messages this message references.
+          description: The identifiers of the messages this message references. Hex-encoded data with 0x prefix.
           items:
             type: string
         payload:
@@ -1436,7 +1433,7 @@ components:
             - $ref: '#/components/schemas/ReceiptPayload'
         nonce:
           type: string
-          description: The nonce which lets this message fulfill the Proof-of-Work requirement.
+          description: The nonce which lets this message fulfill the Proof-of-Work requirement. Plain string encoded number.
       required:
         - protocolVersion
         - parentMessageIds
@@ -1448,7 +1445,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 0 to denote a Transaction Payload.
+          description: Set to value 6 to denote a Transaction Payload.
         essence:
           type: object
           oneOf:
@@ -1471,13 +1468,13 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 0 to denote a Transaction Essence.
+          description: Set to value 1 to denote a Transaction Essence.
         networkId:
           type: string
-          description: Network identifier. This field signals for which network the message is meant for. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network name and protocol version string.
+          description: Network identifier. Plain string encoded number. This field signals for which network the message is meant for. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network name and protocol version string.
         inputsCommitment:
           type: string
-          description: BLAKE2b-256 hash of the serialized outputs referenced in Inputs by their outputIds (transactionId || outputIndex).
+          description: BLAKE2b-256 hash of the serialized outputs referenced in Inputs by their outputIds (transactionId || outputIndex). Hex-encoded data with 0x prefix.
         inputs:
           type: array
           items:
@@ -1511,7 +1508,7 @@ components:
           description: Set to value 0 to denote an UTXO Input.
         transactionId:
           type: string
-          description: The BLAKE2b-256 hash of the transaction from which the UTXO comes from.
+          description: The BLAKE2b-256 hash of the transaction from which the UTXO comes from. Hex-encoded data with 0x prefix.
         transactionOutputIndex:
           type: integer
           description: The index of the output on the referenced transaction to consume.
@@ -1527,8 +1524,8 @@ components:
           type: integer
           description: Set to value 3 to denote a Basic Output.
         amount:
-          type: integer
-          description: The amount of IOTA tokens to deposit with this BasicOutput output.
+          type: string
+          description: The amount of IOTA tokens to deposit with this BasicOutput output. Plain string encoded number.
         nativeTokens:
           type: array
           description: Native tokens held by the otuput.
@@ -1541,7 +1538,7 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/AddressUnlockCondition'
-              - $ref: '#/components/schemas/DustDepositReturnUnlockCondition'
+              - $ref: '#/components/schemas/StorageDepositReturnUnlockCondition'
               - $ref: '#/components/schemas/TimelockUnlockCondition'
               - $ref: '#/components/schemas/ExpirationUnlockCondition'
         featureBlocks:
@@ -1564,8 +1561,8 @@ components:
           type: integer
           description: Set to value 4 to denote an Alias Output.
         amount:
-          type: integer
-          description: The amount of IOTA tokens to deposit with this output.
+          type: string
+          description: The amount of IOTA tokens to deposit with this output. Plain string encoded number.
         nativeTokens:
           type: array
           description: Native tokens held by the otuput.
@@ -1575,13 +1572,13 @@ components:
         aliasId:
           type: string
           description: Unique identifier of the alias, which is the BLAKE2b-160 hash of the Output ID that created it.
-            Alias Address = Alias Address Type || Alias ID
+            Alias Address = Alias Address Type || Alias ID. Hex-encoded data with 0x prefix.
         stateIndex:
           type: integer
           description: A counter that must increase by 1 every time the alias is state transitioned.
         stateMetadata:
           type: string
-          description: Hex-encoded metadata that can only be changed by the state controller.
+          description: Hex-encoded metadata with 0x prefix that can only be changed by the state controller.
         foundryCounter:
           type: integer
           description: A counter that denotes the number of foundries created by this alias account.
@@ -1622,8 +1619,8 @@ components:
           type: integer
           description: Set to value5 to denote a Foundry Output.
         amount:
-          type: integer
-          description: The amount of IOTA tokens to deposit with this output.
+          type: string
+          description: The amount of IOTA tokens to deposit with this output. Plain string encoded number.
         nativeTokens:
           type: array
           description: Native tokens held by the otuput.
@@ -1635,13 +1632,16 @@ components:
           description: The serial number of the foundry with respect to the controlling alias.
         tokenTag:
           type: string
-          description: Hex-encoded data that is always the last 12 bytes of ID of the tokens produced by this foundry.
-        circulatingSupply:
-          type: integer
-          description: Circulating supply of tokens controlled by this foundry.
+          description: Hex-encoded data with 0x prefix that is always the last 12 bytes of ID of the tokens produced by this foundry.
+        mintedTokens:
+          type: string
+          description: Minted tokens controlled by this foundry. Hex-encoded number with 0x prefix.
+        meltedTokens:
+          type: string
+          description: Melted tokens controlled by this foundry. Hex-encoded number with 0x prefix.
         maxSupply:
-          type: integer
-          description: Maximum supply of tokens controlled by this foundry.
+          type: string
+          description: Maximum supply of tokens controlled by this foundry. Hex-encoded number with 0x prefix.
         tokenScheme:
           type: array
           description: Defines the supply control scheme of the tokens controlled by the foundry.
@@ -1672,7 +1672,8 @@ components:
         - amount
         - serialNumber
         - tokenTag
-        - circulatingSupply
+        - mintedTokens
+        - meltedTokens
         - maxSupply
         - tokenScheme
         - unlockConditions
@@ -1684,8 +1685,8 @@ components:
           type: integer
           description: Set to value 6 to denote a NFT Output.
         amount:
-          type: integer
-          description: The amount of IOTA tokens to deposit with this output.
+          type: string
+          description: The amount of IOTA tokens to deposit with this output. Plain string encoded number.
         nativeTokens:
           type: array
           description: Native tokens held by the otuput.
@@ -1694,14 +1695,14 @@ components:
               - $ref: '#/components/schemas/NativeToken'
         nftId:
           type: string
-          description: Unique identifier of the NFT, which is the BLAKE2b-160 hash of the Output ID that created it. NFT Address = NFT Address Type || NFT ID
+          description: Unique identifier of the NFT, which is the BLAKE2b-160 hash of the Output ID that created it. NFT Address = NFT Address Type || NFT ID. Hex-encoded data with 0x prefix.
         unlockConditions:
           type: array
           description: Unlock condtions that define how the output an be unlocked in a transaction.
           items:
             anyOf:
               - $ref: '#/components/schemas/AddressUnlockCondition'
-              - $ref: '#/components/schemas/DustDepositReturnUnlockCondition'
+              - $ref: '#/components/schemas/StorageDepositReturnUnlockCondition'
               - $ref: '#/components/schemas/TimelockUnlockCondition'
               - $ref: '#/components/schemas/ExpirationUnlockCondition'
         featureBlocks:
@@ -1724,6 +1725,7 @@ components:
       required:
         - type
         - amount
+        - nftId
         - unlockConditions
 
     NativeToken:
@@ -1731,11 +1733,10 @@ components:
       properties:
         tokenId:
           type: string
-          description: Hex-encoded identifier of the native token.
+          description: Hex-encoded identifier with 0x prefix of the native token.
         amount:
-          type: integer
-          description: Amount of native tokens (up to uint256)
-
+          type: string
+          description: Amount of native tokens (up to uint256). Hex-encoded number with 0x prefix.
 
     Ed25519Address:
       description: The Ed25519 address.
@@ -1745,7 +1746,7 @@ components:
           description: Set to value 0 to denote an Ed25519 Address.
         pubKeyHash:
           type: string
-          description: The hex-encoded BLAKE2b-256 hash of the Ed25519 public key.
+          description: The hex-encoded, 0x prefixed BLAKE2b-256 hash of the Ed25519 public key
       required:
         - type
         - pubKeyHash
@@ -1758,7 +1759,7 @@ components:
           description: Set to value 8 to denote an Alias Address.
         aliasId:
           type: string
-          description: The hex-encoded BLAKE2b-160 hash of the outputId that created the alias.
+          description: The hex-encoded, 0x prefixed BLAKE2b-160 hash of the outputId that created the alias.
       required:
         - type
         - aliasId
@@ -1771,7 +1772,7 @@ components:
           description: Set to value 16 to denote an NFT Address.
         nftId:
           type: string
-          description: The hex-encoded BLAKE2b-160 hash of the outputId that created the NFT.
+          description: The hex-encoded, 0x prefixed BLAKE2b-160 hash of the outputId that created the NFT.
       required:
         - type
         - nftId
@@ -1799,7 +1800,7 @@ components:
           oneOf:
             - $ref: '#/components/schemas/AliasAddress'
 
-    DustDepositReturnUnlockCondition:
+    StorageDepositReturnUnlockCondition:
       description: Can be unlocked by depositting return amount to return address via an output that only has Address Unlock Condition.
       properties:
         type:
@@ -1811,8 +1812,8 @@ components:
             - $ref: '#/components/schemas/AliasAddress'
             - $ref: '#/components/schemas/NFTAddress'
         returnAmount:
-          type: integer
-          description: Amount of IOTA tokens the consuming transaction should deposit to the address defined in Return Address.
+          type: string
+          description: Amount of IOTA tokens the consuming transaction should deposit to the address defined in Return Address. Plain string encoded number.
 
     TimelockUnlockCondition:
       description: Can be unlocked if the confirming milestone has a >= Milestone Index/Unixt Timestamp.
@@ -1901,7 +1902,7 @@ components:
           description: Set to value 2 to denote a Metadata Block.
         data:
           type: string
-          description: Hex-encoded binary data.
+          description: Hex-encoded binary data with 0x prefix.
 
     TagBlock:
       description: Defines an indexation tag to which the output can be indexed by additional node plugins.
@@ -1911,7 +1912,7 @@ components:
           description: Set to value 3 to denote a Metadata Block.
         tag:
           type: string
-          description: Hex-encoded binary indexation tag.
+          description: Hex-encoded binary indexation tag with 0x prefix.
 
     SimpleTokenScheme:
       description: Defines the simple supply control scheme of native tokens. Tokens can be minted by the foundry without additional restrictions as long as maximum supply is requested and circulating supply is not negative.
@@ -1942,10 +1943,10 @@ components:
           description: Set to value 0 to denote an Ed25519 Signature.
         publicKey:
           type: string
-          description: The public key of the Ed25519 keypair which is used to verify the signature.
+          description: The public key of the Ed25519 keypair which is used to verify the signature. Hex-encoded with 0x prefix.
         signature:
           type: string
-          description: The signature signing the serialized Transaction Essence.
+          description: The signature signing the serialized Transaction Essence. Hex-encoded with 0x prefix.
       required:
         - type
         - publicKey
@@ -2003,13 +2004,13 @@ components:
           type: integer
           description: The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.
         parents:
-          description: The identifiers of the messages this milestone references.
+          description: The identifiers of the messages this milestone references. Hex-encoded values with 0x prefix.
           type: array
           items:
             type: string
         inclusionMerkleProof:
           type: string
-          description: 256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone.
+          description: 256-bit hash based on the message IDs of all the not-ignored state-mutating transactions referenced by the milestone. Hex-encoded with 0x prefix.
         nextPoWScore:
           type: number
         nextPoWScoreMilestoneIndex:
@@ -2018,12 +2019,12 @@ components:
           type: array
           items:
             type: string
-          description: An array of public keys to validate the signatures. The keys must be in lexicographical order.
+          description: An array of public keys to validate the signatures. The keys must be in lexicographical order. Hex-encoded with 0x prefix.
         signatures:
           type: array
           items:
             type: string
-          description: An array of signatures signing the serialized Milestone Essence. The signatures must be in the same order as the specified public keys.
+          description: An array of signatures signing the serialized Milestone Essence. The signatures must be in the same order as the specified public keys. Hex-encoded with 0x prefix.
       required:
         - type
         - index
@@ -2043,10 +2044,10 @@ components:
           description: Set to value 5 to denote a Tagged Data Payload.
         tag:
           type: string
-          description: The indexation key to find/look up this message. It has a size between 1 and 64 bytes and must be encoded as a hex-string.
+          description: The indexation key to allow external tools to find/look up this message. It has a size between 1 and 64 bytes and must be encoded as a hex-string with 0x prefix.
         data:
           type: string
-          description: The optional data to attach. This may have a length of 0.
+          description: The optional data to attach. This may have a length of 0. Hex-encoded with 0x prefix.
       required:
         - type
         - tag
@@ -2075,6 +2076,7 @@ components:
           description: Set to value 1 to denote a TreasuryInput.
         milestoneId:
           type: string
+          description: Hex-encoded with 0x prefix.
       required:
         - type
         - milestoneId
@@ -2085,11 +2087,11 @@ components:
           type: integer
           description: Set to value 2 to denote a TreasuryOutput.
         amount:
-          type: integer
+          type: string
+          description: Amountt of IOTA tokens in the treasury. Plain string encoded number.
       required:
         - type
         - amount
-
 
     Peer:
       description: The peer of a node.
@@ -2403,7 +2405,7 @@ components:
           type: array
           items:
             type: string
-          description: The message identifiers that can be used to a attach a message to.
+          description: The message identifiers that can be used to a attach a message to. Hex-encoded with 0x prefix.
       required:
         - tipMessageIds
 
@@ -2415,7 +2417,7 @@ components:
           description: Protocol version number of the message.It also tells which protocol rules apply to the message.
         parentMessageIds:
           type: array
-          description: The identifiers of the messages this message references.
+          description: The identifiers of the messages this message references. Hex-encoded with 0x prefix.
           items:
             type: string
         payload:
@@ -2427,14 +2429,14 @@ components:
             - $ref: '#/components/schemas/ReceiptPayload'
         nonce:
           type: string
-          description: The nonce which lets this message fulfill the Proof-of-Work requirement.
+          description: The nonce which lets this message fulfill the Proof-of-Work requirement. Hex-encoded with 0x prefix.
 
     SubmitMessageResponse:
       description: Returns the message identifier of the submitted message.
       properties:
         messageId:
           type: string
-          description: The message identifier of the submitted message.
+          description: The message identifier of the submitted message. Hex-encoded with 0x prefix.
       required:
         - messageId
 
@@ -2443,10 +2445,10 @@ components:
       properties:
         messageId:
           type: string
-          description: The identifier of the message.
+          description: The identifier of the message. Hex-encoded with 0x prefix.
         parentMessageIds:
           type: array
-          description: The identifiers of the messages this message references.
+          description: The identifiers of the messages this message references. Hex-encoded with 0x prefix.
           items:
             type: string
         isSolid:
@@ -2491,7 +2493,7 @@ components:
       properties:
         messageId:
           type: string
-          description: The message identifier of the given message that was used to look up its children.
+          description: The message identifier of the given message that was used to look up its children. Hex-encoded with 0x prefix.
         maxResults:
           type: integer
           description: The number of results it can return at most.
@@ -2502,7 +2504,7 @@ components:
           type: array
           items:
             type: string
-          description: The message identifiers of the found children.
+          description: The message identifiers of the found children. Hex-encoded with 0x prefix.
       required:
         - messageId
         - maxResults
@@ -2514,10 +2516,10 @@ components:
       properties:
         messageId:
           type: string
-          description: The message identifier that references the output.
+          description: The message identifier that references the output. Hex-encoded with 0x prefix.
         transactionId:
           type: string
-          description: The identifier of the transaction.
+          description: The identifier of the transaction. Hex-encoded with 0x prefix.
         outputIndex:
           type: integer
           description: The index of the output.
@@ -2534,7 +2536,7 @@ components:
           nullable: true
         transactionIdSpent:
           type: string
-          description: The transaction this output was spent with.
+          description: The transaction this output was spent with. Hex-encoded with 0x prefix.
           nullable: true
         milestoneIndexBooked:
           type: integer
@@ -2575,7 +2577,8 @@ components:
         milestoneId:
           type: string
         amount:
-          type: integer
+          type: string
+          description: Plain string encoded number.
       required:
         - milestoneId
         - amount
@@ -2588,7 +2591,7 @@ components:
           description: The index number of the milestone.
         messageId:
           type: string
-          description: The identifier of a message which describes this milestone. Note that different messages could describe the same milestone.
+          description: The identifier of a message which describes this milestone. Note that different messages could describe the same milestone. Hex-encoded with 0x prefix.
         timestamp:
           type: integer
           description: The timestamp of when the  milestone was issued.
@@ -2608,11 +2611,13 @@ components:
           type: array
           items:
             type: string
+            description: Hex-encoded with 0x prefix.
         consumedOutputs:
           description: The consumed outputs of the given milestone.
           type: array
           items:
             type: string
+            description: Hex-encoded with 0x prefix.
       required:
         - index
         - createdOutputs
