@@ -2530,7 +2530,7 @@ components:
           type: integer
           description: The milestone index at which this output was spent.
           nullable: true
-        milestoneTimesttampSpent:
+        milestoneTimestampSpent:
           type: integer
           description: The milestone timestamp this output was spent.
           nullable: true
