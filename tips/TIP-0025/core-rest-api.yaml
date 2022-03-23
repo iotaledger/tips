@@ -1633,15 +1633,6 @@ components:
         tokenTag:
           type: string
           description: Hex-encoded data with 0x prefix that is always the last 12 bytes of ID of the tokens produced by this foundry.
-        mintedTokens:
-          type: string
-          description: Minted tokens controlled by this foundry. Hex-encoded number with 0x prefix.
-        meltedTokens:
-          type: string
-          description: Melted tokens controlled by this foundry. Hex-encoded number with 0x prefix.
-        maxSupply:
-          type: string
-          description: Maximum supply of tokens controlled by this foundry. Hex-encoded number with 0x prefix.
         tokenScheme:
           type: array
           description: Defines the supply control scheme of the tokens controlled by the foundry.
@@ -1672,9 +1663,6 @@ components:
         - amount
         - serialNumber
         - tokenTag
-        - mintedTokens
-        - meltedTokens
-        - maxSupply
         - tokenScheme
         - unlockConditions
 
@@ -1920,6 +1908,20 @@ components:
         type:
           type: integer
           description: Set to value 0 to denote an Simple Token Scheme.
+        mintedTokens:
+          type: string
+          description: Minted tokens controlled by this foundry. Hex-encoded number with 0x prefix.
+        meltedTokens:
+          type: string
+          description: Melted tokens controlled by this foundry. Hex-encoded number with 0x prefix.
+        maxSupply:
+          type: string
+          description: Maximum supply of tokens controlled by this foundry. Hex-encoded number with 0x prefix.
+      required:
+        - type
+        - mintedTokens
+        - meltedTokens
+        - maxSupply
 
     SignatureUnlockBlock:
       description: Defines an unlock block containing signature(s) unlocking input(s).
