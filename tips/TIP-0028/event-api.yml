@@ -491,6 +491,23 @@ components:
           type: integer
           description: Set to value 0 to denote an Simple Token Scheme.
           example: 0
+        mintedTokens:
+          type: string
+          description: Minted tokens controlled by this foundry. Hex encoded number.
+          example: "0x2710"
+        meltedTokens:
+          type: string
+          description: Melted tokens controlled by this foundry. Hex encoded number.
+          example: "0x1388"
+        maxSupply:
+          type: string
+          description: Maximum supply of tokens controlled by this foundry. Hex encoded number.
+          example: "0x186a0"
+      required:
+        - type
+        - mintedTokens
+        - meltedTokens
+        - maxSupply
     BasicOutput:
       description: Describes a basic output with optional features.
       properties:
@@ -617,18 +634,6 @@ components:
           type: string
           description: Hex-encoded data that is always the last 12 bytes of ID of the tokens produced by this foundry.
           example: "0x4c657669436f696e000000"
-        mintedSupply:
-          type: string
-          description: Minted supply of tokens controlled by this foundry. Hex encoded number.
-          example: "0x2710"
-        meltedSupply:
-          type: string
-          description: Melted tokens controlled by this foundry. Hex encoded number.
-          example: "0x1388"
-        maxSupply:
-          type: string
-          description: Maximum supply of tokens controlled by this foundry. Hex encoded number.
-          example: "0x186a0"
         tokenScheme:
           type: array
           description: Defines the supply control scheme of the tokens controlled by the foundry.
