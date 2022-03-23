@@ -298,6 +298,9 @@ components:
           type: string
           description: Amount of native tokens (up to uint256). Hex encoded number.
           example: "0xc8"
+      required:
+        - tokenId
+        - amount
     Ed25519Address:
       description: The Ed25519 address.
       properties:
@@ -352,6 +355,9 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AliasAddress'
             - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - address
     ImmutableAliasAddressUnlockCondition:
       description: Can be unlocked by unlocking the permanent alias address.
         The unlock condition has to be kept in future state transitions of the UTXO state machine.
@@ -363,6 +369,9 @@ components:
         address:
           oneOf:
             - $ref: '#/components/schemas/AliasAddress'
+      required:
+        - type
+        - address
     StorageDepositReturnUnlockCondition:
       description: Can be unlocked by depositting return amount to return address via an output that only has Address Unlock Condition.
       properties:
@@ -379,6 +388,10 @@ components:
           type: integer
           description: Amount of IOTA tokens the consuming transaction should deposit to the address defined in Return Address.
           example: 50
+      required:
+        - type
+        - returnAddress
+        - returnAmount
     TimelockUnlockCondition:
       description: Can be unlocked if the confirming milestone has a >= Milestone Index/Unixt Timestamp.
       properties:
@@ -394,6 +407,10 @@ components:
           type: integer
           description: Unix time (seconds since Unix epoch) starting from which the output can be consumed.
           example: 1609950538
+      required:
+        - type
+        - milestoneIndex
+        - unixTime
     ExpirationUnlockCondition:
       description: Defines a milestone index and/or unix time until which only Address, defined in Address Unlock Condition, is allowed to unlock the output. After the milestone index and/or unix time, only Return Address can unlock it.
       properties:
@@ -414,6 +431,11 @@ components:
           type: integer
           description: Before this unix time, Address Unlock Condition is allowed to unlock the output, after that only the address defined in Return Address.
           example: 1609950538
+      required:
+        - type
+        - returnAddress
+        - milestoneIndex
+        - unixTime
     StateControllerAddressUnlockCondition:
       description: Can be unlocked by unlocking the address.
       properties:
@@ -426,6 +448,9 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AliasAddress'
             - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - address
     GovernorAddressUnlockCondition:
       description: Can be unlocked by unlocking the address.
       properties:
@@ -438,6 +463,9 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AliasAddress'
             - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - address
     SenderBlock:
       description: Identifies the validated sender of the output.
       properties:
@@ -450,6 +478,9 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AliasAddress'
             - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - sender
     IssuerBlock:
       description: Identifies the validated issuer of the UTXO state machine (alias/NFT).
       properties:
@@ -457,11 +488,14 @@ components:
           type: integer
           description: Set to value 1 to denote an Issuer Block.
           example: 1
-        sender:
+        issuer:
           oneOf:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AliasAddress'
             - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - issuer
     MetadataBlock:
       description: Defines metadata (arbitrary binary data) that will be stored in the output.
       properties:
@@ -473,6 +507,9 @@ components:
           type: string
           description: Hex-encoded binary data.
           example: "0xfa0de75d225cca2799395e5fc340702fc7eac8"
+      required:
+        - type
+        - data
     TagBlock:
       description: Defines an indexation tag to which the output can be indexed by additional node plugins.
       properties:
@@ -484,6 +521,9 @@ components:
           type: string
           description: Hex-encoded binary indexation tag.
           example: "0xfa0de75"
+      required:
+        - type
+        - tag
     SimpleTokenScheme:
       description: Defines the simple supply control scheme of native tokens. Tokens can be minted by the foundry without additional restrictions as long as maximum supply is requested and circulating supply is not negative.
       properties:
@@ -664,8 +704,6 @@ components:
         - amount
         - serialNumber
         - tokenTag
-        - circulatingSupply
-        - maxSupply
         - tokenScheme
         - unlockConditions
     NFTOutput:
