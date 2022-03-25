@@ -35,5 +35,5 @@
       "type": "string"
     }
   },
-  "required": [ "name", "symbol", "decimals", "url" ]
+  "required": [ "name", "symbol", "decimals" ]
 }
