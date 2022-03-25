@@ -32,6 +32,9 @@ The following TIPs are currently being discussed and are awaiting further contri
  | 24  | [Tangle Message](https://github.com/iotaledger/tips/pull/55)                            | A new version of TIP-6 that removes the Indexation Payload and instead adds the Tagged Data Payload as a supported payload | Standards | Core      | Draft  |
  | 25  | [Core REST API](https://github.com/iotaledger/tips/pull/57)                             | Node Core REST API routes and objects in OpenAPI Specification                                                             | Standards | Interface | Draft  |
  | 26  | [UTXO Indexer REST API](https://github.com/iotaledger/tips/pull/62)                     | UTXO Indexer REST API routes and objects in OpenAPI Specification                                                          | Standards | Interface | Draft  |
+| 27  | [IOTA NFT standards](https://github.com/iotaledger/tips/pull/65)                        | Define NFT metadata standard, policy registry and creator royalties                                                        | Standards | IRC       | Draft  |
+| 28  | [Node Event API](https://github.com/iotaledger/tips/pull/66)                            | Node event API definitions in AsyncAPI Specification                                                                       | Standards | Interface | Draft  |
+| 29  | [Native Token Metadata Standard](https://github.com/iotaledger/tips/pull/68)            | A JSON schema that describes token metadata format for native token foundries.                                             | Standards | Interface | Draft  |
 
 ## Accepted TIPs (as of 2022-01-16)
 
