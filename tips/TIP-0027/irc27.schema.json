@@ -1,0 +1,40 @@
+{
+  // name of the standard
+  "standard" : "IRC27",
+  // type can be "image", "audio", "video", "document", "3dAsset"
+  "type": "image",
+  // Version of IRC27 standard being used
+  "version": "v1.0",
+  // Object containing the actual NFT metadata
+  "object": {
+    // define the required utxo identifier for the NFT,
+    // the utxo identitfier for the issuer and the file location
+    "nftId": "vt7rye8tgvr7e89w",
+    // Link to the file 
+    "tokenURI": "https://mywebsite.com/myfile.png",
+    // define the optional keys for the base schema
+    
+    // name of the asset
+    "tokenName": "My NFT #0001",
+    // unique policy ID identifier
+    "policyId": "7f9e0rwf7e90w",
+    // human readable name for the collection
+    "policyName": "My Collection of Art",
+    // Key Value pair collection of royalty addresses, where address is mapped to the percentage of payout to be sent to it
+    "royalties": {
+      "iota1...a": 0.5,
+      "iota1...b": 0.5
+    },
+    // Name of the artist
+    "issuerName": "My Artist Name",
+    // description of the asset
+    "description": "A little information about my NFT collection",
+    // define optional attributes for NFT metadata
+    "attributes": {
+      "Background": "Purple",
+      "Element": "Water",
+      "Attack": "150",
+      "Health": "500"
+    }
+  }
+}
