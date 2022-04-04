@@ -2060,7 +2060,7 @@ components:
           description: Hex-encoded binary data with 0x prefix.
         receipt:
           type: object
-          description: The inner payload of the milestone. Can be nil or a Receipt.
+          description: The inner receipt payload of the milestone. Can be nil or a Receipt.
           oneOf:
             - $ref: '#/components/schemas/ReceiptPayload'
         signatures:
