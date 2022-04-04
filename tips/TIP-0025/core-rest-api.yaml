@@ -1426,6 +1426,7 @@ components:
           items:
             type: string
         payload:
+          description: The inner payload of the message. Can be nil.
           oneOf:
             - $ref: '#/components/schemas/TransactionPayload'
             - $ref: '#/components/schemas/MilestonePayload'
@@ -1437,7 +1438,6 @@ components:
       required:
         - protocolVersion
         - parentMessageIds
-        - payload
         - nonce
 
     TransactionPayload:
@@ -1477,11 +1477,13 @@ components:
           description: BLAKE2b-256 hash of the serialized outputs referenced in Inputs by their outputIds (transactionId || outputIndex). Hex-encoded data with 0x prefix.
         inputs:
           type: array
+          description: The inputs of this transaction.
           items:
             oneOf:
               - $ref: '#/components/schemas/UTXOInput'
         outputs:
           type: array
+          description: The outputs of this transaction.
           items:
             anyOf:
               - $ref: '#/components/schemas/BasicOutput'
@@ -1489,6 +1491,7 @@ components:
               - $ref: '#/components/schemas/FoundryOutput'
               - $ref: '#/components/schemas/NFTOutput'
         payload:
+          description: The optional embedded payload.
           oneOf:
             - $ref: '#/components/schemas/TaggedDataPayload'
           nullable: true
@@ -1498,7 +1501,6 @@ components:
         - inputsCommitment
         - inputs
         - outputs
-        - payload
 
     UTXOInput:
       description: Describes an input which references an unspent transaction output to consume.
