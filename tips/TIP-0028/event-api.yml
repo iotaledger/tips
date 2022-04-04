@@ -159,6 +159,43 @@ channels:
       description: Publishes newly spent outputs that have a specific address in a specific unlock condition.
       message:
         $ref: '#/components/messages/OutputPayload'
+  outputs/aliases/{aliasId}:
+    parameters:
+      aliasId:
+        description: The unique identifier of the alias chain. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          example: "0x6457f5f1bc2c3ec696889309cee0665c298f6394"
+    subscribe:
+      operationId: aliasOutputByAliasId
+      description: Publishes the newly created alias output of an alias chain.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+  outputs/nfts/{nftId}:
+    parameters:
+      nftId:
+        description: The unique identifier of the nft chain. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          example: "0x89168d92d0b88cdb4f80c0eb830bb4bed3441fcd"
+    subscribe:
+      operationId: nftOutputByNftId
+      description: Publishes the newly created nft output of an nft chain.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+  outputs/foundries/{foundryId}:
+    parameters:
+      foundryId:
+        description: The unique identifier of the foundry chain. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          example: "0x0868cebac478305970c1be92c4b4c54f7dc5eb3e790100000000"
+    subscribe:
+      operationId: foundryOutputByFoundryId
+      description: Publishes the newly created foundry output of a foundry chain.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+
 components:
   messages:
     MilestonePayload:
