@@ -22,8 +22,8 @@
     "policyName": "My Collection of Art",
     // Key Value pair collection of royalty addresses, where address is mapped to the percentage of payout to be sent to it
     "royalties": {
-      "iota1...a": 0.5,
-      "iota1...b": 0.5
+      "iota1...a": 0.025,
+      "iota1...b": 0.025
     },
     // Name of the artist
     "issuerName": "My Artist Name",
