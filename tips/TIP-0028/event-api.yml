@@ -39,7 +39,7 @@ channels:
       description: Publishes newly received messages containing a transaction payload in their serialized binary form.
       message:
         $ref: '#/components/messages/Message'
-  messages/transaction/taggedData/{tag}:
+  messages/transaction/tagged-data/{tag}:
     parameters:
       tag:
         description: Hex encoded tag of the Tagged Data Payload inside the Transaction Payload.
@@ -48,7 +48,7 @@ channels:
           example: "0xe45"
     subscribe:
       operationId: messagesTransactionsWithTag
-      description: Publishes newly received messages containing a tagged Data payload inside transactions with a specific tag.
+      description: Publishes newly received messages containing a Tagged Data payload inside transactions with a specific tag.
       message:
         $ref: '#/components/messages/Message'
   messages/milestone:
@@ -57,7 +57,7 @@ channels:
       description: Publishes newly received messages containing a milestone payload in their serialized binary form.
       message:
         $ref: '#/components/messages/Message'
-  messages/taggedData/{tag}:
+  messages/tagged-data/{tag}:
     parameters:
       tag:
         description: Hex encoded tag of the Tagged Data Payload.
@@ -69,7 +69,7 @@ channels:
       description: Publishes newly received messages which contain tagged data payloads with the specified tag parameter (encoded in hex) in their serialized binary form. Untagged data messages do not get published.
       message:
         $ref: '#/components/messages/Message'
-  messages/taggedData:
+  messages/tagged-data:
     subscribe:
       operationId: messagesWithTaggedData
       description: Publishes newly received messages which contain tagged data payloads (encoded in hex) in their serialized binary form.
@@ -119,11 +119,11 @@ channels:
           type: string
           enum:
             - "address"
-            - "storageReturn"
-            - "expirationReturn"
-            - "stateController"
+            - "storage-return"
+            - "expiration"
+            - "state-controller"
             - "governor"
-            - "immutableAlias"
+            - "immutable-alias"
             - "+"
       address:
         description: Bech32 encoded address.
@@ -143,11 +143,11 @@ channels:
           type: string
           enum:
             - "address"
-            - "storageReturn"
-            - "expirationReturn"
-            - "stateController"
+            - "storage-return"
+            - "expiration"
+            - "state-controller"
             - "governor"
-            - "immutableAlias"
+            - "immutable-alias"
             - "+"
       address:
         description: Bech32 encoded address.
