@@ -1,40 +1,59 @@
+
 {
-  // name of the standard
-  "standard" : "IRC27",
-  // type can be "image", "audio", "video", "document", "3dAsset"
-  "type": "image",
-  // Version of IRC27 standard being used
-  "version": "v1.0",
-  // Object containing the actual NFT metadata
-  "object": {
-    // define the required utxo identifier for the NFT,
-    // the utxo identitfier for the issuer and the file location
-    "nftId": "vt7rye8tgvr7e89w",
-    // Link to the file 
-    "tokenURI": "https://mywebsite.com/myfile.png",
-    // define the optional keys for the base schema
-    
-    // name of the asset
-    "tokenName": "My NFT #0001",
-    // unique policy ID identifier
-    "policyId": "7f9e0rwf7e90w",
-    // human readable name for the collection
-    "policyName": "My Collection of Art",
-    // Key Value pair collection of royalty addresses, where address is mapped to the percentage of payout to be sent to it
-    "royalties": {
-      "iota1...a": 0.025,
-      "iota1...b": 0.025
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/iotaledger/tips/main/tips/TIP-0027/irc27.schema.json",
+  "title": "IRC27 IOTA NFT Metadata Schema",
+  "description": "A JSON schema for validating IRC27 compliant NFT metadata",
+  "type": "object",
+  "properties": {
+    "standard": {
+      "type": "string",
+      "description": "identifier for the metadata standard used"
     },
-    // Name of the artist
-    "issuerName": "My Artist Name",
-    // description of the asset
-    "description": "A little information about my NFT collection",
-    // define optional attributes for NFT metadata
+    "version": {
+      "type": "string",
+      "description": "version of the metadata standard used",
+    },
+    "type": {
+      "type": "string",
+      "description": "MIME type of the asset"
+    },
+    "nftId": {
+      "type": "string",
+      "description": "UTXO identifier for the NFT"
+    },
+    "tokenUri": {
+      "type": "string",
+      "description": "URI pointing to the resource where the file is hosted"
+    }, 
+    "tokenName": {
+      "type": "string",
+      "description": "name of the specific token"
+    },
+    "policyId": {
+      "type": "string",
+      "description": "unique policy ID identifier for the collection"
+    },
+    "policyName": {
+      "type": "string",
+      "description": "human readable name for the NFT"
+    },
+    "royalties": {
+      "type": "object",
+      "description": "object containing the payout addresses mapped to their percentage share"
+    },
+    "issuerName": {
+      "type": "object",
+      "description": "name of the artist"
+    },
+    "description": {
+      "type": "string",
+      "description": "some information abou the NFT project"
+    },
     "attributes": {
-      "Background": "Purple",
-      "Element": "Water",
-      "Attack": "150",
-      "Health": "500"
+      "type": "object",
+      "description": "object containing any additional arbitrary key-pairs"
     }
-  }
+  },
+  "required": [ "standard", "type", "version", "nftId", "tokenUri" ]
 }
