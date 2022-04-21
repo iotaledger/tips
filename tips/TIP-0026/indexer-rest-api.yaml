@@ -14,7 +14,7 @@ externalDocs:
 servers:
   - url: 'http://127.0.0.1:14265'
 tags:
-  - name: outputs
+  - name: basic outputs
     description: Query Basic Outputs.
   - name: aliases
     description: Query Alias Outputs.
