@@ -888,9 +888,14 @@ components:
         version: 0.6.0-alpha
         status:
           isHealthy: true
-          latestMilestoneTimestamp: 1617802102
-          latestMilestoneIndex: 480
-          confirmedMilestoneIndex: 480
+          latestMilestone:
+            index: 480
+            timestamp: 1617802102
+            milestoneId: "0xb59ff329113b0da14343707450cb28d41fa18b295deabc4beb3fc1b6e70f9d9e"
+          confirmedMilestone:
+            index: 480
+            timestamp: 1617802102
+            milestoneId: "0xb59ff329113b0da14343707450cb28d41fa18b295deabc4beb3fc1b6e70f9d9e"
           pruningIndex: 0
         metrics:
           messagesPerSecond: 17
@@ -2376,18 +2381,40 @@ components:
             isHealthy:
               type: boolean
               description: Tells whether the node is healthy or not.
-            latestMilestoneTimestamp:
-              type: integer
-              description: The timestamp of the latest seen milestone.
-            latestMilestoneIndex:
-              type: integer
-              description: The most recent milestone known to the node.
-            confirmedMilestoneIndex:
-              type: integer
-              description: The most recent milestone that has been confirmed by the node.
-            pruningIndex:
-              type: integer
-              description: Tells from which starting point the node holds data.
+            latestMilestone:
+              type: object
+              description: Information about the latest seen milestone.
+              properties:
+                index:
+                  type: integer
+                  description: The index of the latest seen milestone.
+                timestamp:
+                  type: integer
+                  description: The timestamp of the latest seen milestone.
+                milestoneId:
+                  type: string
+                  description: The Milestone ID of the latest seen milestone. Hex-encoded with 0x prefix.
+              required:
+                - index
+                - timestamp
+                - milestoneId
+            confirmedMilestone:
+              type: object
+              description: Information about the latest confirmed milestone.
+              properties:
+                index:
+                  type: integer
+                  description: The index of the latest confirmed milestone.
+                timestamp:
+                  type: integer
+                  description: The timestamp of the latest confirmed milestone.
+                milestoneId:
+                  type: string
+                  description: The Milestone ID of the latest confirmed milestone. Hex-encoded with 0x prefix.
+              required:
+                - index
+                - timestamp
+                - milestoneId
         metrics:
           description: Node metrics.
           properties:
@@ -2403,6 +2430,10 @@ components:
               description: The ratio of referenced messages in relation to new messages of the last confirmed milestone.
               type: number
               format: float
+          required:
+            - messagesPerSecond
+            - referencedMessagesPerSecond
+            - referencedRate
         protocol:
           description: Protocol parameters.
           properties:
@@ -2428,6 +2459,11 @@ components:
                 vByteFactoKey:
                   description: Defines the factor to be used for key/lookup generating fields.
                   type: integer
+          required:
+            - networkName
+            - bech32HRP
+            - minPoWScore
+            - rentStructure
         features:
           description: The features that are supported by the node. For example, a node could support the Proof-of-Work (PoW) feature, which would allow the PoW to be performed by the node itself.
           type: array
