@@ -23,7 +23,7 @@ tags:
   - name: nfts
     description: Query NFT Outputs.
 paths:
-  /api/plugins/indexer/v1/outputs:
+  /api/plugins/indexer/v1/basic-outputs:
     get:
       tags:
         - outputs
