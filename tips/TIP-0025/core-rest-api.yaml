@@ -26,6 +26,8 @@ tags:
     description: Everything about milestones.
   - name: peers
     description: Everything about the peers of the node.
+  - name: control
+    description: Everything about controlling the node.
 paths:
   /health:
     get:
@@ -968,6 +970,157 @@ paths:
         '500':
           description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
 
+  '/api/v2/whiteflag':
+    post:
+      tags:
+        - milestones
+      summary: Computes applied and confirmed merkle route hashes for a proposed milestone.
+      description: Computes applied and confirmed merkle route hashes for a proposed milestone.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComputeWhiteFlagRequest'
+            examples:
+              default:
+                $ref: '#/components/examples/compute-whiteflag-request-example'
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComputeWhiteFlagResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/compute-whiteflag-response-example'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  '/api/v2/control/database/prune':
+    post:
+      tags:
+        - control
+      summary: Prunes the node database.
+      description: Prunes the node database..
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PruneDatabaseRequest'
+            examples:
+              default:
+                $ref: '#/components/examples/database-prune-request-example'
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PruneDatabaseResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/database-prune-response-example'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  '/api/v2/control/snapshot/create':
+    post:
+      tags:
+        - control
+      summary: Creates a new snapshot.
+      description: Creates a new snapshot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSnapshotRequest'
+            examples:
+              Full Snapshot:
+                $ref: '#/components/examples/create-full-snapshot-request-example'
+              Delta Snapshot:
+                $ref: '#/components/examples/create-delta-snapshot-request-example'
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSnapshotResponse'
+              examples:
+                Full Snapshot:
+                  $ref: '#/components/examples/create-full-snapshot-response-example'
+                Delta Snapshot:
+                  $ref: '#/components/examples/create-delta-snapshot-response-example'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
 components:
   examples:
     get-info-response-example:
@@ -1548,6 +1701,48 @@ components:
             sentMilestoneRequests: 31
             sentHeartbeats: 9
             droppedPackets: 0
+
+    compute-whiteflag-request-example:
+      value:
+        index: 1560
+        timestamp: 1602227215
+        parentMessageIds:
+          - "0x174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d6"
+          - "0x5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c"
+          - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
+          - "0xde9e9d780ba7ebeebc38da16cb53b2a8991d38eee94bcdc3f3ef99aa8c345652"
+        lastMilestoneId: "0x733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d"
+
+    compute-whiteflag-response-example:
+      value:
+        confirmedMerkleRoot: "0x52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649"
+        appliedMerkleRoot: "0xbbffde11ef804fdbc7c8f62432937b7a00806c136eca21c54038d5a6bdd16251"
+
+    database-prune-request-example:
+      value:
+        targetDatabaseSize: 21474836480
+
+    database-prune-response-example:
+      value:
+        index: 1560
+
+    create-full-snapshot-request-example:
+      value:
+        fullIndex: 1560
+
+    create-full-snapshot-response-example:
+      value:
+        fullIndex: 1560
+        fullFilePath: "snapshots/mainnet/full_snapshot_1560.bin"
+
+    create-delta-snapshot-request-example:
+      value:
+        deltaIndex: 1000
+
+    create-delta-snapshot-response-example:
+      value:
+        deltaIndex: 1000
+        deltaFilePath: "snapshots/mainnet/delta_snapshot_1000.bin"
 
   schemas:
 
@@ -2931,3 +3126,87 @@ components:
       properties:
         allOf:
           $ref: '#/components/schemas/Peer'
+
+    ComputeWhiteFlagRequest:
+      description: Milestone info and parents to start the computation from.
+      properties:
+        index:
+          type: integer
+          description: The index of the milestone.
+        timestamp:
+          type: integer
+          description: The timestamp of the milestone.
+        parentMessageIds:
+          type: array
+          description: The hex encoded message IDs of the parents the milestone references.
+          items:
+            type: string
+        lastMilestoneId:
+          type: string
+          description: The hex encoded milestone ID of the previous milestone.
+      required:
+        - index
+        - timestamp
+        - parentMessageIds
+        - lastMilestoneId
+
+    ComputeWhiteFlagResponse:
+      description: Returns the computed ConfirmedMerkleRoot and AppliedMerkleRoot
+      properties:
+        confirmedMerkleRoot:
+          type: string
+          description: The hex encoded confirmed merkle tree root as a result of the white flag computation.
+        appliedMerkleRoot:
+          type: string
+          description: The hex encoded applied merkle tree root as a result of the white flag computation.
+      required:
+        - confirmedMerkleRoot
+        - appliedMerkleRoot
+
+    PruneDatabaseRequest:
+      description:  Defines the request of a prune database REST API call
+      properties:
+        index:
+          type: integer
+          description: The pruning target index.
+        depth:
+          type: integer
+          description: The pruning depth.
+        targetDatabaseSize:
+          type: string
+          description: The target size of the database in bytes.
+
+    PruneDatabaseResponse:
+      description: Defines the response of a prune database REST API call
+      properties:
+        index:
+          type: integer
+          description: The index of the snapshot.
+      required:
+        - index
+
+    CreateSnapshotRequest:
+      description: Defines the request of a create snapshots REST API call.
+      properties:
+        fullIndex:
+          type: integer
+          description: The index of the full snapshot.
+        delatIndex:
+          type: integer
+          description: The index of the delta snapshot.
+
+    CreateSnapshotResponse:
+      description: Defines the request of a create snapshots REST API call.
+      properties:
+        fullIndex:
+          type: integer
+          description: The index of the full snapshot.
+        delatIndex:
+          type: integer
+          description: The index of the delta snapshot.
+        fullFilePath:
+          type: string
+          description: The file path of the full snapshot file.
+        deltaFilePath:
+          type: string
+          description: The file path of the delta snapshot file.
