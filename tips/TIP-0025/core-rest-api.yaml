@@ -431,13 +431,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-
-  '/api/v2/outputs/{outputId}':
+  '/api/v2/outputs/{outputId}/metadata':
     get:
       tags:
         - UTXO
-      summary: Find an output by its identifier.
-      description: Find an output by its identifier.
+      summary: Returns metadata about an output by its identifier.
+      description: Returns metadata about an output by its identifier.
       parameters:
         - in: path
           name: outputId
@@ -454,12 +453,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OutputResponse'
+                $ref: '#/components/schemas/OutputMetadataResponse'
               examples:
                 unspent:
-                  $ref: '#/components/examples/get-outputs-by-id-response-unspent-example'
+                  $ref: '#/components/examples/get-output-metadata-by-id-response-unspent-example'
                 spent:
-                  $ref: '#/components/examples/get-outputs-by-id-response-spent-example'
+                  $ref: '#/components/examples/get-output-metadata-by-id-response-spent-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -526,7 +525,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
-
   '/api/v2/receipts/{migratedAt}':
     get:
       tags:
@@ -576,7 +574,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
-
 
   '/api/v2/treasury':
     get:
@@ -1318,6 +1315,29 @@ components:
               address:
                 type: 0
                 pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
+
+    get-output-metadata-by-id-response-unspent-example:
+      value:
+        messageId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
+        transactionId: "0x1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298"
+        outputIndex: 1
+        isSpent: false
+        milestoneIndexBooked: 1234567
+        milestoneTimestampBooked: 1643207146
+        ledgerIndex: 946704
+
+    get-output-metadata-by-id-response-spent-example:
+      value:
+        messageId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
+        transactionId: "0xfa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a2"
+        outputIndex: 1
+        isSpent: true
+        milestoneIndexSpent: 1234570
+        milestoneTimestampSpent: 1643207176
+        transactionIdSpent: "0xaf7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef"
+        milestoneIndexBooked: 1234567
+        milestoneTimestampBooked: 1643207146
+        ledgerIndex: 946704
 
     get-receipts-response-example:
       value:
@@ -2777,6 +2797,51 @@ components:
         - milestoneIndexBooked
         - milestoneTimestampBooked
         - output
+        - ledgerIndex
+
+    OutputMetadataResponse:
+      description: Returns metadata about an output.
+      properties:
+        messageId:
+          type: string
+          description: The message identifier that references the output. Hex-encoded with 0x prefix.
+        transactionId:
+          type: string
+          description: The identifier of the transaction. Hex-encoded with 0x prefix.
+        outputIndex:
+          type: integer
+          description: The index of the output.
+        isSpent:
+          type: boolean
+          description: Tells if the output is spent or not.
+        milestoneIndexSpent:
+          type: integer
+          description: The milestone index at which this output was spent.
+          nullable: true
+        milestoneTimestampSpent:
+          type: integer
+          description: The milestone timestamp this output was spent.
+          nullable: true
+        transactionIdSpent:
+          type: string
+          description: The transaction this output was spent with. Hex-encoded with 0x prefix.
+          nullable: true
+        milestoneIndexBooked:
+          type: integer
+          description: The milestone index at which the output was booked.
+        milestoneTimestampBooked:
+          type: integer
+          description: The milestone unix timestamp at which the output was booked.
+        ledgerIndex:
+          type: integer
+          description: The current ledger index for which the request was made.
+      required:
+        - messageId
+        - transactionId
+        - outputIndex
+        - isSpent
+        - milestoneIndexBooked
+        - milestoneTimestampBooked
         - ledgerIndex
 
     ReceiptsResponse:
