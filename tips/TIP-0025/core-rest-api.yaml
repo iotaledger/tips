@@ -204,10 +204,6 @@ paths:
           example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
           description: Identifier of the message.
-      requestBody:
-        content:
-          application/json: {}
-          application/vnd.iota.serializer-v1: {}
       responses:
         '200':
           description: "Successful operation."
@@ -386,10 +382,6 @@ paths:
             Identifier of the output encoded in hex. An output is identified by
             the concatenation of `transactionId+outputIndex`. Hex-encoded with 0x prefix.
           example: "0xfa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a20100"
-      requestBody:
-        content:
-          application/json: {}
-          application/vnd.iota.serializer-v1: {}
       responses:
         '200':
           description: "Successful operation."
@@ -633,10 +625,6 @@ paths:
           example: "0xaf7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef"
           required: true
           description: Identifier of the transaction to look up.
-      requestBody:
-        content:
-          application/json: { }
-          application/vnd.iota.serializer-v1: { }
       responses:
         '200':
           description: "Successful operation."
@@ -3103,7 +3091,7 @@ components:
       description: Returns all peers of the node.
       type: array
       items:
-        - $ref: '#/components/schemas/Peer'
+        $ref: '#/components/schemas/Peer'
 
     PeerResponse:
       description: Returns a given peer of the node.
