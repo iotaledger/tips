@@ -904,6 +904,8 @@ components:
         protocol:
           networkName: iota-testnet
           bech32HRP: atoi
+          tokenSupply: "2779530283277761"
+          protocolVersion: 2
           minPoWScore: 1000
           rentStructure:
             vByteCost: 500
@@ -2443,6 +2445,12 @@ components:
             bech32HRP:
               type: string
               description: Tells whether the node supports mainnet or testnet addresses. Value `iota` indicates that the node supports mainnet addresses. Value `atoi` indicates that the node supports testnet addresses.
+            tokenSupply:
+              type: string
+              description: Current supply of base token. Plain string encoded number.
+            protocolVersion:
+              type: integer
+              description: Protocol version used by the network.
             minPoWScore:
               description: The Proof-of-Work difficulty for a message to be sent over the network to mitigate spam.
               type: number
@@ -2462,6 +2470,8 @@ components:
           required:
             - networkName
             - bech32HRP
+            - tokenSupply
+            - protocolVersion
             - minPoWScore
             - rentStructure
         features:
