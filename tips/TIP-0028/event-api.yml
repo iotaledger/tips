@@ -17,6 +17,8 @@ tags:
     description: Everything about outputs.
   - name: transactions
     description: Everything about transactions.
+  - name: receipts
+    description: Everything about migration receipts.
 channels:
   milestone-info/latest:
     subscribe:
@@ -250,6 +252,14 @@ channels:
       description: Publishes newly spent outputs that have a specific address in a specific unlock condition.
       message:
         $ref: '#/components/messages/OutputPayload'
+  receipts:
+    subscribe:
+      tags:
+       - name: receipts
+      operationId: receipts
+      description: Publishes newly created migration receipts in raw binary format.
+      message:
+        $ref: '#/components/messages/Receipt'
 
 
 components:
@@ -369,6 +379,14 @@ components:
         format: binary
         example: >-
           0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000eb000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000020000016920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92640000000000000000018afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd65d5d2dd3f7df09000000000001000001f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c9095100000000000000
+    Receipt:
+      contentType: application/octet-stream
+      description: The migration receipts in its serialized binary form.
+      payload:
+        type: string
+        format: binary
+        example: >-
+          010000000000000000000000000000000000000000000000000000000000000000000000000000000
     OutputPayload:
       contentType: application/json
       payload:
