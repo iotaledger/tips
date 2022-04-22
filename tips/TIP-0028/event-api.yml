@@ -3,46 +3,69 @@ info:
   title: Node Event API
   contact:
     email: contact@iota.org
-  version: 1.0.0
+  version: 2.0.0
   description: The node event API is in charge of publishing information about events within the node software.
 externalDocs:
   description: Find out more about IOTA
   url: 'https://iota.org'
+tags:
+  - name: milestones
+    description: Everything about milestones.
+  - name: messages
+    description: Everything about messages.
+  - name: outputs
+    description: Everything about outputs.
+  - name: transactions
+    description: Everything about transactions.
 channels:
-  milestone-index/latest:
+  milestone-info/latest:
     subscribe:
-      operationId: milestoneIndexLatest
+      operationId: milestoneInfoLatest
+      tags:
+        - name: milestones
       description: Publishes the newest latest known milestone index and its timestamp.
       message:
-        $ref: '#/components/messages/MilestoneIndexResponse'
-  milestone-index/confirmed:
+        $ref: '#/components/messages/MilestoneInfoResponse'
+  milestone-info/confirmed:
     subscribe:
-      operationId: milestoneIndexConfirmed
+      tags:
+        - name: milestones
+      operationId: milestoneInfoConfirmed
       description: Publishes the newly confirmed milestone index and its timestamp.
       message:
-        $ref: '#/components/messages/MilestoneIndexResponse'
+        $ref: '#/components/messages/MilestoneInfoResponse'
   milestones:
     subscribe:
+      tags:
+        - name: milestones
       operationId: milestones
       description: Publishes newly created milestone payloads.
       message:
-        $ref: '#/components/messages/MilestonePayload'
+        $ref: '#/components/messages/MilestonePayloadSerialized'
   messages:
     subscribe:
+      tags:
+        - name: messages
       operationId: messages
       description: Publishes newly received messages in their serialized binary form.
       message:
         $ref: '#/components/messages/Message'
-  messages/referenced:
-    subscribe:
-      operationId: messagesReferenced
-      description: Publishes metadata of messages newly referenced by a milestone.
-      message:
-        $ref: '#/components/messages/MessageMetadata'
   messages/transaction:
     subscribe:
+      tags:
+        - name: messages
+        - name: transactions
       operationId: messagesTransaction
       description: Publishes newly received messages containing a transaction payload in their serialized binary form.
+      message:
+        $ref: '#/components/messages/Message'
+  messages/transaction/tagged-data:
+    subscribe:
+      tags:
+        - name: messages
+        - name: transactions
+      operationId: messagesTransactionsWithTaggedData
+      description: Publishes newly received messages containing a Tagged Data payload inside transactions.
       message:
         $ref: '#/components/messages/Message'
   messages/transaction/tagged-data/{tag}:
@@ -53,14 +76,19 @@ channels:
           type: string
           example: "0xe45"
     subscribe:
+      tags:
+        - name: messages
+        - name: transactions
       operationId: messagesTransactionsWithTag
       description: Publishes newly received messages containing a Tagged Data payload inside transactions with a specific tag.
       message:
         $ref: '#/components/messages/Message'
-  messages/milestone:
+  messages/tagged-data:
     subscribe:
-      operationId: messagesMilestone
-      description: Publishes newly received messages containing a milestone payload in their serialized binary form.
+      tags:
+        - name: messages
+      operationId: messagesWithTaggedData
+      description: Publishes newly received messages which contain tagged data payloads (encoded in hex) in their serialized binary form.
       message:
         $ref: '#/components/messages/Message'
   messages/tagged-data/{tag}:
@@ -71,17 +99,13 @@ channels:
           type: string
           example: "0xe45"
     subscribe:
+      tags:
+        - name: messages
       operationId: messagesWithSpecificTag
       description: Publishes newly received messages which contain tagged data payloads with the specified tag parameter (encoded in hex) in their serialized binary form. Untagged data messages do not get published.
       message:
         $ref: '#/components/messages/Message'
-  messages/tagged-data:
-    subscribe:
-      operationId: messagesWithTaggedData
-      description: Publishes newly received messages which contain tagged data payloads (encoded in hex) in their serialized binary form.
-      message:
-        $ref: '#/components/messages/Message'
-  messages/{messageId}/metadata:
+  messages-metadata/{messageId}:
     parameters:
       messageId:
         description: Hex encoded identifier of the message.
@@ -89,8 +113,18 @@ channels:
           type: string
           example: "0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85"
     subscribe:
+      tags:
+        - name: messages
       operationId: messagesSpecificMetadata
       description: Publishes metadata of a particular message whenever its metadata changes.
+      message:
+        $ref: '#/components/messages/MessageMetadata'
+  messages-metadata/referenced:
+    subscribe:
+      tags:
+        - name: messages
+      operationId: messagesMetadataReferenced
+      description: Publishes metadata of a message whenever it gets referenced.
       message:
         $ref: '#/components/messages/MessageMetadata'
   transactions/{transactionId}/included-message:
@@ -101,6 +135,8 @@ channels:
           type: string
           example: "0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7"
     subscribe:
+      tags:
+        - name: transactions
       operationId: transactions
       description: Publishes the confirmed message which carried the transaction with the specified transaction id.
       message:
@@ -113,8 +149,53 @@ channels:
           type: string
           example: "0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be70000"
     subscribe:
+      tags:
+        - name: outputs
       operationId: output
       description: Publishes the given wanted output on subscription and when its state changes (created, spent).
+      message:
+        $ref: '#/components/messages/OutputPayload'
+  outputs/aliases/{aliasId}:
+
+    parameters:
+      aliasId:
+        description: The unique identifier of the alias chain. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          example: "0x6457f5f1bc2c3ec696889309cee0665c298f6394"
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: aliasOutputByAliasId
+      description: Publishes the newly created alias output of an alias chain.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+  outputs/nfts/{nftId}:
+    parameters:
+      nftId:
+        description: The unique identifier of the nft chain. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          example: "0x89168d92d0b88cdb4f80c0eb830bb4bed3441fcd"
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: nftOutputByNftId
+      description: Publishes the newly created nft output of an nft chain.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+  outputs/foundries/{foundryId}:
+    parameters:
+      foundryId:
+        description: The unique identifier of the foundry chain. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          example: "0x0868cebac478305970c1be92c4b4c54f7dc5eb3e790100000000"
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: foundryOutputByFoundryId
+      description: Publishes the newly created foundry output of a foundry chain.
       message:
         $ref: '#/components/messages/OutputPayload'
   outputs/unlock/{condition}/{address}:
@@ -137,6 +218,8 @@ channels:
           type: string
           example: "iota1qrwfnskm4f7utdrxqnkfntfqxehtpj8s0kf68zkcwm0yrhuemzjp5sjfw5v"
     subscribe:
+      tags:
+        - name: outputs
       operationId: outputByUnlockAndAddress
       description: Publishes newly created outputs that have a specific address in a specific unlock condition.
       message:
@@ -161,46 +244,13 @@ channels:
           type: string
           example: "iota1qrwfnskm4f7utdrxqnkfntfqxehtpj8s0kf68zkcwm0yrhuemzjp5sjfw5v"
     subscribe:
+      tags:
+        - name: outputs
       operationId: outputByUnlockAndAddressSpent
       description: Publishes newly spent outputs that have a specific address in a specific unlock condition.
       message:
         $ref: '#/components/messages/OutputPayload'
-  outputs/aliases/{aliasId}:
-    parameters:
-      aliasId:
-        description: The unique identifier of the alias chain. Hex encoded with 0x prefix.
-        schema:
-          type: string
-          example: "0x6457f5f1bc2c3ec696889309cee0665c298f6394"
-    subscribe:
-      operationId: aliasOutputByAliasId
-      description: Publishes the newly created alias output of an alias chain.
-      message:
-        $ref: '#/components/messages/OutputPayload'
-  outputs/nfts/{nftId}:
-    parameters:
-      nftId:
-        description: The unique identifier of the nft chain. Hex encoded with 0x prefix.
-        schema:
-          type: string
-          example: "0x89168d92d0b88cdb4f80c0eb830bb4bed3441fcd"
-    subscribe:
-      operationId: nftOutputByNftId
-      description: Publishes the newly created nft output of an nft chain.
-      message:
-        $ref: '#/components/messages/OutputPayload'
-  outputs/foundries/{foundryId}:
-    parameters:
-      foundryId:
-        description: The unique identifier of the foundry chain. Hex encoded with 0x prefix.
-        schema:
-          type: string
-          example: "0x0868cebac478305970c1be92c4b4c54f7dc5eb3e790100000000"
-    subscribe:
-      operationId: foundryOutputByFoundryId
-      description: Publishes the newly created foundry output of a foundry chain.
-      message:
-        $ref: '#/components/messages/OutputPayload'
+
 
 components:
   messages:
@@ -220,6 +270,7 @@ components:
             type: number
             description: The UNIX timestamp in seconds of the milestone.
             example: 1609950538
+
     MilestonePayload:
       contentType: application/json
       payload:
@@ -280,7 +331,16 @@ components:
               anyOf:
                 - $ref: '#/components/schemas/Ed25519Signature'
 
-    MilestoneIndexResponse:
+    MilestonePayloadSerialized:
+      contentType: application/octet-stream
+      description: The milestone payload in its serialized form.
+      payload:
+        type: string
+        format: binary
+        example: >-
+          070000000a1a0000977c626276b19ef8b3c445709f2f0f2ccc4abb98d97617f421f240c0d1ee066d4306e67a0321889ef8ec89b7eff1378049e058f0fa87a78c2452ae72631a5a99d913d1cbb3525b8faa1800e28dfcb28154bcba10154c39ef87ceda793cb44f58ae1549c88ea13fe4a9695bb6f0aba6cb756522209e5066a96039ae12b398b975693bdc21e222997c86ff9bfc5844f0372d58ff6fa510688e53c181bbdf4db41f9b627540a70e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a80000000300d85e5b1590d898d1e0cdebb2e3b5337c8b76270142663d78811683ba47c17c989ad7a8f0ff2c6438bf435786d4a5b0125a5caf7367061b49a739389d5ebea234c0466c86f88a3f8add03bff04c2e34b214683f2f6983641e1d1185da7e2c3e0200d9922819a39e94ddf3907f4b9c8df93f39f026244fcb609205b9a879022599f218be2536d8b7b8547faa3dbdfe98339ebe9e2b2417a8a03eee02b2a8312b9e026dd0a33261a58a240cd0a1b06cdf1775d98d316f162d3eec402f4bf08bea2a0700f9d9656a60049083eef61487632187b351294c1fa23d118060d813db6d03e8b6ca8180d435708e826bc2042ccd667babb59c5cc461ff29dba966359fcd6fc511cdfdf10d6576f36ac2a6e5cb691e13968c13947ffbd9239939d3802b2fbe0f06
+
+    MilestoneInfoResponse:
       contentType: application/json
       payload:
         type: object
@@ -288,14 +348,18 @@ components:
           - "index"
           - "timestamp"
         properties:
-          index:
+          milestoneIndex:
             type: number
             description: The index of the milestone.
             example: 242412
-          timestamp:
+          milestoneTimestamp:
             type: number
             description: The UNIX timestamp in seconds of the milestone.
             example: 1609950538
+          milestoneId:
+            type: string
+            description: Hex encoded identifier of the milestone payload.
+            example: "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
 
     Message:
       contentType: application/octet-stream
