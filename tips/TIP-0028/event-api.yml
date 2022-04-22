@@ -107,7 +107,7 @@ channels:
       description: Publishes newly received messages which contain tagged data payloads with the specified tag parameter (encoded in hex) in their serialized binary form. Untagged data messages do not get published.
       message:
         $ref: '#/components/messages/Message'
-  messages-metadata/{messageId}:
+  message-metadata/{messageId}:
     parameters:
       messageId:
         description: Hex encoded identifier of the message.
@@ -117,15 +117,15 @@ channels:
     subscribe:
       tags:
         - name: messages
-      operationId: messagesSpecificMetadata
+      operationId: messageSpecificMetadata
       description: Publishes metadata of a particular message whenever its metadata changes.
       message:
         $ref: '#/components/messages/MessageMetadata'
-  messages-metadata/referenced:
+  message-metadata/referenced:
     subscribe:
       tags:
         - name: messages
-      operationId: messagesMetadataReferenced
+      operationId: messageMetadataReferenced
       description: Publishes metadata of a message whenever it gets referenced.
       message:
         $ref: '#/components/messages/MessageMetadata'
