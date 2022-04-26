@@ -1546,8 +1546,8 @@ components:
       value:
         type: 7
         index: 15465
-        messageId: "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
         timestamp: 1602227215
+        lastMilestoneId: "0x7ad3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
         parentMessageIds:
          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
          - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
@@ -2356,13 +2356,16 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 1 to denote a Milestone Payload.
+          description: Set to value 7 to denote a Milestone Payload.
         index:
           type: integer
           description: The index of the milestone.
         timestamp:
           type: integer
           description: The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.
+        lastMilestoneId:
+          type: string
+          description: The Milestone ID of the milestone with Index Number - 1.
         parentMessageIds:
           description: The identifiers of the messages this milestone references. Hex-encoded values with 0x prefix.
           type: array
@@ -2393,6 +2396,7 @@ components:
         - type
         - index
         - timestamp
+        - lastMilestoneId
         - parentMessageIds
         - confirmedMerkleRoot
         - appliedMerkleRoot
