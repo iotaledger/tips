@@ -1547,7 +1547,7 @@ components:
         type: 7
         index: 15465
         timestamp: 1602227215
-        lastMilestoneId: "0x7ad3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
+        previousMilestoneId: "0x7ad3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
         parentMessageIds:
          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
          - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
@@ -1699,7 +1699,7 @@ components:
           - "0x5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c"
           - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
           - "0xde9e9d780ba7ebeebc38da16cb53b2a8991d38eee94bcdc3f3ef99aa8c345652"
-        lastMilestoneId: "0x733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d"
+        previousMilestoneId: "0x733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d"
 
     compute-whiteflag-response-example:
       value:
@@ -2363,7 +2363,7 @@ components:
         timestamp:
           type: integer
           description: The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.
-        lastMilestoneId:
+        previousMilestoneId:
           type: string
           description: The Milestone ID of the milestone with Index Number - 1.
         parentMessageIds:
@@ -2396,7 +2396,7 @@ components:
         - type
         - index
         - timestamp
-        - lastMilestoneId
+        - previousMilestoneId
         - parentMessageIds
         - confirmedMerkleRoot
         - appliedMerkleRoot
@@ -3133,14 +3133,14 @@ components:
           description: The hex encoded message IDs of the parents the milestone references.
           items:
             type: string
-        lastMilestoneId:
+        previousMilestoneId:
           type: string
           description: The hex encoded milestone ID of the previous milestone.
       required:
         - index
         - timestamp
         - parentMessageIds
-        - lastMilestoneId
+        - previousMilestoneId
 
     ComputeWhiteFlagResponse:
       description: Returns the computed ConfirmedMerkleRoot and AppliedMerkleRoot
