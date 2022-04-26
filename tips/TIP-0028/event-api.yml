@@ -289,7 +289,7 @@ components:
           - "type"
           - "index"
           - "timestamp"
-          - "lastMilestone"
+          - "lastMilestoneId"
           - "parentMessageIds"
           - "pastConeMerkleProof"
           - "inclusionMerkleProof"
@@ -307,7 +307,7 @@ components:
             type: number
             description: The UNIX timestamp in seconds of the milestone.
             example: 1609950538
-          lastMilestone:
+          lastMilestoneId:
             type: string
             description: Milestone ID of the latest milestone. Hex-encoded with 0x prefix.
             example: "0x4bd78256357630f186a4b302b3b8df7c01061260baa8d014f34187862343cf4e"
