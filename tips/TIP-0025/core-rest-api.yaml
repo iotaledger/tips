@@ -667,56 +667,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  '/api/v2/milestones/index/{index}':
-    get:
-      tags:
-        - milestones
-      summary: Look up a milestone by a given milestone index.
-      description: Look up a milestone by a given milestone index.
-      parameters:
-        - in: path
-          name: index
-          schema:
-            type: number
-          example: 154862
-          required: true
-          description: Index of the milestone to look up.
-      responses:
-        '200':
-          description: "Successful operation."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MilestonePayload'
-              examples:
-                default:
-                  $ref: >-
-                    #/components/examples/get-milestone-response-example
-        '400':
-          description: "Unsuccessful operation: indicates that the provided data is invalid."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestResponse'
-        '403':
-          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ForbiddenResponse'
-        '404':
-          description: "Unsuccessful operation: indicates that the requested data was not found."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundResponse'
-        '500':
-          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/v2/milestones/milestoneId/{milestoneId}':
+  '/api/v2/milestones/{milestoneId}':
     get:
       tags:
         - milestones
@@ -741,6 +692,15 @@ paths:
                 default:
                   $ref: >-
                     #/components/examples/get-milestone-response-example
+            application/vnd.iota.serializer-v1:
+              schema:
+                type: string
+                format: binary
+                description: Milestone payload in raw binary format
+              examples:
+                default:
+                  $ref: >-
+                    #/components/examples/get-milestone-response-binary-example
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -765,12 +725,119 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/v2/milestones/{index}/utxo-changes':
+  '/api/v2/milestones/{milestoneId}/utxo-changes':
     get:
       tags:
         - milestones
-      summary: Get all UTXO changes of a given milestone.
-      description: Get all UTXO changes of a given milestone.
+      summary: Get all UTXO changes of a given milestone by milestone ID.
+      description: Get all UTXO changes of a given milestone by Milestone ID.
+      parameters:
+        - in: path
+          name: milestoneId
+          schema:
+            type: string
+          example: "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
+          required: true
+          description: Milestone ID of the milestone to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UTXOChangesResponse'
+              examples:
+                default:
+                  $ref: >-
+                    #/components/examples/get-utxo-changes-response-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+  '/api/v2/milestones/by-index/{index}':
+    get:
+      tags:
+        - milestones
+      summary: Look up a milestone by a given milestone index.
+      description: Look up a milestone by a given milestone index.
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: number
+          example: 154862
+          required: true
+          description: Index of the milestone to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilestonePayload'
+              examples:
+                default:
+                  $ref: >-
+                    #/components/examples/get-milestone-response-example
+            application/vnd.iota.serializer-v1:
+              schema:
+                type: string
+                format: binary
+                description: Milestone payload in raw binary format
+              examples:
+                default:
+                  $ref: >-
+                    #/components/examples/get-milestone-response-binary-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+  '/api/v2/milestones/by-index/{index}/utxo-changes':
+    get:
+      tags:
+        - milestones
+      summary: Get all UTXO changes of a given milestone by milestone index.
+      description: Get all UTXO changes of a given milestone by milestone index.
       parameters:
         - in: path
           name: index
@@ -814,6 +881,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
+
 
   /api/v2/peers:
     get:
@@ -1564,6 +1632,8 @@ components:
             publickKey: "0xee26ac07834c603c22130fced361ca58552b0dbfc63e4b73ba24b3b59d9f4050"
             signature: "0x0492a353f96883c472e2686a640e77eda30be8fcc417aa9fc1c15eae854661e0253287be6ea68f649f19ca590de0a6c57fb88635ef0e013310e0be2b83609503"
 
+    get-milestone-response-binary-example:
+      value: "070000000a1a0000977c626276b19ef8b3c445709f2f0f2ccc4abb98d97617f421f240c0d1ee066d4306e67a0321889ef8ec89b7eff1378049e058f0fa87a78c2452ae72631a5a99d913d1cbb3525b8faa1800e28dfcb28154bcba10154c39ef87ceda793cb44f58ae1549c88ea13fe4a9695bb6f0aba6cb756522209e5066a96039ae12b398b975693bdc21e222997c86ff9bfc5844f0372d58ff6fa510688e53c181bbdf4db41f9b627540a70e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a80000000300d85e5b1590d898d1e0cdebb2e3b5337c8b76270142663d78811683ba47c17c989ad7a8f0ff2c6438bf435786d4a5b0125a5caf7367061b49a739389d5ebea234c0466c86f88a3f8add03bff04c2e34b214683f2f6983641e1d1185da7e2c3e0200d9922819a39e94ddf3907f4b9c8df93f39f026244fcb609205b9a879022599f218be2536d8b7b8547faa3dbdfe98339ebe9e2b2417a8a03eee02b2a8312b9e026dd0a33261a58a240cd0a1b06cdf1775d98d316f162d3eec402f4bf08bea2a0700f9d9656a60049083eef61487632187b351294c1fa23d118060d813db6d03e8b6ca8180d435708e826bc2042ccd667babb59c5cc461ff29dba966359fcd6fc511cdfdf10d6576f36ac2a6e5cb691e13968c13947ffbd9239939d3802b2fbe0f06"
 
     get-utxo-changes-response-example:
       value:
