@@ -64,8 +64,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/InfoResponse'
               examples:
-                default:
+                IOTA:
                   $ref: '#/components/examples/get-info-response-example'
+                Shimmer:
+                  $ref: '#/components/examples/get-info-response-example-shimmer'
         '403':
           description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
           content:
@@ -1208,6 +1210,53 @@ components:
             vByteCost: 500
             vByteFactorData: 1
             vByteFactorKey: 10
+        baseToken:
+          name: "IOTA"
+          tickerSymbol: "MIOTA"
+          unit: "IOTA"
+          decimals: 0
+          subunit: null
+          useMetricPrefix: true
+        features:
+          - PoW
+        plugins:
+          - indexer/v1
+    get-info-response-example-shimmer:
+      value:
+        name: HORNET
+        version: 2.0.0-alpha8
+        status:
+          isHealthy: true
+          latestMilestone:
+            index: 480
+            timestamp: 1617802102
+            milestoneId: "0xb59ff329113b0da14343707450cb28d41fa18b295deabc4beb3fc1b6e70f9d9e"
+          confirmedMilestone:
+            index: 480
+            timestamp: 1617802102
+            milestoneId: "0xb59ff329113b0da14343707450cb28d41fa18b295deabc4beb3fc1b6e70f9d9e"
+          pruningIndex: 0
+        metrics:
+          messagesPerSecond: 17
+          referencedMessagesPerSecond: 16.8
+          referencedRate: 98.82352941176471
+        protocol:
+          networkName: shimmer-testnet
+          bech32HRP: rms
+          tokenSupply: "2779530283277761"
+          protocolVersion: 2
+          minPoWScore: 1000
+          rentStructure:
+            vByteCost: 500
+            vByteFactorData: 1
+            vByteFactorKey: 10
+        baseToken:
+          name: "Shimmer"
+          tickerSymbol: "SMR"
+          unit: "SMR"
+          decimals: 6
+          subunit: "glow"
+          useMetricPrefix: false
         features:
           - PoW
         plugins:
@@ -2865,6 +2914,27 @@ components:
                 vByteFactoKey:
                   description: Defines the factor to be used for key/lookup generating fields.
                   type: integer
+            baseToken:
+              description: Gives info about the base token the network uses.
+              properties:
+                name:
+                  type: string
+                  description: The name of the base token of the network.
+                tickerSymbol:
+                  type: string
+                  description: Ticker symbol of the token to be displayed on trading platforms.
+                unit:
+                  type: string
+                  description: The primary unit of the token.
+                decimals:
+                  type: integer
+                  description: Number of decimals the primary unit is divisible up to.
+                subunit:
+                  type: string
+                  description: The name of the smallest possible denomination of the primary unit. subunit * 10^decimals = unit
+                "useMetricPrefix":
+                  type: boolean
+                  description: Wheteher to use metric prefixes for disaplying unit.
           required:
             - networkName
             - bech32HRP
@@ -2872,6 +2942,7 @@ components:
             - protocolVersion
             - minPoWScore
             - rentStructure
+            - baseToken
         features:
           description: The features that are supported by the node. For example, a node could support the Proof-of-Work (PoW) feature, which would allow the PoW to be performed by the node itself.
           type: array
