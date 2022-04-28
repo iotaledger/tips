@@ -12,7 +12,7 @@
     },
     "version": {
       "type": "string",
-      "description": "version of the metadata standard used",
+      "description": "version of the metadata standard used"
     },
     "type": {
       "type": "string",
@@ -25,25 +25,25 @@
     "tokenUri": {
       "type": "string",
       "description": "URI pointing to the resource where the file is hosted"
-    }, 
+    },
     "tokenName": {
       "type": "string",
       "description": "name of the specific token"
     },
-    "policyId": {
+    "collectionId": {
       "type": "string",
-      "description": "unique policy ID identifier for the collection"
+      "description": "unique collection ID identifier for the collection"
     },
-    "policyName": {
+    "collectionName": {
       "type": "string",
-      "description": "human readable name for the NFT"
+      "description": "human readable name for the NFT collection"
     },
     "royalties": {
       "type": "object",
       "description": "object containing the payout addresses mapped to their percentage share"
     },
     "issuerName": {
-      "type": "object",
+      "type": "string",
       "description": "name of the artist"
     },
     "description": {
