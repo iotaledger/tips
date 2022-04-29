@@ -2967,6 +2967,7 @@ components:
         - status
         - metrics
         - protocol
+        - baseToken
         - features
         - plugins
 
