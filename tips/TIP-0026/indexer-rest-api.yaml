@@ -16,17 +16,17 @@ servers:
 tags:
   - name: basic outputs
     description: Query Basic Outputs.
-  - name: aliases
+  - name: alias outputs
     description: Query Alias Outputs.
-  - name: foundries
+  - name: foundry outputs
     description: Query Foundry Outputs.
-  - name: nfts
+  - name: nft outputs
     description: Query NFT Outputs.
 paths:
-  /api/plugins/indexer/v1/basic-outputs:
+  /api/plugins/indexer/v1/outputs/basic:
     get:
       tags:
-        - outputs
+        - basic outputs
       summary: Returns basic outputs filtered based on parameters.
       description: Returns basic outputs filtered based on parameters.
       parameters:
@@ -207,10 +207,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/aliases:
+  /api/plugins/indexer/v1/outputs/alias:
     get:
       tags:
-        - aliases
+        - alias outputs
       summary: Returns alias outputs filtered based on parameters.
       description: Returns alias outputs filtered based on parameters.
       parameters:
@@ -317,10 +317,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/aliases/{aliasId}:
+  /api/plugins/indexer/v1/outputs/alias/{aliasId}:
     get:
       tags:
-        - aliases
+        - alias outputs
       summary: Returns the outputId of the current unspent alias output for aliasId.
       description: Returns the outputId of the current unspent alias output for aliasId.
       parameters:
@@ -367,10 +367,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/foundries:
+  /api/plugins/indexer/v1/outputs/foundry:
     get:
       tags:
-        - foundries
+        - foundry outputs
       summary: Returns foundry outputs filtered based on parameters.
       description: Returns foundry outputs filtered based on parameters.
       parameters:
@@ -459,10 +459,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/foundries/{foundryId}:
+  /api/plugins/indexer/v1/outputs/foundry/{foundryId}:
     get:
       tags:
-        - foundries
+        - foundry outputs
       summary: Returns the outputId of the current unspent foundry output for foundryId.
       description: Returns the outputId of the current unspent foundry output for foundryId.
       parameters:
@@ -509,10 +509,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/nfts:
+  /api/plugins/indexer/v1/outputs/nft:
     get:
       tags:
-        - nfts
+        - nft outputs
       summary: Returns nft outputs filtered based on parameters.
       description: Returns nft outputs filtered based on parameters.
       parameters:
@@ -693,10 +693,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/nfts/{nftId}:
+  /api/plugins/indexer/v1/outputs/nft/{nftId}:
     get:
       tags:
-        - nfts
+        - nft outputs
       summary: Returns the outputId of the current unspent nft output for nftId.
       description: Returns the outputId of the current nft output for nftId.
       parameters:
