@@ -158,13 +158,12 @@ channels:
       message:
         $ref: '#/components/messages/OutputPayload'
   outputs/aliases/{aliasId}:
-
     parameters:
       aliasId:
         description: The unique identifier of the alias chain. Hex encoded with 0x prefix.
         schema:
           type: string
-          example: "0x6457f5f1bc2c3ec696889309cee0665c298f6394"
+          example: "0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6"
     subscribe:
       tags:
         - name: outputs
@@ -178,7 +177,7 @@ channels:
         description: The unique identifier of the nft chain. Hex encoded with 0x prefix.
         schema:
           type: string
-          example: "0x89168d92d0b88cdb4f80c0eb830bb4bed3441fcd"
+          example: "0x19c82b32761fd8729a1a6c77f7c17597e4b9b01759794e52381f6a0050b0c11f"
     subscribe:
       tags:
         - name: outputs
@@ -192,7 +191,7 @@ channels:
         description: The unique identifier of the foundry chain. Hex encoded with 0x prefix.
         schema:
           type: string
-          example: "0x0868cebac478305970c1be92c4b4c54f7dc5eb3e790100000000"
+          example: "0x081505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d60100000000"
     subscribe:
       tags:
         - name: outputs
@@ -495,7 +494,7 @@ components:
         tokenId:
           type: string
           description: Hex-encoded identifier of the native token.
-          example: "0x086f5e13ae5394ca69f921d4da29a5aeabb642bd040100000000000000000000000000000000"
+          example: "0x08de3fa7acc30ec899bb797b1d80680690b54a1cdb78b2f7f50b1ad073e74c8cbd0100000000000000000000000000000000"
         amount:
           type: string
           description: Amount of native tokens (up to uint256). Hex encoded number.
@@ -526,8 +525,8 @@ components:
           example: 1
         aliasId:
           type: string
-          description: The hex-encoded BLAKE2b-160 hash of the outputId that created the alias.
-          example: "0x6f5e13ae5394ca69f921d4da29a5aeabb642bd04"
+          description: The hex-encoded BLAKE2b-256 hash of the outputId that created the alias.
+          example: "0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6"
       required:
         - type
         - aliasId
@@ -540,8 +539,8 @@ components:
           example: 1
         nftId:
           type: string
-          description: The hex-encoded BLAKE2b-160 hash of the outputId that created the NFT.
-          example: "0x6f5e13ae5394ca69f921d4da29a5aeabb642bd04"
+          description: The hex-encoded BLAKE2b-256 hash of the outputId that created the NFT.
+          example: "0x19c82b32761fd8729a1a6c77f7c17597e4b9b01759794e52381f6a0050b0c11f"
       required:
         - type
         - nftId
@@ -807,9 +806,9 @@ components:
               - $ref: '#/components/schemas/NativeToken'
         aliasId:
           type: string
-          description: Unique identifier of the alias, which is the BLAKE2b-160 hash of the Output ID that created it.
+          description: Unique identifier of the alias, which is the BLAKE2b-256 hash of the Output ID that created it.
             Alias Address = Alias Address Type || Alias ID
-          example: "0x6f5e13ae5394ca69f921d4da29a5aeabb642bd04"
+          example: "0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6"
         stateIndex:
           type: integer
           description: A counter that must increase by 1 every time the alias is state transitioned.
@@ -926,8 +925,8 @@ components:
               - $ref: '#/components/schemas/NativeToken'
         nftId:
           type: string
-          description: Unique identifier of the NFT, which is the BLAKE2b-160 hash of the Output ID that created it. NFT Address = NFT Address Type || NFT ID
-          example: "0x6f5e13ae5394ca69f921d4da29a5aeabb642bd04"
+          description: Unique identifier of the NFT, which is the BLAKE2b-256 hash of the Output ID that created it. NFT Address = NFT Address Type || NFT ID
+          example: "0x19c82b32761fd8729a1a6c77f7c17597e4b9b01759794e52381f6a0050b0c11f"
         unlockConditions:
           type: array
           description: Unlock condtions that define how the output an be unlocked in a transaction.
