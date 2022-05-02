@@ -2011,7 +2011,7 @@ components:
               - $ref: '#/components/schemas/NativeToken'
         aliasId:
           type: string
-          description: Unique identifier of the alias, which is the BLAKE2b-160 hash of the Output ID that created it.
+          description: Unique identifier of the alias, which is the BLAKE2b-256 hash of the Output ID that created it.
             Alias Address = Alias Address Type || Alias ID. Hex-encoded data with 0x prefix.
         stateIndex:
           type: integer
@@ -2123,7 +2123,7 @@ components:
               - $ref: '#/components/schemas/NativeToken'
         nftId:
           type: string
-          description: Unique identifier of the NFT, which is the BLAKE2b-160 hash of the Output ID that created it. NFT Address = NFT Address Type || NFT ID. Hex-encoded data with 0x prefix.
+          description: Unique identifier of the NFT, which is the BLAKE2b-256 hash of the Output ID that created it. NFT Address = NFT Address Type || NFT ID. Hex-encoded data with 0x prefix.
         unlockConditions:
           type: array
           description: Unlock condtions that define how the output an be unlocked in a transaction.
@@ -2190,7 +2190,7 @@ components:
           description: Set to value 8 to denote an Alias Address.
         aliasId:
           type: string
-          description: The hex-encoded, 0x prefixed BLAKE2b-160 hash of the outputId that created the alias.
+          description: The hex-encoded, 0x prefixed BLAKE2b-256 hash of the outputId that created the alias.
       required:
         - type
         - aliasId
@@ -2203,7 +2203,7 @@ components:
           description: Set to value 16 to denote an NFT Address.
         nftId:
           type: string
-          description: The hex-encoded, 0x prefixed BLAKE2b-160 hash of the outputId that created the NFT.
+          description: The hex-encoded, 0x prefixed BLAKE2b-256 hash of the outputId that created the NFT.
       required:
         - type
         - nftId
