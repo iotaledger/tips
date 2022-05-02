@@ -1992,8 +1992,6 @@ components:
       required:
         - type
         - amount
-        - nativeTokens
-        - featureBlocks
         - unlockConditions
 
     AliasOutput:
@@ -2049,12 +2047,9 @@ components:
       required:
         - type
         - amount
-        - nativeTokens
         - aliasId
         - stateIndex
         - foundryCounter
-        - featureBlocks
-        - immutableFeatureBlocks
         - unlockConditions
 
     FoundryOutput:
@@ -2106,13 +2101,10 @@ components:
       required:
         - type
         - amount
-        - nativeTokens
         - serialNumber
         - tokenTag
         - tokenScheme
         - unlockConditions
-        - featureBlocks
-        - immutableFeatureBlocks
 
     NFTOutput:
       description: escribes an NFT output, a globally unique token with metadata attached.
@@ -2161,11 +2153,8 @@ components:
       required:
         - type
         - amount
-        - nativeTokens
         - nftId
         - unlockConditions
-        - featureBlocks
-        - immutableFeatureBlocks
 
     NativeToken:
       description: A native token and its balance in the output.
