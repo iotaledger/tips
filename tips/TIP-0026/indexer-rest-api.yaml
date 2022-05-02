@@ -328,7 +328,7 @@ paths:
           name: aliasId
           schema:
             type: string
-          example: "0xb098c0ee963575a8d505c299a99ce9c32cd4ecb3"
+          example: "0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6"
           description: Unique identifier of the alias.
           required: true
       responses:
@@ -470,7 +470,7 @@ paths:
           name: foundryId
           schema:
             type: string
-          example: "0xb098c0ee963575a8d505c299a99ce9c32cd4ecb3"
+          example: "0x081505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d60100000000"
           description: Unique identifier of the foundry.
           required: true
       responses:
@@ -704,7 +704,7 @@ paths:
           name: nftId
           schema:
             type: string
-          example: "0x4d09c5ef6a61766beb0b5655fdf0b379bac8a813"
+          example: "0x19c82b32761fd8729a1a6c77f7c17597e4b9b01759794e52381f6a0050b0c11f"
           description: Unique identifier of the nft.
           required: true
       responses:
