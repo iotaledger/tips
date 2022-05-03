@@ -375,10 +375,10 @@ paths:
       description: Returns foundry outputs filtered based on parameters.
       parameters:
         - in: query
-          name: address
+          name: aliasAddress
           schema:
             type: string
-          example: iota1ppk6m4x7m2t6k5pvgs0yd2nqelfaz09ueyyv6fwn
+          example: iota1prlgpsht03ekmghhex8v7y67a835uns8dtlxu807hj0v279c74kj76j6rev
           description: Filter foundry outputs based on bech32-encoded address of the controlling alias.
         - in: query
           name: hasNativeTokens
