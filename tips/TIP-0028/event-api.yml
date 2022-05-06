@@ -493,8 +493,8 @@ components:
       properties:
         tokenId:
           type: string
-          description: Hex-encoded identifier of the native token.
-          example: "0x08de3fa7acc30ec899bb797b1d80680690b54a1cdb78b2f7f50b1ad073e74c8cbd0100000000000000000000000000000000"
+          description: Hex-encoded identifier of the native token that equals the foundryId of the controlling foundry.
+          example: "0x08de3fa7acc30ec899bb797b1d80680690b54a1cdb78b2f7f50b1ad073e74c8cbd0100000000"
         amount:
           type: string
           description: Amount of native tokens (up to uint256). Hex encoded number.
@@ -871,10 +871,6 @@ components:
           type: integer
           description: The serial number of the foundry with respect to the controlling alias.
           example: 2
-        tokenTag:
-          type: string
-          description: Hex-encoded data that is always the last 12 bytes of ID of the tokens produced by this foundry.
-          example: "0x4c657669436f696e000000"
         tokenScheme:
           type: array
           description: Defines the supply control scheme of the tokens controlled by the foundry.
@@ -904,7 +900,6 @@ components:
         - type
         - amount
         - serialNumber
-        - tokenTag
         - tokenScheme
         - unlockConditions
     NFTOutput:
