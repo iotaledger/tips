@@ -2072,9 +2072,6 @@ components:
         serialNumber:
           type: integer
           description: The serial number of the foundry with respect to the controlling alias.
-        tokenTag:
-          type: string
-          description: Hex-encoded data with 0x prefix that is always the last 12 bytes of ID of the tokens produced by this foundry.
         tokenScheme:
           type: array
           description: Defines the supply control scheme of the tokens controlled by the foundry.
@@ -2104,7 +2101,6 @@ components:
         - type
         - amount
         - serialNumber
-        - tokenTag
         - tokenScheme
         - unlockConditions
 
@@ -2163,7 +2159,7 @@ components:
       properties:
         tokenId:
           type: string
-          description: Hex-encoded identifier with 0x prefix of the native token.
+          description: Hex-encoded identifier with 0x prefix of the native token. Same as foundryId of the controlling foundry.
         amount:
           type: string
           description: Amount of native tokens (up to uint256). Hex-encoded number with 0x prefix.
