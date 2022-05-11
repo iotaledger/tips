@@ -1377,31 +1377,6 @@ components:
         - id
         - inclusionState
         - milestoneIndex
-    MetricsResponse:
-      description: The metrics generated in the prometheus format
-      example: |-
-        # HELP incoming_requests Incoming Requests
-        # TYPE incoming_requests counter
-        incoming_requests 5
-        # HELP response_code Response Codes
-        # TYPE response_code counter
-        response_code{statuscode="200",type="200"} 4
-        # HELP response_time Response Times
-        # TYPE response_time histogram
-        response_time_bucket{endpoint="GET /api/metrics",le="0.005"} 0
-        response_time_bucket{endpoint="GET /api/metrics",le="0.01"} 0
-        response_time_bucket{endpoint="GET /api/metrics",le="0.025"} 0
-        response_time_bucket{endpoint="GET /api/metrics",le="0.05"} 0
-        response_time_bucket{endpoint="GET /api/metrics",le="0.1"} 0
-        response_time_bucket{endpoint="GET /api/metrics",le="0.25"} 0
-        response_time_bucket{endpoint="GET /api/metrics",le="0.5"} 0
-        response_time_bucket{endpoint="GET /api/metrics",le="1"} 4
-        response_time_bucket{endpoint="GET /api/metrics",le="2.5"} 4
-        response_time_bucket{endpoint="GET /api/metrics",le="5"} 4
-        response_time_bucket{endpoint="GET /api/metrics",le="10"} 4
-        response_time_bucket{endpoint="GET /api/metrics",le="+Inf"} 4
-        response_time_sum{endpoint="GET /api/metrics"} 4
-        response_time_count{endpoint="GET /api/metrics"} 4
     ErrorResponse:
       description: The error format.
       properties:
