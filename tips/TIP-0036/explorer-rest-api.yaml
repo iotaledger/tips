@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Chronicle REST API
+  title: Explorer REST API
   description: This document specifies the REST API for Chronicle software.
   contact:
     email: contact@iota.org
@@ -57,13 +57,6 @@ paths:
       summary: Search for the message matching a given indexation key.
       description: Search for messages matching a given indexation key.
       parameters:
-        - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
         - in: query
           name: index
           schema:
@@ -140,13 +133,6 @@ paths:
         as JSON.
       parameters:
         - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
-        - in: path
           name: messageId
           schema:
             type: string
@@ -204,13 +190,6 @@ paths:
       description: Find the metadata of a given message.
       parameters:
         - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
-        - in: path
           name: messageId
           schema:
             type: string
@@ -266,13 +245,6 @@ paths:
       summary: Returns the children of a message.
       description: Returns the children of a message.
       parameters:
-        - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
         - in: path
           name: messageId
           schema:
@@ -344,13 +316,6 @@ paths:
       description: Find an output by its identifier.
       parameters:
         - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
-        - in: path
           name: outputId
           schema:
             type: string
@@ -397,13 +362,6 @@ paths:
       summary: Find an output by its transaction ID and index.
       description: Find an output by its transaction ID and index.
       parameters:
-        - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
         - in: path
           name: transactionId
           schema:
@@ -463,13 +421,6 @@ paths:
         were skipped for performance reasons. User should sweep the address to
         reduce the amount of outputs.
       parameters:
-        - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
         - in: path
           name: address
           schema:
@@ -536,13 +487,6 @@ paths:
       description: Look up a milestone by a given milestone index.
       parameters:
         - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
-        - in: path
           name: index
           schema:
             type: number
@@ -590,13 +534,6 @@ paths:
       description: >-
         Get all transactions involving a given hex-encoded Ed25519 address.
       parameters:
-        - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
         - in: path
           name: address
           schema:
@@ -655,13 +592,6 @@ paths:
       description: Get the transaction information for a message.
       parameters:
         - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
-        - in: path
           name: messageId
           schema:
             type: string
@@ -707,13 +637,6 @@ paths:
       summary: Look up an included message by a transaction id.
       description: Look up an included message by a transaction id.
       parameters:
-        - in: path
-          name: keyspace
-          schema:
-            type: string
-          example: chronicle
-          required: true
-          description: Identifier indicating which keyspace to search within.
         - in: path
           name: transactionId
           schema:
