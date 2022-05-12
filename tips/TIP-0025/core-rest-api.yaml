@@ -3104,7 +3104,7 @@ components:
         metadata:
           description: Metadata of the output.
           allOf:
-            - $ref: '#components/schemas/OutputMetadataResponse'
+            - $ref: '#/components/schemas/OutputMetadataResponse'
         output:
           description: The actual output content.
           anyOf:
