@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  title: Transaction History REST API
+  description: This document specifies the REST API for Chronicle software.
+  contact:
+    email: contact@iota.org
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  version: 1.0.0
+externalDocs:
+  description: Find out more about IOTA
+  url: "https://iota.org"
+servers:
+  - url: "http://127.0.0.1:8000"
+tags:
+  - name: historical
+    description: Everything about the historical data.
+  - name: transactions
+    description: Everything about transactions.
+paths:
+  /api/v2/gaps:
+    get:
+      tags:
+        - historical
+      summary: Returns general information about the historical data.
+      description: Returns general information about the historical data.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GapsResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/ForbiddenResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/InternalErrorResponse'
+  "/api/v2/transactions/by-address/{address}":
+    get:
+      tags:
+        - transactions
+      summary: Get all transactions involving given a bech32 address.
+      description: >-
+        Get all transactions involving a given bech32 address.
+      parameters:
+        - in: path
+          name: address
+          schema:
+            type: string
+          example: iota1qpf0mlq8yxpx2nck8a0slxnzr4ef2ek8f5gqxlzd0wasgp73utryj430ldu
+          required: true
+          description: bech32 address that is referenced by the outputs.
+        - in: query
+          name: pageSize
+          schema:
+            type: number
+          example: 1000
+          description: Requested page size.
+        - in: query
+          name: cursor
+          schema:
+            type: string
+          example: 1643383242.f4e76c3121dbe27ce39a779e391fc8aa4668b7a9c868cae1690492d2251fd4a6.100
+          description: Starts the search from the cursor (timestamp.transactionId.pageSize)
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionsResponse"
+              # examples:
+              #   default:
+              #     $ref: "#/components/examples/get-transactions-response-example"
+        "400":
+          description: "Unsuccessful operation: indicates that the provided address is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/BadRequestResponse"
+        "404":
+          description: >-
+            Unsuccessful operation: indicates that the requested data was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/NotFoundResponse"
+        "500":
+          description: >-
+            Unsuccessful operation: indicates that an unexpected, internal
+            server error happened which prevented the node from fulfilling the
+            request.
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/InternalErrorResponse"
+components:
+  schemas:
+    Gap:
+      description: >-
+        Describes a gap in the historical data. A gap is defined as the range [from, to). Note that to is exclusive.
+      properties:
+        start:
+          type: number
+          description: The first milestone for which the node does not have data.
+        end:
+          type: number
+          description: The first milestone for which the node has data again.
+    GapsResponse:
+      description: Returns information about missing data.
+      properties:
+        gaps:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Gap'
+          description: The name of the node.
+    TransactionsResponse:
+      description: Returns a list of transactionIds.
+      properties:
+        transactions:
+          type: array
+          items:
+            type: string
+          description: The list of transactionIds.
+      required:
+        - transactions
