@@ -18,8 +18,8 @@ tags:
     description: Everything about the node itself.
   - name: tangle
     description: Everything about the tangle itself.
-  - name: messages
-    description: Everything about messages.
+  - name: blocks
+    description: Everything about blocks.
   - name: UTXO
     description: Everything about UTXOs.
   - name: milestones
@@ -85,9 +85,9 @@ paths:
     get:
       tags:
         - tangle
-      summary: Returns tips that are ideal for attaching a message.
+      summary: Returns tips that are ideal for attaching a block.
       description: >-
-        Returns tips that are ideal for attaching a message. The tips can be considered as `non-lazy` and are therefore ideal for attaching a message.
+        Returns tips that are ideal for attaching a block. The tips can be considered as `non-lazy` and are therefore ideal for attaching a block.
       responses:
         '200':
           description: "Successful operation."
@@ -117,39 +117,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-  /api/v2/messages:
+  /api/v2/blocks:
     post:
       tags:
-        - messages
-      summary: Submit a message.
+        - blocks
+      summary: Submit a block.
       description: >-
-        Submit a message. The node takes care of missing* fields and tries to
-        build the message. On success, the message will be stored in the Tangle.
-        This endpoint will return the identifier of the built message. *The
+        Submit a block. The node takes care of missing* fields and tries to
+        build the block. On success, the block will be stored in the Tangle.
+        This endpoint will return the identifier of the built block. *The
         node will try to auto-fill the following fields in case they are
-        missing: `protocolVersion`, `parentMessageIds`, `nonce`.
-        If `payload` is missing, the message will be built without a payload.
+        missing: `protocolVersion`, `parentBlockIds`, `nonce`.
+        If `payload` is missing, the block will be built without a payload.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SubmitMessageRequest'
+              $ref: '#/components/schemas/SubmitBlockRequest'
             examples:
-              Full message with Tagged Data Payload:
-                $ref: "#/components/examples/post-tagged-data-message-request-example-full"
-              Minimal Message with Tagged Data Payload:
-                $ref: "#/components/examples/post-tagged-data-message-request-example-minimal"
-              Full message with Transaction Payload:
+              Full block with Tagged Data Payload:
+                $ref: "#/components/examples/post-tagged-data-block-request-example-full"
+              Minimal Block with Tagged Data Payload:
+                $ref: "#/components/examples/post-tagged-data-block-request-example-minimal"
+              Full block with Transaction Payload:
                 $ref: >-
-                  #/components/examples/post-transaction-message-request-example-full
-              Minimal Message with Transaction Payload:
+                  #/components/examples/post-transaction-block-request-example-full
+              Minimal Block with Transaction Payload:
                 $ref: >-
-                  #/components/examples/post-transaction-message-request-example-minimal
+                  #/components/examples/post-transaction-block-request-example-minimal
           application/vnd.iota.serializer-v1:
             schema:
               type: string
               format: binary
-              description: message in raw binary format
+              description: block in raw binary format
         required: true
       responses:
         '201':
@@ -157,13 +157,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubmitMessageResponse'
+                $ref: '#/components/schemas/SubmitBlockResponse'
               examples:
                 default:
-                  $ref: '#/components/examples/post-messages-response-example'
+                  $ref: '#/components/examples/post-blocks-response-example'
           headers:
             Location:
-              description: The messageId of the newly created message.
+              description: The blockId of the newly created block.
               schema:
                 type: string
         '400':
@@ -190,47 +190,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
-  '/api/v2/messages/{messageId}':
+  '/api/v2/blocks/{blockId}':
     get:
       tags:
-        - messages
-      summary: Returns message data as JSON by its identifier.
+        - blocks
+      summary: Returns block data as JSON by its identifier.
       description: >-
-        Find a message by its identifier. This endpoint returns the given message
+        Find a block by its identifier. This endpoint returns the given block
         as JSON.
       parameters:
         - in: path
-          name: messageId
+          name: blockId
           schema:
             type: string
           example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
-          description: Identifier of the message.
+          description: Identifier of the block.
       responses:
         '200':
           description: "Successful operation."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MessageResponse'
+                $ref: '#/components/schemas/BlockResponse'
               examples:
                 Empty Payload:
                   $ref: >-
-                    #/components/examples/get-message-by-id-empty-response-example
+                    #/components/examples/get-block-by-id-empty-response-example
                 Transaction Payload:
                   $ref: >-
-                    #/components/examples/get-message-by-id-transaction-response-example
+                    #/components/examples/get-block-by-id-transaction-response-example
                 Milestone Payload:
                   $ref: >-
-                    #/components/examples/get-message-by-id-milestone-response-example
+                    #/components/examples/get-block-by-id-milestone-response-example
                 Tagged Data Payload:
                   $ref: >-
-                    #/components/examples/get-message-by-id-tagged-data-response-example
+                    #/components/examples/get-block-by-id-tagged-data-response-example
             application/vnd.iota.serializer-v1:
               schema:
                 type: string
                 format: binary
-                description: message in raw binary format
+                description: block in raw binary format
                 example: >-
                   0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000eb000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000020000016920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92640000000000000000018afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd65d5d2dd3f7df09000000000001000001f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c9095100000000000000
         '400':
@@ -257,40 +257,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/v2/messages/{messageId}/metadata':
+  '/api/v2/blocks/{blockId}/metadata':
     get:
       tags:
-        - messages
-      summary: Find the metadata of a given message.
+        - blocks
+      summary: Find the metadata of a given block.
       description: >-
-        Find the metadata of a given message.
+        Find the metadata of a given block.
       parameters:
         - in: path
-          name: messageId
+          name: blockId
           schema:
             type: string
           example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
-          description: Identifier of the message.
+          description: Identifier of the block.
       responses:
         '200':
           description: "Successful operation."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MessageMetadataResponse'
+                $ref: '#/components/schemas/BlockMetadataResponse'
               examples:
-                New Message:
-                  $ref: '#/components/examples/get-message-by-id-response-example-new'
+                New Block:
+                  $ref: '#/components/examples/get-block-by-id-response-example-new'
                 Solid:
                   $ref: >-
-                    #/components/examples/get-message-by-id-response-example-solid
+                    #/components/examples/get-block-by-id-response-example-solid
                 Included:
                   $ref: >-
-                    #/components/examples/get-message-by-id-response-example-included
+                    #/components/examples/get-block-by-id-response-example-included
                 Conflicting:
                   $ref: >-
-                    #/components/examples/get-message-by-id-response-example-conflicting
+                    #/components/examples/get-block-by-id-response-example-conflicting
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -321,34 +321,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
-  '/api/v2/messages/{messageId}/children':
+  '/api/v2/blocks/{blockId}/children':
     get:
       tags:
-        - messages
-      summary: Returns the children of a message.
-      description: Returns the children of a message.
+        - blocks
+      summary: Returns the children of a block.
+      description: Returns the children of a block.
       parameters:
         - in: path
-          name: messageId
+          name: blockId
           schema:
             type: string
           example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
-          description: Identifier of the message.
+          description: Identifier of the block.
       responses:
         '200':
           description: "Successful operation."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MessageChildrenResponse'
+                $ref: '#/components/schemas/BlockChildrenResponse'
               examples:
                 Children were found:
                   $ref: >-
-                    #/components/examples/get-messages-by-id-response-example-children
+                    #/components/examples/get-blocks-by-id-response-example-children
                 No children were found:
                   $ref: >-
-                    #/components/examples/get-messages-by-id-response-example-nochildren
+                    #/components/examples/get-blocks-by-id-response-example-nochildren
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -613,12 +613,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-  '/api/v2/transactions/{transactionId}/included-message':
+  '/api/v2/transactions/{transactionId}/included-block':
     get:
       tags:
         - UTXO
-      summary: Returns the included message of a transaction.
-      description: Returns the included message of a transaction.
+      summary: Returns the included block of a transaction.
+      description: Returns the included block of a transaction.
       parameters:
         - in: path
           name: transactionId
@@ -633,15 +633,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MessageResponse'
+                $ref: '#/components/schemas/BlockResponse'
               examples:
                 default:
-                  $ref: '#/components/examples/get-included-message-of-transaction-example-json'
+                  $ref: '#/components/examples/get-included-block-of-transaction-example-json'
             application/vnd.iota.serializer-v1:
               schema:
                 type: string
                 format: binary
-                description: message in raw binary format
+                description: block in raw binary format
                 example: >-
                   0204174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d65807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695de9e9d780ba7ebeebc38da16cb53b2a8991d38eee94bcdc3f3ef99aa8c345652530100000600000001c9b000b41dc00400010000af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef00000e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79010003a08601000000000000010000a18996d96163405e3c0eb13fa3459a07f68a89e8cf7cc239c89e7192344daa5b0069000000050000000b68656c6c6f20776f726c64550000005370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b57301000000ee26ac07834c603c22130fced361ca58552b0dbfc63e4b73ba24b3b59d9f40500492a353f96883c472e2686a640e77eda30be8fcc417aa9fc1c15eae854661e0253287be6ea68f649f19ca590de0a6c57fb88635ef0e013310e0be2b8360950350390000000000f0
         '400':
@@ -968,7 +968,7 @@ paths:
             type: string
           example: 12D3KooWMajsSUxSUFb3CRgmJvygYCGd27uMDdppVYNGud7xuKG5
           required: true
-          description: Identifier of the message.
+          description: Identifier of the block.
       responses:
         '200':
           description: "Successful operation."
@@ -1197,8 +1197,8 @@ components:
             milestoneId: "0xb59ff329113b0da14343707450cb28d41fa18b295deabc4beb3fc1b6e70f9d9e"
           pruningIndex: 0
         metrics:
-          messagesPerSecond: 17
-          referencedMessagesPerSecond: 16.8
+          blocksPerSecond: 17
+          referencedBlocksPerSecond: 16.8
           referencedRate: 98.82352941176471
         protocol:
           networkName: iota-testnet
@@ -1236,8 +1236,8 @@ components:
             milestoneId: "0xb59ff329113b0da14343707450cb28d41fa18b295deabc4beb3fc1b6e70f9d9e"
           pruningIndex: 0
         metrics:
-          messagesPerSecond: 17
-          referencedMessagesPerSecond: 16.8
+          blocksPerSecond: 17
+          referencedBlocksPerSecond: 16.8
           referencedRate: 98.82352941176471
         protocol:
           networkName: shimmer-testnet
@@ -1263,48 +1263,48 @@ components:
 
     get-tips-response-example:
       value:
-        tipMessageIds:
+        tipBlockIds:
           - "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           - "0x78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
 
-    post-messages-response-example:
+    post-blocks-response-example:
       value:
-        messageId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
+        blockId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
 
-    get-message-by-id-response-example-new:
+    get-block-by-id-response-example-new:
       value:
-        messageId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-        parentMessageIds:
+        blockId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+        parentBlockIds:
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: false
         shouldPromote: true
         shouldReattach: false
 
-    get-message-by-id-response-example-solid:
+    get-block-by-id-response-example-solid:
       value:
-        messageId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-        parentMessageIds:
+        blockId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+        parentBlockIds:
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
         shouldPromote: false
         shouldReattach: false
 
-    get-message-by-id-response-example-included:
+    get-block-by-id-response-example-included:
       value:
-        messageId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-        parentMessageIds:
+        blockId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+        parentBlockIds:
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
         referencedByMilestoneIndex: 15465
         ledgerInclusionState: included
 
-    get-message-by-id-response-example-conflicting:
+    get-block-by-id-response-example-conflicting:
       value:
-        messageId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-        parentMessageIds:
+        blockId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+        parentBlockIds:
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
@@ -1312,10 +1312,10 @@ components:
         ledgerInclusionState: conflicting
         conflictReason: 1
 
-    post-tagged-data-message-request-example-full:
+    post-tagged-data-block-request-example-full:
       value:
         protocolVersion: 1
-        parentMessageIds:
+        parentBlockIds:
           - "0x222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9"
           - "0xa22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6"
           - "0xa6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d"
@@ -1326,14 +1326,14 @@ components:
           data: "0x5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573"
         nonce: "2102864"
 
-    post-tagged-data-message-request-example-minimal:
+    post-tagged-data-block-request-example-minimal:
       value:
         payload:
           type: 5
           tag: "0x68656c6c6f20776f726c64"
           data: "0x5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573"
 
-    post-transaction-message-request-example-minimal:
+    post-transaction-block-request-example-minimal:
       value:
         payload:
           type: 6
@@ -1372,10 +1372,10 @@ components:
               reference: 0
         nonce: '1020884'
 
-    post-transaction-message-request-example-full:
+    post-transaction-block-request-example-full:
       value:
         protocolVersion: 1
-        parentMessageIds:
+        parentBlockIds:
           - "0x6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca"
           - "0x97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481"
           - "0xc107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d"
@@ -1417,19 +1417,19 @@ components:
               reference: 0
         nonce: '1020884'
 
-    get-message-by-id-empty-response-example:
+    get-block-by-id-empty-response-example:
       value:
         protocolVersion: 1
-        parentMessageIds:
+        parentBlockIds:
           - "0xc0b728d4c292860b57747c7bfbd989ccc40be8c76229022644c05e1352bf1ea3"
           - "0xe8db39681478cf9826bd2f31d045f16f5e1f478c5abc3030419da7911df9e288"
         payload: null
         nonce: '1481'
 
-    get-message-by-id-transaction-response-example:
+    get-block-by-id-transaction-response-example:
       value:
         protocolVersion: 1
-        parentMessageIds:
+        parentBlockIds:
           - "0x6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca"
           - "0x97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481"
           - "0xc107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d"
@@ -1471,10 +1471,10 @@ components:
               reference: 0
         nonce: '1020884'
 
-    get-message-by-id-milestone-response-example:
+    get-block-by-id-milestone-response-example:
       value:
         protocolVersion: 1
-        parentMessageIds:
+        parentBlockIds:
           - "0x23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b"
           - "0x242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7"
           - "0x2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1"
@@ -1485,7 +1485,7 @@ components:
           type: 1
           index: 16241
           timestamp: 1617959712
-          parentMessageIds:
+          parentBlockIds:
             - "0x23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b"
             - "0x242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7"
             - "0x2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1"
@@ -1504,10 +1504,10 @@ components:
             - "0x4bdfa2684bed01ce3a9a630b0688e868c290b8524c679daa79cb9d9f0f2aa5c57cf00a0fc694d1fed3696053ffa9bba6154ccb1564532cd49f807ba77de9a70c"
         nonce: '1229782938247321090'
 
-    get-message-by-id-tagged-data-response-example:
+    get-block-by-id-tagged-data-response-example:
       value:
         protocolVersion: 1
-        parentMessageIds:
+        parentBlockIds:
           - "0x222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9"
           - "0xa22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6"
           - "0xa6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d"
@@ -1518,26 +1518,26 @@ components:
           data: "0x5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573"
         nonce: '2102864'
 
-    get-messages-by-id-response-example-children:
+    get-blocks-by-id-response-example-children:
       value:
-        messageId: "0xed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c"
+        blockId: "0xed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c"
         maxResults: 1000
         count: 2
-        childrenMessageIds:
+        childrenBlockIds:
           - "0x1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d"
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
 
-    get-messages-by-id-response-example-nochildren:
+    get-blocks-by-id-response-example-nochildren:
       value:
-        messageId: "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
+        blockId: "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
         maxResults: 1000
         count: 0
-        childrenMessageIds: [ ]
+        childrenBlockIds: [ ]
 
     get-outputs-by-id-response-unspent-example:
       value:
         metadata:
-          messageId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
+          blockId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
           transactionId: "0x1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298"
           outputIndex: 1
           isSpent: false
@@ -1556,7 +1556,7 @@ components:
     get-outputs-by-id-response-spent-example:
       value:
         metadata:
-          messageId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
+          blockId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
           transactionId: "0xfa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a2"
           outputIndex: 1
           isSpent: true
@@ -1577,7 +1577,7 @@ components:
 
     get-output-metadata-by-id-response-unspent-example:
       value:
-        messageId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
+        blockId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
         transactionId: "0x1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298"
         outputIndex: 1
         isSpent: false
@@ -1587,7 +1587,7 @@ components:
 
     get-output-metadata-by-id-response-spent-example:
       value:
-        messageId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
+        blockId: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
         transactionId: "0xfa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a2"
         outputIndex: 1
         isSpent: true
@@ -1622,10 +1622,10 @@ components:
         milestoneId: "0x733ed2810f2333e9d6cd702c7d5c8264cd9f1ae454b61e75cf702c451f68611d"
         amount: "133713371337"
 
-    get-included-message-of-transaction-example-json:
+    get-included-block-of-transaction-example-json:
       value:
         protocolVersion: 1
-        parentMessageIds:
+        parentBlockIds:
           - "0x174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d6"
           - "0x5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c"
           - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
@@ -1666,7 +1666,7 @@ components:
         index: 15465
         timestamp: 1602227215
         previousMilestoneId: "0x7ad3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
-        parentMessageIds:
+        parentBlockIds:
          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
          - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
          - "0xde9e9d780ba7ebeebc38da16cb53b2a8991d38eee94bcdc3f3ef99aa8c345652"
@@ -1711,14 +1711,14 @@ components:
               connectedNeighbors: 5
               syncedNeighbors: 7
             metrics:
-              newMessages: 3799
-              knownMessages: 554
-              receivedMessages: 4370
-              receivedMessageRequests: 0
+              newBlocks: 3799
+              knownBlocks: 554
+              receivedBlocks: 4370
+              receivedBlockRequests: 0
               receivedMilestoneRequests: 1
               receivedHeartbeats: 1
-              sentMessages: 6
-              sentMessageRequests: 4325
+              sentBlocks: 6
+              sentBlockRequests: 4325
               sentMilestoneRequests: 31
               sentHeartbeats: 9
               droppedPackets: 0
@@ -1736,14 +1736,14 @@ components:
               connectedNeighbors: 5
               syncedNeighbors: 6
             metrics:
-              newMessages: 510
-              knownMessages: 79
-              receivedMessages: 589
-              receivedMessageRequests: 0
+              newBlocks: 510
+              knownBlocks: 79
+              receivedBlocks: 589
+              receivedBlockRequests: 0
               receivedMilestoneRequests: 1
               receivedHeartbeats: 1
-              sentMessages: 42
-              sentMessageRequests: 576
+              sentBlocks: 42
+              sentBlockRequests: 576
               sentMilestoneRequests: 1
               sentHeartbeats: 9
               droppedPackets: 0
@@ -1764,14 +1764,14 @@ components:
             connectedNeighbors: 5
             syncedNeighbors: 7
           metrics:
-            newMessages: 3799
-            knownMessages: 554
-            receivedMessages: 4370
-            receivedMessageRequests: 0
+            newBlocks: 3799
+            knownBlocks: 554
+            receivedBlocks: 4370
+            receivedBlockRequests: 0
             receivedMilestoneRequests: 1
             receivedHeartbeats: 1
-            sentMessages: 6
-            sentMessageRequests: 4325
+            sentBlocks: 6
+            sentBlockRequests: 4325
             sentMilestoneRequests: 31
             sentHeartbeats: 9
             droppedPackets: 0
@@ -1798,14 +1798,14 @@ components:
             connectedNeighbors: 5
             syncedNeighbors: 7
           metrics:
-            newMessages: 3799
-            knownMessages: 554
-            receivedMessages: 4370
-            receivedMessageRequests: 0
+            newBlocks: 3799
+            knownBlocks: 554
+            receivedBlocks: 4370
+            receivedBlockRequests: 0
             receivedMilestoneRequests: 1
             receivedHeartbeats: 1
-            sentMessages: 6
-            sentMessageRequests: 4325
+            sentBlocks: 6
+            sentBlockRequests: 4325
             sentMilestoneRequests: 31
             sentHeartbeats: 9
             droppedPackets: 0
@@ -1814,7 +1814,7 @@ components:
       value:
         index: 1560
         timestamp: 1602227215
-        parentMessageIds:
+        parentBlockIds:
           - "0x174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d6"
           - "0x5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c"
           - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
@@ -1854,19 +1854,19 @@ components:
 
   schemas:
 
-    Message:
-      description: A message is the object nodes gossip around in the network. It always references two other messages that are known as parents. It is stored as a vertex on the tangle data structure that the nodes maintain. A message can have a maximum size of 32Kb.
+    Block:
+      description: A block is the object nodes gossip around in the network. It always references two other blocks that are known as parents. It is stored as a vertex on the tangle data structure that the nodes maintain. A block can have a maximum size of 32Kb.
       properties:
         protocolVersion:
           type: number
-          description: Protocol version identifier. It also tells which protocol rules apply to the message.
-        parentMessageIds:
+          description: Protocol version identifier. It also tells which protocol rules apply to the block.
+        parentBlockIds:
           type: array
-          description: The identifiers of the messages this message references. Hex-encoded data with 0x prefix.
+          description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
           items:
             type: string
         payload:
-          description: The inner payload of the message. Can be nil.
+          description: The inner payload of the block. Can be nil.
           oneOf:
             - $ref: '#/components/schemas/TransactionPayload'
             - $ref: '#/components/schemas/MilestonePayload'
@@ -1874,14 +1874,14 @@ components:
             - $ref: '#/components/schemas/ReceiptPayload'
         nonce:
           type: string
-          description: The nonce which lets this message fulfill the Proof-of-Work requirement. Plain string encoded number.
+          description: The nonce which lets this block fulfill the Proof-of-Work requirement. Plain string encoded number.
       required:
         - protocolVersion
-        - parentMessageIds
+        - parentBlockIds
         - nonce
 
     TransactionPayload:
-      description: The Transaction Payload to be embedded into a message.
+      description: The Transaction Payload to be embedded into a block.
       properties:
         type:
           type: integer
@@ -1911,7 +1911,7 @@ components:
           description: Set to value 1 to denote a Transaction Essence.
         networkId:
           type: string
-          description: Network identifier. Plain string encoded number. This field signals for which network the message is meant for. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network name and protocol version string.
+          description: Network identifier. Plain string encoded number. This field signals for which network the block is meant for. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network name and protocol version string.
         inputsCommitment:
           type: string
           description: BLAKE2b-256 hash of the serialized outputs referenced in Inputs by their outputIds (transactionId || outputIndex). Hex-encoded data with 0x prefix.
@@ -2468,7 +2468,7 @@ components:
         - reference
 
     MilestonePayload:
-      description: The Milestone Payload to be embedded into a message.
+      description: The Milestone Payload to be embedded into a block.
       properties:
         type:
           type: integer
@@ -2482,17 +2482,17 @@ components:
         previousMilestoneId:
           type: string
           description: The Milestone ID of the milestone with Index Number - 1.
-        parentMessageIds:
-          description: The identifiers of the messages this milestone references. Hex-encoded values with 0x prefix.
+        parentBlockIds:
+          description: The identifiers of the blocks this milestone references. Hex-encoded values with 0x prefix.
           type: array
           items:
             type: string
         confirmedMerkleRoot:
           type: string
-          description: The merkle root of all directly/indirectly referenced messages (their IDs) which are newly confirmed by this milestone. Hex-encoded with 0x prefix.
+          description: The merkle root of all directly/indirectly referenced blocks (their IDs) which are newly confirmed by this milestone. Hex-encoded with 0x prefix.
         appliedMerkleRoot:
           type: string
-          description: The merkle root of all messages (their IDs) carrying ledger state mutating transactions. Hex-encoded with 0x prefix.
+          description: The merkle root of all blocks (their IDs) carrying ledger state mutating transactions. Hex-encoded with 0x prefix.
         options:
           type: array
           items:
@@ -2513,20 +2513,20 @@ components:
         - index
         - timestamp
         - previousMilestoneId
-        - parentMessageIds
+        - parentBlockIds
         - confirmedMerkleRoot
         - appliedMerkleRoot
         - signatures
 
     TaggedDataPayload:
-      description: The Tagged Data Payload to be embedded into a message.
+      description: The Tagged Data Payload to be embedded into a block.
       properties:
         type:
           type: integer
           description: Set to value 5 to denote a Tagged Data Payload.
         tag:
           type: string
-          description: The indexation key to allow external tools to find/look up this message. It has a size between 1 and 64 bytes and must be encoded as a hex-string with 0x prefix.
+          description: The indexation key to allow external tools to find/look up this block. It has a size between 1 and 64 bytes and must be encoded as a hex-string with 0x prefix.
         data:
           type: string
           description: The optional data to attach. This may have a length of 0. Hex-encoded with 0x prefix.
@@ -2641,30 +2641,30 @@ components:
 
     Metrics:
       properties:
-        newMessages:
+        newBlocks:
           type: integer
-          description: The number of received messages that were new for the node.
-        knownMessages:
+          description: The number of received blocks that were new for the node.
+        knownBlocks:
           type: integer
-          description: The number of received messages that already were known to the node.
-        receivedMessages:
+          description: The number of received blocks that already were known to the node.
+        receivedBlocks:
           type: integer
-          description: The number of received messages from the peer.
-        receivedMessageRequests:
+          description: The number of received blocks from the peer.
+        receivedBlockRequests:
           type: integer
-          description: The number of received message requests from the peer.
+          description: The number of received block requests from the peer.
         receivedMilestoneRequests:
           type: integer
           description: The number of received milestone requests from the peer.
         receivedHeartbeats:
           type: integer
           description: The number of received heartbeats from the peer.
-        sentMessages:
+        sentBlocks:
           type: integer
-          description: The number of sent messages to the peer.
-        sentMessageRequests:
+          description: The number of sent blocks to the peer.
+        sentBlockRequests:
           type: integer
-          description: The number of sent message requests to the peer.
+          description: The number of sent block requests to the peer.
         sentMilestoneRequests:
           type: integer
           description: The number of sent milestone requests to the peer.
@@ -2675,14 +2675,14 @@ components:
           type: integer
           description: The number of dropped packets.
       required:
-        - newMessages
-        - knownMessages
-        - receivedMessages
-        - receivedMessageRequests
+        - newBlocks
+        - knownBlocks
+        - receivedBlocks
+        - receivedBlockRequests
         - receivedMilestoneRequests
         - receivedHeartbeats
-        - sentMessages
-        - sentMessageRequests
+        - sentBlocks
+        - sentBlockRequests
         - sentMilestoneRequests
         - sentHeartbeats
         - droppedPackets
@@ -2758,12 +2758,12 @@ components:
             code:
               type: string
               description: The application error code.
-            message:
+            block:
               type: string
               description: The error reason.
           required:
             - code
-            - message
+            - block
       required:
         - error
 
@@ -2774,7 +2774,7 @@ components:
       example:
         error:
           code: 403
-          message: not available for public use
+          block: not available for public use
 
     ServiceUnavailableResponse:
       description: Indicates that the service is unavailable.
@@ -2783,7 +2783,7 @@ components:
       example:
         error:
           code: 503
-          message: service unavailable
+          block: service unavailable
 
     BadRequestResponse:
       description: Indicates that the request was bad.
@@ -2792,7 +2792,7 @@ components:
       example:
         error:
           code: 400
-          message: invalid data provided
+          block: invalid data provided
 
     NotFoundResponse:
       description: Indicates that the data was not found.
@@ -2801,7 +2801,7 @@ components:
       example:
         error:
           code: 404
-          message: could not find data
+          block: could not find data
 
     InternalErrorResponse:
       description: Indicates that the server encountered an unexpected condition, which prevented it from fulfilling the request by the client.
@@ -2810,7 +2810,7 @@ components:
       example:
         error:
           code: 500
-          message: internal server error
+          block: internal server error
 
     InfoResponse:
       description: Returns general information about the node.
@@ -2864,21 +2864,21 @@ components:
         metrics:
           description: Node metrics.
           properties:
-            messagesPerSecond:
-              description: The current rate of new messages per second.
+            blocksPerSecond:
+              description: The current rate of new blocks per second.
               type: number
               format: float
-            referencedMessagesPerSecond:
-              description: The current rate of referenced messages per second.
+            referencedBlocksPerSecond:
+              description: The current rate of referenced blocks per second.
               type: number
               format: float
             referencedRate:
-              description: The ratio of referenced messages in relation to new messages of the last confirmed milestone.
+              description: The ratio of referenced blocks in relation to new blocks of the last confirmed milestone.
               type: number
               format: float
           required:
-            - messagesPerSecond
-            - referencedMessagesPerSecond
+            - blocksPerSecond
+            - referencedBlocksPerSecond
             - referencedRate
         protocol:
           description: Protocol parameters.
@@ -2896,7 +2896,7 @@ components:
               type: integer
               description: Protocol version used by the network.
             minPoWScore:
-              description: The Proof-of-Work difficulty for a message to be sent over the network to mitigate spam.
+              description: The Proof-of-Work difficulty for a block to be sent over the network to mitigate spam.
               type: number
               format: float
             rentStructure:
@@ -2970,25 +2970,25 @@ components:
         - plugins
 
     TipsResponse:
-      description: Returns tips that are ideal for attaching a message.
+      description: Returns tips that are ideal for attaching a block.
       properties:
-        tipMessageIds:
+        tipBlockIds:
           type: array
           items:
             type: string
-          description: The message identifiers that can be used to a attach a message to. Hex-encoded with 0x prefix.
+          description: The block identifiers that can be used to a attach a block to. Hex-encoded with 0x prefix.
       required:
-        - tipMessageIds
+        - tipBlockIds
 
-    SubmitMessageRequest:
-      description: Submits a message to the node.
+    SubmitBlockRequest:
+      description: Submits a block to the node.
       properties:
         protocolVersion:
           type: integer
-          description: Protocol version number of the message.It also tells which protocol rules apply to the message.
-        parentMessageIds:
+          description: Protocol version number of the block.It also tells which protocol rules apply to the block.
+        parentBlockIds:
           type: array
-          description: The identifiers of the messages this message references. Hex-encoded with 0x prefix.
+          description: The identifiers of the blocks this block references. Hex-encoded with 0x prefix.
           items:
             type: string
         payload:
@@ -3000,45 +3000,45 @@ components:
             - $ref: '#/components/schemas/ReceiptPayload'
         nonce:
           type: string
-          description: The nonce which lets this message fulfill the Proof-of-Work requirement. Hex-encoded with 0x prefix.
+          description: The nonce which lets this block fulfill the Proof-of-Work requirement. Hex-encoded with 0x prefix.
 
-    SubmitMessageResponse:
-      description: Returns the message identifier of the submitted message.
+    SubmitBlockResponse:
+      description: Returns the block identifier of the submitted block.
       properties:
-        messageId:
+        blockId:
           type: string
-          description: The message identifier of the submitted message. Hex-encoded with 0x prefix.
+          description: The block identifier of the submitted block. Hex-encoded with 0x prefix.
       required:
-        - messageId
+        - blockId
 
-    MessageMetadataResponse:
-      description: Returns the metadata of a given message.
+    BlockMetadataResponse:
+      description: Returns the metadata of a given block.
       properties:
-        messageId:
+        blockId:
           type: string
-          description: The identifier of the message. Hex-encoded with 0x prefix.
-        parentMessageIds:
+          description: The identifier of the block. Hex-encoded with 0x prefix.
+        parentBlockIds:
           type: array
-          description: The identifiers of the messages this message references. Hex-encoded with 0x prefix.
+          description: The identifiers of the blocks this block references. Hex-encoded with 0x prefix.
           items:
             type: string
         isSolid:
           type: boolean
-          description: Tells if the message could get solidified by the node or not.
+          description: Tells if the block could get solidified by the node or not.
         referencedByMilestoneIndex:
           type: integer
           nullable: true
-          description: Tells which milestone references this message. If `null` the message was not referenced by a milestone yet.
+          description: Tells which milestone references this block. If `null` the block was not referenced by a milestone yet.
         milestoneIndex:
           type: integer
-          description: If set, this message can be considered as a valid milestone message. This field therefore describes the milestone index of the involved milestone. A message can be considered as a valid milestone message if the milestone payload is valid and if the referenced parents in the milestone payload do match the referenced parents in the message itself. Note it's possible to have different milestone messages that all represent the same milestone.
+          description: If set, this block can be considered as a valid milestone block. This field therefore describes the milestone index of the involved milestone. A block can be considered as a valid milestone block if the milestone payload is valid and if the referenced parents in the milestone payload do match the referenced parents in the block itself. Note it's possible to have different milestone blocks that all represent the same milestone.
         ledgerInclusionState:
           type: string
           enum:
             - included
             - conflicting
             - noTransaction
-          description: If `included`, the message contains a transaction that has been included in the ledger. If `conflicitng`, the message contains a transaction that has not been included in the ledger because it conflicts with another transaction. If the message does not contain a transaction, `ledgerInclusionState` is set to `noTransaction`.
+          description: If `included`, the block contains a transaction that has been included in the ledger. If `conflicitng`, the block contains a transaction that has not been included in the ledger because it conflicts with another transaction. If the block does not contain a transaction, `ledgerInclusionState` is set to `noTransaction`.
         conflictReason:
           type: integer
           enum: [1,2,3,4,5,6,7,8,9,10,11,12,255]
@@ -3060,43 +3060,43 @@ components:
 
         shouldPromote:
           type: boolean
-          description: Tells if the message should be promoted to get more likely picked up by the Coordinator.
+          description: Tells if the block should be promoted to get more likely picked up by the Coordinator.
         shouldReattach:
           type: boolean
-          description: Tells if the message should be reattached.
+          description: Tells if the block should be reattached.
       required:
-        - messageId
-        - parentMessageIds
+        - blockId
+        - parentBlockIds
         - isSolid
 
-    MessageResponse:
-      description: Returns a given message.
+    BlockResponse:
+      description: Returns a given block.
       properties:
         allOf:
-          $ref: '#/components/schemas/Message'
+          $ref: '#/components/schemas/Block'
 
-    MessageChildrenResponse:
-      description: Returns the children of a given message.
+    BlockChildrenResponse:
+      description: Returns the children of a given block.
       properties:
-        messageId:
+        blockId:
           type: string
-          description: The message identifier of the given message that was used to look up its children. Hex-encoded with 0x prefix.
+          description: The block identifier of the given block that was used to look up its children. Hex-encoded with 0x prefix.
         maxResults:
           type: integer
           description: The number of results it can return at most.
         count:
           type: integer
           description: The actual number of found results.
-        childrenMessageIds:
+        childrenBlockIds:
           type: array
           items:
             type: string
-          description: The message identifiers of the found children. Hex-encoded with 0x prefix.
+          description: The block identifiers of the found children. Hex-encoded with 0x prefix.
       required:
-        - messageId
+        - blockId
         - maxResults
         - count
-        - childrenMessageIds
+        - childrenBlockIds
 
     OutputResponse:
       description: Returns an output and its metadata.
@@ -3119,9 +3119,9 @@ components:
     OutputMetadataResponse:
       description: Returns metadata about an output.
       properties:
-        messageId:
+        blockId:
           type: string
-          description: The message identifier that references the output. Hex-encoded with 0x prefix.
+          description: The block identifier that references the output. Hex-encoded with 0x prefix.
         transactionId:
           type: string
           description: The identifier of the transaction. Hex-encoded with 0x prefix.
@@ -3153,7 +3153,7 @@ components:
           type: integer
           description: The current ledger index for which the request was made.
       required:
-        - messageId
+        - blockId
         - transactionId
         - outputIndex
         - isSpent
@@ -3187,15 +3187,15 @@ components:
         index:
           type: integer
           description: The index number of the milestone.
-        messageId:
+        blockId:
           type: string
-          description: The identifier of a message which describes this milestone. Note that different messages could describe the same milestone. Hex-encoded with 0x prefix.
+          description: The identifier of a block which describes this milestone. Note that different blocks could describe the same milestone. Hex-encoded with 0x prefix.
         timestamp:
           type: integer
           description: The timestamp of when the  milestone was issued.
       required:
         - index
-        - messageId
+        - blockId
         - timestamp
 
     UTXOChangesResponse:
@@ -3258,9 +3258,9 @@ components:
         timestamp:
           type: integer
           description: The timestamp of the milestone.
-        parentMessageIds:
+        parentBlockIds:
           type: array
-          description: The hex encoded message IDs of the parents the milestone references.
+          description: The hex encoded block IDs of the parents the milestone references.
           items:
             type: string
         previousMilestoneId:
@@ -3269,7 +3269,7 @@ components:
       required:
         - index
         - timestamp
-        - parentMessageIds
+        - parentBlockIds
         - previousMilestoneId
 
     ComputeWhiteFlagResponse:
