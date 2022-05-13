@@ -2758,12 +2758,12 @@ components:
             code:
               type: string
               description: The application error code.
-            block:
+            message:
               type: string
               description: The error reason.
           required:
             - code
-            - block
+            - message
       required:
         - error
 
@@ -2774,7 +2774,7 @@ components:
       example:
         error:
           code: 403
-          block: not available for public use
+          message: not available for public use
 
     ServiceUnavailableResponse:
       description: Indicates that the service is unavailable.
@@ -2783,7 +2783,7 @@ components:
       example:
         error:
           code: 503
-          block: service unavailable
+          message: service unavailable
 
     BadRequestResponse:
       description: Indicates that the request was bad.
@@ -2792,7 +2792,7 @@ components:
       example:
         error:
           code: 400
-          block: invalid data provided
+          message: invalid data provided
 
     NotFoundResponse:
       description: Indicates that the data was not found.
@@ -2801,7 +2801,7 @@ components:
       example:
         error:
           code: 404
-          block: could not find data
+          message: could not find data
 
     InternalErrorResponse:
       description: Indicates that the server encountered an unexpected condition, which prevented it from fulfilling the request by the client.
@@ -2810,7 +2810,7 @@ components:
       example:
         error:
           code: 500
-          block: internal server error
+          message: internal server error
 
     InfoResponse:
       description: Returns general information about the node.
