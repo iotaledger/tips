@@ -11,8 +11,8 @@ externalDocs:
 tags:
   - name: milestones
     description: Everything about milestones.
-  - name: messages
-    description: Everything about messages.
+  - name: blocks
+    description: Everything about blocks.
   - name: outputs
     description: Everything about outputs.
   - name: transactions
@@ -44,33 +44,33 @@ channels:
       description: Publishes newly created milestone payloads.
       message:
         $ref: '#/components/messages/MilestonePayloadSerialized'
-  messages:
+  blocks:
     subscribe:
       tags:
-        - name: messages
-      operationId: messages
-      description: Publishes newly received messages in their serialized binary form.
+        - name: blocks
+      operationId: blocks
+      description: Publishes newly received blocks in their serialized binary form.
       message:
-        $ref: '#/components/messages/Message'
-  messages/transaction:
+        $ref: '#/components/messages/Block'
+  blocks/transaction:
     subscribe:
       tags:
-        - name: messages
+        - name: blocks
         - name: transactions
-      operationId: messagesTransaction
-      description: Publishes newly received messages containing a transaction payload in their serialized binary form.
+      operationId: blocksTransaction
+      description: Publishes newly received blocks containing a transaction payload in their serialized binary form.
       message:
-        $ref: '#/components/messages/Message'
-  messages/transaction/tagged-data:
+        $ref: '#/components/messages/Block'
+  blocks/transaction/tagged-data:
     subscribe:
       tags:
-        - name: messages
+        - name: blocks
         - name: transactions
-      operationId: messagesTransactionsWithTaggedData
-      description: Publishes newly received messages containing a Tagged Data payload inside transactions.
+      operationId: blocksTransactionsWithTaggedData
+      description: Publishes newly received blocks containing a Tagged Data payload inside transactions.
       message:
-        $ref: '#/components/messages/Message'
-  messages/transaction/tagged-data/{tag}:
+        $ref: '#/components/messages/Block'
+  blocks/transaction/tagged-data/{tag}:
     parameters:
       tag:
         description: Hex encoded tag of the Tagged Data Payload inside the Transaction Payload.
@@ -79,21 +79,21 @@ channels:
           example: "0xe45"
     subscribe:
       tags:
-        - name: messages
+        - name: blocks
         - name: transactions
-      operationId: messagesTransactionsWithTag
-      description: Publishes newly received messages containing a Tagged Data payload inside transactions with a specific tag.
+      operationId: blocksTransactionsWithTag
+      description: Publishes newly received blocks containing a Tagged Data payload inside transactions with a specific tag.
       message:
-        $ref: '#/components/messages/Message'
-  messages/tagged-data:
+        $ref: '#/components/messages/Block'
+  blocks/tagged-data:
     subscribe:
       tags:
-        - name: messages
-      operationId: messagesWithTaggedData
-      description: Publishes newly received messages which contain tagged data payloads (encoded in hex) in their serialized binary form.
+        - name: blocks
+      operationId: blocksWithTaggedData
+      description: Publishes newly received blocks which contain tagged data payloads (encoded in hex) in their serialized binary form.
       message:
-        $ref: '#/components/messages/Message'
-  messages/tagged-data/{tag}:
+        $ref: '#/components/messages/Block'
+  blocks/tagged-data/{tag}:
     parameters:
       tag:
         description: Hex encoded tag of the Tagged Data Payload.
@@ -102,34 +102,34 @@ channels:
           example: "0xe45"
     subscribe:
       tags:
-        - name: messages
-      operationId: messagesWithSpecificTag
-      description: Publishes newly received messages which contain tagged data payloads with the specified tag parameter (encoded in hex) in their serialized binary form. Untagged data messages do not get published.
+        - name: blocks
+      operationId: blocksWithSpecificTag
+      description: Publishes newly received blocks which contain tagged data payloads with the specified tag parameter (encoded in hex) in their serialized binary form. Untagged data blocks do not get published.
       message:
-        $ref: '#/components/messages/Message'
-  message-metadata/{messageId}:
+        $ref: '#/components/messages/Block'
+  block-metadata/{blockId}:
     parameters:
-      messageId:
-        description: Hex encoded identifier of the message.
+      blockId:
+        description: Hex encoded identifier of the block.
         schema:
           type: string
           example: "0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85"
     subscribe:
       tags:
-        - name: messages
-      operationId: messageSpecificMetadata
-      description: Publishes metadata of a particular message whenever its metadata changes.
+        - name: blocks
+      operationId: blockSpecificMetadata
+      description: Publishes metadata of a particular block whenever its metadata changes.
       message:
-        $ref: '#/components/messages/MessageMetadata'
-  message-metadata/referenced:
+        $ref: '#/components/messages/BlockMetadata'
+  block-metadata/referenced:
     subscribe:
       tags:
-        - name: messages
-      operationId: messageMetadataReferenced
-      description: Publishes metadata of a message whenever it gets referenced.
+        - name: blocks
+      operationId: blockMetadataReferenced
+      description: Publishes metadata of a block whenever it gets referenced.
       message:
-        $ref: '#/components/messages/MessageMetadata'
-  transactions/{transactionId}/included-message:
+        $ref: '#/components/messages/BlockMetadata'
+  transactions/{transactionId}/included-block:
     parameters:
       transactionId:
         description: Hex encoded identifier of the transaction.
@@ -140,9 +140,9 @@ channels:
       tags:
         - name: transactions
       operationId: transactions
-      description: Publishes the confirmed message which carried the transaction with the specified transaction id.
+      description: Publishes the confirmed block which carried the transaction with the specified transaction id.
       message:
-        $ref: '#/components/messages/Message'
+        $ref: '#/components/messages/Block'
   outputs/{outputId}:
     parameters:
       outputId:
@@ -289,7 +289,7 @@ components:
           - "index"
           - "timestamp"
           - "previousMilestoneId"
-          - "parentMessageIds"
+          - "parentBlockIds"
           - "pastConeMerkleProof"
           - "inclusionMerkleProof"
           - "signatures"
@@ -310,7 +310,7 @@ components:
             type: string
             description: Milestone ID of the previous milestone (index - 1). Hex-encoded with 0x prefix.
             example: "0x4bd78256357630f186a4b302b3b8df7c01061260baa8d014f34187862343cf4e"
-          parentMessageIds:
+          parentBlockIds:
             type: array
             description: The parents where this milestone attaches to
             example:
@@ -318,11 +318,11 @@ components:
               - "0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85"
           pastConeMerkleProof:
             type: string
-            description: The merkle root of all directly/indirectly referenced messages (their IDs) which were newly confirmed by this milestone.
+            description: The merkle root of all directly/indirectly referenced blocks (their IDs) which were newly confirmed by this milestone.
             example: "0x014e3a82d54c1bf4e411eee30ce25ee739b0f790fca248c0036d538952d6072b"
           inclusionMerkleProof:
             type: string
-            description: The merkle root of all messages (their IDs) carrying ledger state mutating transactions.
+            description: The merkle root of all blocks (their IDs) carrying ledger state mutating transactions.
             example: "0x07fbcf40a98cf1e1e1e0aeb7527ecf464cc8d461f617e48931c6a2096cb18d1a"
           metadata:
             type: string
@@ -370,9 +370,9 @@ components:
             description: Hex encoded identifier of the milestone payload.
             example: "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
 
-    Message:
+    Block:
       contentType: application/octet-stream
-      description: The message in its serialized binary form.
+      description: The block in its serialized binary form.
       payload:
         type: string
         format: binary
@@ -407,44 +407,44 @@ components:
               - $ref: '#/components/schemas/AliasOutput'
               - $ref: '#/components/schemas/FoundryOutput'
               - $ref: '#/components/schemas/NFTOutput'
-    MessageMetadata:
+    BlockMetadata:
       contentType: application/json
       payload:
         type: object
         required:
-          - "messageId"
-          - "parentMessageIds"
+          - "blockId"
+          - "parentBlockIds"
           - "isSolid"
         properties:
-          messageId:
+          blockId:
             type: string
-            description: The ID of the message.
+            description: The ID of the block.
             example: "0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85"
-          parentMessageIds:
+          parentBlockIds:
             type: array
-            description: The IDs of the referenced parent messages.
+            description: The IDs of the referenced parent blocks.
             example:
               - "0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7"
               - "0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85"
           isSolid:
             type: boolean
-            description: Whether the message is solid or not.
+            description: Whether the block is solid or not.
             example: true
           referencedByMilestoneIndex:
             type: number
-            description: The index of the milestone which referenced this message.
+            description: The index of the milestone which referenced this block.
             example: 242544
           ledgerInclusionState:
             type: string
-            description: The inclusion state of the message.
+            description: The inclusion state of the block.
             enum: [ noTransaction, conflicting, included ]
           shouldPromote:
             type: boolean
-            description: Whether the message should be promoted. This is determined automatically by the node by using the OCRI/YCRI of the message.
+            description: Whether the block should be promoted. This is determined automatically by the node by using the OCRI/YCRI of the block.
             example: true
           shouldReattach:
             type: boolean
-            description: Whether the message should be re-attached. This is determined automatically by the node by using the OCRI/YCRI of the message.
+            description: Whether the block should be re-attached. This is determined automatically by the node by using the OCRI/YCRI of the block.
             example: false
 
   schemas:
@@ -1033,9 +1033,9 @@ components:
     OutputMetadata:
       description: Metadata of an output.
       properties:
-        messageId:
+        blockId:
           type: string
-          description: The ID of the message.
+          description: The ID of the block.
           example: "0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85"
         transactionId:
           type: string
@@ -1074,7 +1074,7 @@ components:
           description: The ledger index at which this output was available at.
           example: 100000
       required:
-        - messageId
+        - blockId
         - transactionId
         - outputIndex
         - isSpent
