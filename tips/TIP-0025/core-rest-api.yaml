@@ -1263,7 +1263,7 @@ components:
 
     get-tips-response-example:
       value:
-        tipBlockIds:
+        tips:
           - "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           - "0x78d546b46aec4557872139a48f66bc567687e8413578a14323548732358914a2"
 
@@ -2979,13 +2979,13 @@ components:
     TipsResponse:
       description: Returns tips that are ideal for attaching a block.
       properties:
-        tipBlockIds:
+        tips:
           type: array
           items:
             type: string
           description: The block identifiers that can be used to a attach a block to. Hex-encoded with 0x prefix.
       required:
-        - tipBlockIds
+        - tips
 
     SubmitBlockRequest:
       description: Submits a block to the node.
