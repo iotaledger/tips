@@ -145,7 +145,7 @@ paths:
           schema:
             type: string
           example: "0x4ec7f23"
-          description: Filters outputs based on matching Tag Block.
+          description: Filters outputs based on matching Tag Feature.
         - in: query
           name: createdBefore
           schema:
@@ -631,7 +631,7 @@ paths:
           schema:
             type: string
           example: "0x4ec7f23"
-          description: Filters outputs based on matching Tag Block.
+          description: Filters outputs based on matching Tag Feature.
         - in: query
           name: createdBefore
           schema:
