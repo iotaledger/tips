@@ -1674,8 +1674,9 @@ components:
         appliedMerkleRoot: "0xee26ac07834c603c22130fced361ca58552b0dbfc63e4b73ba24b3b59d9f4050"
         options:
          - type: 1
-           nextPoWScore: 2000
-           nextPoWScoreMilestoneIndex: 15475
+           targetMilestoneIndex: 2000
+           protocolVersion: 13
+           params: "0x27d0ca22753f76ef32d1e9e8fcc417aa9fc1c15eae854661e0253287be6ea68f649493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d6"
         metadata: "0xd6ac43e9ca750"
         signatures:
           - type: 0
@@ -2692,13 +2693,15 @@ components:
         type:
           type: integer
           description: Defines the type of MilestoneOpt.
-        nextPoWScore:
+        targetMilestoneIndex:
           type: integer
-          description: The next minimum PoW score to use after NextPoWScoreMilestoneIndex is hit.
-        nextPoWScoreMilestoneIndex:
+          description: The milestone index at which these protocol parameters become active.
+        protocolVersion:
           type: integer
-          description: The milestone index at which the PoW score changes to NextPoWScore.
-
+          description: The to be applied protocol version.
+        params:
+          type: string
+          description: The protocol parameters in binary form. Hex-encoded with 0x prefix.
 
     ReceiptTuple:
       description: Contains a receipt and the index of the milestone which contained the receipt.
