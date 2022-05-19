@@ -1360,7 +1360,7 @@ components:
                       type: 0
                       pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
             payload:
-          unlockBlocks:
+          unlocks:
             - type: 0
               signature:
                 type: 0
@@ -1405,7 +1405,7 @@ components:
                       type: 0
                       pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
             payload:
-          unlockBlocks:
+          unlocks:
             - type: 0
               signature:
                 type: 0
@@ -1459,7 +1459,7 @@ components:
                       type: 0
                       pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
             payload:
-          unlockBlocks:
+          unlocks:
             - type: 0
               signature:
                 type: 0
@@ -1652,7 +1652,7 @@ components:
               type: 2
               index: "0x454f59"
               data: ""
-          unlockBlocks:
+          unlocks:
             - type: 0
               signature:
                 type: 0
@@ -1891,18 +1891,18 @@ components:
           type: object
           oneOf:
             - $ref: '#/components/schemas/TransactionEssence'
-        unlockBlocks:
+        unlocks:
           type: array
           items:
             oneOf:
-              - $ref: '#/components/schemas/SignatureUnlockBlock'
-              - $ref: '#/components/schemas/ReferenceUnlockBlock'
-              - $ref: '#/components/schemas/AliasUnlockBlock'
-              - $ref: '#/components/schemas/NFTUnlockBlock'
+              - $ref: '#/components/schemas/SignatureUnlock'
+              - $ref: '#/components/schemas/ReferenceUnlock'
+              - $ref: '#/components/schemas/AliasUnlock'
+              - $ref: '#/components/schemas/NFTUnlock'
       required:
         - type
         - essence
-        - unlockBlocks
+        - unlocks
 
     TransactionEssence:
       description: Describes the essence data making up a transaction by defining its inputs and outputs and an optional payload.
@@ -2398,12 +2398,12 @@ components:
         - meltedTokens
         - maxSupply
 
-    SignatureUnlockBlock:
-      description: Defines an unlock block containing signature(s) unlocking input(s).
+    SignatureUnlock:
+      description: Defines an unlock containing signature(s) unlocking input(s).
       properties:
         type:
           type: integer
-          description: Denotes a Signature Unlock Block.
+          description: Denotes a Signature Unlock.
         signature:
           type: object
           oneOf:
@@ -2429,41 +2429,41 @@ components:
         - publicKey
         - signature
 
-    ReferenceUnlockBlock:
-      description: References a previous unlock block in order to substitute the duplication of the same unlock block data for inputs which unlock through the same data.
+    ReferenceUnlock:
+      description: References a previous unlock in order to substitute the duplication of the same unlock data for inputs which unlock through the same data.
       properties:
         type:
           type: integer
-          description: Set to value 1 to denote a Reference Unlock Block.
+          description: Set to value 1 to denote a Reference Unlock.
         reference:
           type: integer
-          description: Represents the index of a previous unlock block.
+          description: Represents the index of a previous unlock.
       required:
         - type
         - reference
 
-    AliasUnlockBlock:
-      description: References a previous unlock block that unlocks an Alias Output.
+    AliasUnlock:
+      description: References a previous unlock that unlocks an Alias Output.
       properties:
         type:
           type: integer
-          description: Set to value 2 to denote an Alias Unlock Block.
+          description: Set to value 2 to denote an Alias Unlock.
         reference:
           type: integer
-          description: Represents the index of a previous unlock block.
+          description: Represents the index of a previous unlock.
       required:
         - type
         - reference
 
-    NFTUnlockBlock:
-      description: References a previous unlock block that unlocks an NFT Output.
+    NFTUnlock:
+      description: References a previous unlock that unlocks an NFT Output.
       properties:
         type:
           type: integer
-          description: Set to value 3 to denote an NFT Unlock Block.
+          description: Set to value 3 to denote an NFT Unlock.
         reference:
           type: integer
-          description: Represents the index of a previous unlock block.
+          description: Represents the index of a previous unlock.
       required:
         - type
         - reference
