@@ -1984,14 +1984,14 @@ components:
               - $ref: '#/components/schemas/StorageDepositReturnUnlockCondition'
               - $ref: '#/components/schemas/TimelockUnlockCondition'
               - $ref: '#/components/schemas/ExpirationUnlockCondition'
-        featureBlocks:
+        features:
           type: array
-          description: Feature blocks that add utility to the output but do not impose unlocking conditions.
+          description: Features that add utility to the output but do not impose unlocking conditions.
           items:
             anyOf:
-              - $ref: '#/components/schemas/SenderBlock'
-              - $ref: '#/components/schemas/MetadataBlock'
-              - $ref: '#/components/schemas/TagBlock'
+              - $ref: '#/components/schemas/SenderFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+              - $ref: '#/components/schemas/TagFeature'
       required:
         - type
         - amount
@@ -2032,21 +2032,21 @@ components:
             anyOf:
               - $ref: '#/components/schemas/StateControllerAddressUnlockCondition'
               - $ref: '#/components/schemas/GovernorAddressUnlockCondition'
-        featureBlocks:
+        features:
           type: array
-          description: Feature blocks that add utility to the output but do not impose unlocking conditions.
+          description: Features that add utility to the output but do not impose unlocking conditions.
           items:
             anyOf:
-              - $ref: '#/components/schemas/SenderBlock'
-              - $ref: '#/components/schemas/MetadataBlock'
-        immutableFeatureBlocks:
+              - $ref: '#/components/schemas/SenderFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+        immutableFeatures:
           type: array
-          description: Immutable feature blocks that add utility to the output but do not impose unlocking conditions.
-            These blocks need to be kept in future transitions of the UTXO state machine.
+          description: Immutable features that add utility to the output but do not impose unlocking conditions.
+            These features need to be kept in future transitions of the UTXO state machine.
           items:
             anyOf:
-              - $ref: '#/components/schemas/IssuerBlock'
-              - $ref: '#/components/schemas/MetadataBlock'
+              - $ref: '#/components/schemas/IssuerFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
       required:
         - type
         - amount
@@ -2085,19 +2085,19 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/ImmutableAliasAddressUnlockCondition'
-        featureBlocks:
+        features:
           type: array
-          description: Feature blocks that add utility to the output but do not impose unlocking conditions.
+          description: Features that add utility to the output but do not impose unlocking conditions.
           items:
             anyOf:
-              - $ref: '#/components/schemas/MetadataBlock'
-        immutableFeatureBlocks:
+              - $ref: '#/components/schemas/MetadataFeature'
+        immutableFeatures:
           type: array
-          description: Immutable feature blocks that add utility to the output but do not impose unlocking conditions.
-            These blocks need to be kept in future transitions of the UTXO state machine.
+          description: Immutable features that add utility to the output but do not impose unlocking conditions.
+            These features need to be kept in future transitions of the UTXO state machine.
           items:
             anyOf:
-              - $ref: '#/components/schemas/MetadataBlock'
+              - $ref: '#/components/schemas/MetadataFeature'
       required:
         - type
         - amount
@@ -2132,23 +2132,23 @@ components:
               - $ref: '#/components/schemas/StorageDepositReturnUnlockCondition'
               - $ref: '#/components/schemas/TimelockUnlockCondition'
               - $ref: '#/components/schemas/ExpirationUnlockCondition'
-        featureBlocks:
+        features:
           type: array
-          description: Feature blocks that add utility to the output but do not impose unlocking conditions.
+          description: Features that add utility to the output but do not impose unlocking conditions.
           items:
             anyOf:
-              - $ref: '#/components/schemas/SenderBlock'
-              - $ref: '#/components/schemas/IssuerBlock'
-              - $ref: '#/components/schemas/MetadataBlock'
-              - $ref: '#/components/schemas/TagBlock'
-        immutableFeatureBlocks:
+              - $ref: '#/components/schemas/SenderFeature'
+              - $ref: '#/components/schemas/IssuerFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+              - $ref: '#/components/schemas/TagFeature'
+        immutableFeatures:
           type: array
-          description: Immutable feature blocks that add utility to the output but do not impose unlocking conditions.
-            These blocks need to be kept in future transitions of the UTXO state machine.
+          description: Immutable features that add utility to the output but do not impose unlocking conditions.
+            These features need to be kept in future transitions of the UTXO state machine.
           items:
             anyOf:
-              - $ref: '#/components/schemas/IssuerBlock'
-              - $ref: '#/components/schemas/MetadataBlock'
+              - $ref: '#/components/schemas/IssuerFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
       required:
         - type
         - amount
@@ -2321,12 +2321,12 @@ components:
         - type
         - address
 
-    SenderBlock:
+    SenderFeature:
       description: Identifies the validated sender of the output.
       properties:
         type:
           type: integer
-          description: Set to value 0 to denote a Sender Block.
+          description: Set to value 0 to denote a Sender Feature.
         sender:
           oneOf:
             - $ref: '#/components/schemas/Ed25519Address'
@@ -2336,12 +2336,12 @@ components:
         - type
         - sender
 
-    IssuerBlock:
+    IssuerFeature:
       description: Identifies the validated issuer of the UTXO state machine (alias/NFT).
       properties:
         type:
           type: integer
-          description: Set to value 1 to denote an Issuer Block.
+          description: Set to value 1 to denote an Issuer Feature.
         issuer:
           oneOf:
             - $ref: '#/components/schemas/Ed25519Address'
@@ -2351,12 +2351,12 @@ components:
         - type
         - issuer
 
-    MetadataBlock:
+    MetadataFeature:
       description: Defines metadata (arbitrary binary data) that will be stored in the output.
       properties:
         type:
           type: integer
-          description: Set to value 2 to denote a Metadata Block.
+          description: Set to value 2 to denote a Metadata Feature.
         data:
           type: string
           description: Hex-encoded binary data with 0x prefix.
@@ -2364,12 +2364,12 @@ components:
         - type
         - data
 
-    TagBlock:
+    TagFeature:
       description: Defines an indexation tag to which the output can be indexed by additional node plugins.
       properties:
         type:
           type: integer
-          description: Set to value 3 to denote a Metadata Block.
+          description: Set to value 3 to denote a Tag Feature.
         tag:
           type: string
           description: Hex-encoded binary indexation tag with 0x prefix.
