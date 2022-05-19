@@ -2702,6 +2702,11 @@ components:
         params:
           type: string
           description: The protocol parameters in binary form. Hex-encoded with 0x prefix.
+      required:
+        - type
+        - targetMilestoneIndex
+        - protocolVersion
+        - params
 
     ReceiptTuple:
       description: Contains a receipt and the index of the milestone which contained the receipt.
