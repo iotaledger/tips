@@ -995,20 +995,23 @@ components:
       properties:
         type:
           type: number
-          description: The type of the MilestoneOptProtocolParams (1).
+          description: The type of the ProtocolParamsMilestoneOptions (1).
           example: 1
-        nextPoWScore:
-          type: number
-          description: The next minimum PoW score to use after NextPoWScoreMilestoneIndex is hit.
-          example: 2000.0
-        nextPoWScoreMilestoneIndex:
-          type: number
-          description: The milestone index at which the PoW score changes to NextPoWScore.
+        targetMilestoneIndex:
+          type: integer
+          description: The milestone index at which these protocol parameters become active.
+        protocolVersion:
+          type: integer
+          description: The to be applied protocol version.
+        params:
+          type: string
+          description: The protocol parameters in binary form. Hex-encoded with 0x prefix.
           example: 150
       required:
         - type
-        - nextPowScore
-        - nextPoWScoreMilestoneIndex
+        - targetMilestoneIndex
+        - protocolVersion
+        - params
 
     Ed25519Signature:
       description: Ed25519Signature defines an Ed25519 signature.
