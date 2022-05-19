@@ -32,6 +32,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GapsResponse'
+              examples:
+                default:
+                  $ref: "#/components/examples/get-gaps-response-example"
         '403':
           description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
           content:
@@ -78,9 +81,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TransactionsResponse"
-              # examples:
-              #   default:
-              #     $ref: "#/components/examples/get-transactions-response-example"
+              examples:
+                default:
+                  $ref: "#/components/examples/get-transactions-response-example"
         "400":
           description: "Unsuccessful operation: indicates that the provided address is invalid."
           content:
@@ -107,14 +110,14 @@ components:
   schemas:
     Gap:
       description: >-
-        Describes a gap in the historical data. A gap is defined as the range [from, to). Note that to is exclusive.
+        Describes a gap in the historical data. A gap is defined as the range milestone indices [from, to). Note that to is exclusive.
       properties:
         start:
           type: number
-          description: The first milestone for which the node does not have data.
+          description: The first milestone index for which the node does not have data.
         end:
           type: number
-          description: The first milestone for which the node has data again.
+          description: The first milestone index for which the node has data again.
     GapsResponse:
       description: Returns information about missing data.
       properties:
@@ -134,3 +137,15 @@ components:
           description: The list of transactionIds.
       required:
         - transactions
+  examples:
+    get-gaps-response-example:
+      value:
+        - from: 15465
+          end: 15482
+        - from: 15487
+          end: 15499
+    get-transactions-response-example:
+      value:
+        - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
+        - "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+        - "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
