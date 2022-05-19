@@ -127,7 +127,7 @@ paths:
         build the block. On success, the block will be stored in the Tangle.
         This endpoint will return the identifier of the built block. *The
         node will try to auto-fill the following fields in case they are
-        missing: `protocolVersion`, `parentBlockIds`, `nonce`.
+        missing: `protocolVersion`, `parents`, `nonce`.
         If `payload` is missing, the block will be built without a payload.
       requestBody:
         content:
@@ -1274,7 +1274,7 @@ components:
     get-block-by-id-response-example-new:
       value:
         blockId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-        parentBlockIds:
+        parents:
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: false
@@ -1284,7 +1284,7 @@ components:
     get-block-by-id-response-example-solid:
       value:
         blockId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-        parentBlockIds:
+        parents:
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
@@ -1294,7 +1294,7 @@ components:
     get-block-by-id-response-example-included:
       value:
         blockId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-        parentBlockIds:
+        parents:
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
@@ -1304,7 +1304,7 @@ components:
     get-block-by-id-response-example-conflicting:
       value:
         blockId: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-        parentBlockIds:
+        parents:
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
@@ -1315,7 +1315,7 @@ components:
     post-tagged-data-block-request-example-full:
       value:
         protocolVersion: 1
-        parentBlockIds:
+        parents:
           - "0x222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9"
           - "0xa22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6"
           - "0xa6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d"
@@ -1375,7 +1375,7 @@ components:
     post-transaction-block-request-example-full:
       value:
         protocolVersion: 1
-        parentBlockIds:
+        parents:
           - "0x6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca"
           - "0x97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481"
           - "0xc107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d"
@@ -1420,7 +1420,7 @@ components:
     get-block-by-id-empty-response-example:
       value:
         protocolVersion: 1
-        parentBlockIds:
+        parents:
           - "0xc0b728d4c292860b57747c7bfbd989ccc40be8c76229022644c05e1352bf1ea3"
           - "0xe8db39681478cf9826bd2f31d045f16f5e1f478c5abc3030419da7911df9e288"
         payload: null
@@ -1429,7 +1429,7 @@ components:
     get-block-by-id-transaction-response-example:
       value:
         protocolVersion: 1
-        parentBlockIds:
+        parents:
           - "0x6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca"
           - "0x97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481"
           - "0xc107c5f3d6189954c9b1b8e2fa556db4bcf7ad2da717d328ecf6d9a841a5f37d"
@@ -1474,7 +1474,7 @@ components:
     get-block-by-id-milestone-response-example:
       value:
         protocolVersion: 1
-        parentBlockIds:
+        parents:
           - "0x23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b"
           - "0x242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7"
           - "0x2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1"
@@ -1485,7 +1485,7 @@ components:
           type: 1
           index: 16241
           timestamp: 1617959712
-          parentBlockIds:
+          parents:
             - "0x23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b"
             - "0x242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7"
             - "0x2a331c562b48e261c11f073c7465551ffcc80c35ab6d09f4fd1cc81782e5fdc1"
@@ -1507,7 +1507,7 @@ components:
     get-block-by-id-tagged-data-response-example:
       value:
         protocolVersion: 1
-        parentBlockIds:
+        parents:
           - "0x222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9"
           - "0xa22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6"
           - "0xa6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d"
@@ -1523,7 +1523,7 @@ components:
         blockId: "0xed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c"
         maxResults: 1000
         count: 2
-        childrenBlockIds:
+        children:
           - "0x1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d"
           - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
 
@@ -1532,7 +1532,7 @@ components:
         blockId: "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
         maxResults: 1000
         count: 0
-        childrenBlockIds: [ ]
+        children: [ ]
 
     get-outputs-by-id-response-unspent-example:
       value:
@@ -1625,7 +1625,7 @@ components:
     get-included-block-of-transaction-example-json:
       value:
         protocolVersion: 1
-        parentBlockIds:
+        parents:
           - "0x174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d6"
           - "0x5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c"
           - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
@@ -1666,11 +1666,11 @@ components:
         index: 15465
         timestamp: 1602227215
         previousMilestoneId: "0x7ad3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
-        parentBlockIds:
+        parents:
          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
          - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
          - "0xde9e9d780ba7ebeebc38da16cb53b2a8991d38eee94bcdc3f3ef99aa8c345652"
-        confirmedMerkleRoot: "0xa18996d96163405e3c0eb13fa3459a07f68a89e8cf7cc239c89e7192344daa5b"
+        inclusionMerkleRoot: "0xa18996d96163405e3c0eb13fa3459a07f68a89e8cf7cc239c89e7192344daa5b"
         appliedMerkleRoot: "0xee26ac07834c603c22130fced361ca58552b0dbfc63e4b73ba24b3b59d9f4050"
         options:
          - type: 1
@@ -1814,7 +1814,7 @@ components:
       value:
         index: 1560
         timestamp: 1602227215
-        parentBlockIds:
+        parents:
           - "0x174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d6"
           - "0x5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c"
           - "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
@@ -1823,7 +1823,7 @@ components:
 
     compute-whiteflag-response-example:
       value:
-        confirmedMerkleRoot: "0x52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649"
+        inclusionMerkleRoot: "0x52fdfc072182654f163f5f0f9a621d729566c74d10037c4d7bbb0407d1e2c649"
         appliedMerkleRoot: "0xbbffde11ef804fdbc7c8f62432937b7a00806c136eca21c54038d5a6bdd16251"
 
     database-prune-request-example:
@@ -1860,7 +1860,7 @@ components:
         protocolVersion:
           type: number
           description: Protocol version identifier. It also tells which protocol rules apply to the block.
-        parentBlockIds:
+        parents:
           type: array
           description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
           items:
@@ -1877,7 +1877,7 @@ components:
           description: The nonce which lets this block fulfill the Proof-of-Work requirement. Plain string encoded number.
       required:
         - protocolVersion
-        - parentBlockIds
+        - parents
         - nonce
 
     TransactionPayload:
@@ -2482,12 +2482,12 @@ components:
         previousMilestoneId:
           type: string
           description: The Milestone ID of the milestone with Index Number - 1.
-        parentBlockIds:
+        parents:
           description: The identifiers of the blocks this milestone references. Hex-encoded values with 0x prefix.
           type: array
           items:
             type: string
-        confirmedMerkleRoot:
+        inclusionMerkleRoot:
           type: string
           description: The merkle root of all directly/indirectly referenced blocks (their IDs) which are newly confirmed by this milestone. Hex-encoded with 0x prefix.
         appliedMerkleRoot:
@@ -2513,8 +2513,8 @@ components:
         - index
         - timestamp
         - previousMilestoneId
-        - parentBlockIds
-        - confirmedMerkleRoot
+        - parents
+        - inclusionMerkleRoot
         - appliedMerkleRoot
         - signatures
 
@@ -2606,7 +2606,6 @@ components:
         - multiAddresses
         - relation
         - connected
-        - gossip
 
     Gossip:
       description: Information about the gossip stream with the peer.
@@ -2986,7 +2985,7 @@ components:
         protocolVersion:
           type: integer
           description: Protocol version number of the block.It also tells which protocol rules apply to the block.
-        parentBlockIds:
+        parents:
           type: array
           description: The identifiers of the blocks this block references. Hex-encoded with 0x prefix.
           items:
@@ -3017,7 +3016,7 @@ components:
         blockId:
           type: string
           description: The identifier of the block. Hex-encoded with 0x prefix.
-        parentBlockIds:
+        parents:
           type: array
           description: The identifiers of the blocks this block references. Hex-encoded with 0x prefix.
           items:
@@ -3066,7 +3065,7 @@ components:
           description: Tells if the block should be reattached.
       required:
         - blockId
-        - parentBlockIds
+        - parents
         - isSolid
 
     BlockResponse:
@@ -3087,7 +3086,7 @@ components:
         count:
           type: integer
           description: The actual number of found results.
-        childrenBlockIds:
+        children:
           type: array
           items:
             type: string
@@ -3096,7 +3095,7 @@ components:
         - blockId
         - maxResults
         - count
-        - childrenBlockIds
+        - children
 
     OutputResponse:
       description: Returns an output and its metadata.
@@ -3258,7 +3257,7 @@ components:
         timestamp:
           type: integer
           description: The timestamp of the milestone.
-        parentBlockIds:
+        parents:
           type: array
           description: The hex encoded block IDs of the parents the milestone references.
           items:
@@ -3269,20 +3268,20 @@ components:
       required:
         - index
         - timestamp
-        - parentBlockIds
+        - parents
         - previousMilestoneId
 
     ComputeWhiteFlagResponse:
-      description: Returns the computed ConfirmedMerkleRoot and AppliedMerkleRoot
+      description: Returns the computed InclusionMerkleRoot and AppliedMerkleRoot
       properties:
-        confirmedMerkleRoot:
+        inclusionMerkleRoot:
           type: string
-          description: The hex encoded confirmed merkle tree root as a result of the white flag computation.
+          description: The hex encoded inclusion merkle tree root as a result of the white flag computation.
         appliedMerkleRoot:
           type: string
           description: The hex encoded applied merkle tree root as a result of the white flag computation.
       required:
-        - confirmedMerkleRoot
+        - inclusionMerkleRoot
         - appliedMerkleRoot
 
     PruneDatabaseRequest:
