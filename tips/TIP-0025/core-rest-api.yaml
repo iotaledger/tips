@@ -1665,6 +1665,7 @@ components:
         type: 7
         index: 15465
         timestamp: 1602227215
+        protocolVersion: 2
         previousMilestoneId: "0x7ad3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
         parents:
          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
@@ -2480,6 +2481,9 @@ components:
         timestamp:
           type: integer
           description: The Unix timestamp at which the milestone was issued. The unix timestamp is specified in seconds.
+        protocolVersion:
+          type: integer
+          description: Protocol version of the Milestone Payload and its encapsulating block.
         previousMilestoneId:
           type: string
           description: The Milestone ID of the milestone with Index Number - 1.
@@ -2513,6 +2517,7 @@ components:
         - type
         - index
         - timestamp
+        - protocolVersion
         - previousMilestoneId
         - parents
         - inclusionMerkleRoot
