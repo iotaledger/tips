@@ -20,12 +20,12 @@ You may find more information about the TIP Process in [TIP-1](./tips/TIP-0001/t
 ## Stardust TIPs
 
 Stardust is the next upgrade of the IOTA protocol that adds tokenization and smart contract chain support besides many
-more improvements. Browse the [list of TIPs](#list-of-tips) below with the _Stardust_ tag to learn more about what changes with Stardust.
+more improvements. Browse the [list of TIPs](#list-of-tips) below with the _Stardust_ tag to learn more about what changes.
 
 ## List of TIPs
 
  - Last updated: 2022-05-20
- - The _Status_ of a TIP reflects it current state with respect to its progression to being supported on the IOTA mainnet.
+ - The _Status_ of a TIP reflects its current state with respect to its progression to being supported on the IOTA mainnet.
    - `Draft` TIPs are work in progress. They may or may not have a working implementation on a testnet.
    - `Proposed` TIPs are demonstrated to have a working implementation. These TIPs are supported on Shimmer, the staging network of IOTA.
    - `Active` TIPs are supported on the IOTA mainnet.
