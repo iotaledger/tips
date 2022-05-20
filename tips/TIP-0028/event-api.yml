@@ -902,7 +902,8 @@ components:
               - $ref: '#/components/schemas/TagFeature'
         immutableFeatures:
           type: array
-          description: Immutable featuressssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss that add utility to the output but do not impose unlocking conditions.
+          description: Immutable features that add utility to the output but do not impose unlocking conditions.
+
             These blocks need to be kept in future transitions of the UTXO state machine.
           items:
             anyOf:
