@@ -306,6 +306,10 @@ components:
             type: number
             description: The UNIX timestamp in seconds of the milestone.
             example: 1609950538
+          protocolVersion:
+            type: integer
+            description: Protocol version of the Milestone Payload and its encapsulating block.
+            example: 2
           previousMilestoneId:
             type: string
             description: Milestone ID of the previous milestone (index - 1). Hex-encoded with 0x prefix.
