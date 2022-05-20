@@ -1936,7 +1936,6 @@ components:
           description: The optional embedded payload.
           oneOf:
             - $ref: '#/components/schemas/TaggedDataPayload'
-          nullable: true
       required:
         - type
         - networkId
@@ -2625,6 +2624,9 @@ components:
           description: Metrics about the gossip stream with the peer.
           allOf:
             - $ref: '#/components/schemas/Metrics'
+      required:
+        - heartbeat
+        - metrics
 
     Heartbeat:
       properties:
@@ -3039,8 +3041,7 @@ components:
           description: Tells if the block could get solidified by the node or not.
         referencedByMilestoneIndex:
           type: integer
-          nullable: true
-          description: Tells which milestone references this block. If `null` the block was not referenced by a milestone yet.
+          description: Tells which milestone references this block.
         milestoneIndex:
           type: integer
           description: If set, this block can be considered as a valid milestone block. This field therefore describes the milestone index of the involved milestone. A block can be considered as a valid milestone block if the milestone payload is valid and if the referenced parents in the milestone payload do match the referenced parents in the block itself. Note it's possible to have different milestone blocks that all represent the same milestone.
@@ -3146,15 +3147,12 @@ components:
         milestoneIndexSpent:
           type: integer
           description: The milestone index at which this output was spent.
-          nullable: true
         milestoneTimestampSpent:
           type: integer
           description: The milestone timestamp this output was spent.
-          nullable: true
         transactionIdSpent:
           type: string
           description: The transaction this output was spent with. Hex-encoded with 0x prefix.
-          nullable: true
         milestoneIndexBooked:
           type: integer
           description: The milestone index at which the output was booked.
