@@ -2645,6 +2645,12 @@ components:
         syncedNeighbors:
           type: integer
           description: Tells how many synced peers the node has.
+      required:
+        - solidMilestoneIndex
+        - prunedMilestoneIndex
+        - latestMilestoneIndex
+        - connectedNeighbors
+        - syncedNeighbors
 
     Metrics:
       properties:
