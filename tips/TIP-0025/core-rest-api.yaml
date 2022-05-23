@@ -2875,6 +2875,10 @@ components:
                 - index
                 - timestamp
                 - milestoneId
+          required:
+            - isHealthy
+            - latestMilestone
+            - confirmedMilestone
         metrics:
           description: Node metrics.
           properties:
