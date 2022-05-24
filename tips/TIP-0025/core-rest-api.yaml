@@ -3025,6 +3025,8 @@ components:
         nonce:
           type: string
           description: The nonce which lets this block fulfill the Proof-of-Work requirement. Hex-encoded with 0x prefix.
+      required:
+        - protocolVersion
 
     SubmitBlockResponse:
       description: Returns the block identifier of the submitted block.
