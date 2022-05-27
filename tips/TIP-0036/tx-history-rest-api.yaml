@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Transaction History REST API
+  title: Ledger Updates REST API
   description: This document specifies the REST API for Chronicle software.
   contact:
     email: contact@iota.org
