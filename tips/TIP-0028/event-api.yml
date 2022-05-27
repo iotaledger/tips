@@ -157,7 +157,7 @@ channels:
       description: Publishes the given wanted output on subscription and when its state changes (created, spent).
       message:
         $ref: '#/components/messages/OutputPayload'
-  outputs/aliases/{aliasId}:
+  outputs/alias/{aliasId}:
     parameters:
       aliasId:
         description: The unique identifier of the alias chain. Hex encoded with 0x prefix.
@@ -171,7 +171,7 @@ channels:
       description: Publishes the newly created alias output of an alias chain.
       message:
         $ref: '#/components/messages/OutputPayload'
-  outputs/nfts/{nftId}:
+  outputs/nft/{nftId}:
     parameters:
       nftId:
         description: The unique identifier of the nft chain. Hex encoded with 0x prefix.
@@ -185,7 +185,7 @@ channels:
       description: Publishes the newly created nft output of an nft chain.
       message:
         $ref: '#/components/messages/OutputPayload'
-  outputs/foundries/{foundryId}:
+  outputs/foundry/{foundryId}:
     parameters:
       foundryId:
         description: The unique identifier of the foundry chain. Hex encoded with 0x prefix.
