@@ -16,10 +16,10 @@ servers:
 tags:
   - name: historical
     description: Everything about the historical data.
-  - name: transactions
-    description: Everything about transactions.
+  - name: ledger
+    description: Everything about the ledger.
 paths:
-  /api/v2/gaps:
+  /api/v1/gaps:
     get:
       tags:
         - historical
@@ -47,13 +47,13 @@ paths:
             application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/InternalErrorResponse'
-  "/api/v2/transactions/by-address/{address}":
+  "/api/v1/ledger/updates/{address}":
     get:
       tags:
-        - transactions
-      summary: Get all transactions involving given a bech32 address.
+        - ledger
+      summary: Get all ledger updates involving given a bech32 address.
       description: >-
-        Get all transactions involving a given bech32 address.
+        Get all ledger updates involving a given bech32 address.
       parameters:
         - in: path
           name: address
@@ -69,21 +69,27 @@ paths:
           example: 1000
           description: Requested page size.
         - in: query
+          name: sort
+          schema:
+            type: string
+          example: "asc"
+          description: "Describes the sort order for the milestone index of the updates. Possible values: asc, desc"
+        - in: query
           name: cursor
           schema:
             type: string
-          example: 1643383242.f4e76c3121dbe27ce39a779e391fc8aa4668b7a9c868cae1690492d2251fd4a6.100
-          description: Starts the search from the cursor (timestamp.transactionId.pageSize)
+          example: 1643383242.fa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a20100.100
+          description: Starts the search from the cursor (milestoneIndex+outputId.pageSize)
       responses:
         "200":
           description: Successful operation.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TransactionsResponse"
-              examples:
-                default:
-                  $ref: "#/components/examples/get-transactions-response-example"
+                $ref: "#/components/schemas/LedgerUpdateResponse"
+              # examples:
+              #   default:
+              #     $ref: "#/components/examples/get-transactions-response-example"
         "400":
           description: "Unsuccessful operation: indicates that the provided address is invalid."
           content:
@@ -127,16 +133,37 @@ components:
             allOf:
               - $ref: '#/components/schemas/Gap'
           description: The name of the node.
-    TransactionsResponse:
-      description: Returns a list of transactionIds.
+    LedgerUpdate:
+      description: Information about ledger updates.
       properties:
-        transactions:
+        milestoneIndex:
+          type: integer
+          description: The index of the timestamp.
+        milestoneTimestamp:
+          type: integer
+          description: The timestamp at which the milestone was issued.
+        outputId:
+          type: string
+          description: The output ID (transaction hash + output index) of the update. Hex-encoded with 0x prefix.
+        isSpent:
+          type: boolean
+          description: Indicates if the output was spent or not.
+      required:
+        - milestoneIndex
+        - milestoneTimestamp
+        - outputId
+        - isSpent
+    LedgerUpdateResponse:
+      description: A list of ledger updates associated with an address.
+      properties:
+        updates:
           type: array
           items:
-            type: string
-          description: The list of transactionIds.
+            allOf:
+              - $ref: '#/components/schemas/LedgerUpdate'
+          description: A list of ledger updates.
       required:
-        - transactions
+        - updates
   examples:
     get-gaps-response-example:
       value:
@@ -144,8 +171,8 @@ components:
           end: 15482
         - from: 15487
           end: 15499
-    get-transactions-response-example:
-      value:
-        - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
-        - "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-        - "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
+    # get-transactions-response-example:
+    #   value:
+    #     - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
+    #     - "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+    #     - "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
