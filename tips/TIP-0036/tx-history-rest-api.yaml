@@ -156,12 +156,16 @@ components:
     LedgerUpdateResponse:
       description: A list of ledger updates associated with an address.
       properties:
-        updates:
+        items:
           type: array
           items:
             allOf:
               - $ref: '#/components/schemas/LedgerUpdate'
           description: A list of ledger updates.
+        cursor:
+          type: string
+          description: The cursor to use for getting the next page of results.
+          nullable: true
       required:
         - updates
   examples:
