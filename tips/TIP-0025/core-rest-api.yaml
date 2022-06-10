@@ -321,53 +321,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
-  '/api/v2/blocks/{blockId}/children':
-    get:
-      tags:
-        - blocks
-      summary: Returns the children of a block.
-      description: Returns the children of a block.
-      parameters:
-        - in: path
-          name: blockId
-          schema:
-            type: string
-          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
-          required: true
-          description: Identifier of the block.
-      responses:
-        '200':
-          description: "Successful operation."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BlockChildrenResponse'
-              examples:
-                Children were found:
-                  $ref: >-
-                    #/components/examples/get-blocks-by-id-response-example-children
-                No children were found:
-                  $ref: >-
-                    #/components/examples/get-blocks-by-id-response-example-nochildren
-        '400':
-          description: "Unsuccessful operation: indicates that the provided data is invalid."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestResponse'
-        '403':
-          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ForbiddenResponse'
-        '500':
-          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalErrorResponse'
-
+  
   '/api/v2/outputs/{outputId}':
     get:
       tags:
@@ -1518,22 +1472,6 @@ components:
           data: "0x5370616d6d696e6720646174612e0a436f756e743a203037323935320a54696d657374616d703a20323032312d30322d31315431303a32333a34392b30313a30300a54697073656c656374696f6e3a203934c2b573"
         nonce: '2102864'
 
-    get-blocks-by-id-response-example-children:
-      value:
-        blockId: "0xed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c"
-        maxResults: 1000
-        count: 2
-        children:
-          - "0x1c6943b0487c92fd057d4d22ad844cc37ee27fe6fbe88e5ff0d20b2233f75b9d"
-          - "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
-
-    get-blocks-by-id-response-example-nochildren:
-      value:
-        blockId: "0x7ed3d67fc7b619e72e588f51fef2379e43e6e9a856635843b3f29aa3a3f1f006"
-        maxResults: 1000
-        count: 0
-        children: [ ]
-
     get-outputs-by-id-response-unspent-example:
       value:
         metadata:
@@ -2575,7 +2513,7 @@ components:
           description: Set to value 2 to denote a TreasuryOutput.
         amount:
           type: string
-          description: Amountt of IOTA tokens in the treasury. Plain string encoded number.
+          description: Amount of IOTA tokens in the treasury. Plain string encoded number.
       required:
         - type
         - amount
@@ -3099,29 +3037,6 @@ components:
       properties:
         allOf:
           $ref: '#/components/schemas/Block'
-
-    BlockChildrenResponse:
-      description: Returns the children of a given block.
-      properties:
-        blockId:
-          type: string
-          description: The block identifier of the given block that was used to look up its children. Hex-encoded with 0x prefix.
-        maxResults:
-          type: integer
-          description: The number of results it can return at most.
-        count:
-          type: integer
-          description: The actual number of found results.
-        children:
-          type: array
-          items:
-            type: string
-          description: The block identifiers of the found children. Hex-encoded with 0x prefix.
-      required:
-        - blockId
-        - maxResults
-        - count
-        - children
 
     OutputResponse:
       description: Returns an output and its metadata.
