@@ -1,0 +1,295 @@
+openapi: 3.0.3
+info:
+  title: IOTA Token and NFT Collections Registry
+  description: This document specifies the REST API for the Token and NFT Collections Registry
+  contact:
+    email: merul@kamilabs.io
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  version: 1.0.0
+servers:
+  - url: "http://127.0.0.1:5001"
+tags:
+  - name: token
+    description: Everything about the token registry
+  - name: nft
+    description: Everything about the nft registry
+
+paths:
+  /api/v1/tokens:
+    get:
+      parameters:
+        - in: query
+          name: symbol
+          schema:
+            type: string
+          required: false
+          description: symbol of the token to look for
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: false
+          description: name of the token to search for
+      tags:
+        - token
+      summary: Returns all of the accepted tokens that match the query requirements
+      description: returns all of the accepted tokens that a are a part of the registry repository on github and match the query pattern. Return all when nothing is specified.
+      responses:
+        200:
+          description: "Successful Operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenEntries"
+
+        400:
+          description: "Unsuccessful Operation. Bad request data"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/BadRequestResponse"
+
+        404:
+          description: "Unsuccessful Operation. No Tokens Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/NotFoundResponse"
+
+        500:
+          description: "Unsuccessful Operation. Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/InternalErrorResponse"
+
+  /api/v1/tokens/{tokenId}:
+    get:
+      tags:
+        - token
+      summary: Get token which matches the tokenId
+      description: Get the token which matches the tokenId
+      parameters:
+        - in: path
+          name: tokenId
+          schema:
+            type: string
+          description: tokenId of the token to fetch data of
+          required: true
+      responses:
+        200:
+          description: "Successful Operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenEntry"
+
+        400:
+          description: "Unsuccessful Operation. Bad request data"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/BadRequestResponse"
+
+        404:
+          description: "Unsuccessful Operation. No Tokens Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/NotFoundResponse"
+
+        500:
+          description: "Unsuccessful Operation. Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/InternalErrorResponse"
+
+  /api/v1/nfts:
+    get:
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: false
+          description: name of the collection to look for
+      tags:
+        - nft
+      summary: Returns all of the accepted nft collections that match the query
+      description: returns all of the accepted nft collections that a are a part of the registry repository on github and match the query pattern. Return all when no query is specified.
+      responses:
+        200:
+          description: "Successful Operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NftCollectionEntries"
+
+        400:
+          description: "Unsuccessful Operation. Bad request data"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/BadRequestResponse"
+
+        404:
+          description: "Unsuccessful Operation. No Collections Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/NotFoundResponse"
+
+        500:
+          description: "Unsuccessful Operation. Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/InternalErrorResponse"
+
+  /api/v1/nfts/{collectionId}:
+    get:
+      tags:
+        - nft
+      summary: Get the NFT Collection which matches the collectionId
+      description: Get the NFT Collection which matches the collectionId
+      parameters:
+        - in: path
+          name: collectionId
+          schema:
+            type: string
+          description: collectionId of the token to fetch data of
+          required: true
+      responses:
+        200:
+          description: "Successful Operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NftCollectionEntry"
+
+        400:
+          description: "Unsuccessful Operation. Bad request data"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/BadRequestResponse"
+
+        404:
+          description: "Unsuccessful Operation. No Tokens Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/NotFoundResponse"
+
+        500:
+          description: "Unsuccessful Operation. Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/InternalErrorResponse"
+
+components:
+  schemas:
+    TokenEntries:
+      description: array of TokenEntry
+      properties:
+        tokens:
+          type: array
+          items:
+            $ref: "#components/schemas/TokenEntry"
+      required:
+        - tokens
+
+    TokenEntry:
+      description: Entry of a single token into the registry
+      properties:
+        name:
+          type: string
+          description: Human readable identifier for a given token
+        url:
+          type: string
+          description: URL to get more information about a token
+        symbol:
+          type: string
+          description: symbol/ticker for the token
+        tokenId:
+          type: string
+          description: Token Id assigned to the token (Foundry ID + Token Tag)
+      required:
+        - name
+        - symbol
+        - tokenId
+
+    NftCollectionEntries:
+      description: array of NftCollectionEntry
+      properties:
+        collections:
+          type: array
+          items:
+            $ref: "#/components/schemas/NftCollectionEntry"
+      required:
+        - collections
+
+    NftCollectionEntry:
+      description: Entry of a single NFT
+      properties:
+        name:
+          type: string
+          description: Human readable identifier for a NFT Collection
+        url:
+          type: string
+          description: URL to get more information about the NFT Collection
+        collectionId:
+          type: string
+          description: Unique identifier for the NFT collection
+      required:
+        - name
+        - collectionId
+
+    ErrorResponse:
+      description: The error format.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The application error code.
+            message:
+              type: string
+              description: The error reason.
+          required:
+            - code
+            - message
+      required:
+        - error
+
+    BadRequestResponse:
+      description: Indicates that the request was bad.
+      allOf:
+        - $ref: "#/components/schemas/ErrorResponse"
+      example:
+        error:
+          code: 400
+          message: invalid data provided
+
+    NotFoundResponse:
+      description: Indicates that the data was not found.
+      allOf:
+        - $ref: "#/components/schemas/ErrorResponse"
+      example:
+        error:
+          code: 404
+          message: could not find data
+
+    InternalErrorResponse:
+      description: Indicates that the server encountered an unexpected condition, which prevented it from fulfilling the request by the client.
+      allOf:
+        - $ref: "#/components/schemas/ErrorResponse"
+      example:
+        error:
+          code: 500
+          message: internal server error
