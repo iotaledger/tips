@@ -49,21 +49,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/BadRequestResponse"
+                $ref: "#/components/schemas/BadRequestResponse"
 
         404:
           description: "Unsuccessful Operation. No Tokens Found"
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/NotFoundResponse"
+                $ref: "#/components/schemas/NotFoundResponse"
 
         500:
           description: "Unsuccessful Operation. Internal Server Error"
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/InternalErrorResponse"
+                $ref: "#/components/schemas/InternalErrorResponse"
 
   /api/v1/tokens/{tokenId}:
     get:
@@ -91,21 +91,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/BadRequestResponse"
+                $ref: "#/components/schemas/BadRequestResponse"
 
         404:
           description: "Unsuccessful Operation. No Tokens Found"
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/NotFoundResponse"
+                $ref: "#/components/schemas/NotFoundResponse"
 
         500:
           description: "Unsuccessful Operation. Internal Server Error"
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/InternalErrorResponse"
+                $ref: "#/components/schemas/InternalErrorResponse"
 
   /api/v1/nfts:
     get:
@@ -133,21 +133,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/BadRequestResponse"
+                $ref: "#/components/schemas/BadRequestResponse"
 
         404:
           description: "Unsuccessful Operation. No Collections Found"
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/NotFoundResponse"
+                $ref: "#/components/schemas/NotFoundResponse"
 
         500:
           description: "Unsuccessful Operation. Internal Server Error"
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/InternalErrorResponse"
+                $ref: "#/components/schemas/InternalErrorResponse"
 
   /api/v1/nfts/{collectionId}:
     get:
@@ -175,21 +175,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/BadRequestResponse"
+                $ref: "#/components/schemas/BadRequestResponse"
 
         404:
           description: "Unsuccessful Operation. No Tokens Found"
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/NotFoundResponse"
+                $ref: "#/components/schemas/NotFoundResponse"
 
         500:
           description: "Unsuccessful Operation. Internal Server Error"
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/InternalErrorResponse"
+                $ref: "#/components/schemas/InternalErrorResponse"
 
 components:
   schemas:
@@ -199,7 +199,7 @@ components:
         tokens:
           type: array
           items:
-            $ref: "#components/schemas/TokenEntry"
+            $ref: "#/components/schemas/TokenEntry"
       required:
         - tokens
 
