@@ -321,7 +321,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
-  
+
   '/api/v2/outputs/{outputId}':
     get:
       tags:
@@ -1154,6 +1154,9 @@ components:
           blocksPerSecond: 17
           referencedBlocksPerSecond: 16.8
           referencedRate: 98.82352941176471
+        supportedProtocolVersions:
+          - 2
+          - 3
         protocol:
           networkName: iota-testnet
           bech32HRP: atoi
@@ -1164,6 +1167,19 @@ components:
             vByteCost: 500
             vByteFactorData: 1
             vByteFactorKey: 10
+        pendingProtocolParameters:
+          - type: 1
+            targetMilestoneIndex: 480
+            protocolVersion: 2
+            params: "0x03040560405060703940304956896"
+          - type: 1
+            targetMilestoneIndex: 485
+            protocolVersion: 2
+            params: "0x03040503045950393045930239392"
+          - type: 1
+            targetMilestoneIndex: 490
+            protocolVersion: 2
+            params: "0x02010290394032948950303939482"
         baseToken:
           name: "IOTA"
           tickerSymbol: "MIOTA"
@@ -1193,6 +1209,9 @@ components:
           blocksPerSecond: 17
           referencedBlocksPerSecond: 16.8
           referencedRate: 98.82352941176471
+        supportedProtocolVersions:
+          - 2
+          - 3
         protocol:
           networkName: shimmer-testnet
           bech32HRP: rms
@@ -1203,6 +1222,19 @@ components:
             vByteCost: 500
             vByteFactorData: 1
             vByteFactorKey: 10
+        pendingProtocolParameters:
+          - type: 1
+            targetMilestoneIndex: 480
+            protocolVersion: 2
+            params: "0x03040560405060703940304956896"
+          - type: 1
+            targetMilestoneIndex: 485
+            protocolVersion: 2
+            params: "0x03040503045950393045930239392"
+          - type: 1
+            targetMilestoneIndex: 490
+            protocolVersion: 2
+            params: "0x02010290394032948950303939482"
         baseToken:
           name: "Shimmer"
           tickerSymbol: "SMR"
@@ -2842,6 +2874,11 @@ components:
             - blocksPerSecond
             - referencedBlocksPerSecond
             - referencedRate
+        supportedProtocolVersions:
+          type: array
+          description: The supported protocol versions.
+          items:
+            type: integer
         protocol:
           description: Protocol parameters.
           properties:
@@ -2884,6 +2921,11 @@ components:
             - protocolVersion
             - minPoWScore
             - rentStructure
+        pendingProtocolParameters:
+          description: Pending protocol parameters.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProtocolParamsMilestoneOpt'
         baseToken:
           description: Gives info about the base token the network uses.
           properties:
@@ -2926,7 +2968,9 @@ components:
         - version
         - status
         - metrics
+        - supportedProtocolVersions
         - protocol
+        - pendingProtocolParameters
         - baseToken
         - features
         - plugins
