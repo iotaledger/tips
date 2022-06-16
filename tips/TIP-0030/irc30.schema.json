@@ -5,6 +5,11 @@
   "description": "A JSON schema for validating IRC29 compliant native token metadata",
   "type": "object",
   "properties": {
+    "standard": {
+      "description": "The IRC standard of the token metadata",
+      "type": "string",
+      "pattern": "^IRC30$"
+    },
     "name": {
       "description": "The human-readable name of the native token",
       "type": "string"
@@ -31,9 +36,9 @@
       "type": "string"
     },
     "logo": {
-      "description": "The svg logo of the token encoded as a byte string",
+      "description": "The logo of the token encoded as a byte string",
       "type": "string"
     }
   },
-  "required": [ "name", "symbol", "decimals" ]
+  "required": [ "standard", "name", "symbol", "decimals" ]
 }

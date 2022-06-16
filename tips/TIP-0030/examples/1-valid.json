@@ -1,4 +1,5 @@
 {
+  "standard": "IRC30",
   "name": "FooCoin",
   "symbol": "FOO",
   "decimals": 3
