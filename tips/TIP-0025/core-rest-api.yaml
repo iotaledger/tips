@@ -2226,22 +2226,22 @@ components:
         - returnAmount
 
     TimelockUnlockCondition:
-      description: Can be unlocked if the confirming milestone has a >= Milestone Index/Unixt Timestamp.
+      description: Can be unlocked if the confirming milestone has a >= Unix Timestamp.
       properties:
         type:
           type: integer
           description: Set to value 2 to denote an Timelock Unlock Condition.
-        milestoneIndex:
-          type: integer
-          description: The milestone index starting from which the output can be consumed.
         unixTime:
           type: integer
           description: Unix time (seconds since Unix epoch) starting from which the output can be consumed.
+          minimum: 0
+          exclusiveMinimum: true
       required:
         - type
+        - unixTime
 
     ExpirationUnlockCondition:
-      description: Defines a milestone index and/or unix time until which only Address, defined in Address Unlock Condition, is allowed to unlock the output. After the milestone index and/or unix time, only Return Address can unlock it.
+      description: Defines a unix time until which only Address, defined in Address Unlock Condition, is allowed to unlock the output. After the unix time, only Return Address can unlock it.
       properties:
         type:
           type: integer
@@ -2251,15 +2251,15 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AliasAddress'
             - $ref: '#/components/schemas/NFTAddress'
-        milestoneIndex:
-          type: integer
-          description: Before this milestone index, Address Unlock Condition is allowed to unlock the output, after that only the address defined in Return Address.
         unixTime:
           type: integer
           description: Before this unix time, Address Unlock Condition is allowed to unlock the output, after that only the address defined in Return Address.
+          minimum: 0
+          exclusiveMinimum: true
       required:
         - type
         - returnAddress
+        - unixTime
 
     StateControllerAddressUnlockCondition:
       description: Can be unlocked by unlocking the address.
