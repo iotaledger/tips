@@ -1471,6 +1471,8 @@ components:
           type: 1
           index: 16241
           timestamp: 1617959712
+          protocolVersion: 2
+          previousMilestoneId: "0xa6db9d0b3ecb274d90c21e9dde04012b2d13ad8aa0b90e82e7d3b626be67119d"
           parents:
             - "0x23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b"
             - "0x242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7"
@@ -1478,13 +1480,16 @@ components:
             - "0x438a14a651b8872896b4e57c92041e8962ca7d78cc38c774534020feefeff31a"
             - "0x73c90398fb548a4410b49264e182e58a91baeecaa949cbfc1d01a9066cbd9935"
             - "0xb9adfdc1effd3242b5c1d7b6df43d4b53e58943e820ced89c7dd39b8b52fcef0"
-          inclusionMerkleProof: "0x0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8"
-          nextPoWScore: 0
-          nextPoWScoreMilestoneIndex: 0
+          inclusionMerkleRoot: "0x0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8"
+          appliedMerkleRoot: "0x9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0"
           publicKeys:
             - "0x7205c145525cee64f1c9363696811d239919d830ad964b4e29359e6475848f5a"
             - "0xe468e82df33d10dea3bd0eadcd7867946a674d207c39f5af4cc44365d268a7e6"
-          receipt:
+          options:
+            - type: 1
+              targetMilestoneIndex: 16245
+              protocolVersion: 2
+              params: "0x174612e0a436f756e743a203037323935320a54696d657374616d703a203132372e3030302e3030302e303030"
           signatures:
             - "0xa642e96f71094f8523790131481e0fbfdc8265caa8e4b08793628b286065c317a5595d56edb5e918b24d4ee749768a2b5ae6010e751bf31f0d8145a390b82c00"
             - "0x4bdfa2684bed01ce3a9a630b0688e868c290b8524c679daa79cb9d9f0f2aa5c57cf00a0fc694d1fed3696053ffa9bba6154ccb1564532cd49f807ba77de9a70c"
@@ -1645,8 +1650,8 @@ components:
         appliedMerkleRoot: "0xee26ac07834c603c22130fced361ca58552b0dbfc63e4b73ba24b3b59d9f4050"
         options:
          - type: 1
-           targetMilestoneIndex: 2000
-           protocolVersion: 13
+           targetMilestoneIndex: 15468
+           protocolVersion: 3
            params: "0x27d0ca22753f76ef32d1e9e8fcc417aa9fc1c15eae854661e0253287be6ea68f649493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d6"
         metadata: "0xd6ac43e9ca750"
         signatures:
