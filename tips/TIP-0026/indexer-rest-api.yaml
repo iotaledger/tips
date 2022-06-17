@@ -86,18 +86,6 @@ paths:
           example: 1643383242
           description: Return outputs that are timelocked after a certain Unix timestamp.
         - in: query
-          name: timelockedBeforeMilestone
-          schema:
-            type: integer
-          example: 1000
-          description: Return outputs that are timelocked before a certain milestone index.
-        - in: query
-          name: timelockedAfterMilestone
-          schema:
-            type: integer
-          example: 1000
-          description: Return outputs that are timelocked after a certain milestone index.
-        - in: query
           name: hasExpirationCondition
           schema:
             type: boolean
@@ -115,18 +103,6 @@ paths:
             type: integer
           example: 1643383242
           description: Return outputs that expire after a certain Unix timestamp.
-        - in: query
-          name: expiresBeforeMilestone
-          schema:
-            type: integer
-          example: 1000
-          description: Return outputs that expire before a certain milestone index.
-        - in: query
-          name: expiresAfterMilestone
-          schema:
-            type: integer
-          example: 1000
-          description: Return outputs that expire after a certain milestone index.
         - in: query
           name: expirationReturnAddress
           schema:
@@ -572,18 +548,6 @@ paths:
           example: 1643383242
           description: Return outputs that are timelocked after a certain Unix timestamp.
         - in: query
-          name: timelockedBeforeMilestone
-          schema:
-            type: integer
-          example: 1000
-          description: Return outputs that are timelocked before a certain milestone index.
-        - in: query
-          name: timelockedAfterMilestone
-          schema:
-            type: integer
-          example: 1000
-          description: Return outputs that are timelocked after a certain milestone index.
-        - in: query
           name: hasExpirationCondition
           schema:
             type: boolean
@@ -601,18 +565,6 @@ paths:
             type: integer
           example: 1643383242
           description: Return outputs that expire after a certain Unix timestamp.
-        - in: query
-          name: expiresBeforeMilestone
-          schema:
-            type: integer
-          example: 1000
-          description: Return outputs that expire before a certain milestone index.
-        - in: query
-          name: expiresAfterMilestone
-          schema:
-            type: integer
-          example: 1000
-          description: Return outputs that expire after a certain milestone index.
         - in: query
           name: expirationReturnAddress
           schema:
