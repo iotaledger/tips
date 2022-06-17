@@ -51,8 +51,8 @@
       "description": "some information abou the NFT project"
     },
     "attributes": {
-      "type": "object",
-      "description": "object containing any additional arbitrary key-pairs"
+      "type": "array",
+      "description": "array containing any additional data as objects."
     }
   },
   "required": [ "standard", "type", "version", "nftId", "tokenUri" ]
