@@ -320,11 +320,11 @@ components:
             example:
               - "0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7"
               - "0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85"
-          pastConeMerkleProof:
+          inclusionMerkleRoot:
             type: string
             description: The merkle root of all directly/indirectly referenced blocks (their IDs) which were newly confirmed by this milestone.
             example: "0x014e3a82d54c1bf4e411eee30ce25ee739b0f790fca248c0036d538952d6072b"
-          inclusionMerkleProof:
+          appliedMerkleRoot:
             type: string
             description: The merkle root of all blocks (their IDs) carrying ledger state mutating transactions.
             example: "0x07fbcf40a98cf1e1e1e0aeb7527ecf464cc8d461f617e48931c6a2096cb18d1a"
@@ -997,13 +997,15 @@ components:
         targetMilestoneIndex:
           type: integer
           description: The milestone index at which these protocol parameters become active.
+          example: 123456
         protocolVersion:
           type: integer
           description: The to be applied protocol version.
+          example: 3
         params:
           type: string
           description: The protocol parameters in binary form. Hex-encoded with 0x prefix.
-          example: 150
+          example: "0x174612e0a436f756e743a203037323935320a54696d657374616d703a203132372e3030302e3030302e303030"
       required:
         - type
         - targetMilestoneIndex
