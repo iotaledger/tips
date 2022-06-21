@@ -50,7 +50,31 @@ paths:
         '503':
           description: "Unsuccessful operation: indicates that the node isn´t healthy."
 
-  /api/v2/info:
+  /api/routes:
+    get:
+      tags:
+        - node
+      summary: Returns the available API route groups of the node.
+      description: >-
+        Returns the available API route groups of the node.
+      responses:
+        '200':
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutesResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-routes-response-example'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+        '503':
+          description: "Unsuccessful operation: indicates that the node isn´t healthy."
+
+  /api/core/v2/info:
     get:
       tags:
         - node
@@ -81,7 +105,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/v2/tips:
+  /api/core/v2/tips:
     get:
       tags:
         - tangle
@@ -117,7 +141,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-  /api/v2/blocks:
+  /api/core/v2/blocks:
     post:
       tags:
         - blocks
@@ -190,7 +214,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
-  '/api/v2/blocks/{blockId}':
+  '/api/core/v2/blocks/{blockId}':
     get:
       tags:
         - blocks
@@ -257,7 +281,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/v2/blocks/{blockId}/metadata':
+  '/api/core/v2/blocks/{blockId}/metadata':
     get:
       tags:
         - blocks
@@ -322,7 +346,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-  '/api/v2/outputs/{outputId}':
+  '/api/core/v2/outputs/{outputId}':
     get:
       tags:
         - UTXO
@@ -381,7 +405,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/v2/outputs/{outputId}/metadata':
+  '/api/core/v2/outputs/{outputId}/metadata':
     get:
       tags:
         - UTXO
@@ -434,7 +458,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  '/api/v2/receipts':
+  '/api/core/v2/receipts':
     get:
       tags:
         - UTXO
@@ -475,7 +499,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
-  '/api/v2/receipts/{migratedAt}':
+  '/api/core/v2/receipts/{migratedAt}':
     get:
       tags:
         - UTXO
@@ -525,7 +549,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-  '/api/v2/treasury':
+  '/api/core/v2/treasury':
     get:
       tags:
         - UTXO
@@ -567,7 +591,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-  '/api/v2/transactions/{transactionId}/included-block':
+  '/api/core/v2/transactions/{transactionId}/included-block':
     get:
       tags:
         - UTXO
@@ -623,7 +647,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  '/api/v2/milestones/{milestoneId}':
+  '/api/core/v2/milestones/{milestoneId}':
     get:
       tags:
         - milestones
@@ -681,7 +705,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/v2/milestones/{milestoneId}/utxo-changes':
+  '/api/core/v2/milestones/{milestoneId}/utxo-changes':
     get:
       tags:
         - milestones
@@ -730,7 +754,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/v2/milestones/by-index/{index}':
+  '/api/core/v2/milestones/by-index/{index}':
     get:
       tags:
         - milestones
@@ -788,7 +812,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/v2/milestones/by-index/{index}/utxo-changes':
+  '/api/core/v2/milestones/by-index/{index}/utxo-changes':
     get:
       tags:
         - milestones
@@ -839,7 +863,7 @@ paths:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
 
-  /api/v2/peers:
+  /api/core/v2/peers:
     get:
       tags:
         - peers
@@ -909,7 +933,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/v2/peers/{peerId}':
+  '/api/core/v2/peers/{peerId}':
     get:
       tags:
         - peers
@@ -982,7 +1006,7 @@ paths:
         '500':
           description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
 
-  '/api/v2/whiteflag':
+  '/api/core/v2/whiteflag':
     post:
       tags:
         - milestones
@@ -1031,7 +1055,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  '/api/v2/control/database/prune':
+  '/api/core/v2/control/database/prune':
     post:
       tags:
         - control
@@ -1080,7 +1104,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  '/api/v2/control/snapshot/create':
+  '/api/core/v2/control/snapshot/create':
     post:
       tags:
         - control
@@ -1135,6 +1159,12 @@ paths:
 
 components:
   examples:
+    get-routes-response-example:
+      value:
+        routes:
+          - "core/v2"
+          - "dashboard-metrics/v1"
+          - "debug/v1"
     get-info-response-example:
       value:
         name: HORNET
@@ -2807,6 +2837,16 @@ components:
           code: 500
           message: internal server error
 
+    RoutesResponse:
+      description: Contains the available API routes of the node.
+      properties:
+        routes:
+          type: array
+          items:
+            type: string
+      required:
+        - routes
+
     InfoResponse:
       description: Returns general information about the node.
       properties:
@@ -3299,7 +3339,7 @@ components:
         fullIndex:
           type: integer
           description: The index of the full snapshot.
-        delatIndex:
+        deltaIndex:
           type: integer
           description: The index of the delta snapshot.
 
@@ -3309,7 +3349,7 @@ components:
         fullIndex:
           type: integer
           description: The index of the full snapshot.
-        delatIndex:
+        deltaIndex:
           type: integer
           description: The index of the delta snapshot.
         fullFilePath:
