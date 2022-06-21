@@ -8,35 +8,37 @@
   "properties": {
     "standard": {
       "type": "string",
-      "description": "identifier for the metadata standard used"
+      "description": "identifier for the metadata standard used",
+      "pattern": "^IRC27$"
     },
     "version": {
       "type": "string",
-      "description": "version of the metadata standard used"
+      "description": "version of the metadata standard used",
+      "pattern": "^v\\d+.\\d+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "A descriptive name of the token"
+    },
+    "description": {
+      "type": "string",
+      "description": "some information about the NFT project"
     },
     "type": {
       "type": "string",
       "description": "MIME type of the asset"
     },
-    "nftId": {
+    "uri": {
       "type": "string",
-      "description": "UTXO identifier for the NFT"
-    },
-    "tokenUri": {
-      "type": "string",
-      "description": "URI pointing to the resource where the file is hosted"
-    },
-    "tokenName": {
-      "type": "string",
-      "description": "name of the specific token"
+      "description": "URI pointing to the resource where the file with `type` MIME type is hosted"
     },
     "collectionId": {
       "type": "string",
-      "description": "unique collection ID identifier for the collection"
+      "description": "A unique collection ID identifier for the collection"
     },
     "collectionName": {
       "type": "string",
-      "description": "human readable name for the NFT collection"
+      "description": "A human readable name for the NFT collection"
     },
     "royalties": {
       "type": "object",
@@ -46,14 +48,10 @@
       "type": "string",
       "description": "name of the artist"
     },
-    "description": {
-      "type": "string",
-      "description": "some information abou the NFT project"
-    },
     "attributes": {
       "type": "array",
       "description": "array containing any additional data as objects."
     }
   },
-  "required": [ "standard", "type", "version", "nftId", "tokenUri" ]
+  "required": [ "standard", "type", "version", "uri", "name" ]
 }
