@@ -1274,8 +1274,6 @@ components:
           useMetricPrefix: false
         features:
           - PoW
-        plugins:
-          - indexer/v1
 
     get-tips-response-example:
       value:
@@ -3003,11 +3001,6 @@ components:
           type: array
           items:
             type: string
-        plugins:
-          description: The plugins this node exposes. For example, a node could run the indexer application and provide an indexer api.
-          type: array
-          items:
-            type: string
       required:
         - name
         - version
@@ -3018,7 +3011,6 @@ components:
         - pendingProtocolParameters
         - baseToken
         - features
-        - plugins
 
     TipsResponse:
       description: Returns tips that are ideal for attaching a block.
