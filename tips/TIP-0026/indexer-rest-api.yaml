@@ -23,7 +23,7 @@ tags:
   - name: nft outputs
     description: Query NFT Outputs.
 paths:
-  /api/plugins/indexer/v1/outputs/basic:
+  /api/indexer/v1/outputs/basic:
     get:
       tags:
         - basic outputs
@@ -183,7 +183,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/outputs/alias:
+  /api/indexer/v1/outputs/alias:
     get:
       tags:
         - alias outputs
@@ -293,7 +293,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/outputs/alias/{aliasId}:
+  /api/indexer/v1/outputs/alias/{aliasId}:
     get:
       tags:
         - alias outputs
@@ -343,7 +343,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/outputs/foundry:
+  /api/indexer/v1/outputs/foundry:
     get:
       tags:
         - foundry outputs
@@ -435,7 +435,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/outputs/foundry/{foundryId}:
+  /api/indexer/v1/outputs/foundry/{foundryId}:
     get:
       tags:
         - foundry outputs
@@ -485,7 +485,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/outputs/nft:
+  /api/indexer/v1/outputs/nft:
     get:
       tags:
         - nft outputs
@@ -651,7 +651,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  /api/plugins/indexer/v1/outputs/nft/{nftId}:
+  /api/indexer/v1/outputs/nft/{nftId}:
     get:
       tags:
         - nft outputs
