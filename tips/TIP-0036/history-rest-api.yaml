@@ -19,7 +19,7 @@ tags:
   - name: ledger
     description: Everything about the ledger.
 paths:
-  /api/v1/gaps:
+  /api/history/v2/gaps:
     get:
       tags:
         - historical
@@ -47,7 +47,7 @@ paths:
             application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/InternalErrorResponse'
-  "/api/v1/ledger/updates/{address}":
+  /api/history/v2/ledger/updates/by-address/{address}:
     get:
       tags:
         - ledger
@@ -114,25 +114,31 @@ paths:
                 $ref: "https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/InternalErrorResponse"
 components:
   schemas:
-    Gap:
+    MilestoneInterval:
       description: >-
-        Describes a gap in the historical data. A gap is defined as the range milestone indices [from, to). Note that to is exclusive.
+        Describes an interval of milestones defined as the range milestone indices [start, end]. Note that the interval is inclusive.
       properties:
         start:
           type: number
-          description: The first milestone index for which the node does not have data.
+          description: The first value in the interval.
         end:
           type: number
-          description: The first milestone index for which the node has data again.
+          description: The last value in the interval.
     GapsResponse:
       description: Returns information about missing data.
       properties:
+        completed:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/MilestoneInterval'
+          description: The milestone intervals for which data exists.
         gaps:
           type: array
           items:
             allOf:
-              - $ref: '#/components/schemas/Gap'
-          description: The name of the node.
+              - $ref: '#/components/schemas/MilestoneInterval'
+          description: The milestone intervals for which data is missing.
     LedgerUpdate:
       description: Information about ledger updates.
       properties:
@@ -156,6 +162,9 @@ components:
     LedgerUpdateResponse:
       description: A list of ledger updates associated with an address.
       properties:
+        address:
+          type: string
+          description: bech32 address that is referenced by the outputs.
         items:
           type: array
           items:
@@ -167,16 +176,15 @@ components:
           description: The cursor to use for getting the next page of results.
           nullable: true
       required:
-        - updates
+        - items
+        - address
   examples:
     get-gaps-response-example:
       value:
-        - from: 15465
-          end: 15482
-        - from: 15487
-          end: 15499
-    # get-transactions-response-example:
-    #   value:
-    #     - "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
-    #     - "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-    #     - "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
+        address: "rms1qquy2yzmt9pfxcd8tveq8fhzfctdr92q4ttt6xfkgjdk9uwyh0ja55cdshr"
+        items:
+          - outputId: "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
+            isSpent: true
+            milestoneIndex: 557180
+            milestoneTimestamp: 1655811676
+        cursor: "547178.0x798049b2dbe643771a1585dba0ae8a4fed61295d75db8d63252d6d0fa4a2e8490100.100"
