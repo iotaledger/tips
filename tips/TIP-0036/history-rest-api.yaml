@@ -26,22 +26,22 @@ paths:
       summary: Returns general information about the historical data.
       description: Returns general information about the historical data.
       responses:
-        '200':
+        "200":
           description: "Successful operation."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GapsResponse'
+                $ref: "#/components/schemas/GapsResponse"
               examples:
                 default:
                   $ref: "#/components/examples/get-gaps-response-example"
-        '403':
+        "403":
           description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/ForbiddenResponse'
-        '500':
+                $ref: "https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/ForbiddenResponse"
+        "500":
           description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
           content:
             application/json:
@@ -75,11 +75,17 @@ paths:
           example: "asc"
           description: "Describes the sort order for the milestone index of the updates. Possible values: asc, desc"
         - in: query
+          name: startMilestoneIndex
+          schema:
+            type: number
+          example: 1643383242
+          description: Start the search from the given milestone index. Will be overridden by the pagingState if it is provided.
+        - in: query
           name: cursor
           schema:
             type: string
           example: 1643383242.fa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a20100.100
-          description: Starts the search from the cursor (milestoneIndex+outputId.pageSize)
+          description: Starts the search from the cursor (milestoneIndex.outputId.pageSize)
       responses:
         "200":
           description: Successful operation.
@@ -169,7 +175,7 @@ components:
           type: array
           items:
             allOf:
-              - $ref: '#/components/schemas/LedgerUpdate'
+              - $ref: "#/components/schemas/LedgerUpdate"
           description: A list of ledger updates.
         cursor:
           type: string
