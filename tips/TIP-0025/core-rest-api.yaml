@@ -1218,8 +1218,6 @@ components:
           useMetricPrefix: true
         features:
           - PoW
-        plugins:
-          - indexer/v1
     get-info-response-example-shimmer:
       value:
         name: HORNET
