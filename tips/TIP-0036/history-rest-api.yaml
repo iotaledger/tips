@@ -51,7 +51,7 @@ paths:
     get:
       tags:
         - ledger
-      summary: Get all ledger updates involving given a bech32 address.
+      summary: Get all ledger updates involving a given bech32 address.
       description: >-
         Get all ledger updates involving a given bech32 address.
       parameters:
@@ -66,7 +66,7 @@ paths:
           name: pageSize
           schema:
             type: number
-          example: 1000
+          example: 100
           description: Requested page size.
         - in: query
           name: sort
@@ -86,6 +86,71 @@ paths:
             type: string
           example: 1643383242.fa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a20100.100
           description: Starts the search from the cursor (milestoneIndex.outputId.pageSize)
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LedgerUpdateResponse"
+              # examples:
+              #   default:
+              #     $ref: "#/components/examples/get-transactions-response-example"
+        "400":
+          description: "Unsuccessful operation: indicates that the provided address is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/BadRequestResponse"
+        "404":
+          description: >-
+            Unsuccessful operation: indicates that the requested data was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/NotFoundResponse"
+        "500":
+          description: >-
+            Unsuccessful operation: indicates that an unexpected, internal
+            server error happened which prevented the node from fulfilling the
+            request.
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/iotaledger/tips/stardust-api/tips/TIP-0025/core-rest-api.yaml#/components/schemas/InternalErrorResponse"
+  /api/history/v2/ledger/updates/by-milestone/{milestoneId}:
+    get:
+      tags:
+        - ledger
+      summary: Get all ledger updates involving a given milestone id.
+      description: >-
+        Get all ledger updates involving a given milestone id.
+      parameters:
+        - in: path
+          name: milestoneId
+          schema:
+            type: string
+          example: "0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695"
+          required: true
+          description: Milestone ID of the milestone that is checked for any ledger updates.
+        - in: query
+          name: pageSize
+          schema:
+            type: number
+          example: 100
+          description: Requested page size.
+        - in: query
+          name: sort
+          schema:
+            type: string
+          example: "asc"
+          description: "Describes the sort order for the output ids of the updates. Possible values: asc, desc"
+        - in: query
+          name: cursor
+          schema:
+            type: string
+          example: fa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a20100.100
+          description: Starts the search from the cursor (outputId.pageSize)
       responses:
         "200":
           description: Successful operation.
