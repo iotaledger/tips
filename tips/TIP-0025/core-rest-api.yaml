@@ -1311,6 +1311,7 @@ components:
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
         referencedByMilestoneIndex: 15465
+        whiteFlagIndex: 25
         ledgerInclusionState: included
 
     get-block-by-id-response-example-conflicting:
@@ -1321,6 +1322,7 @@ components:
           - "0xd97e89e49ed263b763afeda192515fe154ec826ceb92ef08926cd68ec02c9510"
         isSolid: true
         referencedByMilestoneIndex: 15465
+        whiteFlagIndex: 25
         ledgerInclusionState: conflicting
         conflictReason: 1
 
@@ -3099,7 +3101,9 @@ components:
               * `11` - denotes that an output contains a Sender with an ident (address) which is not unlocked.
               * `12` - denotes that the chain state transition is invalid.
               * `255` - denotes that the semantic validation failed.
-
+        whiteFlagIndex:
+          type: integer
+          description: If set, defines the order of the block in the white flag traversal during milestone solidification. Only referenced blocks have this information.
         shouldPromote:
           type: boolean
           description: Tells if the block should be promoted to get more likely picked up by the Coordinator.
