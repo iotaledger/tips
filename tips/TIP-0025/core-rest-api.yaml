@@ -2890,8 +2890,6 @@ components:
                   description: The Milestone ID of the latest confirmed milestone. Hex-encoded with 0x prefix.
               required:
                 - index
-                - timestamp
-                - milestoneId
           required:
             - isHealthy
             - latestMilestone
