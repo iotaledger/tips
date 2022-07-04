@@ -35,7 +35,7 @@ paths:
           schema:
             type: string
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
-          description: Bech32-encoded address that should be searched for.
+          description: The Bech32-encoded address that should be searched for in the Address Unlock Condition of outputs.
         - in: query
           name: hasNativeTokens
           schema:
@@ -497,7 +497,7 @@ paths:
           schema:
             type: string
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
-          description: Bech32-encoded address that should be searched for.
+          description: The Bech32-encoded address that should be searched for in the Address Unlock Condition of outputs.
         - in: query
           name: issuer
           schema:
