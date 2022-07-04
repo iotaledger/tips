@@ -2875,8 +2875,6 @@ components:
                   description: The Milestone ID of the latest seen milestone. Hex-encoded with 0x prefix.
               required:
                 - index
-                - timestamp
-                - milestoneId
             confirmedMilestone:
               type: object
               description: Information about the latest confirmed milestone.
