@@ -3197,23 +3197,6 @@ components:
         - milestoneId
         - amount
 
-    MilestoneResponse:
-      description: Returns information about a milestone.
-      properties:
-        index:
-          type: integer
-          description: The index number of the milestone.
-        blockId:
-          type: string
-          description: The identifier of a block which describes this milestone. Note that different blocks could describe the same milestone. Hex-encoded with 0x prefix.
-        timestamp:
-          type: integer
-          description: The timestamp of when the  milestone was issued.
-      required:
-        - index
-        - blockId
-        - timestamp
-
     UTXOChangesResponse:
       description: Returns all UTXO changes of the given milestone.
       properties:
