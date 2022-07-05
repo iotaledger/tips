@@ -263,23 +263,6 @@ channels:
 
 components:
   messages:
-    MilestoneMetadata:
-      contentType: application/json
-      payload:
-        type: object
-        required:
-          - "index"
-          - "timestamp"
-        properties:
-          index:
-            type: number
-            description: The index of the milestone.
-            example: 242412
-          timestamp:
-            type: number
-            description: The UNIX timestamp in seconds of the milestone.
-            example: 1609950538
-
     MilestonePayload:
       contentType: application/json
       payload:
