@@ -442,6 +442,30 @@ components:
             type: string
             description: The inclusion state of the block.
             enum: [ noTransaction, conflicting, included ]
+            example: conflicting
+          conflictReason:
+            type: integer
+            enum: [ 1,2,3,4,5,6,7,8,9,10,11,12,255 ]
+            description: >
+              Values:
+                * `1` - denotes that the referenced UTXO was already spent.
+                * `2` - denotes that the referenced UTXO was already spent while confirming this milestone.
+                * `3` - denotes that the referenced UTXO cannot be found.
+                * `4` - denotes that the sum of the inputs and output values does not match.
+                * `5` - denotes that the unlock block signature is invalid.
+                * `6` - denotes that the configured timelock is not yet expired.
+                * `7` - denotes that the given native tokens are invalid.
+                * `8` - denotes that the return amount in a transaction is not fulfilled by the output side.
+                * `9` - denotes that the input unlock is invalid.
+                * `10` - denotes that the inputs commitment is invalid.
+                * `11` - denotes that an output contains a Sender with an ident (address) which is not unlocked.
+                * `12` - denotes that the chain state transition is invalid.
+                * `255` - denotes that the semantic validation failed.
+            example: 1
+          whiteFlagIndex:
+            type: integer
+            description: If set, defines the order of the block in the white flag traversal during milestone solidification. Only referenced blocks have this information.
+            example: 13
           shouldPromote:
             type: boolean
             description: Whether the block should be promoted. This is determined automatically by the node by using the OCRI/YCRI of the block.
