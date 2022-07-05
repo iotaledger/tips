@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html" class="active">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html" class="active">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -177,7 +177,7 @@ created: 2021-12-15
 <p>It is highly recommended that a TIP outlines a single key proposal, idea or feature; the narrower the scope of the TIP is, the easier it becomes to reach consensus on the proposed feature and incorporate it into the protocol. Several TIPs can form a bundle of changes when linked to each other.</p>
 <h3 id="tip-format-and-structure"><a class="header" href="#tip-format-and-structure">TIP Format and Structure</a></h3>
 <p>TIPs must adhere to the format and structure requirements that are outlined in this document. A TIP is written in <a href="https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">Markdown</a> format and should have the following parts (optional parts are marked with a *):</p>
-<table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
 <tr><td>Preamble</td><td><a href="https://www.ietf.org/rfc/rfc822.txt">RFC 822</a> style headers containing metadata about the TIP, including the TIP number, a short descriptive title (limited to a maximum of 44 characters), a description (limited to a maximum of 140 characters), and the author details. Irrespective of the category, the title and description should not include TIP number. <a href="#tip-header-preamble">See below</a> for details.</td></tr>
 <tr><td>Abstract</td><td>A short summary of the technical issue being addressed by the TIP.</td></tr>
 <tr><td>Motivation</td><td>A motivation section is critical for TIPs that want to change the IOTA protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the TIP solves. TIP submissions without sufficient motivation may be rejected outright.</td></tr>
@@ -188,6 +188,7 @@ created: 2021-12-15
 <tr><td>Reference Implementation*</td><td>An optional section that contains a reference/example implementation that people can use to assist in understanding or implementing this specification.</td></tr>
 <tr><td>Copyright</td><td>All TIPs must be in the public domain. See the bottom of this TIP for an example copyright waiver.</td></tr>
 </tbody></table>
+</div>
 <h3 id="tip-template"><a class="header" href="#tip-template">TIP Template</a></h3>
 <p>The template to follow for new TIPs is located in the <a href="../../tip-template.html">repository</a>.</p>
 <h3 id="tip-process"><a class="header" href="#tip-process">TIP Process</a></h3>
@@ -199,7 +200,7 @@ created: 2021-12-15
 </ul>
 <h4 id="tip-statuses"><a class="header" href="#tip-statuses">TIP Statuses</a></h4>
 <p>The status of the TIP describes its current stage in the TIP process.</p>
-<table><thead><tr><th>Status</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Status</th><th>Description</th></tr></thead><tbody>
 <tr><td>Idea</td><td>An idea for an improvement to the IOTA technology. Not yet tracked as an official TIP.</td></tr>
 <tr><td>Draft</td><td>The idea has been formally accepted in the repository, and is being worked on by its authors.</td></tr>
 <tr><td>Proposed</td><td>The TIP has a working implementation and has clear plans on how to progress to <code>Active</code> status.</td></tr>
@@ -210,6 +211,7 @@ created: 2021-12-15
 <tr><td>Replaced</td><td>The TIP is replaced by a newer TIP. Must point to the new TIP in the header.</td></tr>
 <tr><td>Obsolete</td><td>The TIP is rendered obsolete by some future change.</td></tr>
 </tbody></table>
+</div>
 <h4 id="tip-workflow"><a class="header" href="#tip-workflow">TIP Workflow</a></h4>
 <p><em>How are new proposal get added to the protocol?</em></p>
 <ol>
@@ -260,7 +262,7 @@ created: 2021-12-15
 </ul>
 <h3 id="tip-header-preamble"><a class="header" href="#tip-header-preamble">TIP Header Preamble</a></h3>
 <p>Each TIPs must have an RFC 822 style header preamble preceded and followed by three hyphens (---). The headers must appear in the following order. Headers marked with &quot;*&quot; are optional and are described below. All other headers are required.</p>
-<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>tip</code></td><td>TIP number, or &quot;?&quot; before being assigned (assigned by <em>TIP editor</em>)</td></tr>
 <tr><td><code>title</code></td><td>Few words describing the TIP, maximum 44 characters</td></tr>
 <tr><td><code>description*</code></td><td>One full short sentence</td></tr>
@@ -276,6 +278,7 @@ created: 2021-12-15
 <tr><td><code>withdrawal-reason*</code></td><td>A sentence explaining why the TIP was withdrawn. (Optional field, only needed when status is <code>Withdrawn</code>)</td></tr>
 <tr><td><code>rejection-reason*</code></td><td>A sentence explaining why the TIP was rejected. (Optional field, only needed when status is <code>Rejected</code>)</td></tr>
 </tbody></table>
+</div>
 <h3 id="linking-tips"><a class="header" href="#linking-tips">Linking TIPs</a></h3>
 <p>References to other TIPs should follow the format TIP-N where N is the TIP number you are referring to. Each TIP that is referenced in an TIP MUST be accompanied by a relative Markdown link the first time it is referenced, and MAY be accompanied by a link on subsequent references. The link MUST always be done via relative paths so that the links work in this GitHub repository or forks of this repository. For example, you would link to this TIP with <code>[TIP-1](../TIP-0001/tip-0001.md)</code>.</p>
 <h3 id="auxiliary-files"><a class="header" href="#auxiliary-files">Auxiliary Files</a></h3>

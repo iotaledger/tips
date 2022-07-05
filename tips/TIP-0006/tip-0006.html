@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html" class="active">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html" class="active">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -170,7 +170,7 @@ created: 2020-07-28
 <h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
 <h2 id="data-types"><a class="header" href="#data-types">Data types</a></h2>
 <p>The following are data types that will be used when we specify fields in the message and payloads.</p>
-<table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
 <tr><td>uint8</td><td>An unsigned 8-bit integer encoded in Little Endian.</td></tr>
 <tr><td>uint16</td><td>An unsigned 16-bit integer encoded in Little Endian.</td></tr>
 <tr><td>uint32</td><td>An unsigned 32-bit integer encoded in Little Endian.</td></tr>
@@ -178,6 +178,7 @@ created: 2020-07-28
 <tr><td>ByteArray[N]</td><td>A static size byte array of length N.</td></tr>
 <tr><td>ByteArray</td><td>A dynamically sized byte array. A leading uint32 denotes its length in bytes.</td></tr>
 </tbody></table>
+</div>
 <h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
 <h3 id="message-id"><a class="header" href="#message-id">Message ID</a></h3>
 <p>The <em>Message ID</em> is the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the entire serialized message.</p>
@@ -283,20 +284,22 @@ created: 2020-07-28
 </ul>
 <h2 id="payloads"><a class="header" href="#payloads">Payloads</a></h2>
 <p>While messages without a payload, i.e. <code>Payload Length</code> set to zero, are valid, such messages do not contain any information. As such, messages usually contain a payload. The detailed specification of each payload type is out of scope of this RFC. The following table lists all currently specified payloads that can be part of a message and links to their specification. The <em>indexation payload</em> will be specified here as an example:</p>
-<table><thead><tr><th>Payload Name</th><th>Type Value</th><th>TIP</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Payload Name</th><th>Type Value</th><th>TIP</th></tr></thead><tbody>
 <tr><td>Transaction</td><td>0</td><td><a href="../TIP-0007/tip-0007.html">TIP-7</a></td></tr>
 <tr><td>Milestone</td><td>1</td><td><a href="../TIP-0008/tip-0008.html">TIP-8</a></td></tr>
 <tr><td>Indexation</td><td>2</td><td><a href="#indexation-payload">TIP-6</a></td></tr>
 </tbody></table>
+</div>
 <h3 id="indexation-payload"><a class="header" href="#indexation-payload">Indexation payload</a></h3>
 <p>This payload allows the addition of an index to the encapsulating message, as well as some arbitrary data. Nodes will expose an API that allows to query messages by index.</p>
 <p>The structure of the indexation payload is as follows:</p>
-<table><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td>Payload Type</td><td>uint32</td><td>Set to <b>value 2</b> to denote an <i>Indexation Payload</i>.</td></tr>
 <tr><td>Index Length</td><td>uint16</td><td>The length of the following index field in bytes.</td></tr>
 <tr><td>Index</td><td>ByteArray[Index Length]</td><td>The index key of the message</td></tr>
 <tr><td>Data</td><td>ByteArray</td><td>Binary data.</td></tr>
 </tbody></table>
+</div>
 <p>Note that <code>Index</code> field must be at least 1 byte and not longer than 64 bytes for the payload to be valid. The <code>Data</code> may have a length of 0.</p>
 <h2 id="example"><a class="header" href="#example">Example</a></h2>
 <p>Below is the full serialization of a valid message with an indexation payload. The index is the &quot;IOTA&quot; ASCII string and the data is the &quot;hello world&quot; ASCII string. Bytes are expressed as hexadecimal numbers.</p>
