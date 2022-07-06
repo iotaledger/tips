@@ -18,6 +18,8 @@ tags:
     description: Everything about the historical data.
   - name: ledger
     description: Everything about the ledger.
+  - name: balance
+    description: Everything about balances.
 paths:
   /api/history/v2/balance/by-address/{address}:
     get:
