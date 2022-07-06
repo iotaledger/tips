@@ -3309,25 +3309,21 @@ components:
     CreateSnapshotRequest:
       description: Defines the request of a create snapshots REST API call.
       properties:
-        fullIndex:
+        index:
           type: integer
-          description: The index of the full snapshot.
-        deltaIndex:
-          type: integer
-          description: The index of the delta snapshot.
+          description: The index of the snapshot.
+      required:
+        - index
 
     CreateSnapshotResponse:
       description: Defines the request of a create snapshots REST API call.
       properties:
-        fullIndex:
+        index:
           type: integer
-          description: The index of the full snapshot.
-        deltaIndex:
-          type: integer
-          description: The index of the delta snapshot.
-        fullFilePath:
+          description: The index of the snapshot.
+        filePath:
           type: string
-          description: The file path of the full snapshot file.
-        deltaFilePath:
-          type: string
-          description: The file path of the delta snapshot file.
+          description: The file path of the snapshot file.
+      required:
+        - index
+        - filePath
