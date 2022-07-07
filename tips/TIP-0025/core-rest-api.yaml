@@ -1060,7 +1060,7 @@ paths:
       tags:
         - control
       summary: Prunes the node database.
-      description: Prunes the node database..
+      description: Prunes the node database.
       requestBody:
         content:
           application/json:
