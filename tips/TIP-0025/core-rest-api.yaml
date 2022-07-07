@@ -1328,7 +1328,7 @@ components:
 
     post-tagged-data-block-request-example-full:
       value:
-        protocolVersion: 1
+        protocolVersion: 2
         parents:
           - "0x222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9"
           - "0xa22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6"
@@ -1388,7 +1388,7 @@ components:
 
     post-transaction-block-request-example-full:
       value:
-        protocolVersion: 1
+        protocolVersion: 2
         parents:
           - "0x6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca"
           - "0x97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481"
@@ -1433,7 +1433,7 @@ components:
 
     get-block-by-id-empty-response-example:
       value:
-        protocolVersion: 1
+        protocolVersion: 2
         parents:
           - "0xc0b728d4c292860b57747c7bfbd989ccc40be8c76229022644c05e1352bf1ea3"
           - "0xe8db39681478cf9826bd2f31d045f16f5e1f478c5abc3030419da7911df9e288"
@@ -1442,7 +1442,7 @@ components:
 
     get-block-by-id-transaction-response-example:
       value:
-        protocolVersion: 1
+        protocolVersion: 2
         parents:
           - "0x6c5bc96948813faaf6d5a5f0c6bc453bf2e5343664884aea2873041bdc47c4ca"
           - "0x97e2c4fce0f6e1023c19ed634e37a44744e21a743a79e8f1fc16d31dc8f47481"
@@ -1487,7 +1487,7 @@ components:
 
     get-block-by-id-milestone-response-example:
       value:
-        protocolVersion: 1
+        protocolVersion: 2
         parents:
           - "0x23d388b13f64c2e24788d61891079c74daf6d036b768d75ad38e473c9d4da83b"
           - "0x242974b25cab6f8378fe718ea729fa65492f03df4ce74b631899589242fa12b7"
@@ -1525,7 +1525,7 @@ components:
 
     get-block-by-id-tagged-data-response-example:
       value:
-        protocolVersion: 1
+        protocolVersion: 2
         parents:
           - "0x222e88a63e5aca8ef48d3b8749e2fab51d1bc7c34c5604a2933ca2f180b342c9"
           - "0xa22137ebe61435c6d0f3e16ad148376778d7bfb36e27329f02c221ec109525a6"
@@ -1627,7 +1627,7 @@ components:
 
     get-included-block-of-transaction-example-json:
       value:
-        protocolVersion: 1
+        protocolVersion: 2
         parents:
           - "0x174e3151f6ce2cfb7f00829ac4a96a35caa2078cc20eba99359867cd21aad0d6"
           - "0x5807bb4ad068e6cdadd103218e4e24ed55b62c985d4f64e97808d9f09180f89c"
