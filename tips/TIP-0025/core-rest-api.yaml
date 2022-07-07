@@ -1109,7 +1109,7 @@ paths:
       tags:
         - control
       summary: Creates a new snapshot.
-      description: Creates a new snapshot
+      description: Creates a new snapshot.
       requestBody:
         content:
           application/json:
