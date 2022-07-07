@@ -555,7 +555,7 @@ paths:
         - UTXO
       summary: Returns information about the treasury.
       description: >-
-        Returns information about the treasury.
+        Returns information about the treasury. The treasury hold the unmigrated tokens from the Legacy Mainnet.
       responses:
         '200':
           description: "Successful operation."
