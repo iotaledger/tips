@@ -298,10 +298,10 @@ components:
     BalanceResponse:
       description: The balances associated with an address.
       properties:
-        total_balance:
+        totalBalance:
           type: integer
           description: The sum of amounts in all unspent outputs associated with the given address.
-        locked_balance:
+        lockedBalance:
           type: integer
           description: The sum of amounts in all unspent outputs associated with the given address that are currently locked non-trivially.
   examples:
