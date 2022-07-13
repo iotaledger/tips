@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TIP-30 Native Token Metadata JSON Schema - The Tangle Improvement Proposal (TIP) Book</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0019/tip-0019.html">TIP-19 Dust Protection Based on Byte Costs (Storage Deposit)</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0021/tip-0021.html">TIP-21 Serialization Primitives</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0022/tip-0022.html">TIP-22 IOTA Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0023/tip-0023.html">TIP-23 Tagged Data Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0026/tip-0026.html">TIP-26 UTXO Indexer API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0030/tip-0030.html" class="active">TIP-30 Native Token Metadata JSON Schema</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0034/tip-0034.html">TIP-34 Wotsicide (Stardust)</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <pre>
+tip: 30
+title: Native Token Metadata JSON Schema
+description: A JSON schema that describes token metadata format for native token foundries.
+author: Levente Pap @lzpap <levente.pap@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/68
+status: Draft
+type: Standards
+layer: IRC
+created: 2022-03-25
+requires: 18
+</pre>
+<h2 id="abstract"><a class="header" href="#abstract">Abstract</a></h2>
+<p>This TIP describes a JSON schema to store native token metadata on-chain in foundry outputs.</p>
+<h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
+<p>By introducing a standardized token metadata schema we aim to address the following problems:</p>
+<ul>
+<li>Storing structured token metadata on-chain,</li>
+<li>Interoperability of dApps, wallets and clients handling native tokens,</li>
+<li>Creating the possibility of off-chain token verification based on social consensus.</li>
+</ul>
+<h2 id="specification"><a class="header" href="#specification">Specification</a></h2>
+<p>Native tokens are user defined tokens controlled by foundries, as described in
+<a href="https://github.com/iotaledger/tips/pull/38">draft TIP-18</a>. Each native token is identified by its 38 bytes long
+<i>Token ID</i>, that also identifies the unique identifier of the foundry, <i>Foundry ID</i>.</p>
+<p>Given <i>Foundry ID</i>, the most recent unspent foundry output controlling the supply of the native token can be
+fetched via the UTXO indexer API defined in <a href="https://github.com/iotaledger/tips/pull/62">draft TIP 26</a>.</p>
+<p>The foundry output may contain an immutable <i>Metadata Feature</i> that holds raw binary data. By encoding metadata in
+JSON format adhering to the JSON schema defined in this TIP and placing it in the immutable <i>Metadata Feature</i> of
+a foundry output, issuers can supply metadata to wallets, dApps and clients on-tangle, without the need for a
+metadata server.</p>
+<p>Standardizing the JSON schema for token metadata plays an important role in establishing interoperability of
+decentralized applications and wallets.</p>
+<h3 id="json-schema"><a class="header" href="#json-schema">JSON Schema</a></h3>
+<p>The proposed JSON schema is located <a href="./irc30.schema.json">here</a>:</p>
+<pre><code class="language-json">{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://github.com/iotaledger/tips/main/tips/TIP-0030/irc30.schema.json&quot;,
+  &quot;title&quot;: &quot;IRC30 Native Token Metadata Schema&quot;,
+  &quot;description&quot;: &quot;A JSON schema for IRC30 compliant native token metadata&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;properties&quot;: {
+    &quot;standard&quot;: {
+      &quot;description&quot;: &quot;The IRC standard of the token metadata&quot;,
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;pattern&quot;: &quot;^IRC30$&quot;
+    },
+    &quot;name&quot;: {
+      &quot;description&quot;: &quot;The human-readable name of the native token&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;description&quot;: {
+      &quot;description&quot;: &quot;The human-readable description of the token&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;symbol&quot;: {
+      &quot;description&quot;: &quot;The symbol/ticker of the token&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;decimals&quot;: {
+      &quot;description&quot;: &quot;Number of decimals the token uses (divide the token amount by 10^decimals to get its user representation)&quot;,
+      &quot;type&quot;: &quot;integer&quot;,
+      &quot;minimum&quot;: 0
+    },
+    &quot;url&quot;: {
+      &quot;description&quot;: &quot;URL pointing to more resources about the token&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;logoUrl&quot;: {
+      &quot;description&quot;: &quot;URL pointing to an image resource of the token logo&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;logo&quot;: {
+      &quot;description&quot;: &quot;The svg logo of the token encoded as a byte string&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;standard&quot;,
+    &quot;name&quot;,
+    &quot;symbol&quot;,
+    &quot;decimals&quot;
+  ]
+}
+</code></pre>
+<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<p>The following examples are located in the <a href="./examples"><code>examples/</code></a> folder.</p>
+<p>To try the schema validation in Python, install <a href="https://python-jsonschema.readthedocs.io/en/stable/">jsonschema</a>
+package by running:</p>
+<pre><code class="language-bash">pip install jsonschema
+</code></pre>
+<p>Then navigate into the folder of this TIP (<code>tips/TIP-0030/</code>) of the cloned
+<a href="https://github.com/iotaledger/tips">TIP repository</a> and run the validation in console:</p>
+<pre><code class="language-bash">jsonschema -i examples/1-valid.json irc30.schema.json
+</code></pre>
+<p>If the validation fails, error messages are printed out to the console.</p>
+<h4 id="1-a-minimum-valid-token-metadata-json"><a class="header" href="#1-a-minimum-valid-token-metadata-json">1. A minimum valid token metadata JSON</a></h4>
+<pre><code class="language-json">{
+  &quot;standard&quot;: &quot;IRC30&quot;,
+  &quot;name&quot;: &quot;FooCoin&quot;,
+  &quot;symbol&quot;: &quot;FOO&quot;,
+  &quot;decimals&quot;: 3,
+}
+</code></pre>
+<h4 id="2-a-more-descriptive-valid-token-metadata-json"><a class="header" href="#2-a-more-descriptive-valid-token-metadata-json">2. A more descriptive valid token metadata JSON</a></h4>
+<pre><code class="language-json">{
+  &quot;standard&quot;: &quot;IRC30&quot;,
+  &quot;name&quot;: &quot;FooCoin&quot;,
+  &quot;description&quot;: &quot;FooCoin is the utility and governance token of FooLand, a revolutionary protocol in the play-to-earn crypto gaming field.&quot;,
+  &quot;symbol&quot;: &quot;FOO&quot;,
+  &quot;decimals&quot;: 3,
+  &quot;url&quot;: &quot;https://foocoin.io&quot;,
+  &quot;logoUrl&quot;: &quot;https://ipfs.io/ipfs/QmR36VFfo1hH2RAwVs4zVJ5btkopGip5cW7ydY4jUQBrkR&quot;
+}
+</code></pre>
+<h4 id="3-invalid-token-metadata"><a class="header" href="#3-invalid-token-metadata">3. Invalid token metadata</a></h4>
+<pre><code class="language-json">{
+  &quot;standard&quot;: &quot;IRC27&quot;,
+  &quot;name&quot;: &quot;FooCoin&quot;,
+  &quot;description&quot;: &quot;FooCoin is the utility and governance token of FooLand, a revolutionary protocol in the play-to-earn crypto gaming field.&quot;,
+  &quot;decimals&quot;: 0.5
+}
+</code></pre>
+<p>The metadata JSON is not a valid IRC30 token metadata JSON as:</p>
+<ul>
+<li>The <code>standard</code> field is not <code>IRC30</code></li>
+<li><code>symbol</code> property is missing, although it is required, and</li>
+<li><code>decimals</code> is not an integer.</li>
+</ul>
+<h2 id="rationale"><a class="header" href="#rationale">Rationale</a></h2>
+<p>The main motive of this design is to allow interoperability of applications handling native tokens while also leaving
+room for optional, non-required fields that might be needed for certain use-cases.</p>
+<p>Alternatively, a non-standardized token metadata structure would lead to a fragmented application space and hence
+worse developer and user experiences while interacting with the network.</p>
+<h2 id="backwards-compatibility"><a class="header" href="#backwards-compatibility">Backwards Compatibility</a></h2>
+<p>IRC30 aims to be a minimum standard that can be compatible with future token standards, as long as the few originally
+required fields are respected.</p>
+<h2 id="copyright"><a class="header" href="#copyright">Copyright</a></h2>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../tips/TIP-0026/tip-0026.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../tips/TIP-0031/tip-0031.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../tips/TIP-0026/tip-0026.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../tips/TIP-0031/tip-0031.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
