@@ -1,0 +1,468 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TIP-34 Wotsicide (Stardust) - The Tangle Improvement Proposal (TIP) Book</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0019/tip-0019.html">TIP-19 Dust Protection Based on Byte Costs (Storage Deposit)</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0021/tip-0021.html">TIP-21 Serialization Primitives</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0022/tip-0022.html">TIP-22 IOTA Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0034/tip-0034.html" class="active">TIP-34 Wotsicide (Stardust)</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <pre>
+tip: 34
+title: Wotsicide (Stardust)
+description: Define migration from legacy W-OTS addresses to post-Chrysalis network
+author: Luca Moser (@luca-moser) <luca.moser@iota.org>, Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/74
+status: Draft
+type: Standards
+layer: Core
+created: 2022-04-21
+replaces: 17
+</pre>
+<h1 id="abstract"><a class="header" href="#abstract">Abstract</a></h1>
+<p>This TIP defines the migration process of funds using the legacy Winternitz one-time signature scheme (W-OTS) to the current network.</p>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
+<p>With Chrysalis, the IOTA protocol moved away from W-OTS as it created a number of security, protocol and UX issues:</p>
+<ul>
+<li>W-OTS signatures are big and make up a disproportionate amount of data of a transaction.</li>
+<li>It is only safe to spend from an address <strong>once</strong>. Spending multiple times from the same address reveals random parts of the private key, making any subsequent transfers (other than the first) susceptible to thefts.</li>
+<li>As a prevention mechanism to stop users from spending multiple times from the same address, nodes have to keep an ever growing list of those addresses.</li>
+</ul>
+<p>As the current protocol no longer supports W-OTS addresses, there needs to be a migration process from W-OTS addresses to Ed25519 addresses. To make this migration as smooth as possible, this TIP proposes a mechanism allowing users to migrate their funds at any time with only a small delay until they are available on the new network.</p>
+<p>This TIP outlines the detailed architecture of how users will be able to migrate their funds and specifies the underlying components and their purposes.</p>
+<h1 id="specification"><a class="header" href="#specification">Specification</a></h1>
+<p>On a high-level the migration process works as follows:</p>
+<ul>
+<li>Users create migration bundles in the legacy network which target their Ed25519 address in the new network.</li>
+<li>The Coordinator then mints those migrated funds in so-called <em>Receipt Milestone Option</em> which are placed within milestones on the new network.</li>
+<li>Nodes in the new network evaluate receipts and book the corresponding funds by creating new UTXOs in the ledger.</li>
+</ul>
+<h2 id="legacy-network"><a class="header" href="#legacy-network">Legacy network</a></h2>
+<h3 id="migration-bundle"><a class="header" href="#migration-bundle">Migration bundle</a></h3>
+<p>The node software no longer books ledger mutations to non-migration addresses. This means that users are incentivized to migrate their funds as they want to use their tokens. See this document on what <a href="https://hackmd.io/@iota-protocol/rkO-r1qAv">migration addresses</a> are.</p>
+<p>A migration bundle is defined as follows:</p>
+<ul>
+<li>It contains exactly one output transaction of which the destination address is a valid <a href="https://hackmd.io/@iota-protocol/rkO-r1qAv">migration address</a> and is positioned as the tail transaction within the bundle. The output transaction value is at least 1'000'000 tokens.</li>
+<li>It does not contain any zero-value transactions which do not hold signature fragments. This means that transactions other than the tail transaction must always be part of an input.</li>
+<li>Input transactions must not use migration addresses.</li>
+</ul>
+<p>The node will only use tail transactions of migration or milestone bundles for the tip-pool. This means that past cones referenced by a milestone will only include such bundles.</p>
+<p>The legacy node software is updated with an additional HTTP API command called <code>getWhiteFlagConfirmation</code> which given request data in the following form:</p>
+<pre><code class="language-json">{
+    &quot;command&quot;: &quot;getWhiteFlagConfirmation&quot;,
+    &quot;milestoneIndex&quot;: 1434593
+}
+</code></pre>
+<p>returns data for the given milestone white-flag confirmation:</p>
+<pre><code class="language-json">{
+    &quot;milestoneBundle&quot;: [
+        &quot;SDGKWKJAG...&quot;,
+        &quot;WNGHJWIFA...&quot;,
+        &quot;DSIEWSDIG...&quot;
+    ],
+    &quot;includedBundles&quot;: [
+        [
+            &quot;SKRGI9DFS...&quot;,
+            &quot;NBJSKRJGW...&quot;,
+            &quot;ITRUQORTZ...&quot;
+        ],
+        [
+            &quot;OTIDFJKSD...&quot;,
+            &quot;BNSUGRWER...&quot;,
+            &quot;OPRGJSDFJ...&quot;
+        ],
+        ...
+    ]
+}
+</code></pre>
+<p>where <code>milestoneBundle</code> contains the milestone bundle trytes and <code>includedBundles</code> is an array of tryte arrays of included bundles in the same DFS order as the white-flag confirmation. Trytes within a bundle &quot;array&quot; are sorted from <code>currentIndex</code> = 0 ascending to the <code>lastIndex</code>.</p>
+<p>This HTTP API command allows interested parties to verify which migration bundles were confirmed by a given milestone.</p>
+<h3 id="milestone-inclusion-merkle-proof"><a class="header" href="#milestone-inclusion-merkle-proof">Milestone inclusion Merkle proof</a></h3>
+<p>The Coordinator will only include migration bundles (respectively the tails of those bundles) in its inclusion Merkle proof. Nodes which do not run with the updated code will crash.</p>
+<h3 id="preventing-non-migration-bundles"><a class="header" href="#preventing-non-migration-bundles">Preventing non-migration bundles</a></h3>
+<p>As an additional measure to prevent users from submitting never confirming non-migration bundles (which would lead to key-reuse), nodes will no longer accept non-migration bundles in the HTTP API.</p>
+<p>HTTP API level checks:</p>
+<ul>
+<li>The user must submit an entire migration bundle. No more single zero-value transactions, value-spam bundles etc. are allowed.</li>
+<li>Input transactions are spending the entirety of the funds residing on the corresponding address. There must be more than 0 tokens on the given address.</li>
+</ul>
+<p>Wallet software must be updated to no longer support non-migration bundles.</p>
+<p>There are no restrictions put in place on the gossip level, as it is too complex to prevent non-migration transactions to be filtered out, however, these transactions will never become part of a milestone cone.</p>
+<h2 id="current-network"><a class="header" href="#current-network">Current network</a></h2>
+<h3 id="receipt-milestone-option"><a class="header" href="#receipt-milestone-option">Receipt Milestone Option</a></h3>
+<p>Each <em>Milestone Essence</em> as specified in <a href="../TIP-0029/tip-0029.html">TIP-29</a> can contain a <em>Receipt Milestone Option</em>. Receipts allow for fast migration of funds from the legacy into the new network.</p>
+<h4 id="serialized-layout"><a class="header" href="#serialized-layout">Serialized layout</a></h4>
+<p>The following table describes the entirety of a <em>Receipt Milestone Option</em> in its serialized form following the notation from <a href="../TIP-0021/tip-0021.html">TIP-21</a>:</p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Milestone Option Type</td>
+    <td>uint8</td>
+    <td>Set to <strong>value 0</strong> to denote a <i>Receipt Milestone Option</i>.</td>
+  </tr>
+  <tr>
+    <td>Migrated At</td>
+    <td>uint32</td>
+    <td>The index of the legacy milestone in which the listed funds were migrated at.</td>
+  </tr>
+  <tr>
+    <td>Final</td>
+    <td>uint8</td>
+    <td>The value 1 indicates that this receipt is the last receipt for the given <i>Migrated At</i> index.</td>
+  </tr>
+  <tr>
+    <td>Funds Count</td>
+    <td>uint16</td>
+    <td>Denotes how many migrated fund entries are within the receipt.</td>
+  </tr>
+  <tr>
+    <td>Funds</td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Migrated Funds Entry</summary>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Tail Transaction Hash</td>
+            <td>ByteArray[49]</td>
+            <td>The <code>t5b1</code> encoded tail transaction hash of the migration bundle.</td>
+          </tr>
+          <tr>
+            <td valign="top">Address <code>oneOf</code></td>
+            <td colspan="2">
+              <details open="true">
+                <summary>Ed25519 Address</summary>
+                <table>
+                  <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                  </tr>
+                  <tr>
+                    <td>Address Type</td>
+                    <td>uint8</td>
+                    <td>Set to <strong>value 0</strong> to denote an <i>Ed25519 Address</i>.</td>
+                  </tr>
+                  <tr>
+                    <td>PubKeyHash</td>
+                    <td>ByteArray[32]</td>
+                    <td>The raw bytes of the Ed25519 address which is a BLAKE2b-256 hash of the Ed25519 public key.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Amount</td>
+            <td>uint64</td>
+            <td>The amount which was migrated</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Treasury <code>oneOf</code></td>
+    <td colspan="2">
+      <details>
+        <summary>Treasury Transaction</summary>
+      </details>
+    </td>
+  </tr>
+</table>
+<h4 id="validation"><a class="header" href="#validation">Validation</a></h4>
+<h5 id="syntactic-validation"><a class="header" href="#syntactic-validation">Syntactic validation</a></h5>
+<ul>
+<li><code>Final</code> must be either 0 or 1.</li>
+<li>Funds:
+<ul>
+<li><code>Funds Count</code> must be 0 &lt; x ≤ <code>Max Inputs Count</code>.</li>
+<li>For each fund entry the following must be true:
+<ul>
+<li><code>Amount</code> must be at least 1'000'000.</li>
+</ul>
+</li>
+<li>The fund entries must be sorted with respect to their <code>Tail Transaction Hash</code> in lexicographical order.</li>
+<li>Each <code>Tail Transaction Hash</code> must be unique.</li>
+</ul>
+</li>
+<li><code>Treasury</code> must be a syntactically valid <em>Treasury Transaction</em> as described in the <a href="#treasury-transaction">Treasury Transaction</a> section.</li>
+</ul>
+<h5 id="semantic-validation"><a class="header" href="#semantic-validation">Semantic validation</a></h5>
+<p>Semantic validation is checked with respect to the previous <em>Receipt Milestone Option</em>, i.e. the receipt whose Milestone's <code>Index Number</code> is the largest but still less than the current milestone.</p>
+<ul>
+<li><code>Migrated At</code> must not be smaller than in the previous receipt.</li>
+<li>If the previous receipt has <code>Final</code> set to 1, <code>Migrated At</code> must be larger than the previous.</li>
+<li>The <code>Amount</code> of the previous <code>Treasury Output</code> plus the sum of all <code>Amount</code> fields of the current <em>Migrated Funds Entries</em> must equal the <code>Amount</code> of the current <code>Treasury Output</code>.</li>
+</ul>
+<h5 id="legitimacy-of-migrated-funds"><a class="header" href="#legitimacy-of-migrated-funds">Legitimacy of migrated funds</a></h5>
+<p>While the syntactic and semantic validation ensure that the receipt's integrity is correct, it does not actually tell whether the given funds were really migrated in the legacy network.</p>
+<p>In order validate this criteria, the node software performs the following operations:</p>
+<ol>
+<li>The HTTP API of a legacy node is queried for the <code>Tail Transaction Hash</code> of each <em>Migrated Funds Entry</em>.</li>
+<li>The node checks whether the <em>Migrated Funds Entry</em> matches the response from the legacy node.</li>
+<li>Additionally, if the receipt's <code>Final</code> flag was set to 1, it is validated whether all funds for the given legacy milestone were migrated, i.e. whether for each <em>Migration Bundle</em> confirmed by that milestone there exists a <em>Migrated Funds Entry</em> in the current or a previous receipt.</li>
+</ol>
+<p>If the operation fails, the node software must gracefully terminate with an appropriate error message.</p>
+<h3 id="treasury-transaction"><a class="header" href="#treasury-transaction">Treasury Transaction</a></h3>
+<p>A <em>Treasury Transaction</em> contains a reference to the current <em>Treasury Output</em> (in the form of a <em>Treasury Input</em> object) and a <em>Treasury Output</em> which deposits the remainder.</p>
+<p>The <em>Treasury Output</em> cannot be referenced or spent by transactions, it can only be referenced by receipts. It can be queried from the HTTP API and needs to be included within snapshots in order to keep the total supply intact.</p>
+<p>The following table describes the entirety of a <em>Treasury Transaction</em> in its serialized form following the notation from <a href="../TIP-0021/tip-0021.html">TIP-21</a>:</p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Input <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Treasury Input</summary>
+        <blockquote>Equivalent to a normal <i>UTXO Input</i>, but instead of a transaction it references a milestone.</blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Input Type</td>
+            <td>uint8</td>
+            <td>Set to <strong>value 1</strong> to denote an <i>Treasury Input</i>.</td>
+          </tr>
+          <tr>
+            <td>Milestone ID</td>
+            <td>ByteArray[32]</td>
+            <td>The <i>Milestone ID</i> of the milestone that created the referenced <i>Treasury Output</i>.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Output <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Treasury Output</summary>
+        <blockquote>Represents the treasury of the network, i.e. the not yet migrated funds.</blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Output Type</td>
+            <td>uint8</td>
+            <td>Set to <strong>value 2</strong> to denote an <i>Treasury Output</i>.</td>
+          </tr>
+          <tr>
+            <td>Amount</td>
+            <td>uint64</td>
+            <td>The amount of funds residing in the treasury.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+</table>
+<h3 id="booking-receipts"><a class="header" href="#booking-receipts">Booking receipts</a></h3>
+<p>After successful receipt validation, the node software generates UTXOs in the following form: For each <em>Migrated Funds Entry</em> a <em>Basic Output</em> (see <a href="../TIP-0018/tip-0018.html">TIP-18</a>) is created with <code>Amount</code> matching the <code>Amount</code> field of the entry as well as a single <em>Address Unlock Condition</em> for the entry's <code>Address</code>. All other fields of the output are left empty.
+Normally, the <em>Output ID</em> corresponds to <em>Transaction ID</em> plus <em>Output Index</em>. However, as for those migrated outputs there is no corresponding creating transaction, the <em>Milestone ID</em> of the encapsulating milestone is used as the <em>Transaction ID</em> part. In this case, the <em>Output Index</em> corresponds to the index of the corresponding <em>Migrated Funds Entry</em>.</p>
+<p>All the generated <em>Basic Outputs</em> are then booked into the ledger and the new <em>Treasury Output</em> is persisted as an UTXO using the <em>Milestone ID</em> of the receipt which included the <em>Treasury Transaction</em> payload.</p>
+<h1 id="rationale"><a class="header" href="#rationale">Rationale</a></h1>
+<ul>
+<li>At the current legacy network ledger size of 261446 entries (addresses with ≥ 1'000'000 tokens), it would take at least 2058 receipts to migrate all the funds. While theoretically the <em>Max Message Length</em> allows for more entries to be included in one receipt, the number is limited by the fact that the index of the <em>Migrated Funds Entry</em> is used to generate the <em>Output Index</em> of the generated output. As such, the maximum number of <em>Migrated Funds Entry</em> should also be limited by <code>Max Inputs Count</code></li>
+<li>Assuming the best case scenario in which all 261446 entries are sent to migration addresses in the legacy network, these funds could therefore be migrated into the new network within ~5.7h (at a 10 second milestone interval). Of course, in practice users will migrate over time and the receipt mechanism will need to be in place as long as the new network runs.</li>
+</ul>
+<h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../tips/TIP-0031/tip-0031.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../tips/TIP-0031/tip-0031.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
