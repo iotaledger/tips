@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="tips/TIP-0019/tip-0019.html">TIP-19 Dust Protection Based on Byte Costs (Storage Deposit)</a></li><li class="chapter-item expanded "><a href="tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="tips/TIP-0019/tip-0019.html">TIP-19 Dust Protection Based on Byte Costs (Storage Deposit)</a></li><li class="chapter-item expanded "><a href="tips/TIP-0021/tip-0021.html">TIP-21 Serialization Primitives</a></li><li class="chapter-item expanded "><a href="tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -925,21 +925,11 @@ created: 2020-07-28
 <p>The same is true with how messages are parsed. The outer layer of the message enables the mapping of the message to a vertex in the Tangle and allow us to perform some basic validation. The next layer may be a transaction that mutates the ledger state, and one layer further may provide some extra functionality on the transactions to be used by applications.</p>
 <p>By making it possible to add and exchange payloads, an architecture is being created that can easily be extended to accommodate future needs.</p>
 <h1 id="detailed-design-4"><a class="header" href="#detailed-design-4">Detailed design</a></h1>
-<h2 id="data-types"><a class="header" href="#data-types">Data types</a></h2>
-<p>The following are data types that will be used when we specify fields in the message and payloads.</p>
-<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
-<tr><td>uint8</td><td>An unsigned 8-bit integer encoded in Little Endian.</td></tr>
-<tr><td>uint16</td><td>An unsigned 16-bit integer encoded in Little Endian.</td></tr>
-<tr><td>uint32</td><td>An unsigned 32-bit integer encoded in Little Endian.</td></tr>
-<tr><td>uint64</td><td>An unsigned 64-bit integer encoded in Little Endian.</td></tr>
-<tr><td>ByteArray[N]</td><td>A static size byte array of length N.</td></tr>
-<tr><td>ByteArray</td><td>A dynamically sized byte array. A leading uint32 denotes its length in bytes.</td></tr>
-</tbody></table>
-</div>
 <h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
 <h3 id="message-id"><a class="header" href="#message-id">Message ID</a></h3>
 <p>The <em>Message ID</em> is the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the entire serialized message.</p>
-<h3 id="serialized-layout"><a class="header" href="#serialized-layout">Serialized Layout</a></h3>
+<h3 id="serialized-layout"><a class="header" href="#serialized-layout">Serialized layout</a></h3>
+<p>The following table describes the serialization of a <em>Message</em> following the notation from <a href="https://iotaledger.github.io/protocol-rfcs/0041-serialization-primitives/0041-serialization-primitives.html">RFC-0041</a>:</p>
 <table>
   <tr>
     <th>Name</th>
@@ -1141,33 +1131,7 @@ created: 2020-07-10
 </ol>
 <p>All values are serialized in little-endian encoding. The serialized form of the transaction is deterministic, meaning the same logical transaction always results in the same serialized byte sequence.</p>
 <p>The <em>Transaction ID</em> is the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the entire serialized payload data including signatures.</p>
-<p>The following table structure describes the entirety of a <em>Transaction Payload</em> in its serialized form:</p>
-<ul>
-<li>Data Type Notation, see <a href="tips/TIP-0007/../TIP-0006/tip-0006.html#data-types">TIP-6</a></li>
-<li><details>
-  <summary>Subschema Notation</summary>
-  <table>
-      <tr>
-          <th>Name</th>
-          <th>Description</th>
-      </tr>
-      <tr>
-          <td><code>oneOf</code></td>
-          <td>One of the listed subschemas.</td>
-      </tr>
-      <tr>
-          <td><code>optOneOf</code></td>
-          <td>Optionally one of the listed subschemas.</td>
-      </tr>
-      <tr>
-          <td><code>anyOf</code></td>
-          <td>Any (one or more) of the listed subschemas.</td>
-      </tr>
-  </table>
-</li>
-</ul>
-</details>
-<p></p>
+<p>The following table describes the entirety of a <em>Transaction Payload</em> in its serialized form following the notation from <a href="tips/TIP-0007/../TIP-0021/tip-0021.html">TIP-21</a>.</p>
 <table>
   <tr>
     <th>Name</th>
@@ -1644,8 +1608,7 @@ created: 2020-07-28
 <li><em>Signature Threshold</em> specifying the minimum number of valid signatures. Must be at least one and not greater than the number of <em>Applicable Public Keys</em>.</li>
 </ul>
 <h2 id="structure-2"><a class="header" href="#structure-2">Structure</a></h2>
-<p>All values are serialized in little-endian encoding. The serialized form of the milestone is deterministic, meaning the same logical milestone always results in the same serialized byte sequence.</p>
-<p>The following table structure describes the entirety of a <em>Milestone Payload</em> in its serialized form (<a href="tips/TIP-0008/../TIP-0006/tip-0006.html#data-types">TIP-6 Data Types</a>):</p>
+<p>The following table describes the entirety of a <em>Milestone Payload</em> in its serialized form following the notation from <a href="tips/TIP-0008/../TIP-0021/tip-0021.html">TIP-21</a>:</p>
 <table>
   <tr>
     <th>Name</th>
@@ -5940,6 +5903,50 @@ However, all output types like e.g. smart contract requests are affected and mus
 <h2 id="copyright-17"><a class="header" href="#copyright-17">Copyright</a></h2>
 <p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><pre>
+tip: 21
+title: Serialization Primitives
+description: Introduce primitives to describe the binary serialization of objects.
+author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/41
+status: Draft
+type: Standards
+layer: Core
+created: 2021-11-22
+</pre>
+<h1 id="summary-17"><a class="header" href="#summary-17">Summary</a></h1>
+<p>This document introduces the primitives and concepts that are used throughout the IOTA protocol RFCs to describe the binary serialization of objects.</p>
+<h1 id="motivation-16"><a class="header" href="#motivation-16">Motivation</a></h1>
+<p>Prior to this document, each RFC contained its own section and version describing the serialization of its objects. This RFC introduces consistent serialization concepts and avoids duplication in other RFCs.</p>
+<h1 id="detailed-design-15"><a class="header" href="#detailed-design-15">Detailed design</a></h1>
+<h2 id="schemas"><a class="header" href="#schemas">Schemas</a></h2>
+<p>Serializable objects are represented by a <em>schema</em>. Each schema consists of a list of <em>fields</em>, which each have a name and a type. The type of a field can either be a simple data type or another schema, then called subschema.</p>
+<h3 id="data-types"><a class="header" href="#data-types">Data types</a></h3>
+<p>All the supported data types are described in the following table:</p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
+<tr><td>uint8</td><td>An unsigned 8-bit integer encoded in Little Endian.</td></tr>
+<tr><td>uint16</td><td>An unsigned 16-bit integer encoded in Little Endian.</td></tr>
+<tr><td>uint32</td><td>An unsigned 32-bit integer encoded in Little Endian.</td></tr>
+<tr><td>uint64</td><td>An unsigned 64-bit integer encoded in Little Endian.</td></tr>
+<tr><td>uint256</td><td>An unsigned 256 bits integer encoded in Little Endian.</td></tr>
+<tr><td>ByteArray[N]</td><td>A static size byte array of N bytes.</td></tr>
+<tr><td>(uint8)ByteArray</td><td>A dynamically sized byte array. A leading uint8 denotes its length in bytes.</td></tr>
+<tr><td>(uint16)ByteArray</td><td>A dynamically sized byte array. A leading uint16 denotes its length in bytes.</td></tr>
+<tr><td>(uint32)ByteArray</td><td>A dynamically sized byte array. A leading uint32 denotes its length in bytes.</td></tr>
+</tbody></table>
+</div>
+<h3 id="subschemas"><a class="header" href="#subschemas">Subschemas</a></h3>
+<p>In order to create complex schemas, one or multiple subschemas can be included into an outer schema. The keywords that describe the allowed combinations of such subschemas is described in the following table:</p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>oneOf</code></td><td>One of the listed subschemas.</td></tr>
+<tr><td><code>optOneOf</code></td><td>One of the listed subschemas or none.</td></tr>
+<tr><td><code>anyOf</code></td><td>Any (one or more) of the listed subschemas.</td></tr>
+<tr><td><code>optAnyOf</code></td><td>Any (one or more) of the listed subschemas or none.</td></tr>
+<tr><td><code>atMostOneOfEach</code></td><td>At most one (none or one) of each of the listed subschemas.</td></tr>
+</tbody></table>
+</div>
+<h1 id="copyright-18"><a class="header" href="#copyright-18">Copyright</a></h1>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><pre>
 tip: 31
 title: Bech32 Address Format
 description: Extendable address format supporting various signature schemes and address types
@@ -5951,9 +5958,9 @@ layer: Interface
 created: 2022-04-04
 replaces: 11
 </pre>
-<h1 id="summary-17"><a class="header" href="#summary-17">Summary</a></h1>
+<h1 id="summary-18"><a class="header" href="#summary-18">Summary</a></h1>
 <p>This document proposes an extendable address format for the IOTA protocol supporting various signature schemes and address types. It relies on the <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">Bech32</a> format to provide a compact, human-readable encoding with strong error correction guarantees.</p>
-<h1 id="motivation-16"><a class="header" href="#motivation-16">Motivation</a></h1>
+<h1 id="motivation-17"><a class="header" href="#motivation-17">Motivation</a></h1>
 <p>With <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, IOTA started using Ed25519 to generate digital signatures, in which addresses correspond to a BLAKE2b-256 hash. It is necessary to define a universal and extendable address format capable of encoding different types of addresses (introduced also in <a href="https://github.com/iotaledger/tips/pull/38">draft TIP-18</a>).</p>
 <p>The legacy IOTA protocol (1.0, pre-Chrysalis) relies on Base27 addresses with a truncated Kerl checksum. However, both the character set and the checksum algorithm have limitations:</p>
 <ul>
@@ -5963,7 +5970,7 @@ replaces: 11
 </ul>
 <p>All of these points are addressed in the Bech32 format introduced in <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173</a>: In addition to the usage of the human-friendly Base32 encoding with an optimized character set, it implements a <a href="https://en.wikipedia.org/wiki/BCH_code">BCH code</a> that <em>guarantees detection</em> of any error affecting at most four characters and has less than a 1 in 10<sup>9</sup> chance of failing to detect more errors.</p>
 <p>This TIP proposes a simple and extendable binary serialization for addresses of different types that is then Bech32 encoded to provide a unique appearance for human-facing applications such as wallets.</p>
-<h1 id="detailed-design-15"><a class="header" href="#detailed-design-15">Detailed design</a></h1>
+<h1 id="detailed-design-16"><a class="header" href="#detailed-design-16">Detailed design</a></h1>
 <h2 id="binary-serialization-1"><a class="header" href="#binary-serialization-1">Binary serialization</a></h2>
 <p>The address format uses a simple serialization scheme which consists of two parts:</p>
 <ul>
@@ -6066,7 +6073,7 @@ replaces: 11
 <li>Bech32 encoding: <a href="https://github.com/iotaledger/iota.go/tree/v3/bech32">bech32</a></li>
 <li>Address implementations: <a href="https://github.com/iotaledger/iota.go/blob/v3/address_ed25519.go">Ed25519</a>, <a href="https://github.com/iotaledger/iota.go/blob/v3/address_alias.go">Alias</a>, <a href="https://github.com/iotaledger/iota.go/blob/v3/address_nft.go">NFT</a></li>
 </ul>
-<h1 id="copyright-18"><a class="header" href="#copyright-18">Copyright</a></h1>
+<h1 id="copyright-19"><a class="header" href="#copyright-19">Copyright</a></h1>
 <p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 
                     </main>
