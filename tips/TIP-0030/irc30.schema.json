@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/iotaledger/tips/main/tips/TIP-0029/irc29.schema.json",
-  "title": "IRC29 Native Token Metadata Schema",
-  "description": "A JSON schema for validating IRC29 compliant native token metadata",
+  "$id": "https://github.com/iotaledger/tips/main/tips/TIP-0030/irc30.schema.json",
+  "title": "IRC30 Native Token Metadata Schema",
+  "description": "A JSON schema for validating IRC30 compliant native token metadata",
   "type": "object",
   "properties": {
     "standard": {
