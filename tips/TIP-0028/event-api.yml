@@ -945,7 +945,8 @@ components:
           description: Set to value 2 to denote a TreasuryOutput.
         amount:
           type: string
-          description: Amountt of IOTA tokens in the treasury. Plain string encoded number.
+          description: Amount of IOTA tokens in the treasury. Plain string encoded number.
+
       required:
         - type
         - amount
