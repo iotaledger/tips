@@ -895,7 +895,8 @@ components:
           example: "0x19c82b32761fd8729a1a6c77f7c17597e4b9b01759794e52381f6a0050b0c11f"
         unlockConditions:
           type: array
-          description: Unlock condtions that define how the output an be unlocked in a transaction.
+          description: Unlock condtions that define how the output can be unlocked in a transaction.
+
           items:
             anyOf:
               - $ref: '#/components/schemas/AddressUnlockCondition'
