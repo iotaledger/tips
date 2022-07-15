@@ -544,7 +544,8 @@ components:
         - type
         - address
     StorageDepositReturnUnlockCondition:
-      description: Can be unlocked by depositting return amount to return address via an output that only has Address Unlock Condition.
+      description: Can be unlocked by depositing return amount to return address via an output that only has Address Unlock Condition.
+
       properties:
         type:
           type: integer
