@@ -2540,8 +2540,6 @@ components:
           description: The optional data to attach. This may have a length of 0. Hex-encoded with 0x prefix.
       required:
         - type
-        - tag
-        - data
 
     TreasuryTransactionPayload:
       properties:
