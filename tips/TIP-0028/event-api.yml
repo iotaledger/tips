@@ -549,7 +549,8 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 1 to denote an Storage Deposit Return Unlock Condition.
+          description: Set to value 1 to denote a Storage Deposit Return Unlock Condition.
+
           example: 1
         returnAddress:
           oneOf:
