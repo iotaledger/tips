@@ -623,7 +623,8 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 5 to denote an  Governor Address Unlock Condition.
+          description: Set to value 5 to denote a Governor Address Unlock Condition.
+
           example: 5
         address:
           oneOf:
