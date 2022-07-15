@@ -873,7 +873,8 @@ components:
         - tokenScheme
         - unlockConditions
     NFTOutput:
-      description: escribes an NFT output, a globally unique token with metadata attached.
+      description: Describes an NFT output, a globally unique token with metadata attached.
+
       properties:
         type:
           type: integer
