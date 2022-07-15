@@ -570,7 +570,8 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 2 to denote an Timelock Unlock Condition.
+          description: Set to value 2 to denote a Timelock Unlock Condition.
+
           example: 2
         unixTime:
           type: integer
