@@ -607,7 +607,8 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 4 to denote an  Sate Controller Address Unlock Condition.
+          description: Set to value 4 to denote a Sate Controller Address Unlock Condition.
+
           example: 4
         address:
           oneOf:
