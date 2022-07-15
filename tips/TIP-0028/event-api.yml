@@ -1062,7 +1062,8 @@ components:
           example: "0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7"
         outputIndex:
           type: number
-          description: The index of the this output within its transaction.
+          description: The index of the output within its transaction.
+
           example: 0
         isSpent:
           type: boolean
