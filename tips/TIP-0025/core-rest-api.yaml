@@ -2534,7 +2534,7 @@ components:
           description: Set to value 5 to denote a Tagged Data Payload.
         tag:
           type: string
-          description: The tag to allow external tools to find/look up this block. It has a size between 1 and 64 bytes and must be encoded as a hex-string with 0x prefix. Network nodes do not index blocks with Tagged Data Payload by the tag field by default.
+          description: The tag to allow external tools to find/look up this block. It has a size between 0 and 64 bytes and must be encoded as a hex-string with 0x prefix. Network nodes do not index blocks with Tagged Data Payload by the tag field by default.
         data:
           type: string
           description: The optional data to attach. This may have a length of 0. Hex-encoded with 0x prefix.
