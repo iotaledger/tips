@@ -848,7 +848,8 @@ components:
               - $ref: '#/components/schemas/SimpleTokenScheme'
         unlockConditions:
           type: array
-          description: Unlock condtions that define how the output an be unlocked in a transaction.
+          description: Unlock condtions that define how the output can be unlocked in a transaction.
+
           items:
             anyOf:
               - $ref: '#/components/schemas/ImmutableAliasAddressUnlockCondition'
