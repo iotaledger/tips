@@ -2983,7 +2983,7 @@ components:
               description: The name of the smallest possible denomination of the primary unit. subunit * 10^decimals = unit
             useMetricPrefix:
               type: boolean
-              description: Wheteher to use metric prefixes for disaplying unit.
+              description: Whether to use metric prefixes for displaying unit.
           required:
             - name
             - tickerSymbol
@@ -3022,7 +3022,7 @@ components:
       properties:
         protocolVersion:
           type: integer
-          description: Protocol version number of the block.It also tells which protocol rules apply to the block.
+          description: Protocol version number of the block. It also tells which protocol rules apply to the block.
         parents:
           type: array
           description: The identifiers of the blocks this block references. Hex-encoded with 0x prefix.
