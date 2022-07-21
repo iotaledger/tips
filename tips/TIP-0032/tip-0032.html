@@ -1,0 +1,285 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TIP-32 Shimmer Protocol Parameters - The Tangle Improvement Proposal (TIP) Book</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0019/tip-0019.html">TIP-19 Dust Protection Based on Byte Costs (Storage Deposit)</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0021/tip-0021.html">TIP-21 Serialization Primitives</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0022/tip-0022.html">TIP-22 IOTA Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0023/tip-0023.html">TIP-23 Tagged Data Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0026/tip-0026.html">TIP-26 UTXO Indexer API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0030/tip-0030.html">TIP-30 Native Token Metadata JSON Schema</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0032/tip-0032.html" class="active">TIP-32 Shimmer Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0034/tip-0034.html">TIP-34 Wotsicide (Stardust)</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <pre>
+tip: 32
+title: Shimmer Protocol Parameters
+description: Describes the global protocol parameters for the Shimmer protocol
+author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>, Levente Pap (@lzpap) <levente.pap@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/71
+status: Draft
+type: Standards
+layer: Core
+created: 2022-04-04
+</pre>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
+<p>This TIP describes the global protocol parameters for the Shimmer protocol.</p>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
+<p>Various other protocol TIPs rely on certain constants that need to be defined for an actual implementation of nodes or other applications using the protocol. This TIP serves as a single document to provide these parameters. It also serves as a historical record of protocol parameter changes.</p>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
+<h2 id="shimmer-units"><a class="header" href="#shimmer-units">Shimmer Units</a></h2>
+<p>The whole Shimmer genesis token supply has been distributed to IOTA token holders who staked their tokens to receive SMR during
+the Shimmer staking event:</p>
+<ul>
+<li>Start date: Tuesday, December 28, 2021 3:00 PM CET (<a href="https://explorer.iota.org/mainnet/search/2102114">Milestone #2102114</a>)</li>
+<li>End date: Monday, March 28, 2022 8:12 PM CET (<a href="https://explorer.iota.org/mainnet/search/2879714">Milestone #2879714</a>)</li>
+<li>Results: https://github.com/iotaledger/participation-events/blob/master/results/staking/shimmer.json</li>
+</ul>
+<p><a href="https://raw.githubusercontent.com/iotaledger/participation-events/master/results/staking/shimmer.json">Rewards</a> are recorded in the base unit of the Shimmer network, <code>glow</code>. 1 <code>SMR</code> token equals 1,000,000 <code>glow</code>.</p>
+<div class="table-wrapper"><table><thead><tr><th>Amount in <code>glow</code></th><th>Amount in <code>SMR</code></th></tr></thead><tbody>
+<tr><td>1 glow</td><td>0.000001 SMR</td></tr>
+<tr><td>10 glow</td><td>0.00001 SMR</td></tr>
+<tr><td>100 glow</td><td>0.0001 SMR</td></tr>
+<tr><td>1,000 glow</td><td>0.001 SMR</td></tr>
+<tr><td>10,000 glow</td><td>0.01 SMR</td></tr>
+<tr><td>100,000 glow</td><td>0.1 SMR</td></tr>
+<tr><td>1,000,000 glow</td><td>1 SMR</td></tr>
+<tr><td>10,000,000 glow</td><td>10 SMR</td></tr>
+<tr><td>100,000,000 glow</td><td>100 SMR</td></tr>
+<tr><td>1,000,000,000 glow</td><td>1,000 SMR</td></tr>
+<tr><td>10,000,000,000 glow</td><td>10,000 SMR</td></tr>
+<tr><td>100,0000,000,000 glow</td><td>100,000 SMR</td></tr>
+<tr><td>1,000,000,000,000 glow</td><td>1,000,000 SMR</td></tr>
+</tbody></table>
+</div>
+<p><strong>On protocol level, all token amounts are recorded in <code>glow</code>. <a href="https://github.com/lzpap/tips/blob/master/tips/TIP-0018/tip-0018.md#output-design">Outputs</a>
+of a <a href="https://github.com/lzpap/tips/blob/tx-updates/tips/TIP-0020/tip-0020.md#structure">transaction</a> specify the
+transfer amounts in <code>glow</code>. Graphical user interfaces of explorers, wallets and other tools are recommended to display
+transfer amounts in <code>SMR</code> denomination.</strong></p>
+<h2 id="global-parameters"><a class="header" href="#global-parameters">Global Parameters</a></h2>
+<ul>
+<li>Dynamic parameters can be changed via fluid upgrades through <a href="https://github.com/iotaledger/tips/blob/milestone-with-signature-blocks/tips/TIP-0029/tip-0029.md#protocol-parameters-milestone-option">Milestone Announcement</a>.</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Value</th><th>Class</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>Network Name</td><td>&quot;shimmer&quot;</td><td>dynamic</td><td>string</td><td>Identifier string of the network. Its hash it used for the <code>Network ID</code> field in transactions.</td></tr>
+<tr><td>Protocol Version</td><td>2</td><td>dynamic</td><td>uint8</td><td>Protocol version currently used by the network.</td></tr>
+<tr><td>Max Block Length</td><td>32768</td><td>dynamic</td><td>uint32</td><td>Maximum length of a block in bytes. Limits Tangle storage size and communication costs.</td></tr>
+<tr><td>Max Parents Count</td><td>8</td><td>dynamic</td><td>uint32</td><td>Maximum number of parents of a block.</td></tr>
+<tr><td>Min Parents Count</td><td>1</td><td>dynamic</td><td>uint32</td><td>Maximum number of parents of a block.</td></tr>
+<tr><td>Min PoW Score</td><td>4000</td><td>dynamic</td><td>uint32</td><td>Minimum PoW score for blocks to pass syntactic validation.</td></tr>
+<tr><td>Below Max Depth</td><td>15</td><td>dynamic</td><td>uint8</td><td>Below Max Depth is the maximum allowed delta value between Oldest Cone Root Index (OCRI) of a given block in relation to the current Confirmed Milestone Index (CMI) before it gets lazy.</td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Max Shimmer Genesis Supply</td><td>1450896407249092</td><td>static</td><td>uint64</td><td>Total amount of Shimmer genesis supply denominated in <code>glow</code>. 1 <code>glow</code> = 0.000001 <code>SMR</code></td></tr>
+<tr><td>Max Inputs Count</td><td>128</td><td>dynamic</td><td>uint32</td><td>Maximum number of inputs in a transaction payload.</td></tr>
+<tr><td>Max Outputs Count</td><td>128</td><td>dynamic</td><td>uint32</td><td>Maximum number of outputs in a transaction payload.</td></tr>
+<tr><td>Max Native Token Count</td><td>64</td><td>dynamic</td><td>uint32</td><td>Maximum number of different native tokens that can be referenced in one transaction.</td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Max Tag Length</td><td>64</td><td>dynamic</td><td>uint8</td><td>Maximum length of a <code>Tag</code> field in bytes.</td></tr>
+<tr><td>Max Metadata Length</td><td>8192</td><td>dynamic</td><td>uint16</td><td>Maximum length of a <code>Metadata</code> field in bytes.</td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>VByte Cost</td><td>100</td><td>dynamic</td><td>uint32</td><td>Minimum amount of Shimmer (denominated in <code>glow</code>) that need to be deposited per vbyte of an output.</td></tr>
+<tr><td>VByte Factor Data</td><td>1</td><td>dynamic</td><td>uint8</td><td>Weight of <code>data</code> fields that determines the relation between actual byte size and virtual byte size.</td></tr>
+<tr><td>VByte Factor Key</td><td>10</td><td>dynamic</td><td>uint8</td><td>Weight of <code>key</code> fields that determines the relation between actual byte size and virtual byte size.</td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>SLIP-44 Coin Type (decimal)</td><td>4219</td><td>static</td><td>uint32</td><td>Registered coin type (decimal) for usage in level 2 of <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">BIP44</a> described in chapter &quot;Coin type&quot;.</td></tr>
+<tr><td>SLIP-44 Path Component (<code>coin_type'</code>)</td><td>0x8000107b</td><td>static</td><td>string</td><td>Registered path component for usage in level 2 of <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">BIP44</a> described in chapter &quot;Coin type&quot;.</td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Bech32 Human-Readable Part</td><td><code>smr</code></td><td>static</td><td>string</td><td>HRP prefix to use for Bech32 encoded Shimmer addresses. (e.g. <code>smr1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xhcazjh</code>)</td></tr>
+<tr><td>Bech32 Human-Readable Part (Test)</td><td><code>rms</code></td><td>static</td><td>string</td><td>HRP prefix to use for Bech32 encoded Shimmer addresses on test- or development networks. (e.g. <code>rms1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xrlkcfw</code>)</td></tr>
+</tbody></table>
+</div>
+<h1 id="rationale-for-parameter-choices"><a class="header" href="#rationale-for-parameter-choices">Rationale for parameter choices</a></h1>
+<h2 id="proof-of-work"><a class="header" href="#proof-of-work">Proof-of-work</a></h2>
+<p>The <code>Min PoW Score</code> has been chosen to roughly match the difficulty of a data transaction in the legacy IOTA protocol:</p>
+<ul>
+<li>The payload length (<code>signatureMessageFragment</code>) of a legacy transaction is 2187 trytes or 1100 - 1300 bytes depending on the encoding.</li>
+<li>With a minimum weight magnitude (trailing zero trits) of 14, this corresponds to a PoW score of about 4000.</li>
+</ul>
+<h2 id="transaction-and-block-limits"><a class="header" href="#transaction-and-block-limits">Transaction and block limits</a></h2>
+<p>The blocks parameters <code>Max Block Length</code> and <code>Max Parent Count</code>, as well as the transaction parameters <code>Max Inputs Count</code>, <code>Max Outputs Count</code>, <code>Max Native Token Count</code>, <code>Max Tag Length</code> and <code>Max Metadata Length</code> govern the block and transaction validity. Their values have been chosen to ensure functionality of the protocol within constrained resource restrictions. Furthermore, choosing more conservatives values here is preferable as increasing such limits can always been done preserving backward compatibility.</p>
+<h2 id="dust-protection"><a class="header" href="#dust-protection">Dust protection</a></h2>
+<p>The <code>VByte Cost</code> is the core parameter of the dust protection. The reasoning behind its value is explained in <a href="https://github.com/iotaledger/protocol-rfcs/pull/39">draft TIP-19 Dust Protection</a>.</p>
+<h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../tips/TIP-0031/tip-0031.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../tips/TIP-0034/tip-0034.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../tips/TIP-0031/tip-0031.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../tips/TIP-0034/tip-0034.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
