@@ -151,8 +151,9 @@ paths:
         build the block. On success, the block will be stored in the Tangle.
         This endpoint will return the identifier of the built block. *The
         node will try to auto-fill the following fields in case they are
-        missing: `protocolVersion`, `parents`, `nonce`.
+        missing: `parents`, `nonce`.
         If `payload` is missing, the block will be built without a payload.
+        `protocolVersion` is always required!
       requestBody:
         content:
           application/json:
@@ -1342,6 +1343,7 @@ components:
 
     post-tagged-data-block-request-example-minimal:
       value:
+        protocolVersion: 2
         payload:
           type: 5
           tag: "0x68656c6c6f20776f726c64"
@@ -1349,6 +1351,7 @@ components:
 
     post-transaction-block-request-example-minimal:
       value:
+        protocolVersion: 2
         payload:
           type: 6
           essence:
