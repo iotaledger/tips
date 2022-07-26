@@ -1189,10 +1189,10 @@ components:
           - 3
         protocol:
           networkName: iota-testnet
-          bech32HRP: atoi
+          bech32Hrp: atoi
           tokenSupply: "2779530283277761"
           protocolVersion: 2
-          minPoWScore: 1000
+          minPowScore: 1000
           rentStructure:
             vByteCost: 500
             vByteFactorData: 1
@@ -1242,10 +1242,10 @@ components:
           - 3
         protocol:
           networkName: shimmer-testnet
-          bech32HRP: rms
+          bech32Hrp: rms
           tokenSupply: "2779530283277761"
           protocolVersion: 2
-          minPoWScore: 1000
+          minPowScore: 1000
           rentStructure:
             vByteCost: 500
             vByteFactorData: 1
@@ -2922,7 +2922,7 @@ components:
             networkName:
               type: string
               description: The Name of the network from which the networkId is derived.
-            bech32HRP:
+            bech32Hrp:
               type: string
               description: Tells whether the node supports mainnet or testnet addresses. Value `iota` indicates that the node supports mainnet addresses. Value `atoi` indicates that the node supports testnet addresses.
             tokenSupply:
@@ -2931,7 +2931,7 @@ components:
             protocolVersion:
               type: integer
               description: Protocol version used by the network.
-            minPoWScore:
+            minPowScore:
               description: The Proof-of-Work difficulty for a block to be sent over the network to mitigate spam.
               type: number
               format: float
@@ -2953,10 +2953,10 @@ components:
                 - vByteFactoKey
           required:
             - networkName
-            - bech32HRP
+            - bech32Hrp
             - tokenSupply
             - protocolVersion
-            - minPoWScore
+            - minPowScore
             - rentStructure
         pendingProtocolParameters:
           description: Pending protocol parameters.
