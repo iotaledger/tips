@@ -25,9 +25,9 @@ paths:
     get:
       tags:
         - balance
-      summary: Returns the balances associated with a given bech32 address.
+      summary: Returns the balance owned by a given bech32 address.
       description: >-
-        Returns the balances associated with a given bech32 address.
+        Returns the balance owned by a given bech32 address.
       parameters:
         - in: path
           name: address
@@ -296,14 +296,17 @@ components:
         - items
         - address
     BalanceResponse:
-      description: The balances associated with an address.
+      description: The balance owned by an address.
       properties:
         totalBalance:
           type: integer
-          description: The sum of amounts in all unspent outputs associated with the given address.
-        lockedBalance:
+          description: The sum of amounts in all unspent outputs owned by the given address (includes all unlock conditions).
+        sigLockedBalance:
           type: integer
-          description: The sum of amounts in all unspent outputs associated with the given address that are currently locked non-trivially.
+          description: The sum of amounts in all unspent outputs owned by the given address that are signature locked ("trivially unlockable").
+        ledgerIndex:
+          type: integer
+          description: The ledger index for which the balance calculation was performed.
   examples:
     get-gaps-response-example:
       value:
