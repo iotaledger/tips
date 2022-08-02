@@ -1192,7 +1192,7 @@ components:
           networkName: iota-testnet
           bech32Hrp: atoi
           tokenSupply: "2779530283277761"
-          protocolVersion: 2
+          version: 2
           minPowScore: 1000
           rentStructure:
             vByteCost: 500
@@ -1245,7 +1245,7 @@ components:
           networkName: shimmer-testnet
           bech32Hrp: rms
           tokenSupply: "2779530283277761"
-          protocolVersion: 2
+          version: 2
           minPowScore: 1000
           rentStructure:
             vByteCost: 500
@@ -2931,7 +2931,7 @@ components:
             tokenSupply:
               type: string
               description: Current supply of base token. Plain string encoded number.
-            protocolVersion:
+            version:
               type: integer
               description: Protocol version used by the network.
             minPowScore:
