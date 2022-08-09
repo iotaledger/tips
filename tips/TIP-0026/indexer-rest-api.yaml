@@ -55,20 +55,20 @@ paths:
           example: 5
           description: Filters outputs that have at most a certain number of distinct native tokens.
         - in: query
-          name: hasStorageReturnCondition
+          name: hasStorageDepositReturn
           schema:
             type: boolean
           example: true
           description: Filters outputs based on the presence of storage deposit return unlock condition.
         - in: query
-          name: storageReturnAddress
+          name: storageDepositReturnAddress
           schema:
             type: string
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           description: Filter outputs based on the presence of a specific return address in the storage deposit return
             unlock condition.
         - in: query
-          name: hasTimelockCondition
+          name: hasTimelock
           schema:
             type: boolean
           example: true
@@ -86,7 +86,7 @@ paths:
           example: 1643383242
           description: Return outputs that are timelocked after a certain Unix timestamp.
         - in: query
-          name: hasExpirationCondition
+          name: hasExpiration
           schema:
             type: boolean
           example: true
@@ -529,20 +529,20 @@ paths:
           example: 5
           description: Filters outputs that have at most a certain number of distinct native tokens.
         - in: query
-          name: hasStorageReturnCondition
+          name: hasStorageDepositReturn
           schema:
             type: boolean
           example: true
           description: Filters outputs based on the presence of storage deposit return unlock condition.
         - in: query
-          name: storageReturnAddress
+          name: storageDepositReturnAddress
           schema:
             type: string
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           description: Filter outputs based on the presence of a specific return address in the storage deposit return
             unlock condition.
         - in: query
-          name: hasTimelockCondition
+          name: hasTimelock
           schema:
             type: boolean
           example: true
@@ -560,7 +560,7 @@ paths:
           example: 1643383242
           description: Return outputs that are timelocked after a certain Unix timestamp.
         - in: query
-          name: hasExpirationCondition
+          name: hasExpiration
           schema:
             type: boolean
           example: true
