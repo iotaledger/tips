@@ -159,14 +159,8 @@ created: 2022-04-04
 <p>Various other protocol TIPs rely on certain constants that need to be defined for an actual implementation of nodes or other applications using the protocol. This TIP serves as a single document to provide these parameters. It also serves as a historical record of protocol parameter changes.</p>
 <h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
 <h2 id="shimmer-units"><a class="header" href="#shimmer-units">Shimmer Units</a></h2>
-<p>The whole Shimmer genesis token supply has been distributed to IOTA token holders who staked their tokens to receive SMR during
-the Shimmer staking event:</p>
-<ul>
-<li>Start date: Tuesday, December 28, 2021 3:00 PM CET (<a href="https://explorer.iota.org/mainnet/search/2102114">Milestone #2102114</a>)</li>
-<li>End date: Monday, March 28, 2022 8:12 PM CET (<a href="https://explorer.iota.org/mainnet/search/2879714">Milestone #2879714</a>)</li>
-<li>Results: https://github.com/iotaledger/participation-events/blob/master/results/staking/shimmer.json</li>
-</ul>
-<p><a href="https://raw.githubusercontent.com/iotaledger/participation-events/master/results/staking/shimmer.json">Rewards</a> are recorded in the base unit of the Shimmer network, <code>glow</code>. 1 <code>SMR</code> token equals 1,000,000 <code>glow</code>.</p>
+<p>The base token of the Shimmer Network is Shimmer (<code>SMR</code>). <code>SMR</code> token representation supports 6 decimal places, therefore the smallest possible value that may occur in the network is  10<sup>-6</sup> <code>SMR</code> = 0.000001 <code>SMR</code>. This indivisible amount is called a <code>glow</code>.</p>
+<p>The concept of <code>glow</code> is analogous to <a href="https://en.bitcoin.it/wiki/Satoshi_(unit)"><code>satoshi</code> for <code>BTC</code></a>, or <a href="https://en.bitcoinwiki.org/wiki/WEI"><code>wei</code> for <code>ETH</code></a>.</p>
 <div class="table-wrapper"><table><thead><tr><th>Amount in <code>glow</code></th><th>Amount in <code>SMR</code></th></tr></thead><tbody>
 <tr><td>1 glow</td><td>0.000001 SMR</td></tr>
 <tr><td>10 glow</td><td>0.00001 SMR</td></tr>
@@ -187,6 +181,33 @@ the Shimmer staking event:</p>
 of a <a href="https://github.com/lzpap/tips/blob/tx-updates/tips/TIP-0020/tip-0020.md#structure">transaction</a> specify the
 transfer amounts in <code>glow</code>. Graphical user interfaces of explorers, wallets and other tools are recommended to display
 transfer amounts in <code>SMR</code> denomination.</strong></p>
+<h2 id="genesis-supply"><a class="header" href="#genesis-supply">Genesis Supply</a></h2>
+<p>The Shimmer genesis supply is allocated according to the following figure:</p>
+<p><img src="genesis-supply.png" alt="" /></p>
+<h3 id="iota-stakers---80"><a class="header" href="#iota-stakers---80">IOTA Stakers - 80%</a></h3>
+<p>80% of the Shimmer genesis token supply has been distributed to IOTA token holders who staked their tokens to receive SMR during
+the Shimmer staking event:</p>
+<ul>
+<li>Start date: Tuesday, December 28, 2021 3:00 PM CET (<a href="https://explorer.iota.org/mainnet/search/2102114">Milestone #2102114</a>)</li>
+<li>End date: Monday, March 28, 2022 8:12 PM CET (<a href="https://explorer.iota.org/mainnet/search/2879714">Milestone #2879714</a>)</li>
+<li><a href="https://github.com/iotaledger/participation-events/pull/2">Community-validated</a> results: https://github.com/iotaledger/participation-events/blob/master/results/staking/shimmer.json</li>
+</ul>
+<p><a href="https://raw.githubusercontent.com/iotaledger/participation-events/master/results/staking/shimmer.json">Rewards</a> are recorded in the base unit of the Shimmer network, <code>glow</code>. 1 <code>SMR</code> token equals 1,000,000 <code>glow</code>.</p>
+<p>In total, <strong>1,450,896,407,249,092 <code>glow</code> (~1,450,896,407 <code>SMR</code>) is allocated to IOTA Stakers</strong> in the Shimmer genesis snapshot.</p>
+<h3 id="shimmer-community-treasury-dao---10"><a class="header" href="#shimmer-community-treasury-dao---10">Shimmer Community Treasury (DAO) - 10%</a></h3>
+<p>The IOTA community carried out an <a href="https://github.com/iotaledger/participation-events/blob/master/events/vote/shimmer_funding.json">on-chain vote</a> on the initial <a href="https://govern.iota.org/t/discussion-proposal-to-increase-the-shimmer-supply-for-a-community-treasury/1291">Shimmer Ecosystem Funding Proposal</a> and its <a href="https://govern.iota.org/t/discussion-follow-up-proposal-to-the-establishment-of-a-shimmer-ecosystem-fund/1315">follow-up proposal</a>.</p>
+<p>The <a href="https://github.com/iotaledger/participation-events/pull/10/files">community-validated result</a> of the vote allocated 10% of the new total Shimmer supply to a Shimmer Community Treasury DAO.</p>
+<p>As a consequence, the <strong>genesis Shimmer snapshot allocates 181,362,050,906,137 <code>glow</code> (~181,362,051 <code>SMR</code>) to the address of the Shimmer Community Treasury</strong>:</p>
+<ul>
+<li><strong>smr1qrw3jem4c97vyp050za8qh4vss8cdxc30a39djmv8sd3tj99tea2s5ucg00</strong></li>
+</ul>
+<h3 id="tangle-ecosystem-association-tea---10"><a class="header" href="#tangle-ecosystem-association-tea---10">Tangle Ecosystem Association (TEA) - 10%</a></h3>
+<p>The Tangle Ecosystem Association was set up by the IOTA Foundation to host the new structure of the Ecosystem Development Fund and other ecosystem-focused activities.</p>
+<p>The <a href="https://github.com/iotaledger/participation-events/pull/10/files">community-validated result</a> of the same <a href="https://github.com/iotaledger/participation-events/blob/master/events/vote/shimmer_funding.json">on-chain vote</a> on the initial <a href="https://govern.iota.org/t/discussion-proposal-to-increase-the-shimmer-supply-for-a-community-treasury/1291">Shimmer Ecosystem Funding Proposal</a> and its <a href="https://govern.iota.org/t/discussion-follow-up-proposal-to-the-establishment-of-a-shimmer-ecosystem-fund/1315">follow-up proposal</a> allocates 10% of the total Shimmer genesis supply to the Tangle Ecosystem Association.</p>
+<p>As a consequence, the <strong>genesis Shimmer snapshot allocates 181,362,050,906,136 <code>glow</code> (~181,362,051 <code>SMR</code>) to the address of the Tangle Ecosystem Association</strong>:</p>
+<ul>
+<li><strong>smr1qrtynzsrjhkq93cmg6zz093hrrsalp2tefggrn0nv9k84rcfnn2m529vdxw</strong></li>
+</ul>
 <h2 id="global-parameters"><a class="header" href="#global-parameters">Global Parameters</a></h2>
 <ul>
 <li>Dynamic parameters can be changed via fluid upgrades through <a href="https://github.com/iotaledger/tips/blob/milestone-with-signature-blocks/tips/TIP-0029/tip-0029.md#protocol-parameters-milestone-option">Milestone Announcement</a>.</li>
@@ -200,7 +221,7 @@ transfer amounts in <code>SMR</code> denomination.</strong></p>
 <tr><td>Min PoW Score</td><td>1500</td><td>dynamic</td><td>uint32</td><td>Minimum PoW score for blocks to pass syntactic validation.</td></tr>
 <tr><td>Below Max Depth</td><td>15</td><td>dynamic</td><td>uint8</td><td>Below Max Depth is the maximum allowed delta value between Oldest Cone Root Index (OCRI) of a given block in relation to the current Confirmed Milestone Index (CMI) before it gets lazy.</td></tr>
 <tr><td></td><td></td><td></td><td></td><td></td></tr>
-<tr><td>Max Shimmer Genesis Supply</td><td>1450896407249092</td><td>static</td><td>uint64</td><td>Total amount of Shimmer genesis supply denominated in <code>glow</code>. 1 <code>glow</code> = 0.000001 <code>SMR</code></td></tr>
+<tr><td>Max Shimmer Genesis Supply</td><td>1813620509061365</td><td>static</td><td>uint64</td><td>Total amount of Shimmer genesis supply denominated in <code>glow</code>. 1 <code>glow</code> = 0.000001 <code>SMR</code></td></tr>
 <tr><td>Max Inputs Count</td><td>128</td><td>dynamic</td><td>uint32</td><td>Maximum number of inputs in a transaction payload.</td></tr>
 <tr><td>Max Outputs Count</td><td>128</td><td>dynamic</td><td>uint32</td><td>Maximum number of outputs in a transaction payload.</td></tr>
 <tr><td>Max Native Token Count</td><td>64</td><td>dynamic</td><td>uint32</td><td>Maximum number of different native tokens that can be referenced in one transaction.</td></tr>
