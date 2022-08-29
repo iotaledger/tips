@@ -25,7 +25,7 @@ channels:
       operationId: milestoneInfoLatest
       tags:
         - name: milestones
-      description: Publishes the newest latest known milestone index and its timestamp.
+      description: Publishes the latest known milestone index and its timestamp.
       message:
         $ref: '#/components/messages/MilestoneInfoResponse'
   milestone-info/confirmed:
