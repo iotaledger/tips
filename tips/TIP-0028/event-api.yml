@@ -158,6 +158,7 @@ channels:
     subscribe:
       tags:
         - name: transactions
+        - name: blocks
       operationId: transactionIncludedBlock
       description: >-
         Publishes the confirmed block which carried the transaction with the
