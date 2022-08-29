@@ -139,7 +139,7 @@ channels:
     subscribe:
       tags:
         - name: transactions
-      operationId: transactions
+      operationId: transactionIncludedBlock
       description: Publishes the confirmed block which carried the transaction with the specified transaction id.
       message:
         $ref: '#/components/messages/Block'
