@@ -1218,7 +1218,7 @@ components:
           decimals: 0
           useMetricPrefix: true
         features:
-          - PoW
+          - pow
     get-info-response-example-shimmer:
       value:
         name: HORNET
@@ -1272,7 +1272,7 @@ components:
           subunit: "glow"
           useMetricPrefix: false
         features:
-          - PoW
+          - pow
 
     get-tips-response-example:
       value:
@@ -2994,7 +2994,7 @@ components:
             - decimals
             - useMetricPrefix
         features:
-          description: The features that are supported by the node. For example, a node could support the Proof-of-Work (PoW) feature, which would allow the PoW to be performed by the node itself.
+          description: The features that are supported by the node. For example, a node could support the Proof-of-Work (pow) feature, which would allow the Proof-of-Work to be performed by the node itself. All features must be lowercase.
           type: array
           items:
             type: string
