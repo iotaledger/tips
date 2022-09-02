@@ -1,0 +1,681 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TIP-35 Local Snapshot File Format - The Tangle Improvement Proposal (TIP) Book</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0019/tip-0019.html">TIP-19 Dust Protection Based on Byte Costs (Storage Deposit)</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0020/tip-0020.html">TIP-20 Transaction Payload with TIP-18 Output Types</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0021/tip-0021.html">TIP-21 Serialization Primitives</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0022/tip-0022.html">TIP-22 IOTA Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0023/tip-0023.html">TIP-23 Tagged Data Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0024/tip-0024.html">TIP-24 Tangle Block</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0025/tip-0025.html">TIP-25 Core REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0026/tip-0026.html">TIP-26 UTXO Indexer API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0028/tip-0028.html">TIP-28 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0030/tip-0030.html">TIP-30 Native Token Metadata JSON Schema</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0032/tip-0032.html">TIP-32 Shimmer Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0034/tip-0034.html">TIP-34 Wotsicide (Stardust)</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0035/tip-0035.html" class="active">TIP-35 Local Snapshot File Format</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <pre>
+tip: 35
+title: Local Snapshot File Format
+description: File format to export and import ledger state
+author: Luca Moser (@luca-moser) <luca.moser@iota.org>, Max Hase (@muXxer) <maximilian.hase@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/25
+status: Draft
+type: Standards
+layer: Interface
+created: 2022-05-06
+replaces: 9
+</pre>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
+<p>This TIP defines a file format for local snapshots which is compatible with Stardust.
+The version of the snapshot file format described in this TIP is <code>Version 2</code>.</p>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
+<p>Nodes create local snapshots to produce ledger representations at a point in time of a given milestone to be able to:</p>
+<ul>
+<li>Start up from a recent milestone instead of having to synchronize from the genesis transaction.</li>
+<li>Delete old transaction data below a given milestone.</li>
+</ul>
+<p>For Stardust, this file format has to be assimilated to support protocol parameters and to contain the milestone
+at the point of the snapshot index in order extract startup metadata from it.</p>
+<h1 id="detailed-design"><a class="header" href="#detailed-design">Detailed design</a></h1>
+<p>Since a UTXO based ledger is much larger in size, this TIP proposes two formats for snapshot files:</p>
+<ul>
+<li>A <code>full</code> format which represents a complete ledger state.</li>
+<li>A <code>delta</code> format which only contains diffs (created and consumed outputs) of milestones from a given milestone index
+onwards.</li>
+</ul>
+<p>This separation allows nodes to swiftly create new delta snapshot files, which then can be distributed with a companion
+full snapshot file to reconstruct a recent state.</p>
+<h3 id="formats"><a class="header" href="#formats">Formats</a></h3>
+<blockquote>
+<p>All types are serialized in little-endian</p>
+</blockquote>
+<h4 id="full-ledger-state"><a class="header" href="#full-ledger-state">Full Ledger State</a></h4>
+<p>A full ledger snapshot file contains the UTXOs (<code>outputs</code> section) of a node's confirmed
+milestone (<code>Ledger Milestone Index</code>). The <code>diffs</code> contain the diffs to rollback the <code>outputs</code> state to regain the ledger
+state of the snapshot <code>Target Milestone Index</code>.</p>
+<p><img src="full_snapshot.png" alt="" /></p>
+<p>While the node producing such a full ledger state snapshot could theoretically pre-compute the actual snapshot milestone
+state, this is deferred to the consumer of the data to speed up local snapshot creation.</p>
+<h4 id="delta-ledger-state"><a class="header" href="#delta-ledger-state">Delta Ledger State</a></h4>
+<p>A delta ledger state local snapshot only contains the <code>diffs</code> of milestones starting from a
+given <code>Full Snapshot Target Milestone Index</code>. A node consuming such data must know the state of the ledger at <code>Full Snapshot Target Milestone Index</code>.</p>
+<p><img src="delta_snapshot.png" alt="" /></p>
+<h4 id="schema"><a class="header" href="#schema">Schema</a></h4>
+<h5 id="output"><a class="header" href="#output">Output</a></h5>
+<p>Defines an output.</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Output ID</td>
+        <td>Array<byte>[34]</td>
+        <td>The ID of the output which is a concatenation of the transaction ID + output index.</td>
+    </tr>
+    <tr>
+        <td>Block ID</td>
+        <td>Array<byte>[32]</td>
+        <td>The ID of the Block in which the transaction was contained which generated this output.</td>
+    </tr>
+    <tr>
+        <td>Milestone Index Booked</td>
+        <td>uint32</td>
+        <td>The milestone index at which this output was generated.</td>
+    </tr>
+    <tr>
+        <td>Milestone Timestamp Booked</td>
+        <td>uint32</td>
+        <td>The UNIX timestamp in seconds of the milestone which produced this output.</td>
+    </tr>
+    <tr>
+        <td>Output Length</td>
+        <td>uint32</td>
+        <td>Denotes the length of the output.</td>
+    </tr>
+    <tr>
+        <td valign="top">Output <code>oneOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>BasicOutput</summary>
+            </details>
+            <details>                                 
+                <summary>AliasOutput</summary>
+            </details>
+            <details>                                 
+                <summary>FoundryOutput</summary>
+            </details>
+            <details>                                 
+                <summary>NFTOutput</summary>
+            </details>
+        </td>
+    </tr>
+</table>
+<h5 id="consumed-output"><a class="header" href="#consumed-output">Consumed Output</a></h5>
+<p>Defines a consumed output.</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Output</td>
+        <td>Array<byte>[Output length]</td>
+        <td>The serialized Output (see above).</td>
+    </tr>
+    <tr>
+        <td>Target Transaction ID</td>
+        <td>Array<byte>[32]</td>
+        <td>The ID of the transaction that spent this output.</td>
+    </tr>
+</table>
+<h5 id="milestone-diff"><a class="header" href="#milestone-diff">Milestone Diff</a></h5>
+<p>Defines the diff a milestone produced by listing the created/consumed outputs and the milestone payload itself.</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Milestone Diff Length</td>
+        <td>uint32</td>
+        <td>Denotes the length of the milestone diff.</td>
+    </tr>
+    <tr>
+        <td>Milestone Payload Length</td>
+        <td>uint32</td>
+        <td>Denotes the length of the milestone payload.</td>
+    </tr>
+    <tr>
+        <td>Milestone Payload</td>
+        <td>Array<byte>[Milestone Payload length]</td>
+        <td>The milestone payload in its serialized binary form.</td>
+    </tr>
+    <tr>
+        <td>
+        Treasury Input
+        <blockquote>
+        only included if milestone contains a receipt
+        </blockquote>
+        </td>
+        <td colspan="2">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Treasury Input Milestone ID</td>
+                    <td>Array<byte>[32]</td>
+                    <td>The ID of the milestone this input references.</td>
+                </tr>
+                <tr>
+                    <td>Treasury Input Amount</td>
+                    <td>uint64</td>
+                    <td>The amount of this treasury input.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>Created Outputs Count</td>
+        <td>uint32</td>
+        <td>The amount of outputs generated with this milestone diff.</td>
+    </tr>
+    <tr>
+        <td valign="top">Created Outputs <code>anyOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td>Consumed Outputs Count</td>
+        <td>uint32</td>
+        <td>The amount of outputs consumed with this milestone diff.</td>
+    </tr>
+    <tr>
+        <td valign="top">Consumed Outputs <code>anyOf</code></td>
+        <td colspan="2">
+            <details>
+                <summary>Consumed Output</summary>
+            </details>
+        </td>
+    </tr>
+</table>
+<h5 id="protocol-parameters-milestone-option"><a class="header" href="#protocol-parameters-milestone-option">Protocol Parameters Milestone Option</a></h5>
+<p>This Milestone Option is used to signal to nodes the commencing of new protocol parameters, including new protocol version or PoW difficulty.</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Milestone Option Type</td>
+        <td>byte</td>
+        <td>Set to value 1 to denote a Protocol Parameters Milestone Option.</td>
+    </tr>
+    <tr>
+        <td>Target Milestone Index</td>
+        <td>uint32</td>
+        <td>Then name of the network from which this snapshot was generated from.</td>
+    </tr>
+    <tr>
+        <td>Protocol Version</td>
+        <td>byte</td>
+        <td>The to be applied protocol version.</td>
+    </tr>
+    <tr>
+        <td>Protocol Parameters</td>
+        <td>(uint16)ByteArray</td>
+        <td>The protocol parameters in binary, serialized form.</td>
+    </tr>
+</table>
+<h5 id="protocol-parameters"><a class="header" href="#protocol-parameters">Protocol Parameters</a></h5>
+<p>Defines protocol parameters.</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Protocol Version</td>
+        <td>byte</td>
+        <td>The version of the protocol.</td>
+    </tr>
+    <tr>
+        <td>Network Name</td>
+        <td>(uint8)string</td>
+        <td>Then name of the network from which this snapshot was generated from.</td>
+    </tr>
+    <tr>
+        <td>Bech32HRP</td>
+        <td>(uint8)string</td>
+        <td>The human-readable part of the addresses within the network.</td>
+    </tr>
+    <tr>
+        <td>MinPoWScore</td>
+        <td>uint32</td>
+        <td>The minimum PoW score.</td>
+    </tr>
+    <tr>
+        <td>BelowMaxDepth</td>
+        <td>uint8</td>
+        <td>The below max depth parameter.</td>
+    </tr>
+    <tr>
+        <td>RentStructure</td>
+        <td colspan="2">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>VByteCost</td>
+                    <th>uint32</th>
+                    <td>The token price per virtual byte</td>
+                </tr>
+                <tr>
+                    <td>VBFactorData</td>
+                    <th>uint8</th>
+                    <td>The factor to use for data fields</td>
+                </tr>
+                <tr>
+                    <td>VBFactorKey</td>
+                    <th>uint8</th>
+                    <td>The factor to use for indexed fields</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>TokenSupply</td>
+        <td>uint64</td>
+        <td>The token supply.</td>
+    </tr>
+</table>
+<h5 id="full-snapshot-file-format"><a class="header" href="#full-snapshot-file-format">Full snapshot file format</a></h5>
+<p>Defines what a full snapshot file contains.</p>
+<table>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Version</td>
+        <td>byte</td>
+        <td>Denotes the version of this file format. (Version 2)</td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>byte</td>
+        <td>Denotes the type of this file format. <b>Value 0</b> denotes a full snapshot.</td>
+    </tr>
+    <tr>
+        <td>Genesis Milestone Index</td>
+        <td>uint32</td>
+        <td>The index of the genesis milestone of the network.</td>
+    </tr>
+    <tr>
+        <td>Target Milestone Index</td>
+        <td>uint32</td>
+        <td>The index of the milestone of which the SEPs within the snapshot are from.</td>
+    </tr>
+    <tr>
+        <td>Target Milestone Timestamp</td>
+        <td>uint32</td>
+        <td>The UNIX timestamp in seconds of the milestone of which the SEPs within the snapshot are from.</td>
+    </tr>
+    <tr>
+        <td>Target Milestone ID</td>
+        <td>Array<byte>[32]</td>
+        <td>The ID of the milestone of which the SEPs within the snapshot are from.</td>
+    </tr>
+    <tr>
+        <td>Ledger Milestone Index</td>
+        <td>uint32</td>
+        <td>The index of the milestone of which the UTXOs within the snapshot are from.</td>
+    </tr>
+    <tr>
+        <td>Treasury Output Milestone ID</td>
+        <td>Array<byte>[32]</td>
+        <td>The milestone ID of the milestone which generated the treasury output.</td>
+    </tr>
+    <tr>
+        <td>Treasury Output Amount</td>
+        <td>uint64</td>
+        <td>The amount of funds residing on the treasury output.</td>
+    </tr>
+    <tr>
+        <td>Protocol Parameters Milestone Option Length</td>
+        <td>uint16</td>
+        <td>Denotes the length of the Protocol Parameters Milestone Option.</td>
+    </tr>
+    <tr>
+        <td valign="top">Protocol Parameters Milestone Option</td>
+        <td colspan="2">
+            <details>
+                <summary>Protocol Parameters Milestone Option that is active at the milestone of which the UTXOs within the snapshot are from.</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td>Outputs Count</td>
+        <td>uint64</td>
+        <td>The amount of UTXOs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>Milestone Diffs Count</td>
+        <td>uint32</td>
+        <td>The amount of milestone diffs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>SEPs Count</td>
+        <td>uint16</td>
+        <td>The amount of SEPs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td valign="top">Outputs</td>
+        <td colspan="2">
+            <details>
+                <summary>Output</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">Milestone Diffs</td>
+        <td colspan="2">
+            <details>
+                <summary>Milestone Diff</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">SEPs</td>
+        <td colspan="2">
+            <details>
+                <summary>SEP Array<byte>[32]</summary>
+            </details>
+        </td>
+    </tr>
+</table>
+<h5 id="delta-snapshot-file-format"><a class="header" href="#delta-snapshot-file-format">Delta snapshot file format</a></h5>
+<p>Defines what a delta snapshot contains.</p>
+<table>
+    <tr>
+        <td><b>Name<b></td>
+        <td><b>Type</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr>
+        <td>Version</td>
+        <td>byte</td>
+        <td>Denotes the version of this file format. (Version 2)</td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>byte</td>
+        <td>Denotes the type of this file format. <b>Value 1</b> denotes a delta snapshot.</td>
+    </tr>
+    <tr>
+        <td>Target Milestone Index</td>
+        <td>uint32</td>
+        <td>The index of the milestone of which the SEPs within the snapshot are from.</td>
+    </tr>
+    <tr>
+        <td>Target Milestone Timestamp</td>
+        <td>uint32</td>
+        <td>The UNIX timestamp in seconds of the milestone of which the SEPs within the snapshot are from.</td>
+    </tr>
+    <tr>
+        <td>Full Snapshot Target Milestone ID</td>
+        <td>Array<byte>[32]</td>
+        <td>The ID of the target milestone of the full snapshot this delta snapshot builts up from.</td>
+    </tr>
+    <tr>
+        <td>SEP File Offset</td>
+        <td>uint64</td>
+        <td>The file offset of the SEPs field. This is used to easily update an existing delta snapshot without parsing its content.</td>
+    </tr>
+    <tr>
+        <td>Milestone Diffs Count</td>
+        <td>uint32</td>
+        <td>The amount of milestone diffs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td>SEPs Count</td>
+        <td>uint16</td>
+        <td>The amount of SEPs contained within this snapshot.</td>
+    </tr>
+    <tr>
+        <td valign="top">Milestone Diffs</td>
+        <td colspan="2">
+            <details>
+                <summary>Milestone Diff</summary>
+            </details>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">SEPs</td>
+        <td colspan="2">
+            <details>
+                <summary>SEP Array<byte>[32]</summary>
+            </details>
+        </td>
+    </tr>
+</table>
+<h1 id="updating-an-existing-delta-snapshot-file"><a class="header" href="#updating-an-existing-delta-snapshot-file">Updating an existing Delta snapshot file</a></h1>
+<p>When creating a delta snapshot, an existing delta snapshot file can be reused.</p>
+<p>In order to do that, the following steps need to be done:</p>
+<ol>
+<li>Open the existing delta snapshot file.</li>
+<li>Read the existing delta snapshot file header.</li>
+<li>Verify that <code>Version</code> and <code>Full Snapshot Target Milestone ID</code> match between the existing and new delta snapshot.</li>
+<li>Seek to the position of <code>Target Milestone Index</code> and replace it with the new value.</li>
+<li>Seek to the position of <code>Target Milestone Timestamp</code> and replace it with the new value.</li>
+<li>Seek to the position that is written in the existing <code>SEP File Offset</code> and truncate the file at this position.</li>
+<li>Add the additional <code>Milestone Diffs</code> at this position.</li>
+<li>Add the new <code>SEPs</code>.</li>
+<li>Seek to the position of <code>SEP File Offset</code> and replace it with the new value.</li>
+<li>Seek to the position of <code>Milestone Diffs Count</code> and replace it with the new value.</li>
+<li>Seek to the position of <code>SEPs Count</code> and replace it with the new value.</li>
+<li>Close the file.</li>
+</ol>
+<h1 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h1>
+<p>Nodes need to support this new format.</p>
+<h1 id="rationale-and-alternatives"><a class="header" href="#rationale-and-alternatives">Rationale and alternatives</a></h1>
+<ul>
+<li>In conjunction with a companion full snapshot, a tool or node can &quot;truncate&quot; the data from a delta snapshot back to a
+single full snapshot. In that case, the <code>Ledger Milestone Index</code> and <code>Target Milestone Index</code> would be the same. In the
+example above, given the full and delta snapshots, one could produce a new full snapshot for milestone 1350.</li>
+<li>Since snapshots may include millions of UTXOs, code generating such files needs to stream data directly onto disk
+instead of keeping the entire representation in memory. In order to facilitate this, the count denotations for SEPs,
+UTXOs and diffs are at the beginning of the file. This allows code generating snapshot files to only have to seek back
+once after the actual count of elements is known.</li>
+</ul>
+<h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../tips/TIP-0034/tip-0034.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../tips/TIP-0034/tip-0034.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
