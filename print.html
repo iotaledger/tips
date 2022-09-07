@@ -6286,6 +6286,7 @@ Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and
 </ul>
 </li>
 <li>The sum of all <code>Amount</code> fields must not exceed <code>Max IOTA Supply</code>.</li>
+<li>The count of all distinct native tokens present in outputs must not be larger than <code>Max Native Token Count</code>.</li>
 </ul>
 </li>
 <li>Payload (if present):
@@ -6318,7 +6319,7 @@ Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and
 <li>Each input must reference a valid UTXO, i.e. the output referenced by the input's <code>Transaction ID</code> and <code>Transaction Output Index</code> is known (booked) and unspent.</li>
 <li><code>Inputs Commitment</code> must equal BLAKE2( BLAKE2(O<sub>1</sub>) || … || BLAKE2(O<sub>n</sub>) ), where O<sub>1</sub>, ..., O<sub>n</sub> are the complete serialized outputs referenced by the <code>Inputs</code> field in that order.</li>
 <li>The transaction must spend the entire coin balance, i.e. the sum of the <code>Amount</code> fields of all the UTXOs referenced by inputs must match the sum of the <code>Amount</code> fields of all outputs.</li>
-<li>The sum of all <code>Native Token Counts</code> in the UTXOs referenced by inputs plus the sum of all <code>Native Token Counts</code> in the outputs must not be larger than <code>Max Native Token Count</code>.</li>
+<li>The count of all distinct native tokens present in the UTXOs referenced by inputs and in the transaction outputs must not be larger than <code>Max Native Token Count</code>. A native token that occurs several times in both inputs and outputs is counted as one.</li>
 <li>The transaction is balanced in terms of native tokens, when the amount of native tokens present in all the UTXOs referenced by inputs equals to that of outputs. When the transaction is imbalanced, it must hold true that when there is a <strong>surplus of native tokens</strong> on the:
 <ul>
 <li><strong>output side of the transaction:</strong> the foundry outputs controlling outstanding native token balances must be present in the transaction. The validation of the foundry output(s) determines if the minting operations are valid.</li>
