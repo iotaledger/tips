@@ -163,7 +163,7 @@ or standalone indexer applications.</p>
 <li>Offload network critical nodes from having to run the indexer application.</li>
 </ul>
 <h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
-<p><a href="https://github.com/iotaledger/tips/pull/38">TIP-18</a> introduces new output types into the IOTA UTXO ledger. These new
+<p><a href="../TIP-0018/tip-0018.html">TIP-18</a> introduces new output types into the IOTA UTXO ledger. These new
 outputs support a variety of new features such as different unlocking conditions and feature blocks.</p>
 <p>The indexer API makes it possible for clients to retrieve outputs based on present features, furthermore to filter them
 with more complex queries.</p>
@@ -171,7 +171,7 @@ with more complex queries.</p>
 not use or extend it.</p>
 <h2 id="specification"><a class="header" href="#specification">Specification</a></h2>
 <p>The API is described using the OpenAPI Specification:</p>
-<p><a href="https://editor.swagger.io/?url=https://raw.githubusercontent.com/iotaledger/tips/indexer-api/tips/TIP-0026/indexer-rest-api.yaml">Swagger Editor</a></p>
+<p><a href="https://editor.swagger.io/?url=https://raw.githubusercontent.com/iotaledger/tips/main/tips/TIP-0026/indexer-rest-api.yaml">Swagger Editor</a></p>
 <h2 id="rationale"><a class="header" href="#rationale">Rationale</a></h2>
 <p><a href="https://github.com/iotaledger/tips/discussions/53">This discussion</a> gives a good overview of why the core and indexer
 APIs are separated. In short, indexing the ledger is considered to be a L2 application, and as such, it is not a
@@ -183,7 +183,7 @@ interact with clients but are the backbone of the network would also have to per
 implementations.</p>
 <h2 id="backwards-compatibility"><a class="header" href="#backwards-compatibility">Backwards Compatibility</a></h2>
 <p>Some routes from the previous REST API (<a href="../TIP-0013/tip-0013.html">TIP-13</a>) are removed and are supported in the new
-indexer API. For more details, browse <a href="https://github.com/iotaledger/tips/pull/57">draft TIP-25</a>.</p>
+indexer API. For more details, browse <a href="../TIP-0025/tip-0025.html">TIP-25</a>.</p>
 <h2 id="reference-implementation"><a class="header" href="#reference-implementation">Reference Implementation</a></h2>
 <p>Hornet reference implementation:</p>
 <ul>

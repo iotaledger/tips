@@ -273,14 +273,14 @@ program advanced business logic and features.</p>
 UTXO state machines in which the state of the machine is encoded as data inside the output. The state transition rules
 are defined by the output type and by the parameters chosen upon deployment.</p>
 <h2 id="data-types--subschema-notation"><a class="header" href="#data-types--subschema-notation">Data Types &amp; Subschema Notation</a></h2>
-<p>Data types and subschemas used throughout this TIP are defined in <a href="https://github.com/iotaledger/tips/pull/41">draft TIP-21</a>.</p>
+<p>Data types and subschemas used throughout this TIP are defined in <a href="../TIP-0020/tip-0020.html">TIP-21</a>.</p>
 <h2 id="global-protocol-parameters"><a class="header" href="#global-protocol-parameters">Global Protocol Parameters</a></h2>
-<p>Global protocol parameters used throughout this TIP are defined in <a href="https://github.com/iotaledger/tips/pull/43">draft TIP-22</a>.</p>
+<p>Global protocol parameters used throughout this TIP are defined in <a href="../TIP-0022/tip-0022.html">TIP-22 (IOTA)</a> and <a href="../TIP-0032/tip-0032.html">TIP-32 (Shimmer)</a>.</p>
 <h2 id="transaction-payload-changes"><a class="header" href="#transaction-payload-changes">Transaction Payload Changes</a></h2>
 <p>The new output types and unlocking mechanisms require new transaction validation rules, furthermore some protocol rules
 have been modified compared to
 Chrysalis Part 2 Transaction Payload <a href="../TIP-0007/tip-0007.html">TIP-7</a>.</p>
-<p><a href="https://github.com/iotaledger/tips/pull/40">Draft TIP-20</a> replaces aforementioned
+<p><a href="../TIP-0020/tip-0020.html">TIP-20</a> replaces aforementioned
 TIP-7 with the new transaction layout and validation rules. The updated version is the basis for
 output validation in this TIP.</p>
 <h3 id="summary-of-changes"><a class="header" href="#summary-of-changes">Summary of Changes</a></h3>
@@ -346,7 +346,7 @@ assets on layer 1.</p>
                         <td>Token ID</td>
                         <td>ByteArray[38]</td>
                         <td>
-                            Identifier of the native token. Derivation defined <a href=https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#foundry-output>here</a>.
+                            Identifier of the native token. Derivation defined <a href=https://github.com/iotaledger/tips/blob/main/tips/TIP-0018/tip-0018.md#foundry-output>here</a>.
                         </td>
                     </tr>
                     <tr>
@@ -399,7 +399,7 @@ supported for each output type.</p>
 <p>It is merely a layout change that the previously defined <code>Address</code> field of outputs (<a href="../TIP-0007/tip-0007.html">TIP-7</a>)
 is represented as an <i>Address Unlock Condition</i>. Unlocking an <i>Ed25519 Address</i> doesn't change, it has to
 be performed via a <i>Signature Unlock</i> in a transaction by signing the hash of the transaction essence.
-Transaction validation rules are detailed in <a href="https://github.com/iotaledger/tips/pull/40">draft TIP-20</a>.</p>
+Transaction validation rules are detailed in <a href="../TIP-0020/tip-0020.html">TIP-20</a>.</p>
 <p>New additions are the <i>Alias Address</i> and <i>NFT Address</i> types, which have to be unlocked with their
 corresponding unlocks, as defined in <a href="#unlocking-chain-script-locked-outputs">Unlocking Chain Script Locked Outputs</a>.</p>
 <details>
@@ -1449,7 +1449,7 @@ request:</p>
 without features or native tokens is functionally equivalent to a <i>SigLockedSingleOutput</i>: it has an address
 and an IOTA balance. Therefore, 
 aforementioned output type, that was <a href="../TIP-0007/tip-0007.html">introduced for Chrysalis Part 2 via TIP-7</a>
-is deprecated with the replacement of the <a href="https://github.com/iotaledger/tips/pull/40">draft TIP-20 Transaction Payload</a>.</p>
+is deprecated with the replacement of the <a href="../TIP-0020/tip-0020.html">TIP-20 Transaction Payload</a>.</p>
 <table>
     <details>
         <summary>Basic Output</summary>

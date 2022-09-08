@@ -157,7 +157,7 @@ replaces: 11
 <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <p>This document proposes an extendable address format for the IOTA protocol supporting various signature schemes and address types. It relies on the <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">Bech32</a> format to provide a compact, human-readable encoding with strong error correction guarantees.</p>
 <h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
-<p>With <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, IOTA started using Ed25519 to generate digital signatures, in which addresses correspond to a BLAKE2b-256 hash. It is necessary to define a universal and extendable address format capable of encoding different types of addresses (introduced also in <a href="https://github.com/iotaledger/tips/pull/38">draft TIP-18</a>).</p>
+<p>With <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, IOTA started using Ed25519 to generate digital signatures, in which addresses correspond to a BLAKE2b-256 hash. It is necessary to define a universal and extendable address format capable of encoding different types of addresses (introduced also in <a href="../TIP-0018/tip-0018.html">TIP-18</a>).</p>
 <p>The legacy IOTA protocol (1.0, pre-Chrysalis) relies on Base27 addresses with a truncated Kerl checksum. However, both the character set and the checksum algorithm have limitations:</p>
 <ul>
 <li>Base27 is designed for ternary and is ill-suited for binary data.</li>
@@ -176,8 +176,8 @@ replaces: 11
 <p>Currently, only three kind of addresses are supported:</p>
 <ul>
 <li>Ed25519, where the address consists of the BLAKE2b-256 hash of the Ed25519 public key.</li>
-<li>Alias, where the address consists of the BLAKE2b-256 hash of the <i>Output ID</i> (defined in <a href="https://github.com/lzpap/tips/blob/tx-updates/tips/TIP-0020/tip-0020.md#utxo-input">draft TIP-0020</a>) that created the alias.</li>
-<li>NFT, where the address consists of the BLAKE2b-256 hash of the <i>Output ID</i> (defined in <a href="https://github.com/lzpap/tips/blob/tx-updates/tips/TIP-0020/tip-0020.md#utxo-input">draft TIP-0020</a>) that created the NFT.</li>
+<li>Alias, where the address consists of the BLAKE2b-256 hash of the <i>Output ID</i> (defined in <a href="../TIP-0020/tip-0020.html#utxo-input">TIP-0020</a>) that created the alias.</li>
+<li>NFT, where the address consists of the BLAKE2b-256 hash of the <i>Output ID</i> (defined in <a href="../TIP-0020/tip-0020.html#utxo-input">TIP-0020</a>) that created the NFT.</li>
 </ul>
 <p>They are serialized as follows:</p>
 <div class="table-wrapper"><table><thead><tr><th>Type</th><th>First byte</th><th>Address bytes</th></tr></thead><tbody>

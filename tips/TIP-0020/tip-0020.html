@@ -384,14 +384,14 @@ for interconnected layer 2 blockchains and applications.</p>
 <p>The <code>Outputs</code> field holds the outputs that are created by the <i>Transaction Payload</i>. There are different output types, but they must all have an <code>Amount</code> field denoting the number of IOTA coins to deposit.</p>
 <p>The following table lists all the output types that are currently supported as well as links to the corresponding specification. The <em>SigLockedSingleOutput</em> as well as the <em>SigLockedDustAllowanceOutput</em> introduced in Chrysalis Phase 2 <a href="../TIP-0007/tip-0007.html">TIP-7</a> have been removed and are no longer supported.</p>
 <div class="table-wrapper"><table><thead><tr><th>Output Name</th><th>Type Value</th><th>TIP</th></tr></thead><tbody>
-<tr><td>Basic</td><td>3</td><td><a href="https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#basic-output">draft TIP-18</a></td></tr>
-<tr><td>Alias</td><td>4</td><td><a href="https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#alias-output">draft TIP-18</a></td></tr>
-<tr><td>Foundry</td><td>5</td><td><a href="https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#foundry-output">draft TIP-18</a></td></tr>
-<tr><td>NFT</td><td>6</td><td><a href="https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#nft-output">draft TIP-18</a></td></tr>
+<tr><td>Basic</td><td>3</td><td><a href="../TIP-0018/tip-0018.html#basic-output">TIP-18</a></td></tr>
+<tr><td>Alias</td><td>4</td><td><a href="../TIP-0018/tip-0018.html#alias-output">TIP-18</a></td></tr>
+<tr><td>Foundry</td><td>5</td><td><a href="../TIP-0018/tip-0018.html#foundry-output">TIP-18</a></td></tr>
+<tr><td>NFT</td><td>6</td><td><a href="../TIP-0018/tip-0018.html#nft-output">TIP-18</a></td></tr>
 </tbody></table>
 </div>
 <h4 id="payload"><a class="header" href="#payload">Payload</a></h4>
-<p>The  <em>Transaction Essence</em> itself can contain another payload as described in general in  <a href="../TIP-0024/tip-004.html">TIP-24</a>. The <a href="#semantic-validation">semantic validity</a> of the encapsulating <em>Transaction Payload</em> does not have any impact on the payload.</p>
+<p>The  <em>Transaction Essence</em> itself can contain another payload as described in general in  <a href="../TIP-0024/tip-0024.html">TIP-24</a>. The <a href="#semantic-validation">semantic validity</a> of the encapsulating <em>Transaction Payload</em> does not have any impact on the payload.</p>
 <p>The following table lists all the payload types that can be nested inside a <em>Transaction Essence</em> as well as links to the corresponding specification:</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Type Value</th><th>TIP</th></tr></thead><tbody>
 <tr><td>Tagged Data</td><td>5</td><td><a href="../TIP-0023/tip-0023.html">TIP-23</a></td></tr>
@@ -403,8 +403,8 @@ for interconnected layer 2 blockchains and applications.</p>
 <div class="table-wrapper"><table><thead><tr><th>Unlock Name</th><th>Type Value</th><th>TIP</th></tr></thead><tbody>
 <tr><td>Signature</td><td>0</td><td><a href="#signature-unlock">TIP-20</a></td></tr>
 <tr><td>Reference</td><td>1</td><td><a href="#reference-unlock">TIP-20</a></td></tr>
-<tr><td>Alias</td><td>2</td><td><a href="https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#alias-locking--unlocking">draft TIP-18</a></td></tr>
-<tr><td>NFT</td><td>3</td><td><a href="https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#nft-locking--unlocking">draft TIP-18</a></td></tr>
+<tr><td>Alias</td><td>2</td><td><a href="../TIP-0018/tip-0018.html#alias-locking--unlocking">TIP-18</a></td></tr>
+<tr><td>NFT</td><td>3</td><td><a href="../TIP-0018/tip-0018.html#nft-locking--unlocking">TIP-18</a></td></tr>
 </tbody></table>
 </div>
 <h4 id="signature-unlock"><a class="header" href="#signature-unlock">Signature Unlock</a></h4>
@@ -486,15 +486,16 @@ for interconnected layer 2 blockchains and applications.</p>
 <li>The <em>Reference Unlock</em> at index i must have <code>Reference</code> &lt; i and the unlock at index <code>Reference</code> must be a <em>Signature Unlock</em>.</li>
 </ul>
 <p>Example:
-Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and 2, where 0 and 2 are both spending outputs belonging to the same Ed25519 address A and 1 is spending from a different address B. This results in the following structure of the <i>Unlocks</i> part:
-| Index | Unlock                                                                             |
-| ----- | ---------------------------------------------------------------------------------------- |
-| 0     | A <em>Signature Unlock</em> holding the Ed25519 signature for address A.                  |
-| 1     | A <em>Signature Unlock</em> holding the Ed25519 signature for address B.                  |
-| 2     | A <em>Reference Unlock</em> which references 0, as both require the same signature for A. |</p>
+Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and 2, where 0 and 2 are both spending outputs belonging to the same Ed25519 address A and 1 is spending from a different address B. This results in the following structure of the <i>Unlocks</i> part:</p>
+<div class="table-wrapper"><table><thead><tr><th>Index</th><th>Unlock</th></tr></thead><tbody>
+<tr><td>0</td><td>A <em>Signature Unlock</em> holding the Ed25519 signature for address A.</td></tr>
+<tr><td>1</td><td>A <em>Signature Unlock</em> holding the Ed25519 signature for address B.</td></tr>
+<tr><td>2</td><td>A <em>Reference Unlock</em> which references 0, as both require the same signature for A.</td></tr>
+</tbody></table>
+</div>
 <h2 id="validation"><a class="header" href="#validation">Validation</a></h2>
 <p>A <i>Transaction Payload</i> has different validation stages, since some validation steps can only be executed when certain information has (or has not) been received. We therefore distinguish between syntactic and semantic validation.</p>
-<p>The different output types and optional output features introduced by <a href="https://github.com/iotaledger/tips/pull/38">draft TIP-18</a> add additional constraints to the transaction validation rules, but since these are specific to the given outputs and features, they are discussed for each <a href="https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#output-design">output type</a> and <a href="https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#output-features">feature type</a> separately.</p>
+<p>The different output types and optional output features introduced by <a href="../TIP-0018/tip-0018.html">TIP-18</a> add additional constraints to the transaction validation rules, but since these are specific to the given outputs and features, they are discussed for each <a href="../TIP-0018/tip-0018.html#output-design">output type</a> and <a href="../TIP-0018/tip-0018.html#features">feature type</a> separately.</p>
 <h3 id="syntactic-validation"><a class="header" href="#syntactic-validation">Syntactic validation</a></h3>
 <p>Syntactic validation is checked as soon as the transaction has been received. It validates the structure but not the signatures of the transaction. If the transaction does not pass this stage, it must not be broadcast further and can be discarded right away.</p>
 <p>The following criteria defines whether a payload passes the syntactical validation:</p>
@@ -565,7 +566,7 @@ Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and
 <li><strong>input side of the transaction:</strong> the transaction destroys tokens. The presence and validation of the foundry outputs of the native tokens determines whether the tokens are burned (removed from the ledger) or melted within the foundry. When the foundry output is not present in the transaction, outstanding token balances must be burned.</li>
 </ul>
 </li>
-<li>Each output and all its <a href="https://github.com/lzpap/protocol-rfcs/blob/master/tips/TIP-0018/tip-0018.md#features">output features</a> must pass semantic validation in the context of the following input:
+<li>Each output and all its <a href="../TIP-0018/tip-0018.html#features">output features</a> must pass semantic validation in the context of the following input:
 <ol>
 <li>The <em>Transaction Payload</em>,</li>
 <li>the list of UTXOs referenced by inputs and</li>
