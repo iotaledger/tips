@@ -1,0 +1,483 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TIP-29 Milestone Payload - The Tangle Improvement Proposal (TIP) Book</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0018/tip-0018.html">TIP-18 Multi-Asset Ledger and ISC Support</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0019/tip-0019.html">TIP-19 Dust Protection Based on Byte Costs (Storage Deposit)</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0020/tip-0020.html">TIP-20 Transaction Payload with TIP-18 Output Types</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0021/tip-0021.html">TIP-21 Serialization Primitives</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0022/tip-0022.html">TIP-22 IOTA Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0023/tip-0023.html">TIP-23 Tagged Data Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0024/tip-0024.html">TIP-24 Tangle Block</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0025/tip-0025.html">TIP-25 Core REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0026/tip-0026.html">TIP-26 UTXO Indexer API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0028/tip-0028.html">TIP-28 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0029/tip-0029.html" class="active">TIP-29 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0030/tip-0030.html">TIP-30 Native Token Metadata JSON Schema</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0032/tip-0032.html">TIP-32 Shimmer Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0034/tip-0034.html">TIP-34 Wotsicide (Stardust)</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0035/tip-0035.html">TIP-35 Local Snapshot File Format</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <pre>
+tip: 29
+title: Milestone Payload
+description: Coordinator issued milestone payload with Ed25519 authentication
+author: Angelo Capossele (@capossele) <angelo.capossele@iota.org>, Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
+discussions-to: https://github.com/iotaledger/tips/pull/69
+status: Draft
+type: Standards
+layer: Core
+created: 2022-03-25
+replaces: 8
+</pre>
+<h1 id="abstract"><a class="header" href="#abstract">Abstract</a></h1>
+<p>In IOTA, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This TIP proposes a milestone payload for the blocks described in the IOTA protocol <a href="../TIP-0024/tip-0024.html">TIP-24</a>. It uses Edwards-curve Digital Signature Algorithm (EdDSA) to authenticate the milestones.</p>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
+<p>In order to integrate the concept of milestones consistently into Tangle blocks, this TIP describes a dedicated payload type for milestones. In this context, the document also describes how Ed25519 signatures are used to assure authenticity of the issued milestones. In order to make the management and security of the used private keys easier, simple multisignature features with support for key rotation have been added.</p>
+<h1 id="specification"><a class="header" href="#specification">Specification</a></h1>
+<p>The <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash of the <em>Milestone Essence</em>, consisting of the actual milestone information (like its index number or position in the tangle), is signed using the Ed25519 signature scheme as described in the IRTF <a href="https://tools.ietf.org/html/rfc8032">RFC 8032</a>.</p>
+<p>To increase the security of the design, a milestone can (optionally) be independently signed by multiple keys at once. These keys should be operated by detached signature provider services running on independent infrastructure elements. This assists in mitigating the risk of an attacker having access to all the key material necessary for forging milestones. While the Coordinator takes responsibility for forming Milestone Payload Blocks, it delegates signing in to these providers through an ad-hoc RPC connector. Mutual authentication should be enforced between the Coordinator and the signature providers: a <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake">client-authenticated TLS handshake</a> scheme is advisable. To increase the flexibility of the mechanism, nodes can be configured to require a quorum of valid signatures to consider a milestone as genuine.</p>
+<p>In addition, a key rotation policy can also be enforced by limiting key validity to certain milestone intervals. Accordingly, nodes need to know which public keys are applicable for which milestone index. This can be provided by configuring a list of entries consisting of the following fields:</p>
+<ul>
+<li><em>Index Range</em> providing the interval of milestone indices for which this entry is valid. The interval must not overlap with any other entry.</li>
+<li><em>Applicable Public Keys</em> defining the set of valid public keys.</li>
+<li><em>Signature Threshold</em> specifying the minimum number of valid signatures. Must be at least one and not greater than the number of <em>Applicable Public Keys</em>.</li>
+</ul>
+<h2 id="milestone-id"><a class="header" href="#milestone-id">Milestone ID</a></h2>
+<p>The <em>Milestone ID</em> is the BLAKE2b-256 hash of the serialized <em>Milestone Essence</em>.
+It is important to note that the signatures do not impact the <em>Milestone ID</em>.</p>
+<h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
+<h3 id="serialized-layout"><a class="header" href="#serialized-layout">Serialized Layout</a></h3>
+<p>All values are serialized in little-endian encoding. The serialized form of the milestone is deterministic, meaning the same logical milestone always results in the same serialized byte sequence.</p>
+<p>The following table describes the entirety of a <em>Milestone Payload</em> in its serialized form following the notation from <a href="../TIP-0021/tip-0021.html">TIP-21</a>:</p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Payload Type</td>
+    <td>uint32</td>
+    <td>Set to <strong>value 7</strong> to denote a <i>Milestone Payload</i>.</td>
+  </tr>
+  <tr>
+    <td valign="top">Essence <code>oneOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Milestone Essence</summary>
+        <blockquote>Describes the signed part of a <i>Milestone Payload</i>.</blockquote>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Index Number</td>
+            <td>uint32</td>
+            <td>The index number of the milestone.</td>
+          </tr>
+          <tr>
+            <td>Timestamp</td>
+            <td>uint32</td>
+            <td>The Unix time (seconds since Unix epoch) at which the milestone was issued.</td>
+          </tr>
+          <tr>
+            <td>Protocol Version</td>
+            <td>uint8</td>
+            <td>The protocol version of the Milestone Payload and its block.</td>
+          </tr>
+          <tr>
+            <td>Previous Milestone ID</td>
+            <td>ByteArray[32]</td>
+            <td>The Milestone ID of the milestone with <code>Index Number - 1</code>.</td>
+          </tr>
+          <tr>
+            <td>Parents Count</td>
+            <td>uint8</td>
+            <td>The number of parents referenced by this milestone.</td>
+          </tr>
+          <tr>
+            <td valign="top">Parents <code>anyOf</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Parent</summary>
+                <blockquote>A block that is directly referenced by this milestone.</blockquote>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Block ID</td>
+                    <td>ByteArray[32]</td>
+                    <td>The Block ID of the parent.</td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+          <tr>
+            <td>Inclusion Merkle Root</td>
+            <td>ByteArray[32]</td>
+            <td>The Merkle tree hash (BLAKE2b-256) of the Block IDs of all blocks included by this milestone.</td>
+          <tr>
+            <td>Applied Merkle Root</td>
+            <td>ByteArray[32]</td>
+            <td>The Merkle tree hash (BLAKE2b-256) of the Block IDs of all blocks applied by this milestone that contain a state-mutating transaction (see <a href="../TIP-0004/tip-0004.html">TIP-4</a>).</td>
+          </tr>
+          <tr>
+            <td>Metadata</td>
+            <td>(uint16)ByteArray</td>
+            <td>Binary data only relevant to the milestone issuer, e.g. internal state. A leading uint16 denotes its length.</td>
+          </tr>
+          <tr>
+            <td>Options Count</td>
+            <td>uint8</td>
+            <td>The number of milestone options following.</td>
+          </tr>
+          <tr>
+            <td valign="top">Options <code>atMostOneOfEach</code></td>
+            <td colspan="2">
+              <details>
+                <summary>Receipts Milestone Option</summary>
+                <blockquote>Defines UTXOs for newly migrated funds.</blockquote>
+              </details>              
+              <details>
+                <summary>Protocol Parameters Milestone Option</summary>
+                <blockquote>Defines dynamic changes to the protocol parameters.</blockquote>
+              </details>
+            </td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+  <tr>
+    <td>Signatures Count</td>
+    <td>uint8</td>
+    <td>The number of signature entries following.</td>
+  </tr>
+  <tr>
+    <td valign="top">Signatures <code>anyOf</code></td>
+    <td colspan="2">
+      <details open="true">
+        <summary>Ed25519 Signature</summary>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Signature Type</td>
+            <td>uint8</td>
+            <td>
+              Set to <strong>value 0</strong> to denote an <i>Ed25519 Signature</i>.
+            </td>
+          </tr>
+          <tr>
+            <td>Public Key</td>
+            <td>ByteArray[32]</td>
+            <td>The Ed25519 public key of the signature.</td>
+          </tr>
+          <tr>
+            <td>Signature</td>
+            <td>ByteArray[64]</td>
+            <td>The Ed25519 signature signing the BLAKE2b-256 hash of the serialized <i>Milestone Essence</i>.</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+  </tr>
+</table>
+<h3 id="milestone-options"><a class="header" href="#milestone-options">Milestone options</a></h3>
+<p>The <code>Options</code> field holds additional data authenticated by the milestone.</p>
+<p>The following table lists all the <code>Milestone Option Type</code> that are currently supported as well as links to the corresponding specification:</p>
+<div class="table-wrapper"><table><thead><tr><th>Payload Name</th><th>Type Value</th><th>TIP</th></tr></thead><tbody>
+<tr><td>Receipt</td><td>0</td><td><a href="../TIP-0034/tip-0034.html#receipt-milestone-option">TIP-34</a></td></tr>
+<tr><td>Protocol Parameters</td><td>1</td><td><a href="#protocol-parameters-milestone-option">TIP-29</a></td></tr>
+</tbody></table>
+</div>
+<h4 id="protocol-parameters-milestone-option"><a class="header" href="#protocol-parameters-milestone-option">Protocol Parameters Milestone Option</a></h4>
+<p>This <code>Milestone Option</code> is used to signal to nodes the commencing of new protocol parameters, including new protocol
+version or PoW difficulty.</p>
+<details>
+<summary>Protocol Parameters Milestone Option</summary>
+<blockquote>
+    Defines changing protocol parameters.
+</blockquote>
+</details>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Milestone Option Type</td>
+        <td>uint8</td>
+        <td>Set to <strong>value 1</strong> to denote a <i>Protocol Parameters Milestone Option</i>.</td>
+    </tr>
+    <tr>
+        <td>Target Milestone Index</td>
+        <td>uint32</td>
+        <td>The milestone index at which these protocol parameters become active.</td>
+    </tr>
+    <tr>
+        <td>Protocol Version</td>
+        <td>uint8</td>
+        <td>The to be applied protocol version.</td>
+    </tr>
+    <tr>
+        <td>Parameters</td>
+        <td>(uint16)ByteArray</td>
+        <td>The protocol parameters in binary, serialized form.</td>
+    </tr>
+</table>
+<h5 id="syntactic-validation"><a class="header" href="#syntactic-validation">Syntactic Validation</a></h5>
+<ul>
+<li><code>Target Milestone Index</code> must be greater than <code>Index Number</code> of the milestone it is contained in.</li>
+<li><code>Target Milestone Index</code> must be less than or equal to <code>Index Number</code> + 30. (This value is fixed and technically not a protocol parameter as defined in <a href="../TIP-0022/tip-0022.html">TIP-22</a>, as it should not be subject to protocol parameter changes induced by this option.)</li>
+<li><code>length(Parameters)</code> must not exceed <code>Max Metadata Length</code>.</li>
+</ul>
+<h2 id="milestone-validation"><a class="header" href="#milestone-validation">Milestone Validation</a></h2>
+<p>Similar to transaction validation, milestone validation has been separated into two classes. For a milestone to be valid, both of them need to be true.</p>
+<h3 id="syntactic-validation-1"><a class="header" href="#syntactic-validation-1">Syntactic validation</a></h3>
+<p>Syntactic validation can be checked from the <em>Milestone Essence</em> plus the blocks in the past cone referenced by it.</p>
+<ul>
+<li>Essence:
+<ul>
+<li><code>Index Number</code> must not be smaller than <code>First Milestone Index</code>.</li>
+<li>If <code>Index Number</code> equals <code>First Milestone Index</code>, the following fields must be zeroed out:
+<ul>
+<li><code>Previous Milestone ID</code></li>
+<li><code>Inclusion Merkle Root</code></li>
+<li><code>Applied Merkle Root</code></li>
+</ul>
+</li>
+<li>If <code>Index Number</code> is greater than <code>First Milestone Index</code>, the milestone must reference (i.e. one of the <code>Parents</code> must contain or reference) another syntactically valid milestone whose <em>Milestone ID</em> matches <code>Previous Milestone ID</code>. With respect to that referenced milestone, the following must hold:
+<ul>
+<li><code>Index Number</code> must increment by <code>1</code>. </li>
+<li><code>Timestamp</code> must be strictly larger (i.e. at least one second later).</li>
+<li><code>Inlcusion Merkle Root</code> must match the Merkle tree hash of the IDs of all blocks in <em>White Flag Ordering</em> (as described in <a href="../TIP-0002/tip-0002.html#deterministically-ordering-the-tangle">TIP-2</a>) that are newly referenced. (This always includes at least one valid milestone block with <code>Previous Milestone ID</code>.)</li>
+<li><code>Applied Merkle Root</code> must match the Merkle tree hash of the not-ignored state-mutating transactions that are newly referenced (see <a href="../TIP-0002/tip-0002.html">TIP-2</a>).</li>
+</ul>
+</li>
+<li><code>Parents</code> must match the <code>Parents</code> field of the encapsulating <em>Block</em>, i.e. the <em>Block</em> that contains the <em>Milestone Payload</em>.</li>
+<li><code>length(Metadata)</code> must not exceed <code>Max Metadata Length</code>.</li>
+<li>Options:
+<ul>
+<li><code>Milestone Option Type</code> must match one of the values described under <a href="#milestone-options">Milestone Options</a>.</li>
+<li>The option itself must pass syntactic validation.</li>
+<li>The options must be sorted in ascending order based on their <code>Milestone Option Type</code>. </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Signatures:
+<ul>
+<li><code>Signatures Count</code> must be at least the <em>Signature Threshold</em> and at most the number of <em>Applicable Public Keys</em> for the current milestone index.</li>
+<li>For each signature block the following must be true:
+<ul>
+<li><code>Signature Type</code> value must denote an <code>Ed25519 Signature</code>.</li>
+<li><code>Public Key</code> must be contained in <em>Applicable Public Keys</em> for the current milestone index.</li>
+<li><code>Signature</code> must contain a valid signature for <code>Public Key</code>.</li>
+</ul>
+</li>
+<li>The signature blocks must be sorted with respect to their <code>Public Key</code> in lexicographical order.</li>
+<li>Each <code>Public Key</code> must be unique.</li>
+</ul>
+</li>
+<li>Given the type and length information, the <em>Milestone Payload</em> must consume the entire byte array of the <code>Payload</code> field of the <em>Block</em>.</li>
+</ul>
+<h3 id="semantic-validation"><a class="header" href="#semantic-validation">Semantic validation</a></h3>
+<p>Semantic validation is defined in the context of all available blocks.</p>
+<ul>
+<li>The milestone chain must not fork, i.e. there must not be two different, syntactically valid milestones with the same <code>Index Number</code>. In case of a fork, the correct state of the ledger cannot be derived from the milestones alone and usually the node implementation should alert the user and halt.</li>
+</ul>
+<h1 id="rationale"><a class="header" href="#rationale">Rationale</a></h1>
+<ul>
+<li>Due to the layered design of blocks and payloads, it is practically not possible to prevent reattachments of <em>Milestone Payloads</em>. Hence, this payload has been designed in a way to be independent from the block it is contained in. A milestone should be considered as a virtual marker (referencing <code>Parents</code>) rather than an actual block in the Tangle. This concept is compatible with reattachments and supports a cleaner separation of the block layers.</li>
+<li>Forcing matching <code>Parents</code> in the <em>Milestone Payload</em> and its block makes it impossible to reattach the same payload at different positions in the Tangle. Strictly speaking, this violates the separation of payload and block. However, it simplifies milestone processing as the position of the block will be the same as the position encoded in the Milestone Payload. Having these clear structural properties seems to be more desirable than a strict separation of layers.</li>
+<li>While it is always possible to cryptographically prove that a block was confirmed by a given milestone by supplying all the blocks of a path from the milestone to the block, such a proof can become rather large (depending on the blocks). To simplify such proof-of-inclusions, the <code>Inclusion Merkle Root</code> of all the included blocks has been added.</li>
+</ul>
+<h1 id="copyright"><a class="header" href="#copyright">Copyright</a></h1>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../tips/TIP-0028/tip-0028.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../tips/TIP-0030/tip-0030.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../tips/TIP-0028/tip-0028.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../tips/TIP-0030/tip-0030.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
