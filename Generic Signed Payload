@@ -45,6 +45,13 @@ The following describes the standard method for creating a generic bloack contai
 
 The following table describes the serialization of Data field of a Tagged Data Payload described here: https://github.com/iotaledger/tips/blob/main/tips/TIP-0023/tip-0023.md
 
+| Name         | Type              | Description                                              |
+|--------------|-------------------|----------------------------------------------------------|
+| Payload Type | uint32            | Set to *value 5* to denote an _Tagged Data Payload_.     |
+| Tag          | (uint8)ByteArray  | The tag of the data. A leading uint8 denotes its length. |
+| Data         | (uint32)ByteArray | Binary data. A leading uint32 denotes its length.        |
+
+
 
 <table>
 <thead>
