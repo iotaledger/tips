@@ -14,18 +14,8 @@ superseded-by (*optional): <TIP number(s)>
 ---
 
 ## Abstract
-Many applications that generate and publish data can benefit from the IOTA network as a transport layer. The STREAM protocol/library is designed to fulfill this purpose, ensuring that the sender is identified and thus that blocks containing false data cannot be created.
-However, for many low-cost applications STREAM can be too expensive and complex while writing data into the generic Tagged Data Payload (TIP-23) is very simple.
 
-In addition the pruning of the tangle performed by the nodes make the blocks reception unreliable.
-
-The solution is to create a simple INX plug-in for the node that can filter blocks received by the node based on their tag and store them in a local database and then provide them to the user on demand. 
-
-Obviously, the user will have to worry about deleting superfluous blocks from this database and providing the node with sufficient storage space. 
-To confirm that the blocks that are stored are correct and real, the node also calculates and stores a Proof of Inclusion for each blocks.
-
-This approach can also be used for other purposes, however, it is subject to a simple attack: the tag, the only element that can be used to distinguish blocks without getting into the paylod, can be arbirally compiled, so a malicious publisher can create fake messages that the receiver cannot recognize.
-
+The payload concept offers a very flexible way to combine and encapsulate information in the IOTA protocol. This document proposes a basic singed payload type that allows the addition of arbitrary signed data.
 
 ## Motivation
 
@@ -38,48 +28,18 @@ This TIP is intended to define a block payload format that can be recognized as 
 
 Detailed design
 
-
 Serialized Layout
 
-The following describes the standard method for creating a generic bloack containing data whose validity can be verified by the receiver.
+The following table describes the serialization of Data field of a _Singed Data Payload_ following the notation from [TIP-21](../TIP-0021/tip-0021.md):
 
-The following table describes the serialization of Data field of a Tagged Data Payload described here: https://github.com/iotaledger/tips/blob/main/tips/TIP-0023/tip-0023.md
+| Name         | Type              | Description                                                                               |
+|--------------|-------------------|-------------------------------------------------------------------------------------------|
+| Payload Type | uint32            | Set to *value 6* to denote an _Signed Data Payload_.                                      |
+| Public key   | ByteArray[32]     | The public key of the Ed25519 keypair which is used to verify the correspondig signature. |
+| Singature    | ByteArray[64]     | Ed25519 signature signing the BLAKE2b-256 hash of the Data                                |
+| Data         | (uint32)ByteArray | Binary data. A leading uint32 denotes its length.                                         |
 
-| Name         | Type              | Description                                              |
-|--------------|-------------------|----------------------------------------------------------|
-| Payload Type | uint32            | Set to *value 5* to denote an _Tagged Data Payload_.     |
-| Tag          | (uint8)ByteArray  | The tag of the data. A leading uint8 denotes its length. |
-| Data         | (uint32)ByteArray | Binary data. A leading uint32 denotes its length.        |
-
-
-
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Public Key</td>
-<td>uint32</td>
-<td>ED25519 Public key</td>
-</tr>
-<tr>
-<td>ED25519 Signature</td>
-<td>(uint8)ByteArray</td>
-<td>ED25519 Signature of the Data.</td>
-</tr>
-<tr>
-<td>Data</td>
-<td>(uint32)ByteArray</td>
-<td>Binary data. A leading uint32 denotes its length.</td>
-</tr>
-</tbody>
-</table>
-
+It is important to note that `Public key` and `Signature` are not considered by the protocol, they just serves as a marker for second layer applications.
 
 ## Rationale
 This is a very simple soltution to allow to build selective permanodes and basic application that share data over the tangle with enough reliability.
