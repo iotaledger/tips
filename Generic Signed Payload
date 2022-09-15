@@ -14,38 +14,64 @@ superseded-by (*optional): <TIP number(s)>
 ---
 
 ## Abstract
-Many applications that generate and publish data can benefit from the IOTA network as a transport layer. The STREAM protocol/library is designed to fulfill this purpose, ensuring that the sender is identified and thus that messages containing false data cannot be created.
-However, for many low-cost applications STREAM can be too expensive and complex while writing data into the generic payload of a Tange Message (TIP-6) is very simple.
+Many applications that generate and publish data can benefit from the IOTA network as a transport layer. The STREAM protocol/library is designed to fulfill this purpose, ensuring that the sender is identified and thus that blocks containing false data cannot be created.
+However, for many low-cost applications STREAM can be too expensive and complex while writing data into the generic Tagged Data Payload (TIP-23) is very simple.
 
-In addition the pruning of the tangle performed by the nodes make the message reception unreliable.
+In addition the pruning of the tangle performed by the nodes make the blocks reception unreliable.
 
-The solution is to create a simple INX plug-in for the node that can filter messages received by the node based on their tag and store them in a local database and then provide them to the user on demand. 
+The solution is to create a simple INX plug-in for the node that can filter blocks received by the node based on their tag and store them in a local database and then provide them to the user on demand. 
 
-Obviously, the user will have to worry about deleting superfluous messages from this database and providing the node with sufficient storage space. 
-To confirm that the messages that are stored are correct and real, the node also calculates and stores a Proof of Inclusion for each message.
+Obviously, the user will have to worry about deleting superfluous blocks from this database and providing the node with sufficient storage space. 
+To confirm that the blocks that are stored are correct and real, the node also calculates and stores a Proof of Inclusion for each blocks.
 
-This approach can also be used for other purposes, however, it is subject to a simple attack: the tag, the only element that can be used to distinguish messages without getting into the paylod, can be arbirally compiled, so a malicious publisher can create fake messages that the receiver cannot recognize.
+This approach can also be used for other purposes, however, it is subject to a simple attack: the tag, the only element that can be used to distinguish blocks without getting into the paylod, can be arbirally compiled, so a malicious publisher can create fake messages that the receiver cannot recognize.
 
 
 ## Motivation
 
-To support low-cost applications we need to create a selective permanode inx plug-in, and to make it reliable we need a standard method for identifying fake messages.
+To support low-cost applications we need to create a selective permanode inx plug-in, and to make it reliable we need a standard method for identifying fake blocks.
 
-This TIP is intended to define a message format that can be recognized as true or false by a standard method.
+This TIP is intended to define a block payload format that can be recognized as true or false by a standard method.
 
 
 ## Specification
 
 Detailed design
 
-The following describes the standard method for creating a generic message containing data whose validity can be verified by the receiver.
 
-The structure of the message is described here: https://github.com/iotaledger/tips/blob/main/tips/TIP-0006/tip-0006.md#indexation-payload
+Serialized Layout
 
-The date field must contain:
-- Public key
-- Signature field of the following data field
-- Data field (type: ByteArray)
+The following describes the standard method for creating a generic bloack containing data whose validity can be verified by the receiver.
+
+The following table describes the serialization of Data field of a Tagged Data Payload described here: https://github.com/iotaledger/tips/blob/main/tips/TIP-0023/tip-0023.md
+
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public Key</td>
+<td>uint32</td>
+<td>ED25519 Public key</td>
+</tr>
+<tr>
+<td>ED25519 Signature</td>
+<td>(uint8)ByteArray</td>
+<td>ED25519 Signature of the Data.</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>(uint32)ByteArray</td>
+<td>Binary data. A leading uint32 denotes its length.</td>
+</tr>
+</tbody>
+</table>
 
 
 ## Rationale
