@@ -9949,6 +9949,16 @@ for interconnected layer 2 blockchains and applications.</p>
 </table>
 <h3 id="transaction-essence"><a class="header" href="#transaction-essence">Transaction Essence</a></h3>
 <p>The <i>Transaction Essence</i> of a <i>Transaction Payload</i> carries the inputs, outputs, and an optional payload. The <i>Transaction Essence</i> is an explicit type and therefore starts with its own <i>Transaction Essence Type</i> byte which is of value 1 for <i>TIP-20 Transaction Essence</i>.</p>
+<h4 id="network-id"><a class="header" href="#network-id">Network ID</a></h4>
+<p>The <code>Network ID</code> field of the transaction essence serves as a <a href="https://github.com/iotaledger/tips/discussions/56">replay protection mechanism</a>.
+It is a unique value denoting whether the transaction was meant for the IOTA mainnet, shimmer, testnet, or a private network. It consists of the first 8 bytes of the BLAKE2b-256 hash of the <code>Network Name</code> protocol parameter, interpreted as an unsigned integer number.</p>
+<div class="table-wrapper"><table><thead><tr><th>Network Name</th><th>Resulting <code>Network ID</code></th><th>Network Name defined in</th></tr></thead><tbody>
+<tr><td><code>iota-mainnet</code></td><td><code>9374574019616453254</code></td><td><a href="tips/TIP-0020/../TIP-0022/tip-0022.html#detailed-design">TIP-22</a></td></tr>
+<tr><td><code>shimmer</code></td><td><code>14364762045254553490</code></td><td><a href="tips/TIP-0020/../TIP-0032/tip-0032.html#global-parameters">TIP-32</a></td></tr>
+<tr><td><code>testnet</code></td><td><code>8342982141227064571</code></td><td>-</td></tr>
+<tr><td><code>example-mynetwork</code></td><td><code>1967754805504104511</code></td><td>-</td></tr>
+</tbody></table>
+</div>
 <h4 id="inputs-1"><a class="header" href="#inputs-1">Inputs</a></h4>
 <p>The <code>Inputs</code> field holds the inputs to consume in order to fund the outputs of the <i>Transaction Payload</i>. Currently, there is only one type of input, the <i>UTXO Input</i>. In the future, more types of inputs may be specified as part of protocol upgrades.</p>
 <p>Each input must be accompanied by a corresponding <i>Unlock</i> at the same index in the <i>Unlocks</i> part of the <i>Transaction Payload</i>.</p>
