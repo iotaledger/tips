@@ -1194,6 +1194,7 @@ components:
           tokenSupply: "2779530283277761"
           version: 2
           minPowScore: 1000
+          belowMaxDepth: 15
           rentStructure:
             vByteCost: 500
             vByteFactorData: 1
@@ -1247,6 +1248,7 @@ components:
           tokenSupply: "2779530283277761"
           version: 2
           minPowScore: 1000
+          belowMaxDepth: 15
           rentStructure:
             vByteCost: 500
             vByteFactorData: 1
@@ -2938,6 +2940,9 @@ components:
               description: The Proof-of-Work difficulty for a block to be sent over the network to mitigate spam.
               type: number
               format: float
+            belowMaxDepth:
+              description: The below max depth parameter of the network. New blocks can not reference parents that are more than belowMaxDepth old wrt the current milestone index. belowMaxDepth is the maximum allowed delta value between Oldest Cone Root Index (OCRI) of a given block in relation to the current Confirmed Milestone Index (CMI) before it gets lazy.
+              type: integer
             rentStructure:
               description: The rent structure according to TIP-19.
               properties:
@@ -2960,7 +2965,9 @@ components:
             - tokenSupply
             - protocolVersion
             - minPowScore
+            - belowMaxDepth
             - rentStructure
+            - version
         pendingProtocolParameters:
           description: Pending protocol parameters.
           type: array
