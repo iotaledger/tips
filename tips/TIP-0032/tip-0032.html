@@ -242,11 +242,16 @@ the Shimmer staking event:</p>
 </div>
 <h1 id="rationale-for-parameter-choices"><a class="header" href="#rationale-for-parameter-choices">Rationale for parameter choices</a></h1>
 <h2 id="proof-of-work"><a class="header" href="#proof-of-work">Proof-of-work</a></h2>
-<p>The <code>Min PoW Score</code> has been chosen to roughly match the difficulty of a data transaction in the legacy IOTA protocol:</p>
+<p>Initially, <code>Min PoW Score</code> was chosen to roughly match the difficulty of a data transaction in the legacy IOTA protocol:</p>
 <ul>
 <li>The payload length (<code>signatureMessageFragment</code>) of a legacy transaction is 2187 trytes or 1100 - 1300 bytes depending on the encoding.</li>
 <li>With a minimum weight magnitude (trailing zero trits) of 14, this corresponds to a PoW score of about 4000.</li>
 </ul>
+<p>The Stardust protocol debuts on Shimmer and as such, it is the first network capable of supporting L2 smart contract chains (ISC).
+One possible bottleneck of smart contract chain performance is the time it takes to compute PoW for smart contract chain anchor
+transactions, as these are typically bigger than the aforementioned legacy IOTA transaction size.</p>
+<p>Accordingly, Shimmer lowers <code>Min PoW Score</code> to 1500 to ease the operation of smart contract chains and facilitate the
+development of the L2 smart contract ecosystem. This value was chosen based on calculations with block sizes for smallest possible blocks (46 byte -&gt; minimum weight magnitude of 11) and typical ISC on-chain requests for chain deployment and chain deposits (~573 byte -&gt; minimum weight magnitude of 13).</p>
 <h2 id="transaction-and-block-limits"><a class="header" href="#transaction-and-block-limits">Transaction and block limits</a></h2>
 <p>The blocks parameters <code>Max Block Length</code> and <code>Max Parent Count</code>, as well as the transaction parameters <code>Max Inputs Count</code>, <code>Max Outputs Count</code>, <code>Max Native Token Count</code>, <code>Max Tag Length</code> and <code>Max Metadata Length</code> govern the block and transaction validity. Their values have been chosen to ensure functionality of the protocol within constrained resource restrictions. Furthermore, choosing more conservatives values here is preferable as increasing such limits can always been done preserving backward compatibility.</p>
 <h2 id="dust-protection"><a class="header" href="#dust-protection">Dust protection</a></h2>
