@@ -2900,6 +2900,7 @@ components:
             - isHealthy
             - latestMilestone
             - confirmedMilestone
+            - pruningIndex
         metrics:
           description: Node metrics.
           properties:
