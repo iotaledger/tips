@@ -2893,10 +2893,14 @@ components:
                   description: The Milestone ID of the latest confirmed milestone. Hex-encoded with 0x prefix.
               required:
                 - index
+            pruningIndex:
+              type: integer
+              description: The index of the milestone before which the tangle history is pruned.
           required:
             - isHealthy
             - latestMilestone
             - confirmedMilestone
+            - pruningIndex
         metrics:
           description: Node metrics.
           properties:
