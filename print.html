@@ -3170,7 +3170,7 @@ program advanced business logic and features.</p>
 UTXO state machines in which the state of the machine is encoded as data inside the output. The state transition rules
 are defined by the output type and by the parameters chosen upon deployment.</p>
 <h2 id="data-types--subschema-notation"><a class="header" href="#data-types--subschema-notation">Data Types &amp; Subschema Notation</a></h2>
-<p>Data types and subschemas used throughout this TIP are defined in <a href="tips/TIP-0018/../TIP-0020/tip-0020.html">TIP-21</a>.</p>
+<p>Data types and subschemas used throughout this TIP are defined in <a href="tips/TIP-0018/../TIP-0021/tip-0021.html">TIP-21</a>.</p>
 <h2 id="global-protocol-parameters"><a class="header" href="#global-protocol-parameters">Global Protocol Parameters</a></h2>
 <p>Global protocol parameters used throughout this TIP are defined in <a href="tips/TIP-0018/../TIP-0022/tip-0022.html">TIP-22 (IOTA)</a> and <a href="tips/TIP-0018/../TIP-0032/tip-0032.html">TIP-32 (Shimmer)</a>.</p>
 <h2 id="transaction-payload-changes"><a class="header" href="#transaction-payload-changes">Transaction Payload Changes</a></h2>
@@ -10106,7 +10106,7 @@ Consider a <i>Transaction Essence</i> containing the <i>UTXO Inputs</i> 0, 1 and
 <li>Outputs:
 <ul>
 <li><code>Outputs Count</code> must be 0 &lt; x ≤ <code>Max Outputs Count</code>.</li>
-<li>For each input the following must be true:
+<li>For each output the following must be true:
 <ul>
 <li><code>Output Type</code> must match one of the values described under <a href="tips/TIP-0020/tip-0020.html#outputs">Outputs</a>.</li>
 <li>The output itself must pass syntactic validation.</li>
