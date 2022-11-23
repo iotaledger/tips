@@ -32,10 +32,6 @@
       "type": "string",
       "description": "URI pointing to the resource where the file with `type` MIME type is hosted"
     },
-    "collectionId": {
-      "type": "string",
-      "description": "A unique collection ID identifier for the collection"
-    },
     "collectionName": {
       "type": "string",
       "description": "A human readable name for the NFT collection"
