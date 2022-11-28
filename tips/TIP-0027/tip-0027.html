@@ -1,0 +1,482 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TIP-27 IOTA NFT Standard IRC27 - The Tangle Improvement Proposal (TIP) Book</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0001/tip-0001.html">TIP-1 TIP Process</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0002/tip-0002.html">TIP-2 White Flag Ordering</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0003/tip-0003.html">TIP-3 Uniform Random Tip Selection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0004/tip-0004.html">TIP-4 Milestone Merkle Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0005/tip-0005.html">TIP-5 Binary To Ternary Encoding</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0006/tip-0006.html">TIP-6 Tangle Message</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0007/tip-0007.html">TIP-7 Transaction Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0008/tip-0008.html">TIP-8 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0009/tip-0009.html">TIP-9 Local Snapshot File Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0010/tip-0010.html">TIP-10 Mnemonic Ternary Seed</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0011/tip-0011.html">TIP-11 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0012/tip-0012.html">TIP-12 Message PoW</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0013/tip-0013.html">TIP-13 REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0014/tip-0014.html">TIP-14 Ed25519 Validation</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0015/tip-0015.html">TIP-15 Dust Protection</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0016/tip-0016.html">TIP-16 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0017/tip-0017.html">TIP-17 Wotsicide</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0018/tip-0018.html">TIP-18 Multi-Asset Ledger and ISC Support</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0019/tip-0019.html">TIP-19 Dust Protection Based on Byte Costs (Storage Deposit)</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0020/tip-0020.html">TIP-20 Transaction Payload with TIP-18 Output Types</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0021/tip-0021.html">TIP-21 Serialization Primitives</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0022/tip-0022.html">TIP-22 IOTA Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0023/tip-0023.html">TIP-23 Tagged Data Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0024/tip-0024.html">TIP-24 Tangle Block</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0025/tip-0025.html">TIP-25 Core REST API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0026/tip-0026.html">TIP-26 UTXO Indexer API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0027/tip-0027.html" class="active">TIP-27 IOTA NFT Standard IRC27</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0028/tip-0028.html">TIP-28 Event API</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0029/tip-0029.html">TIP-29 Milestone Payload</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0030/tip-0030.html">TIP-30 Native Token Metadata JSON Schema</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0031/tip-0031.html">TIP-31 Bech32 Address Format</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0032/tip-0032.html">TIP-32 Shimmer Protocol Parameters</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0034/tip-0034.html">TIP-34 Wotsicide (Stardust)</a></li><li class="chapter-item expanded "><a href="../../tips/TIP-0035/tip-0035.html">TIP-35 Local Snapshot File Format</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Tangle Improvement Proposal (TIP) Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <pre>
+tip: 27
+title: IOTA NFT Standard IRC27
+description: Define NFT standard and creator royalties
+author: Adam Eunson (@AdamCroply) <adam@tanglelabs.io>, Merul Dhiman (@coodos) <merul@tanglelabs.io>
+discussions-to: https://github.com/iotaledger/tips/discussions/59
+status: Proposed
+type: Standards
+layer: IRC
+created: 2022-03-04
+</pre>
+<h1 id="iota-nft-standard---irc27"><a class="header" href="#iota-nft-standard---irc27">IOTA NFT Standard - IRC27</a></h1>
+<h2 id="abstract"><a class="header" href="#abstract">Abstract</a></h2>
+<p><strong>IRC27</strong> is a series of standards to support interoperable and universal NFT systems throughout the IOTA ecosystem, to provide a more robust and secure system for creators and buyers.</p>
+<h3 id="introduction"><a class="header" href="#introduction">Introduction</a></h3>
+<p>This document aims to support a universal system that can provide dApp developers and creators with an interoperable foundation of standards to support ease-of-adoption and a connected NFT ecosystem. To bring value, security, trust, and interoperability.</p>
+<p>Focusing on the primary use case for digital assets as NFTs, this defined standard supports key aspects in the creation, trade, and exchange of different assets with a focus on image, video, audio, and 3d asset file types.</p>
+<p>To support an easy-to-implement system the IOTA NFT Standard supports:</p>
+<ul>
+<li><strong>Collection ID</strong> system should define NFT origins by issuerId and collectionId for authenticity and verification within the IOTA NFT space.</li>
+<li><strong>Creator Royalty</strong> System that can support universal creator royalties throughout the ecosystem.</li>
+<li><strong>NFT Schema Standard</strong> allowing for easily definable keys and values for ease-of-integration.</li>
+<li><strong>Version Modelling</strong> to allow for easy updates as well as backwards compatibility.</li>
+<li><strong>Modular System Design</strong> to provide developers freedom to utilise only required elements, as well as for future standards expansion beyond the existing standard model.</li>
+</ul>
+<p>The standard provides the foundation for future expansion, supporting a modular design to provide an opportunity for selective integration, as well as further use case expansion through additional modules as time goes by.</p>
+<h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
+<h3 id="why-iota-nft-standards"><a class="header" href="#why-iota-nft-standards">Why IOTA NFT Standards?</a></h3>
+<p>Non-Standardised NFT systems have caused concerns and issues across a number of areas in other ecosystems. The lack of interoperable standards present numerous awkward and complicated experiences and in some ecosystems has resulted in countless verification and API issues that segment the NFT community.</p>
+<p>Early safeguards are possible to put in place to support a more secure and interoperable ecosystem that puts creators and buyer security at the forefront, providing developers and dApp makers the grounds to build a more connected and consistent ecosystem.</p>
+<p>With the IOTA Tokenization Framework in its infancy, the early adoption of an IOTA NFT Standard can support a safer, more secure environment for creators and dApp providers, to allow an easily interoperable experience through-out the IOTA ecosystem.</p>
+<p>In this document we will present the IOTA NFT Standard - IRC27.</p>
+<h2 id="specification"><a class="header" href="#specification">Specification</a></h2>
+<h3 id="collection-id"><a class="header" href="#collection-id">Collection ID</a></h3>
+<p>The IOTA Tokenization Framework allows for a unique and robust solution when defining the identity of a collection. The integration of such a system can support verification of the origins of the creation of an NFT. For example, an artist creating a collection of works that will be labelled under a single collection. This allows for ease of verification for buyers and 3rd party application developers to provide an easily observable system of authenticity for users navigating the IOTA NFT space.</p>
+<p>The standard is defined utilising the creation mechanism for NFTs.</p>
+<p><code>issuerId</code> (referred to as <a href="https://github.com/iotaledger/tips/pull/38">Issuer Block in TIP-18</a>) is already defined in the framework, allowing every NFT created from the same source to be easily defined.</p>
+<p>Each NFT in the IOTA Tokenization Framework has its own unique address, that allows the ability to define a <strong>collection UTXO</strong> that can subsequently mint each unique NFT within that collection.</p>
+<p>The <code>nftId</code> of a collection NFT is defined as the <code>collectionId</code>.</p>
+<p>The <code>collectionId</code> will act as a unique identifier for the collection and would allow the <code>collectionNft</code> to control NFT creation in a collection. This allows for unprecedented amounts of control where you can lock NFT creation in a collection for some time. It also allows for the ability to transfer the <code>collectionNft</code> (parent NFT of all the NFTs minted within a collection) on transfer of which the new holder will be able to add NFTs to the collection, gaining control over ownership of the collection brand, but also with the ability to lock the collection by the destruction of the collection NFT.</p>
+<p>A creator should define the UTXO of their collection NFT as the sole minting source of an entire collection that is the <code>collectionId</code>.</p>
+<p>A creator may choose to burn the collection NFT on completion of minting or retain the collection NFT to add further NFTs to the collection over time.</p>
+<p>The UTXO of the collection NFT, <code>nftId</code>, acts as the <code>collectionId</code> for the collection and can be used in dApps to define the verified origin of an NFT.</p>
+<p>To call the defined <code>collectionId</code> you should request the <code>collectionId</code> UTXO of the collection NFT and resolve to the Collection Registry for human identifiable verification.</p>
+<p>To better serve the ecosystem with a single point of record for registered collections one possible Public Token Registry is defined in <a href="https://github.com/iotaledger/tips/pull/72">IOTA Public Token Registry - TIP 33</a> where further reading can be found.</p>
+<p>It is important to note that several token registries may coexist in the future, TIP-27 only defines the data structure of NFT metadata.It is up to the registry to decide what criteria and method to use to verify and accept submissions.</p>
+<h3 id="creator-royalties"><a class="header" href="#creator-royalties">Creator Royalties</a></h3>
+<p>A system to support interoperable royalty payments across dApps. Allowing universal secondary market reward systems to be integrated through-out the ecosystem. Integration of such systems is at the choosing of the dApp developer but is encouraged to support creator royalties.</p>
+<p>Royalty addresses may be defined under the <code>royalties</code> key within the NFT metadata.</p>
+<ul>
+<li>The key inside the royalties object must be a valid iota1/smr1 address where royalties will be sent to.</li>
+<li>The value must be a numeric decimal representative of the percentage required ie. 0.05=5%</li>
+</ul>
+<pre><code class="language-json">{
+  ...
+  &quot;royalties&quot;: {
+    &quot;iota1...a&quot;: 0.05
+  }
+}
+</code></pre>
+<p>In the event there are further royalty, multiple royalty addresses could be used in the form of an object where the address and percentage are mapped in a key value format inside the <code>royalties</code> field.</p>
+<pre><code class="language-json">{
+  ...
+  &quot;royalties&quot;: {
+    &quot;iota1...a&quot;: 0.025,
+    &quot;iota1...b&quot;: 0.025,
+    &quot;iota1...c&quot;: 0.025,
+    &quot;iota1...d&quot;: 0.025
+  }
+}
+</code></pre>
+<p>The total decimal sum of all <code>royaltyPercentage</code> must never exceed 1 and is recommended not to exceed 0.5.</p>
+<p>If <code>royalties</code> exists, it is iterated over the keys and then all the royalties are paid out till there are no keys left to iterate over.</p>
+<h3 id="nft-schema"><a class="header" href="#nft-schema">NFT Schema</a></h3>
+<p>For ease of development and interoperability between applications within the ecosystem an extendable schema standard is defined to support ease of integration of NFTs for developers.</p>
+<p>Each schema is defined by three main keys:</p>
+<ul>
+<li><code>standard</code> – the standard model</li>
+<li><code>schema</code> – the defined schema type</li>
+<li><code>version</code> – the version of the standard</li>
+</ul>
+<p><strong>Universal schema</strong>
+Each NFT schema should consist of a collection of universal keys to define key properties of the NFT</p>
+<p>The standard defined is:</p>
+<ul>
+<li><code>IRC27</code></li>
+</ul>
+<p>The schema type is defined as a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME type</a>, for example:</p>
+<ul>
+<li>Image files: <code>image/jpeg</code>, <code>image/png</code>, <code>image/gif</code>, etc.</li>
+<li>Video files: <code>video/x-msvideo</code> (avi), <code>video/mp4</code>, <code>video/mpeg</code>, etc.</li>
+<li>Audio files: <code>audio/mpeg</code>, <code>audio/wav</code>, etc.</li>
+<li>3D Assets: <code>model/obj</code>, <code>model/u3d</code>, etc.</li>
+<li>Documents: <code>application/pdf</code>, <code>text/plain</code>, etc.</li>
+</ul>
+<p>You may find all common MIME types in <a href="https://www.iana.org/assignments/media-types/media-types.xhtml">IANA's registry</a>.
+Custom file types might define their own MIME types.</p>
+<p>The version is defined by the version number used preceded with the letter v, current version:</p>
+<ul>
+<li><code>v1.0</code></li>
+</ul>
+<p>Define the standard, the type, and the version:</p>
+<pre><code class="language-json">
+{
+  &quot;standard&quot;: &quot;IRC27&quot;,
+  &quot;type&quot;: &quot;image/jpeg&quot;,
+  &quot;version&quot;: &quot;v1.0&quot;
+}
+</code></pre>
+<p>Additional keys that must be included in every NFT schema:</p>
+<ul>
+<li><code>uri</code> – url pointing to the NFT file location with MIME type defined in <code>type</code>.</li>
+<li><code>name</code> - alphanumeric text string defining the human identifiable name for the NFT</li>
+</ul>
+<pre><code class="language-json">{
+  &quot;standard&quot;: &quot;IRC27&quot;,
+  &quot;version&quot;: &quot;v1.0&quot;,
+  &quot;type&quot;: &quot;image/jpeg&quot;,
+  &quot;uri&quot;: &quot;https://mywebsite.com/my-nft-files-1.jpeg&quot;,
+  &quot;name&quot;: &quot;My NFT #0001&quot;
+}
+</code></pre>
+<p>Optional, but recommended keys, that may be included in NFT schema include:</p>
+<ul>
+<li><code>collectionName</code> – alphanumeric text string defining the human identifiable collection name</li>
+<li><code>royalties</code> - Object containing key value pair where payment address mapped to the payout percentage</li>
+<li><code>issuerName</code> – alphanumeric text string to define the human identifiable name of the creator</li>
+<li><code>description</code> – alphanumeric text string to define a basic description of the NFT</li>
+<li><code>attributes</code> - Array objects defining additional attributes of the NFT</li>
+</ul>
+<pre><code class="language-json">{
+  &quot;standard&quot;: &quot;IRC27&quot;,
+  &quot;version&quot;: &quot;v1.0&quot;,
+  &quot;type&quot;: &quot;image/jpeg&quot;,
+  &quot;uri&quot;: &quot;https://mywebsite.com/my-nft-files-1.jpeg&quot;,
+  &quot;name&quot;: &quot;My NFT #0001&quot;,
+  &quot;collectionName&quot;: &quot;My Collection of Art&quot;,
+  &quot;royalties&quot;: {
+    &quot;iota1...a&quot;: 0.025,
+    &quot;iota1...b&quot;: 0.025
+  },
+  &quot;issuerName&quot;: &quot;My Artist Name&quot;,
+  &quot;description&quot;: &quot;A little information about my NFT collection&quot;
+}
+</code></pre>
+<p>In addition to the required and recommended schema, the inclusion of <code>attributes</code> allows for versatile expansion for NFT metadata.</p>
+<p><code>attributes</code> are the attributes for the item, which will show up on dApps like NFT Marketplaces.</p>
+<p>IRC27 NFT metadata follows the <a href="https://docs.opensea.io/docs/metadata-standards">OpenSea metadata standards</a>.</p>
+<pre><code class="language-json">{
+  &quot;standard&quot;: &quot;IRC27&quot;,
+  &quot;version&quot;: &quot;v1.0&quot;,
+  &quot;type&quot;: &quot;image/jpeg&quot;,
+  &quot;uri&quot;: &quot;https://mywebsite.com/my-nft-files-1.jpeg&quot;,
+  &quot;name&quot;: &quot;My NFT #0001&quot;,
+  &quot;collectionName&quot;: &quot;My Collection of Art&quot;,
+  &quot;royalties&quot;: {
+    &quot;iota1...a&quot;: 0.025,
+    &quot;iota1...b&quot;: 0.025
+  },
+  &quot;issuerName&quot;: &quot;My Artist Name&quot;,
+  &quot;description&quot;: &quot;A little information about my NFT collection&quot;
+  &quot;attributes&quot;: [
+    {
+      &quot;trait_type&quot;: &quot;Background&quot;,
+      &quot;value&quot;: &quot;Purple&quot;
+    },
+    {
+      &quot;trait_type&quot;: &quot;Element&quot;,
+      &quot;value&quot;: &quot;Water&quot;
+    },
+    {
+      &quot;trait_type&quot;: &quot;Attack&quot;,
+      &quot;value&quot;: &quot;150&quot;
+    },
+    {
+      &quot;trait_type&quot;: &quot;Health&quot;,
+      &quot;value&quot;: &quot;500&quot;
+    }
+  ]
+}
+</code></pre>
+<h2 id="practical-example"><a class="header" href="#practical-example">Practical example</a></h2>
+<p>How does this all work for L1 NFT collections in the IOTA Tangle? Best to explain with an example.</p>
+<p>In Stardust L1 NFTs are represented as outputs in the ledger. Each NFT output has the following properties:</p>
+<ul>
+<li>(mandatory) <code>nftId</code>: a unique identifier of the NFT output assigned by the protocol upon minting </li>
+<li>(mandatory) <code>owner</code>: address in <em>Address Unlock Condition</em> that is allowed to unlock the NFT output</li>
+<li>(optional) <code>immutableIssuer</code>: an address (can be alias/nft address too) that minted the NFT output</li>
+<li>(optional) <code>immutableMetadata</code>: binary blob of data defined upon minting by the issuer</li>
+<li>(optional) <code>sender</code>: defines an address that transferred the nft to the current owner</li>
+<li>(optional) <code>mutableMetadata</code>: binary blob defined by the last sender</li>
+</ul>
+<p>To host metadata about the NFT, the <code>immutableMetadata</code> field of the output should be used, as the mutable one may be changed by the current owner.
+Storing metadata in an output increases the storage deposit requirement of the output, but then no additional off-chain metadata storage solution is required.</p>
+<p>NFTs may be standalone assets, but often they are part of a collection. In EVM based NFT platforms collections are represented as a single contract that manages the collection and keeps the ownership record of the NFTs within collection. Since L1 NFTs in IOTA are represented as UTXOs in the ledger rather than smart contracts, minting a collection is conceptually different.</p>
+<h3 id="minting-l1-nft-collections"><a class="header" href="#minting-l1-nft-collections">Minting L1 NFT Collections</a></h3>
+<p>The idea is to tie NFTs (individual UTXOs) within one collection together via the <code>immutableIssuer</code> property.
+The collection itself is represented by a special NFT output, the <code>Collection NFT</code>. It holds information about the properties of the collection and when included in transactions, it can mint the NFTs within the collection where <code>immutableIssuer</code> becomes the <code>nftId</code> of the <code>Collection NFT</code>.</p>
+<p>It is possible to timelock the <code>Collection NFT</code> on protocol level to prevent minting of the NFTs for a certain time period. It is also possible send the <code>Collection NFT</code> to the zero address, or burn it al together, which essentially means that the collection is locked forever, no more collection items can ever be minted.
+It is not possible to define on protocol level how many items can the <code>Collection NFT</code> can mint, unless it is deposited into a L2 smart contract that manages issuer rights.</p>
+<p>Let's look at a practical example on how the process looks like.</p>
+<h3 id="1-minting-the-collection-nft"><a class="header" href="#1-minting-the-collection-nft">1. Minting the Collection NFT</a></h3>
+<p>The issuer mints an NFT output on L1 with the following properties:</p>
+<ul>
+<li><code>nftId</code>: a unique identifier of the NFT output assigned by the protocol upon minting. This will become the <code>collectionId</code>.</li>
+<li><code>immutableIssuer</code>: L1 address of the minting artist. Can be used to prove authenticity of the collection.</li>
+<li><code>immutableMetadata</code>: binary blob of data defined upon minting by the issuer. This will become the <code>collectionMetadata</code>.</li>
+</ul>
+<p>The issuer of the <code>Collection NFT</code> defines the collection metadata according to IRC-27 standard. In our example, <code>collectionMetadata</code> is a JSON object:</p>
+<pre><code class="language-json">{
+  &quot;standard&quot;: &quot;IRC27&quot;,
+  &quot;version&quot;: &quot;v1.0&quot;,
+  &quot;type&quot;: &quot;text/html&quot;,
+  &quot;uri&quot;: &quot;https://my-awesome-nft-project.com&quot;,
+  &quot;name&quot;: &quot;My Awesome NFT Collection&quot;,
+  &quot;issuerName&quot;: &quot;Me&quot;
+}
+</code></pre>
+<ul>
+<li>The binary blob of this JSON object is put in the <code>immutableMetadata</code> field of the NFT output.</li>
+</ul>
+<h3 id="2-minting-nfts-within-the-collection"><a class="header" href="#2-minting-nfts-within-the-collection">2. Minting NFTs within the collection</a></h3>
+<p>The issuer includes the <code>Collection NFT</code> in a transaction that mints NFTs within the collection. The number of mintable NFTs in one transaction is defined by the protocol as the <a href="https://github.com/Wollac/protocol-rfcs/blob/protocol-parameters/tips/TIP-0022/tip-0022.md#detailed-design">Max Outputs Count defined in TIP-22</a> - 1 (the <code>Collection NFT</code> is also part of the outputs).</p>
+<p>The minted NFTs will have the following properties:</p>
+<ul>
+<li><code>nftId</code>: the unique identifier of the NFT output assigned by the protocol upon minting.</li>
+<li><code>immutableIssuer</code>: is set as <code>collectionId</code> of the <code>Collection NFT</code>. This unique value identifies which collection the NFT belongs to.</li>
+<li><code>immutableMetadata</code>: metadata for the individual NFT. Binary blob of an IRC-27 compliant JSON object.</li>
+</ul>
+<p>For item 4 for example, the metadata is:</p>
+<pre><code class="language-json">{
+  &quot;standard&quot;: &quot;IRC27&quot;,
+  &quot;version&quot;: &quot;v1.0&quot;,
+  &quot;type&quot;: &quot;image/gif&quot;,
+  &quot;uri&quot;: &quot;https://my-awesome-nft-project.com/item-4.gif&quot;,
+  &quot;name&quot;: &quot;#4 My Awesome NFT&quot;,
+  &quot;issuerName&quot;: &quot;Me&quot;,
+  &quot;royalties&quot;: {
+    &quot;smr1q5948....&quot;: 0.05
+  },
+  &quot;collectionName&quot;: &quot;My Awesome NFT Collection&quot;,
+  &quot;attributes&quot;: [
+    {
+      &quot;trait_type&quot;: &quot;awesomeness&quot;,
+      &quot;value&quot;: 60
+    }
+]
+}
+</code></pre>
+<p>In case the metadata is not stored in the NFT output but is hosted off-chain, it is still recommended to include information in the <code>immutableMetadata</code> field such that clients are able to locate it. The <code>immutableMetadata</code> json object would look something like:</p>
+<pre><code class="language-json">{
+&quot;standard&quot;: &quot;IRC27&quot;,
+&quot;version&quot;: &quot;v1.0&quot;,
+&quot;type&quot;: &quot;application/json&quot;,
+&quot;uri&quot;: &quot;https://my-awesome-nft-project.com/{id}.json&quot;,
+&quot;name&quot;: &quot;#4 My Awesome NFT&quot;
+}
+</code></pre>
+<ul>
+<li>Note the {id} substitution in the <code>uri</code> field. Clients should replace <code>id</code> with the <code>nftId</code> property of the NFT output, without the <code>0x</code> prefix.</li>
+</ul>
+<h3 id="3-fetching-content-of-a-collection"><a class="header" href="#3-fetching-content-of-a-collection">3. Fetching content of a collection</a></h3>
+<p>Since each NFT within the collection has the <code>immutableIssuer</code> set as the <code>collectionId</code>, it is possible to query the
+UTXO Indexer API (<a href="https://github.com/iotaledger/tips/blob/indexer-api/tips/TIP-0026/tip-0026.md">TIP-26</a>) to get the outputIds for all
+NFTs that belong to the collection. Then the output objects can be fetched via the Core API (<a href="https://github.com/iotaledger/tips/blob/stardust-api/tips/TIP-0025/tip-0025.md">TIP-25</a>):</p>
+<ul>
+<li>GET <code>&lt;node-url&gt;/api/indexer/v1/outputs/nft?issuer=collectionId</code> returns the outputIds that have <code>collectionId</code> in the <code>issuer</code> field.</li>
+<li>GET <code>&lt;node-url&gt;/api/core/v2/outputs/{outputId}</code> returns the NFT output itself.</li>
+</ul>
+<p>The Collection NFT can be fetched via:</p>
+<ul>
+<li>GET <code>&lt;node-url&gt;/api/indexer/v1/outputs/nfts/{collectionId}</code> returns the outputId of the Collection NFT (if not burnt).</li>
+<li>GET <code>&lt;node-url&gt;/api/core/v2/outputs/{outputId}</code> returns the Collection NFT output itself.</li>
+</ul>
+<h2 id="rationale"><a class="header" href="#rationale">Rationale</a></h2>
+<h3 id="interoperable-standards"><a class="header" href="#interoperable-standards">Interoperable Standards</a></h3>
+<p>For a unified IOTA NFT ecosystem the standards have been designed to support ease of integration and cross-compatibility of NFTs throughout the IOTA network. Observations of undefined standards in other ecosystems has illustrated the importance of such developments in the early stages of the technology. Simple defined keys such as <code>uri</code>, instead of <code>nftUrl</code> or <code>fileLocation</code> can support a much more interoperable experience for creators and dApp developers with everyone working from the same foundations.</p>
+<p>Supporting creators is also a key element in driving adoption for the technology, royalty integrations vary substantially in other blockchain ecosystems which remains a challenge for both 3rd party applications and creators in sustaining a consistent and reliable ecosystem across different applications.</p>
+<p>This standard also supports expansion, backwards compatibility, and a universal guideline for the ecosystem to develop with. Allowing an immediate interoperable environment that can support ease-of-adoption in the early stages of IOTA NFTs, whilst continually supporting feature expansion and future development.</p>
+<h2 id="backwards-compatibility"><a class="header" href="#backwards-compatibility">Backwards Compatibility</a></h2>
+<h3 id="versioning"><a class="header" href="#versioning">Versioning</a></h3>
+<p>Expanding use-cases in the NFT space will present multiple requirements for different standards and schemas to be developed and over time alterations and updates will be presented to support an evolving technology and future developments.</p>
+<p>Version is introduced from the start to allow dApp developers and creators to maintain backwards compatibility with differing versions of the standard, which can be defined as a numeric value proceeded with the letter v. All future versions will be submitted as separate TIPs.</p>
+<p>Current version <code>v1.0</code></p>
+<h3 id="modular-structure-expansion"><a class="header" href="#modular-structure-expansion">Modular Structure Expansion</a></h3>
+<p>A modular structure to the standard has been created to support use case expansion, file type extension, standards catalogue. Allowing creators to utilise minimalist implementations as well as the more advanced expanded standards.</p>
+<h2 id="copyright"><a class="header" href="#copyright">Copyright</a></h2>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../tips/TIP-0026/tip-0026.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../tips/TIP-0028/tip-0028.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../tips/TIP-0026/tip-0026.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../tips/TIP-0028/tip-0028.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
