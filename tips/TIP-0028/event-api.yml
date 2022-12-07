@@ -723,14 +723,14 @@ components:
           type: integer
           description: Set to value 0 to denote a Sender Feature.
           example: 0
-        sender:
+        address:
           oneOf:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AliasAddress'
             - $ref: '#/components/schemas/NFTAddress'
       required:
         - type
-        - sender
+        - address
     IssuerFeature:
       description: Identifies the validated issuer of the UTXO state machine (alias/NFT).
       properties:
@@ -738,14 +738,14 @@ components:
           type: integer
           description: Set to value 1 to denote an Issuer Feature.
           example: 1
-        issuer:
+        address:
           oneOf:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AliasAddress'
             - $ref: '#/components/schemas/NFTAddress'
       required:
         - type
-        - issuer
+        - address
     MetadataFeature:
       description: >-
         Defines metadata (arbitrary binary data) that will be stored in the
