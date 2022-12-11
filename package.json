@@ -10,7 +10,7 @@
         "node": ">=16.10.0"
     },
     "devDependencies": {
-        "@iota-wiki/cli": "^2.0.0-alpha.0"
+        "@iota-wiki/cli": "latest"
     },
     "packageManager": "yarn@3.2.0"
 }
