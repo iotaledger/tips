@@ -5,6 +5,7 @@ src/
 node_modules
 
 # Yarn
+yarn.lock
 .pnp.*
 .yarn/*
 !.yarn/patches
