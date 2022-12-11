@@ -20,5 +20,5 @@ jobs:
       - name: Test Build
         run: |
           corepack enable
-          yarn install
+          yarn install --no-immutable
           yarn build
