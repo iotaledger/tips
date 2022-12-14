@@ -4,7 +4,7 @@
 
 # Documentation
 
-The TIPs online documentation is built using [Docusaurus 2](https://docusaurus.io/). The deployment is done through a centralized build from [IOTA WIKI](https://github.com/iota-community/iota-wiki). To run a local instance the [IOTA WIKI CLI](https://github.com/iota-community/iota-wiki-cli) is used.
+The TIPs online documentation is built using [Docusaurus 2](https://docusaurus.io/). The deployment is done through a centralized build from [IOTA WIKI](https://github.com/iota-wiki/iota-wiki). To run a local instance, the [IOTA WIKI CLI](https://www.npmjs.com/package/@iota-wiki/cli) is used.
 
 ## Prerequisites
 
