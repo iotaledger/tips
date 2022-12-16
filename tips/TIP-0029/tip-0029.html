@@ -246,10 +246,11 @@ It is important to note that the signatures do not impact the <em>Milestone ID</
             <td>Inclusion Merkle Root</td>
             <td>ByteArray[32]</td>
             <td>The Merkle tree hash (BLAKE2b-256) of the Block IDs of all blocks included by this milestone.</td>
+          </tr>
           <tr>
             <td>Applied Merkle Root</td>
             <td>ByteArray[32]</td>
-            <td>The Merkle tree hash (BLAKE2b-256) of the Block IDs of all blocks applied by this milestone that contain a state-mutating transaction (see <a href="../TIP-0004/tip-0004.html">TIP-4</a>).</td>
+            <td>The Merkle tree hash (BLAKE2b-256) of the Block IDs of all blocks applied by this milestone that contain a state-mutating transaction¹</td>
           </tr>
           <tr>
             <td>Metadata</td>
@@ -316,6 +317,7 @@ It is important to note that the signatures do not impact the <em>Milestone ID</
     </td>
   </tr>
 </table>
+<p>¹: See <a href="../TIP-0004/tip-0004.html">TIP-4</a>.</p>
 <h3 id="milestone-options"><a class="header" href="#milestone-options">Milestone options</a></h3>
 <p>The <code>Options</code> field holds additional data authenticated by the milestone.</p>
 <p>The following table lists all the <code>Milestone Option Type</code> that are currently supported as well as links to the corresponding specification:</p>
@@ -328,10 +330,10 @@ It is important to note that the signatures do not impact the <em>Milestone ID</
 <p>This <code>Milestone Option</code> is used to signal to nodes the commencing of new protocol parameters, including new protocol
 version or PoW difficulty.</p>
 <details>
-<summary>Protocol Parameters Milestone Option</summary>
-<blockquote>
+  <summary>Protocol Parameters Milestone Option</summary>
+  <blockquote>
     Defines changing protocol parameters.
-</blockquote>
+  </blockquote>
 </details>
 <table>
     <tr>

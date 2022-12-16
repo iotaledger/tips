@@ -199,12 +199,12 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Output ID</td>
-        <td>Array<byte>[34]</td>
+        <td>Array&lt;byte&gt;[34]</td>
         <td>The ID of the output which is a concatenation of the transaction ID + output index.</td>
     </tr>
     <tr>
         <td>Block ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The ID of the Block in which the transaction was contained which generated this output.</td>
     </tr>
     <tr>
@@ -250,12 +250,12 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Output</td>
-        <td>Array<byte>[Output length]</td>
+        <td>Array&lt;byte&gt;[Output length]</td>
         <td>The serialized Output (see above).</td>
     </tr>
     <tr>
         <td>Target Transaction ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The ID of the transaction that spent this output.</td>
     </tr>
 </table>
@@ -279,15 +279,15 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Milestone Payload</td>
-        <td>Array<byte>[Milestone Payload length]</td>
+        <td>Array&lt;byte&gt;[Milestone Payload length]</td>
         <td>The milestone payload in its serialized binary form.</td>
     </tr>
     <tr>
         <td>
-        Treasury Input
-        <blockquote>
-        only included if milestone contains a receipt
-        </blockquote>
+            Treasury Input
+            <blockquote>
+                only included if milestone contains a receipt
+            </blockquote>
         </td>
         <td colspan="2">
             <table>
@@ -298,7 +298,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
                 </tr>
                 <tr>
                     <td>Treasury Input Milestone ID</td>
-                    <td>Array<byte>[32]</td>
+                    <td>Array&lt;byte&gt;[32]</td>
                     <td>The ID of the milestone this input references.</td>
                 </tr>
                 <tr>
@@ -435,7 +435,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
 <p>Defines what a full snapshot file contains.</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -466,7 +466,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Target Milestone ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The ID of the milestone of which the SEPs within the snapshot are from.</td>
     </tr>
     <tr>
@@ -476,7 +476,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Treasury Output Milestone ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The milestone ID of the milestone which generated the treasury output.</td>
     </tr>
     <tr>
@@ -532,7 +532,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
         <td valign="top">SEPs</td>
         <td colspan="2">
             <details>
-                <summary>SEP Array<byte>[32]</summary>
+                <summary>SEP Array[32]</summary>
             </details>
         </td>
     </tr>
@@ -541,7 +541,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
 <p>Defines what a delta snapshot contains.</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -567,7 +567,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Full Snapshot Target Milestone ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The ID of the target milestone of the full snapshot this delta snapshot builts up from.</td>
     </tr>
     <tr>
@@ -597,7 +597,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
         <td valign="top">SEPs</td>
         <td colspan="2">
             <details>
-                <summary>SEP Array<byte>[32]</summary>
+                <summary>SEP Array[32]</summary>
             </details>
         </td>
     </tr>

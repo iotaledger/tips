@@ -149,7 +149,7 @@
 <p>Do you have an idea how to improve the IOTA technology stack?</p>
 <ul>
 <li>Head over to the <a href="https://github.com/iotaledger/tips/discussions">discussions</a> page to browse already submitted ideas or share yours!</li>
-<li>Once your idea is discussed, you can submit a draft TIP (<a href="./tip-template.html">template here</a>) as a PR to the repository.</li>
+<li>Once your idea is discussed, you can submit a draft TIP (<a href="https://github.com/iotaledger/tips/blob/main/tip-template.md">template here</a> as a PR to the repository.</li>
 <li>You will receive feedback from the TIP Editors and review from core devs.</li>
 <li>Once accepted, your TIP is merged as Draft.</li>
 <li>It is your responsibility to drive its implementation and to present a clear plan on how the new feature will be adopted by the network.</li>
@@ -260,7 +260,7 @@ created: 2021-12-15
 </tbody></table>
 </div>
 <h3 id="tip-template"><a class="header" href="#tip-template">TIP Template</a></h3>
-<p>The template to follow for new TIPs is located in the <a href="tips/TIP-0001/../../tip-template.html">repository</a>.</p>
+<p>The template to follow for new TIPs is located in the <a href="https://github.com/iotaledger/tips/blob/main/tip-template.md">repository</a>.</p>
 <h3 id="tip-process"><a class="header" href="#tip-process">TIP Process</a></h3>
 <p>Parties involved in the process are:</p>
 <ul>
@@ -744,14 +744,14 @@ In the following we define the Merkle tree hash (MTH) function that returns the 
 </ul>
 <p>Given an ordered list of n input strings D<sub>n</sub> = {d<sub>1</sub>, d<sub>2</sub>, ..., d<sub>n</sub>}, the Merkle tree hash of D is defined as follows:</p>
 <ul>
-<li>If D is an empty list, MTH(D) is the hash of an empty string:<br>
+<li>If D is an empty list, MTH(D) is the hash of an empty string:<br/>
 MTH({}) = BLAKE2().</li>
-<li>If D has the length 1, the hash (also known as a leaf hash) is:<br>
+<li>If D has the length 1, the hash (also known as a leaf hash) is:<br/>
 MTH({d<sub>1</sub>}) = BLAKE2( 0x00 || d<sub>1</sub> ).</li>
 <li>Otherwise, for D<sub>n</sub> with n &gt; 1:
 <ul>
 <li>Let k be the largest power of two less than n, i.e. k &lt; n ≤ 2k.</li>
-<li>The Merkle tree hash can be defined recursively:<br>
+<li>The Merkle tree hash can be defined recursively:<br/>
 MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) || MTH({d<sub>k+1</sub>, ..., d<sub>n</sub>}) ).</li>
 </ul>
 </li>
@@ -1002,6 +1002,8 @@ created: 2020-07-28
           </tr>
         </table>
       </details>
+    </td>
+  </tr>
   <tr>
     <td>Nonce</td>
     <td>uint64</td>
@@ -1353,7 +1355,8 @@ created: 2020-07-10
                   </tr>
                 </table>
               </details>
-          <tr>
+            </td>
+          </tr>
         </table>
       </details>
     </td>
@@ -1743,7 +1746,8 @@ created: 2020-07-28
                   </tr>
                 </table>
               </details>
-          <tr>
+            </td>
+          </tr>
         </table>
       </details>
     </td>
@@ -1885,12 +1889,12 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
     </tr>
     <tr>
         <td>Message Hash</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The hash of the message in which the transaction was contained which generated this output.</td>
     </tr>
     <tr>
         <td>Transaction hash</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The hash of the transaction which generated this output.</td>
     </tr>
     <tr>
@@ -1905,7 +1909,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                 <summary>SigLockedSingleDeposit</summary>
                 <table>
                     <tr>
-                        <td><b>Name<b></td>
+                        <td><b>Name</b></td>
                         <td><b>Type</b></td>
                         <td><b>Description</b></td>
                     </tr>
@@ -1921,7 +1925,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                                 <summary>Ed25519 Address</summary>
                                 <table>
                                     <tr>
-                                        <td><b>Name<b></td>
+                                        <td><b>Name</b></td>
                                         <td><b>Type</b></td>
                                         <td><b>Description</b></td>
                                     </tr>
@@ -1950,7 +1954,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                 <summary>SigLockedDustAllowanceDeposit</summary>
                 <table>
                     <tr>
-                        <td><b>Name<b></td>
+                        <td><b>Name</b></td>
                         <td><b>Type</b></td>
                         <td><b>Description</b></td>
                     </tr>
@@ -1966,7 +1970,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                                 <summary>Ed25519 Address</summary>
                                 <table>
                                     <tr>
-                                        <td><b>Name<b></td>
+                                        <td><b>Name</b></td>
                                         <td><b>Type</b></td>
                                         <td><b>Description</b></td>
                                     </tr>
@@ -2009,15 +2013,15 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
     </tr>
     <tr>
         <td>Milestone Payload</td>
-        <td>Array<byte>[Milestone Payload length]</td>
+        <td>Array&lt;byte&gt;[Milestone Payload length]</td>
         <td>The milestone payload in its serialized binary form.</td>
     </tr>
     <tr>
         <td>
-        Treasury Input
-        <blockquote>
-        only included if milestone contains a receipt
-        </blockquote>
+            Treasury Input
+            <blockquote>
+                only included if milestone contains a receipt
+            </blockquote>
         </td>
         <td colspan="2">
             <table>
@@ -2028,7 +2032,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                 </tr>
                 <tr>
                     <td>Treasury Input Milestone Hash</td>
-                    <td>Array<byte>[32]</td>
+                    <td>Array&lt;byte&gt;[32]</td>
                     <td>The hash of the milestone this input references.</td>
                 </tr>
                 <tr>
@@ -2070,7 +2074,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
 <p>Defines what a full snapshot file contains.</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -2121,7 +2125,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
     </tr>
     <tr>
         <td>Treasury Output Milestone Hash</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The milestone hash of the milestone which generated the treasury output.</td>
     </tr>
     <tr>
@@ -2133,7 +2137,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
         <td valign="top">SEPs</td>
         <td colspan="2">
             <details>
-                <summary>SEP Array<byte>[32]</summary>
+                <summary>SEP Array&lt;byte&gt;[32]</summary>
             </details>
         </td>
     </tr>
@@ -2158,7 +2162,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
 <p>Defines what a delta snapshot contains.</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -2206,7 +2210,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
         <td valign="top">SEPs</td>
         <td colspan="2">
             <details>
-                <summary>SEP Array<byte>[32]</summary>
+                <summary>SEP Array&lt;byte&gt;[32]</summary>
             </details>
         </td>
     </tr>
@@ -2416,8 +2420,8 @@ created: 2020-08-25
 <h1 id="summary-10"><a class="header" href="#summary-10">Summary</a></h1>
 <p>The IOTA protocol uses proof-of-work as a means to rate-limit the network. Currently, the Curl-P-81 trinary hash function is used and is required to provide a hash with the matching number of trailing zero trits to issue a transaction to the Tangle. With <a href="https://roadmap.iota.org/chrysalis">Chrysalis</a>, it will be possible to issue binary messages of arbitrary size. This RFC presents a proposal to adapt the existing PoW mechanism to these new requirements. It aims to be less disruptive to the current PoW mechanism as possible.</p>
 <h1 id="motivation-11"><a class="header" href="#motivation-11">Motivation</a></h1>
-<p>In the current IOTA Protocol, each transaction has a fixed size of 8019 trits and is hashed using Curl-P-81 to compute its 243-trit transaction hash, where the PoW's difficulty equals the number of trailing zero trits in that hash.<br>
-Unfortunately, the performance of Curl-P-81 is slow, achieving only about 2 MB/s on a single core. This would make the PoW validation a bottleneck, especially for high usage scenarios with larger messages. Thus, this RFC proposes a two-stage approach to speed up the validation process: First, the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash function is used to create a short, fixed length digest of the message. Then, this digest, together with the nonce, is hashed using Curl-P-81. Since the digest only needs to be computed once while iterating over different nonce values, this preserves Curl as the PoW-relevant hash. However, the validation is much faster, as BLAKE2b-256 has a performance of about 1 GB/s and Curl then only needs to be executed for one single 243-trit block of input. Since the input of the final Curl computation is always fixed, parallel Curl variants can be used in this stage to further speed up the validation if necessary.<br>
+<p>In the current IOTA Protocol, each transaction has a fixed size of 8019 trits and is hashed using Curl-P-81 to compute its 243-trit transaction hash, where the PoW's difficulty equals the number of trailing zero trits in that hash.<br/>
+Unfortunately, the performance of Curl-P-81 is slow, achieving only about 2 MB/s on a single core. This would make the PoW validation a bottleneck, especially for high usage scenarios with larger messages. Thus, this RFC proposes a two-stage approach to speed up the validation process: First, the <a href="https://tools.ietf.org/html/rfc7693">BLAKE2b-256</a> hash function is used to create a short, fixed length digest of the message. Then, this digest, together with the nonce, is hashed using Curl-P-81. Since the digest only needs to be computed once while iterating over different nonce values, this preserves Curl as the PoW-relevant hash. However, the validation is much faster, as BLAKE2b-256 has a performance of about 1 GB/s and Curl then only needs to be executed for one single 243-trit block of input. Since the input of the final Curl computation is always fixed, parallel Curl variants can be used in this stage to further speed up the validation if necessary.<br/>
 Furthermore, it is important to note that the time required to do the PoW depends on the PoW difficulty and not on the message length. As such, to treat messages with different lengths differently, we need to weight the PoW difficulty by the message length.</p>
 <p>It will be easy to adapt existing hardware and software implementations of the current PoW mechanism to work with the proposed design. Only the input and the position of the nonce in the buffer needs to be adapted. This enables existing Curl projects to continue persisting and also the entire PoW landscape should stay almost the same.</p>
 <h1 id="detailed-design-10"><a class="header" href="#detailed-design-10">Detailed design</a></h1>
@@ -2534,8 +2538,8 @@ created: 2020-10-30
 <li>[8][S]B = [8]R + [8][k]A'</li>
 <li>[S]B = R + [k]A'</li>
 </ol>
-<p>Each honestly generated signature following RFC 8032 satisfies the second, cofactorless equation and thus, also the first equation. However, the opposite is not true. This is due to the fact that dishonestly generated nonce R and public key A' might have order other than L. Testing whether a point has order L is costly. The first, cofactored equation accepts more nonces and public keys including dishonestly generated ones but lets us skip costly order checks. This has the impact that each secret key has not one but eight corresponding public keys. However all those public keys correspond to different addresses.<br> There are solutions only satisfying the first equation but not the latter. This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations.</p>
-<p>Ed25519 also supports batch signature verification, which allows verifying several signatures in a single step, much faster than verifying signatures one-by-one. Without going into detail, there are also two alternative verification equations for the batch verification:<br> [8][∑zᵢsᵢ] B = [8]∑[zᵢ]Rᵢ + [8]∑[zᵢhᵢ]Aᵢ and its corresponding cofactorless version. However, only cofactored verifications, single and batch, are compatible with each other. All other combinations are inconsistent and can lead to false positives or false negatives (see <a href="https://eprint.iacr.org/2020/1244">Chalkias et al. 2020</a>, Section 3.2) for certain edge-cases introduced by an attacker.<br> Thus, in order to allow batch signature verification and its faster performance in IOTA nodes, the cofactored version <em>must</em> be used for validation, i.e. the group equation [8][S]B = [8]R + [8][k]A' for the single verification.</p>
+<p>Each honestly generated signature following RFC 8032 satisfies the second, cofactorless equation and thus, also the first equation. However, the opposite is not true. This is due to the fact that dishonestly generated nonce R and public key A' might have order other than L. Testing whether a point has order L is costly. The first, cofactored equation accepts more nonces and public keys including dishonestly generated ones but lets us skip costly order checks. This has the impact that each secret key has not one but eight corresponding public keys. However all those public keys correspond to different addresses.<br/> There are solutions only satisfying the first equation but not the latter. This ambiguity in RFC 8032 has led to the current situation in which different implementations rely on different verification equations.</p>
+<p>Ed25519 also supports batch signature verification, which allows verifying several signatures in a single step, much faster than verifying signatures one-by-one. Without going into detail, there are also two alternative verification equations for the batch verification:<br/> [8][∑zᵢsᵢ] B = [8]∑[zᵢ]Rᵢ + [8]∑[zᵢhᵢ]Aᵢ and its corresponding cofactorless version. However, only cofactored verifications, single and batch, are compatible with each other. All other combinations are inconsistent and can lead to false positives or false negatives (see <a href="https://eprint.iacr.org/2020/1244">Chalkias et al. 2020</a>, Section 3.2) for certain edge-cases introduced by an attacker.<br/> Thus, in order to allow batch signature verification and its faster performance in IOTA nodes, the cofactored version <em>must</em> be used for validation, i.e. the group equation [8][S]B = [8]R + [8][k]A' for the single verification.</p>
 <p>Since non-canonical encodings of A and R are allowed, it is crucial to also specify which representation must be used for the hash functions:</p>
 <ul>
 <li>The provided binary encodings of A and R must be used as input to the hash function H instead of their canonical – and potentially different – representation.</li>
@@ -2544,7 +2548,7 @@ created: 2020-10-30
 <h2 id="malleability"><a class="header" href="#malleability">Malleability</a></h2>
 <p>The non-negative integer S is encoded into 32 bytes as part of the signature. However, a third party could replace S with S' = S + n·L for any natural n with S' &lt; 2<sup>256</sup> and the modified signature R || S' would still pass verification. Requiring a value less than L resolves this malleability issue. Unfortunately, this check is not present in all common Ed25519 implementations.</p>
 <p>Analogous to RFC 8032, the encoding of S <em>must</em> represent an integer less than L.</p>
-<p>It is not possible for an external party to mutate R and still pass verification. The owner of the secret key, however, can create many different signatures for the same content: While Ed25519 defines a deterministic method of calculating the integer scalar r from the private key and the message, it is impossible to tell during signature verification if the point R = [r]B was created properly or any other scalar has been used.<br> As a result, there is a practically countless amount of different valid signatures corresponding to a certain message and public key.</p>
+<p>It is not possible for an external party to mutate R and still pass verification. The owner of the secret key, however, can create many different signatures for the same content: While Ed25519 defines a deterministic method of calculating the integer scalar r from the private key and the message, it is impossible to tell during signature verification if the point R = [r]B was created properly or any other scalar has been used.<br/> As a result, there is a practically countless amount of different valid signatures corresponding to a certain message and public key.</p>
 <p>We allow users to have a zero-scalar secret key and consider eight corresponding public keys valid. However, users should not use it as it is equivalent to publishing one's secret key. This also has the impact that any valid signature produced with a zero-scalar secret key will authenticate any message thus making it &quot;super&quot;-malleable.</p>
 <h2 id="test-vectors"><a class="header" href="#test-vectors">Test vectors</a></h2>
 <p>The test vectors are taken directly from <a href="https://eprint.iacr.org/2020/1244">Chalkias et al. 2020</a>. Here, <code>pub_key</code> corresponds to the encoding of A and <code>address</code> is a 33-byte <em>Ed25519 Address</em> as described in <a href="tips/TIP-0014/../TIP-0007/tip-0007.html#serialized-layout">TIP-7</a>. The address is computed by hashing A. As mentioned in the paper, for test case #10 the key A is reduced before hashing, while in the others it is not. The key <code>valid</code> denotes whether the corresponding item represents a valid <code>signature</code> for the provided <code>address</code> and <code>message</code> or not.</p>
@@ -2801,7 +2805,7 @@ created: 2021-01-13
             <summary>TreasuryInput</summary>
             <table>
                 <tr>
-                    <td><b>Name<b></td>
+                    <td><b>Name</b></td>
                     <td><b>Type</b></td>
                     <td><b>Description</b></td>
                 </tr>
@@ -2814,7 +2818,7 @@ created: 2021-01-13
                 </tr>
                 <tr>
                     <td>Milestone Hash</td>
-                    <td>Array<byte>[32]></td>
+                    <td>Array&lt;byte&gt;[32]></td>
                     <td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
                 </tr>
             </table>
@@ -2864,7 +2868,7 @@ created: 2021-01-13
     </tr>
     <tr>
         <td>Milestone Hash</td>
-        <td>Array<byte>[32]></td>
+        <td>Array&lt;byte&gt;[32]></td>
         <td>The hash of the milestone which created the referenced <i>TreasuryOutput</i>.</td>
     </tr>
 </table>
@@ -2873,7 +2877,7 @@ created: 2021-01-13
 <p>Serialized form:</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -2899,7 +2903,7 @@ created: 2021-01-13
 <p>Serialized form:</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -2936,7 +2940,7 @@ created: 2021-01-13
                 </tr>
                 <tr>
                     <td>Tail Transaction Hash</td>
-                    <td>Array<byte>[49]</td>
+                    <td>Array&lt;byte&gt;[49]</td>
                     <td>
                     The tail transaction hash of the bundle in which these funds were migrated.
                     </td>
@@ -3242,7 +3246,7 @@ assets on layer 1.</p>
                         <td>Token ID</td>
                         <td>ByteArray[38]</td>
                         <td>
-                            Identifier of the native token. Derivation defined <a href=https://github.com/iotaledger/tips/blob/main/tips/TIP-0018/tip-0018.md#foundry-output>here</a>.
+                            Identifier of the native token. Derivation defined <a href='https://github.com/iotaledger/tips/blob/main/tips/TIP-0018/tip-0018.md#foundry-output'>here</a>.
                         </td>
                     </tr>
                     <tr>
@@ -3299,11 +3303,11 @@ Transaction validation rules are detailed in <a href="tips/TIP-0018/../TIP-0020/
 <p>New additions are the <i>Alias Address</i> and <i>NFT Address</i> types, which have to be unlocked with their
 corresponding unlocks, as defined in <a href="tips/TIP-0018/tip-0018.html#unlocking-chain-script-locked-outputs">Unlocking Chain Script Locked Outputs</a>.</p>
 <details>
-<summary>Address Unlock</summary>
-<blockquote>
-    Defines the Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
-    transaction.
-</blockquote>
+    <summary>Address Unlock</summary>
+    <blockquote>
+        Defines the Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
+        transaction.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -3434,10 +3438,10 @@ their return amounts per <code>Return Addresses</code> are summed up and the out
 <em>at least</em> this total sum per <code>Return Address</code> via output(s) that satisfy the previous condition.</li>
 </ul>
 <details>
-<summary>Storage Deposit Return Unlock Condition</summary>
-<blockquote>
+    <summary>Storage Deposit Return Unlock Condition</summary>
+    <blockquote>
         Defines the amount of IOTAs used as storage deposit that have to be returned to <i>Return Address</i>.
-</blockquote>
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -3556,10 +3560,10 @@ transaction, if the timestamp of the confirming milestone is equal or past the <
 condition.</li>
 </ul>
 <details>
-<summary>Timelock Unlock Condition</summary>
-<blockquote>
-    Defines a unix timestamp until which the output can not be unlocked.
-</blockquote>
+    <summary>Timelock Unlock Condition</summary>
+    <blockquote>
+        Defines a unix timestamp until which the output can not be unlocked.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -3617,11 +3621,11 @@ is allowed to unlock the output containing the <i>Expiration Unlock Condition</i
 <tr><td><code>Unix Time</code> ≤ <code>Confirming Milestone Unix Timestamp</code></td><td>Unlockable by <code>Return Address</code></td></tr>
 </tbody></table>
 </div><details>
-<summary>Expiration Unlock Condition</summary>
-<blockquote>
-    Defines a unix time until which only <i>Address</i>, defined in <i>Address Unlock Condition</i>, is allowed to
-    unlock the output. After the unix time is reached/passed, only <i>Return Address</i> can unlock it.
-</blockquote>
+    <summary>Expiration Unlock Condition</summary>
+    <blockquote>
+        Defines a unix time until which only <i>Address</i>, defined in <i>Address Unlock Condition</i>, is allowed to
+        unlock the output. After the unix time is reached/passed, only <i>Return Address</i> can unlock it.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -3720,11 +3724,11 @@ is allowed to unlock the output containing the <i>Expiration Unlock Condition</i
 <i>Address Unlock Condition</i>, however there are additional transition constraints defined for the Alias UTXO state
 machine that can only be carried out by the <code>State Controller Address</code>, hence the distinct unlock condition type.</p>
 <details>
-<summary>State Controller Address Unlock</summary>
-<blockquote>
-    Defines the State Controller Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
-    transaction that state transitions the alias output.
-</blockquote>
+    <summary>State Controller Address Unlock</summary>
+    <blockquote>
+        Defines the State Controller Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
+        transaction that state transitions the alias output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -3817,11 +3821,11 @@ machine that can only be carried out by the <code>State Controller Address</code
 <i>Address Unlock Condition</i>, however there are additional transition constraints defined for the Alias UTXO state
 machine that can only be carried out by the <code>Governor Address</code>, hence the distinct unlock condition type.</p>
 <details>
-<summary>Governor Address Unlock</summary>
-<blockquote>
-    Defines the Governor Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
-    transaction that governance transitions the alias output.
-</blockquote>
+    <summary>Governor Address Unlock</summary>
+    <blockquote>
+        Defines the Governor Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
+        transaction that governance transitions the alias output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -3915,10 +3919,10 @@ machine that can only be carried out by the <code>Governor Address</code>, hence
 however there are additional transition constraints: the next state of the UTXO machine must have the same
 <i>Immutable Alias Address Unlock Condition</i>.</p>
 <details>
-<summary>Immutable Alias Address Unlock Condition</summary>
-<blockquote>
-    Defines the permanent <i>Alias Address</i> that owns this output.
-</blockquote>
+    <summary>Immutable Alias Address Unlock Condition</summary>
+    <blockquote>
+        Defines the permanent <i>Alias Address</i> that owns this output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -4000,10 +4004,10 @@ transaction validation.</p>
 </li>
 </ul>
 <details>
-<summary>Sender Feature</summary>
-<blockquote>
+    <summary>Sender Feature</summary>
+    <blockquote>
         Identifies the validated sender of the output.
-</blockquote>
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -4123,10 +4127,10 @@ transaction that contains this output is valid, if and only if <code>Issuer</cod
 fill the <i>Issuer Feature</i> with their address that they have to unlock in the transaction. Issuers then can publicly
 disclose their addresses to prove the authenticity of the NFT once it is in circulation.</p>
 <details>
-<summary>Issuer Feature</summary>
-<blockquote>
+    <summary>Issuer Feature</summary>
+    <blockquote>
         Identifies the validated issuer of the UTXO state machine.
-</blockquote>
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -4226,10 +4230,10 @@ increases the required storage deposit. ISC is a great example of a higher layer
 <li>An output with <i>Metadata Feature</i> is valid, if and only if 0 &lt; <code>length(Data)</code> ≤ <code>Max Metadata Length</code>.</li>
 </ul>
 <details>
-<summary>Metadata Feature</summary>
-<blockquote>
-    Defines metadata (arbitrary binary data) that will be stored in the output.
-</blockquote>
+    <summary>Metadata Feature</summary>
+    <blockquote>
+        Defines metadata (arbitrary binary data) that will be stored in the output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -4264,10 +4268,10 @@ entries in nodes' databases.</p>
 <code>Max Tag Length</code>.</li>
 </ul>
 <details>
-<summary>Tag Feature</summary>
-<blockquote>
-    Defines an indexation tag to which the output can be indexed by additional node plugins.
-</blockquote>
+    <summary>Tag Feature</summary>
+    <blockquote>
+        Defines an indexation tag to which the output can be indexed by additional node plugins.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -6490,6 +6494,7 @@ sent as a request to smart contract chain accounts.</p>
                         </table>
                     </details>
                 </td>
+            </tr>
             <tr>
                 <td>Immutable Features Count</td>
                 <td>uint8</td>
@@ -6714,10 +6719,10 @@ corresponding output that defines the address.</strong></p>
 to unlock an output locked under a private key backed address, such as <i>Ed25519 Addresses</i>.</p>
 <p>On protocol level, alias unlocking is done using a new unlock type, called <strong>Alias Unlock</strong>.</p>
 <details>
-<summary>Alias Unlock</summary>
-<blockquote>
-        Points to the unlock of a consumed alias output.
-</blockquote>
+    <summary>Alias Unlock</summary>
+    <blockquote>
+            Points to the unlock of a consumed alias output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -6773,10 +6778,10 @@ defines <code>NFT Address</code>, that is, the NFT output where <code>NFT Addres
 <p>An <i>NFT Unlock</i> looks and behaves like an <i>Alias Unlock</i>, but the referenced input at the index must
 be an NFT output with the matching <code>NFT ID</code>.</p>
 <details>
-<summary>NFT Unlock</summary>
-<blockquote>
-        Points to the unlock of a consumed NFT output.
-</blockquote>
+    <summary>NFT Unlock</summary>
+    <blockquote>
+            Points to the unlock of a consumed NFT output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -9516,6 +9521,7 @@ However, all output types like e.g. smart contract requests are affected and mus
                                     </table>
                                 </details>
                             </td>
+                        </tr>
                         <tr>
                             <td>Immutable Features Count</td>
                             <td><code>data</code></td>
@@ -9906,7 +9912,7 @@ for interconnected layer 2 blockchains and applications.</p>
                 </blockquote>
               </details>
             </td>
-          <tr>
+          </tr>
         </table>
       </details>
     </td>
@@ -10435,6 +10441,8 @@ created: 2022-01-24
           </tr>
         </table>
       </details>
+    </td>
+  </tr>
   <tr>
     <td>Nonce</td>
     <td>uint64</td>
@@ -11027,10 +11035,11 @@ It is important to note that the signatures do not impact the <em>Milestone ID</
             <td>Inclusion Merkle Root</td>
             <td>ByteArray[32]</td>
             <td>The Merkle tree hash (BLAKE2b-256) of the Block IDs of all blocks included by this milestone.</td>
+          </tr>
           <tr>
             <td>Applied Merkle Root</td>
             <td>ByteArray[32]</td>
-            <td>The Merkle tree hash (BLAKE2b-256) of the Block IDs of all blocks applied by this milestone that contain a state-mutating transaction (see <a href="tips/TIP-0029/../TIP-0004/tip-0004.html">TIP-4</a>).</td>
+            <td>The Merkle tree hash (BLAKE2b-256) of the Block IDs of all blocks applied by this milestone that contain a state-mutating transaction¹</td>
           </tr>
           <tr>
             <td>Metadata</td>
@@ -11097,6 +11106,7 @@ It is important to note that the signatures do not impact the <em>Milestone ID</
     </td>
   </tr>
 </table>
+<p>¹: See <a href="tips/TIP-0029/../TIP-0004/tip-0004.html">TIP-4</a>.</p>
 <h3 id="milestone-options"><a class="header" href="#milestone-options">Milestone options</a></h3>
 <p>The <code>Options</code> field holds additional data authenticated by the milestone.</p>
 <p>The following table lists all the <code>Milestone Option Type</code> that are currently supported as well as links to the corresponding specification:</p>
@@ -11109,10 +11119,10 @@ It is important to note that the signatures do not impact the <em>Milestone ID</
 <p>This <code>Milestone Option</code> is used to signal to nodes the commencing of new protocol parameters, including new protocol
 version or PoW difficulty.</p>
 <details>
-<summary>Protocol Parameters Milestone Option</summary>
-<blockquote>
+  <summary>Protocol Parameters Milestone Option</summary>
+  <blockquote>
     Defines changing protocol parameters.
-</blockquote>
+  </blockquote>
 </details>
 <table>
     <tr>
@@ -11296,7 +11306,7 @@ decentralized applications and wallets.</p>
 }
 </code></pre>
 <h3 id="examples-3"><a class="header" href="#examples-3">Examples</a></h3>
-<p>The following examples are located in the <a href="tips/TIP-0030/./examples"><code>examples/</code></a> folder.</p>
+<p>The following examples are located in the <a href="https://github.com/iotaledger/tips/tree/main/tips/TIP-0030/examples"><code>examples/</code></a> folder.</p>
 <p>To try the schema validation in Python, install <a href="https://python-jsonschema.readthedocs.io/en/stable/">jsonschema</a>
 package by running:</p>
 <pre><code class="language-bash">pip install jsonschema
@@ -11931,12 +11941,12 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Output ID</td>
-        <td>Array<byte>[34]</td>
+        <td>Array&lt;byte&gt;[34]</td>
         <td>The ID of the output which is a concatenation of the transaction ID + output index.</td>
     </tr>
     <tr>
         <td>Block ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The ID of the Block in which the transaction was contained which generated this output.</td>
     </tr>
     <tr>
@@ -11982,12 +11992,12 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Output</td>
-        <td>Array<byte>[Output length]</td>
+        <td>Array&lt;byte&gt;[Output length]</td>
         <td>The serialized Output (see above).</td>
     </tr>
     <tr>
         <td>Target Transaction ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The ID of the transaction that spent this output.</td>
     </tr>
 </table>
@@ -12011,15 +12021,15 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Milestone Payload</td>
-        <td>Array<byte>[Milestone Payload length]</td>
+        <td>Array&lt;byte&gt;[Milestone Payload length]</td>
         <td>The milestone payload in its serialized binary form.</td>
     </tr>
     <tr>
         <td>
-        Treasury Input
-        <blockquote>
-        only included if milestone contains a receipt
-        </blockquote>
+            Treasury Input
+            <blockquote>
+                only included if milestone contains a receipt
+            </blockquote>
         </td>
         <td colspan="2">
             <table>
@@ -12030,7 +12040,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
                 </tr>
                 <tr>
                     <td>Treasury Input Milestone ID</td>
-                    <td>Array<byte>[32]</td>
+                    <td>Array&lt;byte&gt;[32]</td>
                     <td>The ID of the milestone this input references.</td>
                 </tr>
                 <tr>
@@ -12167,7 +12177,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
 <p>Defines what a full snapshot file contains.</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -12198,7 +12208,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Target Milestone ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The ID of the milestone of which the SEPs within the snapshot are from.</td>
     </tr>
     <tr>
@@ -12208,7 +12218,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Treasury Output Milestone ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The milestone ID of the milestone which generated the treasury output.</td>
     </tr>
     <tr>
@@ -12264,7 +12274,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
         <td valign="top">SEPs</td>
         <td colspan="2">
             <details>
-                <summary>SEP Array<byte>[32]</summary>
+                <summary>SEP Array[32]</summary>
             </details>
         </td>
     </tr>
@@ -12273,7 +12283,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
 <p>Defines what a delta snapshot contains.</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -12299,7 +12309,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
     </tr>
     <tr>
         <td>Full Snapshot Target Milestone ID</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The ID of the target milestone of the full snapshot this delta snapshot builts up from.</td>
     </tr>
     <tr>
@@ -12329,7 +12339,7 @@ given <code>Full Snapshot Target Milestone Index</code>. A node consuming such d
         <td valign="top">SEPs</td>
         <td colspan="2">
             <details>
-                <summary>SEP Array<byte>[32]</summary>
+                <summary>SEP Array[32]</summary>
             </details>
         </td>
     </tr>

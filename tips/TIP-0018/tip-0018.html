@@ -345,7 +345,7 @@ assets on layer 1.</p>
                         <td>Token ID</td>
                         <td>ByteArray[38]</td>
                         <td>
-                            Identifier of the native token. Derivation defined <a href=https://github.com/iotaledger/tips/blob/main/tips/TIP-0018/tip-0018.md#foundry-output>here</a>.
+                            Identifier of the native token. Derivation defined <a href='https://github.com/iotaledger/tips/blob/main/tips/TIP-0018/tip-0018.md#foundry-output'>here</a>.
                         </td>
                     </tr>
                     <tr>
@@ -402,11 +402,11 @@ Transaction validation rules are detailed in <a href="../TIP-0020/tip-0020.html"
 <p>New additions are the <i>Alias Address</i> and <i>NFT Address</i> types, which have to be unlocked with their
 corresponding unlocks, as defined in <a href="#unlocking-chain-script-locked-outputs">Unlocking Chain Script Locked Outputs</a>.</p>
 <details>
-<summary>Address Unlock</summary>
-<blockquote>
-    Defines the Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
-    transaction.
-</blockquote>
+    <summary>Address Unlock</summary>
+    <blockquote>
+        Defines the Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
+        transaction.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -537,10 +537,10 @@ their return amounts per <code>Return Addresses</code> are summed up and the out
 <em>at least</em> this total sum per <code>Return Address</code> via output(s) that satisfy the previous condition.</li>
 </ul>
 <details>
-<summary>Storage Deposit Return Unlock Condition</summary>
-<blockquote>
+    <summary>Storage Deposit Return Unlock Condition</summary>
+    <blockquote>
         Defines the amount of IOTAs used as storage deposit that have to be returned to <i>Return Address</i>.
-</blockquote>
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -659,10 +659,10 @@ transaction, if the timestamp of the confirming milestone is equal or past the <
 condition.</li>
 </ul>
 <details>
-<summary>Timelock Unlock Condition</summary>
-<blockquote>
-    Defines a unix timestamp until which the output can not be unlocked.
-</blockquote>
+    <summary>Timelock Unlock Condition</summary>
+    <blockquote>
+        Defines a unix timestamp until which the output can not be unlocked.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -720,11 +720,11 @@ is allowed to unlock the output containing the <i>Expiration Unlock Condition</i
 <tr><td><code>Unix Time</code> ≤ <code>Confirming Milestone Unix Timestamp</code></td><td>Unlockable by <code>Return Address</code></td></tr>
 </tbody></table>
 </div><details>
-<summary>Expiration Unlock Condition</summary>
-<blockquote>
-    Defines a unix time until which only <i>Address</i>, defined in <i>Address Unlock Condition</i>, is allowed to
-    unlock the output. After the unix time is reached/passed, only <i>Return Address</i> can unlock it.
-</blockquote>
+    <summary>Expiration Unlock Condition</summary>
+    <blockquote>
+        Defines a unix time until which only <i>Address</i>, defined in <i>Address Unlock Condition</i>, is allowed to
+        unlock the output. After the unix time is reached/passed, only <i>Return Address</i> can unlock it.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -823,11 +823,11 @@ is allowed to unlock the output containing the <i>Expiration Unlock Condition</i
 <i>Address Unlock Condition</i>, however there are additional transition constraints defined for the Alias UTXO state
 machine that can only be carried out by the <code>State Controller Address</code>, hence the distinct unlock condition type.</p>
 <details>
-<summary>State Controller Address Unlock</summary>
-<blockquote>
-    Defines the State Controller Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
-    transaction that state transitions the alias output.
-</blockquote>
+    <summary>State Controller Address Unlock</summary>
+    <blockquote>
+        Defines the State Controller Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
+        transaction that state transitions the alias output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -920,11 +920,11 @@ machine that can only be carried out by the <code>State Controller Address</code
 <i>Address Unlock Condition</i>, however there are additional transition constraints defined for the Alias UTXO state
 machine that can only be carried out by the <code>Governor Address</code>, hence the distinct unlock condition type.</p>
 <details>
-<summary>Governor Address Unlock</summary>
-<blockquote>
-    Defines the Governor Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
-    transaction that governance transitions the alias output.
-</blockquote>
+    <summary>Governor Address Unlock</summary>
+    <blockquote>
+        Defines the Governor Address that owns this output, that is, it can unlock it with the proper <i>Unlock</i> in a
+        transaction that governance transitions the alias output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -1018,10 +1018,10 @@ machine that can only be carried out by the <code>Governor Address</code>, hence
 however there are additional transition constraints: the next state of the UTXO machine must have the same
 <i>Immutable Alias Address Unlock Condition</i>.</p>
 <details>
-<summary>Immutable Alias Address Unlock Condition</summary>
-<blockquote>
-    Defines the permanent <i>Alias Address</i> that owns this output.
-</blockquote>
+    <summary>Immutable Alias Address Unlock Condition</summary>
+    <blockquote>
+        Defines the permanent <i>Alias Address</i> that owns this output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -1103,10 +1103,10 @@ transaction validation.</p>
 </li>
 </ul>
 <details>
-<summary>Sender Feature</summary>
-<blockquote>
+    <summary>Sender Feature</summary>
+    <blockquote>
         Identifies the validated sender of the output.
-</blockquote>
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -1226,10 +1226,10 @@ transaction that contains this output is valid, if and only if <code>Issuer</cod
 fill the <i>Issuer Feature</i> with their address that they have to unlock in the transaction. Issuers then can publicly
 disclose their addresses to prove the authenticity of the NFT once it is in circulation.</p>
 <details>
-<summary>Issuer Feature</summary>
-<blockquote>
+    <summary>Issuer Feature</summary>
+    <blockquote>
         Identifies the validated issuer of the UTXO state machine.
-</blockquote>
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -1329,10 +1329,10 @@ increases the required storage deposit. ISC is a great example of a higher layer
 <li>An output with <i>Metadata Feature</i> is valid, if and only if 0 &lt; <code>length(Data)</code> ≤ <code>Max Metadata Length</code>.</li>
 </ul>
 <details>
-<summary>Metadata Feature</summary>
-<blockquote>
-    Defines metadata (arbitrary binary data) that will be stored in the output.
-</blockquote>
+    <summary>Metadata Feature</summary>
+    <blockquote>
+        Defines metadata (arbitrary binary data) that will be stored in the output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -1367,10 +1367,10 @@ entries in nodes' databases.</p>
 <code>Max Tag Length</code>.</li>
 </ul>
 <details>
-<summary>Tag Feature</summary>
-<blockquote>
-    Defines an indexation tag to which the output can be indexed by additional node plugins.
-</blockquote>
+    <summary>Tag Feature</summary>
+    <blockquote>
+        Defines an indexation tag to which the output can be indexed by additional node plugins.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -3593,6 +3593,7 @@ sent as a request to smart contract chain accounts.</p>
                         </table>
                     </details>
                 </td>
+            </tr>
             <tr>
                 <td>Immutable Features Count</td>
                 <td>uint8</td>
@@ -3817,10 +3818,10 @@ corresponding output that defines the address.</strong></p>
 to unlock an output locked under a private key backed address, such as <i>Ed25519 Addresses</i>.</p>
 <p>On protocol level, alias unlocking is done using a new unlock type, called <strong>Alias Unlock</strong>.</p>
 <details>
-<summary>Alias Unlock</summary>
-<blockquote>
-        Points to the unlock of a consumed alias output.
-</blockquote>
+    <summary>Alias Unlock</summary>
+    <blockquote>
+            Points to the unlock of a consumed alias output.
+    </blockquote>
 </details>
 <table>
     <tr>
@@ -3876,10 +3877,10 @@ defines <code>NFT Address</code>, that is, the NFT output where <code>NFT Addres
 <p>An <i>NFT Unlock</i> looks and behaves like an <i>Alias Unlock</i>, but the referenced input at the index must
 be an NFT output with the matching <code>NFT ID</code>.</p>
 <details>
-<summary>NFT Unlock</summary>
-<blockquote>
-        Points to the unlock of a consumed NFT output.
-</blockquote>
+    <summary>NFT Unlock</summary>
+    <blockquote>
+            Points to the unlock of a consumed NFT output.
+    </blockquote>
 </details>
 <table>
     <tr>

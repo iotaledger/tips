@@ -194,12 +194,12 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
     </tr>
     <tr>
         <td>Message Hash</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The hash of the message in which the transaction was contained which generated this output.</td>
     </tr>
     <tr>
         <td>Transaction hash</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The hash of the transaction which generated this output.</td>
     </tr>
     <tr>
@@ -214,7 +214,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                 <summary>SigLockedSingleDeposit</summary>
                 <table>
                     <tr>
-                        <td><b>Name<b></td>
+                        <td><b>Name</b></td>
                         <td><b>Type</b></td>
                         <td><b>Description</b></td>
                     </tr>
@@ -230,7 +230,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                                 <summary>Ed25519 Address</summary>
                                 <table>
                                     <tr>
-                                        <td><b>Name<b></td>
+                                        <td><b>Name</b></td>
                                         <td><b>Type</b></td>
                                         <td><b>Description</b></td>
                                     </tr>
@@ -259,7 +259,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                 <summary>SigLockedDustAllowanceDeposit</summary>
                 <table>
                     <tr>
-                        <td><b>Name<b></td>
+                        <td><b>Name</b></td>
                         <td><b>Type</b></td>
                         <td><b>Description</b></td>
                     </tr>
@@ -275,7 +275,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                                 <summary>Ed25519 Address</summary>
                                 <table>
                                     <tr>
-                                        <td><b>Name<b></td>
+                                        <td><b>Name</b></td>
                                         <td><b>Type</b></td>
                                         <td><b>Description</b></td>
                                     </tr>
@@ -318,15 +318,15 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
     </tr>
     <tr>
         <td>Milestone Payload</td>
-        <td>Array<byte>[Milestone Payload length]</td>
+        <td>Array&lt;byte&gt;[Milestone Payload length]</td>
         <td>The milestone payload in its serialized binary form.</td>
     </tr>
     <tr>
         <td>
-        Treasury Input
-        <blockquote>
-        only included if milestone contains a receipt
-        </blockquote>
+            Treasury Input
+            <blockquote>
+                only included if milestone contains a receipt
+            </blockquote>
         </td>
         <td colspan="2">
             <table>
@@ -337,7 +337,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
                 </tr>
                 <tr>
                     <td>Treasury Input Milestone Hash</td>
-                    <td>Array<byte>[32]</td>
+                    <td>Array&lt;byte&gt;[32]</td>
                     <td>The hash of the milestone this input references.</td>
                 </tr>
                 <tr>
@@ -379,7 +379,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
 <p>Defines what a full snapshot file contains.</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -430,7 +430,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
     </tr>
     <tr>
         <td>Treasury Output Milestone Hash</td>
-        <td>Array<byte>[32]</td>
+        <td>Array&lt;byte&gt;[32]</td>
         <td>The milestone hash of the milestone which generated the treasury output.</td>
     </tr>
     <tr>
@@ -442,7 +442,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
         <td valign="top">SEPs</td>
         <td colspan="2">
             <details>
-                <summary>SEP Array<byte>[32]</summary>
+                <summary>SEP Array&lt;byte&gt;[32]</summary>
             </details>
         </td>
     </tr>
@@ -467,7 +467,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
 <p>Defines what a delta snapshot contains.</p>
 <table>
     <tr>
-        <td><b>Name<b></td>
+        <td><b>Name</b></td>
         <td><b>Type</b></td>
         <td><b>Description</b></td>
     </tr>
@@ -515,7 +515,7 @@ given <code>ledger_milestone_index</code>. A node consuming such data must know 
         <td valign="top">SEPs</td>
         <td colspan="2">
             <details>
-                <summary>SEP Array<byte>[32]</summary>
+                <summary>SEP Array&lt;byte&gt;[32]</summary>
             </details>
         </td>
     </tr>

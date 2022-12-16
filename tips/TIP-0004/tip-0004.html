@@ -196,14 +196,14 @@ In the following we define the Merkle tree hash (MTH) function that returns the 
 </ul>
 <p>Given an ordered list of n input strings D<sub>n</sub> = {d<sub>1</sub>, d<sub>2</sub>, ..., d<sub>n</sub>}, the Merkle tree hash of D is defined as follows:</p>
 <ul>
-<li>If D is an empty list, MTH(D) is the hash of an empty string:<br>
+<li>If D is an empty list, MTH(D) is the hash of an empty string:<br/>
 MTH({}) = BLAKE2().</li>
-<li>If D has the length 1, the hash (also known as a leaf hash) is:<br>
+<li>If D has the length 1, the hash (also known as a leaf hash) is:<br/>
 MTH({d<sub>1</sub>}) = BLAKE2( 0x00 || d<sub>1</sub> ).</li>
 <li>Otherwise, for D<sub>n</sub> with n &gt; 1:
 <ul>
 <li>Let k be the largest power of two less than n, i.e. k &lt; n ≤ 2k.</li>
-<li>The Merkle tree hash can be defined recursively:<br>
+<li>The Merkle tree hash can be defined recursively:<br/>
 MTH(D<sub>n</sub>) = BLAKE2( 0x01 || MTH({d<sub>1</sub>, ..., d<sub>k</sub>}) || MTH({d<sub>k+1</sub>, ..., d<sub>n</sub>}) ).</li>
 </ul>
 </li>
