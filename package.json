@@ -1,0 +1,16 @@
+{
+    "name": "iota-tips",
+    "version": "0.0.0",
+    "scripts": {
+        "start": "iota-wiki start",
+        "build": "iota-wiki build"
+    },
+    "license": "UNLICENSED",
+    "engines": {
+        "node": ">=16.10.0"
+    },
+    "devDependencies": {
+        "@iota-wiki/cli": "latest"
+    },
+    "packageManager": "yarn@3.2.0"
+}

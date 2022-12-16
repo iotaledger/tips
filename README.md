@@ -8,7 +8,7 @@ Building the IOTA ecosystem is a community effort, therefore we welcome anyone t
 
 Do you have an idea how to improve the IOTA technology stack?
 - Head over to the [discussions](https://github.com/iotaledger/tips/discussions) page to browse already submitted ideas or share yours!
-- Once your idea is discussed, you can submit a draft TIP ([template here](./tip-template.md)) as a PR to the repository.
+- Once your idea is discussed, you can submit a draft TIP ([template here](https://github.com/iotaledger/tips/blob/main/tip-template.md) as a PR to the repository.
 - You will receive feedback from the TIP Editors and review from core devs.
 - Once accepted, your TIP is merged as Draft.
 - It is your responsibility to drive its implementation and to present a clear plan on how the new feature will be adopted by the network.
