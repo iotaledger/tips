@@ -922,7 +922,7 @@ paths:
         - UTXO
       summary: Find the metadata of the included message of a transaction.
       description: >-
-        Find the metadata of the included message of a transaction..
+        Find the metadata of the included message of a transaction.
       parameters:
         - in: path
           name: transactionId
