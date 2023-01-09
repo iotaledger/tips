@@ -647,6 +647,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
+  '/api/core/v2/transactions/{transactionId}/included-block/metadata':
+    get:
+      tags:
+        - UTXO
+      summary: Find the metadata of the included block of a transaction.
+      description: >-
+        Find the metadata of the included block of a transaction.
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: string
+          example: "0xaf7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef"
+          required: true
+          description: Identifier of the transaction to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockMetadataResponse'
+              examples:
+                default:
+                  $ref: >-
+                    #/components/examples/get-block-by-id-response-example-included
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
 
   '/api/core/v2/milestones/{milestoneId}':
     get:
@@ -1549,8 +1605,8 @@ components:
           transactionId: "0x1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298"
           outputIndex: 1
           isSpent: false
-          milestoneIndexBooked: 1234567
-          milestoneTimestampBooked: 1643207146
+          milestoneIndexBooked: 946699
+          milestoneTimestampBooked: 1643207130
           ledgerIndex: 946704
         output:
           type: 3
@@ -1568,11 +1624,11 @@ components:
           transactionId: "0xfa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a2"
           outputIndex: 1
           isSpent: true
-          milestoneIndexSpent: 1234570
+          milestoneIndexSpent: 946700
           milestoneTimestampSpent: 1643207176
           transactionIdSpent: "0xaf7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef"
-          milestoneIndexBooked: 1234567
-          milestoneTimestampBooked: 1643207146
+          milestoneIndexBooked: 946699
+          milestoneTimestampBooked: 1643207130
           ledgerIndex: 946704
         output:
           type: 3
