@@ -2623,7 +2623,7 @@ components:
               description: The milestone index at which this output was spent.
             transactionIdSpent:
               type: string
-              description: The transaction this output was spent with. Hex-encoded with 0x prefix.
+              description: The transaction this output was spent with.
             output:
               anyOf:
                 - $ref: '#/components/schemas/SigLockedSingleOutput'
