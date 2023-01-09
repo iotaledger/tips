@@ -464,10 +464,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/OutputResponse'
               examples:
-                Output Unspent:
-                  $ref: '#/components/examples/get-outputs-by-id-response-example'
-                Output Spent:
-                  $ref: '#/components/examples/get-outputs-by-id-response-example-spent'
+                unspent:
+                  $ref: '#/components/examples/get-outputs-by-id-response-unspent-example'
+                spent:
+                  $ref: '#/components/examples/get-outputs-by-id-response-spent-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -909,6 +909,158 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  '/api/v1/transactions/{transactionId}/included-message/metadata':
+    get:
+      tags:
+        - UTXO
+      summary: Find the metadata of the included message of a transaction.
+      description: >-
+        Find the metadata of the included message of a transaction..
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: string
+          example: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
+          required: true
+          description: Identifier of the transaction to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageMetadataResponse'
+              examples:
+                default:
+                  $ref: >-
+                    #/components/examples/get-message-by-id-response-example-included
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
+  '/api/v1/transactions/{transactionId}/included-message/raw':
+    get:
+      tags:
+        - UTXO
+      summary: Returns the raw bytes of the included message of a transaction.
+      description: >-
+        Returns the raw bytes of the included message of a transaction.
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: string
+          example: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
+          required: true
+          description: Identifier of the transaction to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+              example: >-
+                0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000eb000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000020000016920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92640000000000000000018afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd65d5d2dd3f7df09000000000001000001f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c9095100000000000000
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+  '/api/v1/transactions/{transactionId}/included-message/children':
+    get:
+      tags:
+        - UTXO
+      summary: Returns the children of the included message of a transaction.
+      description: Returns the children of the included message of a transaction.
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: string
+          example: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
+          required: true
+          description: Identifier of the transaction to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageChildrenResponse'
+              examples:
+                Children were found:
+                  $ref: >-
+                    #/components/examples/get-messages-by-id-response-example-children
+                No children were found:
+                  $ref: >-
+                    #/components/examples/get-messages-by-id-response-example-nochildren
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
         '500':
           description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
           content:
@@ -1450,7 +1602,7 @@ components:
           maxResults: 1000
           count: 0
           childrenMessageIds: []
-    get-outputs-by-id-response-example:
+    get-outputs-by-id-response-unspent-example:
       value:
         data:
           messageId: 9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0
@@ -1464,7 +1616,7 @@ components:
               address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
             amount: 1000
           ledgerIndex: 946704
-    get-outputs-by-id-response-example-spent:
+    get-outputs-by-id-response-spent-example:
       value:
         data:
           messageId: 9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0
@@ -1472,7 +1624,7 @@ components:
           outputIndex: 1
           isSpent: true
           milestoneIndexSpent: 946700
-          transactionIdSpent: 6a5843f6c305744d400a9641c2d23ba9633b3e7ece2a50ccf409d50a949d07d2
+          transactionIdSpent: af7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef
           output:
             type: 0
             address:
