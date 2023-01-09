@@ -464,8 +464,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/OutputResponse'
               examples:
-                default:
+                Output Unspent:
                   $ref: '#/components/examples/get-outputs-by-id-response-example'
+                Output Spent:
+                  $ref: '#/components/examples/get-outputs-by-id-response-example-spent'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -1462,6 +1464,22 @@ components:
               address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
             amount: 1000
           ledgerIndex: 946704
+    get-outputs-by-id-response-example-spent:
+      value:
+        data:
+          messageId: 9cd745ef6800c8e8c80b09174ee4b250b3c43dfa62d7c6a4e61f848febf731a0
+          transactionId: 1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298
+          outputIndex: 1
+          isSpent: true
+          milestoneIndexSpent: 946700
+          transactionIdSpent: 6a5843f6c305744d400a9641c2d23ba9633b3e7ece2a50ccf409d50a949d07d2
+          output:
+            type: 0
+            address:
+              type: 0
+              address: 8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d
+            amount: 1000
+          ledgerIndex: 946704
     get-address-balance-response-example:
       value:
         data:
@@ -2448,6 +2466,12 @@ components:
             isSpent:
               type: boolean
               description: Tells if the output is spent or not.
+            milestoneIndexSpent:
+              type: integer
+              description: The milestone index at which this output was spent.
+            transactionIdSpent:
+              type: string
+              description: The transaction this output was spent with. Hex-encoded with 0x prefix.
             output:
               anyOf:
                 - $ref: '#/components/schemas/SigLockedSingleOutput'
