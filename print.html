@@ -6897,7 +6897,7 @@ However, in order to solve scalability issues more and more transactions need to
 <p>Therefore, a new transaction validation rule is introduced which replaces the former <code>dust protection</code> solution completely.</p>
 <p>Blocks including payloads, even transaction payloads, are considered to be pruned by the nodes, but unspent transaction outputs must be kept until they are spent. Therefore the <code>dust protection</code> is based on the unspent outputs only.</p>
 <p><strong>Every output created by a transaction needs to have at least a minimum amount of IOTA coins deposited in the output itself, otherwise the output is syntactically invalid.</strong></p>
-<p>min_deposit_of_output = ⌊v_byte_cost · v_byte⌋
+<p>min_deposit_of_output = ⌊v_byte_cost · v_byte⌋<br />
 v_byte = ∑(weight<sub>𝑖</sub> · byte_size<sub>𝑖</sub>) + offset</p>
 <p>where:</p>
 <ul>
