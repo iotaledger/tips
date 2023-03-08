@@ -32,6 +32,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../../";
@@ -69,10 +70,12 @@
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -373,11 +376,11 @@ for interconnected layer 2 blockchains and applications.</p>
 <p>The <i>Transaction Essence</i> of a <i>Transaction Payload</i> carries the inputs, outputs, and an optional payload. The <i>Transaction Essence</i> is an explicit type and therefore starts with its own <i>Transaction Essence Type</i> byte which is of value 1 for <i>TIP-20 Transaction Essence</i>.</p>
 <h4 id="network-id"><a class="header" href="#network-id">Network ID</a></h4>
 <p>The <code>Network ID</code> field of the transaction essence serves as a <a href="https://github.com/iotaledger/tips/discussions/56">replay protection mechanism</a>.
-It is a unique value denoting whether the transaction was meant for the IOTA mainnet, shimmer, testnet, or a private network. It consists of the first 8 bytes of the BLAKE2b-256 hash of the <code>Network Name</code> protocol parameter, interpreted as an unsigned integer number.</p>
+It is a unique value denoting whether the transaction was meant for the IOTA mainnet, shimmer, testnet-1, or a private network. It consists of the first 8 bytes of the BLAKE2b-256 hash of the <code>Network Name</code> protocol parameter, interpreted as an unsigned integer number.</p>
 <div class="table-wrapper"><table><thead><tr><th>Network Name</th><th>Resulting <code>Network ID</code></th><th>Network Name defined in</th></tr></thead><tbody>
 <tr><td><code>iota-mainnet</code></td><td><code>9374574019616453254</code></td><td><a href="../TIP-0022/tip-0022.html#detailed-design">TIP-22</a></td></tr>
 <tr><td><code>shimmer</code></td><td><code>14364762045254553490</code></td><td><a href="../TIP-0032/tip-0032.html#global-parameters">TIP-32</a></td></tr>
-<tr><td><code>testnet</code></td><td><code>8342982141227064571</code></td><td>-</td></tr>
+<tr><td><code>testnet-1</code></td><td><code>1856588631910923207</code></td><td>-</td></tr>
 <tr><td><code>example-mynetwork</code></td><td><code>1967754805504104511</code></td><td>-</td></tr>
 </tbody></table>
 </div>
@@ -679,5 +682,6 @@ reason for having an invalid signature and transaction. With the current solutio
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>
