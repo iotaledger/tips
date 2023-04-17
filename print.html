@@ -4259,12 +4259,10 @@ increases the required storage deposit. ISC is a great example of a higher layer
 </table>
 <h4 id="tag-feature"><a class="header" href="#tag-feature">Tag Feature</a></h4>
 <p>A <i>Tag Feature</i> makes it possible to tag outputs with an index, so they can be retrieved through an indexer API not
-only by their address, but also based on the the <code>Tag</code>. <strong>The combination of a <i>Tag Feature</i>, a
+only by their address, but also based on the <code>Tag</code>. <strong>The combination of a <i>Tag Feature</i>, a
 <i>Metadata Feature</i> and a <i>Sender Feature</i> makes it possible to retrieve data associated to an address and stored
 in outputs that were created by a specific party (<code>Sender</code>) for a specific purpose (<code>Tag</code>).</strong></p>
 <p>An example use case is voting on the Tangle via the <a href="https://github.com/iota-community/treasury/blob/main/specifications/hornet-participation-plugin.md">participation</a> plugin.</p>
-<p>Storing indexed data in outputs however incurs greater storage deposit for such outputs, because they create look-up
-entries in nodes' databases.</p>
 <h5 id="additional-syntactic-transaction-validation-rules-3"><a class="header" href="#additional-syntactic-transaction-validation-rules-3">Additional syntactic transaction validation rules:</a></h5>
 <ul>
 <li>An output with <i>Tag Feature</i> is valid, if and only if 0 &lt; <code>length(Tag)</code> ≤
