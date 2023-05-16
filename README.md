@@ -69,6 +69,7 @@ more improvements. Browse the [list of TIPs](#list-of-tips) below with the _Star
 | 34  | [Wotsicide (Stardust update)](tips/TIP-0034/tip-0034.md)                  | Define migration from legacy W-OTS addresses to post-Chrysalis networks. Replaces TIP-17.                                                      | Standards | Core      | Proposed | **Stardust**   |
 | 35  | [Local Snapshot File Format (Stardust Update)](tips/TIP-0035/tip-0035.md) | File format to export/import ledger state. Replaces TIP-9.                                                                                     | Standards | Interface | Proposed | **Stardust**   |
 | 37  | [Dynamic Proof-of-Work](https://github.com/iotaledger/tips/pull/81)       | Dynamically adapt the PoW difficulty                                                                                                           | Standards | Core      | Draft    | **Stardust**   |
+| 47  | [Storage Deposit Dust Protection (IOTA 2.0)](tips/TIP-0047/tip-0047.md)   | Prevent bloating the ledger size with dust outputs                                                                                             | Standards | Core      | Draft | **IOTA 2.0**   |
 
 ## Need help?
 
