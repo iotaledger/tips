@@ -2222,14 +2222,14 @@ components:
     NativeToken:
       description: A native token and its balance in the output.
       properties:
-        tokenId:
+        id:
           type: string
           description: Hex-encoded identifier with 0x prefix of the native token. Same as foundryId of the controlling foundry.
         amount:
           type: string
           description: Amount of native tokens (up to uint256). Hex-encoded number with 0x prefix.
       required:
-        - tokenId
+        - id
         - amount
 
     Ed25519Address:
