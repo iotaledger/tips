@@ -390,7 +390,7 @@ version or PoW difficulty.</p>
 <ul>
 <li><code>Index Number</code> must increment by <code>1</code>. </li>
 <li><code>Timestamp</code> must be strictly larger (i.e. at least one second later).</li>
-<li><code>Inlcusion Merkle Root</code> must match the Merkle tree hash of the IDs of all blocks in <em>White Flag Ordering</em> (as described in <a href="../TIP-0002/tip-0002.html#deterministically-ordering-the-tangle">TIP-2</a>) that are newly referenced. (This always includes at least one valid milestone block with <code>Previous Milestone ID</code>.)</li>
+<li><code>Inclusion Merkle Root</code> must match the Merkle tree hash of the IDs of all blocks in <em>White Flag Ordering</em> (as described in <a href="../TIP-0002/tip-0002.html#deterministically-ordering-the-tangle">TIP-2</a>) that are newly referenced. (This always includes at least one valid milestone block with <code>Previous Milestone ID</code>.)</li>
 <li><code>Applied Merkle Root</code> must match the Merkle tree hash of the not-ignored state-mutating transactions that are newly referenced (see <a href="../TIP-0002/tip-0002.html">TIP-2</a>).</li>
 </ul>
 </li>
