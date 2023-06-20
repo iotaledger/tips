@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/iotaledger/tips/main/tips/TIP-0038/irc38.schema.json",
+    "title": "JSON Schema to define layer-3 JSON standards",
+    "description": "JSON Schema to define layer-3 JSON standards",
+    "type": "object",
+    "properties": {
+        "standard": {
+            "type": "string",
+            "description": "identifier for the metadata standard used",
+        },
+        "version": {
+            "type": "string",
+            "description": "version of the standard used",
+            "pattern": "^v\\d+.\\d+$"
+        }
+    },
+    "required": [ "standard" ]
+}
