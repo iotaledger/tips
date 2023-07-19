@@ -103,6 +103,63 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
+  '/api/core/v3/accounts/{accountId}':
+    get:
+      tags:
+        - accounts
+      summary: Get Block Issuance Credits balance for an account of the given slot index.
+      description: >-
+        Get Block Issuance Credits balance for an account of the given slot index. If slot index is not provided, current slot index will be used.
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: string
+          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          required: true
+          description: Identifier of the account.
+        - in: query
+          name: slotIndex
+          schema:
+            type: integer
+          example: 1622568540
+          required: false
+          description: The slot index for which the Block Issuance Credits balance should be returned.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockIssuanceCreditResponse'
+              examples:
+                BlockIssuanceCreditResponse:
+                  $ref: '#/components/examples/get-block-issuance-credits-response-example'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
+
   '/api/core/v3/accounts/{accountId}/congestion':
     get:
       tags:
@@ -1286,29 +1343,30 @@ components:
     
     get-committee-example:
       value:
+        epochIndex: 100
         totalStake: 900000000
         totalValidatorStake: 60000000
-        validators:
+        committee:
           - accountId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
             poolStake: 200000
             validatorStake: 100000
             fixedCost: 50000
-            latestSupportedProtocolVersion: 3
           - accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
             poolStake: 205000
             validatorStake: 90000
             fixedCost: 52000
-            latestSupportedProtocolVersion: 3
 
     get-staker-list-example:
       value:
         stakers:
           - accountId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+            stakingEpochEnd: 100
             poolStake: 200000
             validatorStake: 100000
             fixedCost: 50000
             latestSupportedProtocolVersion: 3
           - accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+            stakingEpochEnd: 100
             poolStake: 205000
             validatorStake: 90000
             fixedCost: 52000
@@ -1317,6 +1375,7 @@ components:
     get-staker-example:
       value:
         accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+        stakingEpochEnd: 100
         poolStake: 205000
         validatorStake: 90000
         fixedCost: 52000
@@ -1324,8 +1383,13 @@ components:
 
     get-account-rewards-example:
       value:
-        currentEpochIndex: 60
+        epochIndex: 60
         rewards: 800000
+
+    get-block-issuance-credits-response-example:
+      value:
+        slotIndex: 20
+        blockIssuanceCredits: 10000000
 
     get-congestion-estimate-response-example:
       value:
@@ -2728,9 +2792,9 @@ components:
     ManaRewardsResponse:
       description: Returns the mana rewards of an account or delegation output.
       properties:
-        currentEpochIndex:
+        epochIndex:
           type: integer
-          description: The epoch index of current time.
+          description: The epoch index for which the mana rewards are returned.
         rewards:
           type: integer
           description: The amount of totally available rewards the requested output may claim.
@@ -2746,18 +2810,37 @@ components:
     CommitteeResponse:
       description: Returns the validator information of the committee.
       properties:
+        epochIndex:
+          type: integer
+          description: The epoch index of the committee.
         totalStake:
           type: integer
           description: The total amount of delegated and staked IOTA tokens in the selected committee.
         totalValidatorStake:
           type: integer
           description: The total amount of staked IOTA tokens in the selected committee.
-        validators:
+        committee:
           type: array
           description: The validators of the committee.
           items:
             oneOf:
-              - $ref: '#/components/schemas/Validator'
+              - $ref: '#/components/schemas/CommitteeMemeber'
+
+    CommitteeMemeber:
+      description: Returns information of a validator.
+      properties:
+        accountId: 
+          type: string
+          description: The account identifier of the validator
+        poolStake:
+          type: integer
+          description: The total stake of the pool, including delegators.
+        validatorStake:
+          type: integer
+          description: The stake of a validator.
+        fixedCost:
+          type: integer
+          description: The fixed cost of the validator, which it receives as part of its Mana rewards.
 
     Validator:
       description: Returns information of a validator.
@@ -2765,6 +2848,9 @@ components:
         accountId: 
           type: string
           description: The account identifier of the validator
+        stakingEpochEnd:
+          type: integer
+          description: The epoch index until which the validator registered to stake.
         poolStake:
           type: integer
           description: The total stake of the pool, including delegators.
@@ -2801,6 +2887,19 @@ components:
           description: The latest finalized slot index.
         commitment:
           $ref: '#/components/schemas/Commitment'
+
+    BlockIssuanceCreditResponse:
+      description: Provides the cost and readiness to issue estimates.
+      properties:
+        slotIndex:
+          type: integer
+          description: The slot index for which the Block Issuance Credits estimate is provided.
+        blockIssuanceCredits:
+          type: integer
+          description: The Block Issuance Credits of the requested account.
+      required:
+        - slotIndex
+        - blockIssuanceCredits
 
     CongestionResponse:
       description: Provides the cost and readiness to issue estimates.
