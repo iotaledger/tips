@@ -1091,18 +1091,17 @@ components:
       value:
         name: Example Node
         version: 1.0.0
-        accountId: "0x11a37a8e65fe5dca25cbeb896000eca615eaf88b97ca8dc70d8b1839b53dbf1c"
         status:
           isHealthy: true
-          lastAcceptedBlockId: "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
-          lastConfirmedBlockId: "0x59daaaba1cd10cd268966376e17710d100c90826fe258753d461acac99b7e3341500000000000000"
-          finalizedSlot: 100
           acceptedTangleTime: 1682328545
           relativeAcceptedTangleTime: 1682328550
           confirmedTangleTime: 1682328525
           relativeConfirmedTangleTime: 1682328535
           latestCommittedSlot: 107
+          latestFinalizedSlot: 100
           pruningSlot: 20
+          latestAcceptedBlockId: "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
+          latestConfirmedBlockId: "0x59daaaba1cd10cd268966376e17710d100c90826fe258753d461acac99b7e3341500000000000000"
         metrics:
           blocksPerSecond: 17
           confirmedBlocksPerSecond: 16.2
@@ -1111,18 +1110,33 @@ components:
           - 2
           - 3
         protocol:
-          networkName: iota-core-testnet
-          bech32Hrp: rms
-          tokenSupply: "2779530283277761"
           version: 3
-          minPowScore: 1000
-          belowMaxDepth: 15
+          networkName: iota-core-testnet
+          bech32Hrp: rms                    
           rentStructure:
             vByteCost: 500
             vByteFactorData: 1
             vByteFactorKey: 10
+          tokenSupply: "2779530283277761"
           genesisUnixTimestamp: 1582328545
           slotDurationInSeconds: 10
+          slotsPerEpochExponent: 13
+          manaGenerationRate: 1
+          manaGenerationRateExponent: 0
+          manaDecayFactors:
+            - 10
+            - 20
+          manaDecayFactorsExponent: 0
+          manaDecayFactorEpochsSum: 0
+          manaDecayFactorEpochsSumExponent: 0
+          stakingUnbondingPeriod: 10
+          evictionAge: 6
+          livenessThreshold: 5
+          epochNearingThreshold: 30
+          versionSignaling:
+            windowSize: 7
+            windowTargetRatio: 5
+            activationOffset: 7
         baseToken:
           baseToken:
           name: "Shimmer"
@@ -2580,25 +2594,13 @@ components:
           description: The name of the node.
         version:
           type: string
-          description: The semantic version of the node.
-        accountId:
-          type: string
-          description: The account identifier of the node.        
+          description: The semantic version of the node.       
         status:
           description: Status of the node.
           properties:
             isHealthy:
               type: boolean
               description: Tells whether the node is healthy or not.
-            lastAcceptedBlockId:
-              description: The identifier of the latest accepted block.
-              type: string
-            lastConfirmedBlockId:
-              description: The identifier of the latest confirmed block.
-              type: string
-            finalizedSlot:
-              description: The index of latest confirmed slot.
-              type: integer
             acceptedTangleTime:
               description: A notion of time that is anchored to the latest accepted block.
               type: integer
@@ -2613,14 +2615,23 @@ components:
               type: integer
             latestCommittedSlot:
               type: object
-              description: The latest slot that the node has committed to.
+              description: The latest slot that the node has committed to.  
+            latestFinalizedSlot:
+              description: The index of latest confirmed slot.
+              type: integer
             pruningSlot:
               type: integer
               description: The index of the slot before which the tangle history is pruned.
+            latestAcceptedBlockId:
+              description: The identifier of the latest accepted block.
+              type: string
+            latestConfirmedBlockId:
+              description: The identifier of the latest confirmed block.
+              type: string
           required:
             - isHealthy
             - latestCommittedSlot
-            - finalizedSlot
+            - latestFinalizedSlot
             - pruningSlot
         metrics:
           description: Node metrics.
@@ -2649,22 +2660,15 @@ components:
         protocol:
           description: Protocol parameters.
           properties:
+            version:
+              type: integer
+              description: Protocol version used by the network.
             networkName:
               type: string
               description: The Name of the network from which the networkId is derived.
             bech32Hrp:
               type: string
               description: Tells whether the node supports mainnet or testnet addresses. Value `iota` indicates that the node supports mainnet addresses. Value `atoi` indicates that the node supports testnet addresses.
-            tokenSupply:
-              type: string
-              description: Current supply of base token. Plain string encoded number.
-            version:
-              type: integer
-              description: Protocol version used by the network.
-            minPowScore:
-              description: The Proof-of-Work difficulty for a block to be sent over the network to mitigate spam.
-              type: number
-              format: float
             rentStructure:
               description: The rent structure according to TIP-19.
               properties:
@@ -2681,6 +2685,9 @@ components:
                 - vByteCost
                 - vByteFactorData
                 - vByteFactoKey
+            tokenSupply:
+              type: string
+              description: Current supply of base token. Plain string encoded number.
             genesisUnixTimestamp:
               type: integer
               description: The genesis timestamp at which the slots start to count.
@@ -2722,15 +2729,26 @@ components:
             epochNearingThreshold:
               type: number
               description: Determine the slot that should trigger a new committee selection for the next and upcoming epoch.
+            versionSignaling:
+              description: The version signaling parameters.
+              properties:
+                windowSize:
+                  type: number
+                windowTargetRatio:
+                  type: number
+                activationOffset:
+                  type: number
+              required:
+                - windowSize
+                - windowTargetRatio
+                - activationOffset
           required:
+            - version
             - networkName
             - bech32Hrp
             - tokenSupply
-            - protocolVersion
-            - minPowScore
             - rentStructure
-            - version
-            - genesisSlotIndex
+            - genesisUnixTimestamp
             - slotDurationInSeconds
             - epochNearingThreshold
         baseToken:
