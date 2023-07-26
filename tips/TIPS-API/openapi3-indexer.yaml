@@ -79,14 +79,14 @@ paths:
           name: timelockedBefore
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that are timelocked before a certain Unix timestamp.
+          example: 150
+          description: Return outputs that are timelocked before a certain slot index.
         - in: query
           name: timelockedAfter
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that are timelocked after a certain Unix timestamp.
+          example: 200
+          description: Return outputs that are timelocked after a certain slot index.
         - in: query
           name: hasExpiration
           schema:
@@ -97,14 +97,14 @@ paths:
           name: expiresBefore
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that expire before a certain Unix timestamp.
+          example: 200
+          description: Return outputs that expire before a certain slot index.
         - in: query
           name: expiresAfter
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that expire after a certain Unix timestamp.
+          example: 200
+          description: Return outputs that expire after a certain slot index.
         - in: query
           name: expirationReturnAddress
           schema:
@@ -128,14 +128,14 @@ paths:
           name: createdBefore
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created before a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created before a certain slot index.
         - in: query
           name: createdAfter
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created after a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created after a certain slot index.
         - in: query
           name: pageSize
           schema:
@@ -238,14 +238,14 @@ paths:
           name: createdBefore
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created before a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created before a certain slot index.
         - in: query
           name: createdAfter
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created after a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created after a certain slot index.
         - in: query
           name: pageSize
           schema:
@@ -368,14 +368,14 @@ paths:
           name: createdBefore
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created before a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created before a certain slot index.
         - in: query
           name: createdAfter
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created after a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created after a certain slot index.
         - in: query
           name: pageSize
           schema:
@@ -460,14 +460,14 @@ paths:
           name: createdBefore
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created before a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created before a certain slot index.
         - in: query
           name: createdAfter
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created after a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created after a certain slot index.
         - in: query
           name: pageSize
           schema:
@@ -633,14 +633,14 @@ paths:
           name: timelockedBefore
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that are timelocked before a certain Unix timestamp.
+          example: 200
+          description: Return outputs that are timelocked before a certain slot index.
         - in: query
           name: timelockedAfter
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that are timelocked after a certain Unix timestamp.
+          example: 200
+          description: Return outputs that are timelocked after a certain slot index.
         - in: query
           name: hasExpiration
           schema:
@@ -651,14 +651,14 @@ paths:
           name: expiresBefore
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that expire before a certain Unix timestamp.
+          example: 200
+          description: Return outputs that expire before a certain slot index.
         - in: query
           name: expiresAfter
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that expire after a certain Unix timestamp.
+          example: 200
+          description: Return outputs that expire after a certain slot index.
         - in: query
           name: expirationReturnAddress
           schema:
@@ -676,14 +676,14 @@ paths:
           name: createdBefore
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created before a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created before a certain slot index.
         - in: query
           name: createdAfter
           schema:
             type: integer
-          example: 1643383242
-          description: Return outputs that were created after a certain Unix timestamp.
+          example: 200
+          description: Return outputs that were created after a certain slot index.
         - in: query
           name: pageSize
           schema:
