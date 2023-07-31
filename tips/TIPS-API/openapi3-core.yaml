@@ -1473,6 +1473,7 @@ components:
             address:
               type: 0
               pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
+        mana: "2000"
 
     get-output-metadata-by-id-response-unspent-example:
       value:
@@ -1496,10 +1497,10 @@ components:
 
     get-commitment-response-example:
       value:
-        index: 986
+        index: '986'
         prevId: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
         rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
-        cumulativeWeight: 78901
+        cumulativeWeight: '78901'
 
     get-commitment-response-binary-example:
       value: "070000000a1a0000977c626276b19ef8b3c445709f2f0f2ccc4abb98d97617f421f240c0d1ee066d4306e67a0321889ef8ec89b7eff1378049e058f0fa87a78c2452ae72631a5a99d913d1cbb3525b8faa1800e28dfcb28154bcba10154c39ef87ceda793cb44f58ae1549c88ea13fe4a9695bb6f0aba6cb756522209e5066a96039ae12b398b975693bdc21e222997c86ff9bfc5844f0372d58ff6fa510688e53c181bbdf4db41f9b627540a70e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a80000000300d85e5b1590d898d1e0cdebb2e3b5337c8b76270142663d78811683ba47c17c989ad7a8f0ff2c6438bf435786d4a5b0125a5caf7367061b49a739389d5ebea234c0466c86f88a3f8add03bff04c2e34b214683f2f6983641e1d1185da7e2c3e0200d9922819a39e94ddf3907f4b9c8df93f39f026244fcb609205b9a879022599f218be2536d8b7b8547faa3dbdfe98339ebe9e2b2417a8a03eee02b2a8312b9e026dd0a33261a58a240cd0a1b06cdf1775d98d316f162d3eec402f4bf08bea2a0700f9d9656a60049083eef61487632187b351294c1fa23d118060d813db6d03e8b6ca8180d435708e826bc2042ccd667babb59c5cc461ff29dba966359fcd6fc511cdfdf10d6576f36ac2a6e5cb691e13968c13947ffbd9239939d3802b2fbe0f06"
@@ -1798,7 +1799,7 @@ components:
               - $ref: '#/components/schemas/MetadataFeature'
               - $ref: '#/components/schemas/TagFeature'
         mana:
-          type: integer
+          type: string
           description: The stored mana held by the output.
       required:
         - type
@@ -1883,7 +1884,7 @@ components:
             plain string.
           example: '100'
         delegatedAmount:
-          type: integer
+          type: string
           description: The amount of IOTA tokens that were delegated when the output was created.
         delegationId:
           type: string
@@ -1896,15 +1897,15 @@ components:
             The Account ID of the validator to which this output is delegating.
           example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
         startEpoch:
-          type: integer
+          type: string
           description: >-
             The index of the first epoch for which this output delegates.
-          example: 10
+          example: '10'
         endEpoch:
-          type: integer
+          type: string
           description: >-
             The index of the last epoch for which this output delegates.
-          example: 12
+          example: '12'
         unlockConditions:
           type: array
           description: >-
@@ -1923,9 +1924,9 @@ components:
             anyOf:
               - $ref: '#/components/schemas/IssuerFeature'
         mana:
-          type: integer
+          type: string
           description: The stored mana held by the output.
-          example: 3000
+          example: '3000'
       required:
         - type
         - amount
@@ -1980,7 +1981,7 @@ components:
             anyOf:
               - $ref: '#/components/schemas/MetadataFeature'
         mana:
-          type: integer
+          type: string
           description: The stored mana held by the output.
       required:
         - type
@@ -2914,7 +2915,7 @@ components:
       description: An object embedded to a block.
       properties:
         index:
-          type: integer
+          type: string
           description: The slot index of the commitment.
         prevId:
           type: string
@@ -2923,7 +2924,7 @@ components:
           type: string
           description: The digest of multiple merkle roots within this slot.
         cumulativeWeight:
-          type: integer
+          type: string
           description: 
             The sum of previous slot commitment cumulative weight and 
             weight of issuers of accepted blocks within this slot. 
