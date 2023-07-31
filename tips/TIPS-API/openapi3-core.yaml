@@ -164,7 +164,7 @@ paths:
     get:
       tags:
         - rewards
-      summary: Returns the totally available Mana rewards of an account  or delegation output. 
+      summary: Returns the totally available Mana rewards of an account or delegation output. 
       description: >-
         Returns the totally available Mana rewards of an account or delegation output up until the current epoch index. Note that rewards for an epoch only become available at the beginning of the next epoch. If the end epoch of a staking feature is equal or greater than the current epoch, the rewards response will not include the potential future rewards for those epochs.
       parameters:
@@ -184,7 +184,7 @@ paths:
                 $ref: '#/components/schemas/ManaRewardsResponse'
               examples:
                 CongestionResponse:
-                  $ref: '#/components/examples/get-account-rewards-example'
+                  $ref: '#/components/examples/get-mana-rewards-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -1040,11 +1040,11 @@ components:
           relativeAcceptedTangleTime: 1682328550
           confirmedTangleTime: 1682328525
           relativeConfirmedTangleTime: 1682328535
-          latestCommittedSlot: 107
+          latestCommitmentID: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
           latestFinalizedSlot: 100
           pruningSlot: 20
-          latestAcceptedBlockId: "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
-          latestConfirmedBlockId: "0x59daaaba1cd10cd268966376e17710d100c90826fe258753d461acac99b7e3341500000000000000"
+          latestAcceptedBlockSlot: 100
+          latestConfirmedBlockSlot: 95
         metrics:
           blocksPerSecond: 17
           confirmedBlocksPerSecond: 16.2
@@ -1338,7 +1338,7 @@ components:
         fixedCost: 52000
         latestSupportedProtocolVersion: 3
 
-    get-account-rewards-example:
+    get-mana-rewards-example:
       value:
         epochIndex: 60
         rewards: 800000
@@ -2551,8 +2551,8 @@ components:
             relativeConfirmedTangleTime:
               description: The Confirmed Tangle Time after it has advanced with the system clock.
               type: integer
-            latestCommittedSlot:
-              type: object
+            latestCommitmentId:
+              type: string
               description: The latest slot that the node has committed to.  
             latestFinalizedSlot:
               description: The index of latest confirmed slot.
@@ -2560,15 +2560,15 @@ components:
             pruningSlot:
               type: integer
               description: The index of the slot before which the tangle history is pruned.
-            latestAcceptedBlockId:
-              description: The identifier of the latest accepted block.
-              type: string
-            latestConfirmedBlockId:
-              description: The identifier of the latest confirmed block.
+            latestAcceptedBlockSlot:
+              description: The slot index of the latest accepted block.
+              type: integer
+            latestConfirmedBlockSlot:
+              description: The slot index of the latest confirmed block.
               type: string
           required:
             - isHealthy
-            - latestCommittedSlot
+            - latestCommitmentId
             - latestFinalizedSlot
             - pruningSlot
         metrics:
