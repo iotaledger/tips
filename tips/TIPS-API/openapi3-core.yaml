@@ -1039,19 +1039,19 @@ components:
         version: 1.0.0
         status:
           isHealthy: true
-          acceptedTangleTime: 1682328545
-          relativeAcceptedTangleTime: 1682328550
-          confirmedTangleTime: 1682328525
-          relativeConfirmedTangleTime: 1682328535
+          acceptedTangleTime: '1682328545'
+          relativeAcceptedTangleTime: '1682328550'
+          confirmedTangleTime: '1682328525'
+          relativeConfirmedTangleTime: '1682328535'
           latestCommitmentID: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
-          latestFinalizedSlot: 100
-          pruningSlot: 20
-          latestAcceptedBlockSlot: 100
-          latestConfirmedBlockSlot: 95
+          latestFinalizedSlot: '100'
+          latestAcceptedBlockSlot: '100'
+          latestConfirmedBlockSlot: '95'
+          pruningSlot: '20'
         metrics:
-          blocksPerSecond: 17
-          confirmedBlocksPerSecond: 16.2
-          confirmedRate: 98.82352941176471
+          blocksPerSecond: '17'
+          confirmedBlocksPerSecond: '16.2'
+          confirmedRate: '98.82352941176471'
         supportedProtocolVersions:
           - 2
           - 3
@@ -1063,8 +1063,21 @@ components:
             vByteCost: 500
             vByteFactorData: 1
             vByteFactorKey: 10
+          workScoreStructure:
+            dataByte: 1
+            block: 100
+            missingParent: 500
+            input: 20
+            contextInput: 20
+            output: 20
+            nativeToken: 20
+            staking: 100
+            blockIssuer: 100
+            allotment: 100
+            signatureEd25519: 200
+            minStrongParentsThreshold: 4
           tokenSupply: "2779530283277761"
-          genesisUnixTimestamp: 1582328545
+          genesisUnixTimestamp: "1582328545"
           slotDurationInSeconds: 10
           slotsPerEpochExponent: 13
           manaGenerationRate: 1
@@ -1075,10 +1088,10 @@ components:
           manaDecayFactorsExponent: 0
           manaDecayFactorEpochsSum: 0
           manaDecayFactorEpochsSumExponent: 0
-          stakingUnbondingPeriod: 10
-          evictionAge: 6
-          livenessThreshold: 5
-          epochNearingThreshold: 30
+          stakingUnbondingPeriod: '10'
+          evictionAge: '6'
+          livenessThreshold: '5'
+          epochNearingThreshold: '30'
           versionSignaling:
             windowSize: 7
             windowTargetRatio: 5
@@ -1105,12 +1118,12 @@ components:
         shallowLikeParents:
           - "0xdbf86c778d69f413296c2d4d3086d76c74bf4d719e6e95c03a3d9a955ed39bcf3e00000000000000"
           - "0xf15b2ec698e396c9d2e69bc753246631aedebb657da09ba0e0c8d42518a1e8953e00000000000000"
-        latestFinalizedSlot: 1422
+        latestFinalizedSlot: '1422'
         commitment:
-          index: 1432
+          index: '1432'
           prevId: "0xbf07dc16986166953f5a72c19d78642aab6cbde63964a2369ec3d425144eb42b3800000000000000"
           rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
-          cumulativeWeight: 45678
+          cumulativeWeight: '45678'
 
     post-blocks-response-example:
       value:
@@ -1195,145 +1208,133 @@ components:
     post-tagged-data-block-request-example-full:
       value:
         protocolVersion: 3
-        networkId: 10
-        strongParents:
-          - "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
-          - "0x408a53af982c49d1398ab5c5b5f5b390d4c4da7da48b61bb9ba7f97c1e8dd7f60000000000000000"
-        weakParents:
-          - "0xe8a904ce3ee081f20a68bb38b2d406cfd138775ba52ea555d93a4e4d4b0ad8440000000000000000"
-          - "0xbce912a0f383cd07660d3c08f3d3f3c7fb9de31e2cc1b93d4c29332ef693ba0c0000000000000000"
-        shallowLikeParents:
-          - "0x0276d29ec6b3cbbf3ed6d1f01af8e29b9c6a9ee9c9375e8e5b5b5c5b5b5d45580000000000000000"
-          - "0x70a5ce5d8fc3290a9885b1af5d8766d51db89a67a6a839f6d23a6cb8d6f3b6e30000000000000000"
-        accountId: "0x11a37a8e65fe5dca25cbeb896000eca615eaf88b97ca8dc70d8b1839b53dbf1c"
-        issuerPublicKey: "0xc6c83a78d06263ca937f21056a32d9b3099d04f0c92863d8b8dceabdd1421d2a"
-        issuingTime: 1649442459
-        commitment:
-          index: 110
-          prevId: "0x78bf1e6c30c6ed9192fa07e1466c09a10e9ea6c58d3b1b6c61a259f1a6f569ed0000000000000000"
-          rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
-          cumulativeWeight: 12345
-        latestFinalizedSlot: 98
-        payload:
-          type: 5
-          tag: "0x72616e646f6d207461673a206769746875622e636f6d"
-          data: "0x5468697320697320616e206578616d706c6520746578742077616c6c20776974682070726f746f636f6c20332e"
-        nonce: "105368"
-        signature: "0xd2215b9307c272eb12ea42c18768b9e133ed5b674abc23c577f5096520e433c807930497ed3f90498a7c82bbc1a730f20201413b10a30cd8737403fdbb63bf874966ca205f25e790a8860fbc152a9775e430b9618cd6282d2a0d29969412de07"
-
+        networkId: "0"
+        issuingTime: "2023-08-01T01:56:56.203902095Z"
+        slotCommitment: "0x97c77ddb20d016826c1b6a403c5dee96f5b2acaa393bf0d118ec38f953a4cf3c6900000000000000"
+        latestFinalizedSlot: "104"
+        issuerId: "0x7a9ec5d9c0c145bae03b20cbe481cfea306e688c00525b410eb8cb18a169ed7f"
+        block: 
+          type: 1
+          strongParents:
+            - "0x447fea1555fccb0dbf1e0cefb226373f5367ad352ef27d04b15626a94a460da37000000000000000"
+            - "0xca1aad47e73e2e4779b6a24fb6938a85b68c940086f1fddc130cffffe14be9bd7000000000000000"
+          weakParents: []
+          shallowLikeParents: []
+          payload:
+            type: 5
+            tag: "0x4143544956495459"
+            data: ""
+          burnedMana: "0"
+        signature:
+          type: 0
+          publicKey: "0xcb5ea14175ce649149ee41217c44aa70c3205b9939968449eae408727a71f91b"
+          signature: "0x36787969fa4b74c4ccdfc8940e0a44f0cbb733e8a26bde130f57d40f58f136c710cecf063ff73cb7c73604d9e260cb02908cd8cdb54f4177e7c1da26533a090e"
 
     post-transaction-block-request-example-full:
       value:
         protocolVersion: 3
-        networkId: 10
-        strongParents:
-          - "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
-          - "0x408a53af982c49d1398ab5c5b5f5b390d4c4da7da48b61bb9ba7f97c1e8dd7f60000000000000000"
-        weakParents:
-          - "0xe8a904ce3ee081f20a68bb38b2d406cfd138775ba52ea555d93a4e4d4b0ad8440000000000000000"
-          - "0xbce912a0f383cd07660d3c08f3d3f3c7fb9de31e2cc1b93d4c29332ef693ba0c0000000000000000"
-        shallowLikeParents:
-          - "0x0276d29ec6b3cbbf3ed6d1f01af8e29b9c6a9ee9c9375e8e5b5b5c5b5b5d45580000000000000000"
-          - "0x70a5ce5d8fc3290a9885b1af5d8766d51db89a67a6a839f6d23a6cb8d6f3b6e30000000000000000"
-        accountId: "0x11a37a8e65fe5dca25cbeb896000eca615eaf88b97ca8dc70d8b1839b53dbf1c"
-        issuerPublicKey: "0xc6c83a78d06263ca937f21056a32d9b3099d04f0c92863d8b8dceabdd1421d2a"
-        issuingTime: 1649442459
-        commitment:
-          index: 110
-          prevId: "0x78bf1e6c30c6ed9192fa07e1466c09a10e9ea6c58d3b1b6c61a259f1a6f569ed0000000000000000"
-          rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
-          cumulativeWeight: 12345
-        latestFinalizedSlot: 98
-        payload:
-          type: 6
-          essence:
-            type: 1
-            networkId: "1337133713371337"
-            creationTime: 1649442459
-            inputsCommitment: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
-            inputs:
-              - type: 0
-                transactionId: "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
-                transactionOutputIndex: 0
-              - type: 0
-                transactionId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-                transactionOutputIndex: 0
-              - type: 0
-                transactionId: "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
-                transactionOutputIndex: 0
-            outputs:
-              - type: 3
-                amount: "50000000"
-                unlockConditions:
+        networkId: "3650798313638353144"
+        issuingTime: "2023-08-01T06:01:12.886026643Z"
+        slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+        latestFinalizedSlot: "0"
+        issuerId: "0x6aee704f25558e8aa7630fed0121da53074188abc423b3c5810f80be4936eb6e"
+        block:
+          type: 1
+          strongParents:
+           - "0x52962b53d039371874a38a49190b6392d809b487428b6ed7d1181f20d64562c20600000000000000"
+           - "0xa2355b67865e8d5311a71156528dce15b04eb5e033ef80471edabf3d26bb7b780600000000000000"
+          weakParents: []
+          shallowLikeParents:
+            - "0x52962b53d039371874a38a49190b6392d809b487428b6ed7d1181f20d64562c20600000000000000"
+          payload:
+            type: 6
+            essence:
+              type: 2
+              networkId: "3650798313638353144"
+              creationTime: "6"
+              contextInputs: []
+              inputs: 
                   - type: 0
-                    address:
+                    transactionId: "0x203892452900cc7021e2505003dc44647b352ada0d38f876807c3831ffb2e714"
+                    transactionOutputIndex: 2
+              inputsCommitment: "0xe7fcbd978e99be599866cad157bfb48534ba141677976a966170283e8b4b88bf"
+              outputs:
+                  type: 3
+                  amount: "10000"
+                  mana: "0"
+                  unlockConditions:
                       type: 0
-                      pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
-            payload:
-          unlocks:
-            - type: 0
-              signature:
-                type: 0
-                publicKey: "0x40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092"
-                signature: "0xed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703"
-            - type: 1
-              reference: 0
-            - type: 1
-              reference: 0
-        nonce: "105368"
-        signature: "0xd2215b9307c272eb12ea42c18768b9e133ed5b674abc23c577f5096520e433c807930497ed3f90498a7c82bbc1a730f20201413b10a30cd8737403fdbb63bf874966ca205f25e790a8860fbc152a9775e430b9618cd6282d2a0d29969412de07"
+                      address: 
+                        type: 0
+                        pubKeyHash: "0xcbd7dca348c695cf07f103f0e4e064be4f51f95f12dd028094631999c23b24e9"
+              allotments: []
+              payload:
+                type: 5
+                tag: "0x630375060a661023064c2803"
+                data: "0x630375060a661023064c2803"
+            unlocks:
+              - type: 0
+                signature: 
+                  type: 0
+                  publicKey: "0x281159f405c5c3520592cf729707d5362252e0b0298b1e54e9f193ae25e1f71a"
+                  signature: "0x7bca49300587d58f772e42307bf05ff81fafd194a9192534da4bbb55db0ed04e9ec70d37f5b4a0fa4311d105929e2e6fcfbe4e3a9e82b2ffe1707a0278dcf60e"
+          burnedMana: "0"
+        signature:
+          type: 0
+          publicKey: "0x1e4b21eb51dcddf65c20db1065e1f1514658b23a3ddbf48d30c0efc926a9a648"
+          signature: "0x0dfb21ff7a4ea73f32a6f467a049714645e77eda2a93116c7151c1011ea2905247e05ed6d96279c0d96d4e78dae8a69017f82e989ab82d910199f9b71b30ad01"
     
     get-committee-example:
       value:
-        epochIndex: 100
-        totalStake: 900000000
-        totalValidatorStake: 60000000
+        epochIndex: '100'
+        totalStake: '900000000'
+        totalValidatorStake: '60000000'
         committee:
           - accountId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-            poolStake: 200000
-            validatorStake: 100000
-            fixedCost: 50000
+            poolStake: '200000'
+            validatorStake: '100000'
+            fixedCost: '50000'
           - accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-            poolStake: 205000
-            validatorStake: 90000
-            fixedCost: 52000
+            poolStake: '205000'
+            validatorStake: '90000'
+            fixedCost: '52000'
 
     get-staker-list-example:
       value:
         stakers:
           - accountId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-            stakingEpochEnd: 100
-            poolStake: 200000
-            validatorStake: 100000
-            fixedCost: 50000
+            stakingEpochEnd: '100'
+            poolStake: '200000'
+            validatorStake: '100000'
+            fixedCost: '50000'
             latestSupportedProtocolVersion: 3
           - accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-            stakingEpochEnd: 100
-            poolStake: 205000
-            validatorStake: 90000
-            fixedCost: 52000
+            stakingEpochEnd: '100'
+            poolStake: '205000'
+            validatorStake: '90000'
+            fixedCost: '52000'
             latestSupportedProtocolVersion: 3
 
     get-staker-example:
       value:
         accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-        stakingEpochEnd: 100
-        poolStake: 205000
-        validatorStake: 90000
-        fixedCost: 52000
+        stakingEpochEnd: '100'
+        poolStake: '205000'
+        validatorStake: '90000'
+        fixedCost: '52000'
         latestSupportedProtocolVersion: 3
 
     get-mana-rewards-example:
       value:
-        epochIndex: 60
-        rewards: 800000
+        epochIndex: '60'
+        rewards: '800000'
 
     get-congestion-estimate-response-example:
       value:
-        slotIndex: 20
+        slotIndex: '20'
         ready: true
-        referenceManaCost: 50000
-        blockIssuanceCredits: 10000000
+        referenceManaCost: '50000'
+        blockIssuanceCredits: '10000000'
 
     get-block-by-id-empty-response-example:
       value:
@@ -1507,7 +1508,7 @@ components:
 
     get-utxo-changes-response-example:
       value:
-        index: 789
+        index: '789'
         createdOutputs:
           - "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2"
           - "0x3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4"
@@ -1578,7 +1579,7 @@ components:
             - $ref: '#/components/schemas/TransactionPayload'
             - $ref: '#/components/schemas/TaggedDataPayload'
         burnedMana:
-          type: number
+          type: string
           description: The mana burned in this block.
       required:
         - type
@@ -1607,7 +1608,7 @@ components:
           items:
             type: string
         highestSupportedVersion: 
-          type: number
+          type: integer
           description: The highest supported version of the protocol.
         protocolParametersHash:
           type: string
@@ -1652,7 +1653,7 @@ components:
           type: string
           description: Network identifier. Plain string encoded number. This field signals for which network the block is meant for. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network name and protocol version string.
         creationTime:
-          type: number
+          type: string
           description: The slot index in which the transaction was created.
         contextInputs:
           type: array
@@ -1660,16 +1661,16 @@ components:
             anyOf:
               - $ref: '#/components/schemas/CommitmentInput'
               - $ref: '#/components/schemas/BICInput'
-              - $ref: '#/components/schemas/RewardInput'
-        inputsCommitment:
-          type: string
-          description: BLAKE2b-256 hash of the BLAKE2b-256 hashes of the serialized outputs referenced in Inputs by their outputIds (transactionId || outputIndex). Hex-encoded data with 0x prefix.
+              - $ref: '#/components/schemas/RewardInput'        
         inputs:
           type: array
           description: The inputs of this transaction.
           items:
             oneOf:
               - $ref: '#/components/schemas/UTXOInput'
+        inputsCommitment:
+          type: string
+          description: BLAKE2b-256 hash of the BLAKE2b-256 hashes of the serialized outputs referenced in Inputs by their outputIds (transactionId || outputIndex). Hex-encoded data with 0x prefix.
         outputs:
           type: array
           description: The outputs of this transaction.
@@ -1706,7 +1707,7 @@ components:
           type: string
           description: The account ID to allot the mana to.
         value:
-          type: number
+          type: string
           description: The amount of mana to allot.
 
     CommitmentInput:
@@ -1815,15 +1816,18 @@ components:
         amount:
           type: string
           description: The amount of IOTA tokens to deposit with this output. Plain string encoded number.
-        accountId:
-          type: string
-          description: The identifier of the account.
+        mana:
+          type: integer
+          description: The stored mana held by the output.
         nativeTokens:
           type: array
           description: Native tokens held by the otuput.
           items:
             anyOf:
-              - $ref: '#/components/schemas/NativeToken'        
+              - $ref: '#/components/schemas/NativeToken'
+        accountId:
+          type: string
+          description: The identifier of the account.        
         stateIndex:
           type: integer
           description: A counter that must increase by 1 every time the alias is state transitioned.
@@ -1857,9 +1861,6 @@ components:
             anyOf:
               - $ref: '#/components/schemas/IssuerFeature'
               - $ref: '#/components/schemas/MetadataFeature'
-        mana:
-          type: integer
-          description: The stored mana held by the output.
       required:
         - type
         - amount
@@ -1914,19 +1915,6 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/AddressUnlockCondition'
-        immutableFeatures:
-          type: array
-          description: >-
-            Immutable features that add utility to the output but do not impose
-            unlocking conditions. These blocks need to be kept in future
-            transitions of the UTXO state machine.
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/IssuerFeature'
-        mana:
-          type: string
-          description: The stored mana held by the output.
-          example: '3000'
       required:
         - type
         - amount
@@ -2034,7 +2022,7 @@ components:
               - $ref: '#/components/schemas/IssuerFeature'
               - $ref: '#/components/schemas/MetadataFeature'
         mana:
-          type: integer
+          type: string
           description: The stored mana held by the output
       required:
         - type
@@ -2149,10 +2137,8 @@ components:
           type: integer
           description: Set to value 2 to denote an Timelock Unlock Condition.
         slotIndex:
-          type: integer
+          type: string
           description: The slot index until which the timelock applies (inclusive).
-          minimum: 0
-          exclusiveMinimum: true
       required:
         - type
 
@@ -2168,10 +2154,8 @@ components:
             - $ref: '#/components/schemas/AccountAddress'
             - $ref: '#/components/schemas/NFTAddress'
         slotIndex:
-          type: integer
+          type: string
           description: The slot index at which the expiration happens.
-          minimum: 0
-          exclusiveMinimum: true
       required:
         - type
         - returnAddress
@@ -2250,7 +2234,7 @@ components:
             type: string
             description: Ed25519 public key in Hex.
         expirySlot:
-          type: integer
+          type: string
           description: Indicates when the BlockIssuerKeys are expired.
       required:
         - type
@@ -2261,20 +2245,20 @@ components:
       description: A feature which indicates that this account can issue blocks.
       properties:
         type:
-          type: integer
+          type: string
           description: Set to value 5 to denote a Staking Feature.
           example: 5
         stakedAmount:
-          type: integer
+          type: string
           description: The amount of IOTA coins that are locked and staked in the containing account.
         fixedCost:
-          type: integer
+          type: string
           description: Indicates when the BlockIssuerKeys are expired.
         startEpoch:
-          type: integer
+          type: string
           description: The epoch index at which the staking starts.
         endEpoch:
-          type: integer
+          type: string
           description: The epoch index at which the staking ends.
       required:
         - type
@@ -2585,31 +2569,31 @@ components:
               description: Tells whether the node is healthy or not.
             acceptedTangleTime:
               description: A notion of time that is anchored to the latest accepted block.
-              type: integer
+              type: string
             relativeAcceptedTangleTime:
               description: The Accepted Tangle Time after it has advanced with the system clock.
-              type: integer
+              type: string
             confirmedTangleTime:
               description: A notion of time that is anchored to the latest confirmed block.
-              type: integer
+              type: string
             relativeConfirmedTangleTime:
               description: The Confirmed Tangle Time after it has advanced with the system clock.
-              type: integer
+              type: string
             latestCommitmentId:
               type: string
               description: The latest slot that the node has committed to.  
             latestFinalizedSlot:
               description: The index of latest confirmed slot.
-              type: integer
-            pruningSlot:
-              type: integer
-              description: The index of the slot before which the tangle history is pruned.
+              type: string
             latestAcceptedBlockSlot:
               description: The slot index of the latest accepted block.
-              type: integer
+              type: string
             latestConfirmedBlockSlot:
               description: The slot index of the latest confirmed block.
               type: string
+            pruningSlot:
+              type: string
+              description: The index of the slot before which the tangle history is pruned.
           required:
             - isHealthy
             - latestCommitmentId
@@ -2620,15 +2604,15 @@ components:
           properties:
             blocksPerSecond:
               description: The current rate of new blocks per second.
-              type: number
+              type: string
               format: float
             confirmedBlocksPerSecond:
               description: The current rate of confirmed blocks per second.
-              type: number
+              type: string
               format: float
             confirmedRate:
               description: The ratio of confirmed blocks in relation to new blocks of the last confirmed slot.
-              type: number
+              type: string
               format: float
           required:
             - blocksPerSecond
@@ -2667,59 +2651,98 @@ components:
                 - vByteCost
                 - vByteFactorData
                 - vByteFactoKey
+            workScoreStructure:
+              description: Work structure lists the Work Score of each type, it is used to denote the computation costs of processing an object.
+              properties:
+                dataByte:
+                  description: DataByte accounts for the network traffic per byte.
+                  type: integer
+                block:
+                  description: Block accounts for work done to process a block in the node software.
+                  type: integer
+                missingParent:
+                  description: MissingParent is used for slashing if there are not enough strong tips.
+                  type: integer
+                input:
+                  description: Input accounts for loading the UTXO from the database and performing the mana calculations.
+                  type: integer
+                contextInput:
+                  description: ContextInput accounts for loading and checking the context input.
+                  type: integer
+                output:
+                  description: Output accounts for storing the UTXO in the database.
+                  type: integer
+                nativeToken:
+                  description: NativeToken accounts for calculations done with native tokens.
+                  type: integer
+                staking:
+                  description: Staking accounts for the existence of a staking feature in the output.
+                  type: integer
+                blockIssuer:
+                  description: BlockIssuer accounts for the existence of a block issuer feature in the output.
+                  type: integer
+                allotment:
+                  description: Allotment accounts for accessing the account based ledger to transform the mana to block issuance credits.
+                  type: integer
+                signatureEd25519:
+                  description: SignatureEd25519 accounts for an Ed25519 signature check.
+                  type: integer
+                minStrongParentsThreshold:
+                  description: MinStrongParentsThreshold is the minimum amount of strong parents in a basic block, otherwise the issuer gets slashed.
+                  type: integer
             tokenSupply:
               type: string
               description: Current supply of base token. Plain string encoded number.
             genesisUnixTimestamp:
-              type: integer
+              type: string
               description: The genesis timestamp at which the slots start to count.
             slotDurationInSeconds:
-              type: number
+              type: integer
               description: The duration of a slot, in seconds.
             slotsPerEpochExponent:
-              type: number
+              type: integer
               description: The number of slots in an epoch expressed as an exponent of 2.
             manaGenerationRate:
-              type: number
+              type: integer
               description: The amount of potential Mana generated by 1 IOTA in 1 slot.
             manaGenerationRateExponent:
-              type: number
+              type: integer
               description: The scaling of ManaGenerationRate expressed as an exponent of 2.
             manaDecayFactors:
               type: array
               description: a lookup table of epoch index diff to mana decay factor (slice index 0 = 1 epoch).
               items:
-                type: number                
+                type: integer                
             manaDecayFactorsExponent:
-              type: number
+              type: integer
               description: The scaling of ManaDecayFactors expressed as an exponent of 2.
             manaDecayFactorEpochsSum:
-              type: number
+              type: integer
               description: An integer approximation of the sum of decay over epochs.
             manaDecayFactorEpochsSumExponent:
-              type: number 
+              type: integer 
               description: The scaling of ManaDecayFactorEpochsSum expressed as an exponent of 2.
             stakingUnbondingPeriod:
-              type: number
+              type: string
               description: The unbonding period in epochs before an account can stop staking.
             evictionAge:
-              type: number
+              type: string
               description: The age in slots when you can evict blocks by committing them into a slot commitments and when slots stop being a consumable accounts' state relative to the latest committed slot.
             livenessThreshold:
-              type: number
+              type: string
               description: Determine if a block is eligibile by evaluating issuingTime and commitments in its pastcone to ATT and lastCommittedSlot respectively.
             epochNearingThreshold:
-              type: number
+              type: string
               description: Determine the slot that should trigger a new committee selection for the next and upcoming epoch.
             versionSignaling:
               description: The version signaling parameters.
               properties:
                 windowSize:
-                  type: number
+                  type: integer
                 windowTargetRatio:
-                  type: number
+                  type: integer
                 activationOffset:
-                  type: number
+                  type: integer
               required:
                 - windowSize
                 - windowTargetRatio
@@ -2793,31 +2816,23 @@ components:
       description: Returns the mana rewards of an account or delegation output.
       properties:
         epochIndex:
-          type: integer
+          type: string
           description: The epoch index for which the mana rewards are returned.
         rewards:
-          type: integer
+          type: string
           description: The amount of totally available rewards the requested output may claim.
-
-    AccountResponse:
-      description: Returns information that are ideal for attaching a block.
-      properties:
-        slotIndex: 
-          type: integer
-        blockIssuanceCredits:
-          type: integer
     
     CommitteeResponse:
       description: Returns the validator information of the committee.
       properties:
         epochIndex:
-          type: integer
+          type: string
           description: The epoch index of the committee.
         totalStake:
-          type: integer
+          type: string
           description: The total amount of delegated and staked IOTA tokens in the selected committee.
         totalValidatorStake:
-          type: integer
+          type: string
           description: The total amount of staked IOTA tokens in the selected committee.
         committee:
           type: array
@@ -2833,13 +2848,13 @@ components:
           type: string
           description: The account identifier of the validator
         poolStake:
-          type: integer
+          type: string
           description: The total stake of the pool, including delegators.
         validatorStake:
-          type: integer
+          type: string
           description: The stake of a validator.
         fixedCost:
-          type: integer
+          type: string
           description: The fixed cost of the validator, which it receives as part of its Mana rewards.
 
     Validator:
@@ -2849,16 +2864,16 @@ components:
           type: string
           description: The account identifier of the validator
         stakingEpochEnd:
-          type: integer
+          type: string
           description: The epoch index until which the validator registered to stake.
         poolStake:
-          type: integer
+          type: string
           description: The total stake of the pool, including delegators.
         validatorStake:
-          type: integer
+          type: string
           description: The stake of a validator.
         fixedCost:
-          type: integer
+          type: string
           description: The fixed cost of the validator, which it receives as part of its Mana rewards.
         latestSupportedProtocolVersion:
           type: integer
@@ -2883,7 +2898,7 @@ components:
             type: string
           description: The block identifiers that can be used to a attach a block to. Hex-encoded with 0x prefix.
         latestFinalizedSlot:
-          type: integer
+          type: string
           description: The latest finalized slot index.
         commitment:
           $ref: '#/components/schemas/Commitment'
@@ -2892,17 +2907,17 @@ components:
       description: Provides the cost and readiness to issue estimates.
       properties:
         slotIndex:
-          type: integer
+          type: string
           description: The slot index for which the congestion estimate is provided.
         ready:
           type: boolean
           description: >
             Indicates if a node is ready to issue a block in a current congestion or should wait.
         referenceManaCost:
-          type: integer
+          type: string
           description: The cost in mana for issuing a block in a current congestion estimated based on RMC and slot index.
         blockIssuanceCredits:
-          type: integer
+          type: string
           description: The Block Issuance Credits of the requested account.
       required:
         - slotIndex
@@ -2914,6 +2929,9 @@ components:
     Commitment:
       description: An object embedded to a block.
       properties:
+        version:
+          type: integer
+          description: The version of the protocol running.
         index:
           type: string
           description: The slot index of the commitment.
@@ -2938,49 +2956,30 @@ components:
           type: number
           description: Protocol version identifier. It also tells which protocol rules apply to the block.
         networkId:
-          type: number
+          type: string
           description: Network version identifier. It also tells which network the node is running.
-        strongParents:
-          type: array
-          description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
-          items:
-            type: string
-        weakParents:
-          type: array
-          description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
-          items:
-            type: string
-        shallowLikeParents:
-          type: array
-          description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
-          items:
-            type: string
-        accountId:
-          type: string
-          description: The identifier of the issuer of this block.
-        issuerPublicKey:
-          type: string
-          description: The public key of the issuer.
         issuingTime:
-          type: integer
+          type: string
           description: The timestamp of issuing this block.
-        commitment:
-          $ref: '#/components/schemas/Commitment'
+        slotCommitment:
+          type: string
           description: The slot commitment contains in this block.
         latestFinalizedSlot:
-          type: integer
-          description: The latest finalized slot index of the node when issuing this block.
-        payload:
-          description: The inner payload of the block. Can be nil.
+          type: string
+          description: The latest finalized slot of issuing node.
+        issuerId:
+          type: string
+          description: The identifier of the issuer.
+        block:
+          description: The block content.
           oneOf:
-            - $ref: '#/components/schemas/TransactionPayload'
-            - $ref: '#/components/schemas/TaggedDataPayload'
-        nonce:
-          type: string
-          description: The nonce which lets this block fulfill the Proof-of-Work requirement. Plain string encoded number.
+            - $ref: '#/components/schemas/BasicBlock'
+            - $ref: '#/components/schemas/ValidationBlock'
         signature:
-          type: string
+          type: object
           description: The signature of entire block, signed by the issuer.
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Signature'
       required:
         - protocolVersion
 
@@ -3110,7 +3109,7 @@ components:
       description: Returns all UTXO changes of the given slot.
       properties:
         index:
-          type: integer
+          type: string
           description: The slot index of the given slot.
         createdOutputs:
           description: The created outputs of the given slot.
