@@ -323,9 +323,9 @@ components:
           - prevId
         properties:
           index:
-            type: integer
+            type: string
             description: The slot index of the commitment.
-            example: 200
+            example: '200'
           prevId:
             type: string
             description: The commitment identifier of the previous slot.
@@ -335,13 +335,13 @@ components:
             description: The digest of multiple merkle roots within this slot.
             example: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
           cumulativeWeight:
-            type: integer
+            type: string
             description: 
               The sum of previous slot commitment cumulative weight and 
               weight of issuers of accepted blocks within this slot. 
               It is just an indication of "committed into" this slot,
               and can not strictly be used for evaluating the switching of a chain.
-            example: 78901
+            example: '78901'
 
     CommitmentPayloadSerialized:
       contentType: application/vnd.iota.serializer-v1
@@ -416,37 +416,15 @@ components:
             type: string
             description: The ID of the block.
             example: '0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85'
-          strongParents:
-            type: array
-            description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
-            items:
-              type: string
-            example:
-              - >-
-                0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7
-          weakParents:
-            type: array
-            description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
-            items:
-              type: string
-            example:
-              - >-
-                0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85
-          shallowLikeParents:
-            type: array
-            description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
-            items:
-              type: string
-            example:
-              - >-
-                0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7
           blockState:
             type: string
-            description: If `pending`, the block is stored but not confirmed. If `confirmed`, the block is confirmed with the first level of knowledge. If `finalized`, the block is included and cannot be reverted anymore.
+            description: If `pending`, the block is stored but not confirmed. If `confirmed`, the block is confirmed with the first level of knowledge. If `finalized`, the block is included and cannot be reverted anymore. If `rejected`, the block is rejected by the node, and user should reissue payload if it contains one. If `failed`, the block is not successfully issued due to failure reason.
             enum:
               - pending
               - confirmed
-              - finalized            
+              - finalized
+              - rejected
+              - failed         
           txState:
             type: string
             description: The inclusion state of the transaction.
@@ -454,53 +432,47 @@ components:
               - pending
               - confirmed
               - finalized
-            example: conflicting
-          blockStateReason:
+              - failed
+            example: failed
+          blockFailureReason:
             type: integer
-            enum: [1,2,3]
+            enum: [1,2,3,4,5]
             description: |
               Values:
-                * `1` - denotes that the block is invalid.
-                * `2` - denotes that the block is orphaned due to congestion control.
-                * `3` - denotes that the block is orphaned due to negative mana balance.    
-                * Note: more reasons will be added.
-          txStateReason:
+                * `1` - denotes that the block is too old to issue.
+                * `2` - denotes that the block's parents are too old.
+                * `3` - denotes that the block failed at the booker.
+                * `4` - denotes that the block is dropped due to congestion.
+                * `5` - denotes that the block is invalid.
+          txFailureReason:
             type: integer
-            enum:
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-              - 6
-              - 7
-              - 8
-              - 9
-              - 10
-              - 11
-              - 12
-              - 255
+            enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,255]
             description: |
               Values:
                 * `1` - denotes that the referenced UTXO was already spent.
-                * `2` - denotes that the transaction is conflicting with another transaction. Conflicting specifically means a double spend situation that both transaction pass all validation rules, eventually losing one(s) should have this reason.
-                * `3` - denotes that the referenced UTXO cannot be found.
-                * `4` - denotes that the sum of the inputs and output values does not match.
-                * `5` - denotes that the unlock block signature is invalid.
-                * `6` - denotes that the configured timelock is not yet expired.
-                * `7` - denotes that the given native tokens are invalid.
-                * `8` - denotes that the return amount in a transaction is not fulfilled by the output side.
-                * `9` - denotes that the input unlock is invalid.
-                * `10` - denotes that the inputs commitment is invalid.
-                * `11` - denotes that an output contains a Sender with an ident (address) which is not unlocked.
-                * `12` - denotes that the chain state transition is invalid.
+                * `2` - denotes that the transaction is conflicting with another transaction. Conflicting specifically means a double spend situation that both transaction pass all validation rules, eventually losing one(s) should have this reason. 
+                * `3` - denotes that the referenced UTXO is invalid.
+                * `4` - denotes that the transaction is invalid.
+                * `5` - denotes that the sum of the inputs and output values does not match.
+                * `6` - denotes that the unlock block signature is invalid.
+                * `7` - denotes that the configured timelock is not yet expired.
+                * `8` - denotes that the given native tokens are invalid.
+                * `9` - denotes that the return amount in a transaction is not fulfilled by the output side.
+                * `10` - denotes that the input unlock is invalid.
+                * `11` - denotes that the inputs commitment is invalid.
+                * `12` - denotes that an output contains a Sender with an ident (address) which is not unlocked.
+                * `13` - denotes that the chain state transition is invalid.
+                * `14` - denotes that the referenced input is created after transaction issuing time.
+                * `15` - denotes that the mana amount is invalid.
+                * `16` - denotes that the Block Issuance Credits amount is invalid.
+                * `17` - denotes that Reward Input is invalid.
+                * `18` - denotes that Commitment Input is invalid.
+                * `19` - denotes that Staking Feature is not provided in account output when claiming rewards.
+                * `20` - denotes that fail to claim staking reward.
+                * `21` - denotes that fail to claim delegation reward.
                 * `255` - denotes that the semantic validation failed.
             example: 1
-          reissuePayload:
-            type: boolean
-            description: >-
-              Whether the block should be issued again.
-            example: false
+
   schemas:
     NativeToken:
       description: A native token and its balance in the output.
@@ -895,9 +867,9 @@ components:
               - $ref: '#/components/schemas/MetadataFeature'
               - $ref: '#/components/schemas/TagFeature'
         mana:
-          type: integer
+          type: string
           description: The stored mana held by the output.
-          example: 3000
+          example: '3000'
       required:
         - type
         - amount
@@ -979,9 +951,9 @@ components:
               - $ref: '#/components/schemas/IssuerFeature'
               - $ref: '#/components/schemas/MetadataFeature'
         mana:
-          type: integer
+          type: string
           description: The stored mana held by the output.
-          example: 3000
+          example: '3000'
       required:
         - type
         - amount
@@ -1006,7 +978,7 @@ components:
             plain string.
           example: '100'
         delegatedAmount:
-          type: integer
+          type: string
           description: The amount of IOTA tokens that were delegated when the output was created.
         delegationId:
           type: string
@@ -1019,15 +991,15 @@ components:
             The Account ID of the validator to which this output is delegating.
           example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
         startEpoch:
-          type: integer
+          type: string
           description: >-
             The index of the first epoch for which this output delegates.
-          example: 10
+          example: '10'
         endEpoch:
-          type: integer
+          type: string
           description: >-
             The index of the last epoch for which this output delegates.
-          example: 12
+          example: '12'
         unlockConditions:
           type: array
           description: >-
@@ -1036,19 +1008,6 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/AddressUnlockCondition'
-        immutableFeatures:
-          type: array
-          description: >-
-            Immutable features that add utility to the output but do not impose
-            unlocking conditions. These blocks need to be kept in future
-            transitions of the UTXO state machine.
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/IssuerFeature'
-        mana:
-          type: integer
-          description: The stored mana held by the output.
-          example: 3000
       required:
         - type
         - amount
@@ -1117,9 +1076,9 @@ components:
             anyOf:
               - $ref: '#/components/schemas/MetadataFeature'
         mana:
-          type: integer
+          type: string
           description: The stored mana held by the output.
-          example: 3000
+          example: '3000'
       required:
         - type
         - amount
@@ -1184,9 +1143,9 @@ components:
               - $ref: '#/components/schemas/IssuerFeature'
               - $ref: '#/components/schemas/MetadataFeature'
         mana:
-          type: integer
+          type: string
           description: The stored mana held by the output
-          example: 3000
+          example: '3000'
       required:
         - type
         - amount
@@ -1224,7 +1183,7 @@ components:
           description: The ID of the transaction which created this output.
           example: '0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'
         outputIndex:
-          type: number
+          type: integer
           description: The index of the output within its transaction.
           example: 0
         isSpent:

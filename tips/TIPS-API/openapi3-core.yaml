@@ -3017,7 +3017,7 @@ components:
           description: If 'pending', the block contains not yet included transaction. If 'confirmed' means transaction is confirmed with the first level of knowledge. If 'finalized' means transaction is included and cannot be reverted anymore. If 'failed' means transaction is not successfully issued due to failure reason.
         blockFailureReason:
           type: integer
-          enum: [1,2,3]
+          enum: [1,2,3,4,5]
           description: >
             Values:
               * `1` - denotes that the block is too old to issue.
@@ -3025,10 +3025,9 @@ components:
               * `3` - denotes that the block failed at the booker.
               * `4` - denotes that the block is dropped due to congestion.
               * `5` - denotes that the block is invalid.
-              * Note: more reasons will be added.
         txFailureReason:
           type: integer
-          enum: [1,2,3,4,5,6,7,8,9,10,11,12,255]
+          enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,255]
           description: >
             Values:
               * `1` - denotes that the referenced UTXO was already spent.
