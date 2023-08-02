@@ -183,7 +183,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ManaRewardsResponse'
               examples:
-                CongestionResponse:
+                ManaRewardsResponse:
                   $ref: '#/components/examples/get-mana-rewards-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
@@ -233,7 +233,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommitteeResponse'
               examples:
-                CongestionResponse:
+                CommitteeResponse:
                   $ref: '#/components/examples/get-committee-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
@@ -273,7 +273,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountStakingListResponse'
               examples:
-                CongestionResponse:
+                AccountStakingListResponse:
                   $ref: '#/components/examples/get-staker-list-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
@@ -321,7 +321,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountStakingResponse'
               examples:
-                CongestionResponse:
+                AccountStakingResponse:
                   $ref: '#/components/examples/get-staker-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
