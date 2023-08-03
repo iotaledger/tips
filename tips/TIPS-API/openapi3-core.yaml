@@ -257,7 +257,7 @@ paths:
     get:
       tags:
         - staking
-      summary: Returns information of the active stakers.
+      summary: Returns information of all registered stakers and if they are active.
       responses:
         '200':
           description: "Successful operation."
@@ -1313,12 +1313,14 @@ components:
             poolStake: '200000'
             validatorStake: '100000'
             fixedCost: '50000'
+            active: false
             latestSupportedProtocolVersion: 3
           - accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
             stakingEpochEnd: '100'
             poolStake: '205000'
             validatorStake: '90000'
             fixedCost: '52000'
+            active: true
             latestSupportedProtocolVersion: 3
 
     get-staker-example:
@@ -1328,6 +1330,7 @@ components:
         poolStake: '205000'
         validatorStake: '90000'
         fixedCost: '52000'
+        active: true
         latestSupportedProtocolVersion: 3
 
     get-mana-rewards-example:
@@ -2816,6 +2819,9 @@ components:
         fixedCost:
           type: string
           description: The fixed cost of the validator, which it receives as part of its Mana rewards.
+        active:
+          type: boolean
+          description: Shows weather validator was active recently.
         latestSupportedProtocolVersion:
           type: integer
           description: The latest protocol version the validator supported.
