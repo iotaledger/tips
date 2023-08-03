@@ -1045,9 +1045,6 @@ components:
           blocksPerSecond: '17'
           confirmedBlocksPerSecond: '16.2'
           confirmedRate: '98.82352941176471'
-        supportedProtocolVersions:
-          - 2
-          - 3
         protocolParameters:
           - startEpoch: '1'
             parameters:
@@ -2547,11 +2544,6 @@ components:
             - blocksPerSecond
             - confirmedBlocksPerSecond
             - confirmedRate
-        supportedProtocolVersions:
-          type: array
-          description: The supported protocol versions.
-          items:
-            type: integer
         protocolParameters:
           type: array
           items:
