@@ -1563,7 +1563,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 1 to denote a Basic Block.
+          description: Set to value 0 to denote a Basic Block.
         strongParents:
           type: array
           description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
@@ -1597,7 +1597,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 2 to denote a Validation Block.
+          description: Set to value 1 to denote a Validation Block.
         strongParents:
           type: array
           description: The identifiers of the blocks this block references. Hex-encoded data with 0x prefix.
