@@ -20,8 +20,8 @@ tags:
     description: Everything about the accounts.
   - name: rewards
     description: Everything about Mana rewards.
-  - name: staking
-    description: Everything about staking.
+  - name: validators
+    description: Everything about validators and staking.
   - name: committee
     description: Everything about the committee.
   - name: blocks
@@ -157,9 +157,12 @@ paths:
     get:
       tags:
         - rewards
-      summary: Returns the totally available Mana rewards of an account or delegation output. 
+      summary: Returns the totally available Mana rewards of an account or delegation output decayed up to epochEnd index provided in the response.
       description: >-
-        Returns the totally available Mana rewards of an account or delegation output up until the current epoch index. Note that rewards for an epoch only become available at the beginning of the next epoch. If the end epoch of a staking feature is equal or greater than the current epoch, the rewards response will not include the potential future rewards for those epochs.
+        Returns the totally available Mana rewards of an account or delegation output up until the current epoch index. 
+        Note that rewards for an epoch only become available at the beginning of the next epoch. 
+        If the end epoch of a staking feature is equal or greater than the current epoch, the rewards response will not include the potential future rewards for those epochs.
+        epochStart and epochEnd indicates the actual range for which reward value is returned and decayed for.
       parameters:
         - in: path
           name: outputId
@@ -253,21 +256,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-  /api/core/v3/staking:
+  /api/core/v3/validators:
     get:
       tags:
-        - staking
-      summary: Returns information of all registered stakers and if they are active.
+        - validators
+      summary: Returns information of all registered validators and if they are active.
       responses:
         '200':
           description: "Successful operation."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountStakingListResponse'
+                $ref: '#/components/schemas/ValidatorsResponse'
               examples:
-                AccountStakingListResponse:
-                  $ref: '#/components/examples/get-staker-list-example'
+                ValidatorsResponse:
+                  $ref: '#/components/examples/get-validators-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -293,10 +296,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-  /api/core/v3/staking/{accountId}:
+  /api/core/v3/validators/{accountId}:
     get:
       tags:
-        - staking
+        - validators
       summary: Return the information of requested staker.
       parameters:
         - in: path
@@ -315,7 +318,7 @@ paths:
                 $ref: '#/components/schemas/AccountStakingResponse'
               examples:
                 AccountStakingResponse:
-                  $ref: '#/components/examples/get-staker-example'
+                  $ref: '#/components/examples/get-validator-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -1302,9 +1305,9 @@ components:
             validatorStake: '90000'
             fixedCost: '52000'
 
-    get-staker-list-example:
+    get-validators-example:
       value:
-        stakers:
+        validators:
           - accountId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
             stakingEpochEnd: '100'
             poolStake: '200000'
@@ -1319,8 +1322,10 @@ components:
             fixedCost: '52000'
             active: true
             latestSupportedProtocolVersion: 3
+        pageSize: 50
+        cursor: ""
 
-    get-staker-example:
+    get-validator-example:
       value:
         accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
         stakingEpochEnd: '100'
@@ -1332,7 +1337,8 @@ components:
 
     get-mana-rewards-example:
       value:
-        epochIndex: '60'
+        epochStart: '60'
+        epochEnd: '80'
         rewards: '800000'
 
     get-congestion-estimate-response-example:
@@ -2739,21 +2745,30 @@ components:
       oneOf:
         - $ref: '#/components/schemas/Validator'
 
-    AccountStakingListResponse:
-      description: Returns a list of active stakers to stake.
+    ValidatorsResponse:
+      description: Returns a paginated list of all registered validators ready for the next epoch and indicates if they were active recently (are eligible for committee selection).
       properties:
-        stakers:
+        validators:
           type: array
           items:
             oneOf:
               - $ref: '#/components/schemas/Validator'
+        pageSize:
+          type: integer
+          description: The number of validators returned per one API request with pagination.
+        cursor:
+          type: string
+          description: The cursor that needs to be provided as cursor query parameter to request the next page. If empty, this was the last page.
 
     ManaRewardsResponse:
       description: Returns the mana rewards of an account or delegation output.
       properties:
-        epochIndex:
+        EpochStart:
           type: string
-          description: The epoch index for which the mana rewards are returned.
+          description: The starting epoch index for which the mana rewards are returned.
+        EpochEnd:
+          type: string
+          description: The ending epoch index for which the mana rewards are returned, the decay is applied up to this point (including).
         rewards:
           type: string
           description: The amount of totally available rewards the requested output may claim.
@@ -2775,9 +2790,9 @@ components:
           description: The validators of the committee.
           items:
             oneOf:
-              - $ref: '#/components/schemas/CommitteeMemeber'
+              - $ref: '#/components/schemas/CommitteeMember'
 
-    CommitteeMemeber:
+    CommitteeMember:
       description: Returns information of a validator.
       properties:
         accountId: 
