@@ -157,12 +157,12 @@ paths:
     get:
       tags:
         - rewards
-      summary: Returns the totally available Mana rewards of an account or delegation output decayed up to epochEnd index provided in the response.
+      summary: Returns the totally available Mana rewards of an account or delegation output decayed up to endEpoch index provided in the response.
       description: >-
         Returns the totally available Mana rewards of an account or delegation output up until the current epoch index. 
         Note that rewards for an epoch only become available at the beginning of the next epoch. 
         If the end epoch of a staking feature is equal or greater than the current epoch, the rewards response will not include the potential future rewards for those epochs.
-        epochStart and epochEnd indicates the actual range for which reward value is returned and decayed for.
+        startEpoch and endEpoch indicates the actual range for which reward value is returned and decayed for.
       parameters:
         - in: path
           name: outputId
@@ -260,7 +260,15 @@ paths:
     get:
       tags:
         - validators
-      summary: Returns information of all registered validators and if they are active.
+      summary: Returns information of all registered validators and if they are active, ordered by their holding stake.
+      parameters:
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          example: 1
+          required: false
+          description: The page number of validators.
       responses:
         '200':
           description: "Successful operation."
@@ -315,7 +323,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountStakingResponse'
+                $ref: '#/components/schemas/Validator'
               examples:
                 AccountStakingResponse:
                   $ref: '#/components/examples/get-validator-example'
@@ -348,9 +356,9 @@ paths:
     get:
       tags:
         - blocks
-      summary: Returns information that are ideal for attaching a block.
+      summary: Return information that is used to attach a block in the network.
       description: >-
-        Returns information that are ideal for attaching a block.
+        Return information that is used to attach a block in the network, which includes parents, last finalized slot index and the latest commitment the node created.
       responses:
         '200':
           description: "Successful operation."
@@ -699,8 +707,8 @@ paths:
     get:
       tags:
         - UTXO
-      summary: Returns the earliest block containing the tranaction that get confirmed.
-      description: Returns the earliest block containing the transaction that get confirmed.
+      summary: Returns the earliest block containing the transaction that was confirmed.
+      description: Returns the earliest block containing the transaction that was confirmed.
       parameters:
         - in: path
           name: transactionId
@@ -754,9 +762,9 @@ paths:
     get:
       tags:
       - UTXO
-      summary: Find the metadata of the earliest block containing the transaction that get confirmed.
+      summary: Find the metadata of the earliest block containing the transaction that was confirmed.
       description: >-
-        Find the metadata of the earliest block containing the tx that get confirmed.
+        Find the metadata of the earliest block containing the transaction that was confirmed.
       parameters:
         - in: path
           name: transactionId
@@ -1035,19 +1043,19 @@ components:
         version: 1.0.0
         status:
           isHealthy: true
-          acceptedTangleTime: '1682328545'
-          relativeAcceptedTangleTime: '1682328550'
-          confirmedTangleTime: '1682328525'
-          relativeConfirmedTangleTime: '1682328535'
+          acceptedTangleTime: '1692966168000000000'
+          relativeAcceptedTangleTime: '1692966173856059205'
+          confirmedTangleTime: '1692966168000000000'
+          relativeConfirmedTangleTime: '1692966173855931045'
           latestCommitmentID: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
           latestFinalizedSlot: '100'
           latestAcceptedBlockSlot: '100'
           latestConfirmedBlockSlot: '95'
           pruningSlot: '20'
         metrics:
-          blocksPerSecond: '17'
-          confirmedBlocksPerSecond: '16.2'
-          confirmedRate: '98.82352941176471'
+          blocksPerSecond: '1.5E+00'
+          confirmedBlocksPerSecond: '1.5E+00"'
+          confirmationRate: '1E+02'
         protocolParameters:
           - startEpoch: '1'
             parameters:
@@ -1058,8 +1066,10 @@ components:
                 vByteCost: 500
                 vByteFactorData: 1
                 vByteFactorKey: 10
+                vByteFactorIssuerKeys: 100
+                vByteFactorStakingFeature: 100
               workScoreStructure:
-                dataByte: 1
+                dataKilobyte: 0
                 block: 100
                 missingParent: 500
                 input: 20
@@ -1072,7 +1082,7 @@ components:
                 signatureEd25519: 200
                 minStrongParentsThreshold: 4
               tokenSupply: "2779530283277761"
-              genesisUnixTimestamp: "1582328545"
+              genesisUnixTimestamp: "1692966168"
               slotDurationInSeconds: 10
               slotsPerEpochExponent: 13
               manaGenerationRate: 1
@@ -1084,9 +1094,19 @@ components:
               manaDecayFactorEpochsSum: 0
               manaDecayFactorEpochsSumExponent: 0
               stakingUnbondingPeriod: '10'
-              evictionAge: '6'
               livenessThreshold: '5'
+              minCommittableAge: '10'
+              maxCommittableAge: '20'
               epochNearingThreshold: '30'
+              congestionControlParameters:
+                rmcMin: '500'
+                increase: '500'
+                decrease: '500'
+                increaseThreshold: 800000
+                decreaseThreshold: 500000
+                schedulerRate: 100000
+                minMana: '1'
+                maxBufferSize: 3276800
               versionSignaling:
                 windowSize: 7
                 windowTargetRatio: 5
@@ -1099,7 +1119,7 @@ components:
           subunit: "glow"
           useMetricPrefix: false
         features:
-          - allowIncompleteBlock
+          - allowincompleteblock
 
     get-buildingBlock-response-example:
       value:
@@ -1173,7 +1193,7 @@ components:
             essence:
               type: 1
               networkId: "1337133713371337"
-              creationTime: 1682328545
+              creationSlot: '1692966292150937822'
               inputsCommitment: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
               inputs:
                 - type: 0
@@ -1208,7 +1228,7 @@ components:
       value:
         protocolVersion: 3
         networkId: "0"
-        issuingTime: "2023-07-31T13:14:57.310104314Z"
+        issuingTime: "1692966293697706488"
         slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
@@ -1227,7 +1247,7 @@ components:
         signature:
           type: 0
           publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
-          signature: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
+          signaturvByteFactoKeye: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
 
     post-transaction-block-request-example-full:
       value:
@@ -1238,7 +1258,7 @@ components:
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
-          type: 1
+          type: 0
           strongParents:
             - "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
             - "0x408a53af982c49d1398ab5c5b5f5b390d4c4da7da48b61bb9ba7f97c1e8dd7f60000000000000000"
@@ -1253,7 +1273,7 @@ components:
             essence:
               type: 1
               networkId: "1337133713371337"
-              creationTime: 1649442459
+              creationSlot: '1649442459'
               inputsCommitment: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
               inputs:
                 - type: 0
@@ -1309,14 +1329,14 @@ components:
       value:
         validators:
           - accountId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-            stakingEpochEnd: '100'
+            stakingEndEpoch: '100'
             poolStake: '200000'
             validatorStake: '100000'
             fixedCost: '50000'
             active: false
             latestSupportedProtocolVersion: 3
           - accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-            stakingEpochEnd: '100'
+            stakingEndEpoch: '100'
             poolStake: '205000'
             validatorStake: '90000'
             fixedCost: '52000'
@@ -1328,7 +1348,7 @@ components:
     get-validator-example:
       value:
         accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-        stakingEpochEnd: '100'
+        stakingEndEpoch: '100'
         poolStake: '205000'
         validatorStake: '90000'
         fixedCost: '52000'
@@ -1337,8 +1357,8 @@ components:
 
     get-mana-rewards-example:
       value:
-        epochStart: '60'
-        epochEnd: '80'
+        startEpoch: '60'
+        endEpoch: '80'
         rewards: '800000'
 
     get-congestion-estimate-response-example:
@@ -1352,7 +1372,7 @@ components:
       value:
         protocolVersion: 3
         networkId: "0"
-        issuingTime: "2023-07-31T13:14:57.310104314Z"
+        issuingTime: "1692966346513784862"
         slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
@@ -1373,7 +1393,7 @@ components:
       value:
         protocolVersion: 3
         networkId: "0"
-        issuingTime: "2023-07-31T13:14:57.310104314Z"
+        issuingTime: "1692966346513784862"
         slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
@@ -1393,7 +1413,7 @@ components:
             essence:
               type: 1
               networkId: "1337133713371337"
-              creationTime: 1649442459
+              creationSlot: 1649442459
               inputsCommitment: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
               inputs:
                 - type: 0
@@ -1434,7 +1454,7 @@ components:
       value:
         protocolVersion: 3
         networkId: "0"
-        issuingTime: "2023-07-31T13:14:57.310104314Z"
+        issuingTime: "1692966346513784862"
         slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
@@ -1459,7 +1479,7 @@ components:
       value:
         protocolVersion: 3
         networkId: "0"
-        issuingTime: "2023-07-31T13:14:57.310104314Z"
+        issuingTime: "1692966346513784862"
         slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
@@ -1541,7 +1561,7 @@ components:
           description: Network version identifier. It also tells which network the node is running.
         issuingTime:
           type: string
-          description: The timestamp of issuing this block.
+          description: The timestamp of issuing this block, a uint64 string.
         slotCommitment:
           type: string
           description: The slot commitment contains in this block.
@@ -1664,7 +1684,7 @@ components:
         networkId:
           type: string
           description: Network identifier. Plain string encoded number. This field signals for which network the block is meant for. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network name and protocol version string.
-        creationTime:
+        creationSlot:
           type: string
           description: The slot index in which the transaction was created.
         contextInputs:
@@ -1706,7 +1726,7 @@ components:
       required:
         - type
         - networkId
-        - creationTime
+        - creationSlot
         - contextInputs
         - inputsCommitment
         - inputs
@@ -2515,7 +2535,7 @@ components:
               type: string
               description: The latest slot that the node has committed to.  
             latestFinalizedSlot:
-              description: The index of latest confirmed slot.
+              description: The index of latest finalized slot.
               type: string
             latestAcceptedBlockSlot:
               description: The slot index of the latest accepted block.
@@ -2542,14 +2562,14 @@ components:
               description: The current rate of confirmed blocks per second.
               type: string
               format: float
-            confirmedRate:
+            confirmationRate:
               description: The ratio of confirmed blocks in relation to new blocks of the last confirmed slot.
               type: string
               format: float
           required:
             - blocksPerSecond
             - confirmedBlocksPerSecond
-            - confirmedRate
+            - confirmationRate
         protocolParameters:
           type: array
           items:
@@ -2592,8 +2612,7 @@ components:
         - version
         - status
         - metrics
-        - supportedProtocolVersions
-        - protocol
+        - protocolParameters
         - baseToken
         - features
 
@@ -2624,18 +2643,26 @@ components:
                 vByteFactorData:
                   description: Defines the factor to be used for data only fields.
                   type: integer
-                vByteFactoKey:
+                vByteFactorKey:
                   description: Defines the factor to be used for key/lookup generating fields.
+                  type: integer
+                vByteFactorIssuerKeys:
+                  description: Defines the factor to be used for block issuer feature public keys.
+                  type: integer
+                vByteFactorStakingFeature:
+                  description: Defines the factor to be used for staking feature.
                   type: integer
               required:
                 - vByteCost
                 - vByteFactorData
-                - vByteFactoKey
+                - vByteFactorKey
+                - vByteFactorIssuerKeys
+                - vByteFactorStakingFeature
             workScoreStructure:
               description: Work structure lists the Work Score of each type, it is used to denote the computation costs of processing an object.
               properties:
-                dataByte:
-                  description: DataByte accounts for the network traffic per byte.
+                dataKilobyte:
+                  description: DataKilobyte accounts for the network traffic per kilobyte.
                   type: integer
                 block:
                   description: Block accounts for work done to process a block in the node software.
@@ -2670,6 +2697,19 @@ components:
                 minStrongParentsThreshold:
                   description: MinStrongParentsThreshold is the minimum amount of strong parents in a basic block, otherwise the issuer gets slashed.
                   type: integer
+              required:
+                - dataKilobyte
+                - block
+                - missingParent
+                - input
+                - contextInput
+                - output
+                - nativeToken
+                - staking
+                - blockIssuer
+                - allotment
+                - signatureEd25519
+                - minStrongParentsThreshold
             tokenSupply:
               type: string
               description: Current supply of base token. Plain string encoded number.
@@ -2705,15 +2745,54 @@ components:
             stakingUnbondingPeriod:
               type: string
               description: The unbonding period in epochs before an account can stop staking.
-            evictionAge:
-              type: string
-              description: The age in slots when you can evict blocks by committing them into a slot commitments and when slots stop being a consumable accounts' state relative to the latest committed slot.
             livenessThreshold:
               type: string
-              description: Determine if a block is eligibile by evaluating issuingTime and commitments in its pastcone to ATT and lastCommittedSlot respectively.
+              description: Determine if a block is eligible by evaluating issuingTime and commitments in its pastcone to ATT and lastCommittedSlot respectively.
+            minCommittableAge:
+              type: string
+              description: MinCommittableAge is the minimum age relative to the accepted tangle time slot index that a slot can be committed.
+            maxCommittableAge:
+              type: string
+              description: MaxCommittableAge is the maximum age for a slot commitment to be included in a block relative to the slot index of the block issuing time.
             epochNearingThreshold:
               type: string
               description: Determine the slot that should trigger a new committee selection for the next and upcoming epoch.
+            congestionControlParameters:
+              description: Congestion Control Parameters defines the parameters used by to calculate the Reference Mana Cost (RMC).
+              properties:
+                rmcMin:
+                  description: RMCMin is the minimum value of the reference Mana cost.
+                  type: string
+                increase:
+                  description: Increase is the increase step size of the reference Mana cost.
+                  type: string
+                decrease:
+                  description: Decrease is the decrease step size of the reference Mana cost.
+                  type: string
+                increaseThreshold:
+                  description: IncreaseThreshold is the threshold for increasing the reference Mana cost.
+                  type: integer
+                decreaseThreshold:
+                  description: DecreaseThreshold is the threshold for decreasing the reference Mana cost.
+                  type: integer
+                schedulerRate:
+                  description: SchedulerRate is the rate at which the  scheduler runs in workscore units per second.
+                  type: integer
+                minMana:
+                  description: MinMana is the minimum amount of Mana that an account must have to have a block scheduled.
+                  type: string
+                maxBufferSize:
+                  description: MaxBufferSize is the maximum size of the buffer.
+                  type: integer
+              required:
+                - rmcMin
+                - increase
+                - decrease
+                - increaseThreshold
+                - decreaseThreshold
+                - schedulerRate
+                - minMana
+                - maxBufferSize
             versionSignaling:
               description: The version signaling parameters.
               properties:
@@ -2733,17 +2812,26 @@ components:
             - bech32Hrp
             - tokenSupply
             - rentStructure
+            - workScoreStructure
             - genesisUnixTimestamp
             - slotDurationInSeconds
+            - slotsPerEpochExponent
+            - manaGenerationRate
+            - manaGenerationRateExponent
+            - manaDecayFactors
+            - manaDecayFactorsExponent
+            - manaDecayFactorEpochsSum
+            - manaDecayFactorEpochsSumExponent
+            - stakingUnbondingPeriod
+            - livenessThreshold
+            - minCommittableAge
+            - maxCommittableAge
             - epochNearingThreshold
+            - congestionControlParameters
+            - versionSignaling
       required:
         - startEpoch
         - parameters
-
-    AccountStakingResponse:
-      description: Returns the requested staking information of the account.
-      oneOf:
-        - $ref: '#/components/schemas/Validator'
 
     ValidatorsResponse:
       description: Returns a paginated list of all registered validators ready for the next epoch and indicates if they were active recently (are eligible for committee selection).
@@ -2763,12 +2851,12 @@ components:
     ManaRewardsResponse:
       description: Returns the mana rewards of an account or delegation output.
       properties:
-        EpochStart:
+        startEpoch:
           type: string
           description: The starting epoch index for which the mana rewards are returned.
-        EpochEnd:
+        endEpoch:
           type: string
-          description: The ending epoch index for which the mana rewards are returned, the decay is applied up to this point (including).
+          description: The ending epoch index for which the mana rewards are returned, the decay is applied up to this point (inclusive).
         rewards:
           type: string
           description: The amount of totally available rewards the requested output may claim.
@@ -2814,7 +2902,7 @@ components:
         accountId: 
           type: string
           description: The account identifier of the validator
-        stakingEpochEnd:
+        stakingEndEpoch:
           type: string
           description: The epoch index until which the validator registered to stake.
         poolStake:
@@ -2828,13 +2916,13 @@ components:
           description: The fixed cost of the validator, which it receives as part of its Mana rewards.
         active:
           type: boolean
-          description: Shows weather validator was active recently.
+          description: Shows whether validator was active recently.
         latestSupportedProtocolVersion:
           type: integer
           description: The latest protocol version the validator supported.
 
     IssuanceBlockHeaderResponse:
-      description: Returns information that are ideal for attaching a block.
+      description: Return information that is used to attach a block in the network.
       properties:
         strongParents:
           type: array
@@ -2881,7 +2969,7 @@ components:
 
 
     Commitment:
-      description: An object embedded to a block.
+      description: An object embedded to a block, containing a summary of a slot.
       properties:
         version:
           type: integer
@@ -3000,8 +3088,8 @@ components:
               * `14` - denotes that the referenced input is created after transaction issuing time.
               * `15` - denotes that the mana amount is invalid.
               * `16` - denotes that the Block Issuance Credits amount is invalid.
-              * `17` - denotes that Reward Input is invalid.
-              * `18` - denotes that Commitment Input is invalid.
+              * `17` - denotes that Reward Context Input is invalid.
+              * `18` - denotes that Commitment Context Input is invalid.
               * `19` - denotes that Staking Feature is not provided in account output when claiming rewards.
               * `20` - denotes that fail to claim staking reward.
               * `21` - denotes that fail to claim delegation reward.
