@@ -2263,8 +2263,8 @@ components:
           type: array
           description: The keys allowed to issue blocks from an account with a BlockIssuerFeature.
           items:
-            type: string
-            description: Ed25519 public key in Hex.
+              oneOf:
+                - $ref: '#/components/schemas/Ed25519PublicKey'
         expirySlot:
           type: string
           description: Indicates when the BlockIssuerKeys are expired.
@@ -2272,6 +2272,19 @@ components:
         - type
         - blockIssuerKeys
         - expirySlot
+
+    Ed25519PublicKey:
+      description: The Ed25519 public key.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote an Ed25519 Public key.
+        publicKey:
+          type: string
+          description: Ed25519 public key in Hex.
+      required:
+        - type
+        - publicKey
 
     StakingFeature:
       description: A feature which indicates that this account can issue blocks.
