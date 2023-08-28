@@ -2758,7 +2758,7 @@ components:
               type: string
               description: Determine the slot that should trigger a new committee selection for the next and upcoming epoch.
             congestionControlParameters:
-              description: Congestion Control Parameters defines the parameters used by to calculate the Reference Mana Cost (RMC).
+              description: Congestion Control Parameters defines the parameters used to calculate the Reference Mana Cost (RMC).
               properties:
                 rmcMin:
                   description: RMCMin is the minimum value of the reference Mana cost.
@@ -3104,7 +3104,7 @@ components:
           $ref: '#/components/schemas/Block'
 
     OutputResponse:
-      description: Returns an output and its metadata.
+      description: Returns an output.
       anyOf:
         - $ref: '#/components/schemas/BasicOutput'
         - $ref: '#/components/schemas/AccountOutput'
