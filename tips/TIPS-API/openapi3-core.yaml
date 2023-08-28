@@ -2798,10 +2798,13 @@ components:
               properties:
                 windowSize:
                   type: integer
+                  description: The size of the window in epochs to find which version of protocol parameters was most signaled, from currentEpoch - windowSize to currentEpoch.
                 windowTargetRatio:
                   type: integer
+                  description: The target number of supporters for a version to win in a windowSize.
                 activationOffset:
                   type: integer
+                  description: The offset in epochs to activate the new version of protocol parameters.
               required:
                 - windowSize
                 - windowTargetRatio
