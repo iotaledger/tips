@@ -1073,6 +1073,7 @@ components:
                 vByteFactorKey: 10
                 vByteFactorIssuerKeys: 100
                 vByteFactorStakingFeature: 100
+                vByteFactorDelegation: 100
               workScoreStructure:
                 dataKilobyte: 0
                 block: 100
@@ -2673,12 +2674,16 @@ components:
                 vByteFactorStakingFeature:
                   description: Defines the factor to be used for staking feature.
                   type: integer
+                vByteFactorDelegation:
+                  description: Defines the factor to be used for delegation output.
+                  type: integer
               required:
                 - vByteCost
                 - vByteFactorData
                 - vByteFactorKey
                 - vByteFactorIssuerKeys
                 - vByteFactorStakingFeature
+                - vByteFactorDelegation
             workScoreStructure:
               description: Work structure lists the Work Score of each type, it is used to denote the computation costs of processing an object.
               properties:
