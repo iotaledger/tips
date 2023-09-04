@@ -148,7 +148,7 @@ paths:
           schema:
             type: string
           example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200.10
-          description: Starts the search from the cursor (confirmationMS+outputId.pageSize).
+          description: Starts the search from the cursor (createdSlotIndex+outputId.pageSize).
       responses:
         '200':
           description: "Successful operation."
@@ -258,7 +258,7 @@ paths:
           schema:
             type: string
           example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200.10
-          description: Starts the search from the cursor (confirmationMS+outputId.pageSize).
+          description: Starts the search from the cursor (createdSlotIndex+outputId.pageSize).
       responses:
         '200':
           description: "Successful operation."
@@ -388,7 +388,7 @@ paths:
           schema:
             type: string
           example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200.10
-          description: Starts the search from the cursor (confirmationMS+outputId.pageSize).
+          description: Starts the search from the cursor (createdSlotIndex+outputId.pageSize).
       responses:
         '200':
           description: "Successful operation."
@@ -480,7 +480,7 @@ paths:
           schema:
             type: string
           example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200.10
-          description: Starts the search from the cursor (confirmationMS+outputId.pageSize).
+          description: Starts the search from the cursor (createdSlotIndex+outputId.pageSize).
       responses:
         '200':
           description: "Successful operation."
@@ -539,7 +539,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OutputsResponse'
               examples:
-                Query results in single outout:
+                Query results in single output:
                   $ref: >-
                     #/components/examples/get-outputs-response-single-example
         '400':
@@ -696,7 +696,7 @@ paths:
           schema:
             type: string
           example: 0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a790200.10
-          description: Starts the search from the cursor (confirmationMS+outputId.pageSize).
+          description: Starts the search from the cursor (createdSlotIndex+outputId.pageSize).
       responses:
         '200':
           description: "Successful operation."
@@ -755,7 +755,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OutputsResponse'
               examples:
-                Query results in single outout:
+                Query results in single output:
                   $ref: >-
                     #/components/examples/get-outputs-response-single-example
         '400':

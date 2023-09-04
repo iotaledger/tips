@@ -129,7 +129,7 @@ channels:
         schema:
           type: string
           examples:
-            - '0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85'
+            - '0xdbf86c778d69f413296c2d4d3086d76c74bf4d719e6e95c03a3d9a955ed39bcf3e00000000000000'
     subscribe:
       tags:
         - name: blocks
@@ -356,9 +356,9 @@ components:
       payload:
         type: object
         required:
-          - commitmentSlotIndex
+          - commitmentIndex
         properties:
-          commitmentSlotIndex:
+          commitmentIndex:
             type: number
             description: The slot index of the commitment.
             example: 242412
@@ -374,14 +374,6 @@ components:
         format: binary
         example: >-
           0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000eb000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000020000016920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92640000000000000000018afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd65d5d2dd3f7df09000000000001000001f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c9095100000000000000
-    Receipt:
-      contentType: application/vnd.iota.serializer-v1
-      description: The migration receipts in its serialized binary form.
-      payload:
-        type: string
-        format: binary
-        example: >-
-          010000000000000000000000000000000000000000000000000000000000000000000000000000000
     OutputPayload:
       contentType: application/json
       payload:
@@ -415,7 +407,7 @@ components:
           blockId:
             type: string
             description: The ID of the block.
-            example: '0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85'
+            example: '0xdbf86c778d69f413296c2d4d3086d76c74bf4d719e6e95c03a3d9a955ed39bcf3e00000000000000'
           blockState:
             type: string
             description: If `pending`, the block is stored but not confirmed. If `confirmed`, the block is confirmed with the first level of knowledge. If `finalized`, the block is included and cannot be reverted anymore. If `rejected`, the block is rejected by the node, and user should reissue payload if it contains one. If `failed`, the block is not successfully issued due to failure reason.
@@ -631,7 +623,7 @@ components:
     ExpirationUnlockCondition:
       description: >-
         Defines a unix time until which only Address, defined in Address Unlock
-        Condition, is allowed to unlock the output. After the unix time, only
+        Condition, is allowed to unlock the output. After the slot index, only
         Return Address can unlock it.
       properties:
         type:
@@ -729,8 +721,8 @@ components:
           type: array
           description: The keys allowed to issue blocks from an account with a BlockIssuerFeature.
           items:
-            type: string
-            description: Ed25519 public key in Hex.
+              oneOf:
+                - $ref: '#/components/schemas/Ed25519PublicKey'
         expirySlot:
           type: integer
           description: Indicates when the BlockIssuerKeys are expired.
@@ -874,6 +866,7 @@ components:
         - type
         - amount
         - mana
+        - unlockConditions
 
     AccountOutput:
       description: >-
@@ -1075,16 +1068,12 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/MetadataFeature'
-        mana:
-          type: string
-          description: The stored mana held by the output.
-          example: '3000'
       required:
         - type
         - amount
         - serialNumber
         - tokenScheme
-        - mana
+
     NFTOutput:
       description: 'Describes an NFT output, a globally unique token with metadata attached.'
       properties:
@@ -1177,7 +1166,7 @@ components:
         blockId:
           type: string
           description: The ID of the block.
-          example: '0xcf5f77d62285b9ed8d617729e9232ae346a328c1897f0939837198e93ec13e85'
+          example: '0xdbf86c778d69f413296c2d4d3086d76c74bf4d719e6e95c03a3d9a955ed39bcf3e00000000000000'
         transactionId:
           type: string
           description: The ID of the transaction which created this output.

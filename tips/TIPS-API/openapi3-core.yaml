@@ -71,8 +71,6 @@ paths:
           description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
         '500':
           description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
-        '503':
-          description: "Unsuccessful operation: indicates that the node isn´t healthy."
 
   /api/core/v3/info:
     get:
@@ -269,6 +267,13 @@ paths:
           example: 1
           required: false
           description: The page number of validators.
+        - in: query
+          name: cursor
+          schema:
+            type: string
+          example: "16,20"
+          required: false
+          description: Starts the search from the cursor (requested slot index+start index).
       responses:
         '200':
           description: "Successful operation."
@@ -308,7 +313,7 @@ paths:
     get:
       tags:
         - validators
-      summary: Return the information of requested staker.
+      summary: Return information about a validator.
       parameters:
         - in: path
           name: accountId
@@ -470,7 +475,7 @@ paths:
           name: blockId
           schema:
             type: string
-          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          example: "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
           required: true
           description: Identifier of the block.
       responses:
@@ -536,7 +541,7 @@ paths:
           name: blockId
           schema:
             type: string
-          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          example: "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
           required: true
           description: Identifier of the block.
       responses:
@@ -1051,7 +1056,7 @@ components:
           latestFinalizedSlot: '100'
           latestAcceptedBlockSlot: '100'
           latestConfirmedBlockSlot: '95'
-          pruningSlot: '20'
+          pruningEpoch: '20'
         metrics:
           blocksPerSecond: '1.5E+00'
           confirmedBlocksPerSecond: '1.5E+00"'
@@ -1148,7 +1153,7 @@ components:
       value:
         blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
         blockState: "pending"
-        txState: "pending"
+        transactionState: "pending"
     
     get-block-by-id-response-example-new:
       value:
@@ -1159,7 +1164,7 @@ components:
       value:
         blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
         blockState: "confirmed"
-        txState: "confirmed"
+        transactionState: "confirmed"
 
     get-block-by-id-response-example-confirmed:
       value:
@@ -1170,8 +1175,8 @@ components:
       value:
         blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
         blockState: "confirmed"
-        txState: "failed"
-        txFailureReason: 2
+        transactionState: "failed"
+        transactionFailureReason: 2
 
     post-tagged-data-block-request-example-minimal:
       value:
@@ -1534,6 +1539,7 @@ components:
         prevId: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
         rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
         cumulativeWeight: '78901'
+        referencedManaCost: '600'
 
     get-commitment-response-binary-example:
       value: "070000000a1a0000977c626276b19ef8b3c445709f2f0f2ccc4abb98d97617f421f240c0d1ee066d4306e67a0321889ef8ec89b7eff1378049e058f0fa87a78c2452ae72631a5a99d913d1cbb3525b8faa1800e28dfcb28154bcba10154c39ef87ceda793cb44f58ae1549c88ea13fe4a9695bb6f0aba6cb756522209e5066a96039ae12b398b975693bdc21e222997c86ff9bfc5844f0372d58ff6fa510688e53c181bbdf4db41f9b627540a70e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a80000000300d85e5b1590d898d1e0cdebb2e3b5337c8b76270142663d78811683ba47c17c989ad7a8f0ff2c6438bf435786d4a5b0125a5caf7367061b49a739389d5ebea234c0466c86f88a3f8add03bff04c2e34b214683f2f6983641e1d1185da7e2c3e0200d9922819a39e94ddf3907f4b9c8df93f39f026244fcb609205b9a879022599f218be2536d8b7b8547faa3dbdfe98339ebe9e2b2417a8a03eee02b2a8312b9e026dd0a33261a58a240cd0a1b06cdf1775d98d316f162d3eec402f4bf08bea2a0700f9d9656a60049083eef61487632187b351294c1fa23d118060d813db6d03e8b6ca8180d435708e826bc2042ccd667babb59c5cc461ff29dba966359fcd6fc511cdfdf10d6576f36ac2a6e5cb691e13968c13947ffbd9239939d3802b2fbe0f06"
@@ -1774,7 +1780,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 3 to denote an a Reward Input.
+          description: Set to value 3 to denote a Reward Input.
         index:
           type: integer
           description: The index of the transaction input for which to claim rewards.
@@ -1787,7 +1793,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 0 to denote an UTXO Input.
+          description: Set to value 0 to denote a UTXO Input.
         transactionId:
           type: string
           description: The BLAKE2b-256 hash of the transaction from which the UTXO comes from. Hex-encoded data with 0x prefix.
@@ -1810,13 +1816,13 @@ components:
           description: The amount of IOTA tokens to deposit with this BasicOutput output. Plain string encoded number.
         nativeTokens:
           type: array
-          description: Native tokens held by the otuput.
+          description: Native tokens held by the output.
           items:
             anyOf:
               - $ref: '#/components/schemas/NativeToken'
         unlockConditions:
           type: array
-          description: Unlock condtions that define how the output an be unlocked in a transaction.
+          description: Unlock conditions that define how the output can be unlocked in a transaction.
           items:
             anyOf:
               - $ref: '#/components/schemas/AddressUnlockCondition'
@@ -1853,7 +1859,7 @@ components:
           description: The stored mana held by the output.
         nativeTokens:
           type: array
-          description: Native tokens held by the otuput.
+          description: Native tokens held by the output.
           items:
             anyOf:
               - $ref: '#/components/schemas/NativeToken'
@@ -1862,7 +1868,7 @@ components:
           description: The identifier of the account.        
         stateIndex:
           type: integer
-          description: A counter that must increase by 1 every time the alias is state transitioned.
+          description: A counter that must increase by 1 every time the account is state transitioned.
         stateMetadata:
           type: string
           description: Hex-encoded metadata with 0x prefix that can only be changed by the state controller.
@@ -1871,7 +1877,7 @@ components:
           description: A counter that denotes the number of foundries created by this account.
         unlockConditions:
           type: array
-          description: Unlock condtions that define how the output an be unlocked in a transaction.
+          description: Unlock conditions that define how the output can be unlocked in a transaction.
           items:
             anyOf:
               - $ref: '#/components/schemas/StateControllerAddressUnlockCondition'
@@ -1958,7 +1964,7 @@ components:
   
 
     FoundryOutput:
-      description: Describes a foundry output that is controlled by an alias.
+      description: Describes a foundry output that is controlled by an account.
       properties:
         type:
           type: integer
@@ -1968,7 +1974,7 @@ components:
           description: The amount of IOTA tokens to deposit with this output. Plain string encoded number.
         nativeTokens:
           type: array
-          description: Native tokens held by the otuput.
+          description: Native tokens held by the output.
           items:
             anyOf:
               - $ref: '#/components/schemas/NativeToken'
@@ -1983,7 +1989,7 @@ components:
               - $ref: '#/components/schemas/SimpleTokenScheme'
         unlockConditions:
           type: array
-          description: Unlock condtions that define how the output an be unlocked in a transaction.
+          description: Unlock conditions that define how the output can be unlocked in a transaction.
           items:
             anyOf:
               - $ref: '#/components/schemas/ImmutableAccountAddressUnlockCondition'
@@ -2000,15 +2006,11 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/MetadataFeature'
-        mana:
-          type: string
-          description: The stored mana held by the output.
       required:
         - type
         - amount
         - serialNumber
         - tokenScheme
-        - mana
 
     NFTOutput:
       description: Describes an NFT output, a globally unique token with metadata attached.
@@ -2021,7 +2023,7 @@ components:
           description: The amount of IOTA tokens to deposit with this output. Plain string encoded number.
         nativeTokens:
           type: array
-          description: Native tokens held by the otuput.
+          description: Native tokens held by the output.
           items:
             anyOf:
               - $ref: '#/components/schemas/NativeToken'
@@ -2030,7 +2032,7 @@ components:
           description: Unique identifier of the NFT, which is the BLAKE2b-256 hash of the Output ID that created it. NFT Address = NFT Address Type || NFT ID. Hex-encoded data with 0x prefix.
         unlockConditions:
           type: array
-          description: Unlock condtions that define how the output an be unlocked in a transaction.
+          description: Unlock conditions that define how the output can be unlocked in a transaction.
           items:
             anyOf:
               - $ref: '#/components/schemas/AddressUnlockCondition'
@@ -2089,7 +2091,7 @@ components:
         - pubKeyHash
 
     AccountAddress:
-      description: Address of an alias account.
+      description: Address of an account output.
       properties:
         type:
           type: integer
@@ -2163,11 +2165,11 @@ components:
         - amount
 
     TimelockUnlockCondition:
-      description: Can be unlocked if the CTT has a >= Unix Timestamp.
+      description: Can be unlocked if the CTT (Confirmed Tangle Time) has a >= Unix Timestamp.
       properties:
         type:
           type: integer
-          description: Set to value 2 to denote an Timelock Unlock Condition.
+          description: Set to value 2 to denote a Timelock Unlock Condition.
         slotIndex:
           type: string
           description: The slot index until which the timelock applies (inclusive).
@@ -2197,7 +2199,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 4 to denote an  Sate Controller Address Unlock Condition.
+          description: Set to value 4 to denote a State Controller Address Unlock Condition.
         address:
           oneOf:
             - $ref: '#/components/schemas/Ed25519Address'
@@ -2212,7 +2214,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 5 to denote an  Governor Address Unlock Condition.
+          description: Set to value 5 to denote a Governor Address Unlock Condition.
         address:
           oneOf:
             - $ref: '#/components/schemas/Ed25519Address'
@@ -2298,7 +2300,7 @@ components:
           description: The amount of IOTA coins that are locked and staked in the containing account.
         fixedCost:
           type: string
-          description: Indicates when the BlockIssuerKeys are expired.
+          description: The fixed cost that the validator receives from the total pool reward.
         startEpoch:
           type: string
           description: The epoch index at which the staking starts.
@@ -2343,7 +2345,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 0 to denote an Simple Token Scheme.
+          description: Set to value 0 to denote a Simple Token Scheme.
         mintedTokens:
           type: string
           description: Minted tokens controlled by this foundry. Hex-encoded number with 0x prefix.
@@ -2360,7 +2362,7 @@ components:
         - maxSupply
 
     SignatureUnlock:
-      description: Defines an unlock containing signature(s) unlocking input(s).
+      description: Defines an unlock containing a signature to unlock an input.
       properties:
         type:
           type: integer
@@ -2391,7 +2393,7 @@ components:
         - signature
 
     ReferenceUnlock:
-      description: References a previous unlock in order to substitute the duplication of the same unlock data for inputs which unlock through the same data.
+      description: ReferenceUnlock is an Unlock which references a previous unlock.
       properties:
         type:
           type: integer
@@ -2404,11 +2406,11 @@ components:
         - reference
 
     AccountUnlock:
-      description: References a previous unlock that unlocks an Alias Output.
+      description: References a previous unlock that unlocks an Account Output.
       properties:
         type:
           type: integer
-          description: Set to value 2 to denote an Alias Unlock.
+          description: Set to value 2 to denote an Account Unlock.
         reference:
           type: integer
           description: Represents the index of a previous unlock.
@@ -2536,19 +2538,19 @@ components:
               description: A notion of time that is anchored to the latest accepted block.
               type: string
             relativeAcceptedTangleTime:
-              description: The Accepted Tangle Time after it has advanced with the system clock.
+              description: The time after Accepted Tangle Time has advanced with the system clock.
               type: string
             confirmedTangleTime:
               description: A notion of time that is anchored to the latest confirmed block.
               type: string
             relativeConfirmedTangleTime:
-              description: The Confirmed Tangle Time after it has advanced with the system clock.
+              description: The time after Confirmed Tangle Time has advanced with the system clock.
               type: string
             latestCommitmentId:
               type: string
               description: The latest slot that the node has committed to.  
             latestFinalizedSlot:
-              description: The index of latest finalized slot.
+              description: The index of the latest finalized slot.
               type: string
             latestAcceptedBlockSlot:
               description: The slot index of the latest accepted block.
@@ -2556,14 +2558,20 @@ components:
             latestConfirmedBlockSlot:
               description: The slot index of the latest confirmed block.
               type: string
-            pruningSlot:
+            pruningEpoch:
               type: string
               description: The index of the slot before which the tangle history is pruned.
           required:
             - isHealthy
+            - acceptedTangleTime
+            - relativeAcceptedTangleTime
+            - confirmedTangleTime
+            - relativeConfirmedTangleTime
             - latestCommitmentId
             - latestFinalizedSlot
-            - pruningSlot
+            - latestAcceptedBlockSlot
+            - latestConfirmedBlockSlot
+            - pruningEpoch
         metrics:
           description: Node metrics.
           properties:
@@ -2576,7 +2584,7 @@ components:
               type: string
               format: float
             confirmationRate:
-              description: The ratio of confirmed blocks in relation to new blocks of the last confirmed slot.
+              description: The ratio of confirmed blocks to new blocks of the last confirmed slot.
               type: string
               format: float
           required:
@@ -2600,12 +2608,12 @@ components:
             unit:
               type: string
               description: The primary unit of the token.
-            decimals:
-              type: integer
-              description: Number of decimals the primary unit is divisible up to.
             subunit:
               type: string
               description: The name of the smallest possible denomination of the primary unit. subunit * 10^decimals = unit
+            decimals:
+              type: integer
+              description: Number of decimals the primary unit is divisible up to.            
             useMetricPrefix:
               type: boolean
               description: Whether to use metric prefixes for displaying unit.
@@ -2789,7 +2797,7 @@ components:
                   description: DecreaseThreshold is the threshold for decreasing the reference Mana cost.
                   type: integer
                 schedulerRate:
-                  description: SchedulerRate is the rate at which the  scheduler runs in workscore units per second.
+                  description: SchedulerRate is the rate at which the scheduler runs in workscore units per second.
                   type: integer
                 minMana:
                   description: MinMana is the minimum amount of Mana that an account must have to have a block scheduled.
@@ -2897,7 +2905,7 @@ components:
               - $ref: '#/components/schemas/CommitteeMember'
 
     CommitteeMember:
-      description: Returns information of a validator.
+      description: Returns information of a committee member.
       properties:
         accountId: 
           type: string
@@ -3006,6 +3014,9 @@ components:
             weight of issuers of accepted blocks within this slot. 
             It is just an indication of "committed into" this slot,
             and can not strictly be used for evaluating the switching of a chain.
+        referencedManaCost:
+          type: string
+          description: This field provides the Reference Mana Cost (RMC) to be used in the slot with index Index + Max Committable Age.
 
     SubmitBlockRequest:
       description: Submits a block to the node.
@@ -3065,7 +3076,7 @@ components:
             - rejected
             - failed
           description: If `pending`, the block is stored but not confirmed. If `confirmed`, the block is confirmed with the first level of knowledge. If `finalized`, the block is included and cannot be reverted anymore. If `rejected`, the block is rejected by the node, and user should reissue payload if it contains one. If `failed`, the block is not successfully issued due to failure reason.
-        txState:
+        transactionState:
           type: string
           enum:
             - pending
@@ -3083,7 +3094,7 @@ components:
               * `3` - denotes that the block failed at the booker.
               * `4` - denotes that the block is dropped due to congestion.
               * `5` - denotes that the block is invalid.
-        txFailureReason:
+        transactionFailureReason:
           type: integer
           enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,255]
           description: >
@@ -3092,7 +3103,7 @@ components:
               * `2` - denotes that the transaction is conflicting with another transaction. Conflicting specifically means a double spend situation that both transaction pass all validation rules, eventually losing one(s) should have this reason. 
               * `3` - denotes that the referenced UTXO is invalid.
               * `4` - denotes that the transaction is invalid.
-              * `5` - denotes that the sum of the inputs and output values does not match.
+              * `5` - denotes that the sum of the inputs and output base token amount does not match.
               * `6` - denotes that the unlock block signature is invalid.
               * `7` - denotes that the configured timelock is not yet expired.
               * `8` - denotes that the given native tokens are invalid.
@@ -3112,6 +3123,7 @@ components:
               * `255` - denotes that the semantic validation failed.
       required:
         - blockId
+        - blockState
 
     BlockResponse:
       description: Returns a given block.
