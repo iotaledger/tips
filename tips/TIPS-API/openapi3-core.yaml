@@ -2694,7 +2694,7 @@ components:
                   description: Block accounts for work done to process a block in the node software.
                   type: integer
                 missingParent:
-                  description: MissingParent is used for slashing if there are not enough strong tips.
+                  description: MissingParent is used to multiply for each missing parent if there are not enough strong ones.
                   type: integer
                 input:
                   description: Input accounts for loading the UTXO from the database and performing the mana calculations.
