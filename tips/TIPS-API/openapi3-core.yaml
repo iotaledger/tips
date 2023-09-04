@@ -1708,7 +1708,7 @@ components:
               - $ref: '#/components/schemas/UTXOInput'
         inputsCommitment:
           type: string
-          description: BLAKE2b-256 hash of the BLAKE2b-256 hashes of the serialized outputs referenced in Inputs by their outputIds (transactionId || outputIndex). Hex-encoded data with 0x prefix.
+          description: BLAKE2b-256 hash of the BLAKE2b-256 hashes of the serialized outputs referenced in Inputs by their Output IDs (Transaction ID || Output Index). Hex-encoded data with 0x prefix.
         outputs:
           type: array
           description: The outputs of this transaction.
@@ -2098,7 +2098,7 @@ components:
           description: Set to value 8 to denote an Account Address.
         accountId:
           type: string
-          description: The hex-encoded, 0x prefixed BLAKE2b-256 hash of the outputId that created the account.
+          description: The hex-encoded, 0x prefixed BLAKE2b-256 hash of the Output ID that created the account.
       required:
         - type
         - accountId
@@ -2111,7 +2111,7 @@ components:
           description: Set to value 16 to denote an NFT Address.
         nftId:
           type: string
-          description: The hex-encoded, 0x prefixed BLAKE2b-256 hash of the outputId that created the NFT.
+          description: The hex-encoded, 0x prefixed BLAKE2b-256 hash of the Output ID that created the NFT.
       required:
         - type
         - nftId

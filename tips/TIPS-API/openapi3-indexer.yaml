@@ -160,7 +160,7 @@ paths:
                 Query results in 3 outputs:
                   $ref: >-
                     #/components/examples/get-outputs-response-three-example
-                No matching outputIds found:
+                No matching Output IDs found:
                   $ref: >-
                     #/components/examples/get-outputs-empty-response-example
                 Paging - more items found than it can fit on single page:
@@ -270,7 +270,7 @@ paths:
                 Query results in 3 outputs:
                   $ref: >-
                     #/components/examples/get-outputs-response-three-example
-                No matching outputIds found:
+                No matching Output IDs found:
                   $ref: >-
                     #/components/examples/get-outputs-empty-response-example
                 Paging - more items found than it can fit on single page:
@@ -299,8 +299,8 @@ paths:
     get:
       tags:
         - account outputs
-      summary: Returns the outputId of the current unspent account output for accountId.
-      description: Returns the outputId of the current unspent account output for accountId.
+      summary: Returns the Output ID of the current unspent account output for accountId.
+      description: Returns the Output ID of the current unspent account output for accountId.
       parameters:
         - in: path
           name: accountId
@@ -400,7 +400,7 @@ paths:
                 Query results in 3 outputs:
                   $ref: >-
                     #/components/examples/get-outputs-response-three-example
-                No matching outputIds found:
+                No matching Output IDs found:
                   $ref: >-
                     #/components/examples/get-outputs-empty-response-example
                 Paging - more items found than it can fit on single page:
@@ -492,7 +492,7 @@ paths:
                 Query results in 3 outputs:
                   $ref: >-
                     #/components/examples/get-outputs-response-three-example
-                No matching outputIds found:
+                No matching Output IDs found:
                   $ref: >-
                     #/components/examples/get-outputs-empty-response-example
                 Paging - more items found than it can fit on single page:
@@ -521,8 +521,8 @@ paths:
     get:
       tags:
         - foundry outputs
-      summary: Returns the outputId of the current unspent foundry output for foundryId.
-      description: Returns the outputId of the current unspent foundry output for foundryId.
+      summary: Returns the Output ID of the current unspent foundry output for foundryId.
+      description: Returns the Output ID of the current unspent foundry output for foundryId.
       parameters:
         - in: path
           name: foundryId
@@ -708,7 +708,7 @@ paths:
                 Query results in 3 outputs:
                   $ref: >-
                     #/components/examples/get-outputs-response-three-example
-                No matching outputIds found:
+                No matching Output IDs found:
                   $ref: >-
                     #/components/examples/get-outputs-empty-response-example
                 Paging - more items found than it can fit on single page:
@@ -737,8 +737,8 @@ paths:
     get:
       tags:
         - nft outputs
-      summary: Returns the outputId of the current unspent nft output for nftId.
-      description: Returns the outputId of the current nft output for nftId.
+      summary: Returns the Output ID of the current unspent nft output for nftId.
+      description: Returns the Output ID of the current nft output for nftId.
       parameters:
         - in: path
           name: nftId
@@ -877,7 +877,7 @@ components:
           message: internal server error
 
     OutputsResponse:
-      description: Returns a list of OutputIds.
+      description: Returns a list of Output IDs.
       properties:
         ledgerIndex:
           type: integer
@@ -888,7 +888,7 @@ components:
           nullable: true
         items:
           type: array
-          description: The output IDs (transaction hash + output index) of the outputs satisfying the query. Hex-encoded with 0x prefix.
+          description: The Output IDs (transaction hash + output index) of the outputs satisfying the query. Hex-encoded with 0x prefix.
           items:
             type: string
       required:
