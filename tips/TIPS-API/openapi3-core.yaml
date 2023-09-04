@@ -1183,7 +1183,7 @@ components:
       value:
         protocolVersion: 3
         block:
-          type: 1
+          type: 0
           payload:
             type: 5
             tag: "0x72616e646f6d207461673a206769746875622e636f6d"
@@ -1193,7 +1193,7 @@ components:
       value:
         protocolVersion: 3
         block:
-          type: 1
+          type: 0
           payload:
             type: 6
             essence:
@@ -1239,7 +1239,7 @@ components:
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
-          type: 1
+          type: 0
           strongParents:
             - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
             - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
@@ -1383,7 +1383,7 @@ components:
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
-          type: 1
+          type: 0
           strongParents:
             - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
             - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
@@ -1404,7 +1404,7 @@ components:
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
-          type: 1
+          type: 0
           strongParents:
             - "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
             - "0x408a53af982c49d1398ab5c5b5f5b390d4c4da7da48b61bb9ba7f97c1e8dd7f60000000000000000"
@@ -1465,7 +1465,7 @@ components:
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
-          type: 1
+          type: 0
           strongParents:
             - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
             - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
@@ -1490,7 +1490,7 @@ components:
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
-          type: 2
+          type: 1
           strongParents:
             - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
             - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
@@ -2159,7 +2159,7 @@ components:
             - $ref: '#/components/schemas/NFTAddress'
         amount:
           type: string
-          description: Amount of IOTA tokens the consuming transaction should deposit to the address defined in Return Address. Plain string encoded number.
+          description: Amount of IOTA tokens the consuming transaction must deposit to the address defined in Return Address. Plain string encoded number.
       required:
         - type
         - returnAddress
