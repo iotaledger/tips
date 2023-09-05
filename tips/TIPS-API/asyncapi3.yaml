@@ -1160,6 +1160,20 @@ components:
         - type
         - publicKey
         - signature
+
+    Ed25519PublicKey:
+      description: The Ed25519 public key.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote an Ed25519 Public key.
+        publicKey:
+          type: string
+          description: Ed25519 public key in Hex.
+      required:
+        - type
+        - publicKey
+        
     OutputMetadata:
       description: Metadata of an output.
       properties:
