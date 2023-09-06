@@ -1498,7 +1498,7 @@ components:
           weakParents: []
           shallowLikeParents: []
           highestSupportedVersion: 3
-          protocolParametersHash: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          protocolParametersHash: "0x69449327e1973152a1d2fdff1c8f27428fc52e4f1cf0bb8006eae397714e1968"
         signature:
           type: 0
           publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
