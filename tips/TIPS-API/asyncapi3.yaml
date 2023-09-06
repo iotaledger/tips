@@ -428,14 +428,15 @@ components:
             example: failed
           blockFailureReason:
             type: integer
-            enum: [1,2,3,4,5]
+            enum: [1,2,3,4,5,6]
             description: |
               Values:
                 * `1` - denotes that the block is too old to issue.
                 * `2` - denotes that the block's parents are too old.
-                * `3` - denotes that the block failed at the booker.
-                * `4` - denotes that the block is dropped due to congestion.
-                * `5` - denotes that the block is invalid.
+                * `3` - denotes that one of block's parents does not exist.
+                * `4` - denotes that one of block's parents is invalid.
+                * `5` - denotes that the block is dropped due to congestion.
+                * `6` - denotes that the block is invalid.
           txFailureReason:
             type: integer
             enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,255]
