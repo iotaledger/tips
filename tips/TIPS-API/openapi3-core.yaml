@@ -2880,7 +2880,7 @@ components:
           description: The number of validators returned per one API request with pagination.
         cursor:
           type: string
-          description: The cursor that needs to be provided as cursor query parameter to request the next page. If empty, this was the last page.
+          description: The cursor that needs to be provided as cursor query parameter to request the next page. Cursor is absent if the last page is returned.
 
     ManaRewardsResponse:
       description: Returns the mana rewards of an account or delegation output.
