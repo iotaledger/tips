@@ -1236,7 +1236,7 @@ components:
         protocolVersion: 3
         networkId: "0"
         issuingTime: "1692966293697706488"
-        slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
@@ -1261,7 +1261,7 @@ components:
         protocolVersion: 3
         networkId: "0"
         issuingTime: "2023-07-31T13:14:57.310104314Z"
-        slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
@@ -1380,7 +1380,7 @@ components:
         protocolVersion: 3
         networkId: "0"
         issuingTime: "1692966346513784862"
-        slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
@@ -1401,7 +1401,7 @@ components:
         protocolVersion: 3
         networkId: "0"
         issuingTime: "1692966346513784862"
-        slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
@@ -1462,7 +1462,7 @@ components:
         protocolVersion: 3
         networkId: "0"
         issuingTime: "1692966346513784862"
-        slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
@@ -1487,7 +1487,7 @@ components:
         protocolVersion: 3
         networkId: "0"
         issuingTime: "1692966346513784862"
-        slotCommitment: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: "0"
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
         block:
@@ -1570,9 +1570,9 @@ components:
         issuingTime:
           type: string
           description: The timestamp of issuing this block, a uint64 string.
-        slotCommitment:
+        slotCommitmentId:
           type: string
-          description: The slot commitment contains in this block.
+          description: The slot commitment ID contains in this block.
         latestFinalizedSlot:
           type: string
           description: The latest finalized slot of issuing node.
@@ -1652,7 +1652,7 @@ components:
           description: The highest supported version of the protocol.
         protocolParametersHash:
           type: string
-          description: The hash of the protocol parameters for the HighestSupportedVersion.
+          description: The hash of the protocol parameters for the highestSupportedVersion.
       required:
         - type
         - strongParents
@@ -1688,7 +1688,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 1 to denote a Transaction Essence.
+          description: Set to value 2 to denote a Transaction Essence.
         networkId:
           type: string
           description: Network identifier. Plain string encoded number. This field signals for which network the block is meant for. It is computed out of the first 8 bytes of the `BLAKE2b-256` hash of the concatenation of the network name and protocol version string.
@@ -3040,7 +3040,7 @@ components:
         issuingTime:
           type: string
           description: The timestamp of issuing this block.
-        slotCommitment:
+        slotCommitmentId:
           type: string
           description: The slot commitment contains in this block.
         latestFinalizedSlot:
