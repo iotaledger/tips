@@ -320,13 +320,13 @@ components:
         required:
           - index
           - rootsId
-          - prevId
+          - previousCommitmentId
         properties:
           index:
             type: string
             description: The slot index of the commitment.
             example: '200'
-          prevId:
+          previousCommitmentId:
             type: string
             description: The commitment identifier of the previous slot.
             example: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"

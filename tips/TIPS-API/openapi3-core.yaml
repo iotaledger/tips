@@ -1143,7 +1143,7 @@ components:
         commitment:
           version: 3
           index: '1432'
-          prevId: "0xbf07dc16986166953f5a72c19d78642aab6cbde63964a2369ec3d425144eb42b3800000000000000"
+          previousCommitmentId: "0xbf07dc16986166953f5a72c19d78642aab6cbde63964a2369ec3d425144eb42b3800000000000000"
           rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
           cumulativeWeight: '45678'
 
@@ -1538,7 +1538,7 @@ components:
     get-commitment-response-example:
       value:
         index: '986'
-        prevId: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
+        previousCommitmentId: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
         rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
         cumulativeWeight: '78901'
         referencedManaCost: '600'
@@ -3011,7 +3011,7 @@ components:
         index:
           type: string
           description: The slot index of the commitment.
-        prevId:
+        previousCommitmentId:
           type: string
           description: The commitment identifier of the previous slot.
         rootsId:
