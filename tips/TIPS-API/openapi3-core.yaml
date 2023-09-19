@@ -1071,7 +1071,7 @@ components:
                 vByteCost: 500
                 vByteFactorData: 1
                 vByteFactorKey: 10
-                vByteFactorIssuerKeys: 100
+                vByteFactorBlockIssuerKey: 100
                 vByteFactorStakingFeature: 100
                 vByteFactorDelegation: 100
               workScoreStructure:
@@ -2670,7 +2670,7 @@ components:
                 vByteFactorKey:
                   description: Defines the factor to be used for key/lookup generating fields.
                   type: integer
-                vByteFactorIssuerKeys:
+                vByteFactorBlockIssuerKey:
                   description: Defines the factor to be used for block issuer feature public keys.
                   type: integer
                 vByteFactorStakingFeature:
@@ -2683,7 +2683,7 @@ components:
                 - vByteCost
                 - vByteFactorData
                 - vByteFactorKey
-                - vByteFactorIssuerKeys
+                - vByteFactorBlockIssuerKey
                 - vByteFactorStakingFeature
                 - vByteFactorDelegation
             workScoreStructure:
