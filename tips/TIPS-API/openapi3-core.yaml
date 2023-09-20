@@ -3020,11 +3020,9 @@ components:
           description: The digest of multiple merkle roots within this slot.
         cumulativeWeight:
           type: string
-          description: 
+          description:
             The sum of previous slot commitment cumulative weight and 
-            weight of issuers of accepted blocks within this slot. 
-            It is just an indication of "committed into" this slot,
-            and can not strictly be used for evaluating the switching of a chain.
+            weight of issuers of accepted blocks within <code>index</code> minus <code>Maximum Committable Age</code>. It indicates the weight of the chain at <code>index</code> minus <code>Maximum Committable Age</code> committed at <code>index</code> slot.
         referenceManaCost:
           type: string
           description: This field provides the Reference Mana Cost (RMC) to be used in the slot with index Index + Max Committable Age.
