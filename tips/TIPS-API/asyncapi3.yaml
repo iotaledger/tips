@@ -137,20 +137,20 @@ channels:
       description: Publishes metadata of a particular block whenever its metadata changes.
       message:
         $ref: '#/components/messages/BlockMetadata'
+  block-metadata/accepted:
+    subscribe:
+      tags:
+        - name: blocks
+      operationId: blockMetadataAccepted
+      description: Publishes metadata of a block whenever it gets accepted.
+      message:
+        $ref: '#/components/messages/BlockMetadata'
   block-metadata/confirmed:
     subscribe:
       tags:
         - name: blocks
       operationId: blockMetadataConfirmed
       description: Publishes metadata of a block whenever it gets confirmed.
-      message:
-        $ref: '#/components/messages/BlockMetadata'
-  block-metadata/finalized:
-    subscribe:
-      tags:
-        - name: blocks
-      operationId: blockMetadataFinalized
-      description: Publishes metadata of a block whenever it gets finalized.
       message:
         $ref: '#/components/messages/BlockMetadata'
   'transactions/{transactionId}/included-block':
@@ -187,24 +187,6 @@ channels:
         Publishes the given wanted output on subscriptions.
       message:
         $ref: '#/components/messages/OutputPayload'
-
-  'output-metadata/{outputId}':
-    parameters:
-      outputId:
-        description: Hex encoded identifier of the output.
-        schema:
-          type: string
-          examples:
-            - '0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be70000'
-    subscribe:
-      tags:
-        - name: outputs
-      operationId: outputMetadata
-      description: >-
-        Publishes the given wanted output metadata on subscription and when its state
-        changes (created, spent).
-      message:
-        $ref: '#/components/messages/OutputMetadataPayload'
 
   'outputs/account/{accountId}':
     parameters:
@@ -379,6 +361,9 @@ components:
       payload:
         type: object
         properties:
+          metadata:
+            oneOf:
+              - $ref: '#/components/schemas/OutputMetadata'
           output:
             anyOf:
               - $ref: '#/components/schemas/BasicOutput'
@@ -386,15 +371,6 @@ components:
               - $ref: '#/components/schemas/FoundryOutput'
               - $ref: '#/components/schemas/NFTOutput'
               - $ref: '#/components/schemas/DelegationOutput'
-              
-    OutputMetadataPayload:
-      contentType: application/json
-      payload:
-        type: object
-        properties:
-          metadata:
-            oneOf:
-              - $ref: '#/components/schemas/OutputMetadata'
 
     BlockMetadata:
       contentType: application/json
@@ -1194,6 +1170,10 @@ components:
           type: boolean
           description: Whether the output is spent or not.
           example: true
+        spentSlot:
+          type: integer
+          description: The slot at which the output was spent.
+          example: 20
         commitmentIdSpent:
           type: string
           description: The commitment ID of the slot at which this output was spent.
@@ -1202,17 +1182,23 @@ components:
           type: string
           description: The transaction this output was spent with.
           example: '0xe526f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'
+        includedSlot:
+          type: integer
+          description: The slot at which the output was included into the ledger.
+          example: 15
         includedCommitmentId:
           type: string
           description: The commitment ID at which the output was included into the ledger.
           example: '0xe526f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'       
-        latestCommitmentId:
-          type: string
-          description: The current latest commitment id for which the request was made.
-          example: '0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a'       
+        ledgerIndex:
+          type: integer
+          description: The current ledger index for which the request was made.
+          example: 25
       required:
         - blockId
         - transactionId
         - outputIndex
         - isSpent
+        - includedSlot
         - includedCommitmentId
+        - ledgerIndex
