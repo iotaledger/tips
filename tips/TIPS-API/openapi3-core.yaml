@@ -1123,7 +1123,7 @@ components:
                 windowSize: 7
                 windowTargetRatio: 5
                 activationOffset: 7
-              rewardsParameters":
+              rewardsParameters:
                 validatorBlocksPerSlot: 10
                 profitMarginExponent: 8
                 bootstrappinDuration: "1154"
