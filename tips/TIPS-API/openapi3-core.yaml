@@ -1925,8 +1925,7 @@ components:
 
     DelegationOutput:
       description: >-
-        Describes an delegation output in the ledger that can be controlled by the
-        state and governance controllers.
+        Describes an delegation output.
       properties:
         type:
           type: integer
