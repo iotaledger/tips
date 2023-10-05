@@ -1,17 +1,17 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js light">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>The Tangle Improvement Proposal (TIP) Book</title>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex">
 
 
         <!-- Custom HTML head -->
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
         <link rel="icon" href="favicon.svg">
         <link rel="shortcut icon" href="favicon.png">
@@ -32,7 +32,7 @@
         <!-- Custom theme stylesheets -->
 
     </head>
-    <body>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
@@ -62,24 +62,29 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             var html = document.querySelector('html');
-            html.classList.remove('no-js')
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add('js');
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var html = document.querySelector('html');
+            var body = document.querySelector('body');
             var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
             }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -117,9 +122,9 @@
                                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
-                        </button>
+                        </label>
                         <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
@@ -10301,10 +10306,10 @@ created: 2021-11-29
 <tr><td>Protocol Version</td><td>2</td><td>Protocol version currently used by the network</td></tr>
 <tr><td>Max Block Length</td><td>32768</td><td>Maximum length of a block in bytes. Limits Tangle storage size and communication costs.</td></tr>
 <tr><td>Max Parents Count</td><td>8</td><td>Maximum number of parents of a block.</td></tr>
-<tr><td>Min PoW Score</td><td>4000.0</td><td>Minimum PoW score for blocks to pass syntactic validation.</td></tr>
+<tr><td>Min PoW Score</td><td>1500.0</td><td>Minimum PoW score for blocks to pass syntactic validation.</td></tr>
 <tr><td>First Milestone Index</td><td>1</td><td>First valid milestone index.</td></tr>
 <tr><td></td><td></td><td></td></tr>
-<tr><td>Max IOTA Supply</td><td>2779530283277761</td><td>Total amount of IOTA coins in circulation.</td></tr>
+<tr><td>Max IOTA Supply</td><td>4600000000000000</td><td>Total amount of IOTA coins in circulation.</td></tr>
 <tr><td>Max Inputs Count</td><td>128</td><td>Maximum number of inputs in a transaction payload.</td></tr>
 <tr><td>Max Outputs Count</td><td>128</td><td>Maximum number of outputs in a transaction payload.</td></tr>
 <tr><td>Max Native Token Count</td><td>64</td><td>Maximum number of different native tokens that can be referenced in one transaction.</td></tr>
@@ -10312,7 +10317,7 @@ created: 2021-11-29
 <tr><td>Max Tag Length</td><td>64</td><td>Maximum length of a <code>Tag</code> field in bytes.</td></tr>
 <tr><td>Max Metadata Length</td><td>8192</td><td>Maximum length of a <code>Metadata</code> field in bytes.</td></tr>
 <tr><td></td><td></td><td></td></tr>
-<tr><td>VByte Cost</td><td>500</td><td>Minimum amount of IOTA that need to be deposited per vbyte of an output.</td></tr>
+<tr><td>VByte Cost</td><td>250</td><td>Minimum amount of IOTA that need to be deposited per vbyte of an output.</td></tr>
 <tr><td></td><td></td><td></td></tr>
 <tr><td>SLIP-44 Coin Type (decimal)</td><td>4218</td><td>Registered coin type (decimal) for usage in level 2 of <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">BIP44</a> described in chapter &quot;Coin type&quot;.</td></tr>
 <tr><td>SLIP-44 Path Component (<code>coin_type'</code>)</td><td>0x8000107a</td><td>Registered path component for usage in level 2 of <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">BIP44</a> described in chapter &quot;Coin type&quot;.</td></tr>
@@ -10322,12 +10327,6 @@ created: 2021-11-29
 </tbody></table>
 </div>
 <h1 id="rationale-for-parameter-choices"><a class="header" href="#rationale-for-parameter-choices">Rationale for parameter choices</a></h1>
-<h2 id="proof-of-work"><a class="header" href="#proof-of-work">Proof-of-work</a></h2>
-<p>The <code>Min PoW Score</code> has been chosen to roughly match the difficulty of a data transaction in the legacy IOTA protocol:</p>
-<ul>
-<li>The payload length (<code>signatureMessageFragment</code>) of a legacy transaction is 2187 trytes or 1100 - 1300 bytes depending on the encoding.</li>
-<li>With a minimum weight magnitude (trailing zero trits) of 14, this corresponds to a PoW score of about 4000.</li>
-</ul>
 <h2 id="transaction-and-block-limits"><a class="header" href="#transaction-and-block-limits">Transaction and block limits</a></h2>
 <p>The block parameter <code>Max Block Length</code> and <code>Max Parent Count</code>, as well as the transaction parameters <code>Max Inputs Count</code>, <code>Max Outputs Count</code>, <code>Max Native Token Count</code>, <code>Max Tag Length</code> and <code>Max Metadata Length</code> govern the block and transaction validity. Their values have been chosen to ensure functionality of the protocol within constrained resource restrictions. Furthermore, choosing more conservatives values here is preferable as increasing such limits can always been done preserving backward compatibility.</p>
 <h2 id="dust-protection"><a class="header" href="#dust-protection">Dust protection</a></h2>
@@ -11610,7 +11609,7 @@ the Shimmer staking event:</p>
 </tbody></table>
 </div>
 <h1 id="rationale-for-parameter-choices-1"><a class="header" href="#rationale-for-parameter-choices-1">Rationale for parameter choices</a></h1>
-<h2 id="proof-of-work-1"><a class="header" href="#proof-of-work-1">Proof-of-work</a></h2>
+<h2 id="proof-of-work"><a class="header" href="#proof-of-work">Proof-of-work</a></h2>
 <p>Initially, <code>Min PoW Score</code> was chosen to roughly match the difficulty of a data transaction in the legacy IOTA protocol:</p>
 <ul>
 <li>The payload length (<code>signatureMessageFragment</code>) of a legacy transaction is 2187 trytes or 1100 - 1300 bytes depending on the encoding.</li>
