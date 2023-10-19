@@ -191,52 +191,55 @@
 more improvements. Browse the <a href="#list-of-tips">list of TIPs</a> below with the <em>Stardust</em> tag to learn more about what changes.</p>
 <h2 id="list-of-tips"><a class="header" href="#list-of-tips">List of TIPs</a></h2>
 <ul>
-<li>Last updated: 2022-05-20</li>
+<li>Last updated: 2023-10-19</li>
 <li>The <em>Status</em> of a TIP reflects its current state with respect to its progression to being supported on the IOTA mainnet.
 <ul>
 <li><code>Draft</code> TIPs are work in progress. They may or may not have a working implementation on a testnet.</li>
 <li><code>Proposed</code> TIPs are demonstrated to have a working implementation. These TIPs are supported on Shimmer, the staging network of IOTA.</li>
 <li><code>Active</code> TIPs are supported on the IOTA mainnet.</li>
+<li><code>Replaced</code> TIPs have been replaced by a newer TIP.</li>
+<li><code>Obsolete</code> TIPs are no longer in use.</li>
 </ul>
 </li>
 </ul>
+<p><img src="tips/TIP-0001/process.svg" alt="image" /></p>
 <div class="table-wrapper"><table><thead><tr><th>#</th><th>Title</th><th>Description</th><th>Type</th><th>Layer</th><th>Status</th><th>Initial Target</th></tr></thead><tbody>
 <tr><td>1</td><td><a href="tips/TIP-0001/tip-0001.html">TIP Process</a></td><td>Purpose and guidelines of the contribution framework</td><td>Process</td><td>-</td><td>Active</td><td>-</td></tr>
 <tr><td>2</td><td><a href="tips/TIP-0002/tip-0002.html">White Flag Ordering</a></td><td>Mitigate conflict spamming by ignoring conflicts</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
 <tr><td>3</td><td><a href="tips/TIP-0003/tip-0003.html">Uniform Random Tip Selection</a></td><td>Perform fast tip-selection to increase message throughput</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
 <tr><td>4</td><td><a href="tips/TIP-0004/tip-0004.html">Milestone Merkle Validation</a></td><td>Add Merkle tree hash to milestone for local ledger state verification</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
 <tr><td>5</td><td><a href="tips/TIP-0005/tip-0005.html">Binary To Ternary Encoding</a></td><td>Define the conversion between binary and ternary data</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>6</td><td><a href="tips/TIP-0006/tip-0006.html">Tangle Message</a></td><td>Generalization of the Tangle transaction concept</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>7</td><td><a href="tips/TIP-0007/tip-0007.html">Transaction Payload</a></td><td>UTXO-based transaction structure</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>8</td><td><a href="tips/TIP-0008/tip-0008.html">Milestone Payload</a></td><td>Coordinator issued milestone structure with Ed25519 authentication</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>9</td><td><a href="tips/TIP-0009/tip-0009.html">Local Snapshot File Format</a></td><td>File format to export/import ledger state</td><td>Standards</td><td>Interface</td><td>Active</td><td>Chrysalis</td></tr>
+<tr><td>6</td><td><a href="tips/TIP-0006/tip-0006.html">Tangle Message</a></td><td>Generalization of the Tangle transaction concept</td><td>Standards</td><td>Core</td><td>Replaced by TIP-24</td><td>Chrysalis</td></tr>
+<tr><td>7</td><td><a href="tips/TIP-0007/tip-0007.html">Transaction Payload</a></td><td>UTXO-based transaction structure</td><td>Standards</td><td>Core</td><td>Replaced by TIP-20</td><td>Chrysalis</td></tr>
+<tr><td>8</td><td><a href="tips/TIP-0008/tip-0008.html">Milestone Payload</a></td><td>Coordinator issued milestone structure with Ed25519 authentication</td><td>Standards</td><td>Core</td><td>Replaced by TIP-29</td><td>Chrysalis</td></tr>
+<tr><td>9</td><td><a href="tips/TIP-0009/tip-0009.html">Local Snapshot File Format</a></td><td>File format to export/import ledger state</td><td>Standards</td><td>Interface</td><td>Replaced by TIP-35</td><td>Chrysalis</td></tr>
 <tr><td>10</td><td><a href="tips/TIP-0010/tip-0010.html">Mnemonic Ternary Seed</a></td><td>Represent ternary seed as a mnemonic sentence</td><td>Standards</td><td>IRC</td><td>Obsolete</td><td>Legacy IOTA</td></tr>
-<tr><td>11</td><td><a href="tips/TIP-0011/tip-0011.html">Bech32 Address Format</a></td><td>Extendable address format supporting various signature schemes and address types</td><td>Standards</td><td>Interface</td><td>Active</td><td>Chrysalis</td></tr>
+<tr><td>11</td><td><a href="tips/TIP-0011/tip-0011.html">Bech32 Address Format</a></td><td>Extendable address format supporting various signature schemes and address types</td><td>Standards</td><td>Interface</td><td>Replaced by TIP-31</td><td>Chrysalis</td></tr>
 <tr><td>12</td><td><a href="tips/TIP-0012/tip-0012.html">Message PoW</a></td><td>Define message proof-of-work as a means to rate-limit the network</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>13</td><td><a href="tips/TIP-0013/tip-0013.html">REST API</a></td><td>Node REST API routes and objects in OpenAPI Specification</td><td>Standards</td><td>Interface</td><td>Active</td><td>Chrysalis</td></tr>
+<tr><td>13</td><td><a href="tips/TIP-0013/tip-0013.html">REST API</a></td><td>Node REST API routes and objects in OpenAPI Specification</td><td>Standards</td><td>Interface</td><td>Replaced by TIP-25</td><td>Chrysalis</td></tr>
 <tr><td>14</td><td><a href="tips/TIP-0014/tip-0014.html">Ed25519 Validation</a></td><td>Adopt <a href="https://zips.z.cash/zip-0215">ZIP-215</a> to explicitly define Ed25519 validation criteria</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>15</td><td><a href="tips/TIP-0015/tip-0015.html">Dust Protection</a></td><td>Prevent bloating the ledger size with to dust outputs</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>16</td><td><a href="tips/TIP-0016/tip-0016.html">Event API</a></td><td>Node event API definitions in AsyncAPI Specification</td><td>Standards</td><td>Interface</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>17</td><td><a href="tips/TIP-0017/tip-0017.html">Wotsicide</a></td><td>Define migration from legacy WOTS addresses to post-Chrysalis Phase 2 network</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>18</td><td><a href="tips/TIP-0018/tip-0018.html">Multi-Asset Ledger and ISC Support</a></td><td>Transform IOTA into a multi-asset ledger that supports running IOTA Smart Contracts</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>19</td><td><a href="tips/TIP-0019/tip-0019.html">Dust Protection Based on Byte Costs</a></td><td>Prevent bloating the ledger size with dust outputs</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>20</td><td><a href="tips/TIP-0020/tip-0020.html">Transaction Payload with New Output Types</a></td><td>UTXO-based transaction structure with TIP-18</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>21</td><td><a href="tips/TIP-0021/tip-0021.html">Serialization Primitives</a></td><td>Introduce primitives to describe the binary serialization of objects</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>22</td><td><a href="tips/TIP-0022/tip-0022.html">IOTA Protocol Parameters</a></td><td>Describes the global protocol parameters for the IOTA protocol</td><td>Standards</td><td>Core</td><td>Draft</td><td><strong>Stardust</strong></td></tr>
-<tr><td>23</td><td><a href="tips/TIP-0023/tip-0023.html">Tagged Data Payload</a></td><td>Payload for arbitrary data</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>24</td><td><a href="tips/TIP-0024/tip-0024.html">Tangle Block</a></td><td>A new version of TIP-6 that renames messages to blocks and removes the Indexation Payload in favor of the Tagged Data Payload. Replaces TIP-6.</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>25</td><td><a href="tips/TIP-0025/tip-0025.html">Core REST API</a></td><td>Node Core REST API routes and objects in OpenAPI Specification. Replaces TIP-13.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>26</td><td><a href="tips/TIP-0026/tip-0026.html">UTXO Indexer REST API</a></td><td>UTXO Indexer REST API routes and objects in OpenAPI Specification.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>27</td><td><a href="tips/TIP-0027/tip-0027.html">IOTA NFT standards</a></td><td>Define NFT metadata standard, collection system and creator royalties</td><td>Standards</td><td>IRC</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>28</td><td><a href="tips/TIP-0028/tip-0028.html">Node Event API</a></td><td>Node event API definitions in AsyncAPI Specification. Replaces TIP-16.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>29</td><td><a href="tips/TIP-0029/tip-0029.html">Milestone Payload</a></td><td>Milestone Payload with keys removed from essence. Replaces TIP-8.</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>30</td><td><a href="tips/TIP-0030/tip-0030.html">Native Token Metadata Standard</a></td><td>A JSON schema that describes token metadata format for native token foundries</td><td>Standards</td><td>IRC</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>31</td><td><a href="tips/TIP-0031/tip-0031.html">Bech32 Address Format for IOTA and Shimmer</a></td><td>Extendable address format supporting various signature schemes and address types. Replaces TIP-11.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>32</td><td><a href="tips/TIP-0032/tip-0032.html">Shimmer Protocol Parameters</a></td><td>Describes the global protocol parameters for the Shimmer network</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
+<tr><td>15</td><td><a href="tips/TIP-0015/tip-0015.html">Dust Protection</a></td><td>Prevent bloating the ledger size with to dust outputs</td><td>Standards</td><td>Core</td><td>Replaced by TIP-19</td><td>Chrysalis</td></tr>
+<tr><td>16</td><td><a href="tips/TIP-0016/tip-0016.html">Event API</a></td><td>Node event API definitions in AsyncAPI Specification</td><td>Standards</td><td>Interface</td><td>Replaced by TIP-28</td><td>Chrysalis</td></tr>
+<tr><td>17</td><td><a href="tips/TIP-0017/tip-0017.html">Wotsicide</a></td><td>Define migration from legacy WOTS addresses to post-Chrysalis Phase 2 network</td><td>Standards</td><td>Core</td><td>Obsolete</td><td>Chrysalis</td></tr>
+<tr><td>18</td><td><a href="tips/TIP-0018/tip-0018.html">Multi-Asset Ledger and ISC Support</a></td><td>Transform IOTA into a multi-asset ledger that supports running IOTA Smart Contracts</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>19</td><td><a href="tips/TIP-0019/tip-0019.html">Dust Protection Based on Byte Costs</a></td><td>Prevent bloating the ledger size with dust outputs</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>20</td><td><a href="tips/TIP-0020/tip-0020.html">Transaction Payload with New Output Types</a></td><td>UTXO-based transaction structure with TIP-18</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>21</td><td><a href="tips/TIP-0021/tip-0021.html">Serialization Primitives</a></td><td>Introduce primitives to describe the binary serialization of objects</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>22</td><td><a href="tips/TIP-0022/tip-0022.html">IOTA Protocol Parameters</a></td><td>Describes the global protocol parameters for the IOTA protocol</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>23</td><td><a href="tips/TIP-0023/tip-0023.html">Tagged Data Payload</a></td><td>Payload for arbitrary data</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>24</td><td><a href="tips/TIP-0024/tip-0024.html">Tangle Block</a></td><td>A new version of TIP-6 that renames messages to blocks and removes the Indexation Payload in favor of the Tagged Data Payload. Replaces TIP-6.</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>25</td><td><a href="tips/TIP-0025/tip-0025.html">Core REST API</a></td><td>Node Core REST API routes and objects in OpenAPI Specification. Replaces TIP-13.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>26</td><td><a href="tips/TIP-0026/tip-0026.html">UTXO Indexer REST API</a></td><td>UTXO Indexer REST API routes and objects in OpenAPI Specification.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>27</td><td><a href="tips/TIP-0027/tip-0027.html">IOTA NFT standards</a></td><td>Define NFT metadata standard, collection system and creator royalties</td><td>Standards</td><td>IRC</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>28</td><td><a href="tips/TIP-0028/tip-0028.html">Node Event API</a></td><td>Node event API definitions in AsyncAPI Specification. Replaces TIP-16.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>29</td><td><a href="tips/TIP-0029/tip-0029.html">Milestone Payload</a></td><td>Milestone Payload with keys removed from essence. Replaces TIP-8.</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>30</td><td><a href="tips/TIP-0030/tip-0030.html">Native Token Metadata Standard</a></td><td>A JSON schema that describes token metadata format for native token foundries</td><td>Standards</td><td>IRC</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>31</td><td><a href="tips/TIP-0031/tip-0031.html">Bech32 Address Format for IOTA and Shimmer</a></td><td>Extendable address format supporting various signature schemes and address types. Replaces TIP-11.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>32</td><td><a href="tips/TIP-0032/tip-0032.html">Shimmer Protocol Parameters</a></td><td>Describes the global protocol parameters for the Shimmer network</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
 <tr><td>33</td><td><a href="https://github.com/iotaledger/tips/pull/72">Public Token Registry</a></td><td>Defines an open public registry for NFT collection ID and native tokens metadata</td><td>Standards</td><td>IRC</td><td>Draft</td><td><strong>Stardust</strong></td></tr>
-<tr><td>34</td><td><a href="tips/TIP-0034/tip-0034.html">Wotsicide (Stardust update)</a></td><td>Define migration from legacy W-OTS addresses to post-Chrysalis networks. Replaces TIP-17.</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>35</td><td><a href="tips/TIP-0035/tip-0035.html">Local Snapshot File Format (Stardust Update)</a></td><td>File format to export/import ledger state. Replaces TIP-9.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>37</td><td><a href="https://github.com/iotaledger/tips/pull/81">Dynamic Proof-of-Work</a></td><td>Dynamically adapt the PoW difficulty</td><td>Standards</td><td>Core</td><td>Draft</td><td><strong>Stardust</strong></td></tr>
+<tr><td>34</td><td><a href="tips/TIP-0034/tip-0034.html">Wotsicide (Stardust update)</a></td><td>Define migration from legacy W-OTS addresses to post-Chrysalis networks. Replaces TIP-17.</td><td>Standards</td><td>Core</td><td>Obsolete</td><td><strong>Stardust</strong></td></tr>
+<tr><td>35</td><td><a href="tips/TIP-0035/tip-0035.html">Local Snapshot File Format (Stardust Update)</a></td><td>File format to export/import ledger state. Replaces TIP-9.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>37</td><td><a href="https://github.com/iotaledger/tips/pull/81">Dynamic Proof-of-Work</a></td><td>Dynamically adapt the PoW difficulty</td><td>Standards</td><td>Core</td><td>Withdrawn</td><td><strong>Stardust</strong></td></tr>
 </tbody></table>
 </div>
 <h2 id="need-help"><a class="header" href="#need-help">Need help?</a></h2>

@@ -192,52 +192,55 @@
 more improvements. Browse the <a href="introduction.html#list-of-tips">list of TIPs</a> below with the <em>Stardust</em> tag to learn more about what changes.</p>
 <h2 id="list-of-tips"><a class="header" href="#list-of-tips">List of TIPs</a></h2>
 <ul>
-<li>Last updated: 2022-05-20</li>
+<li>Last updated: 2023-10-19</li>
 <li>The <em>Status</em> of a TIP reflects its current state with respect to its progression to being supported on the IOTA mainnet.
 <ul>
 <li><code>Draft</code> TIPs are work in progress. They may or may not have a working implementation on a testnet.</li>
 <li><code>Proposed</code> TIPs are demonstrated to have a working implementation. These TIPs are supported on Shimmer, the staging network of IOTA.</li>
 <li><code>Active</code> TIPs are supported on the IOTA mainnet.</li>
+<li><code>Replaced</code> TIPs have been replaced by a newer TIP.</li>
+<li><code>Obsolete</code> TIPs are no longer in use.</li>
 </ul>
 </li>
 </ul>
+<p><img src="tips/TIP-0001/process.svg" alt="image" /></p>
 <div class="table-wrapper"><table><thead><tr><th>#</th><th>Title</th><th>Description</th><th>Type</th><th>Layer</th><th>Status</th><th>Initial Target</th></tr></thead><tbody>
 <tr><td>1</td><td><a href="tips/TIP-0001/tip-0001.html">TIP Process</a></td><td>Purpose and guidelines of the contribution framework</td><td>Process</td><td>-</td><td>Active</td><td>-</td></tr>
 <tr><td>2</td><td><a href="tips/TIP-0002/tip-0002.html">White Flag Ordering</a></td><td>Mitigate conflict spamming by ignoring conflicts</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
 <tr><td>3</td><td><a href="tips/TIP-0003/tip-0003.html">Uniform Random Tip Selection</a></td><td>Perform fast tip-selection to increase message throughput</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
 <tr><td>4</td><td><a href="tips/TIP-0004/tip-0004.html">Milestone Merkle Validation</a></td><td>Add Merkle tree hash to milestone for local ledger state verification</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
 <tr><td>5</td><td><a href="tips/TIP-0005/tip-0005.html">Binary To Ternary Encoding</a></td><td>Define the conversion between binary and ternary data</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>6</td><td><a href="tips/TIP-0006/tip-0006.html">Tangle Message</a></td><td>Generalization of the Tangle transaction concept</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>7</td><td><a href="tips/TIP-0007/tip-0007.html">Transaction Payload</a></td><td>UTXO-based transaction structure</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>8</td><td><a href="tips/TIP-0008/tip-0008.html">Milestone Payload</a></td><td>Coordinator issued milestone structure with Ed25519 authentication</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>9</td><td><a href="tips/TIP-0009/tip-0009.html">Local Snapshot File Format</a></td><td>File format to export/import ledger state</td><td>Standards</td><td>Interface</td><td>Active</td><td>Chrysalis</td></tr>
+<tr><td>6</td><td><a href="tips/TIP-0006/tip-0006.html">Tangle Message</a></td><td>Generalization of the Tangle transaction concept</td><td>Standards</td><td>Core</td><td>Replaced by TIP-24</td><td>Chrysalis</td></tr>
+<tr><td>7</td><td><a href="tips/TIP-0007/tip-0007.html">Transaction Payload</a></td><td>UTXO-based transaction structure</td><td>Standards</td><td>Core</td><td>Replaced by TIP-20</td><td>Chrysalis</td></tr>
+<tr><td>8</td><td><a href="tips/TIP-0008/tip-0008.html">Milestone Payload</a></td><td>Coordinator issued milestone structure with Ed25519 authentication</td><td>Standards</td><td>Core</td><td>Replaced by TIP-29</td><td>Chrysalis</td></tr>
+<tr><td>9</td><td><a href="tips/TIP-0009/tip-0009.html">Local Snapshot File Format</a></td><td>File format to export/import ledger state</td><td>Standards</td><td>Interface</td><td>Replaced by TIP-35</td><td>Chrysalis</td></tr>
 <tr><td>10</td><td><a href="tips/TIP-0010/tip-0010.html">Mnemonic Ternary Seed</a></td><td>Represent ternary seed as a mnemonic sentence</td><td>Standards</td><td>IRC</td><td>Obsolete</td><td>Legacy IOTA</td></tr>
-<tr><td>11</td><td><a href="tips/TIP-0011/tip-0011.html">Bech32 Address Format</a></td><td>Extendable address format supporting various signature schemes and address types</td><td>Standards</td><td>Interface</td><td>Active</td><td>Chrysalis</td></tr>
+<tr><td>11</td><td><a href="tips/TIP-0011/tip-0011.html">Bech32 Address Format</a></td><td>Extendable address format supporting various signature schemes and address types</td><td>Standards</td><td>Interface</td><td>Replaced by TIP-31</td><td>Chrysalis</td></tr>
 <tr><td>12</td><td><a href="tips/TIP-0012/tip-0012.html">Message PoW</a></td><td>Define message proof-of-work as a means to rate-limit the network</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>13</td><td><a href="tips/TIP-0013/tip-0013.html">REST API</a></td><td>Node REST API routes and objects in OpenAPI Specification</td><td>Standards</td><td>Interface</td><td>Active</td><td>Chrysalis</td></tr>
+<tr><td>13</td><td><a href="tips/TIP-0013/tip-0013.html">REST API</a></td><td>Node REST API routes and objects in OpenAPI Specification</td><td>Standards</td><td>Interface</td><td>Replaced by TIP-25</td><td>Chrysalis</td></tr>
 <tr><td>14</td><td><a href="tips/TIP-0014/tip-0014.html">Ed25519 Validation</a></td><td>Adopt <a href="https://zips.z.cash/zip-0215">ZIP-215</a> to explicitly define Ed25519 validation criteria</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>15</td><td><a href="tips/TIP-0015/tip-0015.html">Dust Protection</a></td><td>Prevent bloating the ledger size with to dust outputs</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>16</td><td><a href="tips/TIP-0016/tip-0016.html">Event API</a></td><td>Node event API definitions in AsyncAPI Specification</td><td>Standards</td><td>Interface</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>17</td><td><a href="tips/TIP-0017/tip-0017.html">Wotsicide</a></td><td>Define migration from legacy WOTS addresses to post-Chrysalis Phase 2 network</td><td>Standards</td><td>Core</td><td>Active</td><td>Chrysalis</td></tr>
-<tr><td>18</td><td><a href="tips/TIP-0018/tip-0018.html">Multi-Asset Ledger and ISC Support</a></td><td>Transform IOTA into a multi-asset ledger that supports running IOTA Smart Contracts</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>19</td><td><a href="tips/TIP-0019/tip-0019.html">Dust Protection Based on Byte Costs</a></td><td>Prevent bloating the ledger size with dust outputs</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>20</td><td><a href="tips/TIP-0020/tip-0020.html">Transaction Payload with New Output Types</a></td><td>UTXO-based transaction structure with TIP-18</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>21</td><td><a href="tips/TIP-0021/tip-0021.html">Serialization Primitives</a></td><td>Introduce primitives to describe the binary serialization of objects</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>22</td><td><a href="tips/TIP-0022/tip-0022.html">IOTA Protocol Parameters</a></td><td>Describes the global protocol parameters for the IOTA protocol</td><td>Standards</td><td>Core</td><td>Draft</td><td><strong>Stardust</strong></td></tr>
-<tr><td>23</td><td><a href="tips/TIP-0023/tip-0023.html">Tagged Data Payload</a></td><td>Payload for arbitrary data</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>24</td><td><a href="tips/TIP-0024/tip-0024.html">Tangle Block</a></td><td>A new version of TIP-6 that renames messages to blocks and removes the Indexation Payload in favor of the Tagged Data Payload. Replaces TIP-6.</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>25</td><td><a href="tips/TIP-0025/tip-0025.html">Core REST API</a></td><td>Node Core REST API routes and objects in OpenAPI Specification. Replaces TIP-13.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>26</td><td><a href="tips/TIP-0026/tip-0026.html">UTXO Indexer REST API</a></td><td>UTXO Indexer REST API routes and objects in OpenAPI Specification.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>27</td><td><a href="tips/TIP-0027/tip-0027.html">IOTA NFT standards</a></td><td>Define NFT metadata standard, collection system and creator royalties</td><td>Standards</td><td>IRC</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>28</td><td><a href="tips/TIP-0028/tip-0028.html">Node Event API</a></td><td>Node event API definitions in AsyncAPI Specification. Replaces TIP-16.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>29</td><td><a href="tips/TIP-0029/tip-0029.html">Milestone Payload</a></td><td>Milestone Payload with keys removed from essence. Replaces TIP-8.</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>30</td><td><a href="tips/TIP-0030/tip-0030.html">Native Token Metadata Standard</a></td><td>A JSON schema that describes token metadata format for native token foundries</td><td>Standards</td><td>IRC</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>31</td><td><a href="tips/TIP-0031/tip-0031.html">Bech32 Address Format for IOTA and Shimmer</a></td><td>Extendable address format supporting various signature schemes and address types. Replaces TIP-11.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>32</td><td><a href="tips/TIP-0032/tip-0032.html">Shimmer Protocol Parameters</a></td><td>Describes the global protocol parameters for the Shimmer network</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
+<tr><td>15</td><td><a href="tips/TIP-0015/tip-0015.html">Dust Protection</a></td><td>Prevent bloating the ledger size with to dust outputs</td><td>Standards</td><td>Core</td><td>Replaced by TIP-19</td><td>Chrysalis</td></tr>
+<tr><td>16</td><td><a href="tips/TIP-0016/tip-0016.html">Event API</a></td><td>Node event API definitions in AsyncAPI Specification</td><td>Standards</td><td>Interface</td><td>Replaced by TIP-28</td><td>Chrysalis</td></tr>
+<tr><td>17</td><td><a href="tips/TIP-0017/tip-0017.html">Wotsicide</a></td><td>Define migration from legacy WOTS addresses to post-Chrysalis Phase 2 network</td><td>Standards</td><td>Core</td><td>Obsolete</td><td>Chrysalis</td></tr>
+<tr><td>18</td><td><a href="tips/TIP-0018/tip-0018.html">Multi-Asset Ledger and ISC Support</a></td><td>Transform IOTA into a multi-asset ledger that supports running IOTA Smart Contracts</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>19</td><td><a href="tips/TIP-0019/tip-0019.html">Dust Protection Based on Byte Costs</a></td><td>Prevent bloating the ledger size with dust outputs</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>20</td><td><a href="tips/TIP-0020/tip-0020.html">Transaction Payload with New Output Types</a></td><td>UTXO-based transaction structure with TIP-18</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>21</td><td><a href="tips/TIP-0021/tip-0021.html">Serialization Primitives</a></td><td>Introduce primitives to describe the binary serialization of objects</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>22</td><td><a href="tips/TIP-0022/tip-0022.html">IOTA Protocol Parameters</a></td><td>Describes the global protocol parameters for the IOTA protocol</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>23</td><td><a href="tips/TIP-0023/tip-0023.html">Tagged Data Payload</a></td><td>Payload for arbitrary data</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>24</td><td><a href="tips/TIP-0024/tip-0024.html">Tangle Block</a></td><td>A new version of TIP-6 that renames messages to blocks and removes the Indexation Payload in favor of the Tagged Data Payload. Replaces TIP-6.</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>25</td><td><a href="tips/TIP-0025/tip-0025.html">Core REST API</a></td><td>Node Core REST API routes and objects in OpenAPI Specification. Replaces TIP-13.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>26</td><td><a href="tips/TIP-0026/tip-0026.html">UTXO Indexer REST API</a></td><td>UTXO Indexer REST API routes and objects in OpenAPI Specification.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>27</td><td><a href="tips/TIP-0027/tip-0027.html">IOTA NFT standards</a></td><td>Define NFT metadata standard, collection system and creator royalties</td><td>Standards</td><td>IRC</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>28</td><td><a href="tips/TIP-0028/tip-0028.html">Node Event API</a></td><td>Node event API definitions in AsyncAPI Specification. Replaces TIP-16.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>29</td><td><a href="tips/TIP-0029/tip-0029.html">Milestone Payload</a></td><td>Milestone Payload with keys removed from essence. Replaces TIP-8.</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>30</td><td><a href="tips/TIP-0030/tip-0030.html">Native Token Metadata Standard</a></td><td>A JSON schema that describes token metadata format for native token foundries</td><td>Standards</td><td>IRC</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>31</td><td><a href="tips/TIP-0031/tip-0031.html">Bech32 Address Format for IOTA and Shimmer</a></td><td>Extendable address format supporting various signature schemes and address types. Replaces TIP-11.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>32</td><td><a href="tips/TIP-0032/tip-0032.html">Shimmer Protocol Parameters</a></td><td>Describes the global protocol parameters for the Shimmer network</td><td>Standards</td><td>Core</td><td>Active</td><td><strong>Stardust</strong></td></tr>
 <tr><td>33</td><td><a href="https://github.com/iotaledger/tips/pull/72">Public Token Registry</a></td><td>Defines an open public registry for NFT collection ID and native tokens metadata</td><td>Standards</td><td>IRC</td><td>Draft</td><td><strong>Stardust</strong></td></tr>
-<tr><td>34</td><td><a href="tips/TIP-0034/tip-0034.html">Wotsicide (Stardust update)</a></td><td>Define migration from legacy W-OTS addresses to post-Chrysalis networks. Replaces TIP-17.</td><td>Standards</td><td>Core</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>35</td><td><a href="tips/TIP-0035/tip-0035.html">Local Snapshot File Format (Stardust Update)</a></td><td>File format to export/import ledger state. Replaces TIP-9.</td><td>Standards</td><td>Interface</td><td>Proposed</td><td><strong>Stardust</strong></td></tr>
-<tr><td>37</td><td><a href="https://github.com/iotaledger/tips/pull/81">Dynamic Proof-of-Work</a></td><td>Dynamically adapt the PoW difficulty</td><td>Standards</td><td>Core</td><td>Draft</td><td><strong>Stardust</strong></td></tr>
+<tr><td>34</td><td><a href="tips/TIP-0034/tip-0034.html">Wotsicide (Stardust update)</a></td><td>Define migration from legacy W-OTS addresses to post-Chrysalis networks. Replaces TIP-17.</td><td>Standards</td><td>Core</td><td>Obsolete</td><td><strong>Stardust</strong></td></tr>
+<tr><td>35</td><td><a href="tips/TIP-0035/tip-0035.html">Local Snapshot File Format (Stardust Update)</a></td><td>File format to export/import ledger state. Replaces TIP-9.</td><td>Standards</td><td>Interface</td><td>Active</td><td><strong>Stardust</strong></td></tr>
+<tr><td>37</td><td><a href="https://github.com/iotaledger/tips/pull/81">Dynamic Proof-of-Work</a></td><td>Dynamically adapt the PoW difficulty</td><td>Standards</td><td>Core</td><td>Withdrawn</td><td><strong>Stardust</strong></td></tr>
 </tbody></table>
 </div>
 <h2 id="need-help"><a class="header" href="#need-help">Need help?</a></h2>
@@ -935,10 +938,11 @@ title: Tangle Message
 description: Generalization of the Tangle transaction concept
 author: Gal Rogozinski (@GalRogozinski) <gal.rogozinski@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/17
-status: Active
+status: Replaced
 type: Standards
 layer: Core
 created: 2020-07-28
+superseded-by: TIP-24
 </pre>
 <ul>
 <li>Changelog:
@@ -1118,10 +1122,11 @@ title: Transaction Payload
 description: UTXO-based transaction structure
 author: Luca Moser (@luca-moser) <luca.moser@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/18
-status: Active
+status: Replaced
 type: Standards
 layer: Core
 created: 2020-07-10
+superseded-by: TIP-20
 </pre>
 <h1 id="summary-5"><a class="header" href="#summary-5">Summary</a></h1>
 <p>In the current IOTA protocol, transactions are grouped into so-called bundles to assure that they can only be confirmed as one unit. This TIP proposes a new UTXO-based transaction structure containing all the inputs and outputs of a transfer. Specifically, this TIP defines a transaction payload for the <em>messages</em> described in the IOTA protocol <a href="tips/TIP-0007/../TIP-0006/tip-0006.html">TIP-6</a>.</p>
@@ -1622,10 +1627,11 @@ title: Milestone Payload
 description: Coordinator issued milestone structure with Ed25519 authentication
 author: Angelo Capossele (@capossele) <angelo.capossele@iota.org>, Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/19
-status: Active
+status: Replaced
 type: Standards
 layer: Core
 created: 2020-07-28
+superseded-by: TIP-29
 </pre>
 <h1 id="summary-6"><a class="header" href="#summary-6">Summary</a></h1>
 <p>In IOTA, nodes use the milestones issued by the Coordinator to reach a consensus on which transactions are confirmed. This RFC proposes a milestone payload for the messages described in the IOTA protocol <a href="tips/TIP-0008/../TIP-0006/tip-0006.html">TIP-6</a>. It uses Edwards-curve Digital Signature Algorithm (EdDSA) to authenticate the milestones.</p>
@@ -1872,10 +1878,11 @@ title: Local Snapshot File Format
 description: File format to export/import ledger state 
 author: Luca Moser (@luca-moser) <luca.moser@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/25
-status: Active
+status: Replaced
 type: Standards
 layer: Interface
 created: 2020-08-25
+superseded-by: TIP-35
 </pre>
 <h1 id="summary-7"><a class="header" href="#summary-7">Summary</a></h1>
 <p>This RFC defines a file format for local snapshots which is compatible with Chrysalis Phase 2.</p>
@@ -2346,10 +2353,11 @@ title: Bech32 Address Format
 description: Extendable address format supporting various signature schemes and address types
 author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/20
-status: Active
+status: Replaced
 type: Standards
 layer: Interface
 created: 2020-07-28
+superseded-by: TIP-31
 </pre>
 <h1 id="summary-9"><a class="header" href="#summary-9">Summary</a></h1>
 <p>This document proposes an extendable address format for the IOTA protocol supporting various signature schemes and address types. It relies on the <a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">Bech32</a> format to provide a compact, human-readable encoding with strong error correction guarantees.</p>
@@ -2508,10 +2516,11 @@ title: REST API
 description: Node REST API routes and objects in OpenAPI Specification
 author: Samuel Rufinatscha (@rufsam) <samuel.rufinatscha@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/26
-status: Active
+status: Replaced
 type: Standards
 layer: Interface
 created: 2020-09-10
+superseded-by: TIP-25
 </pre>
 <h1 id="summary-11"><a class="header" href="#summary-11">Summary</a></h1>
 <p>This document proposes the REST API for nodes supporting the IOTA protocol.</p>
@@ -2602,7 +2611,7 @@ title: Dust Protection
 description: Prevent bloating the ledger size with dust outputs
 author: Gal Rogozinski (@GalRogozinski) <gal.rogozinski@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/32
-status: Active
+status: Replaced
 type: Standards
 layer: Core
 created: 2020-12-07
@@ -2711,10 +2720,11 @@ title: Event API
 description: Node event API definitions in AsyncAPI Specification
 author: Luca Moser (@luca-moser) <luca.moser@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/33
-status: Active
+status: Replaced
 type: Standards
 layer: Interface
 created: 2021-01-06
+superseded-by: TIP-28
 </pre>
 <h1 id="summary-14"><a class="header" href="#summary-14">Summary</a></h1>
 <p>This document proposes the Event API for nodes supporting the IOTA protocol.</p>
@@ -2729,7 +2739,7 @@ title: Wotsicide
 description: Define migration from legacy WOTS addresses to post-Chrysalis Phase 2 network
 author: Luca Moser (@luca-moser) <luca.moser@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/35
-status: Active
+status: Obsolete
 type: Standards
 layer: Core
 created: 2021-01-13
@@ -3078,7 +3088,7 @@ title: Multi-Asset Ledger and ISC Support
 description: Transform IOTA into a multi-asset ledger that supports running IOTA Smart Contracts
 author: Levente Pap (@lzpap) <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/38
-status: Proposed
+status: Active
 type: Standards
 layer: Core
 created: 2021-11-04
@@ -6893,7 +6903,7 @@ title: Dust Protection Based on Byte Costs (Storage Deposit)
 description: Prevent bloating the ledger size with dust outputs
 author: Max Hase (@muXxer) <maximilian.hase@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/39
-status: Proposed
+status: Active
 type: Standards
 layer: Core
 created: 2021-11-04
@@ -9758,7 +9768,7 @@ title: Transaction Payload with TIP-18 Output Types
 description: Add output types, unlocks, and output features from TIP-18 into Transaction Payload
 author: Levente Pap (@lzpap) <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/40
-status: Proposed
+status: Active
 type: Standards
 layer: Core
 created: 2021-11-18
@@ -10247,7 +10257,7 @@ title: Serialization Primitives
 description: Introduce primitives to describe the binary serialization of objects.
 author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/41
-status: Proposed
+status: Active
 type: Standards
 layer: Core
 created: 2021-11-22
@@ -10291,7 +10301,7 @@ title: IOTA Protocol Parameters
 description: Describes the global protocol parameters for the IOTA protocol
 author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/43
-status: Draft
+status: Active
 type: Standards
 layer: Core
 created: 2021-11-29
@@ -10339,7 +10349,7 @@ title: Tagged Data Payload
 description: Block payload for arbitrary data
 author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/54
-status: Proposed
+status: Active
 type: Standards
 layer: Core
 created: 2022-01-24
@@ -10373,7 +10383,7 @@ title: Tangle Block
 description: Generalization of the Tangle transaction concept
 author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/55
-status: Proposed
+status: Active
 type: Standards
 layer: Core
 replaces: 6
@@ -10548,7 +10558,7 @@ title: Core REST API
 description: Node Core REST API routes and objects in OpenAPI Specification
 author: Samuel Rufinatscha (@rufsam) <samuel.rufinatscha@iota.org>, Levente Pap (@lzpap) <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/27, https://github.com/iotaledger/tips/discussions/53, https://github.com/iotaledger/tips/pull/57
-status: Proposed
+status: Active
 type: Standards
 layer: Interface
 replaces: 13
@@ -10567,7 +10577,7 @@ title: UTXO Indexer API
 description: UTXO Indexer REST API routes and objects in OpenAPI Specification
 author: Levente Pap (@lzpap) <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/62, https://github.com/iotaledger/tips/discussions/53
-status: Proposed
+status: Active
 type: Standards
 layer: Interface
 created: 2022-01-27
@@ -10616,7 +10626,7 @@ title: IOTA NFT Standard IRC27
 description: Define NFT standard and creator royalties
 author: Adam Eunson (@AdamCroply) <adam@tanglelabs.io>, Merul Dhiman (@coodos) <merul@tanglelabs.io>
 discussions-to: https://github.com/iotaledger/tips/discussions/59
-status: Proposed
+status: Active
 type: Standards
 layer: IRC
 created: 2022-03-04
@@ -10904,7 +10914,7 @@ title: Event API
 description: Node event API definitions in AsyncAPI Specification
 author: Luca Moser (@luca-moser) <luca.moser@iota.org>, Levente Pap (@lzpap) <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/33, https://github.com/iotaledger/tips/pull/66
-status: Proposed
+status: Active
 type: Standards
 layer: Interface
 created: 2022-03-02
@@ -10958,7 +10968,7 @@ title: Milestone Payload
 description: Coordinator issued milestone payload with Ed25519 authentication
 author: Angelo Capossele (@capossele) <angelo.capossele@iota.org>, Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/69
-status: Proposed
+status: Active
 type: Standards
 layer: Core
 created: 2022-03-25
@@ -11248,7 +11258,7 @@ title: Native Token Metadata JSON Schema
 description: A JSON schema that describes token metadata format for native token foundries.
 author: Levente Pap @lzpap <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/68
-status: Proposed
+status: Active
 type: Standards
 layer: IRC
 created: 2022-03-25
@@ -11387,7 +11397,7 @@ title: Bech32 Address Format
 description: Extendable address format supporting various signature schemes and address types
 author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>, Levente Pap (@lzpap) <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/20
-status: Proposed
+status: Active
 type: Standards
 layer: Interface
 created: 2022-04-04
@@ -11516,7 +11526,7 @@ title: Shimmer Protocol Parameters
 description: Describes the global protocol parameters for the Shimmer protocol
 author: Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>, Levente Pap (@lzpap) <levente.pap@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/71
-status: Proposed
+status: Active
 type: Standards
 layer: Core
 created: 2022-04-04
@@ -11632,7 +11642,7 @@ title: Wotsicide (Stardust)
 description: Define migration from legacy W-OTS addresses to post-Chrysalis network
 author: Luca Moser (@luca-moser) <luca.moser@iota.org>, Wolfgang Welz (@Wollac) <wolfgang.welz@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/74
-status: Proposed
+status: Obsolete
 type: Standards
 layer: Core
 created: 2022-04-21
@@ -11911,7 +11921,7 @@ title: Local Snapshot File Format
 description: File format to export and import ledger state
 author: Luca Moser (@luca-moser) <luca.moser@iota.org>, Max Hase (@muXxer) <maximilian.hase@iota.org>
 discussions-to: https://github.com/iotaledger/tips/pull/25
-status: Proposed
+status: Active
 type: Standards
 layer: Interface
 created: 2022-05-06
