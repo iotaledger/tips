@@ -32,6 +32,8 @@ more improvements. Browse the [list of TIPs](#list-of-tips) below with the _Star
    - `Replaced` TIPs have been replaced by a newer TIP.
    - `Obsolete` TIPs are no longer in use.
 
+![image](tips/TIP-0001/process.svg)
+
 
 | #  | Title                                                                     | Description                                                                                                                                      | Type      | Layer     | Status             | Initial Target |
 |----|---------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------|-----------|--------------------|----------------|
