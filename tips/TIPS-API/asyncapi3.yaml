@@ -300,14 +300,21 @@ components:
       payload:
         type: object
         required:
-          - index
-          - rootsId
+          - protocolVersion
+          - slot
           - previousCommitmentId
+          - rootsId
+          - cumulativeWeight
+          - referenceManaCost
         properties:
-          index:
-            type: string
+          protocolVersion:
+            type: integer
+            description: The protocol version of the node.
+            example: 1
+          slot:
+            type: integer
             description: The slot index of the commitment.
-            example: '200'
+            example: 200
           previousCommitmentId:
             type: string
             description: The commitment identifier of the previous slot.
@@ -324,6 +331,10 @@ components:
               It is just an indication of "committed into" this slot,
               and can not strictly be used for evaluating the switching of a chain.
             example: '78901'
+          referenceManaCost:
+            type: string
+            description: The reference mana cost of the slot.
+            example: '12345'
 
     CommitmentPayloadSerialized:
       contentType: application/vnd.iota.serializer-v1
@@ -404,15 +415,21 @@ components:
             example: failed
           blockFailureReason:
             type: integer
-            enum: [1,2,3,4,5,6]
+            enum: [1,2,3,4,5,6,7,8,9,10,11,255]
             description: |
               Values:
                 * `1` - denotes that the block is too old to issue.
                 * `2` - denotes that the block's parents are too old.
                 * `3` - denotes that one of block's parents does not exist.
                 * `4` - denotes that one of block's parents is invalid.
-                * `5` - denotes that the block is dropped due to congestion.
-                * `6` - denotes that the block is invalid.
+                * `5` - denotes that the issuer account could not be found.
+                * `6` - denotes that the block version is invalid to retrieve the corresponding protocol information.
+                * `7` - denotes that the Mana cost could not be calculated.
+                * `8` - denotes that the issuer account burned insufficient Mana for the block.
+                * `9` - denotes that the account is invalid, e.g. the account has negative Block Issuance Credits, or the account has expired. 
+                * `10` - denotes that the signature is invalid.
+                * `11` - denotes that the block is dropped due to congestion.
+                * `255` - denotes that the block is invalid.
           txFailureReason:
             type: integer
             enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,255]
@@ -443,23 +460,6 @@ components:
             example: 1
 
   schemas:
-    NativeToken:
-      description: A native token and its balance in the output.
-      properties:
-        tokenId:
-          type: string
-          description: >-
-            Hex-encoded identifier of the native token that equals the foundryId
-            of the controlling foundry.
-          example: >-
-            0x08de3fa7acc30ec899bb797b1d80680690b54a1cdb78b2f7f50b1ad073e74c8cbd0100000000
-        amount:
-          type: string
-          description: Amount of native tokens (up to uint256). Hex encoded number.
-          example: '0xc8'
-      required:
-        - tokenId
-        - amount
     Ed25519Address:
       description: The Ed25519 address.
       properties:
@@ -554,11 +554,11 @@ components:
             - $ref: '#/components/schemas/AccountAddress'
             - $ref: '#/components/schemas/NFTAddress'
         amount:
-          type: integer
+          type: string
           description: >-
             Amount of IOTA tokens the consuming transaction should deposit to
             the address defined in Return Address.
-          example: 50
+          example: "50"
       required:
         - type
         - returnAddress
@@ -587,7 +587,7 @@ components:
           type: integer
           description: Set to value 2 to denote a Timelock Unlock Condition.
           example: 2
-        slotIndex:
+        slot:
           type: integer
           description: >-
             The slot index until which the timelock applies (inclusive)
@@ -595,7 +595,7 @@ components:
           exclusiveMinimum: 0
       required:
         - type
-        - slotIndex
+        - slot
 
     ExpirationUnlockCondition:
       description: >-
@@ -612,7 +612,7 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AccountAddress'
             - $ref: '#/components/schemas/NFTAddress'
-        slotIndex:
+        slot:
           type: integer
           description: >-
             The slot index at which the expiration happens.
@@ -621,7 +621,7 @@ components:
       required:
         - type
         - returnAddress
-        - slotIndex
+        - slot
 
     StateControllerAddressUnlockCondition:
       description: Can be unlocked by unlocking the address.
@@ -716,10 +716,10 @@ components:
           description: Set to value 5 to denote a Staking Feature.
           example: 5
         stakedAmount:
-          type: integer
+          type: string
           description: The amount of IOTA coins that are locked and staked in the containing account.
         fixedCost:
-          type: integer
+          type: string
           description: Indicates when the BlockIssuerKeys are expired.
         startEpoch:
           type: integer
@@ -800,20 +800,18 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 3 to denote a Basic Output.
-          example: 3
+          description: Set to value 0 to denote a Basic Output.
+          example: 0
         amount:
           type: string
           description: >-
             The amount of IOTA tokens to deposit with this BasicOutput output.
             Encoded as plain string.
           example: '100'
-        nativeTokens:
-          type: array
-          description: Native tokens held by the otuput.
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/NativeToken'
+        mana:
+          type: string
+          description: The stored mana held by the output.
+          example: '3000'
         unlockConditions:
           type: array
           description: >-
@@ -835,15 +833,10 @@ components:
               - $ref: '#/components/schemas/SenderFeature'
               - $ref: '#/components/schemas/MetadataFeature'
               - $ref: '#/components/schemas/TagFeature'
-        mana:
-          type: string
-          description: The stored mana held by the output.
-          example: '3000'
       required:
         - type
         - amount
         - mana
-        - unlockConditions
 
     AccountOutput:
       description: >-
@@ -852,20 +845,18 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 4 to denote an Account Output.
-          example: 4
+          description: Set to value 1 to denote an Account Output.
+          example: 1
         amount:
           type: string
           description: >-
             The amount of IOTA tokens to deposit with this output. Encoded as
             plain string.
           example: '100'
-        nativeTokens:
-          type: array
-          description: Native tokens held by the otuput.
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/NativeToken'
+        mana:
+          type: string
+          description: The stored mana held by the output.
+          example: '3000'
         accountId:
           type: string
           description: >-
@@ -920,10 +911,6 @@ components:
             anyOf:
               - $ref: '#/components/schemas/IssuerFeature'
               - $ref: '#/components/schemas/MetadataFeature'
-        mana:
-          type: string
-          description: The stored mana held by the output.
-          example: '3000'
       required:
         - type
         - amount
@@ -939,8 +926,8 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 7 to denote a Delegation Output.
-          example: 7
+          description: Set to value 5 to denote a Delegation Output.
+          example: 5
         amount:
           type: string
           description: >-
@@ -955,21 +942,21 @@ components:
           description: >-
             The identifier for this delegation output.
           example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
-        validatorId:
+        validatorAddress:
           type: string
           description: >-
             The Account ID of the validator to which this output is delegating.
           example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
         startEpoch:
-          type: string
+          type: integer
           description: >-
             The index of the first epoch for which this output delegates.
-          example: '10'
+          example: 10
         endEpoch:
-          type: string
+          type: integer
           description: >-
             The index of the last epoch for which this output delegates.
-          example: '12'
+          example: 12
         unlockConditions:
           type: array
           description: >-
@@ -983,7 +970,7 @@ components:
         - amount
         - delegatedAmount
         - delegationId
-        - validatorId
+        - validatorAddress
         - startEpoch
         - endEpoch
   
@@ -1000,12 +987,6 @@ components:
             The amount of IOTA tokens to deposit with this output. Encoded as
             plain string.
           example: '100'
-        nativeTokens:
-          type: array
-          description: Native tokens held by the otuput.
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/NativeToken'
         serialNumber:
           type: integer
           description: >-
@@ -1063,12 +1044,10 @@ components:
             The amount of IOTA tokens to deposit with this output. Encoded as
             plain string.
           example: '100'
-        nativeTokens:
-          type: array
-          description: Native tokens held by the otuput.
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/NativeToken'
+        mana:
+          type: string
+          description: The stored mana held by the output
+          example: '3000'
         nftId:
           type: string
           description: >-
@@ -1108,10 +1087,6 @@ components:
             anyOf:
               - $ref: '#/components/schemas/IssuerFeature'
               - $ref: '#/components/schemas/MetadataFeature'
-        mana:
-          type: string
-          description: The stored mana held by the output
-          example: '3000'
       required:
         - type
         - amount
@@ -1170,10 +1145,6 @@ components:
           type: boolean
           description: Whether the output is spent or not.
           example: true
-        spentSlot:
-          type: integer
-          description: The slot at which the output was spent.
-          example: 20
         commitmentIdSpent:
           type: string
           description: The commitment ID of the slot at which this output was spent.
@@ -1182,23 +1153,17 @@ components:
           type: string
           description: The transaction this output was spent with.
           example: '0xe526f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'
-        includedSlot:
-          type: integer
-          description: The slot at which the output was included into the ledger.
-          example: 15
         includedCommitmentId:
           type: string
           description: The commitment ID at which the output was included into the ledger.
           example: '0xe526f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'       
-        ledgerIndex:
-          type: integer
-          description: The current ledger index for which the request was made.
-          example: 25
+        latestCommitmentId:
+          type: string
+          description: The current latest commitment id for which the request was made.
+          example: '0xe526f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'
       required:
         - blockId
         - transactionId
         - outputIndex
         - isSpent
-        - includedSlot
-        - includedCommitmentId
-        - ledgerIndex
+        - latestCommitmentId

@@ -1967,7 +1967,7 @@ components:
         - amount
         - delegatedAmount
         - delegationId
-        - validatorId
+        - validatorAddress
         - startEpoch
         - endEpoch
   
@@ -3033,10 +3033,10 @@ components:
     Commitment:
       description: An object embedded to a block, containing a summary of a slot.
       properties:
-        version:
+        protocolVersion:
           type: integer
           description: The version of the protocol running.
-        index:
+        slot:
           type: integer
           description: The slot index of the commitment.
         previousCommitmentId:
@@ -3122,15 +3122,21 @@ components:
           description: If 'pending', the block contains not yet included transaction. If 'confirmed' means transaction is confirmed with the first level of knowledge. If 'finalized' means transaction is included and cannot be reverted anymore. If 'failed' means transaction is not successfully issued due to failure reason.
         blockFailureReason:
           type: integer
-          enum: [1,2,3,4,5,6]
-          description: >
+          enum: [1,2,3,4,5,6,7,8,9,10,11,255]
+          description: |
             Values:
               * `1` - denotes that the block is too old to issue.
-              * `2` - denotes that one of block's parents is too old.
+              * `2` - denotes that the block's parents are too old.
               * `3` - denotes that one of block's parents does not exist.
               * `4` - denotes that one of block's parents is invalid.
-              * `5` - denotes that the block is dropped due to congestion.
-              * `6` - denotes that the block is invalid.
+              * `5` - denotes that the issuer account could not be found.
+              * `6` - denotes that the block version is invalid to retrieve the corresponding protocol information.
+              * `7` - denotes that the Mana cost could not be calculated.
+              * `8` - denotes that the issuer account burned insufficient Mana for the block.
+              * `9` - denotes that the account is invalid, e.g. the account has negative Block Issuance Credits, or the account has expired. 
+              * `10` - denotes that the signature is invalid.
+              * `11` - denotes that the block is dropped due to congestion.
+              * `255` - denotes that the block is invalid.
         transactionFailureReason:
           type: integer
           enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,255]
