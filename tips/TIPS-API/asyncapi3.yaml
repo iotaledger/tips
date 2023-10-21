@@ -415,7 +415,7 @@ components:
             example: failed
           blockFailureReason:
             type: integer
-            enum: [1,2,3,4,5,6,7,8,9,10,11,255]
+            enum: [1,2,3,4,5,6,7,8,9,10,11,12,255]
             description: |
               Values:
                 * `1` - denotes that the block is too old to issue.
@@ -429,6 +429,7 @@ components:
                 * `9` - denotes that the account is invalid, e.g. the account has negative Block Issuance Credits, or the account has expired. 
                 * `10` - denotes that the signature is invalid.
                 * `11` - denotes that the block is dropped due to congestion.
+                * `12` - denotes that the payload is invalid.
                 * `255` - denotes that the block is invalid.
           txFailureReason:
             type: integer
