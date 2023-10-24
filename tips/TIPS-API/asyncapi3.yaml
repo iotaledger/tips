@@ -337,7 +337,7 @@ components:
             example: '12345'
 
     CommitmentPayloadSerialized:
-      contentType: application/vnd.iota.serializer-v1
+      contentType: application/vnd.iota.serializer-v2
       description: The commitment in its serialized form.
       payload:
         type: string
@@ -360,13 +360,14 @@ components:
             description: Hex encoded identifier of the slot commitment.
             example: '0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695'
     Block:
-      contentType: application/vnd.iota.serializer-v1
+      contentType: application/vnd.iota.serializer-v2
       description: The block in its serialized binary form.
       payload:
         type: string
         format: binary
         example: >-
           0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000eb000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000020000016920b176f613ec7be59e68fc68f597eb3393af80f74c7c3db78198147d5f1f92640000000000000000018afe1f314622cc1ef52f16d619d1baccff81816b7e4e35fe268dc247b730acd65d5d2dd3f7df09000000000001000001f7868ab6bb55800b77b8b74191ad8285a9bf428ace579d541fda47661803ff44e0af5c34ad4edf475a01fb46e089a7afcab158b4a0133f32e889083e1c77eef65548933e0c6d2c3b0ac006cd77e77d778bf37b8d38d219fb62a9a2f718d4c9095100000000000000
+   
     OutputPayload:
       contentType: application/json
       payload:
@@ -382,6 +383,9 @@ components:
               - $ref: '#/components/schemas/FoundryOutput'
               - $ref: '#/components/schemas/NFTOutput'
               - $ref: '#/components/schemas/DelegationOutput'
+          outputIdProof:
+            oneOf:
+              - $ref: '#/components/schemas/OutputIdProof'
 
     BlockMetadata:
       contentType: application/json
@@ -404,7 +408,7 @@ components:
               - finalized
               - rejected
               - failed         
-          txState:
+          transactionState:
             type: string
             description: The inclusion state of the transaction.
             enum:
@@ -431,7 +435,7 @@ components:
                 * `11` - denotes that the block is dropped due to congestion.
                 * `12` - denotes that the payload is invalid.
                 * `255` - denotes that the block is invalid.
-          txFailureReason:
+          transactionFailureReason:
             type: integer
             enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,255]
             description: |
@@ -1093,6 +1097,31 @@ components:
         - amount
         - nftId
         - mana
+
+    OutputIdProof:
+      description: The proof of the output identifier.
+      properties:
+        slot:
+          type: integer
+          description: The slot index of the output.
+          example: 20
+        outputIndex:
+          type: integer
+          description: The index of the output.
+          example: 0
+        transactionCommitment:
+          type: string
+          description: The commitment of the transaction that created the output. Hex-encoded with 0x prefix.
+          example: '0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036'
+        outputCommitmentProof:
+          type: string
+          description: The proof of the output commitment. Hex-encoded with 0x prefix.
+          example: '0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75'
+      required:
+        - slot
+        - outputIndex
+        - transactionCommitment
+        - outputCommitmentProof
 
     Ed25519Signature:
       description: Ed25519Signature defines an Ed25519 signature.

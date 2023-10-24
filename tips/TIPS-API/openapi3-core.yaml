@@ -364,6 +364,14 @@ paths:
       summary: Return information that is used to attach a block in the network.
       description: >-
         Return information that is used to attach a block in the network, which includes parents, last finalized slot index and the latest commitment the node created.
+      parameters:
+        - in: query
+          name: slotIndex
+          schema:
+            type: integer
+          example: 1
+          required: false
+          description: The slot index of the commitment and reference mana cost to query.
       responses:
         '200':
           description: "Successful operation."
@@ -399,25 +407,20 @@ paths:
         - blocks
       summary: Submit a block.
       description: >-
-        Submit a block or a payload. This endpoint will return the identifier of the built block. `protocolVersion` is always required!
+        Submit a block or a payload. This endpoint will return the identifier of the built block. Only full block is accepted.
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SubmitBlockRequest'
             examples:
-              Minimal block with Tagged Data Payload:
-                $ref: "#/components/examples/post-tagged-data-block-request-example-minimal"
               Full block with Tagged Data Payload:
                 $ref: >-
                   #/components/examples/post-tagged-data-block-request-example-full
-              Minimal Block with Transaction Payload:
-                $ref: >-
-                  #/components/examples/post-transaction-block-request-example-minimal
               Full block with Transaction Payload:
                 $ref: >-
                   #/components/examples/post-transaction-block-request-example-full
-          application/vnd.iota.serializer-v1:
+          application/vnd.iota.serializer-v2:
             schema:
               type: string
               format: binary
@@ -498,7 +501,7 @@ paths:
                 Validation Block:
                   $ref: >-
                     #/components/examples/get-block-by-id-validation-response-example
-            application/vnd.iota.serializer-v1:
+            application/vnd.iota.serializer-v2:
               schema:
                 type: string
                 format: binary
@@ -623,7 +626,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/get-outputs-by-id-response-example'
-            application/vnd.iota.serializer-v1:
+            application/vnd.iota.serializer-v2:
               schema:
                 type: string
                 format: binary
@@ -707,7 +710,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  
+  '/api/core/v3/outputs/{outputId}/full':
+    get:
+      tags:
+        - UTXO
+      summary: Returns metadata about an output and the output structure by its identifier.
+      description: Returns the output structure and metadata by its identifier.
+      parameters:
+        - in: path
+          name: outputId
+          schema:
+            type: string
+          required: true
+          description: >-
+            Identifier of the output encoded in hex. An output is identified by
+            the concatenation of `transactionId+outputIndex` where `outputIndex` (u16) needs to be converted to little endian first.
+            Hex-encoded with 0x prefix.
+          example: "0xfa0de75d225cca2799395e5fc340702fc7eac821d2bdd79911126f131ae097a20100"
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutputWithMetadataResponse'
+              examples:
+                unspent:
+                  $ref: '#/components/examples/get-full-output-metadata-example'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+    
   '/api/core/v3/transactions/{transactionId}/included-block':
     get:
       tags:
@@ -732,7 +786,7 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/get-block-by-id-transaction-response-example'
-            application/vnd.iota.serializer-v1:
+            application/vnd.iota.serializer-v2:
               schema:
                 type: string
                 format: binary
@@ -844,7 +898,7 @@ paths:
                 default:
                   $ref: >-
                     #/components/examples/get-commitment-response-example
-            application/vnd.iota.serializer-v1:
+            application/vnd.iota.serializer-v2:
               schema:
                 type: string
                 format: binary
@@ -936,7 +990,7 @@ paths:
         - in: path
           name: index
           schema:
-            type: number
+            type: integer
           example: 154862
           required: true
           description: Index of the commitment to look up.
@@ -951,7 +1005,7 @@ paths:
                 default:
                   $ref: >-
                     #/components/examples/get-commitment-response-example
-            application/vnd.iota.serializer-v1:
+            application/vnd.iota.serializer-v2:
               schema:
                 type: string
                 format: binary
@@ -994,7 +1048,7 @@ paths:
         - in: path
           name: index
           schema:
-            type: number
+            type: integer
           example: 154862
           required: true
           description: Index of the commitment to look up.
@@ -1068,14 +1122,14 @@ components:
               version: 3
               networkName: iota-core-testnet
               bech32Hrp: rms                    
-              rentParameters:
+              storageScoreParameters:
                 storageCost: '500'
-                storageScoreFactorData: 1
-                storageScoreOffsetOutput: '10'
-                storageScoreOffsetEd25519BlockIssuerKey: '100'
-                storageScoreOffsetStakingFeature: '100'
-                storageScoreOffsetDelegation: '100'
-              workScoreStructure:
+                factorData: 1
+                offsetOutputOverhead: '10'
+                offsetEd25519BlockIssuerKey: '100'
+                offsetStakingFeature: '100'
+                storageScoreOffoffsetDelegationsetDelegation: '100'
+              workScoreParameters:
                 dataByte: 0
                 block: 100
                 input: 20
@@ -1090,7 +1144,7 @@ components:
               genesisUnixTimestamp: "1692966168"
               slotDurationInSeconds: 10
               slotsPerEpochExponent: 13
-              manaStructure:
+              manaParameters:
                 bitsCount: 63
                 generationRate: 1
                 generationRateExponent: 0
@@ -1122,7 +1176,6 @@ components:
                 windowTargetRatio: 5
                 activationOffset: 7
               rewardsParameters:
-                validatorBlocksPerSlot: 10
                 profitMarginExponent: 8
                 bootstrappinDuration: 1154
                 manaShareCoefficient: "2"
@@ -1152,8 +1205,8 @@ components:
           - "0xf15b2ec698e396c9d2e69bc753246631aedebb657da09ba0e0c8d42518a1e8953e00000000000000"
         latestFinalizedSlot: 1422
         commitment:
-          version: 3
-          index: 1432
+          protocolVersion: 3
+          slot: 1432
           previousCommitmentId: "0xbf07dc16986166953f5a72c19d78642aab6cbde63964a2369ec3d425144eb42b3800000000000000"
           rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
           cumulativeWeight: '45678'
@@ -1192,59 +1245,6 @@ components:
         transactionState: "failed"
         transactionFailureReason: 2
 
-    post-tagged-data-block-request-example-minimal:
-      value:
-        protocolVersion: 3
-        block:
-          type: 0
-          payload:
-            type: 5
-            tag: "0x72616e646f6d207461673a206769746875622e636f6d"
-            data: "0x5468697320697320616e206578616d706c6520746578742077616c6c20776974682070726f746f636f6c20332e"
-
-    post-transaction-block-request-example-minimal:
-      value:
-        protocolVersion: 3
-        block:
-          type: 0
-          payload:
-            type: 6
-            transaction:
-              type: 1
-              networkId: "1337133713371337"
-              creationSlot: 1692966292150937822
-              contextInputs: 
-                - type: 1
-                  commitmentId: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
-              inputs:
-                - type: 0
-                  transactionId: "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
-                  transactionOutputIndex: 0
-                - type: 0
-                  transactionId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-                  transactionOutputIndex: 0
-                - type: 0
-                  transactionId: "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
-                  transactionOutputIndex: 0
-              outputs:
-                - type: 0
-                  amount: "50000000"
-                  unlockConditions:
-                    - type: 0
-                      address:
-                        type: 0
-                        pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
-              unlocks:
-                - type: 0
-                  signature:
-                    type: 0
-                    publicKey: "0x40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092"
-                    signature: "0xed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703"
-                - type: 1
-                  reference: 0
-                - type: 1
-                  reference: 0
-
     post-tagged-data-block-request-example-full:
       value:
         protocolVersion: 3
@@ -1261,10 +1261,10 @@ components:
           weakParents: []
           shallowLikeParents: []
           payload:
-            type: 5
+            type: 0
             tag: "0x4143544956495459"
             data: ""
-            maxBurnedMana: "0"
+          maxBurnedMana: "500"
         signature:
           type: 0
           publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
@@ -1274,7 +1274,7 @@ components:
       value:
         protocolVersion: 3
         networkId: "0"
-        issuingTime: "2023-07-31T13:14:57.310104314Z"
+        issuingTime: "1692966293697706488"
         slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
         latestFinalizedSlot: 0
         issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
@@ -1290,9 +1290,8 @@ components:
             - "0x0276d29ec6b3cbbf3ed6d1f01af8e29b9c6a9ee9c9375e8e5b5b5c5b5b5d45580000000000000000"
             - "0x70a5ce5d8fc3290a9885b1af5d8766d51db89a67a6a839f6d23a6cb8d6f3b6e30000000000000000"
           payload:
-            type: 6
+            type: 1
             transaction:
-              type: 1
               networkId: "1337133713371337"
               creationSlot: 1649442459
               contextInput:
@@ -1310,7 +1309,7 @@ components:
                   transactionOutputIndex: 0
               allotments:
                 - accountID: "0x030440433d7a726322151f735a6e72543e5b26142d68157d25746a6e45260f37"
-                  value: "5285"
+                  mana: "5285"
               capabilities: ""
               outputs:
                 - type: 0
@@ -1331,7 +1330,7 @@ components:
                 reference: 0
               - type: 1
                 reference: 0
-            maxBurnedMana: "105368"
+          maxBurnedMana: "105368"
         signature:
           type: 0
           publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
@@ -1339,7 +1338,7 @@ components:
     
     get-committee-example:
       value:
-        epochIndex: 10
+        epoch: 10
         totalStake: '900000000'
         totalValidatorStake: '60000000'
         committee:
@@ -1356,41 +1355,44 @@ components:
       value:
         validators:
           - accountId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-            stakingEndEpoch: 100
+            stakingEpochEnd: 100
             poolStake: '200000'
             validatorStake: '100000'
             fixedCost: '50000'
             active: false
             latestSupportedProtocolVersion: 3
+            latestSupportedProtocolHash: "0x0c00425134785bf2dbe42e4ec7e288009ebdc38ced797beaa45d5213092021cb"
           - accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-            stakingEndEpoch: 10
+            stakingEpochEnd: 10
             poolStake: '205000'
             validatorStake: '90000'
             fixedCost: '52000'
             active: true
             latestSupportedProtocolVersion: 3
+            latestSupportedProtocolHash: "0x0c00425134785bf2dbe42e4ec7e288009ebdc38ced797beaa45d5213092021cb"
         pageSize: 50
         cursor: ""
 
     get-validator-example:
       value:
         accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-        stakingEndEpoch: 100
+        stakingEpochEnd: 100
         poolStake: '205000'
         validatorStake: '90000'
         fixedCost: '52000'
         active: true
         latestSupportedProtocolVersion: 3
+        latestSupportedProtocolHash: "0x0c00425134785bf2dbe42e4ec7e288009ebdc38ced797beaa45d5213092021cb"
 
     get-mana-rewards-example:
       value:
-        startEpoch: 60
-        endEpoch: 80
+        epochStart: 60
+        epochEnd: 80
         rewards: '800000'
 
     get-congestion-estimate-response-example:
       value:
-        slotIndex: 20
+        slot: 20
         ready: true
         referenceManaCost: '50000'
         blockIssuanceCredits: '10000000'
@@ -1455,7 +1457,7 @@ components:
                   transactionOutputIndex: 0
               allotments:
                 - accountID: "0x030440433d7a726322151f735a6e72543e5b26142d68157d25746a6e45260f37"
-                  value: "5285"
+                  mana: "5285"
               capabilities: ""
               outputs:
                 - type: 0
@@ -1497,10 +1499,10 @@ components:
           weakParents: []
           shallowLikeParents: []
           payload:
-            type: 5
+            type: 0
             tag: "0x4143544956495459"
             data: ""
-            maxBurnedMana: "0"
+          maxBurnedMana: "500"
         signature:
           type: 0
           publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
@@ -1530,14 +1532,21 @@ components:
 
     get-outputs-by-id-response-example:
       value:
-        type: 3
-        amount: "1000"
-        unlockConditions:
-          - type: 0
-            address:
-              type: 0
-              pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
-        mana: "2000"
+        output:
+          type: 3
+          amount: "1000"
+          unlockConditions:
+            - type: 0
+              address:
+                type: 0
+                pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
+          mana: "2000"
+        outputIdProof:
+          slot: 20
+          outputIndex: 0
+          transactionCommitment: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+          outputCommitmentProof: "0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75"
+
 
     get-output-metadata-by-id-response-unspent-example:
       value:
@@ -1547,6 +1556,32 @@ components:
         isSpent: false
         includedCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
         latestCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
+
+    get-full-output-metadata-example:
+      value:
+        output:
+          type: 3
+          amount: "1000"
+          unlockConditions:
+            - type: 0
+              address:
+                type: 0
+                pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
+          mana: "2000"
+        outputIdProof:
+          slot: 20
+          outputIndex: 0
+          transactionCommitment: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+          outputCommitmentProof: "0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75"
+        metadata:
+          blockId: "0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75"
+          transactionId: "0x1c52e8e630d1c6e45ab6f46c63d8d6cb02e6c2ed6e31b6c97d6f5c5f5a5d5c5b"
+          outputIndex: 3
+          isSpent: true
+          commitmentIdSpent: "0x4b91c935926c77d0ac9b4a569c3eb3b0f0c9918f2d4f4d9bb1c7dfc19b41e4c2"
+          transactionIdSpent: "0x1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298"
+          includedCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
+          latestCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
 
     get-output-metadata-by-id-response-spent-example:
       value:
@@ -1561,7 +1596,8 @@ components:
 
     get-commitment-response-example:
       value:
-        index: 986
+        protocolVersion: 3
+        slot: 986
         previousCommitmentId: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
         rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
         cumulativeWeight: '78901'
@@ -1572,7 +1608,7 @@ components:
 
     get-utxo-changes-response-example:
       value:
-        index: 789
+        slot: 789
         createdOutputs:
           - "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2"
           - "0x3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4"
@@ -1615,6 +1651,13 @@ components:
             - $ref: '#/components/schemas/Ed25519Signature'
       required:
         - protocolVersion
+        - networkId
+        - issuingTime
+        - slotCommitmentId
+        - latestFinalizedSlot
+        - issuerId
+        - block
+        - signature
 
     BasicBlock:
       description: A basic block is the object that can carry arbitrary payload, such as a tagged data payload ostringr a transaction.
@@ -1766,7 +1809,7 @@ components:
         accountId: 
           type: string
           description: The account ID to allot the mana to.
-        value:
+        mana:
           type: string
           description: The amount of mana to allot.
 
@@ -1970,7 +2013,6 @@ components:
         - validatorAddress
         - startEpoch
         - endEpoch
-  
 
     FoundryOutput:
       description: Describes a foundry output that is controlled by an account.
@@ -2429,6 +2471,7 @@ components:
           description: The optional data to attach. This may have a length of 0. Hex-encoded with 0x prefix.
       required:
         - type
+        - data
 
     ErrorResponse:
       description: The error format.
@@ -2608,7 +2651,7 @@ components:
             - decimals
             - useMetricPrefix
         features:
-          description: The features that are supported by the node. For example, a node could support the feature, which would allow the BIC to be included by the node account. All features must be lowercase.
+          description: The features that are supported by the node. All features must be lowercase.
           type: array
           items:
             type: string
@@ -2642,36 +2685,36 @@ components:
             bech32Hrp:
               type: string
               description: Tells whether the node supports mainnet or testnet addresses. Value `iota` indicates that the node supports mainnet addresses. Value `atoi` indicates that the node supports testnet addresses.
-            rentParameters:
+            storageScoreParameters:
               description: The rent structure according to TIP-19.
               properties:
                 storageCost:
                   description: Defines the number of IOTA tokens required per unit of storage score.
                   type: string
-                storageScoreFactorData:
+                factorData:
                   description: Defines the factor to be used for data only fields.
                   type: integer
-                storageScoreOffsetOutput:
+                offsetOutputOverhead:
                   description: Defines the offset to be used for key/lookup generating fields.
                   type: string
-                storageScoreOffsetEd25519BlockIssuerKey:
+                offsetEd25519BlockIssuerKey:
                   description: Defines the offset to be used for block issuer feature public keys.
                   type: string
-                storageScoreOffsetStakingFeature:
+                offsetStakingFeature:
                   description: Defines the offset to be used for staking feature.
                   type: string
-                storageScoreOffsetDelegation:
+                offsetDelegation:
                   description: Defines the offset to be used for delegation output.
                   type: string
               required:
                 - storageCost
-                - storageScoreFactorData
-                - storageScoreOffsetOutput
-                - storageScoreOffsetEd25519BlockIssuerKey
-                - storageScoreOffsetStakingFeature
-                - storageScoreOffsetDelegation
-            workScoreStructure:
-              description: Work structure lists the Work Score of each type, it is used to denote the computation costs of processing an object.
+                - factorData
+                - offsetOutputOverhead
+                - offsetEd25519BlockIssuerKey
+                - offsetStakingFeature
+                - offsetDelegation
+            workScoreParameters:
+              description: Work Score Parameters defines the work score parameters used by given node/network.
               properties:
                 dataByte:
                   description: DataByte accounts for the network traffic per byte.
@@ -2726,7 +2769,7 @@ components:
             slotsPerEpochExponent:
               type: integer
               description: The number of slots in an epoch expressed as an exponent of 2.
-            manaStructure:
+            manaParameters:
               description: Mana Structure defines the parameters used by mana calculation. 
               properties:
                 bitsCount:
@@ -2788,7 +2831,7 @@ components:
               description: Congestion Control Parameters defines the parameters used to calculate the Reference Mana Cost (RMC).
               properties:
                 minReferenceManaCost:
-                  description: RMCMin is the minimum value of the reference Mana cost.
+                  description: Min Reference Mana Cost is the minimum value of the reference Mana cost.
                   type: string
                 increase:
                   description: Increase is the increase step size of the reference Mana cost.
@@ -2837,10 +2880,7 @@ components:
                 - activationOffset
             rewardsParameters:
               description: Rewards Parameters defines the parameters that are used to calculate the rewards. 
-              properties:
-                validatorBlocksPerSlot:
-                  type: integer
-                  description: The number of validation blocks that should be issued by a selected validator per slot during its epoch duties. 
+              properties: 
                 profitMarginExponent:
                   type: integer
                   description: ProfitMarginExponent is used for shift operation for calculation of profit margin.
@@ -2860,7 +2900,6 @@ components:
                   type: integer
                   description: PoolCoefficientExponent is the exponent used for shifting operation in the pool rewards calculations.
               required:
-                - validatorBlocksPerSlot
                 - profitMarginExponent
                 - bootstrappingDuration
                 - manaShareCoefficient
@@ -2872,20 +2911,14 @@ components:
             - networkName
             - bech32Hrp
             - tokenSupply
-            - rentParameters
-            - workScoreStructure
+            - storageScoreParameters
+            - workScoreParameters
             - genesisUnixTimestamp
             - slotDurationInSeconds
             - slotsPerEpochExponent
-            - manaBitsCount
-            - manaGenerationRate
-            - manaGenerationRateExponent
-            - manaDecayFactors
-            - manaDecayFactorsExponent
-            - manaDecayFactorEpochsSum
-            - manaDecayFactorEpochsSumExponent
             - stakingUnbondingPeriod
             - livenessThresholdLowerBound
+            - livenessThresholdUpperBound
             - minCommittableAge
             - maxCommittableAge
             - epochNearingThreshold
@@ -2913,10 +2946,10 @@ components:
     ManaRewardsResponse:
       description: Returns the mana rewards of an account or delegation output.
       properties:
-        startEpoch:
+        epochStart:
           type: integer
           description: The starting epoch index for which the mana rewards are returned.
-        endEpoch:
+        epochEnd:
           type: integer
           description: The ending epoch index for which the mana rewards are returned, the decay is applied up to this point (inclusive).
         rewards:
@@ -2926,7 +2959,7 @@ components:
     CommitteeResponse:
       description: Returns the validator information of the committee.
       properties:
-        epochIndex:
+        epoch:
           type: integer
           description: The epoch index of the committee.
         totalStake:
@@ -2964,7 +2997,7 @@ components:
         accountId: 
           type: string
           description: The account identifier of the validator
-        stakingEndEpoch:
+        stakingEpochEnd:
           type: integer
           description: The epoch index until which the validator registered to stake.
         poolStake:
@@ -2982,6 +3015,18 @@ components:
         latestSupportedProtocolVersion:
           type: integer
           description: The latest protocol version the validator supported.
+        latestSupportedProtocolHash:
+          type: string
+          description: The latest protocol hash the validator supported.
+      required:
+        - accountId
+        - stakingEpochEnd
+        - poolStake
+        - validatorStake
+        - fixedCost
+        - active
+        - latestSupportedProtocolVersion
+        - latestSupportedProtocolHash
 
     IssuanceBlockHeaderResponse:
       description: Return information that is used to attach a block in the network.
@@ -3010,7 +3055,7 @@ components:
     CongestionResponse:
       description: Provides the cost and readiness to issue estimates.
       properties:
-        slotIndex:
+        slot:
           type: integer
           description: The slot index for which the congestion estimate is provided.
         ready:
@@ -3024,7 +3069,7 @@ components:
           type: string
           description: The Block Issuance Credits of the requested account.
       required:
-        - slotIndex
+        - slot
         - ready
         - referenceManaCost
         - blockIssuanceCredits
@@ -3053,6 +3098,13 @@ components:
         referenceManaCost:
           type: string
           description: This field provides the Reference Mana Cost (RMC) to be used in the slot with index Index + Max Committable Age.
+      required:
+        - protocolVersion
+        - slot
+        - previousCommitmentId
+        - rootsId
+        - cumulativeWeight
+        - referenceManaCost
 
     SubmitBlockRequest:
       description: Submits a block to the node.
@@ -3176,12 +3228,62 @@ components:
 
     OutputResponse:
       description: Returns an output.
-      anyOf:
-        - $ref: '#/components/schemas/BasicOutput'
-        - $ref: '#/components/schemas/AccountOutput'
-        - $ref: '#/components/schemas/FoundryOutput'
-        - $ref: '#/components/schemas/NFTOutput'
-        - $ref: '#/components/schemas/DelegationOutput'
+      properties:
+        output:
+            anyOf:
+              - $ref: '#/components/schemas/BasicOutput'
+              - $ref: '#/components/schemas/AccountOutput'
+              - $ref: '#/components/schemas/FoundryOutput'
+              - $ref: '#/components/schemas/NFTOutput'
+              - $ref: '#/components/schemas/DelegationOutput'
+        outputIdProof:
+          allOf:
+              - $ref: '#/components/schemas/OutputIdProof'
+      required:
+        - output
+        - outputIdProof
+          
+    OutputIdProof:
+      description: The proof of the output identifier.
+      properties:
+        slot:
+          type: integer
+          description: The slot index of the output.
+        outputIndex:
+          type: integer
+          description: The index of the output.
+        transactionCommitment:
+          type: string
+          description: The commitment of the transaction that created the output. Hex-encoded with 0x prefix.
+        outputCommitmentProof:
+          type: string
+          description: The proof of the output commitment. Hex-encoded with 0x prefix.
+      required:
+        - slot
+        - outputIndex
+        - transactionCommitment
+        - outputCommitmentProof
+
+    OutputWithMetadataResponse:
+      description: Returns an output.
+      properties:
+        output:
+          anyOf:
+            - $ref: '#/components/schemas/BasicOutput'
+            - $ref: '#/components/schemas/AccountOutput'
+            - $ref: '#/components/schemas/FoundryOutput'
+            - $ref: '#/components/schemas/NFTOutput'
+            - $ref: '#/components/schemas/DelegationOutput'
+        outputIdProof:
+          allOf:
+              - $ref: '#/components/schemas/OutputIdProof'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/OutputMetadataResponse'
+      required:
+        - output
+        - outputIdProof
+        - metadata
 
     OutputMetadataResponse:
       description: Returns metadata about an output.
@@ -3220,7 +3322,7 @@ components:
     UTXOChangesResponse:
       description: Returns all UTXO changes of the given slot.
       properties:
-        index:
+        slot:
           type: integer
           description: The slot index of the given slot.
         createdOutputs:
@@ -3236,6 +3338,6 @@ components:
             type: string
             description: Hex-encoded with 0x prefix.
       required:
-        - index
+        - slot
         - createdOutputs
         - consumedOutputs

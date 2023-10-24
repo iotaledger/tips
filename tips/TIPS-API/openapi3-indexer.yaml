@@ -45,17 +45,11 @@ paths:
           example: true
           description: Filters outputs based on the presence of native tokens.
         - in: query
-          name: minNativeTokenCount
-          schema:
-            type: integer
-          example: 2
-          description: Filters outputs that have at least a certain number of distinct native tokens.
-        - in: query
-          name: maxNativeTokenCount
+          name: nativeToken
           schema:
             type: integer
           example: 5
-          description: Filters outputs that have at most a certain number of distinct native tokens.
+          description: Filters outputs that have a certain number of distinct native tokens.
         - in: query
           name: hasStorageDepositReturn
           schema:
@@ -137,6 +131,12 @@ paths:
           example: 200
           description: Return outputs that were created after a certain slot index.
         - in: query
+          name: unlockableByAddress
+          schema:
+            type: string
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: The address unlock related query parameters.
+        - in: query
           name: pageSize
           schema:
             type: integer
@@ -217,24 +217,6 @@ paths:
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           description: Filters outputs based on bech32-encoded sender address.
         - in: query
-          name: hasNativeTokens
-          schema:
-            type: boolean
-          example: true
-          description: Filters outputs based on the presence of native tokens.
-        - in: query
-          name: minNativeTokenCount
-          schema:
-            type: integer
-          example: 2
-          description: Filters outputs that have at least a certain number of distinct native tokens.
-        - in: query
-          name: maxNativeTokenCount
-          schema:
-            type: integer
-          example: 5
-          description: Filters outputs that have at most a certain number of distinct native tokens.
-        - in: query
           name: createdBefore
           schema:
             type: integer
@@ -246,6 +228,12 @@ paths:
             type: integer
           example: 200
           description: Return outputs that were created after a certain slot index.
+        - in: query
+          name: unlockableByAddress
+          schema:
+            type: string
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: The address unlock related query parameters.
         - in: query
           name: pageSize
           schema:
@@ -359,7 +347,7 @@ paths:
           example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
           description: The Bech32-encoded address that should be searched for in the Address Unlock Condition of outputs.
         - in: query
-          name: validatorId
+          name: validator
           schema:
             type: string
           example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
@@ -445,17 +433,11 @@ paths:
           example: true
           description: Filters outputs based on the presence of native tokens.
         - in: query
-          name: minNativeTokenCount
-          schema:
-            type: integer
-          example: 2
-          description: Filters outputs that have at least a certain number of distinct native tokens.
-        - in: query
-          name: maxNativeTokenCount
+          name: nativeToken
           schema:
             type: integer
           example: 5
-          description: Filters outputs that have at most a certain number of distinct native tokens.
+          description: Filters outputs that have a certain number of distinct native tokens.
         - in: query
           name: createdBefore
           schema:
@@ -599,17 +581,11 @@ paths:
           example: true
           description: Filters outputs based on the presence of native tokens.
         - in: query
-          name: minNativeTokenCount
-          schema:
-            type: integer
-          example: 2
-          description: Filters outputs that have at least a certain number of distinct native tokens.
-        - in: query
-          name: maxNativeTokenCount
+          name: nativeToken
           schema:
             type: integer
           example: 5
-          description: Filters outputs that have at most a certain number of distinct native tokens.
+          description: Filters outputs that have a certain number of distinct native tokens.
         - in: query
           name: hasStorageDepositReturn
           schema:
@@ -684,6 +660,12 @@ paths:
             type: integer
           example: 200
           description: Return outputs that were created after a certain slot index.
+        - in: query
+          name: unlockableByAddress
+          schema:
+            type: string
+          example: iota1qrhacyfwlcnzkvzteumekfkrrwks98mpdm37cj4xx3drvmjvnep6xqgyzyx
+          description: The address unlock related query parameters.
         - in: query
           name: pageSize
           schema:
@@ -879,9 +861,12 @@ components:
     OutputsResponse:
       description: Returns a list of Output IDs.
       properties:
-        ledgerIndex:
+        committedSlot:
           type: integer
-          description: The current ledger index for which the request was made.
+          description: The committed slot at which these outputs where available at.
+        pageSize:
+          type: integer
+          description: The maximum amount of items returned in one call. If there are more items, a cursor to the next page is returned too.
         cursor:
           type: string
           description: The cursor to use for getting the next page of results.
@@ -892,6 +877,7 @@ components:
           items:
             type: string
       required:
-        - ledgerIndex
+        - committedSlot
+        - pageSize
         - items
 
