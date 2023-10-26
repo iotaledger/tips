@@ -3192,7 +3192,7 @@ components:
               * `255` - denotes that the block is invalid.
         transactionFailureReason:
           type: integer
-          enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,255]
+          enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,255]
           description: >
             Values:
               * `1` - denotes that the referenced UTXO was already spent.
@@ -3215,6 +3215,12 @@ components:
               * `18` - denotes that Staking Feature is not provided in account output when claiming rewards.
               * `19` - denotes that fail to claim staking reward.
               * `20` - denotes that fail to claim delegation reward.
+              * `21` - denotes that the burning of native tokens was not allowed in the transaction capabilities.
+              * `22` - denotes that the burning of mana was not allowed in the transaction capabilities.
+              * `23` - denotes that the destruction of accounts was not allowed in the transaction capabilities.
+              * `24` - denotes that the destruction of anchors was not allowed in the transaction capabilities.
+              * `25` - denotes that the destruction of foundries was not allowed in the transaction capabilities.
+              * `26` - denotes that the destruction of nfts was not allowed in the transaction capabilities.
               * `255` - denotes that the semantic validation failed.
       required:
         - blockId
