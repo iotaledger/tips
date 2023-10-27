@@ -14,6 +14,8 @@ externalDocs:
 servers:
   - url: 'http://127.0.0.1:14265'
 tags:
+  - name: outputs
+    description: Query all types of Outputs.
   - name: basic outputs
     description: Query Basic Outputs.
   - name: account outputs
@@ -28,7 +30,7 @@ paths:
   /api/indexer/v2/outputs:
     get:
       tags:
-        - basic outputs
+        - outputs
       summary: Returns all types of outputs filtered based on parameters.
       description: Returns basic, foundry, account, delegation and nft outputs filtered based on parameters.
       parameters:
