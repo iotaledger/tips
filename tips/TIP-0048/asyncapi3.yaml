@@ -437,30 +437,35 @@ components:
                 * `255` - denotes that the block is invalid.
           transactionFailureReason:
             type: integer
-            enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,255]
+            enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,255]
             description: |
               Values:
                 * `1` - denotes that the referenced UTXO was already spent.
                 * `2` - denotes that the transaction is conflicting with another transaction. Conflicting specifically means a double spend situation that both transaction pass all validation rules, eventually losing one(s) should have this reason. 
                 * `3` - denotes that the referenced UTXO is invalid.
                 * `4` - denotes that the transaction is invalid.
-                * `5` - denotes that the sum of the inputs and output values does not match.
+                * `5` - denotes that the sum of the inputs and output base token amount does not match.
                 * `6` - denotes that the unlock block signature is invalid.
                 * `7` - denotes that the configured timelock is not yet expired.
                 * `8` - denotes that the given native tokens are invalid.
                 * `9` - denotes that the return amount in a transaction is not fulfilled by the output side.
                 * `10` - denotes that the input unlock is invalid.
-                * `11` - denotes that the inputs commitment is invalid.
-                * `12` - denotes that an output contains a Sender with an ident (address) which is not unlocked.
-                * `13` - denotes that the chain state transition is invalid.
-                * `14` - denotes that the referenced input is created after transaction issuing time.
-                * `15` - denotes that the mana amount is invalid.
-                * `16` - denotes that the Block Issuance Credits amount is invalid.
-                * `17` - denotes that Reward Input is invalid.
-                * `18` - denotes that Commitment Input is invalid.
-                * `19` - denotes that Staking Feature is not provided in account output when claiming rewards.
-                * `20` - denotes that fail to claim staking reward.
-                * `21` - denotes that fail to claim delegation reward.
+                * `11` - denotes that an output contains a Sender with an ident (address) which is not unlocked.
+                * `12` - denotes that the chain state transition is invalid.
+                * `13` - denotes that the referenced input is created after transaction issuing time.
+                * `14` - denotes that the mana amount is invalid.
+                * `15` - denotes that the Block Issuance Credits Input is invalid.
+                * `16` - denotes that Reward Context Input is invalid.
+                * `17` - denotes that Commitment Context Input is invalid.
+                * `18` - denotes that Staking Feature is not provided in account output when claiming rewards.
+                * `19` - denotes that fail to claim staking reward.
+                * `20` - denotes that fail to claim delegation reward.
+                * `21` - denotes that the burning of native tokens was not allowed in the transaction capabilities.
+                * `22` - denotes that the burning of mana was not allowed in the transaction capabilities.
+                * `23` - denotes that the destruction of accounts was not allowed in the transaction capabilities.
+                * `24` - denotes that the destruction of anchors was not allowed in the transaction capabilities.
+                * `25` - denotes that the destruction of foundries was not allowed in the transaction capabilities.
+                * `26` - denotes that the destruction of nfts was not allowed in the transaction capabilities.
                 * `255` - denotes that the semantic validation failed.
             example: 1
 
