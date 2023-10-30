@@ -559,7 +559,7 @@ paths:
       description: Returns foundry outputs filtered based on parameters.
       parameters:
         - in: query
-          name: accountAddress
+          name: account
           schema:
             type: string
           example: iota1prlgpsht03ekmghhex8v7y67a835uns8dtlxu807hj0v279c74kj76j6rev
