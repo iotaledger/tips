@@ -43,9 +43,9 @@ paths:
         - in: query
           name: nativeToken
           schema:
-            type: integer
-          example: 5
-          description: Filters outputs that have a certain number of distinct native tokens.
+            type: string
+          example: "0x4e16190b6f3076120c685b1d554d28443b12203e5b424d4e366230623b7b165a222250175d29"
+          description: Filters outputs that have the given native token ID.
         - in: query
           name: createdBefore
           schema:
@@ -135,9 +135,9 @@ paths:
         - in: query
           name: nativeToken
           schema:
-            type: integer
-          example: 5
-          description: Filters outputs that have a certain number of distinct native tokens.
+            type: string
+          example: "0x4e16190b6f3076120c685b1d554d28443b12203e5b424d4e366230623b7b165a222250175d29"
+          description: Filters outputs that have the given native token ID.
         - in: query
           name: hasStorageDepositReturn
           schema:
@@ -573,9 +573,9 @@ paths:
         - in: query
           name: nativeToken
           schema:
-            type: integer
-          example: 5
-          description: Filters outputs that have a certain number of distinct native tokens.
+            type: string
+          example: "0x4e16190b6f3076120c685b1d554d28443b12203e5b424d4e366230623b7b165a222250175d29"
+          description: Filters outputs that have the given native token ID.
         - in: query
           name: createdBefore
           schema:
@@ -721,9 +721,9 @@ paths:
         - in: query
           name: nativeToken
           schema:
-            type: integer
-          example: 5
-          description: Filters outputs that have a certain number of distinct native tokens.
+            type: string
+          example: "0x4e16190b6f3076120c685b1d554d28443b12203e5b424d4e366230623b7b165a222250175d29"
+          description: Filters outputs that have the given native token ID.
         - in: query
           name: hasStorageDepositReturn
           schema:
