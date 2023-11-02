@@ -1294,7 +1294,7 @@ components:
             transaction:
               networkId: "1337133713371337"
               creationSlot: 1649442459
-              contextInput:
+              contextInputs:
                - type: 0
                  commitmentId: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
               inputs:
@@ -2726,7 +2726,7 @@ components:
                   description: Input accounts for loading the UTXO from the database and performing the mana calculations.
                   type: integer
                 contextInput:
-                  description: ContextInput accounts for loading and checking the context input.
+                  description: contextInput accounts for loading and checking the context input.
                   type: integer
                 output:
                   description: Output accounts for storing the UTXO in the database.
@@ -2750,7 +2750,7 @@ components:
                 - dataByte
                 - block
                 - input
-                - contextInput
+                - contextInputs
                 - output
                 - nativeToken
                 - staking
