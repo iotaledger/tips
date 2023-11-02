@@ -203,6 +203,23 @@ channels:
       description: Publishes the newly created account output of an account chain.
       message:
         $ref: '#/components/messages/OutputPayload'
+
+  'outputs/anchor/{anchorId}':
+    parameters:
+      anchorId:
+        description: The unique identifier of the anchor output. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          examples:
+            - '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: anchorOutputByAnchorId
+      description: Publishes the newly created anchor output.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+
   'outputs/nft/{nftId}':
     parameters:
       nftId:
@@ -380,6 +397,7 @@ components:
             anyOf:
               - $ref: '#/components/schemas/BasicOutput'
               - $ref: '#/components/schemas/AccountOutput'
+              - $ref: '#/components/schemas/AnchorOutput'
               - $ref: '#/components/schemas/FoundryOutput'
               - $ref: '#/components/schemas/NFTOutput'
               - $ref: '#/components/schemas/DelegationOutput'
@@ -874,18 +892,6 @@ components:
             Output ID that created it. Account Address = Account Address Type ||
             Account ID
           example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
-        stateIndex:
-          type: integer
-          description: >-
-            A counter that must increase by 1 every time the account is state
-            transitioned.
-          example: 1337
-        stateMetadata:
-          type: string
-          description: >-
-            Hex-encoded metadata that can only be changed by the state
-            controller.
-          example: '0x7665727920696d706f7274616e74207374617465206d65746164617461'
         foundryCounter:
           type: integer
           description: >-
@@ -898,8 +904,7 @@ components:
             transaction.
           items:
             anyOf:
-              - $ref: '#/components/schemas/StateControllerAddressUnlockCondition'
-              - $ref: '#/components/schemas/GovernorAddressUnlockCondition'
+              - $ref: '#/components/schemas/AddressUnlockCondition'
         features:
           type: array
           description: >-
@@ -925,8 +930,72 @@ components:
         - type
         - amount
         - accountId
-        - stateIndex
         - foundryCounter
+        - mana
+    
+    AnchorOutput:
+      description: >-
+        Describes an anchor output.
+      properties:
+        type:
+          type: integer
+          description: Set to value 2 to denote an Anchor Output.
+          example: 1
+        amount:
+          type: string
+          description: >-
+            The amount of IOTA tokens to deposit with this output. Encoded as
+            plain string.
+          example: '100'
+        mana:
+          type: string
+          description: The stored mana held by the output.
+          example: '3000'
+        anchorId:
+          type: string
+          description: The identifier of the anchor.
+          example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
+        stateIndex:
+          type: integer
+          description: A counter that must increase by 1 every time the account is state transitioned.
+          example: 3
+        stateMetadata:
+          type: string
+          description: Hex-encoded metadata with 0x prefix that can only be changed by the state controller.
+          example: '0x7665727920696d706f7274616e74207374617465206d65746164617461'
+        unlockConditions:
+          type: array
+          description: >-
+            Unlock condtions that define how the output can be unlocked in a
+            transaction.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/StateControllerAddressUnlockCondition'
+              - $ref: '#/components/schemas/GovernorAddressUnlockCondition'
+        features:
+          type: array
+          description: >-
+            Features that add utility to the output but do not impose unlocking
+            conditions.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/SenderFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+        immutableFeatures:
+          type: array
+          description: >-
+            Immutable features that add utility to the output but do not impose
+            unlocking conditions. These blocks need to be kept in future
+            transitions of the UTXO state machine.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/IssuerFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+      required:
+        - type
+        - amount
+        - anchorId
+        - stateIndex
         - mana
     
     DelegationOutput:

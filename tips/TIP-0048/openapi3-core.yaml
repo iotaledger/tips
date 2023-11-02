@@ -48,7 +48,7 @@ paths:
         '500':
           description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
         '503':
-          description: "Unsuccessful operation: indicates that the node isn´t healthy."
+          description: "Unsuccessful operation: indicates that the node isn't healthy."
 
   /api/routes:
     get:
@@ -1140,10 +1140,6 @@ components:
                 blockIssuer: 100
                 allotment: 100
                 signatureEd25519: 200
-              tokenSupply: "2779530283277761"
-              genesisUnixTimestamp: "1692966168"
-              slotDurationInSeconds: 10
-              slotsPerEpochExponent: 13
               manaParameters:
                 bitsCount: 63
                 generationRate: 1
@@ -1154,6 +1150,10 @@ components:
                 decayFactorsExponent: 0
                 decayFactorEpochsSum: 0
                 decayFactorEpochsSumExponent: 0
+              tokenSupply: "2779530283277761"
+              genesisUnixTimestamp: "1692966168"
+              slotDurationInSeconds: 10
+              slotsPerEpochExponent: 13
               stakingUnbondingPeriod: 10
               validationBlocksPerSlot: 10
               punishmentEpochs: 10
@@ -1247,13 +1247,14 @@ components:
 
     post-tagged-data-block-request-example-full:
       value:
-        protocolVersion: 3
-        networkId: "0"
-        issuingTime: "1692966293697706488"
-        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
-        latestFinalizedSlot: 0
-        issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
-        block:
+        header:
+          protocolVersion: 3
+          networkId: "0"
+          issuingTime: "1692966293697706488"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          latestFinalizedSlot: 0
+          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+        body:
           type: 0
           strongParents:
             - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
@@ -1272,13 +1273,14 @@ components:
 
     post-transaction-block-request-example-full:
       value:
-        protocolVersion: 3
-        networkId: "0"
-        issuingTime: "1692966293697706488"
-        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
-        latestFinalizedSlot: 0
-        issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
-        block:
+        header:
+          protocolVersion: 3
+          networkId: "0"
+          issuingTime: "1692966293697706488"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          latestFinalizedSlot: 0
+          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+        body:
           type: 0
           strongParents:
             - "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
@@ -1399,13 +1401,14 @@ components:
 
     get-block-by-id-empty-response-example:
       value:
-        protocolVersion: 3
-        networkId: "0"
-        issuingTime: "1692966346513784862"
-        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
-        latestFinalizedSlot: 0
-        issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
-        block:
+        header:
+          protocolVersion: 3
+          networkId: "0"
+          issuingTime: "1692966346513784862"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          latestFinalizedSlot: 0
+          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+        body:
           type: 0
           strongParents:
             - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
@@ -1420,13 +1423,14 @@ components:
 
     get-block-by-id-transaction-response-example:
       value:
-        protocolVersion: 3
-        networkId: "0"
-        issuingTime: "1692966346513784862"
-        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
-        latestFinalizedSlot: 0
-        issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
-        block:
+        header:
+          protocolVersion: 3
+          networkId: "0"
+          issuingTime: "1692966346513784862"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          latestFinalizedSlot: 0
+          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+        body:
           type: 0
           strongParents:
             - "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
@@ -1485,13 +1489,14 @@ components:
 
     get-block-by-id-tagged-data-response-example:
       value:
-        protocolVersion: 3
-        networkId: "0"
-        issuingTime: "1692966346513784862"
-        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
-        latestFinalizedSlot: 0
-        issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
-        block:
+        header:
+          protocolVersion: 3
+          networkId: "0"
+          issuingTime: "1692966346513784862"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          latestFinalizedSlot: 0
+          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+        body:
           type: 0
           strongParents:
             - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
@@ -1510,13 +1515,14 @@ components:
 
     get-block-by-id-validation-response-example:
       value:
-        protocolVersion: 3
-        networkId: "0"
-        issuingTime: "1692966346513784862"
-        slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
-        latestFinalizedSlot: 0
-        issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
-        block:
+        header:
+          protocolVersion: 3
+          networkId: "0"
+          issuingTime: "1692966346513784862"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          latestFinalizedSlot: 0
+          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+        body:
           type: 1
           strongParents:
             - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
@@ -1621,25 +1627,34 @@ components:
     Block:
       description: A block is the object nodes gossip around in the network. It always references other blocks that are known as parents. It is stored as a vertex on the tangle data structure that the nodes maintain. A block can have a maximum size of 32Kb.
       properties:
-        protocolVersion:
-          type: number
-          description: Protocol version identifier. It also tells which protocol rules apply to the block.
-        networkId:
-          type: string
-          description: Network version identifier. It also tells which network the node is running.
-        issuingTime:
-          type: string
-          description: The timestamp of issuing this block, a uint64 string.
-        slotCommitmentId:
-          type: string
-          description: The slot commitment ID contains in this block.
-        latestFinalizedSlot:
-          type: integer
-          description: The latest finalized slot of issuing node.
-        issuerId:
-          type: string
-          description: The identifier of the issuer.
-        block:
+        header:
+          properties:
+            protocolVersion:
+              type: number
+              description: Protocol version identifier. It also tells which protocol rules apply to the block.
+            networkId:
+              type: string
+              description: Network version identifier. It also tells which network the node is running.
+            issuingTime:
+              type: string
+              description: The timestamp of issuing this block, a uint64 string.
+            slotCommitmentId:
+              type: string
+              description: The slot commitment ID contains in this block.
+            latestFinalizedSlot:
+              type: integer
+              description: The latest finalized slot of issuing node.
+            issuerId:
+              type: string
+              description: The identifier of the issuer.
+          required:
+            - protocolVersion
+            - networkId
+            - issuingTime
+            - slotCommitmentId
+            - latestFinalizedSlot
+            - issuerId
+        body:
           description: The block content.
           oneOf:
             - $ref: '#/components/schemas/BasicBlock'
@@ -1650,13 +1665,8 @@ components:
           oneOf:
             - $ref: '#/components/schemas/Ed25519Signature'
       required:
-        - protocolVersion
-        - networkId
-        - issuingTime
-        - slotCommitmentId
-        - latestFinalizedSlot
-        - issuerId
-        - block
+        - header
+        - body
         - signature
 
     BasicBlock:
@@ -1791,6 +1801,7 @@ components:
             anyOf:
               - $ref: '#/components/schemas/BasicOutput'
               - $ref: '#/components/schemas/AccountOutput'
+              - $ref: '#/components/schemas/AnchorOutput'
               - $ref: '#/components/schemas/FoundryOutput'
               - $ref: '#/components/schemas/NFTOutput'
               - $ref: '#/components/schemas/DelegationOutput'
@@ -1919,12 +1930,6 @@ components:
         accountId:
           type: string
           description: The identifier of the account.        
-        stateIndex:
-          type: integer
-          description: A counter that must increase by 1 every time the account is state transitioned.
-        stateMetadata:
-          type: string
-          description: Hex-encoded metadata with 0x prefix that can only be changed by the state controller.
         foundryCounter:
           type: integer
           description: A counter that denotes the number of foundries created by this account.
@@ -1933,15 +1938,14 @@ components:
           description: Unlock conditions that define how the output can be unlocked in a transaction.
           items:
             anyOf:
-              - $ref: '#/components/schemas/StateControllerAddressUnlockCondition'
-              - $ref: '#/components/schemas/GovernorAddressUnlockCondition'
+              - $ref: '#/components/schemas/AddressUnlockCondition'
         features:
           type: array
           description: Features that add utility to the output but do not impose unlocking conditions.
           items:
             anyOf:
               - $ref: '#/components/schemas/SenderFeature'
-              - $ref: '#/components/schemas/MetadataFeature'                
+              - $ref: '#/components/schemas/MetadataFeature'
               - $ref: '#/components/schemas/BlockIssuerFeature' 
               - $ref: '#/components/schemas/StakingFeature'           
         immutableFeatures:
@@ -1956,8 +1960,57 @@ components:
         - type
         - amount
         - accountId
-        - stateIndex
         - foundryCounter
+        - mana
+
+    AnchorOutput:
+      description: Describes an anchor output.
+      properties:
+        type:
+          type: integer
+          description: Set to value 2 to denote an Anchor Output.
+        amount:
+          type: string
+          description: The amount of IOTA tokens to deposit with this output. Plain string encoded number.
+        mana:
+          type: string
+          description: The stored mana held by the output.
+        anchorId:
+          type: string
+          description: The identifier of the anchor.        
+        stateIndex:
+          type: integer
+          description: A counter that must increase by 1 every time the account is state transitioned.
+        stateMetadata:
+          type: string
+          description: Hex-encoded metadata with 0x prefix that can only be changed by the state controller.
+        unlockConditions:
+          type: array
+          description: Unlock conditions that define how the output can be unlocked in a transaction.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/StateControllerAddressUnlockCondition'
+              - $ref: '#/components/schemas/GovernorAddressUnlockCondition'
+        features:
+          type: array
+          description: Features that add utility to the output but do not impose unlocking conditions.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/SenderFeature'
+              - $ref: '#/components/schemas/MetadataFeature'           
+        immutableFeatures:
+          type: array
+          description: Immutable features that add utility to the output but do not impose unlocking conditions.
+            These features need to be kept in future transitions of the UTXO state machine.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/IssuerFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+      required:
+        - type
+        - amount
+        - anchorId
+        - stateIndex
         - mana
 
     DelegationOutput:
@@ -2750,25 +2803,13 @@ components:
                 - dataByte
                 - block
                 - input
-                - contextInputs
+                - contextInput
                 - output
                 - nativeToken
                 - staking
                 - blockIssuer
                 - allotment
                 - signatureEd25519
-            tokenSupply:
-              type: string
-              description: Current supply of base token. Plain string encoded number.
-            genesisUnixTimestamp:
-              type: string
-              description: The genesis timestamp at which the slots start to count.
-            slotDurationInSeconds:
-              type: integer
-              description: The duration of a slot, in seconds.
-            slotsPerEpochExponent:
-              type: integer
-              description: The number of slots in an epoch expressed as an exponent of 2.
             manaParameters:
               description: Mana Structure defines the parameters used by mana calculation. 
               properties:
@@ -2803,6 +2844,18 @@ components:
                 - decayFactorsExponent
                 - decayFactorEpochsSum
                 - decayFactorEpochsSumExponent
+            tokenSupply:
+              type: string
+              description: Current supply of base token. Plain string encoded number.
+            genesisUnixTimestamp:
+              type: string
+              description: The genesis timestamp at which the slots start to count.
+            slotDurationInSeconds:
+              type: integer
+              description: The duration of a slot, in seconds.
+            slotsPerEpochExponent:
+              type: integer
+              description: The number of slots in an epoch expressed as an exponent of 2.
             stakingUnbondingPeriod:
               type: integer
               description: The unbonding period in epochs before an account can stop staking.
@@ -3109,36 +3162,8 @@ components:
     SubmitBlockRequest:
       description: Submits a block to the node.
       properties:
-        protocolVersion:
-          type: number
-          description: Protocol version identifier. It also tells which protocol rules apply to the block.
-        networkId:
-          type: string
-          description: Network version identifier. It also tells which network the node is running.
-        issuingTime:
-          type: string
-          description: The timestamp of issuing this block.
-        slotCommitmentId:
-          type: string
-          description: The slot commitment contains in this block.
-        latestFinalizedSlot:
-          type: integer
-          description: The latest finalized slot of issuing node.
-        issuerId:
-          type: string
-          description: The identifier of the issuer.
-        block:
-          description: The block content.
-          oneOf:
-            - $ref: '#/components/schemas/BasicBlock'
-            - $ref: '#/components/schemas/ValidationBlock'
-        signature:
-          type: object
-          description: The signature of entire block, signed by the issuer.
-          oneOf:
-            - $ref: '#/components/schemas/Ed25519Signature'
-      required:
-        - protocolVersion
+        allOf:
+          $ref: '#/components/schemas/Block'
 
     SubmitBlockResponse:
       description: Returns the block identifier of the submitted block.
@@ -3239,6 +3264,7 @@ components:
             anyOf:
               - $ref: '#/components/schemas/BasicOutput'
               - $ref: '#/components/schemas/AccountOutput'
+              - $ref: '#/components/schemas/AnchorOutput'
               - $ref: '#/components/schemas/FoundryOutput'
               - $ref: '#/components/schemas/NFTOutput'
               - $ref: '#/components/schemas/DelegationOutput'
@@ -3277,6 +3303,7 @@ components:
           anyOf:
             - $ref: '#/components/schemas/BasicOutput'
             - $ref: '#/components/schemas/AccountOutput'
+            - $ref: '#/components/schemas/AnchorOutput'
             - $ref: '#/components/schemas/FoundryOutput'
             - $ref: '#/components/schemas/NFTOutput'
             - $ref: '#/components/schemas/DelegationOutput'
