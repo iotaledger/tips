@@ -1,0 +1,62 @@
+---
+tip: <to be assigned>
+title: <Signed Tagged Data Paload>
+description: <Standard format of a Tangle message containing a payload signed by the publisher>
+author: <Stefano Della Valle (@sdellava)>
+discussions-to: <https://github.com/iotaledger/tips/discussions/100>
+status: Draft
+type: <Standard>
+layer (*only required for Standards Track): <Core>
+created: <2022-9-13>
+requires (*optional): <TIP number(s)>
+replaces (*optional): <TIP number(s)>
+superseded-by (*optional): <TIP number(s)>
+---
+
+## Abstract
+
+The payload concept offers a very flexible way to combine and encapsulate information in the IOTA protocol. This document proposes a basic singed payload type that allows the addition of arbitrary signed data.
+
+## Motivation
+
+To support low-cost applications we need to create a selective permanode inx plug-in, and to make it reliable we need a standard method for identifying fake blocks.
+
+This TIP is intended to define a block payload format that can be recognized as true or false by a standard method.
+
+
+## Specification
+
+Detailed design
+
+Serialized Layout
+
+The following table describes the serialization of Data field of a _Singed Tagged Data Payload_ following the notation from [TIP-21](../TIP-0021/tip-0021.md):
+
+| Name         | Type              | Description                                                                               |
+|--------------|-------------------|-------------------------------------------------------------------------------------------|
+| Payload Type | uint32            | Set to *value 6* to denote an _Signed Data Payload_.                                      |
+| Tag          | (uint8)ByteArray  | The tag of the data. A leading uint8 denotes its length.                                  |
+| Public key   | ByteArray[32]     | The public key of the Ed25519 keypair which is used to verify the correspondig signature. |
+| Singature    | ByteArray[64]     | Ed25519 signature signing the BLAKE2b-256 hash of the Data                                |
+| Data         | (uint32)ByteArray | Binary data. A leading uint32 denotes its length.                                         |
+
+It is important to note that `Tag`, `Public key` and `Signature` are not considered by the protocol, they just serves as a marker for second layer applications.
+
+## Syntactic Validation
+
+- `length(Tag)` must not be larger than [`Max Tag Length`](../TIP-0022/tip-0022.md).
+- Given the type and length information, the _Singed Tagged Data Payload_ must consume the entire byte array of the `Payload` field of the encapsulating object.
+
+
+## Rationale
+This is a very simple soltution to allow to build selective permanodes and basic application that share data over the tangle with enough reliability.
+
+## Backwards Compatibility
+Not relevant
+
+## Test Cases
+The test case is the implementation of the INX Selective Permanode
+
+
+## Copyright
+Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
