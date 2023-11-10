@@ -168,7 +168,7 @@ paths:
             type: string
           example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
-          description: Identifier of the account or delegation output.
+          description: Output ID of an account or delegation output.
       responses:
         '200':
           description: "Successful operation."
