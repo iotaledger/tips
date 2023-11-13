@@ -778,6 +778,25 @@ components:
       required:
         - type
         - data
+    NativeTokenFeature:
+      description: Defines a native token which represents a token that resides natively on the ledger.
+      properties:
+        type:
+          type: integer
+          description: Set to value 5 to denote a Native Token Feature.
+          example: 5
+        id:
+          type: string
+          description: The ID of the native token.
+          example: "0x082d3860307d320f3a167a225b031b6b043941562b0c18797938584f603f69425375617a4900"
+        amount:
+          type: string
+          description: The amount of native token.
+          example: "200000000"
+      required:
+        - type
+        - id
+        - amount
     TagFeature:
       description: >-
         Defines an indexation tag to which the output can be indexed by
@@ -861,6 +880,7 @@ components:
               - $ref: '#/components/schemas/SenderFeature'
               - $ref: '#/components/schemas/MetadataFeature'
               - $ref: '#/components/schemas/TagFeature'
+              - $ref: '#/components/schemas/NativeTokenFeature'
       required:
         - type
         - amount
@@ -1096,6 +1116,7 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/MetadataFeature'
+              - $ref: '#/components/schemas/NativeTokenFeature'
         immutableFeatures:
           type: array
           description: >-

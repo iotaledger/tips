@@ -1910,6 +1910,7 @@ components:
               - $ref: '#/components/schemas/SenderFeature'
               - $ref: '#/components/schemas/MetadataFeature'
               - $ref: '#/components/schemas/TagFeature'
+              - $ref: '#/components/schemas/NativeTokenFeature'
       required:
         - type
         - amount
@@ -2097,6 +2098,7 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/MetadataFeature'
+              - $ref: '#/components/schemas/NativeTokenFeature'
         immutableFeatures:
           type: array
           description: Immutable features that add utility to the output but do not impose unlocking conditions.
@@ -2418,6 +2420,23 @@ components:
       required:
         - type
         - tag
+
+    NativeTokenFeature:
+      description: Defines a native token which represents a token that resides natively on the ledger.
+      properties:
+        type:
+          type: integer
+          description: Set to value 5 to denote a Native Token Feature.
+        id:
+          type: string
+          description: The ID of the native token.
+        amount:
+          type: string
+          description: The amount of native token.
+      required:
+        - type
+        - id
+        - amount
 
     SimpleTokenScheme:
       description: Defines the simple supply control scheme of native tokens. Tokens can be minted by the foundry without additional restrictions as long as maximum supply is requested and circulating supply is not negative.
