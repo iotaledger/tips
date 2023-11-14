@@ -791,8 +791,8 @@ components:
           example: "0x082d3860307d320f3a167a225b031b6b043941562b0c18797938584f603f69425375617a4900"
         amount:
           type: string
-          description: The amount of native token.
-          example: "200000000"
+          description: The amount of native token. Hex-encoded number with 0x prefix.
+          example: "0x3e8"
       required:
         - type
         - id

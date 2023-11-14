@@ -2432,7 +2432,7 @@ components:
           description: The ID of the native token.
         amount:
           type: string
-          description: The amount of native token.
+          description: The amount of native token. Hex-encoded number with 0x prefix.
       required:
         - type
         - id
