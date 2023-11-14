@@ -169,6 +169,12 @@ paths:
           example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
           required: true
           description: Output ID of an account or delegation output.
+        - in: query
+          name: slotIndex
+          schema:
+            type: integer
+          example: 50
+          description: A client can specify a slot index explicitly, which should be equal to the slot it uses as the commitment input for the claiming transaction. This parameter is only recommended to be provided when requesting rewards for a Delegation Output in delegating state (i.e. when Delegation ID is zeroed). 
       responses:
         '200':
           description: "Successful operation."
