@@ -1998,7 +1998,8 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/SenderFeature'
-              - $ref: '#/components/schemas/MetadataFeature'           
+              - $ref: '#/components/schemas/MetadataFeature'  
+              - $ref: '#/components/schemas/StateMetadataFeature'         
         immutableFeatures:
           type: array
           description: Immutable features that add utility to the output but do not impose unlocking conditions.
@@ -2407,6 +2408,24 @@ components:
       required:
         - type
         - data
+
+    StateMetadataFeature:
+      description: >-
+        Defines a map of key-value pairs. The keys must consist of ASCII characters only and the values are arbitrary byte slices.
+      properties:
+        type:
+          type: integer
+          description: Set to value 3 to denote a State Metadata Feature.
+          example: 3
+        entries:
+          type: string
+          description: Hex-encoded binary data.
+          example: 
+            - 'did:iota': '0x68656c6c6f206469676974616c206175746f6e6f6d79'
+            - 'hello': '0x776f726c64'
+      required:
+        - type
+        - entries
 
     TagFeature:
       description: Defines an indexation tag to which the output can be indexed by additional node plugins.

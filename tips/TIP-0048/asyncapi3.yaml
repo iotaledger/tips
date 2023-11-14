@@ -720,8 +720,8 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 4 to denote a Block Issuer Feature.
-          example: 4
+          description: Set to value 6 to denote a Block Issuer Feature.
+          example: 6
         blockIssuerKeys:
           type: array
           description: The keys allowed to issue blocks from an account with a BlockIssuerFeature.
@@ -741,8 +741,8 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 5 to denote a Staking Feature.
-          example: 5
+          description: Set to value 7 to denote a Staking Feature.
+          example: 7
         stakedAmount:
           type: string
           description: The amount of IOTA coins that are locked and staked in the containing account.
@@ -778,6 +778,23 @@ components:
       required:
         - type
         - data
+    StateMetadataFeature:
+      description: >-
+        Defines a map of key-value pairs. The keys must consist of ASCII characters only and the values are arbitrary byte slices.
+      properties:
+        type:
+          type: integer
+          description: Set to value 3 to denote a State Metadata Feature.
+          example: 3
+        entries:
+          type: string
+          description: Hex-encoded binary data.
+          example: 
+            - 'did:iota': '0x68656c6c6f206469676974616c206175746f6e6f6d79'
+            - 'hello': '0x776f726c64'
+      required:
+        - type
+        - entries
     NativeTokenFeature:
       description: Defines a native token which represents a token that resides natively on the ledger.
       properties:
@@ -804,8 +821,8 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 3 to denote a Tag Feature.
-          example: 3
+          description: Set to value 4 to denote a Tag Feature.
+          example: 4
         tag:
           type: string
           description: Hex-encoded binary indexation tag.
@@ -1001,6 +1018,7 @@ components:
             anyOf:
               - $ref: '#/components/schemas/SenderFeature'
               - $ref: '#/components/schemas/MetadataFeature'
+              - $ref: '#/components/schemas/StateMetadataFeature'
         immutableFeatures:
           type: array
           description: >-
