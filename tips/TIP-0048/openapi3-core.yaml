@@ -1643,7 +1643,7 @@ components:
               description: Network version identifier. It also tells which network the node is running.
             issuingTime:
               type: string
-              description: The timestamp of issuing this block, a uint64 string.
+              description: The timestamp of issuing this block, a uint64 string in nanosecond-precision.
             slotCommitmentId:
               type: string
               description: The slot commitment ID contains in this block.
@@ -2347,8 +2347,8 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 4 to denote a Block Issuer Feature.
-          example: 4
+          description: Set to value 6 to denote a Block Issuer Feature.
+          example: 6
         blockIssuerKeys:
           type: array
           description: The keys allowed to issue blocks from an account with a BlockIssuerFeature.
@@ -2381,8 +2381,8 @@ components:
       properties:
         type:
           type: string
-          description: Set to value 5 to denote a Staking Feature.
-          example: 5
+          description: Set to value 7 to denote a Staking Feature.
+          example: 7
         stakedAmount:
           type: string
           description: The amount of IOTA coins that are locked and staked in the containing account.
@@ -2438,7 +2438,7 @@ components:
       properties:
         type:
           type: integer
-          description: Set to value 3 to denote a Tag Feature.
+          description: Set to value 4 to denote a Tag Feature.
         tag:
           type: string
           description: Hex-encoded binary indexation tag with 0x prefix.
@@ -2659,16 +2659,16 @@ components:
               type: boolean
               description: Tells whether the node is healthy or not.
             acceptedTangleTime:
-              description: A notion of time that is anchored to the latest accepted block.
+              description: A notion of time that is anchored to the latest accepted block. It's in nanosecond-precision. 
               type: string
             relativeAcceptedTangleTime:
-              description: The time after Accepted Tangle Time has advanced with the system clock.
+              description: The time after Accepted Tangle Time has advanced with the system clock. It's in nanosecond-precision.
               type: string
             confirmedTangleTime:
-              description: A notion of time that is anchored to the latest confirmed block.
+              description: A notion of time that is anchored to the latest confirmed block. It's in nanosecond-precision.
               type: string
             relativeConfirmedTangleTime:
-              description: The time after Confirmed Tangle Time has advanced with the system clock.
+              description: The time after Confirmed Tangle Time has advanced with the system clock. It's in nanosecond-precision.
               type: string
             latestCommitmentId:
               type: string
@@ -2893,7 +2893,7 @@ components:
               description: Current supply of base token. Plain string encoded number.
             genesisUnixTimestamp:
               type: string
-              description: The genesis timestamp at which the slots start to count.
+              description: The genesis timestamp at which the slots start to count. It's in second-precision.
             slotDurationInSeconds:
               type: integer
               description: The duration of a slot, in seconds.
