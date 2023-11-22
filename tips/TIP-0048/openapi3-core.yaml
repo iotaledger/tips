@@ -101,7 +101,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
 
-  '/api/core/v3/accounts/{accountId}/congestion':
+  '/api/core/v3/accounts/{bech32Address}/congestion':
     get:
       tags:
         - accounts
@@ -110,12 +110,12 @@ paths:
         Check the readiness of the node to issue a new block, the reference mana cost based on the rate setter and current network congestion, and the block issuance credits of the requested account.
       parameters:
         - in: path
-          name: accountId
+          name: bech32Address
           schema:
             type: string
-          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          example: "rms1pqm4xk8e9ny5w5rxjkvtp249tfhlwvcshyr3pc0665jvp7g3hc875k538hl"
           required: true
-          description: Identifier of the account.
+          description: The Account Address in bech32.
       responses:
         '200':
           description: "Successful operation."
@@ -315,19 +315,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
 
-  /api/core/v3/validators/{accountId}:
+  /api/core/v3/validators/{bech32Address}:
     get:
       tags:
         - validators
       summary: Return information about a validator.
       parameters:
         - in: path
-          name: accountId
+          name: bech32Address
           schema:
             type: string
-          example: "0xf532a53545103276b46876c473846d98648ee418468bce76df4868648dd73e5d"
+          example: "rms1pqm4xk8e9ny5w5rxjkvtp249tfhlwvcshyr3pc0665jvp7g3hc875k538hl"
           required: true
-          description: Identifier of the account.
+          description: The Account Address of the account.
       responses:
         '200':
           description: "Successful operation."
@@ -1436,11 +1436,11 @@ components:
         totalStake: '900000000'
         totalValidatorStake: '60000000'
         committee:
-          - accountId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+          - address: "rms1pqm4xk8e9ny5w5rxjkvtp249tfhlwvcshyr3pc0665jvp7g3hc875k538hl"
             poolStake: '200000'
             validatorStake: '100000'
             fixedCost: '50000'
-          - accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+          - address: "rms1pp4wuuz0y42caz48vv876qfpmffswsvg40zz8v79sy8cp0jfxm4kunflcgt"
             poolStake: '205000'
             validatorStake: '90000'
             fixedCost: '52000'
@@ -1448,7 +1448,7 @@ components:
     get-validators-example:
       value:
         validators:
-          - accountId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+          - address: "rms1pp4wuuz0y42caz48vv876qfpmffswsvg40zz8v79sy8cp0jfxm4kunflcgt"
             stakingEpochEnd: 100
             poolStake: '200000'
             validatorStake: '100000'
@@ -1456,7 +1456,7 @@ components:
             active: false
             latestSupportedProtocolVersion: 3
             latestSupportedProtocolHash: "0x0c00425134785bf2dbe42e4ec7e288009ebdc38ced797beaa45d5213092021cb"
-          - accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+          - address: "rms1pqm4xk8e9ny5w5rxjkvtp249tfhlwvcshyr3pc0665jvp7g3hc875k538hl"
             stakingEpochEnd: 10
             poolStake: '205000'
             validatorStake: '90000'
@@ -1469,7 +1469,7 @@ components:
 
     get-validator-example:
       value:
-        accountId: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
+        address: "rms1pqm4xk8e9ny5w5rxjkvtp249tfhlwvcshyr3pc0665jvp7g3hc875k538hl"
         stakingEpochEnd: 100
         poolStake: '205000'
         validatorStake: '90000'
@@ -2074,9 +2074,6 @@ components:
         stateIndex:
           type: integer
           description: A counter that must increase by 1 every time the account is state transitioned.
-        stateMetadata:
-          type: string
-          description: Hex-encoded metadata with 0x prefix that can only be changed by the state controller.
         unlockConditions:
           type: array
           description: Unlock conditions that define how the output can be unlocked in a transaction.
@@ -2089,7 +2086,6 @@ components:
           description: Features that add utility to the output but do not impose unlocking conditions.
           items:
             anyOf:
-              - $ref: '#/components/schemas/SenderFeature'
               - $ref: '#/components/schemas/MetadataFeature'  
               - $ref: '#/components/schemas/StateMetadataFeature'         
         immutableFeatures:
@@ -2132,7 +2128,7 @@ components:
         validatorAddress:
           type: string
           description: >-
-            The Account ID of the validator to which this output is delegating.
+            The Account Address of the validator to which this output is delegating.
           example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
         startEpoch:
           type: integer
@@ -3169,9 +3165,9 @@ components:
     CommitteeMember:
       description: Returns information of a committee member.
       properties:
-        accountId: 
+        address: 
           type: string
-          description: The account identifier of the validator
+          description: The account address of the validator.
         poolStake:
           type: string
           description: The total stake of the pool, including delegators.
@@ -3185,9 +3181,9 @@ components:
     Validator:
       description: Returns information of a validator.
       properties:
-        accountId: 
+        address: 
           type: string
-          description: The account identifier of the validator
+          description: The account address of the validator.
         stakingEpochEnd:
           type: integer
           description: The epoch index until which the validator registered to stake.
@@ -3210,7 +3206,7 @@ components:
           type: string
           description: The latest protocol hash the validator supported.
       required:
-        - accountId
+        - address
         - stakingEpochEnd
         - poolStake
         - validatorStake
