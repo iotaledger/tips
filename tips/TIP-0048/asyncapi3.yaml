@@ -375,7 +375,7 @@ components:
           commitmentId:
             type: string
             description: Hex encoded identifier of the slot commitment.
-            example: '0x7a09324557e9200f39bf493fc8fd6ac43e9ca750c6f6d884cc72386ddcb7d695'
+            example: '0x507d5c7d7105022b661e2c755173785f11707b7a6b3369111d000d1f145e652d5f436f26'
     Block:
       contentType: application/vnd.iota.serializer-v2
       description: The block in its serialized binary form.

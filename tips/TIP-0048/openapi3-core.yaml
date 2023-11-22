@@ -604,6 +604,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
+  '/api/core/v3/blocks/{blockId}/full':
+    get:
+      tags:
+        - blocks
+      summary: Find the metadata of a given block.
+      description: >-
+        Find the metadata of a given block.
+      parameters:
+        - in: path
+          name: blockId
+          schema:
+            type: string
+          example: "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
+          required: true
+          description: Identifier of the block.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockFullResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-block-by-id-response-example-new-transaction'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
 
   '/api/core/v3/outputs/{outputId}':
     get:
@@ -1157,6 +1212,7 @@ components:
                 decayFactorEpochsSum: 0
                 decayFactorEpochsSumExponent: 0
               tokenSupply: "2779530283277761"
+              genesisSlot: 5
               genesisUnixTimestamp: "1692966168"
               slotDurationInSeconds: 10
               slotsPerEpochExponent: 13
@@ -1177,7 +1233,7 @@ components:
                 schedulerRate: 100000
                 maxBufferSize: 3276800
                 maxValidationBufferSize: 100
-              versionSignaling:
+              versionSignalingParameters:
                 windowSize: 7
                 windowTargetRatio: 5
                 activationOffset: 7
@@ -1188,13 +1244,13 @@ components:
                 decayBalancingConstantExponent: 8
                 decayBalancingConstant: "1"
                 poolCoefficientExponent: 31
+              targetCommitteeSize: 32
         baseToken:
           name: "Shimmer"
           tickerSymbol: "SMR"
           unit: "SMR"
           decimals: 6
           subunit: "glow"
-          useMetricPrefix: false
         features:
           - []
 
@@ -1221,6 +1277,36 @@ components:
     post-blocks-response-example:
       value:
         blockId: "0xb173e2d2b6f72600f00da84492ddb6eadee703dc39fb846725828059272093fb3b00000000000000"
+
+    get-full-block-by-id-response-example:
+      value:
+        block: 
+          header:
+            protocolVersion: 3
+            networkId: "0"
+            issuingTime: "1692966346513784862"
+            slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+            latestFinalizedSlot: 0
+            issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+          body:
+            type: 0
+            strongParents:
+              - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
+              - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
+            weakParents: []
+            shallowLikeParents: []
+            payload:
+              type: 0
+              tag: "0x4143544956495459"
+              data: ""
+            maxBurnedMana: "500"
+          signature:
+            type: 0
+            publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
+            signature: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
+        metadata:
+          blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
+          blockState: "confirmed"
 
     get-block-by-id-response-example-new-transaction:
       value:
@@ -1304,7 +1390,7 @@ components:
               creationSlot: 1649442459
               contextInputs:
                - type: 0
-                 commitmentId: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
+                 commitmentId: "0x507d5c7d7105022b661e2c755173785f11707b7a6b3369111d000d1f145e652d5f436f26"
               inputs:
                 - type: 0
                   transactionId: "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
@@ -1454,7 +1540,7 @@ components:
               creationSlot: 1649442459
               contextInputs: 
                 - type: 1
-                  commitmentId: "0x0e6c2998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
+                  commitmentId: "0x507d5c7d7105022b661e2c755173785f11707b7a6b3369111d000d1f145e652d5f436f26"
               inputs:
                 - type: 0
                   transactionId: "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
@@ -2737,16 +2823,12 @@ components:
               description: The name of the smallest possible denomination of the primary unit. subunit * 10^decimals = unit
             decimals:
               type: integer
-              description: Number of decimals the primary unit is divisible up to.            
-            useMetricPrefix:
-              type: boolean
-              description: Whether to use metric prefixes for displaying unit.
+              description: Number of decimals the primary unit is divisible up to. 
           required:
             - name
             - tickerSymbol
             - unit
             - decimals
-            - useMetricPrefix
         features:
           description: The features that are supported by the node. All features must be lowercase.
           type: array
@@ -2891,6 +2973,9 @@ components:
             tokenSupply:
               type: string
               description: Current supply of base token. Plain string encoded number.
+            genesisSlot:
+              type: integer
+              description: The slot index of the genesis.
             genesisUnixTimestamp:
               type: string
               description: The genesis timestamp at which the slots start to count. It's in second-precision.
@@ -2959,7 +3044,7 @@ components:
                 - decreaseThreshold
                 - schedulerRate
                 - maxBufferSize
-            versionSignaling:
+            versionSignalingParameters:
               description: The version signaling parameters.
               properties:
                 windowSize:
@@ -3003,6 +3088,9 @@ components:
                 - decayBalancingConstantExponent
                 - decayBalancingConstant
                 - poolCoefficientExponent
+            targetCommitteeSize:
+              type: integer
+              description: The target size of the committee.
           required:
             - version
             - networkName
@@ -3010,17 +3098,23 @@ components:
             - tokenSupply
             - storageScoreParameters
             - workScoreParameters
+            - manaParameters
+            - genesisSlot
             - genesisUnixTimestamp
             - slotDurationInSeconds
             - slotsPerEpochExponent
             - stakingUnbondingPeriod
+            - validationBlocksPerSlot
+            - punishmentEpochs
             - livenessThresholdLowerBound
             - livenessThresholdUpperBound
             - minCommittableAge
             - maxCommittableAge
             - epochNearingThreshold
             - congestionControlParameters
-            - versionSignaling
+            - versionSignalingParameters
+            - rewardsParameters
+            - targetCommitteeSize
       required:
         - startEpoch
         - parameters
@@ -3217,6 +3311,19 @@ components:
           description: The block identifier of the submitted block. Hex-encoded with 0x prefix.
       required:
         - blockId
+
+    BlockFullResponse:
+      description: Returns the metadata of a given block.
+      properties:
+        block:
+          $ref: '#/components/schemas/Block'
+          description: The requested block structure.
+        metadata:
+          $ref: '#/components/schemas/BlockMetadataResponse'
+          description: The metadata of the requested block.
+      required:
+        - block
+        - metadata
 
     BlockMetadataResponse:
       description: Returns the metadata of a given block.
