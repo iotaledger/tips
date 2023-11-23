@@ -1404,7 +1404,6 @@ components:
               allotments:
                 - accountID: "0x030440433d7a726322151f735a6e72543e5b26142d68157d25746a6e45260f37"
                   mana: "5285"
-              capabilities: ""
               outputs:
                 - type: 0
                   amount: "50000000"
@@ -1465,7 +1464,6 @@ components:
             latestSupportedProtocolVersion: 3
             latestSupportedProtocolHash: "0x0c00425134785bf2dbe42e4ec7e288009ebdc38ced797beaa45d5213092021cb"
         pageSize: 50
-        cursor: ""
 
     get-validator-example:
       value:
@@ -1554,7 +1552,6 @@ components:
               allotments:
                 - accountID: "0x030440433d7a726322151f735a6e72543e5b26142d68157d25746a6e45260f37"
                   mana: "5285"
-              capabilities: ""
               outputs:
                 - type: 0
                   amount: "50000000"
