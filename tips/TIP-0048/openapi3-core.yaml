@@ -1759,7 +1759,7 @@ components:
         - signature
 
     BasicBlock:
-      description: A basic block is the object that can carry arbitrary payload, such as a tagged data payload ostringr a transaction.
+      description: A basic block is the object that can carry arbitrary payload, such as a tagged data payload or a transaction.
       properties:
         type:
           type: integer
@@ -2140,7 +2140,7 @@ components:
         unlockConditions:
           type: array
           description: >-
-            Unlock condtions that define how the output can be unlocked in a
+            Unlock conditions that define how the output can be unlocked in a
             transaction.
           items:
             anyOf:

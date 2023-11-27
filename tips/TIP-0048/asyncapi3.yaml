@@ -879,7 +879,7 @@ components:
         unlockConditions:
           type: array
           description: >-
-            Unlock condtions that define how the output can be unlocked in a
+            Unlock conditions that define how the output can be unlocked in a
             transaction.
           items:
             anyOf:
@@ -937,7 +937,7 @@ components:
         unlockConditions:
           type: array
           description: >-
-            Unlock condtions that define how the output can be unlocked in a
+            Unlock conditions that define how the output can be unlocked in a
             transaction.
           items:
             anyOf:
@@ -999,7 +999,7 @@ components:
         unlockConditions:
           type: array
           description: >-
-            Unlock condtions that define how the output can be unlocked in a
+            Unlock conditions that define how the output can be unlocked in a
             transaction.
           items:
             anyOf:
@@ -1072,7 +1072,7 @@ components:
         unlockConditions:
           type: array
           description: >-
-            Unlock condtions that define how the output can be unlocked in a
+            Unlock conditions that define how the output can be unlocked in a
             transaction.
           items:
             anyOf:
@@ -1116,7 +1116,7 @@ components:
         unlockConditions:
           type: array
           description: >-
-            Unlock condtions that define how the output can be unlocked in a
+            Unlock conditions that define how the output can be unlocked in a
             transaction.
           items:
             anyOf:
@@ -1170,7 +1170,7 @@ components:
         unlockConditions:
           type: array
           description: >-
-            Unlock condtions that define how the output can be unlocked in a
+            Unlock conditions that define how the output can be unlocked in a
             transaction.
           items:
             anyOf:
