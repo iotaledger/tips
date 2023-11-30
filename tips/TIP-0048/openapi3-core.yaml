@@ -628,7 +628,7 @@ paths:
                 $ref: '#/components/schemas/BlockFullResponse'
               examples:
                 default:
-                  $ref: '#/components/examples/get-block-by-id-response-example-new-transaction'
+                  $ref: '#/components/examples/get-full-block-by-id-tagged-data-response-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
           content:
@@ -796,7 +796,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OutputWithMetadataResponse'
               examples:
-                unspent:
+                spent:
                   $ref: '#/components/examples/get-full-output-metadata-example'
         '400':
           description: "Unsuccessful operation: indicates that the provided data is invalid."
@@ -1167,7 +1167,7 @@ components:
           relativeAcceptedTangleTime: '1692966173856059205'
           confirmedTangleTime: '1692966168000000000'
           relativeConfirmedTangleTime: '1692966173855931045'
-          latestCommitmentID: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
+          latestCommitmentId: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
           latestFinalizedSlot: 100
           latestAcceptedBlockSlot: 100
           latestConfirmedBlockSlot: 95
@@ -1189,7 +1189,7 @@ components:
                 offsetOutputOverhead: '10'
                 offsetEd25519BlockIssuerKey: '100'
                 offsetStakingFeature: '100'
-                storageScoreOffoffsetDelegationsetDelegation: '100'
+                offsetDelegation: '100'
               workScoreParameters:
                 dataByte: 0
                 block: 100
@@ -1239,7 +1239,7 @@ components:
                 activationOffset: 7
               rewardsParameters:
                 profitMarginExponent: 8
-                bootstrappinDuration: 1154
+                bootstrappingDuration: 1154
                 manaShareCoefficient: "2"
                 decayBalancingConstantExponent: 8
                 decayBalancingConstant: "1"
@@ -1257,82 +1257,52 @@ components:
     get-buildingBlock-response-example:
       value:
         strongParents:
-          - "0x4f746934d0075179a37ca3e807b7e793ec4ec9189ba31c9ad092d7497b01118c1000000000000000"
-          - "0x59daaaba1cd10cd268966376e17710d100c90826fe258753d461acac99b7e3341500000000000000"
+          - "0x0482f0eba39a23c9a13072c93d828b55543132c47f5f57514d9e55535e9d4f4f35000000"
+          - "0xae7c4f55a6db8bf4841e4a38f06d32ab9bd88b927a6ba0bc19bcb19c625ff8b63c000000"
         weakParents:
-          - "0xebb058f1f1c8f1ac6508465deeee1dd090396f9e6e2b5c103eef5583f20a0c133a00000000000000"
-          - "0xb173e2d2b6f72600f00da84492ddb6eadee703dc39fb846725828059272093fb3b00000000000000"
+          - "0x67e57f7446b5a6f152afabb17c6077c26512278a275310a7ff2fa513f4e0b7383d000000"
+          - "0x2e65c319e9a2c4a6ff7195f9a1ed896c43d0dded1b906979316d502b158965c23d000000"
         shallowLikeParents:
-          - "0xdbf86c778d69f413296c2d4d3086d76c74bf4d719e6e95c03a3d9a955ed39bcf3e00000000000000"
-          - "0xf15b2ec698e396c9d2e69bc753246631aedebb657da09ba0e0c8d42518a1e8953e00000000000000"
+          - "0xe5fe5231630afaaba609af76787ff1ec9c6088dd17e9cf922152b3facd7bd5883e000000"
+          - "0xed4b771b5413f5118dd80021ca07fb727e4c54eec9d28d6566c28cc81e7d267c3f000000"
         latestFinalizedSlot: 1422
         commitment:
           protocolVersion: 3
           slot: 1432
-          previousCommitmentId: "0xbf07dc16986166953f5a72c19d78642aab6cbde63964a2369ec3d425144eb42b3800000000000000"
-          rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
+          previousCommitmentId: "0xc0300d55fe2cdc93191e52685da009f53d40883ae111291e550eed4e7eb7752746010000"
+          rootsId: "0x6a8f424929e1f08d87a204efc8a60499b789465aaa28178b77debe75cc2915d3"
           cumulativeWeight: '45678'
           referenceManaCost: '12345'
 
     post-blocks-response-example:
       value:
-        blockId: "0xb173e2d2b6f72600f00da84492ddb6eadee703dc39fb846725828059272093fb3b00000000000000"
-
-    get-full-block-by-id-response-example:
-      value:
-        block: 
-          header:
-            protocolVersion: 3
-            networkId: "0"
-            issuingTime: "1692966346513784862"
-            slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
-            latestFinalizedSlot: 0
-            issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
-          body:
-            type: 0
-            strongParents:
-              - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
-              - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
-            weakParents: []
-            shallowLikeParents: []
-            payload:
-              type: 0
-              tag: "0x4143544956495459"
-              data: ""
-            maxBurnedMana: "500"
-          signature:
-            type: 0
-            publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
-            signature: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
-        metadata:
-          blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
-          blockState: "confirmed"
+        blockId:        "0x0482f0eba39a23c9a13072c93d828b55543132c47f5f57514d9e55535e9d4f4f35000000"
 
     get-block-by-id-response-example-new-transaction:
       value:
-        blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
+        blockId: "0x0482f0eba39a23c9a13072c93d828b55543132c47f5f57514d9e55535e9d4f4f35000000"
         blockState: "pending"
         transactionState: "pending"
     
     get-block-by-id-response-example-new:
       value:
-        blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
+        blockId: "0x0482f0eba39a23c9a13072c93d828b55543132c47f5f57514d9e55535e9d4f4f35000000"
         blockState: "pending"
 
     get-block-by-id-response-example-confirmed-transaction:
       value:
-        blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
+        blockId: "0xf7ac0552041789a3931ae76eafa47df063632cddd3f8b11bd0bfffba1bc8c46800000000"
         blockState: "confirmed"
         transactionState: "confirmed"
 
     get-block-by-id-response-example-confirmed:
       value:
-        blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
+        blockId: "0x3848a6d17070830206e5032fbce2ae3939e60eec0816546e074316b1f66977d04d010000"
         blockState: "confirmed"
 
     get-block-by-id-response-example-conflicting-transaction:
       value:
-        blockId: "0x8e7c2d36c236f7d44f26cf8c70b3d99e18e7d7390b32c9637c08c086d9475e6a"
+        blockId: "0x3848a6d17070830206e5032fbce2ae3939e60eec0816546e074316b1f66977d04d010000"
         blockState: "confirmed"
         transactionState: "failed"
         transactionFailureReason: 2
@@ -1342,92 +1312,99 @@ components:
         header:
           protocolVersion: 3
           networkId: "0"
-          issuingTime: "1692966293697706488"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          issuingTime: "1695275834000000000"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
           latestFinalizedSlot: 0
-          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+          issuerId: "0x1d0140675f050c4d6e1018510a103d2f4c134a31463965775f7d284959045100"
         body:
           type: 0
           strongParents:
-            - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
-            - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
+            - "0x087a2734114e6c041e423a310d7c2039302825484b6c326a560c3a6e281d274a3d18110e"
           weakParents: []
           shallowLikeParents: []
           payload:
             type: 0
-            tag: "0x4143544956495459"
-            data: ""
-          maxBurnedMana: "500"
+            tag: "0x746167"
+            data: "0x175d051d3873347d3b2617773240644f780f683064094a0c0b4d1a0c621f0160572c324d371a792536786a2719307b590b5f6d585e3a28740a42080942607a131a5e68242735131920230f72513d01694a54507c340e7817514457462a19213c7270212732506a10097a3e36732c011c6f513202360660240d597d7076014750600c27072540123b7b49137409282d48577a0247125a1c6c13456c2d350a6a224a35"
+          maxBurnedMana: "100"
         signature:
           type: 0
-          publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
-          signature: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
+          publicKey: "0x1a382c2224662059334e1d6e076b3a490b594c31332e3d652d402f5139263e56"
+          signature: "0x15216f030f65647910225f736f627d12600607064d7305235c3818700d01633e5d625e11497a3e514e6f5a0e6a51091e475c604125360813067c740346320520"
 
     post-transaction-block-request-example-full:
       value:
         header:
           protocolVersion: 3
           networkId: "0"
-          issuingTime: "1692966293697706488"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          issuingTime: "1695275834000000000"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
           latestFinalizedSlot: 0
-          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+          issuerId: "0x65767c660e6c324c377e164f3f3c2a267515573d6c53300753532e1c384f521f"
         body:
           type: 0
           strongParents:
-            - "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
-            - "0x408a53af982c49d1398ab5c5b5f5b390d4c4da7da48b61bb9ba7f97c1e8dd7f60000000000000000"
-          weakParents:
-            - "0xe8a904ce3ee081f20a68bb38b2d406cfd138775ba52ea555d93a4e4d4b0ad8440000000000000000"
-            - "0xbce912a0f383cd07660d3c08f3d3f3c7fb9de31e2cc1b93d4c29332ef693ba0c0000000000000000"
-          shallowLikeParents:
-            - "0x0276d29ec6b3cbbf3ed6d1f01af8e29b9c6a9ee9c9375e8e5b5b5c5b5b5d45580000000000000000"
-            - "0x70a5ce5d8fc3290a9885b1af5d8766d51db89a67a6a839f6d23a6cb8d6f3b6e30000000000000000"
+            - "0x140615473c0b60295c5a25005079200d4f442d146d64040440215d175502070273570c41"
+            - "0x1676520722326709496b63473b675056311c14246a1f015830381e55045d793c6d4f6f74"
+            - "0x1d2e710f056f16013d76491d25694124066212550d5a42305e504e5135452b2935595d3d"
+            - "0x225654001b334b3b55537e45214054721d04190807391d21522a4e780f2a7a7279727810"
+            - "0x40034a2739225358130f741f4455356b524c333c4a0775673f511b1e1262721a20464240"
+            - "0x48770460472b4b6e146f5135460e2b31361a34235668153e01161a07136d5f345101463b"
+            - "0x4a36305a1d393c151e072e75777d436f7733646d0a007e5b45416a09777d4b425c1f2f64"
+          weakParents: []
+          shallowLikeParents: []
           payload:
             type: 1
             transaction:
-              networkId: "1337133713371337"
-              creationSlot: 1649442459
-              contextInputs:
-               - type: 0
-                 commitmentId: "0x507d5c7d7105022b661e2c755173785f11707b7a6b3369111d000d1f145e652d5f436f26"
+              networkId: "14147312347886322761"
+              creationSlot: 0
+              contextInputs: []
               inputs:
                 - type: 0
-                  transactionId: "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
-                  transactionOutputIndex: 0
+                  transactionId: "0x130c2227193b1b53471f57121a6f5b69096657364d4f7122244c7c6435655c2f592b7e60"
+                  transactionOutputIndex: 7
                 - type: 0
-                  transactionId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-                  transactionOutputIndex: 0
-                - type: 0
-                  transactionId: "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
-                  transactionOutputIndex: 0
+                  transactionId: "0x163443007c67496a1e676d516b4f46394c06673539016279137556061778072865324235"
+                  transactionOutputIndex: 110
               allotments:
-                - accountID: "0x030440433d7a726322151f735a6e72543e5b26142d68157d25746a6e45260f37"
-                  mana: "5285"
+                - accountId: "0x7905041c4e6a193b26355b15331a5d6c723314703603720a011a613a12147e62"
+                  mana: "1538"
+              capabilities: ""
               outputs:
                 - type: 0
-                  amount: "50000000"
-                  mana: "6802"
+                  amount: "9544"
+                  mana: "0"
                   unlockConditions:
                     - type: 0
                       address:
                         type: 0
-                        pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
+                        pubKeyHash: "0x2176036e36344e09491f523e010763316a790f673d0520282c5130232e0e6e45"
+                  features: []
+                - type: 0
+                  amount: "9151"
+                  mana: "0"
+                  unlockConditions:
+                    - type: 0
+                      address:
+                        type: 0
+                        pubKeyHash: "0x16435722263d2c227371171b0e722f08025f25484a494259660c16051a090f35"
+                  features: []
             unlocks:
               - type: 0
                 signature:
                   type: 0
-                  publicKey: "0x40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092"
-                  signature: "0xed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703"
-              - type: 1
-                reference: 0
-              - type: 1
-                reference: 0
-          maxBurnedMana: "105368"
+                  publicKey: "0x6d6364560d7e61654c4a4c30796e3e447e3c2b1d4c40671d651c6963086c3c23"
+                  signature: "0x58682c5e5d4076434a280733442a7b1737461357256849022d76744a5c357e1a080b347c757543112c52326849322e621c0b532800154d201f39345e225a0a69"
+              - type: 0
+                signature:
+                  type: 0
+                  publicKey: "0x3902310d7643157b0b21443d446e26514f07541a060839273b2900553c057e4a"
+                  signature: "0x75247e514b07576c7556454b295b2e1e39681a521b387347132c05160d2504022d3f0c70651b4e173e68045b47275c02357921700c187c355c784e2807585056"
+          maxBurnedMana: "100"
         signature:
           type: 0
-          publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
-          signature: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
+          publicKey: "0x6c7d5c3b573a39062b064a7c4927162a18296b2a7a026365054871563f5a2e1d"
+          signature: "0x25393e6d79557407472216133c5c685f3b46316f5932434f3d463a282f575e73227b72122b797d570e3a23143b6531542c2c1d280519213e111736014707036b"
     
     get-committee-example:
       value:
@@ -1494,136 +1471,170 @@ components:
         header:
           protocolVersion: 3
           networkId: "0"
-          issuingTime: "1692966346513784862"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          issuingTime: "1695275834000000000"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
           latestFinalizedSlot: 0
-          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+          issuerId: "0x2c2f5d78353a5b196739067e0d343a5c4a746b2655151d1370632743590b0907"
         body:
           type: 0
           strongParents:
-            - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
-            - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
+            - "0x0262440c401f7c38017069352072443d13467a240f440b285a2c1f445d5d157032043e2d"
+            - "0x0e124e700030096f6d21496466770f28495541227d287246532812383a027a1b73355757"
+            - "0x67230f6c676d604e163668142a4e59155b2e723a035c130a0131082345763a7d5f500454"
           weakParents: []
           shallowLikeParents: []
-          maxBurnedMana: "0"
+          maxBurnedMana: "100"
         signature:
           type: 0
-          publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
-          signature: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
+          publicKey: "0x3a56300f6f4d301a727b206148471c1373092359391a74375c53764b141a6c2d"
+          signature: "0x460e3b225308117a522a2e5a6a3e4928031a40726d54292103447658685f38624d11535a23687a77083a195c5f510502111a6a7051776f3327190c1613401e5e"
 
     get-block-by-id-transaction-response-example:
       value:
         header:
           protocolVersion: 3
           networkId: "0"
-          issuingTime: "1692966346513784862"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          issuingTime: "1695275834000000000"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
           latestFinalizedSlot: 0
-          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+          issuerId: "0x2f67061e353b5763494b251a1c603c4b0f2b23784d1a2b112f39712a7e190577"
         body:
           type: 0
           strongParents:
-            - "0x8d6f3b6e3a63ce388d2eb8c927c5b9ba328b0e427ae727d8b3dddc429f6fb24a0000000000000000"
-            - "0x408a53af982c49d1398ab5c5b5f5b390d4c4da7da48b61bb9ba7f97c1e8dd7f60000000000000000"
-          weakParents:
-            - "0xe8a904ce3ee081f20a68bb38b2d406cfd138775ba52ea555d93a4e4d4b0ad8440000000000000000"
-            - "0xbce912a0f383cd07660d3c08f3d3f3c7fb9de31e2cc1b93d4c29332ef693ba0c0000000000000000"
-          shallowLikeParents:
-            - "0x0276d29ec6b3cbbf3ed6d1f01af8e29b9c6a9ee9c9375e8e5b5b5c5b5b5d45580000000000000000"
-            - "0x70a5ce5d8fc3290a9885b1af5d8766d51db89a67a6a839f6d23a6cb8d6f3b6e30000000000000000"
+            - "0x2d5e2221447d1c104d153d4426474c565d145037245234790228543e2c654748460e391b"
+            - "0x4a14252a34665d7b316420697e772b76547036017e487d1e1e4b2c6e0c5920415d327e0c"
+            - "0x523d1d0030435d69736d6a5f68625f647e5310076f605520295b042c64296253486c745d"
+          weakParents: []
+          shallowLikeParents: []
           payload:
             type: 1
             transaction:
-              networkId: "1337133713371337"
-              creationSlot: 1649442459
-              contextInputs: 
-                - type: 1
-                  commitmentId: "0x507d5c7d7105022b661e2c755173785f11707b7a6b3369111d000d1f145e652d5f436f26"
+              networkId: "14147312347886322761"
+              creationSlot: 0
+              contextInputs: []
               inputs:
                 - type: 0
-                  transactionId: "0x0c78e998f5177834ecb3bae1596d5056af76e487386eecb19727465b4be86a79"
-                  transactionOutputIndex: 0
+                  transactionId: "0x6c766054650a712a16787501546000205331190e33013825226b0c2f612f7911114f754c"
+                  transactionOutputIndex: 82
                 - type: 0
-                  transactionId: "0x309b169bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-                  transactionOutputIndex: 0
-                - type: 0
-                  transactionId: "0xc138ecdc882010245e9574fbc1f1f43cc7c182fa890e46e018365dd49de0f16e"
-                  transactionOutputIndex: 0
+                  transactionId: "0x3b33480f1f77043e12443a50191c0c2061494740747e44057d05794129670b7846314857"
+                  transactionOutputIndex: 22
               allotments:
-                - accountID: "0x030440433d7a726322151f735a6e72543e5b26142d68157d25746a6e45260f37"
-                  mana: "5285"
+                - accountId: "0x7373587a141f4d5a5b262b185234760d50411c326f05300c2874716d24770b64"
+                  mana: "3334"
+              capabilities: ""
               outputs:
                 - type: 0
-                  amount: "50000000"
+                  amount: "9315"
+                  mana: "0"
                   unlockConditions:
                     - type: 0
                       address:
                         type: 0
-                        pubKeyHash: "0xd49931814e6bfbb8e221f1b2936e206e5a6b6abeb9c070f8603814c525c9abe3"
+                        pubKeyHash: "0x50783863416b5750544c6f1f165d664c224b4d51506e631e3c221602085e2d59"
+                  features: []
+                - type: 0
+                  amount: "4909"
+                  mana: "0"
+                  unlockConditions:
+                    - type: 0
+                      address:
+                        type: 0
+                        pubKeyHash: "0x271f4e2330314b16747d674c3b6646761a5716180526305253136207255d3854"
+                  features: []
             unlocks:
               - type: 0
                 signature:
                   type: 0
-                  publicKey: "0x40d0c00fd629a5f528e4bcab4333926a90d06613a3f36a325defcdaf4c9e4092"
-                  signature: "0xed4a63a3e1b22c85f9813b00a21c8576ed72c1f5bc939d01fcea7dcd678c2d0d8d80a2499965d8ce5574c9e92aa0d42b72b969bab3a2a35fe7dbc64659a0d703"
-              - type: 1
-                reference: 0
-              - type: 1
-                reference: 0
-            maxBurnedMana: "105368"
+                  publicKey: "0x18703b62523674525b10272408452a57083f4d116e0b4d706a59402040143922"
+                  signature: "0x0f15013f08694a7c24350053077709177d626b664b4739384f68487449764c295223313b5361495d783c016c4c7b5a6f1b0c442c564b73500054120272703704"
+              - type: 0
+                signature:
+                  type: 0
+                  publicKey: "0x2556253d420e31611e16592938517a325e46220d39533d0e4f7335202f68672b"
+                  signature: "0x3f172a67240f3e161357595d2e11007c0e5e7a4c48713a0e28113775271a1733621a5f2d151a20196a2f78383c4a397e045c3d023e4f680b43561b494b744c5b"
+          maxBurnedMana: "100"
         signature:
           type: 0
-          publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
-          signature: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
+          publicKey: "0x0d58682550071056456c6b7b634607036564050f3a15513d495a725a5b345f7c"
+          signature: "0x685c44265d4a6f2a5653710c6f4a41296b377b44753353082d4619610c2d5e6374153239372b436773354a6421632e3d646f7b1736637321037a0f671f3b3878"
+
+    get-full-block-by-id-tagged-data-response-example:
+      value:
+        block:
+          header:
+            protocolVersion: 3
+            networkId: "0"
+            issuingTime: "1695275834000000000"
+            slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
+            latestFinalizedSlot: 0
+            issuerId: "0x1d0140675f050c4d6e1018510a103d2f4c134a31463965775f7d284959045100"
+          body:
+            type: 0
+            strongParents:
+              - "0x087a2734114e6c041e423a310d7c2039302825484b6c326a560c3a6e281d274a3d18110e"
+            weakParents: []
+            shallowLikeParents: []
+            payload:
+              type: 0
+              tag: "0x746167"
+              data: "0x175d051d3873347d3b2617773240644f780f683064094a0c0b4d1a0c621f0160572c324d371a792536786a2719307b590b5f6d585e3a28740a42080942607a131a5e68242735131920230f72513d01694a54507c340e7817514457462a19213c7270212732506a10097a3e36732c011c6f513202360660240d597d7076014750600c27072540123b7b49137409282d48577a0247125a1c6c13456c2d350a6a224a35"
+            maxBurnedMana: "100"
+          signature:
+            type: 0
+            publicKey: "0x1a382c2224662059334e1d6e076b3a490b594c31332e3d652d402f5139263e56"
+            signature: "0x15216f030f65647910225f736f627d12600607064d7305235c3818700d01633e5d625e11497a3e514e6f5a0e6a51091e475c604125360813067c740346320520"
+        metadata:
+          blockId: "0x3848a6d17070830206e5032fbce2ae3939e60eec0816546e074316b1f66977d04d010000"
+          blockState: "confirmed"
 
     get-block-by-id-tagged-data-response-example:
       value:
         header:
           protocolVersion: 3
           networkId: "0"
-          issuingTime: "1692966346513784862"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          issuingTime: "1695275834000000000"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
           latestFinalizedSlot: 0
-          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+          issuerId: "0x1d0140675f050c4d6e1018510a103d2f4c134a31463965775f7d284959045100"
         body:
           type: 0
           strongParents:
-            - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
-            - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
+            - "0x087a2734114e6c041e423a310d7c2039302825484b6c326a560c3a6e281d274a3d18110e"
           weakParents: []
           shallowLikeParents: []
           payload:
             type: 0
-            tag: "0x4143544956495459"
-            data: ""
-          maxBurnedMana: "500"
+            tag: "0x746167"
+            data: "0x175d051d3873347d3b2617773240644f780f683064094a0c0b4d1a0c621f0160572c324d371a792536786a2719307b590b5f6d585e3a28740a42080942607a131a5e68242735131920230f72513d01694a54507c340e7817514457462a19213c7270212732506a10097a3e36732c011c6f513202360660240d597d7076014750600c27072540123b7b49137409282d48577a0247125a1c6c13456c2d350a6a224a35"
+          maxBurnedMana: "100"
         signature:
           type: 0
-          publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
-          signature: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
+          publicKey: "0x1a382c2224662059334e1d6e076b3a490b594c31332e3d652d402f5139263e56"
+          signature: "0x15216f030f65647910225f736f627d12600607064d7305235c3818700d01633e5d625e11497a3e514e6f5a0e6a51091e475c604125360813067c740346320520"
 
     get-block-by-id-validation-response-example:
       value:
         header:
           protocolVersion: 3
           networkId: "0"
-          issuingTime: "1692966346513784862"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd70000000000000000"
+          issuingTime: "1695275834000000000"
+          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
           latestFinalizedSlot: 0
-          issuerId: "0x375358f92cc94750669598b0aaa55a6ff73310b90710e1fad524c0f911be0fea"
+          issuerId: "0x5201107e2f0b5d3432100560291216613b07725f06001a6a10317d320c767424"
         body:
           type: 1
           strongParents:
-            - "0x2de585533d9c9684747e49f70e5e620a4e6c3fd1c7d8b73520c198c7def29a050200000000000000"
-            - "0x5853745388056fb59c193dc6fe6f8c3f76bf8d82a42ed340eba621a9f5bb79790200000000000000"
+            - "0x07772a2f00585b53650c71223c77621e466210097a1177534f54633a4e77657d175d185f"
+            - "0x3962007c6c75357d356b15125579770c653f7a55571816701a7c6766347a347b05497402"
           weakParents: []
           shallowLikeParents: []
-          highestSupportedVersion: 3
-          protocolParametersHash: "0x69449327e1973152a1d2fdff1c8f27428fc52e4f1cf0bb8006eae397714e1968"
+          highestSupportedVersion: 4
+          protocolParametersHash: "0x8f2857e188708fc896dab7fc60196d2f728d6229b20bcd726a60ad5c52a5368b"
         signature:
           type: 0
-          publicKey: "0x05c1de274451db8de8182d64c6ee0dca3ae0c9077e0b4330c976976171d79064"
-          signature: "0xae8a0ad932ff958576bcd787fd578dfb740b8a319d63595a3af7307f56f0afcbc6187d67eee20026aa39b6ba62c93d1a6e27111607b1b1d8f2206889284e9408"
+          publicKey: "0x2a31120a501c0d522d2f76514b4a3b5e415b022356264b4c332a507b431c1965"
+          signature: "0x25600518034504557a011174413d0054601730066c221879477b06482966783f340a6d650f48552f4947640d661c54320c790b04716b262d1a74456f7d0b2551"
 
     get-outputs-by-id-response-example:
       value:
@@ -1637,20 +1648,37 @@ components:
                 pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
           mana: "2000"
         outputIdProof:
-          slot: 20
-          outputIndex: 0
-          transactionCommitment: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-          outputCommitmentProof: "0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75"
+          slot: 429632486
+          outputIndex: 2
+          transactionCommitment: "0x46934d8c62df21e94553f6686a7f9368d9ab4159bcb96f598a94883a866467da"
+          outputCommitmentProof:
+            type: 0
+            l:
+              type: 0
+              l:
+                type: 1
+                hash: "0x193a27f187c46a386f0e2a25a884351692b7378aae5e7dd78433f2be85106219"
+              r:
+                type: 0
+                l:
+                  type: 2
+                  hash: "0x19e4cdd6b17223a935883ddbb80ee6d239a48ea214c29b8b593cc7b3152d15aa"
+                r:
+                  type: 1
+                  hash: "0xf1faa521d1b1e85393efd63a6ed1f33bb851bfc90a681e011989d9c6056948cc"
+            r:
+              type: 1
+              hash: "0xe9cef2152da49d2a78a490bb7e42c6bcd1c96b41ebe156ba90a5b22cb78e3229"
 
 
     get-output-metadata-by-id-response-unspent-example:
       value:
-        blockId: "0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75"
-        transactionId: "0x1c52e8e630d1c6e45ab6f46c63d8d6cb02e6c2ed6e31b6c97d6f5c5f5a5d5c5b"
+        blockId: "0xae7c4f55a6db8bf4841e4a38f06d32ab9bd88b927a6ba0bc19bcb19c625ff8b63c000000"
+        transactionId: "0xf7e39da700ca56698a953983ba2146c0ef6cb4a1b68ea3f1b806b52e038a84b55a000000"
         outputIndex: 3
         isSpent: false
-        includedCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
-        latestCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
+        includedCommitmentId: "0x8ec992b2eb422292d2a3a1d4ddc330edb67eeb98eb93cd4c73a026adae3ceb5478010000"
+        latestCommitmentId: "0xd91549dbf441da4c7e50063b58c05d5b2bfb1d33b346a2f9a18220ce6207f7a289010000"
 
     get-full-output-metadata-example:
       value:
@@ -1664,37 +1692,39 @@ components:
                 pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
           mana: "2000"
         outputIdProof:
-          slot: 20
+          slot: 1893592032
           outputIndex: 0
-          transactionCommitment: "0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036"
-          outputCommitmentProof: "0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75"
+          transactionCommitment: "0xa0687905318860e64db6932d8423bf7a4418627baee62be8089d5f48aaa1af3a"
+          outputCommitmentProof:
+            type: 2
+            hash: "0x7f9289b104a55e6fb93d60d70f6e85c9706c761b05ccc034f76b465837ca6070"
         metadata:
-          blockId: "0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75"
-          transactionId: "0x1c52e8e630d1c6e45ab6f46c63d8d6cb02e6c2ed6e31b6c97d6f5c5f5a5d5c5b"
-          outputIndex: 3
+          blockId: "0xd91549dbf441da4c7e50063b58c05d5b2bfb1d33b346a2f9a18220ce6207f7a289010000"
+          transactionId: "0xf7e39da700ca56698a953983ba2146c0ef6cb4a1b68ea3f1b806b52e038a84b55a000000"
+          outputIndex: 0
           isSpent: true
-          commitmentIdSpent: "0x4b91c935926c77d0ac9b4a569c3eb3b0f0c9918f2d4f4d9bb1c7dfc19b41e4c2"
-          transactionIdSpent: "0x1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298"
-          includedCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
-          latestCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
+          commitmentIdSpent: "0xf79e019ddf8d1ab063604e92494a893a6925f7cb40b288b6e50953bc2acfa6598a010000"
+          transactionIdSpent: "0x43c800f00cc4dbccc496b26ceeab1e00b0ccb1031ccfbe3db95f72a1c36b27a28b010000"
+          includedCommitmentId: "0x8ec992b2eb422292d2a3a1d4ddc330edb67eeb98eb93cd4c73a026adae3ceb5478010000"
+          latestCommitmentId: "0xd91549dbf441da4c7e50063b58c05d5b2bfb1d33b346a2f9a18220ce6207f7a289010000"
 
     get-output-metadata-by-id-response-spent-example:
       value:
-        blockId: "0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75"
-        transactionId: "0x1c52e8e630d1c6e45ab6f46c63d8d6cb02e6c2ed6e31b6c97d6f5c5f5a5d5c5b"
+        blockId: "0xae7c4f55a6db8bf4841e4a38f06d32ab9bd88b927a6ba0bc19bcb19c625ff8b63c000000"
+        transactionId: "0xf7e39da700ca56698a953983ba2146c0ef6cb4a1b68ea3f1b806b52e038a84b55a000000"
         outputIndex: 3
         isSpent: true
-        commitmentIdSpent: "0x4b91c935926c77d0ac9b4a569c3eb3b0f0c9918f2d4f4d9bb1c7dfc19b41e4c2"
-        transactionIdSpent: "0x1ee46e19f4219ee65afc10227d0ca22753f76ef32d1e922e5cbe3fbc9b5a5298"
-        includedCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
-        latestCommitmentId: "0x7c62d9b9ed3c1f3ef942a7ea17ec1270d77c109f0ba57b6c2d2b9e9fb3e69a3a"
+        commitmentIdSpent: "0xf79e019ddf8d1ab063604e92494a893a6925f7cb40b288b6e50953bc2acfa6598a010000"
+        transactionIdSpent: "0x43c800f00cc4dbccc496b26ceeab1e00b0ccb1031ccfbe3db95f72a1c36b27a28b010000"
+        includedCommitmentId: "0x8ec992b2eb422292d2a3a1d4ddc330edb67eeb98eb93cd4c73a026adae3ceb5478010000"
+        latestCommitmentId: "0xd91549dbf441da4c7e50063b58c05d5b2bfb1d33b346a2f9a18220ce6207f7a289010000"
 
     get-commitment-response-example:
       value:
         protocolVersion: 3
         slot: 986
-        previousCommitmentId: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
-        rootsId: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
+        previousCommitmentId: "0xd91549dbf441da4c7e50063b58c05d5b2bfb1d33b346a2f9a18220ce6207f7a289010000"
+        rootsId: "0x6a8f424929e1f08d87a204efc8a60499b789465aaa28178b77debe75cc2915d3"
         cumulativeWeight: '78901'
         referenceManaCost: '600'
 
@@ -1703,13 +1733,13 @@ components:
 
     get-utxo-changes-response-example:
       value:
-        slot: 789
+        commitmentId: "0x3b264c038283c30094e0cb5d22eaa52c9959bfda084ace3980b30d4be588fa0012000000"
         createdOutputs:
-          - "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2"
-          - "0x3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4"
+          - "0x2628fd7c1ad5dd635fa76c6f4c2272fbdb658cc3437dbed07f9984580b227b63f0a3e4d40000"
+          - "0xfa3d71ea93849b317c2b29c928b726b6d3bd2131c7ad560c9e28952f117fd50c35d6e0890000"
         consumedOutputs:
-          - "0x5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6"
-          - "0x7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7"
+          - "0xfa3d71ea93849b317c2b29c928b726b6d3bd2131c7ad560c9e28952f117fd50c35d6e0890100"
+          - "0x9c40a07de878863fbda03caeb68875254c49199e6b55740f78a4bab3686f89957b1249130000"
 
   schemas:
 
@@ -3306,7 +3336,7 @@ components:
         - blockId
 
     BlockFullResponse:
-      description: Returns the metadata of a given block.
+      description: Returns the block structure and the metadata of a given block.
       properties:
         block:
           $ref: '#/components/schemas/Block'
@@ -3427,18 +3457,72 @@ components:
           description: The slot index of the output.
         outputIndex:
           type: integer
-          description: The index of the output.
+          description: The index of the output within the corresponding transaction.
         transactionCommitment:
           type: string
           description: The commitment of the transaction that created the output. Hex-encoded with 0x prefix.
         outputCommitmentProof:
-          type: string
           description: The proof of the output commitment. Hex-encoded with 0x prefix.
+          anyOf:
+              - $ref: '#/components/schemas/HashableNode'
+              - $ref: '#/components/schemas/LeafHash'
+              - $ref: '#/components/schemas/ValueHash'
       required:
         - slot
         - outputIndex
         - transactionCommitment
         - outputCommitmentProof
+
+    HashableNode:
+      description: Node contains the hashes of the left and right children of a node in the tree.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote a Hashable Node.
+        node:
+          properties:
+            l:
+              description: The left node. Hex-encoded with 0x prefix.
+              anyOf:
+              - $ref: '#/components/schemas/HashableNode'
+              - $ref: '#/components/schemas/LeafHash'
+              - $ref: '#/components/schemas/ValueHash'
+            r:
+              description: The right node. Hex-encoded with 0x prefix.
+              anyOf:
+              - $ref: '#/components/schemas/HashableNode'
+              - $ref: '#/components/schemas/LeafHash'
+              - $ref: '#/components/schemas/ValueHash'
+      required:
+        - type
+        - node
+
+    LeafHash:
+      description: Leaf Hash contains the hash of a leaf in the tree.
+      properties:
+        type:
+          type: integer
+          description: Set to value 1 to denote a Leaf Hash.
+        hash:
+          type: string
+          description: The hash of a leaf in the tree. Hex-encoded with 0x prefix.
+      required:
+        - type
+        - hash
+
+    ValueHash:
+      description: Value Hash contains the hash of the value for which the proof is being computed.
+      properties:
+        type:
+          type: integer
+          description: Set to value 2 to denote a Value Hash.
+        hash:
+          type: string
+          description: the hash of the value for which the proof is being computed. Hex-encoded with 0x prefix.
+      required:
+        - type
+        - hash
+
 
     OutputWithMetadataResponse:
       description: Returns an output.
@@ -3473,7 +3557,7 @@ components:
           description: The identifier of the transaction. Hex-encoded with 0x prefix.
         outputIndex:
           type: integer
-          description: The index of the output.
+          description: The index of the output within the corresponding transaction.
         isSpent:
           type: boolean
           description: Tells if the output is spent in a confirmed transaction or not.
@@ -3499,9 +3583,9 @@ components:
     UTXOChangesResponse:
       description: Returns all UTXO changes of the given slot.
       properties:
-        slot:
-          type: integer
-          description: The slot index of the given slot.
+        commitmentId:
+          type: string
+          description: The commitment ID of the requested slot that contains the changes. Hex-encoded with 0x prefix.
         createdOutputs:
           description: The created outputs of the given slot.
           type: array
