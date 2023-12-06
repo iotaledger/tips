@@ -1159,79 +1159,79 @@ components:
           - "debug/v2"
     get-info-response-example:
       value:
-        name: Example Node
-        version: 1.0.0
+        name: test
+        version: 2.0.0
         status:
-          isHealthy: true
-          acceptedTangleTime: '1692966168000000000'
-          relativeAcceptedTangleTime: '1692966173856059205'
-          confirmedTangleTime: '1692966168000000000'
-          relativeConfirmedTangleTime: '1692966173855931045'
-          latestCommitmentId: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
-          latestFinalizedSlot: 100
-          latestAcceptedBlockSlot: 100
-          latestConfirmedBlockSlot: 95
-          pruningEpoch: 20
+          isHealthy: false
+          acceptedTangleTime: "1690879505000000000"
+          relativeAcceptedTangleTime: "1690879505000000000"
+          confirmedTangleTime: "1690879505000000000"
+          relativeConfirmedTangleTime: "1690879505000000000"
+          latestCommitmentId: "0xf35c9c906190e9fb02b7969ea69567e5a4bbfdbcc389f93e2b5d0c105e03979aed5b248e"
+          latestFinalizedSlot: 1
+          latestAcceptedBlockSlot: 2
+          latestConfirmedBlockSlot: 3
+          pruningEpoch: 4
         metrics:
-          blocksPerSecond: '1.5E+00'
-          confirmedBlocksPerSecond: '1.5E+00'
-          confirmationRate: '1E+02'
+          blocksPerSecond: "1.1E+00"
+          confirmedBlocksPerSecond: "2.2E+00"
+          confirmationRate: "3.3E+00"
         protocolParameters:
-          - startEpoch: 1
+          - startEpoch: 0
             parameters:
               type: 0
               version: 3
-              networkName: iota-core-testnet
-              bech32Hrp: rms                    
+              networkName: TestJungle
+              bech32Hrp: tgl
               storageScoreParameters:
-                storageCost: '500'
-                factorData: 1
-                offsetOutputOverhead: '10'
-                offsetEd25519BlockIssuerKey: '100'
-                offsetStakingFeature: '100'
-                offsetDelegation: '100'
+                storageCost: "0"
+                factorData: 0
+                offsetOutputOverhead: "0"
+                offsetEd25519BlockIssuerKey: "0"
+                offsetStakingFeature: "0"
+                offsetDelegation: "0"
               workScoreParameters:
                 dataByte: 0
-                block: 100
-                input: 20
-                contextInput: 20
-                output: 20
-                nativeToken: 20
-                staking: 100
-                blockIssuer: 100
-                allotment: 100
-                signatureEd25519: 200
+                block: 1
+                input: 0
+                contextInput: 0
+                output: 0
+                nativeToken: 0
+                staking: 0
+                blockIssuer: 0
+                allotment: 0
+                signatureEd25519: 0
               manaParameters:
                 bitsCount: 63
                 generationRate: 1
-                generationRateExponent: 0
+                generationRateExponent: 17
                 decayFactors:
-                 - 10
-                 - 20
-                decayFactorsExponent: 0
-                decayFactorEpochsSum: 0
-                decayFactorEpochsSumExponent: 0
+                  - 10
+                  - 20
+                decayFactorsExponent: 32
+                decayFactorEpochsSum: 2420916375
+                decayFactorEpochsSumExponent: 21
               tokenSupply: "2779530283277761"
-              genesisSlot: 5
-              genesisUnixTimestamp: "1692966168"
+              genesisSlot: 0
+              genesisUnixTimestamp: "1695275822"
               slotDurationInSeconds: 10
               slotsPerEpochExponent: 13
               stakingUnbondingPeriod: 10
               validationBlocksPerSlot: 10
               punishmentEpochs: 10
-              livenessThresholdLowerBound: 5
-              livenessThresholdUpperBound: 10
+              livenessThresholdLowerBound: 15
+              livenessThresholdUpperBound: 30
               minCommittableAge: 10
               maxCommittableAge: 20
-              epochNearingThreshold: 30
+              epochNearingThreshold: 24
               congestionControlParameters:
-                minReferenceManaCost: '500'
-                increase: '500'
-                decrease: '500'
+                minReferenceManaCost: "1"
+                increase: "0"
+                decrease: "0"
                 increaseThreshold: 800000
                 decreaseThreshold: 500000
                 schedulerRate: 100000
-                maxBufferSize: 3276800
+                maxBufferSize: 1000
                 maxValidationBufferSize: 100
               versionSignalingParameters:
                 windowSize: 7
@@ -1243,16 +1243,16 @@ components:
                 manaShareCoefficient: "2"
                 decayBalancingConstantExponent: 8
                 decayBalancingConstant: "1"
-                poolCoefficientExponent: 31
+                poolCoefficientExponent: 11
               targetCommitteeSize: 32
         baseToken:
-          name: "Shimmer"
-          tickerSymbol: "SMR"
-          unit: "SMR"
+          name: Shimmer
+          tickerSymbol: SMR
+          unit: SMR
+          subunit: glow
           decimals: 6
-          subunit: "glow"
         features:
-          - []
+          - test
 
     get-buildingBlock-response-example:
       value:
@@ -1425,7 +1425,7 @@ components:
       value:
         validators:
           - address: "rms1pp4wuuz0y42caz48vv876qfpmffswsvg40zz8v79sy8cp0jfxm4kunflcgt"
-            stakingEpochEnd: 100
+            stakingEndEpoch: 100
             poolStake: '200000'
             validatorStake: '100000'
             fixedCost: '50000'
@@ -1433,7 +1433,7 @@ components:
             latestSupportedProtocolVersion: 3
             latestSupportedProtocolHash: "0x0c00425134785bf2dbe42e4ec7e288009ebdc38ced797beaa45d5213092021cb"
           - address: "rms1pqm4xk8e9ny5w5rxjkvtp249tfhlwvcshyr3pc0665jvp7g3hc875k538hl"
-            stakingEpochEnd: 10
+            stakingEndEpoch: 10
             poolStake: '205000'
             validatorStake: '90000'
             fixedCost: '52000'
@@ -1445,7 +1445,7 @@ components:
     get-validator-example:
       value:
         address: "rms1pqm4xk8e9ny5w5rxjkvtp249tfhlwvcshyr3pc0665jvp7g3hc875k538hl"
-        stakingEpochEnd: 100
+        stakingEndEpoch: 100
         poolStake: '205000'
         validatorStake: '90000'
         fixedCost: '52000'
@@ -1455,8 +1455,8 @@ components:
 
     get-mana-rewards-example:
       value:
-        epochStart: 60
-        epochEnd: 80
+        startEpoch: 60
+        endEpoch: 80
         rewards: '800000'
 
     get-congestion-estimate-response-example:
@@ -1673,12 +1673,13 @@ components:
 
     get-output-metadata-by-id-response-unspent-example:
       value:
-        blockId: "0xae7c4f55a6db8bf4841e4a38f06d32ab9bd88b927a6ba0bc19bcb19c625ff8b63c000000"
-        transactionId: "0xf7e39da700ca56698a953983ba2146c0ef6cb4a1b68ea3f1b806b52e038a84b55a000000"
-        outputIndex: 3
-        isSpent: false
-        includedCommitmentId: "0x8ec992b2eb422292d2a3a1d4ddc330edb67eeb98eb93cd4c73a026adae3ceb5478010000"
-        latestCommitmentId: "0xd91549dbf441da4c7e50063b58c05d5b2bfb1d33b346a2f9a18220ce6207f7a289010000"
+        outputId: "0x3477de28a45c565eed3603ab9e90ce0f0d38e8860a3c5ff64ccc70252aab7c9d000000004600"
+        blockId: "0x1aaaa9ad9c15c6cd601a5aa5bd61b85428263978a26343949dad9ff89635e7104f1f271b"
+        included:
+          slot: 5
+          transactionId: "0xfdd9e96bac5e4f029b3261c00cd3c74fb4c389184a2018c979d4f31fc1ef53c99add5c74"
+          commitmentId: "0xd20959ac38938fddee472bbfd47644da3087a39499cd04e86c9c70fa9c8c0516a81b8aea"
+        latestCommitmentId: "0xba4456279dce23cfca37938685c039ea7c72001c1cd8becf72b195a8727cdfd07949d697"
 
     get-full-output-metadata-example:
       value:
@@ -1699,25 +1700,31 @@ components:
             type: 2
             hash: "0x7f9289b104a55e6fb93d60d70f6e85c9706c761b05ccc034f76b465837ca6070"
         metadata:
-          blockId: "0xd91549dbf441da4c7e50063b58c05d5b2bfb1d33b346a2f9a18220ce6207f7a289010000"
-          transactionId: "0xf7e39da700ca56698a953983ba2146c0ef6cb4a1b68ea3f1b806b52e038a84b55a000000"
-          outputIndex: 0
-          isSpent: true
-          commitmentIdSpent: "0xf79e019ddf8d1ab063604e92494a893a6925f7cb40b288b6e50953bc2acfa6598a010000"
-          transactionIdSpent: "0x43c800f00cc4dbccc496b26ceeab1e00b0ccb1031ccfbe3db95f72a1c36b27a28b010000"
-          includedCommitmentId: "0x8ec992b2eb422292d2a3a1d4ddc330edb67eeb98eb93cd4c73a026adae3ceb5478010000"
-          latestCommitmentId: "0xd91549dbf441da4c7e50063b58c05d5b2bfb1d33b346a2f9a18220ce6207f7a289010000"
+          outputId: "0x3130f21c723fa597805763739f3a2a40b674af6b4071ef0494331b644a7e4d52000000001300"
+          blockId: "0x19e589687082d8f535779df3244908ad6a7b380906fb7ae24efb5fad8a5cfb92a8f8d9a3"
+          included:
+            slot: 5
+            transactionId: "0x3e766157614a3a0e13dbb937b5fb1ef5d1555479c19df80445d03a6710f39d75668bd326"
+            commitmentId: "0x7387ebe23a3ac1732fcdb6cef77fc003e1fa6e2dad89dd664df249d6aa2dbdc157dec2c6"
+          spent:
+            slot: 8
+            transactionId: "0x3896f1ede7cbdacbbb4b17f13e953ad45ce0969ea34cc766b5dafe2a15b3e46f998ef4e5"
+            commitmentId: "0x26fa9fcbddcf944ced3fd16a73d9c8b2b49dc54dba7629b02da69f7e01249063e7398b2c"
+          latestCommitmentId: "0x42a88617c2c4ba2b58f82c8b85524720cdbe3642401e7c613f215658d617c569d1219909"
 
     get-output-metadata-by-id-response-spent-example:
       value:
-        blockId: "0xae7c4f55a6db8bf4841e4a38f06d32ab9bd88b927a6ba0bc19bcb19c625ff8b63c000000"
-        transactionId: "0xf7e39da700ca56698a953983ba2146c0ef6cb4a1b68ea3f1b806b52e038a84b55a000000"
-        outputIndex: 3
-        isSpent: true
-        commitmentIdSpent: "0xf79e019ddf8d1ab063604e92494a893a6925f7cb40b288b6e50953bc2acfa6598a010000"
-        transactionIdSpent: "0x43c800f00cc4dbccc496b26ceeab1e00b0ccb1031ccfbe3db95f72a1c36b27a28b010000"
-        includedCommitmentId: "0x8ec992b2eb422292d2a3a1d4ddc330edb67eeb98eb93cd4c73a026adae3ceb5478010000"
-        latestCommitmentId: "0xd91549dbf441da4c7e50063b58c05d5b2bfb1d33b346a2f9a18220ce6207f7a289010000"
+        outputId: "0x3130f21c723fa597805763739f3a2a40b674af6b4071ef0494331b644a7e4d52000000001300"
+        blockId: "0x19e589687082d8f535779df3244908ad6a7b380906fb7ae24efb5fad8a5cfb92a8f8d9a3"
+        included:
+          slot: 5
+          transactionId: "0x3e766157614a3a0e13dbb937b5fb1ef5d1555479c19df80445d03a6710f39d75668bd326"
+          commitmentId: "0x7387ebe23a3ac1732fcdb6cef77fc003e1fa6e2dad89dd664df249d6aa2dbdc157dec2c6"
+        spent:
+          slot: 8
+          transactionId: "0x3896f1ede7cbdacbbb4b17f13e953ad45ce0969ea34cc766b5dafe2a15b3e46f998ef4e5"
+          commitmentId: "0x26fa9fcbddcf944ced3fd16a73d9c8b2b49dc54dba7629b02da69f7e01249063e7398b2c"
+        latestCommitmentId: "0x42a88617c2c4ba2b58f82c8b85524720cdbe3642401e7c613f215658d617c569d1219909"
 
     get-commitment-response-example:
       value:
@@ -1729,7 +1736,7 @@ components:
         referenceManaCost: '600'
 
     get-commitment-response-binary-example:
-      value: "070000000a1a0000977c626276b19ef8b3c445709f2f0f2ccc4abb98d97617f421f240c0d1ee066d4306e67a0321889ef8ec89b7eff1378049e058f0fa87a78c2452ae72631a5a99d913d1cbb3525b8faa1800e28dfcb28154bcba10154c39ef87ceda793cb44f58ae1549c88ea13fe4a9695bb6f0aba6cb756522209e5066a96039ae12b398b975693bdc21e222997c86ff9bfc5844f0372d58ff6fa510688e53c181bbdf4db41f9b627540a70e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a80000000300d85e5b1590d898d1e0cdebb2e3b5337c8b76270142663d78811683ba47c17c989ad7a8f0ff2c6438bf435786d4a5b0125a5caf7367061b49a739389d5ebea234c0466c86f88a3f8add03bff04c2e34b214683f2f6983641e1d1185da7e2c3e0200d9922819a39e94ddf3907f4b9c8df93f39f026244fcb609205b9a879022599f218be2536d8b7b8547faa3dbdfe98339ebe9e2b2417a8a03eee02b2a8312b9e026dd0a33261a58a240cd0a1b06cdf1775d98d316f162d3eec402f4bf08bea2a0700f9d9656a60049083eef61487632187b351294c1fa23d118060d813db6d03e8b6ca8180d435708e826bc2042ccd667babb59c5cc461ff29dba966359fcd6fc511cdfdf10d6576f36ac2a6e5cb691e13968c13947ffbd9239939d3802b2fbe0f06"
+      value: "0312000000075b05e0a8fd4b9c7e7bc165b62c48945292f7d76d23f76525f886c416dc0e364089b57c32ddb8c614ed1d2c844401d2a5325b4d153c7f94464bbda3a8d14289b203f96759000000000000009000000000000000"
 
     get-utxo-changes-response-example:
       value:
@@ -2517,24 +2524,29 @@ components:
         type:
           type: integer
           description: Set to value 2 to denote a Metadata Feature.
-        data:
-          type: string
-          description: Hex-encoded binary data with 0x prefix.
+        entries:
+          type: object
+          additionalProperties: 
+            type: string
+          example: 
+            - 'did:iota': '0x68656c6c6f206469676974616c206175746f6e6f6d79'
+            - 'hello': '0x776f726c64'
       required:
         - type
-        - data
+        - entries
 
     StateMetadataFeature:
       description: >-
-        Defines a map of key-value pairs. The keys must consist of ASCII characters only and the values are arbitrary byte slices.
+        Defines a map of key-value pairs. The keys must consist of ASCII characters only and the values are arbitrary byte slices (encoded in Hex).
       properties:
         type:
           type: integer
           description: Set to value 3 to denote a State Metadata Feature.
           example: 3
         entries:
-          type: string
-          description: Hex-encoded binary data.
+          type: object
+          additionalProperties: 
+            type: string
           example: 
             - 'did:iota': '0x68656c6c6f206469676974616c206175746f6e6f6d79'
             - 'hello': '0x776f726c64'
@@ -3160,10 +3172,10 @@ components:
     ManaRewardsResponse:
       description: Returns the mana rewards of an account or delegation output.
       properties:
-        epochStart:
+        startEpoch:
           type: integer
           description: The starting epoch index for which the mana rewards are returned.
-        epochEnd:
+        endEpoch:
           type: integer
           description: The ending epoch index for which the mana rewards are returned, the decay is applied up to this point (inclusive).
         rewards:
@@ -3211,7 +3223,7 @@ components:
         address: 
           type: string
           description: The account address of the validator.
-        stakingEpochEnd:
+        stakingEndEpoch:
           type: integer
           description: The epoch index until which the validator registered to stake.
         poolStake:
@@ -3234,7 +3246,7 @@ components:
           description: The latest protocol hash the validator supported.
       required:
         - address
-        - stakingEpochEnd
+        - stakingEndEpoch
         - poolStake
         - validatorStake
         - fixedCost
@@ -3479,20 +3491,18 @@ components:
         type:
           type: integer
           description: Set to value 0 to denote a Hashable Node.
-        node:
-          properties:
-            l:
-              description: The left node. Hex-encoded with 0x prefix.
-              anyOf:
-              - $ref: '#/components/schemas/HashableNode'
-              - $ref: '#/components/schemas/LeafHash'
-              - $ref: '#/components/schemas/ValueHash'
-            r:
-              description: The right node. Hex-encoded with 0x prefix.
-              anyOf:
-              - $ref: '#/components/schemas/HashableNode'
-              - $ref: '#/components/schemas/LeafHash'
-              - $ref: '#/components/schemas/ValueHash'
+        l:
+          description: The left node. Hex-encoded with 0x prefix.
+          anyOf:
+          - $ref: '#/components/schemas/HashableNode'
+          - $ref: '#/components/schemas/LeafHash'
+          - $ref: '#/components/schemas/ValueHash'
+        r:
+          description: The right node. Hex-encoded with 0x prefix.
+          anyOf:
+          - $ref: '#/components/schemas/HashableNode'
+          - $ref: '#/components/schemas/LeafHash'
+          - $ref: '#/components/schemas/ValueHash'
       required:
         - type
         - node
@@ -3549,35 +3559,47 @@ components:
     OutputMetadataResponse:
       description: Returns metadata about an output.
       properties:
+        outputId:
+          type: string
+          description: The output identifier of requested output. Hex-encoded with 0x prefix.
         blockId:
           type: string
           description: The block identifier that references the output. Hex-encoded with 0x prefix.
-        transactionId:
-          type: string
-          description: The identifier of the transaction. Hex-encoded with 0x prefix.
-        outputIndex:
-          type: integer
-          description: The index of the output within the corresponding transaction.
-        isSpent:
-          type: boolean
-          description: Tells if the output is spent in a confirmed transaction or not.
-        commitmentIdSpent:
-          type: string
-          description: The commitment ID of the slot at which this output was spent.
-        transactionIdSpent:
-          type: string
-          description: The transaction this output was spent with. Hex-encoded with 0x prefix.
-        includedCommitmentId:
-          type: string
-          description: The commitment ID at which the output was included into the ledger.
+        included:
+          properties:
+            slot:
+              type: integer
+              description: The slot index in which the output is included.
+            transactionId:
+              type: string
+              description: The identifier of the transaction. Hex-encoded with 0x prefix.
+            commitmentId:
+              type: string
+              description: The commitment ID at which the output was included into the ledger.
+          required:
+            - slot
+            - transactionId
+        spent:
+          properties:
+            slot:
+              type: integer
+              description: The slot index in which the output is spent.
+            transactionId:
+              type: string
+              description: The transaction ID that spent the output. Hex-encoded with 0x prefix.
+            commitmentId:
+              type: string
+              description: The commitment ID that includes the spending of the ouptut.
+          required:
+            - slot
+            - transactionId
         latestCommitmentId:
           type: string
           description: The current latest commitment id for which the request was made.
       required:
+        - outputId
         - blockId
-        - transactionId
-        - outputIndex
-        - isSpent
+        - included
         - latestCommitmentId
 
     UTXOChangesResponse:
