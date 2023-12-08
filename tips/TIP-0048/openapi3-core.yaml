@@ -1211,6 +1211,7 @@ components:
                 decayFactorsExponent: 32
                 decayFactorEpochsSum: 2420916375
                 decayFactorEpochsSumExponent: 21
+                annualDecayFactorPercentage: 50
               tokenSupply: "2779530283277761"
               genesisSlot: 0
               genesisUnixTimestamp: "1695275822"
@@ -1245,6 +1246,7 @@ components:
                 decayBalancingConstant: "1"
                 poolCoefficientExponent: 11
               targetCommitteeSize: 32
+              chainSwitchingTreshold: 2
         baseToken:
           name: Shimmer
           tickerSymbol: SMR
@@ -1265,8 +1267,9 @@ components:
         shallowLikeParents:
           - "0xe5fe5231630afaaba609af76787ff1ec9c6088dd17e9cf922152b3facd7bd5883e000000"
           - "0xed4b771b5413f5118dd80021ca07fb727e4c54eec9d28d6566c28cc81e7d267c3f000000"
+        latestParentBlockIssuingTime: "1690879505000000000"
         latestFinalizedSlot: 1422
-        commitment:
+        latestCommitment:
           protocolVersion: 3
           slot: 1432
           previousCommitmentId: "0xc0300d55fe2cdc93191e52685da009f53d40883ae111291e550eed4e7eb7752746010000"
@@ -2997,6 +3000,9 @@ components:
                 decayFactorEpochsSumExponent:
                   type: integer 
                   description: The scaling of DecayFactorEpochsSum expressed as an exponent of 2.
+                annualDecayFactorPercentage:
+                  type: integer
+                  description: the decay factor for 1 year.
               required:
                 - bitsCount
                 - generationRate
@@ -3005,6 +3011,7 @@ components:
                 - decayFactorsExponent
                 - decayFactorEpochsSum
                 - decayFactorEpochsSumExponent
+                - annualDecayFactorPercentage
             tokenSupply:
               type: string
               description: Current supply of base token. Plain string encoded number.
@@ -3126,6 +3133,9 @@ components:
             targetCommitteeSize:
               type: integer
               description: The target size of the committee.
+            chainSwitchingTreshold:
+              type: integer
+              description: The number of heavier slots that a chain needs to be ahead of the current chain to be considered for switching.
           required:
             - version
             - networkName
@@ -3150,6 +3160,7 @@ components:
             - versionSignalingParameters
             - rewardsParameters
             - targetCommitteeSize
+            - chainSwitchingTreshold
       required:
         - startEpoch
         - parameters
@@ -3272,10 +3283,13 @@ components:
           items:
             type: string
           description: The block identifiers that can be used to a attach a block to. Hex-encoded with 0x prefix.
+        latestParentBlockIssuingTime:
+          type: string
+          description: The latest issuing time of the returned parents.
         latestFinalizedSlot:
           type: integer
           description: The latest finalized slot index.
-        commitment:
+        latestCommitment:
           $ref: '#/components/schemas/Commitment'
 
     CongestionResponse:
