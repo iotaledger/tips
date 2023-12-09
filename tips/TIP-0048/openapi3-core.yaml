@@ -933,7 +933,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceUnavailableResponse'
-
+  
+  '/api/core/v3/transactions/{transactionId}/metadata':
+    get:
+      tags:
+      - UTXO
+      summary: Find the metadata of the earliest block containing the transaction that was confirmed.
+      description: >-
+        Find the metadata of the earliest block containing the transaction that was confirmed.
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: string
+          example: "0xaf7579fb57746219561072c2cc0e4d0fbb8d493d075bd21bf25ae81a450c11ef"
+          required: true
+          description: Identifier of the transaction to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionMetadataResponse'
+              examples:
+                default:
+                  $ref: '#/components/examples/get-transaction-metadata-by-id-response-example'
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        '503':
+          description: "Unsuccessful operation: indicates that the node is not synced."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUnavailableResponse'
+  
   '/api/core/v3/commitments/{commitmentId}':
     get:
       tags:
@@ -1296,6 +1352,13 @@ components:
       value:
         blockId: "0xf7ac0552041789a3931ae76eafa47df063632cddd3f8b11bd0bfffba1bc8c46800000000"
         blockState: "confirmed"
+        transactionMetadata:
+          transactionId: "0x72f0dfa9ad116ade8bdac8ef291ed2fb8065c6c75d5d3666e8b2053696c94a9e00001000"
+          transactionState: "confirmed"
+    
+    get-transaction-metadata-by-id-response-example:
+      value:
+        transactionId: "0x72f0dfa9ad116ade8bdac8ef291ed2fb8065c6c75d5d3666e8b2053696c94a9e00001000"
         transactionState: "confirmed"
 
     get-block-by-id-response-example-confirmed:
@@ -1307,8 +1370,10 @@ components:
       value:
         blockId: "0x3848a6d17070830206e5032fbce2ae3939e60eec0816546e074316b1f66977d04d010000"
         blockState: "confirmed"
-        transactionState: "failed"
-        transactionFailureReason: 2
+        transactionMetadata:
+          transactionId: "0x72f0dfa9ad116ade8bdac8ef291ed2fb8065c6c75d5d3666e8b2053696c94a9e00001000"
+          transactionState: "failed"
+          transactionFailureReason: 2
 
     post-tagged-data-block-request-example-full:
       value:
@@ -3389,14 +3454,6 @@ components:
             - rejected
             - failed
           description: If `pending`, the block is stored but not confirmed. If `confirmed`, the block is confirmed with the first level of knowledge. If `finalized`, the block is included and cannot be reverted anymore. If `rejected`, the block is rejected by the node, and user should reissue payload if it contains one. If `failed`, the block is not successfully issued due to failure reason.
-        transactionState:
-          type: string
-          enum:
-            - pending
-            - confirmed
-            - finalized
-            - failed
-          description: If 'pending', the block contains not yet included transaction. If 'confirmed' means transaction is confirmed with the first level of knowledge. If 'finalized' means transaction is included and cannot be reverted anymore. If 'failed' means transaction is not successfully issued due to failure reason.
         blockFailureReason:
           type: integer
           enum: [1,2,3,4,5,6,7,8,9,10,11,12,255]
@@ -3415,6 +3472,27 @@ components:
               * `11` - denotes that the block is dropped due to congestion.
               * `12` - denotes that the payload is invalid.
               * `255` - denotes that the block is invalid.
+        transactionMetadata:
+          description: The metadata of the transactions in the block.
+          $ref: '#/components/schemas/TransactionMetadataResponse'          
+      required:
+        - blockId
+        - blockState
+
+    TransactionMetadataResponse:
+      description: Returns the metadata of a given block.
+      properties:
+        transactionId:
+          type: string
+          description: The identifier of the block. Hex-encoded with 0x prefix.
+        transactionState:
+          type: string
+          enum:
+            - pending
+            - confirmed
+            - finalized
+            - failed
+          description: If 'pending', the block contains not yet included transaction. If 'confirmed' means transaction is confirmed with the first level of knowledge. If 'finalized' means transaction is included and cannot be reverted anymore. If 'failed' means transaction is not successfully issued due to failure reason.
         transactionFailureReason:
           type: integer
           enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,255]
@@ -3448,8 +3526,8 @@ components:
               * `26` - denotes that the destruction of nfts was not allowed in the transaction capabilities.
               * `255` - denotes that the semantic validation failed.
       required:
-        - blockId
-        - blockState
+        - transactionId
+        - transactionState
 
     BlockResponse:
       description: Returns a given block.
