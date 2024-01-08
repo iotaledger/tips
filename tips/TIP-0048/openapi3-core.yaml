@@ -419,10 +419,10 @@ paths:
             examples:
               Full block with Tagged Data Payload:
                 $ref: >-
-                  #/components/examples/post-tagged-data-block-request-example-full
+                  #/components/examples/tagged-data-block-example
               Full block with Transaction Payload:
                 $ref: >-
-                  #/components/examples/post-transaction-block-request-example-full
+                  #/components/examples/transaction-block-example
           application/vnd.iota.serializer-v2:
             schema:
               type: string
@@ -497,10 +497,10 @@ paths:
                     #/components/examples/get-block-by-id-empty-response-example
                 Basic Block - Transaction Payload:
                   $ref: >-
-                    #/components/examples/get-block-by-id-transaction-response-example
+                    #/components/examples/transaction-block-example
                 Basic Block - Tagged Data Payload:
                   $ref: >-
-                    #/components/examples/get-block-by-id-tagged-data-response-example
+                    #/components/examples/tagged-data-block-example
                 Validation Block:
                   $ref: >-
                     #/components/examples/get-block-by-id-validation-response-example
@@ -843,7 +843,7 @@ paths:
                 $ref: '#/components/schemas/BlockResponse'
               examples:
                 default:
-                  $ref: '#/components/examples/get-block-by-id-transaction-response-example'
+                  $ref: '#/components/examples/transaction-block-example'
             application/vnd.iota.serializer-v2:
               schema:
                 type: string
@@ -1422,104 +1422,117 @@ components:
           transactionState: "failed"
           transactionFailureReason: 2
 
-    post-tagged-data-block-request-example-full:
+    tagged-data-block-example:
       value:
         header:
           protocolVersion: 3
-          networkId: "0"
-          issuingTime: "1695275834000000000"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
-          latestFinalizedSlot: 0
-          issuerId: "0x1d0140675f050c4d6e1018510a103d2f4c134a31463965775f7d284959045100"
+          networkId: "8342982141227064571"
+          issuingTime: "1695275852000000000"
+          slotCommitmentId: "0x3a1e3b617060146e0362361a4b752833186108395f3b2b3d3e6c655e287d70767ea58d2a"
+          latestFinalizedSlot: 500
+          issuerId: "0x17432c5a7a672503480241125e3952414a7a320441080c624c264b004e09614a"
         body:
           type: 0
           strongParents:
-            - "0x087a2734114e6c041e423a310d7c2039302825484b6c326a560c3a6e281d274a3d18110e"
-          weakParents: []
-          shallowLikeParents: []
+            - "0x27e0461873f37040c9e59c35ad8a106fa1b94f5ec9ef89499b31904f9a3de59be58dd44a"
+            - "0x714821f8f257e0a502b71ac7ee57530bb9dc29fe12ff3936f925b835a297680400b76948"
+            - "0x9951e512546cd9c9fbdab348b6cba91a601a29b50854e55a6e14f6803ca1d81ac7eff5ce"
+            - "0xaaa7bacf26f1aa4754d42edeab45d6169ea723b7fdf0f6ff3b6ebe90d09dbff6bc553936"
+            - "0xba75a143de4ac932986fbe7b1d78f639bc6ee8aee10d510d41572851530be884778052aa"
+            - "0xea5315941f4337752905599710b55e64018c71f4d8f299d0636d50484d05e6ac5667b503"
           payload:
             type: 0
             tag: "0x746167"
-            data: "0x175d051d3873347d3b2617773240644f780f683064094a0c0b4d1a0c621f0160572c324d371a792536786a2719307b590b5f6d585e3a28740a42080942607a131a5e68242735131920230f72513d01694a54507c340e7817514457462a19213c7270212732506a10097a3e36732c011c6f513202360660240d597d7076014750600c27072540123b7b49137409282d48577a0247125a1c6c13456c2d350a6a224a35"
-          maxBurnedMana: "100"
+            data: "0x6c754128356c071e5549764a48427b"
+          maxBurnedMana: "864"
         signature:
           type: 0
-          publicKey: "0x1a382c2224662059334e1d6e076b3a490b594c31332e3d652d402f5139263e56"
-          signature: "0x15216f030f65647910225f736f627d12600607064d7305235c3818700d01633e5d625e11497a3e514e6f5a0e6a51091e475c604125360813067c740346320520"
+          publicKey: "0x2daefbcbadd044da470acd2f7fcf6fcb04b873cc801e7ee408018e1dfa0257ac"
+          signature: "0xc2982c2476379db0c8d39a204801163fc05dc1c7aa7df537e6041f91491943ab1de29a2dfe6076588c53b8d2ccf5eabe49f2cb64198303682859fd0c58348b0d"
 
-    post-transaction-block-request-example-full:
+    transaction-block-example:
       value:
         header:
           protocolVersion: 3
-          networkId: "0"
-          issuingTime: "1695275834000000000"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
-          latestFinalizedSlot: 0
-          issuerId: "0x65767c660e6c324c377e164f3f3c2a267515573d6c53300753532e1c384f521f"
+          networkId: "8342982141227064571"
+          issuingTime: "1695275852000000000"
+          slotCommitmentId: "0x3a1e3b617060146e0362361a4b752833186108395f3b2b3d3e6c655e287d70767ea58d2a"
+          latestFinalizedSlot: 500
+          issuerId: "0x17432c5a7a672503480241125e3952414a7a320441080c624c264b004e09614a"
         body:
           type: 0
           strongParents:
-            - "0x140615473c0b60295c5a25005079200d4f442d146d64040440215d175502070273570c41"
-            - "0x1676520722326709496b63473b675056311c14246a1f015830381e55045d793c6d4f6f74"
-            - "0x1d2e710f056f16013d76491d25694124066212550d5a42305e504e5135452b2935595d3d"
-            - "0x225654001b334b3b55537e45214054721d04190807391d21522a4e780f2a7a7279727810"
-            - "0x40034a2739225358130f741f4455356b524c333c4a0775673f511b1e1262721a20464240"
-            - "0x48770460472b4b6e146f5135460e2b31361a34235668153e01161a07136d5f345101463b"
-            - "0x4a36305a1d393c151e072e75777d436f7733646d0a007e5b45416a09777d4b425c1f2f64"
-          weakParents: []
-          shallowLikeParents: []
+            - "0x27e0461873f37040c9e59c35ad8a106fa1b94f5ec9ef89499b31904f9a3de59be58dd44a"
+            - "0x714821f8f257e0a502b71ac7ee57530bb9dc29fe12ff3936f925b835a297680400b76948"
+            - "0x9951e512546cd9c9fbdab348b6cba91a601a29b50854e55a6e14f6803ca1d81ac7eff5ce"
+            - "0xaaa7bacf26f1aa4754d42edeab45d6169ea723b7fdf0f6ff3b6ebe90d09dbff6bc553936"
+            - "0xba75a143de4ac932986fbe7b1d78f639bc6ee8aee10d510d41572851530be884778052aa"
+            - "0xea5315941f4337752905599710b55e64018c71f4d8f299d0636d50484d05e6ac5667b503"
           payload:
             type: 1
             transaction:
-              networkId: "14147312347886322761"
-              creationSlot: 0
-              contextInputs: []
+              networkId: "8342982141227064571"
+              creationSlot: 1048576
+              contextInputs:
+                - type: 0
+                  commitmentId: "0x3a1e3b617060146e0362361a4b752833186108395f3b2b3d3e6c655e287d70767ea58d2a"
+                - type: 1
+                  accountId: "0x17432c5a7a672503480241125e3952414a7a320441080c624c264b004e09614a"
+                - type: 2
+                  index: 0
               inputs:
                 - type: 0
-                  transactionId: "0x130c2227193b1b53471f57121a6f5b69096657364d4f7122244c7c6435655c2f592b7e60"
-                  transactionOutputIndex: 7
+                  transactionId: "0xf09d3cd648a7246c7c1b2ba2f9182465ae5742b78c592392b4b455ab8ed7195200000000"
+                  transactionOutputIndex: 0
                 - type: 0
-                  transactionId: "0x163443007c67496a1e676d516b4f46394c06673539016279137556061778072865324235"
-                  transactionOutputIndex: 110
+                  transactionId: "0xd2c5ccba12b6fad51652131289867492799c9fc5710244418aa6e955f8fa826100000000"
+                  transactionOutputIndex: 0
               allotments:
-                - accountId: "0x7905041c4e6a193b26355b15331a5d6c723314703603720a011a613a12147e62"
-                  mana: "1538"
-              capabilities: ""
+                - accountId: "0x7e0d0a5848362b23120f55115b096774036d7610137a631413221f5573344507"
+                  mana: "2285"
+                - accountId: "0x476820096e7038107d071a4e473f1e295f346e2d0824263e5e3e7d004f6b6915"
+                  mana: "2189"
+              capabilities: "0x01"
               outputs:
                 - type: 0
-                  amount: "9544"
+                  amount: "100000"
                   mana: "0"
                   unlockConditions:
                     - type: 0
                       address:
                         type: 0
-                        pubKeyHash: "0x2176036e36344e09491f523e010763316a790f673d0520282c5130232e0e6e45"
-                  features: []
-                - type: 0
-                  amount: "9151"
-                  mana: "0"
+                        pubKeyHash: "0xed1484f4d1f7d8c037087fed661dd92faccae1eed3c01182d6fdd6828cea144a"
+                  features:
+                    - type: 5
+                      id: "0x086372557616532f714f104e5f44297b7a286d077956291a6d4f59081f484463712a64300c00"
+                      amount: "0x14be8149371263f4"
+                - type: 1
+                  amount: "100000"
+                  mana: "5000"
+                  accountId: "0x0000000000000000000000000000000000000000000000000000000000000000"
+                  foundryCounter: 0
                   unlockConditions:
                     - type: 0
                       address:
                         type: 0
-                        pubKeyHash: "0x16435722263d2c227371171b0e722f08025f25484a494259660c16051a090f35"
-                  features: []
+                        pubKeyHash: "0xed1484f4d1f7d8c037087fed661dd92faccae1eed3c01182d6fdd6828cea144a"
+                  features:
+                    - type: 3
+                      entries:
+                        hello: "0x776f726c64"
             unlocks:
               - type: 0
                 signature:
                   type: 0
-                  publicKey: "0x6d6364560d7e61654c4a4c30796e3e447e3c2b1d4c40671d651c6963086c3c23"
-                  signature: "0x58682c5e5d4076434a280733442a7b1737461357256849022d76744a5c357e1a080b347c757543112c52326849322e621c0b532800154d201f39345e225a0a69"
-              - type: 0
-                signature:
-                  type: 0
-                  publicKey: "0x3902310d7643157b0b21443d446e26514f07541a060839273b2900553c057e4a"
-                  signature: "0x75247e514b07576c7556454b295b2e1e39681a521b387347132c05160d2504022d3f0c70651b4e173e68045b47275c02357921700c187c355c784e2807585056"
-          maxBurnedMana: "100"
+                  publicKey: "0x2daefbcbadd044da470acd2f7fcf6fcb04b873cc801e7ee408018e1dfa0257ac"
+                  signature: "0x469a3426bf88a8ed1a0346892a519e5b56cd8f686b1ce9b904898a62b25a8f96124f4ad3db9b6241fee5be98d067d083e91b2c4ce96e91fb8bc0871443764f00"
+              - type: 1
+                reference: 0
+          maxBurnedMana: "864"
         signature:
           type: 0
-          publicKey: "0x6c7d5c3b573a39062b064a7c4927162a18296b2a7a026365054871563f5a2e1d"
-          signature: "0x25393e6d79557407472216133c5c685f3b46316f5932434f3d463a282f575e73227b72122b797d570e3a23143b6531542c2c1d280519213e111736014707036b"
+          publicKey: "0x2daefbcbadd044da470acd2f7fcf6fcb04b873cc801e7ee408018e1dfa0257ac"
+          signature: "0x0893932c1ed4bd75caed5349dfaa963f2ec34e9bac79e6a860c2aa253a3cd6d6d2e9e5165b21b6b424a7a6262febd669852b5e1a352a93fef3e62e403d5ca002"
     
     get-committee-example:
       value:
@@ -1586,171 +1599,84 @@ components:
       value:
         header:
           protocolVersion: 3
-          networkId: "0"
-          issuingTime: "1695275834000000000"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
-          latestFinalizedSlot: 0
-          issuerId: "0x2c2f5d78353a5b196739067e0d343a5c4a746b2655151d1370632743590b0907"
+          networkId: "8342982141227064571"
+          issuingTime: "1695275852000000000"
+          slotCommitmentId: "0x3a1e3b617060146e0362361a4b752833186108395f3b2b3d3e6c655e287d70767ea58d2a"
+          latestFinalizedSlot: 500
+          issuerId: "0x17432c5a7a672503480241125e3952414a7a320441080c624c264b004e09614a"
         body:
           type: 0
           strongParents:
-            - "0x0262440c401f7c38017069352072443d13467a240f440b285a2c1f445d5d157032043e2d"
-            - "0x0e124e700030096f6d21496466770f28495541227d287246532812383a027a1b73355757"
-            - "0x67230f6c676d604e163668142a4e59155b2e723a035c130a0131082345763a7d5f500454"
-          weakParents: []
-          shallowLikeParents: []
-          maxBurnedMana: "100"
+            - "0x27e0461873f37040c9e59c35ad8a106fa1b94f5ec9ef89499b31904f9a3de59be58dd44a"
+            - "0x714821f8f257e0a502b71ac7ee57530bb9dc29fe12ff3936f925b835a297680400b76948"
+            - "0x9951e512546cd9c9fbdab348b6cba91a601a29b50854e55a6e14f6803ca1d81ac7eff5ce"
+            - "0xaaa7bacf26f1aa4754d42edeab45d6169ea723b7fdf0f6ff3b6ebe90d09dbff6bc553936"
+            - "0xba75a143de4ac932986fbe7b1d78f639bc6ee8aee10d510d41572851530be884778052aa"
+            - "0xea5315941f4337752905599710b55e64018c71f4d8f299d0636d50484d05e6ac5667b503"
+          maxBurnedMana: "864"
         signature:
           type: 0
-          publicKey: "0x3a56300f6f4d301a727b206148471c1373092359391a74375c53764b141a6c2d"
-          signature: "0x460e3b225308117a522a2e5a6a3e4928031a40726d54292103447658685f38624d11535a23687a77083a195c5f510502111a6a7051776f3327190c1613401e5e"
+          publicKey: "0x2daefbcbadd044da470acd2f7fcf6fcb04b873cc801e7ee408018e1dfa0257ac"
+          signature: "0x74e57aa62358bb91ee931c05337a3af2e624fa9b20b04fcb4e15da0a9a4b4281a50ef6384ab7977179d16bd326cebb714c4653e1711447f18cefe1066aa1610d"
 
-    get-block-by-id-transaction-response-example:
-      value:
-        header:
-          protocolVersion: 3
-          networkId: "0"
-          issuingTime: "1695275834000000000"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
-          latestFinalizedSlot: 0
-          issuerId: "0x2f67061e353b5763494b251a1c603c4b0f2b23784d1a2b112f39712a7e190577"
-        body:
-          type: 0
-          strongParents:
-            - "0x2d5e2221447d1c104d153d4426474c565d145037245234790228543e2c654748460e391b"
-            - "0x4a14252a34665d7b316420697e772b76547036017e487d1e1e4b2c6e0c5920415d327e0c"
-            - "0x523d1d0030435d69736d6a5f68625f647e5310076f605520295b042c64296253486c745d"
-          weakParents: []
-          shallowLikeParents: []
-          payload:
-            type: 1
-            transaction:
-              networkId: "14147312347886322761"
-              creationSlot: 0
-              contextInputs: []
-              inputs:
-                - type: 0
-                  transactionId: "0x6c766054650a712a16787501546000205331190e33013825226b0c2f612f7911114f754c"
-                  transactionOutputIndex: 82
-                - type: 0
-                  transactionId: "0x3b33480f1f77043e12443a50191c0c2061494740747e44057d05794129670b7846314857"
-                  transactionOutputIndex: 22
-              allotments:
-                - accountId: "0x7373587a141f4d5a5b262b185234760d50411c326f05300c2874716d24770b64"
-                  mana: "3334"
-              capabilities: ""
-              outputs:
-                - type: 0
-                  amount: "9315"
-                  mana: "0"
-                  unlockConditions:
-                    - type: 0
-                      address:
-                        type: 0
-                        pubKeyHash: "0x50783863416b5750544c6f1f165d664c224b4d51506e631e3c221602085e2d59"
-                  features: []
-                - type: 0
-                  amount: "4909"
-                  mana: "0"
-                  unlockConditions:
-                    - type: 0
-                      address:
-                        type: 0
-                        pubKeyHash: "0x271f4e2330314b16747d674c3b6646761a5716180526305253136207255d3854"
-                  features: []
-            unlocks:
-              - type: 0
-                signature:
-                  type: 0
-                  publicKey: "0x18703b62523674525b10272408452a57083f4d116e0b4d706a59402040143922"
-                  signature: "0x0f15013f08694a7c24350053077709177d626b664b4739384f68487449764c295223313b5361495d783c016c4c7b5a6f1b0c442c564b73500054120272703704"
-              - type: 0
-                signature:
-                  type: 0
-                  publicKey: "0x2556253d420e31611e16592938517a325e46220d39533d0e4f7335202f68672b"
-                  signature: "0x3f172a67240f3e161357595d2e11007c0e5e7a4c48713a0e28113775271a1733621a5f2d151a20196a2f78383c4a397e045c3d023e4f680b43561b494b744c5b"
-          maxBurnedMana: "100"
-        signature:
-          type: 0
-          publicKey: "0x0d58682550071056456c6b7b634607036564050f3a15513d495a725a5b345f7c"
-          signature: "0x685c44265d4a6f2a5653710c6f4a41296b377b44753353082d4619610c2d5e6374153239372b436773354a6421632e3d646f7b1736637321037a0f671f3b3878"
 
     get-full-block-by-id-tagged-data-response-example:
       value:
         block:
           header:
             protocolVersion: 3
-            networkId: "0"
-            issuingTime: "1695275834000000000"
-            slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
-            latestFinalizedSlot: 0
-            issuerId: "0x1d0140675f050c4d6e1018510a103d2f4c134a31463965775f7d284959045100"
+            networkId: "8342982141227064571"
+            issuingTime: "1695275852000000000"
+            slotCommitmentId: "0x3a1e3b617060146e0362361a4b752833186108395f3b2b3d3e6c655e287d70767ea58d2a"
+            latestFinalizedSlot: 500
+            issuerId: "0x17432c5a7a672503480241125e3952414a7a320441080c624c264b004e09614a"
           body:
             type: 0
             strongParents:
-              - "0x087a2734114e6c041e423a310d7c2039302825484b6c326a560c3a6e281d274a3d18110e"
-            weakParents: []
-            shallowLikeParents: []
+              - "0x27e0461873f37040c9e59c35ad8a106fa1b94f5ec9ef89499b31904f9a3de59be58dd44a"
+              - "0x714821f8f257e0a502b71ac7ee57530bb9dc29fe12ff3936f925b835a297680400b76948"
+              - "0x9951e512546cd9c9fbdab348b6cba91a601a29b50854e55a6e14f6803ca1d81ac7eff5ce"
+              - "0xaaa7bacf26f1aa4754d42edeab45d6169ea723b7fdf0f6ff3b6ebe90d09dbff6bc553936"
+              - "0xba75a143de4ac932986fbe7b1d78f639bc6ee8aee10d510d41572851530be884778052aa"
+              - "0xea5315941f4337752905599710b55e64018c71f4d8f299d0636d50484d05e6ac5667b503"
             payload:
               type: 0
               tag: "0x746167"
-              data: "0x175d051d3873347d3b2617773240644f780f683064094a0c0b4d1a0c621f0160572c324d371a792536786a2719307b590b5f6d585e3a28740a42080942607a131a5e68242735131920230f72513d01694a54507c340e7817514457462a19213c7270212732506a10097a3e36732c011c6f513202360660240d597d7076014750600c27072540123b7b49137409282d48577a0247125a1c6c13456c2d350a6a224a35"
-            maxBurnedMana: "100"
+              data: "0x6c754128356c071e5549764a48427b"
+            maxBurnedMana: "864"
           signature:
             type: 0
-            publicKey: "0x1a382c2224662059334e1d6e076b3a490b594c31332e3d652d402f5139263e56"
-            signature: "0x15216f030f65647910225f736f627d12600607064d7305235c3818700d01633e5d625e11497a3e514e6f5a0e6a51091e475c604125360813067c740346320520"
+            publicKey: "0x2daefbcbadd044da470acd2f7fcf6fcb04b873cc801e7ee408018e1dfa0257ac"
+            signature: "0xc2982c2476379db0c8d39a204801163fc05dc1c7aa7df537e6041f91491943ab1de29a2dfe6076588c53b8d2ccf5eabe49f2cb64198303682859fd0c58348b0d"
         metadata:
-          blockId: "0x3848a6d17070830206e5032fbce2ae3939e60eec0816546e074316b1f66977d04d010000"
+          blockId: "0x1d5f495c0f4b883cf2c79cafd382c73484c65651099329e3b0b4c969c35d620004000000"
           blockState: "confirmed"
 
-    get-block-by-id-tagged-data-response-example:
-      value:
-        header:
-          protocolVersion: 3
-          networkId: "0"
-          issuingTime: "1695275834000000000"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
-          latestFinalizedSlot: 0
-          issuerId: "0x1d0140675f050c4d6e1018510a103d2f4c134a31463965775f7d284959045100"
-        body:
-          type: 0
-          strongParents:
-            - "0x087a2734114e6c041e423a310d7c2039302825484b6c326a560c3a6e281d274a3d18110e"
-          weakParents: []
-          shallowLikeParents: []
-          payload:
-            type: 0
-            tag: "0x746167"
-            data: "0x175d051d3873347d3b2617773240644f780f683064094a0c0b4d1a0c621f0160572c324d371a792536786a2719307b590b5f6d585e3a28740a42080942607a131a5e68242735131920230f72513d01694a54507c340e7817514457462a19213c7270212732506a10097a3e36732c011c6f513202360660240d597d7076014750600c27072540123b7b49137409282d48577a0247125a1c6c13456c2d350a6a224a35"
-          maxBurnedMana: "100"
-        signature:
-          type: 0
-          publicKey: "0x1a382c2224662059334e1d6e076b3a490b594c31332e3d652d402f5139263e56"
-          signature: "0x15216f030f65647910225f736f627d12600607064d7305235c3818700d01633e5d625e11497a3e514e6f5a0e6a51091e475c604125360813067c740346320520"
 
     get-block-by-id-validation-response-example:
       value:
         header:
           protocolVersion: 3
-          networkId: "0"
-          issuingTime: "1695275834000000000"
-          slotCommitmentId: "0x8633b2eb1845fdecf12ee6c5e789c3cf1f0d0bbb3cee65cb5fb2757e995b5cd700000000"
-          latestFinalizedSlot: 0
-          issuerId: "0x5201107e2f0b5d3432100560291216613b07725f06001a6a10317d320c767424"
+          networkId: "8342982141227064571"
+          issuingTime: "1695275852000000000"
+          slotCommitmentId: "0x3a1e3b617060146e0362361a4b752833186108395f3b2b3d3e6c655e287d70767ea58d2a"
+          latestFinalizedSlot: 500
+          issuerId: "0x17432c5a7a672503480241125e3952414a7a320441080c624c264b004e09614a"
         body:
           type: 1
           strongParents:
-            - "0x07772a2f00585b53650c71223c77621e466210097a1177534f54633a4e77657d175d185f"
-            - "0x3962007c6c75357d356b15125579770c653f7a55571816701a7c6766347a347b05497402"
-          weakParents: []
-          shallowLikeParents: []
-          highestSupportedVersion: 4
-          protocolParametersHash: "0x8f2857e188708fc896dab7fc60196d2f728d6229b20bcd726a60ad5c52a5368b"
+            - "0x27e0461873f37040c9e59c35ad8a106fa1b94f5ec9ef89499b31904f9a3de59be58dd44a"
+            - "0x714821f8f257e0a502b71ac7ee57530bb9dc29fe12ff3936f925b835a297680400b76948"
+            - "0x9951e512546cd9c9fbdab348b6cba91a601a29b50854e55a6e14f6803ca1d81ac7eff5ce"
+            - "0xaaa7bacf26f1aa4754d42edeab45d6169ea723b7fdf0f6ff3b6ebe90d09dbff6bc553936"
+            - "0xba75a143de4ac932986fbe7b1d78f639bc6ee8aee10d510d41572851530be884778052aa"
+            - "0xea5315941f4337752905599710b55e64018c71f4d8f299d0636d50484d05e6ac5667b503"
+          highestSupportedVersion: 3
+          protocolParametersHash: "0x0c0a5be47669365426b3e34ecd68f8fe6c70656a54139a1e1cd6fd779bfb476f"
         signature:
           type: 0
-          publicKey: "0x2a31120a501c0d522d2f76514b4a3b5e415b022356264b4c332a507b431c1965"
-          signature: "0x25600518034504557a011174413d0054601730066c221879477b06482966783f340a6d650f48552f4947640d661c54320c790b04716b262d1a74456f7d0b2551"
+          publicKey: "0x2daefbcbadd044da470acd2f7fcf6fcb04b873cc801e7ee408018e1dfa0257ac"
+          signature: "0x3b6185bb5757d5e7fd576eeedf0c765c44cbcfe148261b8558a942867528f2cfe5a39a6ecd7bf7e82e134867a75df05385624be8c4102b3b77b397163459460b"
 
     get-outputs-by-id-response-example:
       value:
