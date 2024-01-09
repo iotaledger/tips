@@ -1251,7 +1251,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-
+  '/api/core/v3/commitments/by-index/{index}/utxo-changes/full':
+    get:
+      tags:
+        - commitments
+      summary: Get all UTXO changes of a given slot index.
+      description: Get all UTXO changes of a given slot index.
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: integer
+          example: 154862
+          required: true
+          description: Index of the commitment to look up.
+      responses:
+        '200':
+          description: "Successful operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UTXOChangesFullResponse'
+              examples:
+                default:
+                  $ref: >-
+                    #/components/examples/get-utxo-changes-full-response-example
+        '400':
+          description: "Unsuccessful operation: indicates that the provided data is invalid."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: "Unsuccessful operation: indicates that the endpoint is not available for public use."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '404':
+          description: "Unsuccessful operation: indicates that the requested data was not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        '500':
+          description: "Unsuccessful operation: indicates that an unexpected, internal server error happened which prevented the node from fulfilling the request."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+  
 components:
   examples:
     get-routes-response-example:
