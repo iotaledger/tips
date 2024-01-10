@@ -1144,7 +1144,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
   
-  '/api/core/v3/commitments/by-index/{index}':
+  '/api/core/v3/commitments/by-slot/{slot}':
     get:
       tags:
         - commitments
@@ -1202,7 +1202,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/core/v3/commitments/by-index/{index}/utxo-changes':
+  '/api/core/v3/commitments/by-slot/{slot}/utxo-changes':
     get:
       tags:
         - commitments
@@ -1251,7 +1251,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalErrorResponse'
-  '/api/core/v3/commitments/by-index/{index}/utxo-changes/full':
+  '/api/core/v3/commitments/by-slot/{slot}/utxo-changes/full':
     get:
       tags:
         - commitments
