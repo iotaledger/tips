@@ -1152,7 +1152,7 @@ paths:
       description: Look up a commitment by a given commitment index.
       parameters:
         - in: path
-          name: index
+          name: slot
           schema:
             type: integer
           example: 154862
@@ -1210,7 +1210,7 @@ paths:
       description: Get all UTXO changes of a given slot by commitment index.
       parameters:
         - in: path
-          name: index
+          name: slot
           schema:
             type: integer
           example: 154862
@@ -1259,7 +1259,7 @@ paths:
       description: Get all UTXO changes of a given slot index.
       parameters:
         - in: path
-          name: index
+          name: slot
           schema:
             type: integer
           example: 154862
