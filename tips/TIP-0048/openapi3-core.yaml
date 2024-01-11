@@ -1397,6 +1397,7 @@ components:
                 decayBalancingConstantExponent: 8
                 decayBalancingConstant: "1"
                 poolCoefficientExponent: 11
+                retentionPeriod: 684
               targetCommitteeSize: 32
               chainSwitchingThreshold: 2
         baseToken:
@@ -3227,6 +3228,9 @@ components:
                 poolCoefficientExponent:
                   type: integer
                   description: PoolCoefficientExponent is the exponent used for shifting operation in the pool rewards calculations.
+                retentionPeriod:
+                  type: integer
+                  description: The number of epochs for which rewards are retained.
               required:
                 - profitMarginExponent
                 - bootstrappingDuration
@@ -3234,6 +3238,7 @@ components:
                 - decayBalancingConstantExponent
                 - decayBalancingConstant
                 - poolCoefficientExponent
+                - retentionPeriod
             targetCommitteeSize:
               type: integer
               description: The target size of the committee.
