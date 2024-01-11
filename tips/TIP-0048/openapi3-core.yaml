@@ -261,7 +261,7 @@ paths:
     get:
       tags:
         - validators
-      summary: Returns information of all registered validators and if they are active, ordered by their holding stake.
+      summary: Returns information of all stakers (registered validators) and if they are active, ordered by their holding stake.
       parameters:
         - in: query
           name: pageSize
@@ -269,7 +269,7 @@ paths:
             type: integer
           example: 1
           required: false
-          description: The page number of validators.
+          description: The page number of stakers.
         - in: query
           name: cursor
           schema:
@@ -316,7 +316,7 @@ paths:
     get:
       tags:
         - validators
-      summary: Return information about a validator.
+      summary: Return information about a staker (registered validator).
       parameters:
         - in: path
           name: bech32Address
@@ -324,7 +324,7 @@ paths:
             type: string
           example: "rms1pqm4xk8e9ny5w5rxjkvtp249tfhlwvcshyr3pc0665jvp7g3hc875k538hl"
           required: true
-          description: The Account Address of the account.
+          description: The Account Address of the staker.
       responses:
         '200':
           description: "Successful operation."
@@ -3270,7 +3270,7 @@ components:
         - parameters
 
     ValidatorsResponse:
-      description: Returns a paginated list of all registered stakers ready for the next epoch and indicates if they were active recently (are eligible for committee selection).
+      description: Returns a paginated list of all stakers (registered validators) ready for the next epoch and indicates if they were active recently (are eligible for committee selection).
       properties:
         stakers:
           type: array
@@ -3320,7 +3320,7 @@ components:
               - $ref: '#/components/schemas/CommitteeMember'
 
     CommitteeMember:
-      description: Returns information of a committee member.
+      description: Returns information of a validator (committee member).
       properties:
         address: 
           type: string
@@ -3336,32 +3336,32 @@ components:
           description: The fixed cost of the validator, which it receives as part of its Mana rewards.
 
     Validator:
-      description: Returns information of a validator.
+      description: Returns information of a staker (registered validator).
       properties:
         address: 
           type: string
-          description: The account address of the validator.
+          description: The account address of the staker.
         stakingEndEpoch:
           type: integer
-          description: The epoch index until which the validator registered to stake.
+          description: The epoch index until which the staker registered to stake.
         poolStake:
           type: string
           description: The total stake of the pool, including delegators.
         validatorStake:
           type: string
-          description: The stake of a validator.
+          description: The stake of a staker.
         fixedCost:
           type: string
-          description: The fixed cost of the validator, which it receives as part of its Mana rewards.
+          description: The fixed cost of the staker, which it receives as part of its Mana rewards.
         active:
           type: boolean
-          description: Shows whether validator was active recently.
+          description: Shows whether staker was active recently.
         latestSupportedProtocolVersion:
           type: integer
-          description: The latest protocol version the validator supported.
+          description: The latest protocol version the staker supported.
         latestSupportedProtocolHash:
           type: string
-          description: The latest protocol hash the validator supported.
+          description: The latest protocol hash the staker supported.
       required:
         - address
         - stakingEndEpoch
