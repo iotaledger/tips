@@ -167,11 +167,11 @@ paths:
           required: true
           description: Output ID of an account or delegation output.
         - in: query
-          name: slotIndex
+          name: slot
           schema:
             type: integer
           example: 50
-          description: A client can specify a slot index explicitly, which should be equal to the slot it uses as the commitment input for the claiming transaction to ensure the node calculates the rewards identically as during transaction execution. Rewards are decayed up to the epoch corresponding to the given slotIndex + MinCommittableAge. For a Delegation Output in delegating state (i.e. when Delegation ID is zeroed), that epoch - 1 is also used as the last epoch for which rewards are fetched. Callers that do not build transactions with the returned values may omit this value in which case it defaults to the latest committed slot, which is good enough to, e.g. display estimated rewards to users. 
+          description: A client can specify a slot index explicitly, which should be equal to the slot it uses as the commitment input for the claiming transaction to ensure the node calculates the rewards identically as during transaction execution. Rewards are decayed up to the epoch corresponding to the given slot + MinCommittableAge. For a Delegation Output in delegating state (i.e. when Delegation ID is zeroed), that epoch - 1 is also used as the last epoch for which rewards are fetched. Callers that do not build transactions with the returned values may omit this value in which case it defaults to the latest committed slot, which is good enough to, e.g. display estimated rewards to users. 
       responses:
         '200':
           description: "Successful operation."
@@ -367,14 +367,6 @@ paths:
       summary: Return information that is used to attach a block in the network.
       description: >-
         Return information that is used to attach a block in the network, which includes parents, last finalized slot index and the latest commitment the node created.
-      parameters:
-        - in: query
-          name: slotIndex
-          schema:
-            type: integer
-          example: 1
-          required: false
-          description: The slot index of the commitment and reference mana cost to query.
       responses:
         '200':
           description: "Successful operation."
@@ -1438,7 +1430,9 @@ components:
       value:
         blockId: "0x0482f0eba39a23c9a13072c93d828b55543132c47f5f57514d9e55535e9d4f4f35000000"
         blockState: "pending"
-        transactionState: "pending"
+        transactionMetadata: 
+          transactionId: "0x72f0dfa9ad116ade8bdac8ef291ed2fb8065c6c75d5d3666e8b2053696c94a9e00001000"
+          transactionState: "pending"
     
     get-block-by-id-response-example-new:
       value:
@@ -2482,7 +2476,7 @@ components:
         type:
           type: integer
           description: Set to value 2 to denote a Timelock Unlock Condition.
-        slotIndex:
+        slot:
           type: integer
           description: The slot index until which the timelock applies (inclusive).
       required:
@@ -2499,7 +2493,7 @@ components:
             - $ref: '#/components/schemas/Ed25519Address'
             - $ref: '#/components/schemas/AccountAddress'
             - $ref: '#/components/schemas/NFTAddress'
-        slotIndex:
+        slot:
           type: integer
           description: The slot index at which the expiration happens.
       required:
@@ -3729,7 +3723,7 @@ components:
               description: The transaction ID that spent the output. Hex-encoded with 0x prefix.
             commitmentId:
               type: string
-              description: The commitment ID that includes the spending of the ouptut.
+              description: The commitment ID that includes the spending of the output.
           required:
             - slot
             - transactionId
