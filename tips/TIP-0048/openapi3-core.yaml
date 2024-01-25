@@ -1840,14 +1840,14 @@ components:
         createdOutputs:
           - outputId: "0x3130f21c723fa597805763739f3a2a40b674af6b4071ef0494331b644a7e4d52000000001300"
             output:
-            type: 0
-            amount: "1000"
-            unlockConditions:
-              - type: 0
-                address:
-                  type: 0
-                  pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
-            mana: "2000"            
+              type: 0
+              amount: "1000"
+              unlockConditions:
+                - type: 0
+                  address:
+                    type: 0
+                    pubKeyHash: "0x8eaf87ac1f52eb05f2c7c0c15502df990a228838dc37bd18de9503d69afd257d"
+              mana: "2000"            
         consumedOutputs: []
 
   schemas:
