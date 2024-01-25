@@ -1398,8 +1398,6 @@ components:
           unit: SMR
           subunit: glow
           decimals: 6
-        features:
-          - test
 
     get-buildingBlock-response-example:
       value:
@@ -2978,11 +2976,6 @@ components:
             - tickerSymbol
             - unit
             - decimals
-        features:
-          description: The features that are supported by the node. All features must be lowercase.
-          type: array
-          items:
-            type: string
       required:
         - name
         - version
@@ -2990,7 +2983,6 @@ components:
         - metrics
         - protocolParameters
         - baseToken
-        - features
 
     ProtocolParameters:
       description: Protocol parameters.
