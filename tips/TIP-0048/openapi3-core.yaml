@@ -1325,26 +1325,26 @@ components:
             parameters:
               type: 0
               version: 3
-              networkName: TestJungle
-              bech32Hrp: tgl
+              networkName: testnet
+              bech32Hrp: rms
               storageScoreParameters:
-                storageCost: "0"
-                factorData: 0
-                offsetOutputOverhead: "0"
-                offsetEd25519BlockIssuerKey: "0"
-                offsetStakingFeature: "0"
-                offsetDelegation: "0"
+                storageCost: "100"
+                factorData: 1
+                offsetOutputOverhead: "10"
+                offsetEd25519BlockIssuerKey: "100"
+                offsetStakingFeature: "100"
+                offsetDelegation: "100"
               workScoreParameters:
-                dataByte: 0
-                block: 1
-                input: 0
-                contextInput: 0
-                output: 0
-                nativeToken: 0
-                staking: 0
-                blockIssuer: 0
-                allotment: 0
-                signatureEd25519: 0
+                dataByte: 1
+                block: 2
+                input: 3
+                contextInput: 4
+                output: 5
+                nativeToken: 6
+                staking: 7
+                blockIssuer: 8
+                allotment: 9
+                signatureEd25519: 10
               manaParameters:
                 bitsCount: 63
                 generationRate: 1
@@ -1353,10 +1353,10 @@ components:
                   - 10
                   - 20
                 decayFactorsExponent: 32
-                decayFactorEpochsSum: 2420916375
+                decayFactorEpochsSum: 2262417561
                 decayFactorEpochsSumExponent: 21
-                annualDecayFactorPercentage: 50
-              tokenSupply: "2779530283277761"
+                annualDecayFactorPercentage: 70
+              tokenSupply: "1813620509061365"
               genesisSlot: 0
               genesisUnixTimestamp: "1695275822"
               slotDurationInSeconds: 10
@@ -1368,7 +1368,7 @@ components:
               livenessThresholdUpperBound: 30
               minCommittableAge: 10
               maxCommittableAge: 20
-              epochNearingThreshold: 24
+              epochNearingThreshold: 60
               congestionControlParameters:
                 minReferenceManaCost: "1"
                 increase: "0"
@@ -1384,14 +1384,14 @@ components:
                 activationOffset: 7
               rewardsParameters:
                 profitMarginExponent: 8
-                bootstrappingDuration: 1154
-                manaShareCoefficient: "2"
-                decayBalancingConstantExponent: 8
-                decayBalancingConstant: "1"
+                bootstrappingDuration: 1079
+                rewardToGenerationRatio: 5
+                initialTargetRewardsRate: "10"
+                finalTargetRewardsRate: "20"
                 poolCoefficientExponent: 11
-                retentionPeriod: 684
+                retentionPeriod: 384
               targetCommitteeSize: 32
-              chainSwitchingThreshold: 2
+              chainSwitchingThreshold: 3
         baseToken:
           name: Shimmer
           tickerSymbol: SMR
@@ -1405,8 +1405,8 @@ components:
           - "0x0482f0eba39a23c9a13072c93d828b55543132c47f5f57514d9e55535e9d4f4f35000000"
           - "0xae7c4f55a6db8bf4841e4a38f06d32ab9bd88b927a6ba0bc19bcb19c625ff8b63c000000"
         weakParents:
-          - "0x67e57f7446b5a6f152afabb17c6077c26512278a275310a7ff2fa513f4e0b7383d000000"
           - "0x2e65c319e9a2c4a6ff7195f9a1ed896c43d0dded1b906979316d502b158965c23d000000"
+          - "0x67e57f7446b5a6f152afabb17c6077c26512278a275310a7ff2fa513f4e0b7383d000000"
         shallowLikeParents:
           - "0xe5fe5231630afaaba609af76787ff1ec9c6088dd17e9cf922152b3facd7bd5883e000000"
           - "0xed4b771b5413f5118dd80021ca07fb727e4c54eec9d28d6566c28cc81e7d267c3f000000"
@@ -1566,9 +1566,9 @@ components:
                       expirySlot: 4294967295
                       blockIssuerKeys:
                         - type: 0
-                          publicKey: "0x9e05a32eafedefd40298e24ad4f8c334580187f7e9afbd9da13b5ba4007dd1b5"
+                          pubKeyHash: "0x295409de79016133647d4078cb01618a4ba018eb74ff613138d8ff8dc05de73c"
                         - type: 0
-                          publicKey: "0xa504844f7a0df2c5101d31696593b309040f8660d41035aba508f24c00668b21"
+                          pubKeyHash: "0x868f4c6ef7b5b1d55838cbfb8ae4f3a9776c53cdd3e3d33000094d72acab5a2f"
                     - type: 7
                       stakedAmount: "10000"
                       fixedCost: "400"
@@ -1579,14 +1579,14 @@ components:
                 signature:
                   type: 0
                   publicKey: "0x2daefbcbadd044da470acd2f7fcf6fcb04b873cc801e7ee408018e1dfa0257ac"
-                  signature: "0x9178a608cc0c6c703a41f5bad71e9e80bf9e580f26587df36379d12416c65a85974fafcd22b14d4a7853cc3d15b414e8bf37003dc77725d1d2c9b40d42a13501"
+                  signature: "0x5bb409d59e01d2ea9f1a1fb67feb681d0d3ecb05787cadad2f89fdf13ef7ff03ad5cebf28df5dddd8510992596d98b133f86e14f76824e6ccc369a8f5df44806"
               - type: 1
                 reference: 0
           maxBurnedMana: "864"
         signature:
           type: 0
           publicKey: "0x2daefbcbadd044da470acd2f7fcf6fcb04b873cc801e7ee408018e1dfa0257ac"
-          signature: "0x14718f345117d3f29d8e917ca4f8f758159914f45ef5c0d2cfd46c375edcab125ab4c08c59eb8b6d8e8ef2b7a4de92805bae45612277048bdb101ceed96b880c"
+          signature: "0xb4300837bafda6e0e590124b367a1beb87abd9afbde50bc2afe5e335c7118c13ba59ba58d082eb329c84f527a536bf2c1943b3bcf0444d770dcf7b05f135f50a"
 
     get-committee-example:
       value:
@@ -1605,7 +1605,7 @@ components:
 
     get-validators-example:
       value:
-        stakers:
+        validators:
           - address: "rms1pp4wuuz0y42caz48vv876qfpmffswsvg40zz8v79sy8cp0jfxm4kunflcgt"
             stakingEndEpoch: 100
             poolStake: '200000'
@@ -3214,15 +3214,15 @@ components:
                 bootstrappingDuration:
                   type: integer
                   description: The length in epochs of the bootstrapping phase.
-                manaShareCoefficient:
-                  type: string
-                  description: The coefficient used for calculation of initial rewards.
-                decayBalancingConstantExponent:
+                rewardToGenerationRatio:
                   type: integer
-                  description: DecayBalancingConstantExponent is the exponent used for calculation of the initial reward.
-                decayBalancingConstant:
+                  description: RewardToGenerationRatio is the ratio of the final rewards rate to the generation rate of Mana.
+                initialTargetRewardsRate:
                   type: string
-                  description: An integer approximation calculated based on chosen DecayBalancingConstantExponent. 
+                  description: InitialTargetRewardsRate is the rate of Mana rewards at the start of the bootstrapping phase.
+                finalTargetRewardsRate:
+                  type: string
+                  description: FinalTargetRewardsRate is the rate of Mana rewards after the bootstrapping phase.
                 poolCoefficientExponent:
                   type: integer
                   description: PoolCoefficientExponent is the exponent used for shifting operation in the pool rewards calculations.
@@ -3232,9 +3232,9 @@ components:
               required:
                 - profitMarginExponent
                 - bootstrappingDuration
-                - manaShareCoefficient
-                - decayBalancingConstantExponent
-                - decayBalancingConstant
+                - rewardToGenerationRatio
+                - initialTargetRewardsRate
+                - finalTargetRewardsRate
                 - poolCoefficientExponent
                 - retentionPeriod
             targetCommitteeSize:
@@ -3273,16 +3273,16 @@ components:
         - parameters
 
     ValidatorsResponse:
-      description: Returns a paginated list of all stakers (registered validators) ready for the next epoch and indicates if they were active recently (are eligible for committee selection).
+      description: Returns a paginated list of all registered validators ready for the next epoch and indicates if they were active recently (are eligible for committee selection).
       properties:
-        stakers:
+        validators:
           type: array
           items:
             oneOf:
               - $ref: '#/components/schemas/Validator'
         pageSize:
           type: integer
-          description: The number of stakers returned per one API request with pagination.
+          description: The number of registerd validators returned per one API request with pagination.
         cursor:
           type: string
           description: The cursor that needs to be provided as cursor query parameter to request the next page. Cursor is absent if the last page is returned.
