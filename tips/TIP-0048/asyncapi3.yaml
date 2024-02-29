@@ -1,0 +1,1312 @@
+asyncapi: 2.4.0
+info:
+  title: Node Event API
+  contact:
+    email: contact@iota.org
+  version: 3.0.0
+  description: >-
+    The node event API is in charge of publishing information about events
+    within the node software.
+externalDocs:
+  description: Find out more about IOTA
+  url: 'https://iota.org'
+tags:
+  - name: commitments
+    description: Everything about commitments.
+  - name: blocks
+    description: Everything about blocks.
+  - name: outputs
+    description: Everything about outputs.
+  - name: transactions
+    description: Everything about transactions.
+channels:
+  commitment-info/latest:
+    subscribe:
+      operationId: commitmentInfoLatest
+      tags:
+        - name: commitments
+      description: Publishes the latest known commitment slot index and its identifier.
+      message:
+        $ref: '#/components/messages/CommitmentInfoResponse'
+  commitment-info/finalized:
+    subscribe:
+      tags:
+        - name: commitments
+      operationId: commitmentInfoFinalized
+      description: Publishes the newly finalized commitment slot index and its identifier.
+      message:
+        $ref: '#/components/messages/CommitmentInfoResponse'
+  commitments:
+    subscribe:
+      tags:
+        - name: commitments
+      operationId: commitments
+      description: Publishes newly created commitment.
+      message:
+        $ref: '#/components/messages/CommitmentPayloadSerialized'
+  blocks:
+    subscribe:
+      tags:
+        - name: blocks
+      operationId: blocks
+      description: Publishes newly received blocks in their serialized binary form.
+      message:
+        $ref: '#/components/messages/Block'
+  blocks/transaction:
+    subscribe:
+      tags:
+        - name: blocks
+        - name: transactions
+      operationId: blocksTransaction
+      description: >-
+        Publishes newly received blocks containing a transaction payload in
+        their serialized binary form.
+      message:
+        $ref: '#/components/messages/Block'
+  blocks/transaction/tagged-data:
+    subscribe:
+      tags:
+        - name: blocks
+        - name: transactions
+      operationId: blocksTransactionsWithTaggedData
+      description: >-
+        Publishes newly received blocks containing a Tagged Data payload inside
+        transactions.
+      message:
+        $ref: '#/components/messages/Block'
+  'blocks/transaction/tagged-data/{tag}':
+    parameters:
+      tag:
+        description: >-
+          Hex encoded tag of the Tagged Data Payload inside the Transaction
+          Payload.
+        schema:
+          type: string
+          examples:
+            - '0xe45'
+    subscribe:
+      tags:
+        - name: blocks
+        - name: transactions
+      operationId: blocksTransactionsWithTag
+      description: >-
+        Publishes newly received blocks containing a Tagged Data payload inside
+        transactions with a specific tag.
+      message:
+        $ref: '#/components/messages/Block'
+  blocks/tagged-data:
+    subscribe:
+      tags:
+        - name: blocks
+      operationId: blocksWithTaggedData
+      description: >-
+        Publishes newly received blocks which contain tagged data payloads
+        (encoded in hex) in their serialized binary form.
+      message:
+        $ref: '#/components/messages/Block'
+  'blocks/tagged-data/{tag}':
+    parameters:
+      tag:
+        description: Hex encoded tag of the Tagged Data Payload.
+        schema:
+          type: string
+          examples:
+            - '0xe45'
+    subscribe:
+      tags:
+        - name: blocks
+      operationId: blocksWithSpecificTag
+      description: >-
+        Publishes newly received blocks which contain tagged data payloads with
+        the specified tag parameter (encoded in hex) in their serialized binary
+        form. Untagged data blocks do not get published.
+      message:
+        $ref: '#/components/messages/Block'
+  'block-metadata/{blockId}':
+    parameters:
+      blockId:
+        description: Hex encoded identifier of the block.
+        schema:
+          type: string
+          examples:
+            - '0xdbf86c778d69f413296c2d4d3086d76c74bf4d719e6e95c03a3d9a955ed39bcf3e00000000000000'
+    subscribe:
+      tags:
+        - name: blocks
+      operationId: blockSpecificMetadata
+      description: Publishes metadata of a particular block whenever its metadata changes.
+      message:
+        $ref: '#/components/messages/BlockMetadata'
+  block-metadata/accepted:
+    subscribe:
+      tags:
+        - name: blocks
+      operationId: blockMetadataAccepted
+      description: Publishes metadata of a block whenever it gets accepted.
+      message:
+        $ref: '#/components/messages/BlockMetadata'
+  block-metadata/confirmed:
+    subscribe:
+      tags:
+        - name: blocks
+      operationId: blockMetadataConfirmed
+      description: Publishes metadata of a block whenever it gets confirmed.
+      message:
+        $ref: '#/components/messages/BlockMetadata'
+  'transactions/{transactionId}/included-block':
+    parameters:
+      transactionId:
+        description: Hex encoded identifier of the transaction.
+        schema:
+          type: string
+          examples:
+            - '0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'
+    subscribe:
+      tags:
+        - name: transactions
+        - name: blocks
+      operationId: transactionIncludedBlock
+      description: >-
+        Publishes the earliest confirmed block which carried the transaction with the
+        specified transaction ID.
+      message:
+        $ref: '#/components/messages/Block'
+  'outputs/{outputId}':
+    parameters:
+      outputId:
+        description: Hex encoded identifier of the output.
+        schema:
+          type: string
+          examples:
+            - '0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be70000'
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: output
+      description: >-
+        Publishes the given wanted output on subscriptions.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+
+  'outputs/account/{accountId}':
+    parameters:
+      accountId:
+        description: The unique identifier of the account chain. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          examples:
+            - '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: accountOutputByAccountId
+      description: Publishes the newly created account output of an account chain.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+
+  'outputs/anchor/{anchorId}':
+    parameters:
+      anchorId:
+        description: The unique identifier of the anchor output. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          examples:
+            - '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: anchorOutputByAnchorId
+      description: Publishes the newly created anchor output.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+
+  'outputs/nft/{nftId}':
+    parameters:
+      nftId:
+        description: The unique identifier of the nft chain. Hex encoded with 0x prefix.
+        schema:
+          type: string
+          examples:
+            - '0x19c82b32761fd8729a1a6c77f7c17597e4b9b01759794e52381f6a0050b0c11f'
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: nftOutputByNftId
+      description: Publishes the newly created nft output of an nft chain.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+  'outputs/foundry/{foundryId}':
+    parameters:
+      foundryId:
+        description: >-
+          The unique identifier of the foundry chain. Hex encoded with 0x
+          prefix.
+        schema:
+          type: string
+          examples:
+            - '0x081505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d60100000000'
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: foundryOutputByFoundryId
+      description: Publishes the newly created foundry output of a foundry chain.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+  'outputs/unlock/{condition}/{address}':
+    parameters:
+      condition:
+        description: Type of unlock condition of the output to look for.
+        schema:
+          type: string
+          enum:
+            - address
+            - storage-return
+            - expiration
+            - state-controller
+            - governor
+            - immutable-account
+            - +
+      address:
+        description: Bech32 encoded address.
+        schema:
+          type: string
+          examples:
+            - 'iota1qrwfnskm4f7utdrxqnkfntfqxehtpj8s0kf68zkcwm0yrhuemzjp5sjfw5v'
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: outputByUnlockAndAddress
+      description: >-
+        Publishes newly created outputs that have a specific address in a
+        specific unlock condition.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+  'outputs/unlock/{condition}/{address}/spent':
+    parameters:
+      condition:
+        description: Type of unlock condition of the output to look for.
+        schema:
+          type: string
+          enum:
+            - address
+            - storage-return
+            - expiration
+            - state-controller
+            - governor
+            - immutable-account
+            - +
+      address:
+        description: Bech32 encoded address.
+        schema:
+          type: string
+          examples:
+            - 'iota1qrwfnskm4f7utdrxqnkfntfqxehtpj8s0kf68zkcwm0yrhuemzjp5sjfw5v'
+    subscribe:
+      tags:
+        - name: outputs
+      operationId: outputByUnlockAndAddressSpent
+      description: >-
+        Publishes newly spent outputs that have a specific address in a specific
+        unlock condition.
+      message:
+        $ref: '#/components/messages/OutputPayload'
+components:
+  messages:
+    CommitmentPayload:
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - protocolVersion
+          - slot
+          - previousCommitmentId
+          - rootsId
+          - cumulativeWeight
+          - referenceManaCost
+        properties:
+          protocolVersion:
+            type: integer
+            description: The protocol version of the node.
+            example: 1
+          slot:
+            type: integer
+            description: The slot index of the commitment.
+            example: 200
+          previousCommitmentId:
+            type: string
+            description: The commitment identifier of the previous slot.
+            example: "0x8fb6cbb1ecf02c6b5a6a5a6a5f6c5a6a5f6c5a6a5a6a5a6a5f6c5a6a5a6a5f6c50000000000000000"
+          rootsId:
+            type: string
+            description: The digest of multiple merkle roots within this slot.
+            example: "0xa4dd36465af63d495d35a05f592d42a51511c153e1bae8fad00453c8cbb48727"
+          cumulativeWeight:
+            type: string
+            description: 
+              The sum of previous slot commitment cumulative weight and 
+              weight of issuers of accepted blocks within this slot. 
+              It is just an indication of "committed into" this slot,
+              and can not strictly be used for evaluating the switching of a chain.
+            example: '78901'
+          referenceManaCost:
+            type: string
+            description: The reference mana cost of the slot.
+            example: '12345'
+
+    CommitmentPayloadSerialized:
+      contentType: application/vnd.iota.serializer-v2
+      description: The commitment in its serialized form.
+      payload:
+        type: string
+        format: binary
+        example: >-
+          0x0312000000075b05e0a8fd4b9c7e7bc165b62c48945292f7d76d23f76525f886c416dc0e364089b57c32ddb8c614ed1d2c844401d2a5325b4d153c7f94464bbda3a8d14289b203f96759000000000000009000000000000000
+    CommitmentInfoResponse:
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - commitmentIndex
+        properties:
+          commitmentIndex:
+            type: number
+            description: The slot index of the commitment.
+            example: 242412
+          commitmentId:
+            type: string
+            description: Hex encoded identifier of the slot commitment.
+            example: '0x507d5c7d7105022b661e2c755173785f11707b7a6b3369111d000d1f145e652d5f436f26'
+    Block:
+      contentType: application/vnd.iota.serializer-v2
+      description: The block in its serialized binary form.
+      payload:
+        type: string
+        format: binary
+        example: >-
+          03490443ee9f5955c4bb2ab676df2c9e1796f8ae1c96f769d56d883bdf3dbed2261413a0ae8e281d17822be093cb3ddcdf202a60b2f4010000a371f6fb9f7d201d80bdd55fe7d1d64e713066e1bca1a6e6f5bd0120473530790006002d31ee96475d45115d600bc9321a36a067e0e8c46d0e910deeaf3a96a7893eec906b2402b9d83256d47058ecd186e2349cce2846a07454470e4d921b3dbc5c58ef781af5b06a8b12382bac13c80a7d809b86211818b9f1b59a6a7f59ada12c6708a37d3ad0d39a31e9786067f086718e65229cf610927fd0bbac8d26a9c38d4829d1151023e7f2b09cc2a04adb0888b89b9cc4b217f3b6f7161a15e3a772a8b465e130d1aa8fe62f97e47a7cb17663f6b496a7e29fd91b415db4664ddbd31b9f48f7f8f853fc83996907efe6358cca1061c9903925dda200001800000000037461670f000000d7377ed316f02780a8a7e4b1f69e2aa70200000000000000d62233f3240753d4f14a1cff3e6a6c126dc85854e34f5754babcf229f02707ce2958bd23a1c2ccf10123456d33211b98b751f99b791eb6d9737bc0dfd7f0ac09532599c32757ad2fd4bd906bd9ea2bf4c8f3682c015cf9068c914d1cb04ad80b
+   
+    OutputPayload:
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          metadata:
+            oneOf:
+              - $ref: '#/components/schemas/OutputMetadata'
+          output:
+            anyOf:
+              - $ref: '#/components/schemas/BasicOutput'
+              - $ref: '#/components/schemas/AccountOutput'
+              - $ref: '#/components/schemas/AnchorOutput'
+              - $ref: '#/components/schemas/FoundryOutput'
+              - $ref: '#/components/schemas/NFTOutput'
+              - $ref: '#/components/schemas/DelegationOutput'
+          outputIdProof:
+            oneOf:
+              - $ref: '#/components/schemas/OutputIdProof'
+
+    BlockMetadata:
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - blockId
+          - strongParents
+        properties:
+          blockId:
+            type: string
+            description: The ID of the block.
+            example: '0xdbf86c778d69f413296c2d4d3086d76c74bf4d719e6e95c03a3d9a955ed39bcf3e00000000000000'
+          blockState:
+            type: string
+            description: If `pending`, the block is stored but not confirmed. If `confirmed`, the block is confirmed with the first level of knowledge. If `finalized`, the block is included and cannot be reverted anymore. If `rejected`, the block is rejected by the node, and user should reissue payload if it contains one. If `failed`, the block is not successfully issued due to failure reason.
+            enum:
+              - pending
+              - confirmed
+              - finalized
+              - rejected
+              - failed         
+          transactionState:
+            type: string
+            description: The inclusion state of the transaction.
+            enum:
+              - pending
+              - confirmed
+              - finalized
+              - failed
+            example: failed
+          blockFailureReason:
+            type: integer
+            enum: [1,2,3,4,5,6,7,8,9,10,11,12,255]
+            description: |
+              Values:
+                * `1` - denotes that the block is too old to issue.
+                * `2` - denotes that the block's parents are too old.
+                * `3` - denotes that one of block's parents does not exist.
+                * `4` - denotes that one of block's parents is invalid.
+                * `5` - denotes that the issuer account could not be found.
+                * `6` - denotes that the block version is invalid to retrieve the corresponding protocol information.
+                * `7` - denotes that the Mana cost could not be calculated.
+                * `8` - denotes that the issuer account burned insufficient Mana for the block.
+                * `9` - denotes that the account is invalid, e.g. the account has negative Block Issuance Credits, or the account has expired. 
+                * `10` - denotes that the signature is invalid.
+                * `11` - denotes that the block is dropped due to congestion.
+                * `12` - denotes that the payload is invalid.
+                * `255` - denotes that the block is invalid.
+          transactionFailureReason:
+            type: integer
+            enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,255]
+            description: |
+              Values:
+                * `1` - denotes that the referenced UTXO was already spent.
+                * `2` - denotes that the transaction is conflicting with another transaction. Conflicting specifically means a double spend situation that both transaction pass all validation rules, eventually losing one(s) should have this reason. 
+                * `3` - denotes that the referenced UTXO is invalid.
+                * `4` - denotes that the transaction is invalid.
+                * `5` - denotes that the sum of the inputs and output base token amount does not match.
+                * `6` - denotes that the unlock block signature is invalid.
+                * `7` - denotes that the configured timelock is not yet expired.
+                * `8` - denotes that the given native tokens are invalid.
+                * `9` - denotes that the return amount in a transaction is not fulfilled by the output side.
+                * `10` - denotes that the input unlock is invalid.
+                * `11` - denotes that an output contains a Sender with an ident (address) which is not unlocked.
+                * `12` - denotes that the chain state transition is invalid.
+                * `13` - denotes that the referenced input is created after transaction issuing time.
+                * `14` - denotes that the mana amount is invalid.
+                * `15` - denotes that the Block Issuance Credits Input is invalid.
+                * `16` - denotes that Reward Context Input is invalid.
+                * `17` - denotes that Commitment Context Input is invalid.
+                * `18` - denotes that Staking Feature is not provided in account output when claiming rewards.
+                * `19` - denotes that fail to claim staking reward.
+                * `20` - denotes that fail to claim delegation reward.
+                * `21` - denotes that the burning of native tokens was not allowed in the transaction capabilities.
+                * `22` - denotes that the burning of mana was not allowed in the transaction capabilities.
+                * `23` - denotes that the destruction of accounts was not allowed in the transaction capabilities.
+                * `24` - denotes that the destruction of anchors was not allowed in the transaction capabilities.
+                * `25` - denotes that the destruction of foundries was not allowed in the transaction capabilities.
+                * `26` - denotes that the destruction of nfts was not allowed in the transaction capabilities.
+                * `255` - denotes that the semantic validation failed.
+            example: 1
+
+  schemas:
+    Ed25519Address:
+      description: The Ed25519 address.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote an Ed25519 Address.
+          example: 0
+        pubKeyHash:
+          type: string
+          description: The hex-encoded BLAKE2b-256 hash of the Ed25519 public key.
+          example: '0x713c3e879b53398431f67312254101ffdd23067febc77f4949de57ee279c8bee'
+      required:
+        - type
+        - pubKeyHash
+    AccountAddress:
+      description: Address of an account.
+      properties:
+        type:
+          type: integer
+          description: Set to value 8 to denote an Account Address.
+          example: 1
+        accountId:
+          type: string
+          description: >-
+            The hex-encoded BLAKE2b-256 hash of the Output ID that created the
+            account.
+          example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
+      required:
+        - type
+        - accountId
+    NFTAddress:
+      description: Address of an NFT account.
+      properties:
+        type:
+          type: integer
+          description: Set to value 16 to denote an NFT Address.
+          example: 1
+        nftId:
+          type: string
+          description: >-
+            The hex-encoded BLAKE2b-256 hash of the Output ID that created the
+            NFT.
+          example: '0x19c82b32761fd8729a1a6c77f7c17597e4b9b01759794e52381f6a0050b0c11f'
+      required:
+        - type
+        - nftId
+    AccountUnlockCondition:
+      description: Can be unlocked by unlocking the address.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote an Address Unlock Condition.
+          example: 0
+        address:
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+            - $ref: '#/components/schemas/AccountAddress'
+            - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - address
+    ImmutableAccountAddressUnlockCondition:
+      description: >-
+        Can be unlocked by unlocking the permanent account address. The unlock
+        condition has to be kept in future state transitions of the UTXO state
+        machine.
+      properties:
+        type:
+          type: integer
+          description: >-
+            Set to value 6 to denote an Immutable Account Address Unlock
+            Condition.
+          example: 6
+        address:
+          oneOf:
+            - $ref: '#/components/schemas/AccountAddress'
+      required:
+        - type
+        - address
+    StorageDepositReturnUnlockCondition:
+      description: >-
+        Can be unlocked by depositing return amount to return address via an
+        output that only has Address Unlock Condition.
+      properties:
+        type:
+          type: integer
+          description: Set to value 1 to denote a Storage Deposit Return Unlock Condition.
+          example: 1
+        returnAddress:
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+            - $ref: '#/components/schemas/AccountAddress'
+            - $ref: '#/components/schemas/NFTAddress'
+        amount:
+          type: string
+          description: >-
+            Amount of IOTA tokens the consuming transaction should deposit to
+            the address defined in Return Address.
+          example: "50"
+      required:
+        - type
+        - returnAddress
+        - amount
+
+    AddressUnlockCondition:
+      description: Can be unlocked by unlocking the address.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote an Address Unlock Condition.
+          example: 0
+        address:
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+            - $ref: '#/components/schemas/AccountAddress'
+            - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - address
+
+    TimelockUnlockCondition:
+      description: Can be unlocked if the confirming commitment has a >= Unix Timestamp.
+      properties:
+        type:
+          type: integer
+          description: Set to value 2 to denote a Timelock Unlock Condition.
+          example: 2
+        slot:
+          type: integer
+          description: >-
+            The slot index until which the timelock applies (inclusive)
+          example: 16
+          exclusiveMinimum: 0
+      required:
+        - type
+        - slot
+
+    ExpirationUnlockCondition:
+      description: >-
+        Defines a unix time until which only Address, defined in Address Unlock
+        Condition, is allowed to unlock the output. After the slot index, only
+        Return Address can unlock it.
+      properties:
+        type:
+          type: integer
+          description: Set to value 3 to denote an Expiration Unlock Condition.
+          example: 3
+        returnAddress:
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+            - $ref: '#/components/schemas/AccountAddress'
+            - $ref: '#/components/schemas/NFTAddress'
+        slot:
+          type: integer
+          description: >-
+            The slot index at which the expiration happens.
+          example: 16
+          exclusiveMinimum: 0
+      required:
+        - type
+        - returnAddress
+        - slot
+
+    StateControllerAddressUnlockCondition:
+      description: Can be unlocked by unlocking the address.
+      properties:
+        type:
+          type: integer
+          description: Set to value 4 to denote a Sate Controller Address Unlock Condition.
+          example: 4
+        address:
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+            - $ref: '#/components/schemas/AccountAddress'
+            - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - address
+
+    GovernorAddressUnlockCondition:
+      description: Can be unlocked by unlocking the address.
+      properties:
+        type:
+          type: integer
+          description: Set to value 5 to denote a Governor Address Unlock Condition.
+          example: 5
+        address:
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+            - $ref: '#/components/schemas/AccountAddress'
+            - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - address
+    SenderFeature:
+      description: Identifies the validated sender of the output.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote a Sender Feature.
+          example: 0
+        address:
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+            - $ref: '#/components/schemas/AccountAddress'
+            - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - address
+
+    IssuerFeature:
+      description: Identifies the validated issuer of the UTXO state machine (account/NFT).
+      properties:
+        type:
+          type: integer
+          description: Set to value 1 to denote an Issuer Feature.
+          example: 1
+        address:
+          oneOf:
+            - $ref: '#/components/schemas/Ed25519Address'
+            - $ref: '#/components/schemas/AccountAddress'
+            - $ref: '#/components/schemas/NFTAddress'
+      required:
+        - type
+        - address
+
+    BlockIssuerFeature:
+      description: >-
+        A feature which indicates that this account can issue blocks.
+      properties:
+        type:
+          type: integer
+          description: Set to value 6 to denote a Block Issuer Feature.
+          example: 6
+        blockIssuerKeys:
+          type: array
+          description: The keys allowed to issue blocks from an account with a BlockIssuerFeature.
+          items:
+              oneOf:
+                - $ref: '#/components/schemas/Ed25519PublicKey'
+        expirySlot:
+          type: integer
+          description: Indicates when the BlockIssuerKeys are expired.
+      required:
+        - type
+        - blockIssuerKeys
+        - expirySlot
+
+    StakingFeature:
+      description: A feature which indicates that this account can issue blocks.
+      properties:
+        type:
+          type: integer
+          description: Set to value 7 to denote a Staking Feature.
+          example: 7
+        stakedAmount:
+          type: string
+          description: The amount of IOTA coins that are locked and staked in the containing account.
+        fixedCost:
+          type: string
+          description: Indicates when the BlockIssuerKeys are expired.
+        startEpoch:
+          type: integer
+          description: The epoch index at which the staking starts.
+        endEpoch:
+          type: integer
+          description: The epoch index at which the staking ends.
+      required:
+        - type
+        - stakedAmount
+        - fixedCost
+        - startEpoch
+        - endEpoch
+
+    MetadataFeature:
+      description: >-
+        Defines metadata (arbitrary binary data) that will be stored in the
+        output.
+      properties:
+        type:
+          type: integer
+          description: Set to value 2 to denote a Metadata Feature.
+          example: 2
+        entries:
+          type: object
+          additionalProperties: 
+            type: string
+          example: 
+            - 'did:iota': '0x68656c6c6f206469676974616c206175746f6e6f6d79'
+            - 'hello': '0x776f726c64'
+      required:
+        - type
+        - entries
+    StateMetadataFeature:
+      description: >-
+        Defines a map of key-value pairs. The keys must consist of ASCII characters only and the values are arbitrary byte slices.
+      properties:
+        type:
+          type: integer
+          description: Set to value 3 to denote a State Metadata Feature.
+          example: 3
+        entries:
+          type: object
+          additionalProperties: 
+            type: string
+          description: Hex-encoded binary data.
+          example: 
+            - 'did:iota': '0x68656c6c6f206469676974616c206175746f6e6f6d79'
+            - 'hello': '0x776f726c64'
+      required:
+        - type
+        - entries
+    NativeTokenFeature:
+      description: Defines a native token which represents a token that resides natively on the ledger.
+      properties:
+        type:
+          type: integer
+          description: Set to value 5 to denote a Native Token Feature.
+          example: 5
+        id:
+          type: string
+          description: The ID of the native token.
+          example: "0x082d3860307d320f3a167a225b031b6b043941562b0c18797938584f603f69425375617a4900"
+        amount:
+          type: string
+          description: The amount of native token. Hex-encoded number with 0x prefix.
+          example: "0x3e8"
+      required:
+        - type
+        - id
+        - amount
+    TagFeature:
+      description: >-
+        Defines an indexation tag to which the output can be indexed by
+        additional node plugins.
+      properties:
+        type:
+          type: integer
+          description: Set to value 4 to denote a Tag Feature.
+          example: 4
+        tag:
+          type: string
+          description: Hex-encoded binary indexation tag.
+          example: '0xfa0de75'
+      required:
+        - type
+        - tag
+    SimpleTokenScheme:
+      description: >-
+        Defines the simple supply control scheme of native tokens. Tokens can be
+        minted by the foundry without additional restrictions as long as maximum
+        supply is requested and circulating supply is not negative.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote an Simple Token Scheme.
+          example: 0
+        mintedTokens:
+          type: string
+          description: Minted tokens controlled by this foundry. Hex encoded number.
+          example: '0x2710'
+        meltedTokens:
+          type: string
+          description: Melted tokens controlled by this foundry. Hex encoded number.
+          example: '0x1388'
+        maxSupply:
+          type: string
+          description: >-
+            Maximum supply of tokens controlled by this foundry. Hex encoded
+            number.
+          example: '0x186a0'
+      required:
+        - type
+        - mintedTokens
+        - meltedTokens
+        - maxSupply
+    BasicOutput:
+      description: Describes a basic output with optional features.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote a Basic Output.
+          example: 0
+        amount:
+          type: string
+          description: >-
+            The amount of IOTA tokens to deposit with this BasicOutput output.
+            Encoded as plain string.
+          example: '100'
+        mana:
+          type: string
+          description: The stored mana held by the output.
+          example: '3000'
+        unlockConditions:
+          type: array
+          description: >-
+            Unlock conditions that define how the output can be unlocked in a
+            transaction.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/AddressUnlockCondition'
+              - $ref: '#/components/schemas/StorageDepositReturnUnlockCondition'
+              - $ref: '#/components/schemas/TimelockUnlockCondition'
+              - $ref: '#/components/schemas/ExpirationUnlockCondition'
+        features:
+          type: array
+          description: >-
+            Features that add utility to the output but do not impose unlocking
+            conditions.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/SenderFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+              - $ref: '#/components/schemas/TagFeature'
+              - $ref: '#/components/schemas/NativeTokenFeature'
+      required:
+        - type
+        - amount
+        - mana
+
+    AccountOutput:
+      description: >-
+        Describes an account in the ledger that can be controlled by the
+        state and governance controllers.
+      properties:
+        type:
+          type: integer
+          description: Set to value 1 to denote an Account Output.
+          example: 1
+        amount:
+          type: string
+          description: >-
+            The amount of IOTA tokens to deposit with this output. Encoded as
+            plain string.
+          example: '100'
+        mana:
+          type: string
+          description: The stored mana held by the output.
+          example: '3000'
+        accountId:
+          type: string
+          description: >-
+            Unique identifier of the account, which is the BLAKE2b-256 hash of the
+            Output ID that created it. Account Address = Account Address Type ||
+            Account ID
+          example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
+        foundryCounter:
+          type: integer
+          description: >-
+            A counter that denotes the number of foundries created by this account.
+          example: 3
+        unlockConditions:
+          type: array
+          description: >-
+            Unlock conditions that define how the output can be unlocked in a
+            transaction.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/AddressUnlockCondition'
+        features:
+          type: array
+          description: >-
+            Features that add utility to the output but do not impose unlocking
+            conditions.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/SenderFeature'
+              - $ref: '#/components/schemas/MetadataFeature'                
+              - $ref: '#/components/schemas/BlockIssuerFeature' 
+              - $ref: '#/components/schemas/StakingFeature'
+        immutableFeatures:
+          type: array
+          description: >-
+            Immutable features that add utility to the output but do not impose
+            unlocking conditions. These blocks need to be kept in future
+            transitions of the UTXO state machine.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/IssuerFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+      required:
+        - type
+        - amount
+        - accountId
+        - foundryCounter
+        - mana
+    
+    AnchorOutput:
+      description: >-
+        Describes an anchor output.
+      properties:
+        type:
+          type: integer
+          description: Set to value 2 to denote an Anchor Output.
+          example: 1
+        amount:
+          type: string
+          description: >-
+            The amount of IOTA tokens to deposit with this output. Encoded as
+            plain string.
+          example: '100'
+        mana:
+          type: string
+          description: The stored mana held by the output.
+          example: '3000'
+        anchorId:
+          type: string
+          description: The identifier of the anchor.
+          example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
+        stateIndex:
+          type: integer
+          description: A counter that must increase by 1 every time the account is state transitioned.
+          example: 3
+        unlockConditions:
+          type: array
+          description: >-
+            Unlock conditions that define how the output can be unlocked in a
+            transaction.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/StateControllerAddressUnlockCondition'
+              - $ref: '#/components/schemas/GovernorAddressUnlockCondition'
+        features:
+          type: array
+          description: >-
+            Features that add utility to the output but do not impose unlocking
+            conditions.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/MetadataFeature'
+              - $ref: '#/components/schemas/StateMetadataFeature'
+        immutableFeatures:
+          type: array
+          description: >-
+            Immutable features that add utility to the output but do not impose
+            unlocking conditions. These blocks need to be kept in future
+            transitions of the UTXO state machine.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/IssuerFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+      required:
+        - type
+        - amount
+        - anchorId
+        - stateIndex
+        - mana
+    
+    DelegationOutput:
+      description: >-
+        Describes an delegation output in the ledger that can be controlled by the
+        state and governance controllers.
+      properties:
+        type:
+          type: integer
+          description: Set to value 5 to denote a Delegation Output.
+          example: 5
+        amount:
+          type: string
+          description: >-
+            The amount of IOTA tokens held by the output. Encoded as
+            plain string.
+          example: '100'
+        delegatedAmount:
+          type: string
+          description: The amount of IOTA tokens that were delegated when the output was created.
+        delegationId:
+          type: string
+          description: >-
+            The identifier for this delegation output.
+          example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
+        validatorAddress:
+          type: string
+          description: >-
+            The Account Address of the validator to which this output is delegating.
+          example: '0x1505ec099896ab05d9e08fbc7101ae4dff0093b3943b28f789ed2ca728bcc8d6'
+        startEpoch:
+          type: integer
+          description: >-
+            The index of the first epoch for which this output delegates.
+          example: 10
+        endEpoch:
+          type: integer
+          description: >-
+            The index of the last epoch for which this output delegates.
+          example: 12
+        unlockConditions:
+          type: array
+          description: >-
+            Unlock conditions that define how the output can be unlocked in a
+            transaction.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/AddressUnlockCondition'
+      required:
+        - type
+        - amount
+        - delegatedAmount
+        - delegationId
+        - validatorAddress
+        - startEpoch
+        - endEpoch
+  
+    FoundryOutput:
+      description: Describes a foundry output that is controlled by an account.
+      properties:
+        type:
+          type: integer
+          description: Set to value 5 to denote a Foundry Output.
+          example: 5
+        amount:
+          type: string
+          description: >-
+            The amount of IOTA tokens to deposit with this output. Encoded as
+            plain string.
+          example: '100'
+        serialNumber:
+          type: integer
+          description: >-
+            The serial number of the foundry with respect to the controlling
+            account.
+          example: 2
+        tokenScheme:
+          type: array
+          description: >-
+            Defines the supply control scheme of the tokens controlled by the
+            foundry.
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/SimpleTokenScheme'
+        unlockConditions:
+          type: array
+          description: >-
+            Unlock conditions that define how the output can be unlocked in a
+            transaction.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/ImmutableAccountAddressUnlockCondition'
+        features:
+          type: array
+          description: >-
+            Features that add utility to the output but do not impose unlocking
+            conditions.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/MetadataFeature'
+              - $ref: '#/components/schemas/NativeTokenFeature'
+        immutableFeatures:
+          type: array
+          description: >-
+            Immutable features that add utility to the output but do not impose
+            unlocking conditions. These blocks need to be kept in future
+            transitions of the UTXO state machine.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/MetadataFeature'
+      required:
+        - type
+        - amount
+        - serialNumber
+        - tokenScheme
+
+    NFTOutput:
+      description: 'Describes an NFT output, a globally unique token with metadata attached.'
+      properties:
+        type:
+          type: integer
+          description: Set to value 6 to denote a NFT Output.
+        amount:
+          type: string
+          description: >-
+            The amount of IOTA tokens to deposit with this output. Encoded as
+            plain string.
+          example: '100'
+        mana:
+          type: string
+          description: The stored mana held by the output
+          example: '3000'
+        nftId:
+          type: string
+          description: >-
+            Unique identifier of the NFT, which is the BLAKE2b-256 hash of the
+            Output ID that created it. NFT Address = NFT Address Type || NFT ID
+          example: '0x19c82b32761fd8729a1a6c77f7c17597e4b9b01759794e52381f6a0050b0c11f'
+        unlockConditions:
+          type: array
+          description: >-
+            Unlock conditions that define how the output can be unlocked in a
+            transaction.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/AddressUnlockCondition'
+              - $ref: '#/components/schemas/StorageDepositReturnUnlockCondition'
+              - $ref: '#/components/schemas/TimelockUnlockCondition'
+              - $ref: '#/components/schemas/ExpirationUnlockCondition'
+        features:
+          type: array
+          description: >-
+            Features that add utility to the output but do not impose unlocking
+            conditions.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/SenderFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+              - $ref: '#/components/schemas/TagFeature'
+        immutableFeatures:
+          type: array
+          description: >-
+            Immutable features that add utility to the output but do not impose
+            unlocking conditions.
+
+            These blocks need to be kept in future transitions of the UTXO state
+            machine.
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/IssuerFeature'
+              - $ref: '#/components/schemas/MetadataFeature'
+      required:
+        - type
+        - amount
+        - nftId
+        - mana
+
+    OutputIdProof:
+      description: The proof of the output identifier.
+      properties:
+        slot:
+          type: integer
+          description: The slot index of the output.
+          example: 20
+        outputIndex:
+          type: integer
+          description: The index of the output.
+          example: 0
+        transactionCommitment:
+          type: string
+          description: The commitment of the transaction that created the output. Hex-encoded with 0x prefix.
+          example: '0x897dr69bfa60c8cf80afd730741862d200405d5df7cabfe9b564361dce1f7036'
+        outputCommitmentProof:
+          type: string
+          description: The proof of the output commitment. Hex-encoded with 0x prefix.
+          example: '0xd3a0a0c76ab2d9b406a32c30c43e102fe0f39a12a3f6c1e3b19d239db2f18d75'
+      required:
+        - slot
+        - outputIndex
+        - transactionCommitment
+        - outputCommitmentProof
+
+    Ed25519Signature:
+      description: Ed25519Signature defines an Ed25519 signature.
+      properties:
+        type:
+          type: number
+          description: Defines the type for an Ed255199Signature (0).
+          example: 0
+        publicKey:
+          type: string
+          description: The public key used to verify the given signature.
+          example: '0x5368c0c1ee386222966ceca9a0029be32527959b9fd2a8a6d61388bcee6d66c1'
+        signature:
+          type: string
+          description: The signature.
+          example: '0x8e78a5e701e530365594aefb43a3219b6aa8bea214425847c654797a46ce1967528d2e6714f469ca308ee96a08319a4135fdc84923c04f784de414a840e4020e'
+      required:
+        - type
+        - publicKey
+        - signature
+
+    Ed25519PublicKey:
+      description: The Ed25519 public key.
+      properties:
+        type:
+          type: integer
+          description: Set to value 0 to denote an Ed25519 Public key.
+        publicKey:
+          type: string
+          description: Ed25519 public key in Hex.
+      required:
+        - type
+        - publicKey
+        
+    OutputMetadata:
+      description: Metadata of an output.
+      properties:
+        blockId:
+          type: string
+          description: The ID of the block.
+          example: '0xdbf86c778d69f413296c2d4d3086d76c74bf4d719e6e95c03a3d9a955ed39bcf3e00000000000000'
+        transactionId:
+          type: string
+          description: The ID of the transaction which created this output.
+          example: '0xd026f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'
+        outputIndex:
+          type: integer
+          description: The index of the output within its transaction.
+          example: 0
+        isSpent:
+          type: boolean
+          description: Whether the output is spent or not.
+          example: true
+        commitmentIdSpent:
+          type: string
+          description: The commitment ID of the slot at which this output was spent.
+          example: '0xe526f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'
+        transactionIdSpent:
+          type: string
+          description: The transaction this output was spent with.
+          example: '0xe526f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'
+        includedCommitmentId:
+          type: string
+          description: The commitment ID at which the output was included into the ledger.
+          example: '0xe526f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'       
+        latestCommitmentId:
+          type: string
+          description: The current latest commitment id for which the request was made.
+          example: '0xe526f8b1c856d4e844cc734bbe095429fb880ec4d93f3ccffe3b292a7de17be7'
+      required:
+        - blockId
+        - transactionId
+        - outputIndex
+        - isSpent
+        - latestCommitmentId
