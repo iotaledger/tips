@@ -1,6 +1,6 @@
 ---
 tip: ?
-title: IOTA DID Method Specification
+title: IOTA DID Method Specification v2.0
 description: Specifies how DID are stored in the IOTA ledger
 author:
   Eike Haß (@eike-hass) <eike.hass@iota.org>, Abdulrahim Al Methiab (@abdulmth) <abdulrahim.almethiab@iota.org>, Enrico Marconi (@UMR1352) <enrico.marconi@iota.org>
@@ -227,7 +227,7 @@ Temporarily deactivating a DID can be done by deleting the `Metadata Entry` corr
 
 Another option is to [update](#update) the DID Document and set the `deactivated` property in its `metadata` to true. In both cases, the deactivated DID Document will be marked as `deactivated` when resolved.
 
-Note: since retrieving the history of an Account is unpractical, any Account Output lacking a `Metadata Entry` with a `did:iota` Key is considered a deactivated DID. The same applies for Account Outputs lacking the Metadata Feature.
+Since retrieving the history of an Account to detect if an Account ever was a DID is unpractical, any Account Output lacking a `Metadata Entry` with a `did:iota` Key is considered a deactivated DID. The same applies for Account Outputs lacking the Metadata Feature.
 
 #### Destroy
 
@@ -241,7 +241,15 @@ The `did:iota` method is implemented in the [IOTA Identity framework](https://gi
 
 ### Revocation
 
-todo: irrelevant for iota 2.0
+Revocation of verifiable credentials and signatures can be achieved using the Revocation Bitmap 2022 where issuers store a bitmap of indices in the DID Document. These indices correspond to verifiable credentials they have issued. If the binary value of the index in the bitmap is 1 (one), the verifiable credential is revoked, if it is 0 (zero) it is not revoked.
+
+### Standardized Services
+
+The IOTA Identity framework also standardized certain services that are embedded in the DID Document. It is RECOMMENDED to implement these when implementing the did:iota method.
+
+Currently standardized services:
+
+    Revocation Bitmap Service
 
 ## Migration
 
