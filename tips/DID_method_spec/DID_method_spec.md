@@ -13,7 +13,7 @@ created: 2024-02-27
 
 ## Abstract
 
-The IOTA DID Method Specification describes a method of implementing the [Decentralized Identifiers](https://www.w3.org/TR/did-core/) (DID) standard on [IOTA](https://iota.org), a Distributed Ledger Technology (DLT). It conforms to the [DID specification v1.0](https://www.w3.org/TR/did-core/) and describes how to perform Create, Read, Update and Delete (CRUD) operations for IOTA DID Documents using unspent transaction outputs (_UTXO_) on IOTA **2.0** networks using the Nova _(:warning: todo: link)_ VM.
+The IOTA DID Method Specification describes a method of implementing the [Decentralized Identifiers](https://www.w3.org/TR/did-core/) (DID) standard on [IOTA](https://iota.org), a Distributed Ledger Technology (DLT). It conforms to the [DID specification v1.0](https://www.w3.org/TR/did-core/) and describes how to perform Create, Read, Update and Delete (CRUD) operations for IOTA DID Documents using unspent transaction outputs (_UTXO_) on IOTA **2.0** networks using the Nova _( :warning: todo: link)_ VM.
 
 ## Data Types & Subschema Notation
 
@@ -159,11 +159,11 @@ Example State Metadata Document:
 }
 ```
 Notes: 
-- Can we derive the metadata (created and/or updated) from the ledger metadata?
+- Can we derive the metadata (created and/or updated) from the ledger metadata? Created only with the help archival nodes I assume?
 
 ## Controllers
 
-The address set as the unlock condition has control over the Account Output and consequently the DID. For the Account Output, only one address can be set, hence the DID can have only one controller. [Multi Address](https://github.com/iotaledger/tips/blob/tip52/tips/TIP-0052/tip-0052.md) can be set to allow multiple controllers.:warning: (Multi Address might be removed)
+The address set as the unlock condition has control over the Account Output and consequently the DID. For the Account Output, only one address can be set, hence the DID can have only one controller. [Multi Address](https://github.com/iotaledger/tips/blob/tip52/tips/TIP-0052/tip-0052.md) can be set to allow multiple controllers.
 
 ## CRUD Operations
 
@@ -198,19 +198,17 @@ The following steps can be used to read the latest DID Document associated with 
 
 1. Obtain the `Account ID` from the DID by extracting the `iota-tag` from the DID, see [DID Format](#did-format).
 1. Obtain the network of the DID by extracting the `iota-network` from the DID, see [DID Format](#did-format).
-1. Query the Alias Output corresponding to the `Alias ID` using a node running the [inx indexer](https://github.com/iotaledger/inx-indexer). Nodes usually include this indexer by default.
+1. Query the Account Output corresponding to the `Account ID` using a node running the [inx indexer](https://github.com/iotaledger/inx-indexer). Nodes usually include this indexer by default.
 1. Assert that the extracted network matches the one returned from the node. Return an error otherwise.
 1. Assert that the `Account ID` of the returned output matches the `Account ID` extracted from the DID. Return an error otherwise.
 1. Assert that the output includes a `Metadata Feature`. Return an error otherwise.
-1. Retrieve the value of the `Metadata Feature ` field from the returned output.
+1. Retrieve the value of the `Metadata Feature` field from the returned output.
 1. Validate that the `Key` `did:iota` exists in one of the metadata `Entries`. Return an error otherwise.
 1. Retrieve the `Value` that corresponds to the `Key` `did:iota`.
 1. Validate that the contents of the retrieved `Value` match the structure described in [Anatomy of the Metadata Feature](#anatomy-of-the-metadata-feature). Return an error otherwise.
 1. Decode the DID Document from the retrieved `Entry` value.
 1. Replace the placeholder `did:0:0` with the DID given as input.
-
-Note: 
-- Describe how to handle controllers
+1. If the Account is controlled by one or more Accounts, construct a IOTA DID from their `Account ID`s and and add them to [controller field](https://www.w3.org/TR/did-core/#did-controller) in the DID document.
 
 ### Update
 
