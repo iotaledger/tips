@@ -31,7 +31,7 @@ Data stored in an output and covered by the storage deposit will be stored in _a
 
 ### IOTA 2.0
 
-:warning: todo small introduction
+At the heart of IOTA 2.0 is the Tangle, our Directed Acyclic Graph (DAG) architecture where blocks are interconnected in a non-linear manner and confirm each other, unlike conventional blockchains that rely on miners and transaction fees. By combining unique value propositions, IOTA 2.0 is a decentralized, egalitarian, and sustainable DLT. Read me more about IOTA 2.0 [here](https://wiki.iota.org/learn/protocols/iota2.0/introduction-to-digital-autonomy/).
 
 ### Account Output
 
