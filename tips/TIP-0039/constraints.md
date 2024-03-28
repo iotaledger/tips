@@ -21,7 +21,4 @@ The third variable `multFactor` must additionally use at most 32 bits, meaning t
 
 - `Decay Factors(m)`< <code>2<sup>32</sup></code> (which is equivalent, by contruction to 0≤`Decay Factors Exponent`≤3),
 - `slotIndexDiff * Generation Rate`< <code>2<sup>32</sup></code>,
-- `Decay Factor Epochs Sum * Generation Rate`< <code>2<sup>32</sup></code>,
-
-
-TO DO: Rewards and maximum theoretical Mana in the system is smaller than <code>2<sup>Bits Count</sup> - 1</code>
+- `Decay Factor Epochs Sum * Generation Rate`< <code>2<sup>32</sup></code>.
