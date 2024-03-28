@@ -58,8 +58,8 @@ By definition, we have that $\text{Final Target Rewards Rate}$ is
 
 $$
 \begin{align*}
-&\text{Final Target Rewards Rate}=\text{Token Supply} * \text{Reward To Generation Ratio}\\
-* &\text{Generation Rate} * 2^{\text{Slots per Epoch Exp}-\text{Generation Rate Exp}}
+& \text{Final Target Rewards Rate} = \text{Token Supply} * \text{Reward To Generation Ratio}\\
+& * \text{Generation Rate} * 2^{\text{Slots per Epoch Exp}-\text{Generation Rate Exp}}
 \end{align*}
 $$
 
@@ -68,7 +68,7 @@ Then, the Maximum Mana supply in the bootstrapping phase is
 $$
 \begin{align*}
 &\text{Max Mana Supply Bootstrapping}\\
-&=\text{Token Supply}*\text{Generation Rate} * 2^{\text{Slots per Epoch Exp}-\text{Generation Rate Exp}}\\
+&=\text{Token Supply} * \text{Generation Rate} * 2^{\text{Slots per Epoch Exp}-\text{Generation Rate Exp}}\\
 &\left(\text{Reward To Generation Ratio} * \frac{1}{-\log(\text{Decay per Epoch})} * \text{Max to Target Ratio}\right.\\
 +&\left.\frac{1}{1-\text{Decay per Epoch}}\right)\\
 &\leq \text{Token Supply} * \text{Generation Rate} * 2^{\text{Slots per Epoch Exp}-\text{Generation Rate Exp}}\\
