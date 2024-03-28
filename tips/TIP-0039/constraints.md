@@ -15,6 +15,7 @@ Since `shiftFactor` must be an integer between 0 and 32, we have:
 - 0≤`Decay Factors Exponent`≤32.
 - 0≤`Generation Rate Exponent`≤32.
 - 0≤`Decay Factor Epochs Sum Exponent+generationRateExponent-slotsPerEpochExponent`≤32.
+- 0≤`generationRateExponent-slotsPerEpochExponent`≤32.
 
 The third variable `multFactor` must additionally use at most 32 bits, meaning that we have the following constraints:
 
