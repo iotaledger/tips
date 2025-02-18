@@ -1,3 +1,8 @@
+> [!WARNING]
+> The Tangle Improvement Proposal (TIP) repository and framework is deprecated. Please refer to the [IOTA Improvement Proposals (IIP)](https://github.com/iotaledger/IIPs)
+> for contributing to IOTA's technology.
+> Since all TIPs refer to outdated protocol versions, they are all obsolete and no longer maintained.
+
 # Tangle Improvement Proposal (TIP) Repository
 
 TIPs are improvement proposals for bettering the IOTA technology stack.
